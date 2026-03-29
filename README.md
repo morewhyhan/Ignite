@@ -59,32 +59,11 @@
 
 ## 📦 快速开始
 
-### 1. 克隆项目
-
 ```bash
-git clone <your-repo-url>
-cd Init
-```
-
-### 2. 安装依赖
-
-```bash
+git clone https://github.com/morewhyhan/Ignite.git
+cd Ignite
 pnpm install
-```
-
-### 3. 配置环境变量
-
-已预配置 `.env` 文件，默认使用 SQLite 数据库。
-
-### 4. 初始化数据库
-
-```bash
 pnpm prisma migrate dev
-```
-
-### 5. 启动开发服务器
-
-```bash
 pnpm dev
 ```
 
@@ -95,7 +74,7 @@ pnpm dev
 ## 📂 项目结构
 
 ```
-Init/
+Ignite/
 ├── app/                    # 前端页面
 │   ├── page.tsx           # 首页
 │   └── dashboard/         # 后台页面
@@ -258,30 +237,12 @@ CMD ["npm", "start"]
 
 ---
 
-## 🤝 贡献
-
-欢迎提交 Issue 和 Pull Request！
-
----
-
-## 📄 许可证
-
-MIT
-
----
-
 ## 🙏 致谢
 
 - [Next.js](https://nextjs.org/)
 - [Hono](https://hono.dev/)
 - [shadcn/ui](https://ui.shadcn.com/)
 - [Prisma](https://www.prisma.io/)
-
----
-
-## 📮 联系方式
-
-如有问题，请提交 Issue 或查看文档。
 
 ---
 

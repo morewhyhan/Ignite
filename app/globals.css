@@ -1,0 +1,310 @@
+@import "tailwindcss";
+
+/* ========== 基础CSS变量 ========== */
+@layer base {
+  :root {
+    --radius: 0.5rem;
+
+    /* 默认使用马卡龙粉色浅色主题 */
+    --scheme-primary: #FF8F9E;
+    --scheme-primary-rgb: 255, 143, 158;
+    --scheme-secondary: #FFD4D9;
+    --scheme-background: #FFFBFC;
+    --scheme-foreground: #4A3F40;
+    --scheme-muted: #8B7E7F;
+    --scheme-border: #F8E8EB;
+    --scheme-card: #FFFFFF;
+    --scheme-card-hover: #FFF5F6;
+    --scheme-accent: #FF8F9E;
+    --scheme-accent-hover: #FF7B8C;
+
+    /* Tailwind 兼容变量 */
+    --background: var(--scheme-background);
+    --foreground: var(--scheme-foreground);
+    --card: var(--scheme-card);
+    --card-foreground: var(--scheme-foreground);
+    --popover: var(--scheme-card);
+    --popover-foreground: var(--scheme-foreground);
+    --primary: var(--scheme-primary);
+    --primary-foreground: #FFFFFF;
+    --secondary: var(--scheme-secondary);
+    --secondary-foreground: #4A3F40;
+    --muted: var(--scheme-muted);
+    --muted-foreground: var(--scheme-muted);
+    --accent: var(--scheme-accent);
+    --accent-foreground: #FFFFFF;
+    --destructive: #FF6B6B;
+    --destructive-foreground: #FFFFFF;
+    --border: var(--scheme-border);
+    --input: var(--scheme-border);
+    --ring: var(--scheme-primary);
+  }
+
+  * {
+    border-color: var(--scheme-border);
+  }
+
+  body {
+    background-color: var(--scheme-background);
+    color: var(--scheme-foreground);
+    font-feature-settings: "rlig" 1, "calt" 1;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+
+  *, *::before, *::after {
+    transition-property: color, background-color, border-color, box-shadow;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
+  }
+
+  img, video, canvas, svg {
+    transition: none !important;
+  }
+}
+
+/* ========== 马卡龙浅色配色方案 (6套) ========== */
+
+/* 【马卡龙粉】 */
+.scheme-macaron-pink {
+  --scheme-primary: #FF8F9E;
+  --scheme-primary-rgb: 255, 143, 158;
+  --scheme-secondary: #FFD4D9;
+  --scheme-background: #FFFBFC;
+  --scheme-foreground: #4A3F40;
+  --scheme-muted: #8B7E7F;
+  --scheme-border: #F8E8EB;
+  --scheme-card: #FFFFFF;
+  --scheme-card-hover: #FFF5F6;
+  --scheme-accent: #FF8F9E;
+  --scheme-accent-hover: #FF7B8C;
+}
+
+/* 【马卡龙蓝】 */
+.scheme-macaron-blue {
+  --scheme-primary: #7CB9E8;
+  --scheme-primary-rgb: 124, 185, 232;
+  --scheme-secondary: #B8DFF7;
+  --scheme-background: #F7FBFF;
+  --scheme-foreground: #3A4A5C;
+  --scheme-muted: #6B7C8E;
+  --scheme-border: #E8F4FC;
+  --scheme-card: #FFFFFF;
+  --scheme-card-hover: #F0F7FF;
+  --scheme-accent: #7CB9E8;
+  --scheme-accent-hover: #6AA8D8;
+}
+
+/* 【马卡龙绿】 */
+.scheme-macaron-green {
+  --scheme-primary: #7DD87D;
+  --scheme-primary-rgb: 125, 216, 125;
+  --scheme-secondary: #B8F0B8;
+  --scheme-background: #F7FFF7;
+  --scheme-foreground: #3A5C3A;
+  --scheme-muted: #6B8E6B;
+  --scheme-border: #E8F8E8;
+  --scheme-card: #FFFFFF;
+  --scheme-card-hover: #F0FFF0;
+  --scheme-accent: #7DD87D;
+  --scheme-accent-hover: #6BC86B;
+}
+
+/* 【马卡龙紫】 */
+.scheme-macaron-purple {
+  --scheme-primary: #C8A8D9;
+  --scheme-primary-rgb: 200, 168, 217;
+  --scheme-secondary: #E5D9ED;
+  --scheme-background: #FBF7FD;
+  --scheme-foreground: #4A405C;
+  --scheme-muted: #7E6B8E;
+  --scheme-border: #F5EDFB;
+  --scheme-card: #FFFFFF;
+  --scheme-card-hover: #FFF5FF;
+  --scheme-accent: #C8A8D9;
+  --scheme-accent-hover: #B898C9;
+}
+
+/* 【马卡龙黄】 */
+.scheme-macaron-yellow {
+  --scheme-primary: #FFE08A;
+  --scheme-primary-rgb: 255, 224, 138;
+  --scheme-secondary: #FFF0C8;
+  --scheme-background: #FFFEFA;
+  --scheme-foreground: #5C543A;
+  --scheme-muted: #8E866B;
+  --scheme-border: #FFF8E8;
+  --scheme-card: #FFFFFF;
+  --scheme-card-hover: #FFFEF5;
+  --scheme-accent: #FFE08A;
+  --scheme-accent-hover: #FFD678;
+}
+
+/* 【马卡龙橙】 */
+.scheme-macaron-orange {
+  --scheme-primary: #FFB088;
+  --scheme-primary-rgb: 255, 176, 136;
+  --scheme-secondary: #FFD9C8;
+  --scheme-background: #FFFAF7;
+  --scheme-foreground: #5C4A3A;
+  --scheme-muted: #8E7B6B;
+  --scheme-border: #FFF0E8;
+  --scheme-card: #FFFFFF;
+  --scheme-card-hover: #FFFEF9;
+  --scheme-accent: #FFB088;
+  --scheme-accent-hover: #FFA678;
+}
+
+/* ========== 马卡龙暗色配色方案 (6套) ========== */
+
+/* 【马卡龙粉暗色】 */
+.scheme-macaron-pink-dark {
+  --scheme-primary: #FF8F9E;
+  --scheme-primary-rgb: 255, 143, 158;
+  --scheme-secondary: #FF6B7B;
+  --scheme-background: #2A1E22;
+  --scheme-foreground: #FFF0F2;
+  --scheme-muted: #C8B8BA;
+  --scheme-border: #3E2E32;
+  --scheme-card: #35262A;
+  --scheme-card-hover: #3E2E32;
+  --scheme-accent: #FF8F9E;
+  --scheme-accent-hover: #FF9FAA;
+}
+
+/* 【马卡龙蓝暗色】 */
+.scheme-macaron-blue-dark {
+  --scheme-primary: #7CB9E8;
+  --scheme-primary-rgb: 124, 185, 232;
+  --scheme-secondary: #5FA8DC;
+  --scheme-background: #1E2632;
+  --scheme-foreground: #F0F7FF;
+  --scheme-muted: #A8C5D8;
+  --scheme-border: #2E3848;
+  --scheme-card: #26313E;
+  --scheme-card-hover: #2E3848;
+  --scheme-accent: #7CB9E8;
+  --scheme-accent-hover: #8FC5F0;
+}
+
+/* 【马卡龙绿暗色】 */
+.scheme-macaron-green-dark {
+  --scheme-primary: #7DD87D;
+  --scheme-primary-rgb: 125, 216, 125;
+  --scheme-secondary: #5BC85B;
+  --scheme-background: #1E2A26;
+  --scheme-foreground: #F0FFF0;
+  --scheme-muted: #A8D8A8;
+  --scheme-border: #2E3E32;
+  --scheme-card: #26352E;
+  --scheme-card-hover: #2E3E32;
+  --scheme-accent: #7DD87D;
+  --scheme-accent-hover: #8FE08F;
+}
+
+/* 【马卡龙紫暗色】 */
+.scheme-macaron-purple-dark {
+  --scheme-primary: #C8A8D9;
+  --scheme-primary-rgb: 200, 168, 217;
+  --scheme-secondary: #B88FC9;
+  --scheme-background: #261E2E;
+  --scheme-foreground: #FFF5FF;
+  --scheme-muted: #D8B8E8;
+  --scheme-border: #382E42;
+  --scheme-card: #2F2638;
+  --scheme-card-hover: #382E42;
+  --scheme-accent: #C8A8D9;
+  --scheme-accent-hover: #D8B8E9;
+}
+
+/* 【马卡龙黄暗色】 */
+.scheme-macaron-yellow-dark {
+  --scheme-primary: #FFE08A;
+  --scheme-primary-rgb: 255, 224, 138;
+  --scheme-secondary: #FFD070;
+  --scheme-background: #2A261E;
+  --scheme-foreground: #FFFEF5;
+  --scheme-muted: #E8D8A8;
+  --scheme-border: #3E382E;
+  --scheme-card: #352F26;
+  --scheme-card-hover: #3E382E;
+  --scheme-accent: #FFE08A;
+  --scheme-accent-hover: #FFE898;
+}
+
+/* 【马卡龙橙暗色】 */
+.scheme-macaron-orange-dark {
+  --scheme-primary: #FFB088;
+  --scheme-primary-rgb: 255, 176, 136;
+  --scheme-secondary: #FF9868;
+  --scheme-background: #2A241E;
+  --scheme-foreground: #FFF9F5;
+  --scheme-muted: #E8C8A8;
+  --scheme-border: #3E362E;
+  --scheme-card: #352E26;
+  --scheme-card-hover: #3E362E;
+  --scheme-accent: #FFB088;
+  --scheme-accent-hover: #FFC098;
+}
+
+/* ========== 滚动条样式 ========== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scheme-muted);
+  opacity: 0.3;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scheme-muted);
+  opacity: 0.5;
+}
+
+/* ========== 选中文本样式 ========== */
+::selection {
+  background-color: var(--scheme-primary);
+  color: var(--scheme-background);
+}
+
+/* ========== 焦点样式 ========== */
+:focus-visible {
+  outline: 2px solid var(--scheme-primary);
+  outline-offset: 2px;
+}
+
+/* ========== 辅助类 ========== */
+.text-primary {
+  color: var(--scheme-primary);
+}
+
+.bg-primary {
+  background-color: var(--scheme-primary);
+}
+
+.border-primary {
+  border-color: var(--scheme-primary);
+}
+
+.bg-card {
+  background-color: var(--scheme-card);
+}
+
+.bg-muted {
+  background-color: var(--scheme-card);
+}
+
+.text-muted-foreground {
+  color: var(--scheme-muted);
+}
+
+.hover\:bg-card:hover {
+  background-color: var(--scheme-card-hover);
+}
+
+.hover\:text-primary:hover {
+  color: var(--scheme-accent-hover);
+}

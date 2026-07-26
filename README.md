@@ -2,6 +2,12 @@
 
 ## 从一个问题开始，快速做出产品，并且继续做下去
 
+> 一个面向个人开发者、独立产品和小团队的 AI 友好型全栈开发模板。
+
+[快速开始](#开始使用) · [AI 开发 Loop](#ai-开发-loop) · [文档系统](#文档系统) · [基本架构](#基本架构)
+
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/) [![React](https://img.shields.io/badge/React-19-149eca?logo=react)](https://react.dev/) [![Hono](https://img.shields.io/badge/Hono-4-e36002?logo=hono)](https://hono.dev/) [![Prisma](https://img.shields.io/badge/Prisma-6-2d3748?logo=prisma)](https://www.prisma.io/) [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript)](https://www.typescriptlang.org/)
+
 Ignite 是为快速解决真实问题准备的全栈开发模板。很多项目的开始都很相似：一个想法出现了，时间有限，最好马上做出一个能运行的版本。AI 让页面、接口和数据库的生成变得很快，真正困难的部分却常常出现在第一次修改之后：代码开始分散，边界变得模糊，AI 需要反复重新理解上下文，产品明明已经能跑，却越来越让人不敢继续碰。
 
 Ignite 提供一个可以直接运行的起点，也把后续开发需要遵守的工程边界和验证方式组织起来。你可以从真正要解决的问题开始，快速做出第一个可验证的版本；之后每一次新增、修改和修复，都沿着同一条路径推进，项目不会因为追求速度而失去方向。
@@ -10,11 +16,11 @@ Ignite 提供一个可以直接运行的起点，也把后续开发需要遵守�
 
 Ignite 关心的结果很具体：让你更容易开始，在有限时间内交付一个真实可用的版本，并且在第一版完成后仍然有信心继续修改和扩展。
 
-一句话：
+**一句话：**让 AI 负责执行，让工程规范守住方向，让产品持续向前。
 
-> 让 AI 负责执行，让工程规范守住方向，让产品持续向前。
+---
 
-## AI 开发 Loop
+## 🚀 AI 开发 Loop
 
 每个功能都沿着同一条路径推进：
 
@@ -24,7 +30,7 @@ Ignite 关心的结果很具体：让你更容易开始，在有限时间内交�
 
 人确定问题、目标、边界和验收标准；AI 调查代码、实现功能、补充测试并整理结果；测试、构建和迁移检查为结果提供证据。
 
-## 文档系统
+## 📚 文档系统
 
 README 只负责入口和导航；具体规则都在文档系统中维护：
 
@@ -48,7 +54,21 @@ Feature（需求起点） → Plan（过程方案） → Test + Code（实现与
 
 开始修改前，先阅读 [`AGENTS.md`](./AGENTS.md) 和 [`docs/README.md`](./docs/README.md)。
 
-## 开始使用
+### 🧭 核心规格总览
+
+Ignite 的详细规则统一收录在 [`docs/standards/`](./docs/standards/)；这里先记住几条总原则：
+
+- **模板基线**：先理解并保留现有基线，再按项目需求做增量修改。
+- **模块化组织**：新增能力进入独立模块，存量改动必须说明影响范围、兼容性和回归验证。
+- **统一数据链路**：客户端通过 Hook 和 React Query，服务端通过 Hono Typed RPC，数据访问集中经过 Prisma。
+- **规格驱动开发**：先写 Feature 和验收标准，再制定 Plan，实现后用 Test 验证，最后把结果更新到 Design。
+- **可验证交付**：代码、测试、构建、迁移和文档共同构成交付证据；长期规则以 `AGENTS.md` 和 Standards 为准。
+
+详细的架构、API、数据库、安全、测试、工作流和模板采用规则，统一从 [`docs/standards/README.md`](./docs/standards/README.md) 进入；需求、计划、设计和 ADR 等项目资料见 [`docs/README.md`](./docs/README.md)。
+
+---
+
+## ⚡ 开始使用
 
 ```bash
 corepack enable
@@ -59,3 +79,27 @@ pnpm dev
 ```
 
 模板默认提供认证、数据库、API、UI、主题和测试基础；真实邮箱、支付、文件存储、队列等能力按项目需要增量接入。
+
+---
+
+## 🧩 基本架构
+
+Ignite 采用**模块化单体架构**：前端和后端在同一个 Next.js 项目中组织，但每个业务能力都保持清晰的模块边界。
+
+![Ignite 模块化单体架构](./docs/assets/ignite-architecture.svg)
+
+```text
+页面 / 组件（Next.js + React）
+          ↓
+业务 Hook（React Query）
+          ↓
+Hono Typed RPC（类型安全的 API 调用）
+          ↓
+Hono 路由（服务端业务入口）
+          ↓
+Prisma（数据访问）
+          ↓
+SQLite（本地默认数据库）
+```
+
+通用界面由共享组件提供，业务代码放在 `src/modules/`，页面只负责组合和路由。认证由 Better Auth 处理；测试、文档和数据库迁移作为独立的工程保障层，共同围绕这条主链路工作。

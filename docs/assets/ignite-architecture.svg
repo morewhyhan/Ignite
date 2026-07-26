@@ -1,63 +1,77 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="560" viewBox="0 0 1100 560" role="img" aria-labelledby="title desc">
-  <title id="title">Ignite 模块化单体架构</title>
-  <desc id="desc">从页面与组件经过 Hook、Typed RPC、Hono 路由和 Prisma 到 SQLite 的请求链路。</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="900" viewBox="0 0 1100 900" role="img" aria-labelledby="title desc">
+  <title id="title">Ignite 垂直技术架构</title>
+  <desc id="desc">从页面和组件开始，经过 Hook、Typed RPC、Hono、Prisma，最后到 SQLite 的垂直技术链路。</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#f8fafc"/>
-      <stop offset="1" stop-color="#eef2ff"/>
-    </linearGradient>
-    <linearGradient id="client" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#dbeafe"/>
-      <stop offset="1" stop-color="#bfdbfe"/>
-    </linearGradient>
-    <linearGradient id="server" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ede9fe"/>
-      <stop offset="1" stop-color="#ddd6fe"/>
-    </linearGradient>
-    <linearGradient id="data" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#dcfce7"/>
-      <stop offset="1" stop-color="#bbf7d0"/>
+      <stop offset="1" stop-color="#edf2f4"/>
     </linearGradient>
     <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#64748b" flood-opacity=".16"/>
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#64748b" flood-opacity=".14"/>
     </filter>
-    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
-      <path d="M0 0L10 5L0 10Z" fill="#64748b"/>
-    </marker>
   </defs>
 
-  <rect width="1100" height="560" rx="28" fill="url(#bg)"/>
-  <text x="60" y="64" font-family="Inter,Segoe UI,sans-serif" font-size="28" font-weight="700" fill="#0f172a">Ignite · 模块化单体架构</text>
-  <text x="60" y="94" font-family="Inter,Segoe UI,sans-serif" font-size="15" fill="#64748b">统一的数据链路：Hook → Typed RPC → Hono → Prisma</text>
+  <rect width="1100" height="900" rx="28" fill="url(#bg)"/>
+  <text x="550" y="58" text-anchor="middle" font-family="Inter,Segoe UI,sans-serif" font-size="30" font-weight="700" fill="#0f172a">Ignite · 垂直技术架构</text>
+  <text x="550" y="90" text-anchor="middle" font-family="Inter,Segoe UI,sans-serif" font-size="16" fill="#64748b">从用户界面到底层数据，每一层都有清晰的职责和边界</text>
 
-  <rect x="60" y="130" width="980" height="150" rx="20" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#shadow)"/>
-  <text x="88" y="164" font-family="Inter,Segoe UI,sans-serif" font-size="14" font-weight="700" fill="#2563eb">CLIENT · 浏览器端</text>
-  <rect x="88" y="188" width="260" height="62" rx="14" fill="url(#client)"/>
-  <text x="218" y="216" text-anchor="middle" font-family="Inter,Segoe UI,sans-serif" font-size="17" font-weight="700" fill="#1e3a8a">页面 / 组件</text>
-  <text x="218" y="238" text-anchor="middle" font-family="Inter,Segoe UI,sans-serif" font-size="12" fill="#1e40af">Next.js + React</text>
-  <line x1="348" y1="219" x2="418" y2="219" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
-  <rect x="430" y="188" width="260" height="62" rx="14" fill="url(#client)"/>
-  <text x="560" y="216" text-anchor="middle" font-family="Inter,Segoe UI,sans-serif" font-size="17" font-weight="700" fill="#1e3a8a">业务 Hook</text>
-  <text x="560" y="238" text-anchor="middle" font-family="Inter,Segoe UI,sans-serif" font-size="12" fill="#1e40af">React Query</text>
-  <line x1="690" y1="219" x2="760" y2="219" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
-  <rect x="772" y="188" width="240" height="62" rx="14" fill="url(#client)"/>
-  <text x="892" y="216" text-anchor="middle" font-family="Inter,Segoe UI,sans-serif" font-size="17" font-weight="700" fill="#1e3a8a">Typed RPC</text>
-  <text x="892" y="238" text-anchor="middle" font-family="Inter,Segoe UI,sans-serif" font-size="12" fill="#1e40af">类型安全的 API 调用</text>
+  <!-- domain bands -->
+  <rect x="78" y="124" width="944" height="220" rx="22" fill="#eef4fb" stroke="#c6d7ee" stroke-width="2"/>
+  <text x="110" y="158" font-family="Inter,Segoe UI,sans-serif" font-size="14" font-weight="700" fill="#335b87">CLIENT · 浏览器端</text>
+  <rect x="78" y="362" width="944" height="300" rx="22" fill="#f2f2f6" stroke="#d6d9e3" stroke-width="2"/>
+  <text x="110" y="396" font-family="Inter,Segoe UI,sans-serif" font-size="14" font-weight="700" fill="#596174">SERVER · 服务端</text>
+  <rect x="78" y="680" width="944" height="142" rx="22" fill="#edf7f3" stroke="#c4ded2" stroke-width="2"/>
+  <text x="110" y="714" font-family="Inter,Segoe UI,sans-serif" font-size="14" font-weight="700" fill="#3e7760">DATA · 数据层</text>
 
-  <line x1="892" y1="280" x2="892" y2="338" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
-  <rect x="60" y="338" width="980" height="150" rx="20" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#shadow)"/>
-  <text x="88" y="372" font-family="Inter,Segoe UI,sans-serif" font-size="14" font-weight="700" fill="#7c3aed">SERVER · 服务端</text>
-  <rect x="88" y="396" width="260" height="62" rx="14" fill="url(#server)"/>
-  <text x="218" y="424" text-anchor="middle" font-family="Inter,Segoe UI,sans-serif" font-size="17" font-weight="700" fill="#4c1d95">Hono 路由</text>
-  <text x="218" y="446" text-anchor="middle" font-family="Inter,Segoe UI,sans-serif" font-size="12" fill="#6d28d9">校验 · Session · 错误格式</text>
-  <line x1="348" y1="427" x2="418" y2="427" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
-  <rect x="430" y="396" width="260" height="62" rx="14" fill="url(#server)"/>
-  <text x="560" y="424" text-anchor="middle" font-family="Inter,Segoe UI,sans-serif" font-size="17" font-weight="700" fill="#4c1d95">Prisma</text>
-  <text x="560" y="446" text-anchor="middle" font-family="Inter,Segoe UI,sans-serif" font-size="12" fill="#6d28d9">类型安全的数据访问</text>
-  <line x1="690" y1="427" x2="760" y2="427" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
-  <rect x="772" y="396" width="240" height="62" rx="14" fill="url(#data)"/>
-  <text x="892" y="424" text-anchor="middle" font-family="Inter,Segoe UI,sans-serif" font-size="17" font-weight="700" fill="#166534">SQLite</text>
-  <text x="892" y="446" text-anchor="middle" font-family="Inter,Segoe UI,sans-serif" font-size="12" fill="#15803d">本地默认数据库</text>
+  <!-- vertical spine -->
+  <line x1="550" y1="192" x2="550" y2="768" stroke="#94a3b8" stroke-width="4"/>
+  <g fill="#64748b">
+    <circle cx="550" cy="210" r="6"/><circle cx="550" cy="316" r="6"/><circle cx="550" cy="438" r="6"/>
+    <circle cx="550" cy="544" r="6"/><circle cx="550" cy="700" r="6"/><circle cx="550" cy="786" r="6"/>
+  </g>
 
-  <text x="60" y="530" font-family="Inter,Segoe UI,sans-serif" font-size="13" fill="#64748b">认证由 Better Auth 提供；业务模块位于 src/modules/，页面只负责路由与组合。</text>
+  <!-- layers -->
+  <g filter="url(#shadow)">
+    <rect x="230" y="178" width="640" height="64" rx="14" fill="#e5edf8" stroke="#9ab1cf" stroke-width="2"/>
+    <rect x="230" y="284" width="640" height="64" rx="14" fill="#e9eef5" stroke="#a6b5c9" stroke-width="2"/>
+    <rect x="230" y="406" width="640" height="64" rx="14" fill="#e8edf2" stroke="#9caaba" stroke-width="2"/>
+    <rect x="230" y="512" width="640" height="64" rx="14" fill="#f4eee7" stroke="#d4b99a" stroke-width="2"/>
+    <rect x="230" y="678" width="640" height="64" rx="14" fill="#e7f2ed" stroke="#9fc2ae" stroke-width="2"/>
+    <rect x="230" y="764" width="640" height="64" rx="14" fill="#dcece4" stroke="#81b39a" stroke-width="2"/>
+  </g>
+
+  <!-- layer labels -->
+  <g font-family="Inter,Segoe UI,sans-serif" text-anchor="middle">
+    <text x="550" y="205" font-size="13" font-weight="700" fill="#335b87">01 · PRESENTATION</text>
+    <text x="550" y="229" font-size="20" font-weight="700" fill="#2f527b">页面 / 组件　·　Next.js + React</text>
+
+    <text x="550" y="311" font-size="13" font-weight="700" fill="#596b82">02 · CLIENT STATE</text>
+    <text x="550" y="335" font-size="20" font-weight="700" fill="#46556b">业务模块 / Hook　·　React Query</text>
+
+    <text x="550" y="433" font-size="13" font-weight="700" fill="#596174">03 · TRANSPORT</text>
+    <text x="550" y="457" font-size="20" font-weight="700" fill="#3f4d5e">Hono Typed RPC　·　类型安全的 API 调用</text>
+
+    <text x="550" y="539" font-size="13" font-weight="700" fill="#9a7450">04 · APPLICATION API</text>
+    <text x="550" y="563" font-size="20" font-weight="700" fill="#7a583b">Hono Route　·　Session / Validator / Error</text>
+
+    <text x="550" y="705" font-size="13" font-weight="700" fill="#3e7760">05 · DATA ACCESS</text>
+    <text x="550" y="729" font-size="20" font-weight="700" fill="#386a53">Prisma　·　类型安全的数据访问</text>
+
+    <text x="550" y="791" font-size="13" font-weight="700" fill="#3e7760">06 · PERSISTENCE</text>
+    <text x="550" y="815" font-size="20" font-weight="700" fill="#2f634c">SQLite　·　本地默认数据库</text>
+  </g>
+
+  <!-- side boundaries -->
+  <g font-family="Inter,Segoe UI,sans-serif" font-size="13" text-anchor="middle">
+    <rect x="102" y="208" width="88" height="34" rx="10" fill="#ffffff" stroke="#9ab1cf"/>
+    <text x="146" y="230" fill="#335b87">src/app</text>
+    <rect x="910" y="314" width="88" height="34" rx="10" fill="#ffffff" stroke="#a6b5c9"/>
+    <text x="954" y="336" fill="#596174">src/modules</text>
+    <rect x="102" y="542" width="88" height="34" rx="10" fill="#ffffff" stroke="#d4b99a"/>
+    <text x="146" y="564" fill="#9a7450">src/server</text>
+    <rect x="910" y="780" width="88" height="34" rx="10" fill="#ffffff" stroke="#9fc2ae"/>
+    <text x="954" y="802" fill="#3e7760">prisma/</text>
+  </g>
+
+  <text x="550" y="865" text-anchor="middle" font-family="Inter,Segoe UI,sans-serif" font-size="14" fill="#64748b">认证由 Better Auth 提供；测试与文档作为横向保障层贯穿所有层级。</text>
 </svg>

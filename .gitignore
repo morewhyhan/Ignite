@@ -6,6 +6,7 @@ out/
 .yarn/
 !.yarn/releases
 .vscode/*
+!.vscode/settings.json
 !.vscode/launch.json
 !.vscode/*.code-snippets
 .idea/workspace.xml
@@ -14,11 +15,11 @@ out/
 
 # deps
 node_modules/
+.pnpm-store/
 
 # env
-.env
-.env.local
-.env.production
+.env*
+!.env.example
 
 # database
 *.db
@@ -35,5 +36,15 @@ lerna-debug.log*
 
 # misc
 .DS_Store
+*.tsbuildinfo
+coverage/
+playwright-report/
+test-results/
+blob-report/
+.playwright/
+.vercel/
+*.db-wal
+*.db-shm
+prisma/better-auth.generated.prisma
 
 /generated/prisma

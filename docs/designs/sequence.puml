@@ -1,0 +1,43 @@
+@startuml
+actor Browser
+participant "TasksScreen" as Screen
+participant "useTasks" as Hook
+participant "Hono Typed Client" as Client
+participant "Next.js API Adapter" as Adapter
+participant "Hono Tasks Route" as Route
+participant "Better Auth" as Auth
+database Prisma
+
+Browser -> Screen : open /dashboard/tasks
+Screen -> Hook : useTasks(session.user.id)
+Hook -> Client : client.api.tasks.$get()
+Client -> Adapter : GET /api/tasks
+Adapter -> Route : dispatch request
+Route -> Auth : get session
+alt no authenticated session
+  Auth --> Route : no user
+  Route --> Adapter : 401 { code, message }
+  Adapter --> Client : typed error response
+  Client --> Hook : rejected query
+  Hook --> Screen : error state
+  Screen --> Browser : render authentication error
+else authenticated
+  Auth --> Route : current user id
+  Route -> Prisma : findMany where userId
+  alt database succeeds
+    Prisma --> Route : tasks
+    Route --> Adapter : 200 { data: tasks }
+    Adapter --> Client : typed response
+    Client --> Hook : response
+    Hook --> Screen : cached task list
+    Screen --> Browser : render empty/list
+  else database fails
+    Prisma --> Route : exception
+    Route --> Adapter : 500 { code, message }
+    Adapter --> Client : typed error response
+    Client --> Hook : rejected query
+    Hook --> Screen : error state
+    Screen --> Browser : render error
+  end
+end
+@enduml

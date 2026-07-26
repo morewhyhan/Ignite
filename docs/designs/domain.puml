@@ -1,0 +1,56 @@
+@startuml
+hide methods
+hide stereotypes
+
+entity user {
+  * id : uuid <<PK>>
+  --
+  * email : string <<unique>>
+  * emailVerified : boolean
+  * name : string
+  image : string?
+  * createdAt : datetime
+  * updatedAt : datetime
+}
+
+entity task {
+  * id : uuid <<PK>>
+  --
+  * title : string
+  * completed : boolean
+  * userId : uuid <<FK>>
+  * createdAt : datetime
+  * updatedAt : datetime
+}
+
+entity session {
+  * id : uuid <<PK>>
+  * userId : uuid <<FK>>
+  * expiresAt : datetime
+  * token : string <<unique>>
+}
+
+entity account {
+  * id : uuid <<PK>>
+  * userId : uuid <<FK>>
+  * providerId : string
+  * accountId : string
+}
+
+entity verification {
+  * id : uuid <<PK>>
+  * identifier : string
+  * value : string
+  * expiresAt : datetime
+}
+
+user ||--o{ task : owns
+user ||--o{ session : has
+user ||--o{ account : has
+
+note right of task
+  title: 1..200 chars
+  update: title or completed
+  ownership: session userId
+end note
+@enduml

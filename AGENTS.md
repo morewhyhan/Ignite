@@ -17,6 +17,13 @@ Ignite 是一个可复制、可增量演进的模板。
 - 本文件是 AI 执行规则；发生冲突时，先更新文档再改代码。
 - 规格驱动 Loop：Feature → Plan → Contract/Test → Implementation → Verify → Design。
 
+## AI 工作台
+
+- `AGENTS.md` 是所有 AI 工具共用的唯一项目规则真源。
+- `CLAUDE.md`、`.cursor/rules/`、`.opencode/` 和 `.github/copilot-instructions.md` 只负责入口桥接，不复制长期规则。
+- `.ai/` 登记项目专属 Skills、MCP 和真源关系；新增资产必须写清用途、权限边界和验证方式。
+- 当前系统事实以 `docs/designs/` 为准；需求、计划、标准和验收资料分别位于 `docs/features/`、`docs/plans/`、`docs/standards/` 和 `docs/others/`。
+
 ## 规格驱动 Loop
 
 所有功能都按规格驱动 Loop 执行，并在 `docs/standards/adoption.md` 记录采用边界。

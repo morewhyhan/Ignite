@@ -4,7 +4,7 @@
 
 > 一个面向个人开发者、独立产品和小团队的 AI 友好型全栈开发模板。
 
-[快速开始](#开始使用) · [AI 开发 Loop](#ai-开发-loop) · [文档系统](#文档系统) · [基本架构](#基本架构)
+[快速开始](#开始使用) · [AI 开发 Loop](#ai-开发-loop) · [文档系统](#文档系统) · [AI 工作台](#ai-工作台) · [基本架构](#基本架构)
 
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/) [![React](https://img.shields.io/badge/React-19-149eca?logo=react)](https://react.dev/) [![Hono](https://img.shields.io/badge/Hono-4-e36002?logo=hono)](https://hono.dev/) [![Prisma](https://img.shields.io/badge/Prisma-6-2d3748?logo=prisma)](https://www.prisma.io/) [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript)](https://www.typescriptlang.org/)
 
@@ -41,7 +41,12 @@ Ignite 关心的结果很具体：让你更容易开始，在有限时间内交�
 README 只负责入口和导航；具体规则都在文档系统中维护：
 
 ```text
-AGENTS.md       AI 执行规则
+AGENTS.md       AI 执行规则（宪法）
+CLAUDE.md       Claude Code 入口
+.cursor/        Cursor 规则桥接
+.claude/        Claude 本地资产登记
+.opencode/      OpenCode 入口
+.ai/            AI 工具资产登记（Skills / MCP）
 standards/      长期工程标准
 features/       功能需求和验收标准
 plans/          每轮实现计划和过程记录
@@ -59,6 +64,10 @@ Feature（需求起点） → Plan（过程方案） → Test + Code（实现与
 简单记住：Feature 说明要做什么，Plan 说明这轮怎么做，Test 证明是否做对，Design 记录现在是什么；Standards 贯穿整个过程。
 
 开始修改前，先阅读 [`AGENTS.md`](./AGENTS.md) 和 [`docs/README.md`](./docs/README.md)。
+
+### 🤖 AI 工作台
+
+Ignite 使用“一份宪法，多端引用”：所有工具都从 [`AGENTS.md`](./AGENTS.md) 开始，再按任务读取 `docs/`。其中 [`docs/designs/`](./docs/designs/) 管理当前系统事实；Claude Code、Cursor、OpenCode 和 GitHub Copilot 的入口只负责引用这些真源，不各自维护一套规则。
 
 ### 🧭 核心规格总览
 

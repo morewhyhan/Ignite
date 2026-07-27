@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="900" viewBox="0 0 1100 900" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="820" viewBox="0 0 1000 820" role="img" aria-labelledby="title desc">
   <title id="title">Ignite 垂直技术架构</title>
   <desc id="desc">从页面和组件开始，经过 Hook、Typed RPC、Hono、Prisma，最后到 SQLite 的垂直技术链路。</desc>
   <defs>
@@ -10,6 +10,8 @@
       <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#64748b" flood-opacity=".14"/>
     </filter>
   </defs>
+
+  <g transform="translate(20 0) scale(.88)">
 
   <rect width="1100" height="900" rx="28" fill="url(#bg)"/>
   <text x="550" y="58" text-anchor="middle" font-family="Inter,Segoe UI,sans-serif" font-size="30" font-weight="700" fill="#0f172a">Ignite · 垂直技术架构</text>
@@ -74,4 +76,5 @@
   </g>
 
   <text x="550" y="865" text-anchor="middle" font-family="Inter,Segoe UI,sans-serif" font-size="14" fill="#64748b">认证由 Better Auth 提供；测试与文档作为横向保障层贯穿所有层级。</text>
+  </g>
 </svg>

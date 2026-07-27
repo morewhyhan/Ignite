@@ -1,0 +1,19 @@
+---
+description: Ignite project rules and documentation workflow
+alwaysApply: true
+---
+
+# Ignite Cursor Bridge
+
+本仓库的唯一 AI 规则真源是根目录 [`AGENTS.md`](../../AGENTS.md)。
+
+执行任务前必须读取：
+
+- [`AGENTS.md`](../../AGENTS.md)
+- `docs/standards/`
+- `docs/features/`
+- `docs/plans/`
+- `docs/designs/`
+- 与本轮任务相关的 Feature、Plan、Standards、Design 和测试
+
+本文件只做 Cursor 入口，不维护独立规则。长期规则只修改 `AGENTS.md`。

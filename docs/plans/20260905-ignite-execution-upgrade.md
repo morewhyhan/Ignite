@@ -3,7 +3,7 @@
   "schema": 1,
   "id": "IGT-001",
   "release": "ignite-execution-v1",
-  "status": "active",
+  "status": "done",
   "outcome": "AI 可以在同一份 Plan 内完成一个功能切片、按风险验证、恢复中断并交付带证据的结果",
   "change_type": "基础设施变更",
   "requirements": [
@@ -41,27 +41,27 @@
       "id": "plan-state-contract",
       "status": "passed",
       "type": "behavior-test",
-      "run_id": "run-20260905113029-acfdeb",
+      "run_id": "run-20260905114031-c3add6",
       "summary": "verify 包含 Ignite CLI 契约测试，4 个 CLI 契约通过"
     },
     {
       "id": "risk-check-contract",
       "status": "passed",
       "type": "release-check",
-      "run_id": "run-20260905113029-acfdeb",
+      "run_id": "run-20260905114031-c3add6",
       "summary": "同一候选版本通过 docs、typecheck、lint、format、Vitest、migration 和 build"
     },
     {
       "id": "template-slice-replay",
       "status": "passed",
       "type": "browser-journey",
-      "run_id": "run-20260905113349-d01108",
+      "run_id": "run-20260905114603-981b5d",
       "summary": "认证路由守卫、会话恢复和 Tasks 权限/持久化操作 3 条 E2E 通过"
     }
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "49051877f23bc7f188c7b38f34ad6989c8dcaa95",
   "updated_at": "2026-09-05"
 }
 -->
@@ -70,7 +70,7 @@
 
 ## 状态
 
-进行中。一个 Plan 负责本次升级的完整交付，CLI、规则、测试、证据和设计回写都是它的子任务。
+已完成。一个 Plan 负责本次升级的完整交付，CLI、规则、测试、证据和设计回写都在本 Plan 内完成。
 
 ## 目标
 
@@ -126,36 +126,38 @@
 - [x] 建立按改动风险选择检查的 CLI，并记录运行证据。
 - [x] 为需求模板增加稳定 REQ/AC 编号约定。
 - [x] 让模块脚手架与正式 Plan 模板共享结构要求。
-- [ ] 运行契约测试并修复所有实现问题。
-- [ ] 以干净模板演练 Tasks 参考切片并写入证据。
-- [ ] 更新标准、状态摘要和最终设计回写。
+- [x] 运行契约测试并修复所有实现问题。
+- [x] 以干净模板演练 Tasks 参考切片并写入证据。
+- [x] 更新标准、状态摘要和最终设计回写。
 
 ## 验收方式
 
-- [ ] `pnpm docs:check`
-- [ ] `pnpm exec vitest run tests/contracts/ignite-cli.test.ts`
-- [ ] `pnpm test`
-- [ ] `pnpm test:e2e`
-- [ ] `pnpm ignite:check -- --plan IGT-001 --level auto --dry-run`
-- [ ] `pnpm ignite:status -- --write`
-- [ ] `git diff --check`
+- [x] `pnpm docs:check`
+- [x] `pnpm exec vitest run tests/contracts/ignite-cli.test.ts`
+- [x] `pnpm test`
+- [x] `pnpm test:e2e`
+- [x] `pnpm ignite:check -- --plan IGT-001 --level auto --dry-run`
+- [x] `pnpm ignite:status -- --write`
+- [x] `git diff --check`
 
 ## 设计回写
 
-- [ ] `docs/standards/workflow.md`
-- [ ] `docs/standards/testing.md`
-- [ ] `docs/others/ignite-status.md`
-- [ ] `docs/others/evidence/`
+- [x] `docs/standards/workflow.md`
+- [x] `docs/standards/testing.md`
+- [x] `docs/others/ignite-status.md`
+- [x] `docs/others/evidence/`
 
 ## 状态记录
 
-| 时间       | 状态   | 说明                              |
-| ---------- | ------ | --------------------------------- |
-| 2026-09-05 | active | 建立执行机制升级 Plan 和 CLI 骨架 |
+| 时间       | 状态      | 说明                                     |
+| ---------- | --------- | ---------------------------------------- |
+| 2026-09-05 | active    | 建立执行机制升级 Plan 和 CLI 骨架        |
+| 2026-09-05 | verifying | 在提交 `4905187` 上完成 release 级验证   |
+| 2026-09-05 | done      | 证据绑定提交、状态摘要和模板演练均已完成 |
 
 ## 准出条件
 
-- [ ] 所有验收标准有对应证据。
-- [ ] 运行失败、跳过、阻塞和未执行项被分别记录。
-- [ ] Tasks 参考切片从干净版本可复现，不把模板升级文档本身当作功能验收。
-- [ ] Plan 状态、发布范围和状态摘要一致。
+- [x] 所有验收标准有对应证据。
+- [x] 运行失败、跳过、阻塞和未执行项被分别记录。
+- [x] Tasks 参考切片从干净版本可复现，不把模板升级文档本身当作功能验收。
+- [x] Plan 状态、发布范围和状态摘要一致。

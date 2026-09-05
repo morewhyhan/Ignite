@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "run_id": "run-20260905113349-d01108",
+  "plan_id": "IGT-001",
+  "evidence_type": "check-release",
+  "status": "passed",
+  "command": ["pnpm", "test:e2e"],
+  "cwd": "/mnt/c/Users/why/Documents/ignite",
+  "started_at": "2026-09-05T11:33:49.855Z",
+  "ended_at": "2026-09-05T11:35:12.172Z",
+  "pid": 1636,
+  "exit_code": 0,
+  "commit": "638474bae68fe71fa433b73d1213f939189f4f80",
+  "input_fingerprint": "e08ef5532973e691dee476dd3a15676b3bb547096f4b13319ca6953179038cff",
+  "fingerprint": "1b787de2e463a6bc8a543d5b59568a8e5157e6d6cd5815a1ac6d2ef372d575f8",
+  "environment": {
+    "node": "v24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "platform": "linux"
+  },
+  "log_path": "docs/others/evidence/runs/run-20260905113349-d01108.log",
+  "needs_retry": false,
+  "signal": null,
+  "output_tail": "\n> ignite@0.1.0 test:e2e /mnt/c/Users/why/Documents/ignite\n> node scripts/run-e2e.mjs\n\nPrisma schema loaded from ../../../../../../tmp/ignite-e2e-XCb3ZL/prisma/schema.prisma\nDatasource \"db\": SQLite database \"e2e.db\" at \"file:../e2e.db\"\n\nSQLite database e2e.db created at file:../e2e.db\n\n1 migration found in prisma/migrations\n\nApplying migration `20260726000000_init`\n\nThe following migration(s) have been applied:\n\nmigrations/\n  └─ 20260726000000_init/\n    └─ migration.sql\n      \nAll migrations have been successfully applied.\nPrisma schema loaded from prisma/schema.prisma\n\n✔ Generated Prisma Client (v6.19.3) to ./node_modules/.pnpm/@prisma+client@6.19.3_prisma@6.19.3_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client in 453ms\n\nStart by importing your Prisma Client (See: https://pris.ly/d/importing-client)\n\nTip: Need your database queries to be 1000x faster? Accelerate offers you that and more: https://pris.ly/tip-2-accelerate\n\n\nRunning 3 tests using 2 workers\n\n  ✓  1 tests/e2e/auth.spec.ts:3:5 › redirects an unauthenticated dashboard request to the home page (7.5s)\n  ✓  3 tests/e2e/auth.spec.ts:10:5 › registers, signs out, and signs back in without depending on the Tasks example (8.3s)\n  ✓  2 tests/e2e/tasks.spec.ts:3:5 › signs in and completes the Task CRUD workflow (19.9s)\n\n  3 passed (58.7s)\n"
+}

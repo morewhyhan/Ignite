@@ -34,6 +34,8 @@ const requiredPaths = [
   'docs/features/product.md',
   'docs/features/_template.md',
   'docs/plans/_template.md',
+  'docs/plans/releases/README.md',
+  'docs/plans/releases/_template.json',
   'docs/others/test-cases/README.md',
   'docs/others/test-cases/_template.md',
   'docs/designs/domain.puml',
@@ -101,12 +103,12 @@ for (const featureFile of featureFiles) {
     if (!content.includes(heading)) fail(`${relativeFile}: missing heading "${heading}"`)
   }
 
-  if (!/^- R\d+：/m.test(content)) {
-    fail(`${relativeFile}: business rules must use independently testable R1/R2 numbering`)
+  if (!/^- R\d+（REQ-[A-Z0-9-]+）：/m.test(content)) {
+    fail(`${relativeFile}: business rules must use stable REQ-* IDs`)
   }
 
-  if (!/Given .+When .+Then /m.test(content)) {
-    fail(`${relativeFile}: acceptance criteria must include Given/When/Then`)
+  if (!/^- AC-[A-Z0-9-]+：Given .+When .+Then /m.test(content)) {
+    fail(`${relativeFile}: acceptance criteria must use stable AC-* IDs and Given/When/Then`)
   }
 }
 
@@ -118,6 +120,7 @@ const planFiles = readdirSync(planDirectory)
 for (const planFile of planFiles) {
   const content = readFileSync(planFile, 'utf8')
   const relativeFile = relative(repositoryRoot, planFile)
+  const metadataStart = content.indexOf('<!-- ignite-plan')
 
   for (const heading of [
     '## 状态',
@@ -140,8 +143,49 @@ for (const planFile of planFiles) {
     fail(`${relativeFile}: select exactly one change type`)
   }
 
+  if (metadataStart >= 0) {
+    for (const heading of ['## 非目标', '## 测试与验收设计', '## 设计回写']) {
+      if (!content.includes(heading))
+        fail(`${relativeFile}: structured plans require heading "${heading}"`)
+    }
+    if (!/<!-- ignite-plan\s*\{[\s\S]+\}\s*-->/.test(content)) {
+      fail(`${relativeFile}: structured plan metadata must be valid JSON block`)
+    }
+  }
+
   if (/## 状态\s+已完成/.test(content) && /^- \[ \]/m.test(content)) {
     fail(`${relativeFile}: completed plan still contains unchecked tasks`)
+  }
+}
+
+const releaseDirectory = join(docsRoot, 'plans', 'releases')
+const structuredPlanIds = new Set(
+  planFiles
+    .map((path) => readFileSync(path, 'utf8').match(/"id"\s*:\s*"(IGT-\d+)"/)?.[1])
+    .filter(Boolean),
+)
+for (const releaseName of readdirSync(releaseDirectory).filter(
+  (name) => name.endsWith('.json') && !name.startsWith('_'),
+)) {
+  const releasePath = join(releaseDirectory, releaseName)
+  const relativeFile = relative(repositoryRoot, releasePath)
+  try {
+    const release = JSON.parse(readFileSync(releasePath, 'utf8'))
+    if (release.schema !== 1 || typeof release.id !== 'string') {
+      fail(`${relativeFile}: release requires schema 1 and an id`)
+    }
+    if (!['draft', 'active', 'ready', 'done', 'blocked'].includes(release.status)) {
+      fail(`${relativeFile}: invalid release status`)
+    }
+    if (
+      !Array.isArray(release.plan_ids) ||
+      release.plan_ids.some((id) => !structuredPlanIds.has(id))
+    ) {
+      fail(`${relativeFile}: every plan_ids entry must reference a structured Plan`)
+    }
+    if (!Array.isArray(release.must_pass)) fail(`${relativeFile}: must_pass must be an array`)
+  } catch (error) {
+    fail(`${relativeFile}: invalid JSON (${error.message})`)
   }
 }
 
@@ -153,11 +197,13 @@ for (const requiredSql of ['CREATE TABLE', 'CREATE INDEX', 'FOREIGN KEY', 'ON UP
 }
 
 const migrationSql = read('prisma/migrations/20260726000000_init/migration.sql')
-const migrationCascadeCount = migrationSql.match(/ON UPDATE CASCADE/g)?.length ?? 0
-const snapshotCascadeCount = databaseSql.match(/ON UPDATE CASCADE/g)?.length ?? 0
-if (migrationCascadeCount !== snapshotCascadeCount) {
+const tableNames = (sql) =>
+  [...sql.matchAll(/CREATE TABLE\s+"([^"]+)"/gi)].map((match) => match[1]).sort()
+const migrationTables = tableNames(migrationSql)
+const snapshotTables = tableNames(databaseSql)
+if (JSON.stringify(migrationTables) !== JSON.stringify(snapshotTables)) {
   fail(
-    `docs/designs/database.sql: ON UPDATE CASCADE count ${snapshotCascadeCount} does not match migration count ${migrationCascadeCount}`,
+    `docs/designs/database.sql: table snapshot differs from migration (${snapshotTables.join(', ')} vs ${migrationTables.join(', ')})`,
   )
 }
 

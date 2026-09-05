@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "run_id": "run-20260905113029-acfdeb",
+  "plan_id": "IGT-001",
+  "evidence_type": "check-release",
+  "status": "passed",
+  "command": ["pnpm", "verify"],
+  "cwd": "/mnt/c/Users/why/Documents/ignite",
+  "started_at": "2026-09-05T11:30:29.977Z",
+  "ended_at": "2026-09-05T11:33:49.061Z",
+  "pid": 664,
+  "exit_code": 0,
+  "commit": "638474bae68fe71fa433b73d1213f939189f4f80",
+  "input_fingerprint": "42e359d707cebe35318f6a828fdf6ff8ed460fd8d2335c6247df74ce5b2137c7",
+  "fingerprint": "c9fa7e56cbedbe8b205db4d64873e5952cc507d19b28f345ed19b18bf13116ef",
+  "environment": {
+    "node": "v24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "platform": "linux"
+  },
+  "log_path": "docs/others/evidence/runs/run-20260905113029-acfdeb.log",
+  "needs_retry": false,
+  "signal": null,
+  "output_tail": "hema loaded from prisma/schema.prisma\n\n✔ Generated Prisma Client (v6.19.3) to ./node_modules/.pnpm/@prisma+client@6.19.3_prisma@6.19.3_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client in 489ms\n\nStart by importing your Prisma Client (See: https://pris.ly/d/importing-client)\n\nTip: Need your database queries to be 1000x faster? Accelerate offers you that and more: https://pris.ly/tip-2-accelerate\n\n\n> ignite@0.1.0 lint /mnt/c/Users/why/Documents/ignite\n> eslint .\n\n\n> ignite@0.1.0 format:check /mnt/c/Users/why/Documents/ignite\n> prettier --check . --ignore-path .gitignore\n\nChecking formatting...\nAll matched files use Prettier code style!\n\n> ignite@0.1.0 test /mnt/c/Users/why/Documents/ignite\n> vitest run\n\n\n\u001b[1m\u001b[30m\u001b[46m RUN \u001b[49m\u001b[39m\u001b[22m \u001b[36mv4.1.10 \u001b[39m\u001b[90m/mnt/c/Users/why/Documents/ignite\u001b[39m\n\n \u001b[32m✓\u001b[39m tests/api/tasks.test.ts \u001b[2m(\u001b[22m\u001b[2m5 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 5601\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m tests/contracts/server-env.test.ts \u001b[2m(\u001b[22m\u001b[2m16 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 686\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m tests/contracts/ignite-cli.test.ts \u001b[2m(\u001b[22m\u001b[2m4 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[33m 620\u001b[2mms\u001b[22m\u001b[39m\n     \u001b[33m\u001b[2m✓\u001b[22m\u001b[39m writes a generated status file instead of requiring a second status table \u001b[33m 340\u001b[2mms\u001b[22m\u001b[39m\n \u001b[32m✓\u001b[39m tests/contracts/auth-schema.test.ts \u001b[2m(\u001b[22m\u001b[2m4 tests\u001b[22m\u001b[2m)\u001b[22m\u001b[32m 3\u001b[2mms\u001b[22m\u001b[39m\n\n\u001b[2m Test Files \u001b[22m \u001b[1m\u001b[32m4 passed\u001b[39m\u001b[22m\u001b[90m (4)\u001b[39m\n\u001b[2m      Tests \u001b[22m \u001b[1m\u001b[32m29 passed\u001b[39m\u001b[22m\u001b[90m (29)\u001b[39m\n\u001b[2m   Start at \u001b[22m 19:31:55\n\u001b[2m   Duration \u001b[22m 16.15s\u001b[2m (transform 347ms, setup 0ms, import 644ms, tests 6.91s, environment 0ms)\u001b[22m\n\n\n> ignite@0.1.0 test:migrations /mnt/c/Users/why/Documents/ignite\n> node scripts/test-migrations.mjs\n\nPrisma schema loaded from ../../../../../../tmp/ignite-migration-fresh-XPB5uc/prisma/schema.prisma\nDatasource \"db\": SQLite database \"migration-fresh.db\" at \"file:../migration-fresh.db\"\n\nSQLite database migration-fresh.db created at file:../migration-fresh.db\n\n1 migration found in prisma/migrations\n\nApplying migration `20260726000000_init`\n\nThe following migration(s) have been applied:\n\nmigrations/\n  └─ 20260726000000_init/\n    └─ migration.sql\n      \nAll migrations have been successfully applied.\nNo difference detected.\n\nPrisma schema loaded from ../../../../../../tmp/ignite-migration-fresh-XPB5uc/prisma/schema.prisma\nDatasource \"db\": SQLite database \"migration-fresh.db\" at \"file:../migration-fresh.db\"\n\n1 migration found in prisma/migrations\n\n\nNo pending migrations to apply.\nPrisma schema loaded from ../../../../../../tmp/ignite-migration-fresh-XPB5uc/prisma/schema.prisma\nDatasource \"db\": SQLite database \"migration-fresh.db\" at \"file:../migration-fresh.db\"\n\n1 migration found in prisma/migrations\n\nDatabase schema is up to date!\nMigration smoke checks passed.\n\n> ignite@0.1.0 build /mnt/c/Users/why/Documents/ignite\n> prisma generate && next build\n\nPrisma schema loaded from prisma/schema.prisma\n\n✔ Generated Prisma Client (v6.19.3) to ./node_modules/.pnpm/@prisma+client@6.19.3_prisma@6.19.3_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client in 560ms\n\nStart by importing your Prisma Client (See: https://pris.ly/d/importing-client)\n\nTip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints\n\n▲ Next.js 16.2.11 (Turbopack)\n\n  Creating an optimized production build ...\n✓ Compiled successfully in 10.3s\n  Running TypeScript ...\n  Finished TypeScript in 21.2s ...\n  Collecting page data using 8 workers ...\n  Generating static pages using 8 workers (0/6) ...\n  Generating static pages using 8 workers (1/6) \r\n  Generating static pages using 8 workers (2/6) \r\n  Generating static pages using 8 workers (4/6) \r\n✓ Generating static pages using 8 workers (6/6) in 5.7s\n  Finalizing page optimization ...\n\nRoute (app)\n┌ ○ /\n├ ○ /_not-found\n├ ƒ /api/[[...route]]\n├ ƒ /dashboard\n├ ƒ /dashboard/settings\n└ ƒ /dashboard/tasks\n\n\n○  (Static)   prerendered as static content\nƒ  (Dynamic)  server-rendered on demand\n\n"
+}

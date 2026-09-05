@@ -17,6 +17,18 @@ Ignite 的文档服务于“模板基线 + 后续项目扩展”：AI 应先把�
 | `designs/`   | 当前数据库、API 和系统设计事实          | 持续更新，作为下一轮工作的事实依据     |
 | `others/`    | ADR、测试用例、发布记录等过程资料       | 追加记录，不混入标准或当前事实         |
 
+## 执行入口
+
+新任务先从 [`docs/plans/_template.md`](./plans/_template.md) 创建一个结构化 Plan，并分配稳定的 `IGT-*` ID；当前发布范围写在 [`plans/releases/`](./plans/releases/) 的 JSON 机器源里。日常只需要记住三个入口：
+
+```text
+pnpm ignite plan validate <IGT-ID>       # 检查 Plan 元数据
+pnpm ignite status --write                # 汇总当前 Plan 与发布范围
+pnpm ignite check -- --plan <IGT-ID> --level auto
+```
+
+运行记录保存在 `docs/others/evidence/runs/`。同一输入已有运行记录时 CLI 会复用；状态摘要是生成物，不要再维护第二份手工状态表。历史 Plan 保留原文并标记为未迁移，不因新规则自动变成已完成。
+
 ## 变更流转
 
 ```text

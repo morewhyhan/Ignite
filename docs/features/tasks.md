@@ -36,12 +36,12 @@ Tasks 是仓库当前可运行的参考纵向切片。它说明需求如何连�
 
 ## 业务规则
 
-- R1：用户只能读取自己的任务。
-- R2：创建任务时 `userId` 只能来自服务端 session。
-- R3：标题 trim 后不能为空且不能超过 200 字符。
-- R4：更新至少包含 `title` 或 `completed` 之一，未知字段返回 `422`。
-- R5：更新或删除非本人任务统一返回 `404`，不泄露资源是否存在。
-- R6：列表按 `createdAt` 倒序返回。
+- R1（REQ-TASKS-001）：用户只能读取自己的任务。
+- R2（REQ-TASKS-002）：创建任务时 `userId` 只能来自服务端 session。
+- R3（REQ-TASKS-003）：标题 trim 后不能为空且不能超过 200 字符。
+- R4（REQ-TASKS-004）：更新至少包含 `title` 或 `completed` 之一，未知字段返回 `422`。
+- R5（REQ-TASKS-005）：更新或删除非本人任务统一返回 `404`，不泄露资源是否存在。
+- R6（REQ-TASKS-006）：列表按 `createdAt` 倒序返回。
 
 ## 原型与交互
 
@@ -51,10 +51,10 @@ Tasks 是仓库当前可运行的参考纵向切片。它说明需求如何连�
 
 ## 验收标准
 
-- Given 未登录用户 When 访问任务页面 Then 应跳转到首页。
-- Given 已登录用户 When 创建任务 Then 任务只属于当前用户并出现在列表中。
-- Given 用户访问其他用户任务 When 更新或删除 Then 返回 `404`。
-- Given 输入不合法 When 调用 API Then 返回 `422`。
+- AC-TASKS-001：Given 未登录用户 When 访问任务页面 Then 应跳转到首页。
+- AC-TASKS-002：Given 已登录用户 When 创建任务 Then 任务只属于当前用户并出现在列表中。
+- AC-TASKS-003：Given 用户访问其他用户任务 When 更新或删除 Then 返回 `404`。
+- AC-TASKS-004：Given 输入不合法 When 调用 API Then 返回 `422`。
 
 ## 实现与设计映射
 

@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "run_id": "run-20260905110453-2a760a",
+  "plan_id": "IGT-001",
+  "evidence_type": "check-dev",
+  "status": "passed",
+  "command": ["pnpm", "exec", "prettier", "--check", "README.md"],
+  "cwd": "/mnt/c/Users/why/Documents/ignite",
+  "started_at": "2026-09-05T11:04:53.632Z",
+  "ended_at": "2026-09-05T11:04:55.903Z",
+  "pid": 625,
+  "exit_code": 0,
+  "commit": "638474bae68fe71fa433b73d1213f939189f4f80",
+  "input_fingerprint": "c3108c05e4e07f8cc0803292be46f482064cccaa45e627d4125fedef967a0571",
+  "fingerprint": "0abf8e93f777c8b768c019850018f030e4788281104be0734dcec4f46433c6f0",
+  "environment": {
+    "node": "v24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "unset",
+    "database_provider": "unset",
+    "platform": "linux"
+  },
+  "log_path": "docs/others/evidence/runs/run-20260905110453-2a760a.log",
+  "needs_retry": false,
+  "signal": null,
+  "output_tail": "Checking formatting...\nAll matched files use Prettier code style!\n"
+}

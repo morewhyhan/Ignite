@@ -30,11 +30,11 @@ Ignite 不是一个固定业务产品，而是一个可复制的全栈模板。�
 
 ## 业务规则
 
-- R1：AI 必须先识别当前状态是模板基线还是已采用项目。
-- R2：新增业务使用独立模块；修改现有能力必须标记存量影响。
-- R3：可复用基础设施与一次性业务需求必须分开。
-- R4：采用时必须更换项目 slug 和本地 secret，避免多个衍生项目 Cookie 冲突。
-- R5：每个行为变化都必须经过规格、Plan、测试和设计回写闭环。
+- R1（REQ-PRODUCT-001）：AI 必须先识别当前状态是模板基线还是已采用项目。
+- R2（REQ-PRODUCT-002）：新增业务使用独立模块；修改现有能力必须标记存量影响。
+- R3（REQ-PRODUCT-003）：可复用基础设施与一次性业务需求必须分开。
+- R4（REQ-PRODUCT-004）：采用时必须更换项目 slug 和本地 secret，避免多个衍生项目 Cookie 冲突。
+- R5（REQ-PRODUCT-005）：每个行为变化都必须经过规格、Plan、测试和设计回写闭环。
 
 ## 原型与交互
 
@@ -44,7 +44,7 @@ Ignite 不是一个固定业务产品，而是一个可复制的全栈模板。�
 
 ## 验收标准
 
-- Given 全新克隆，When 按 README 配置环境，Then 可以部署 migration、启动项目并运行基线测试。
-- Given 开发者采用模板，When 更换名称、slug 和 secret，Then 新项目不会与其他本地衍生项目共享认证 Cookie。
-- Given 新增业务，When AI 读取规则，Then 它建立独立模块并生成 Feature、Plan、测试和设计更新。
-- Given 决定删除 Tasks，When 执行采用计划，Then 认证和路由守卫仍保留独立回归覆盖。
+- AC-PRODUCT-001：Given 全新克隆，When 按 README 配置环境，Then 可以部署 migration、启动项目并运行基线测试。
+- AC-PRODUCT-002：Given 开发者采用模板，When 更换名称、slug 和 secret，Then 新项目不会与其他本地衍生项目共享认证 Cookie。
+- AC-PRODUCT-003：Given 新增业务，When AI 读取规则，Then 它建立独立模块并生成 Feature、Plan、测试和设计更新。
+- AC-PRODUCT-004：Given 决定删除 Tasks，When 执行采用计划，Then 认证和路由守卫仍保留独立回归覆盖。

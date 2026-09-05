@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "id": "release-id",
+  "status": "draft",
+  "plan_ids": ["IGT-000"],
+  "must_pass": ["evidence-id"],
+  "excluded": [],
+  "updated_at": "YYYY-MM-DD"
+}

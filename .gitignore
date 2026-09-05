@@ -36,6 +36,7 @@ lerna-debug.log*
 
 # misc
 .DS_Store
+next-env.d.ts
 *.tsbuildinfo
 coverage/
 playwright-report/

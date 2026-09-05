@@ -1,3 +1,25 @@
+<!-- ignite-plan
+{
+  "schema": 1,
+  "id": "IGT-000",
+  "release": "release-id",
+  "status": "draft",
+  "outcome": "完成后谁能多做哪件事",
+  "change_type": "新增模块",
+  "requirements": ["REQ-FEATURE-001"],
+  "depends_on": [],
+  "owner": "assigned-worker",
+  "risk": "feature",
+  "write_scope": ["src/modules/<feature-name>/"],
+  "required_evidence": [],
+  "evidence": [],
+  "blocker": null,
+  "open_questions": ["需要关闭的问题"],
+  "integrated_commit": null,
+  "updated_at": "YYYY-MM-DD"
+}
+-->
+
 # Ignite 实施计划：<change-name>
 
 > 复制本文件到 `docs/plans/YYYYMMDD-<change-name>.md`。计划只记录一次任务的过程；完成后保留，最终事实回写 `docs/designs/`。

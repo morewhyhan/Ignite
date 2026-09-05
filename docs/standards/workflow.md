@@ -1,6 +1,23 @@
 # 规格驱动开发工作流
 
-本文档把 Ignite 的需求规格、Plan/Go、测试先行和 E2E 闭环转化为可执行流程。工具可以替换，闭环不能省略。
+本文档把 Ignite 的需求规格、Plan/Go、测试先行和 E2E 闭环转化为可执行流程。工具可以替换，闭环不能省略。`pnpm ignite:*` 是状态、检查和证据的统一入口。
+
+## 0. 任务单位和状态机
+
+一个 Plan 必须对应一个可独立验收、集成和回滚的交付结果。实现、测试修复、格式修复和设计回写是这个 Plan 的子任务；没有事实变化的状态同步不能单独开 Plan。
+
+新 Plan 在顶部使用 `ignite-plan` JSON 元数据，状态只能按下面的有限集合使用：
+
+```text
+draft → ready → active → verifying → done
+                    ├→ blocked → active
+                    ├→ cancelled
+                    └→ superseded
+```
+
+`done` 必须有所有 `required_evidence` 的 `passed` 运行记录和集成 commit；`blocked` 必须说明缺什么、责任方、恢复动作；`legacy_unverified` 只用于历史 Plan，不代表完成。用 `pnpm ignite plan validate` 检查结构，用 `pnpm ignite plan set-status <IGT-ID> <status>` 修改状态并刷新摘要。
+
+当前发布范围只在 `docs/plans/releases/*.json` 维护。`pnpm ignite status --write` 从 Plan 和发布机器源生成 `docs/others/ignite-status.md`，不要手改派生表。
 
 ## 1. 先确定输入
 
@@ -69,3 +86,9 @@ Plan 进入实现前必须写清：
 - 生产路径或依赖变化通过 `pnpm build`；
 - 相关设计文档和 Plan 状态已更新；
 - 最终报告列出实际执行的验证，不声称未执行项通过。
+
+## 7. 运行恢复与阻塞
+
+长命令由 `pnpm ignite:check` 记录 `run_id`、Plan、命令、工作树输入指纹、commit、环境指纹、PID、退出码和日志路径。`pnpm ignite run status` 会区分仍在运行、已通过、失败和进程消失后的 `orphaned/needs_retry`。观察超时、暂时无输出或一次轮询失败都不能直接重跑；先读取原 run。
+
+同一 Plan、同一命令和同一输入指纹已有活动 run 时复用它；已有通过记录时默认复用，只有输入改变或明确 `--force` 才重新执行。相同失败连续两次且没有新证据时停止机械重试，记录阻塞而不是修改目标宣布完成。

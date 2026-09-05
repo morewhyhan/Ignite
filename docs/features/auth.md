@@ -25,18 +25,18 @@ Better Auth schema 中保留的 `emailVerified` 和 `verification` 表属于兼�
 
 ## 业务规则
 
-- R1：注册和登录使用邮箱与密码。
-- R2：密码长度为 8–128 个字符。
-- R3：注册、登录不要求外部邮箱验证。
-- R4：业务 API 只能从 session 获取用户身份，不能信任客户端传入的 `userId`。
-- R5：登出后访问受保护页面跳转首页，受保护 API 返回 `401`。
+- R1（REQ-AUTH-001）：注册和登录使用邮箱与密码。
+- R2（REQ-AUTH-002）：密码长度为 8–128 个字符。
+- R3（REQ-AUTH-003）：注册、登录不要求外部邮箱验证。
+- R4（REQ-AUTH-004）：业务 API 只能从 session 获取用户身份，不能信任客户端传入的 `userId`。
+- R5（REQ-AUTH-005）：登出后访问受保护页面跳转首页，受保护 API 返回 `401`。
 
 ## 验收标准
 
-- Given 新用户提交合法邮箱和密码，When 注册，Then 创建账户并进入 Dashboard。
-- Given 已注册用户提交正确凭证，When 登录，Then 建立 session 并进入 Dashboard。
-- Given 用户登出，When 再次访问 `/dashboard`，Then 跳转首页。
-- Given 没有 session，When 访问受保护业务 API，Then 返回 `401`。
+- AC-AUTH-001：Given 新用户提交合法邮箱和密码 When 注册 Then 创建账户并进入 Dashboard。
+- AC-AUTH-002：Given 已注册用户提交正确凭证 When 登录 Then 建立 session 并进入 Dashboard。
+- AC-AUTH-003：Given 用户登出 When 再次访问 `/dashboard` Then 跳转首页。
+- AC-AUTH-004：Given 没有 session When 访问受保护业务 API Then 返回 `401`。
 
 ## 实现映射
 

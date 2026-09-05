@@ -7,6 +7,11 @@ Ignite 是一个可复制、可增量演进的模板。
 
 ## 增量与存量
 
+- 一个 Plan 对应一个可独立验收、集成和回滚的交付结果。API、页面、测试、格式修复和状态回写是同一 Plan 的子任务，不为“收口”另建 Plan。
+- 新 Plan 使用 `docs/plans/_template.md` 顶部的结构化元数据；状态只能使用 `draft`、`ready`、`active`、`verifying`、`done`、`blocked`、`cancelled`、`superseded`。历史未迁移 Plan 保留为 `legacy_unverified`，不能自动视为完成。
+- 当前发布只由 `docs/plans/releases/*.json` 定义；状态表由 `pnpm ignite:status -- --write` 生成，不手工维护派生副本。
+- 每次检查由 `pnpm ignite:check -- --plan <IGT-ID> --level auto` 选择范围并记录运行证据。相同输入的活动或已通过运行必须复用，不重复启动。
+
 ## 规范真源
 
 - 长期方法：`docs/standards/`
@@ -26,7 +31,7 @@ Ignite 是一个可复制、可增量演进的模板。
 
 ## 规格驱动 Loop
 
-所有功能都按规格驱动 Loop 执行，并在 `docs/standards/adoption.md` 记录采用边界。
+所有功能都按规格驱动 Loop 执行，并在 `docs/standards/adoption.md` 记录采用边界。完成判定必须引用具体 `REQ-*`、`AC-*`、运行记录和被测版本；缺证据、跳过测试或外部依赖未满足时保持未完成或阻塞。
 
 ## 架构边界
 
@@ -55,7 +60,7 @@ Ignite 是一个可复制、可增量演进的模板。
 
 ## 验证与交付
 
-每次改动至少运行 `git diff --check`、`pnpm docs:check` 和 `pnpm check`；涉及构建、迁移或核心用户流程时，额外运行 `pnpm build`、`pnpm test:migrations` 或 `pnpm test:e2e`。最终只报告实际执行并通过的检查，不把 typecheck/lint 当行为测试。
+每次改动通过 `pnpm ignite:check -- --plan <IGT-ID> --level auto` 选择开发或集成检查；发布候选运行 `pnpm ignite:check -- --plan <IGT-ID> --level release`。所有层级都保留 `git diff --check` 和对应证据；涉及构建、迁移或核心用户流程时，额外运行 `pnpm build`、`pnpm test:migrations` 或 `pnpm test:e2e`。最终只报告实际执行并通过的检查，不把 typecheck/lint 当行为测试。
 
 ## 推荐开发流程
 

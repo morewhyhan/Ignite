@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "run_id": "run-20260905112610-793224",
+  "plan_id": "IGT-001",
+  "evidence_type": "check-release",
+  "status": "failed",
+  "command": ["pnpm", "verify"],
+  "cwd": "/mnt/c/Users/why/Documents/ignite",
+  "started_at": "2026-09-05T11:26:10.552Z",
+  "ended_at": "2026-09-05T11:27:36.214Z",
+  "pid": 554,
+  "exit_code": 1,
+  "commit": "638474bae68fe71fa433b73d1213f939189f4f80",
+  "input_fingerprint": "780a35230db913db7cfe0fd65d700fb389afaf51f7fa18bad5099833c7a79a5e",
+  "fingerprint": "f9d6bddc2caf09c383afd8edc3de0e4517ed0cba654a525453d91fb57fa81902",
+  "environment": {
+    "node": "v24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "platform": "linux"
+  },
+  "log_path": "docs/others/evidence/runs/run-20260905112610-793224.log",
+  "needs_retry": true,
+  "signal": null,
+  "output_tail": "\n> ignite@0.1.0 verify /mnt/c/Users/why/Documents/ignite\n> corepack pnpm check && corepack pnpm test:migrations && corepack pnpm build\n\n\n> ignite@0.1.0 check /mnt/c/Users/why/Documents/ignite\n> corepack pnpm docs:check && corepack pnpm typecheck && corepack pnpm lint && corepack pnpm format:check && corepack pnpm test\n\n\n> ignite@0.1.0 docs:check /mnt/c/Users/why/Documents/ignite\n> node scripts/check-docs.mjs\n\nDocumentation checks passed (43 Markdown files, 3 feature specs, 4 plans).\n\n> ignite@0.1.0 typecheck /mnt/c/Users/why/Documents/ignite\n> prisma generate && tsc --noEmit\n\nPrisma schema loaded from prisma/schema.prisma\n\n✔ Generated Prisma Client (v6.19.3) to ./node_modules/.pnpm/@prisma+client@6.19.3_prisma@6.19.3_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client in 566ms\n\nStart by importing your Prisma Client (See: https://pris.ly/d/importing-client)\n\nTip: Interested in query caching in just a few lines of code? Try Accelerate today! https://pris.ly/tip-3-accelerate\n\n\n> ignite@0.1.0 lint /mnt/c/Users/why/Documents/ignite\n> eslint .\n\n\n> ignite@0.1.0 format:check /mnt/c/Users/why/Documents/ignite\n> prettier --check . --ignore-path .gitignore\n\nChecking formatting...\n[warn] next-env.d.ts\n[warn] Code style issues found in the above file. Run Prettier with --write to fix.\n ELIFECYCLE  Command failed with exit code 1.\n ELIFECYCLE  Command failed with exit code 1.\n ELIFECYCLE  Command failed with exit code 1.\n"
+}

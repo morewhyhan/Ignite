@@ -29,6 +29,7 @@ const date = new Intl.DateTimeFormat('en-CA', {
 })
   .format(new Date())
   .replaceAll('-', '')
+const planId = `IGT-${Date.now()}`
 
 const files = new Map([
   [
@@ -73,7 +74,7 @@ const files = new Map([
 
 ## 业务规则
 
-- R1：待定义可独立验证的规则。
+- R1（REQ-${moduleName.toUpperCase()}-001）：待定义可独立验证的规则。
 
 ## 权限、错误与缓存
 
@@ -90,12 +91,38 @@ const files = new Map([
 
 ## 验收标准
 
-- Given <context> When <action> Then <observable-result>。
+- AC-${moduleName.toUpperCase()}-001：Given <context> When <action> Then <observable-result>。
 `,
   ],
   [
     `docs/plans/${date}-${moduleName}.md`,
-    `# Ignite 实施计划：${moduleName}
+    `<!-- ignite-plan
+${JSON.stringify(
+  {
+    schema: 1,
+    id: planId,
+    release: 'release-id',
+    status: 'draft',
+    outcome: `完成 ${moduleName} 的一个可验收纵向切片`,
+    change_type: '新增模块',
+    requirements: [`REQ-${moduleName.toUpperCase()}-001`],
+    depends_on: [],
+    owner: 'assigned-worker',
+    risk: 'feature',
+    write_scope: [`src/modules/${moduleName}/`],
+    required_evidence: [],
+    evidence: [],
+    blocker: null,
+    open_questions: ['确认字段、权限、错误和验收范围'],
+    integrated_commit: null,
+    updated_at: date,
+  },
+  null,
+  2,
+)}
+-->
+
+# Ignite 实施计划：${moduleName}
 
 ## 状态
 
@@ -104,6 +131,10 @@ const files = new Map([
 ## 目标
 
 在需求规格确认后实现 ${moduleName} 纵向切片。
+
+## 非目标
+
+- 待定义。
 
 ## 变更类型
 
@@ -125,12 +156,25 @@ const files = new Map([
 - 开放问题：尚未关闭，不能开始实现。
 - 实施授权：等待需求和 Plan 确认。
 
+## 测试与验收设计
+
+| 验收标准 | 先失败的测试或检查 | 实现后命令 | 适用层级 |
+| --- | --- | --- | --- |
+| AC-${moduleName.toUpperCase()}-001 | 待补充 | 待补充 | API / E2E |
+
 ## 实现任务
 
 - [ ] 完成需求规格和测试用例。
 - [ ] 编写先失败的目标测试。
 - [ ] 实现并注册纵向切片。
 - [ ] 更新设计规格并完成准出验证。
+
+## 设计回写
+
+- [ ] 领域模型
+- [ ] 数据库
+- [ ] API
+- [ ] 时序图
 
 ## 验收方式
 

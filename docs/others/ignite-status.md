@@ -2,18 +2,18 @@
 
 模板状态：`template-baseline`
 输入指纹：`cc8f15e5f48b`
-当前 Plan：1；结构化历史：1；未迁移历史：3
+当前 Plan：0；结构化历史：2；未迁移历史：3
 
 ## 当前工作
 
-- `IGT-002` · `active` · `ignite-execution-v2`
+- 无。
 
 ## 发布范围
 
 - `ignite-execution-v1` · `legacy_unverified`
   - Plan：`IGT-001`
   - 缺少证据：历史证据不参与当前验证
-- `ignite-execution-v2` · `active`
+- `ignite-execution-v2` · `done`
   - Plan：`IGT-002`
   - 缺少证据：无
 

@@ -1,0 +1,54 @@
+{
+  "schema": 2,
+  "run_id": "run-20260913165417-21b1ef",
+  "check_policy_version": 2,
+  "plan_id": "IGT-002",
+  "evidence_id": "check-release",
+  "level": "release",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-09-13T16:54:17.936Z",
+  "ended_at": "2026-09-13T17:01:43.510Z",
+  "commit": "552f0aa7900df9b50fe018a8eb396cbf405c21de",
+  "input_fingerprint": "5eb5c352fd907d4e8d54b8c82a2247ba28ca154a9a435dc6426b978daeb2cbe2",
+  "environment_fingerprint": "8d17f89e4d1423d40514c0b245be9e9f30d251a4b1dcb6f503ff6d5ae0f68430",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "194ad5348edda95d620061a8d979de275cbc4801"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 712
+    },
+    {
+      "label": "verify",
+      "command": ["corepack", "pnpm", "verify"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 386201
+    },
+    {
+      "label": "e2e-production",
+      "command": ["corepack", "pnpm", "test:e2e:production"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 58581
+    }
+  ],
+  "log_sha256": "5733b6e26b5e4fb2cd079c20d7562b5866f615be4ce896de929f085ef286b42a"
+}

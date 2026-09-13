@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-002",
   "release": "ignite-execution-v2",
-  "status": "active",
+  "status": "done",
   "outcome": "任何 AI 都只能基于当前代码、当前环境和真实证据完成任务，并能在中断后安全继续",
   "change_type": "存量改动",
   "base_commit": "194ad5348edda95d620061a8d979de275cbc4801",
@@ -91,16 +91,16 @@
   "evidence": [
     {
       "id": "check-integration",
-      "run_id": "run-20260913075100-fd41df"
+      "run_id": "run-20260913124330-98c3b2"
     },
     {
       "id": "check-release",
-      "run_id": "run-20260913075816-e9d084"
+      "run_id": "run-20260913165417-21b1ef"
     }
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "63f350ff4bca56c0e7a17d31e6432ebd38f336a2",
+  "integrated_commit": "552f0aa7900df9b50fe018a8eb396cbf405c21de",
   "updated_at": "2026-09-13"
 }
 -->
@@ -161,32 +161,32 @@
 - [x] 建立隔离运行目录、原子锁、环境指纹、心跳和脱敏证据导出。
 - [x] 建立 REQ → AC → Test → Run 覆盖校验和 Design 结构校验。
 - [x] 固定 WSL/Windows、Node、换行和依赖平台边界。
-- [ ] 让测试、状态查询和发布验证保持工作区干净。
-- [ ] 将相同规则接入 CI，补齐生产构建 E2E 和移动视口。
-- [ ] 从干净副本演练采用、功能检查、中断恢复和发布判定。
+- [x] 让测试、状态查询和发布验证保持工作区干净。
+- [x] 将相同规则接入 CI，补齐生产构建 E2E 和移动视口。
+- [x] 从干净副本演练采用、功能检查、中断恢复和发布判定。
 - [x] 复核运行时跳过测试的证据判定、取消 Plan 的混合发布，以及检查策略升级后的历史兼容；补充真实双进程锁竞争测试。
 
 ## 验收方式
 
 - [x] `pnpm ignite plan validate IGT-002`
-- [x] `pnpm ignite check --plan IGT-002 --level integration`：`run-20260913075100-fd41df`，被测提交 `63f350f`。
-- [x] `pnpm ignite check --plan IGT-002 --level release`：`run-20260913075816-e9d084`，被测提交 `63f350f`。
+- [x] `pnpm ignite check --plan IGT-002 --level integration`：`run-20260913124330-98c3b2`，67 项测试、迁移和工程质量门禁通过，被测提交 `552f0aa`。
+- [x] `pnpm ignite check --plan IGT-002 --level release`：`run-20260913165417-21b1ef`，67 项测试、迁移、生产构建及 6 条跨视口 E2E 通过，被测提交 `552f0aa`。
 - [x] `pnpm docs:check`：包含在上述两次运行中。
-- [x] `pnpm check`：2026-09-13 通过，10 个测试文件、60 项测试全部通过。
+- [x] `pnpm check`：2026-09-13 通过，11 个测试文件、67 项测试全部通过。
 - [x] `pnpm test:migrations`：新库迁移、重复应用和结构对比通过。
 - [x] `pnpm build`：生产构建通过。
-- [ ] `pnpm test:e2e`
+- [x] `pnpm test:e2e`：2026-09-14 开发服务器下桌面与移动视口 6 条流程全部通过。
 - [x] `pnpm test:e2e:production`：桌面与移动视口 6 条流程全部通过。
 - [x] `git diff --check`
 
-独立副本复验：2026-09-13，在仓库外重新克隆提交 `07f880e`（实现内容为 `63f350f`），重新安装锁定依赖，使用隔离测试环境依次运行 `pnpm verify`、`pnpm test:e2e:production` 和 `node scripts/check-clean.mjs`。60 项测试、迁移、生产构建和桌面/移动共 6 条浏览器流程全部通过，最终输出 `Tracked workspace remained clean.`。此前仓库内副本的 Next.js 外层锁文件提示不作为本次独立复验依据。
+独立副本复验：2026-09-14，在仓库外重新克隆提交 `552f0aa`，离线重新安装锁定依赖，使用隔离测试环境依次运行 `pnpm verify`、`pnpm test:e2e:production` 和 `node scripts/check-clean.mjs`。67 项测试、迁移、生产构建和桌面/移动共 6 条浏览器流程全部通过，最终输出 `Tracked workspace remained clean.`。验证不复用主工作区的依赖或运行目录。
 
 ## 设计回写
 
-- [ ] 执行状态、证据模型和恢复时序
-- [ ] 风险分类与验证矩阵
-- [ ] AI 工作台和环境边界
-- [ ] 验收追踪和发布推导规则
+- [x] 执行状态、证据模型和恢复时序：`docs/designs/runtime.md`。
+- [x] 风险分类与验证矩阵：`docs/standards/testing.md`。
+- [x] AI 工作台和环境边界：`AGENTS.md`、`docs/standards/workflow.md`。
+- [x] 验收追踪和发布推导规则：`docs/designs/runtime.md`、`docs/standards/workflow.md`。
 
 ## 状态记录
 
@@ -195,12 +195,13 @@
 | 2026-09-05 | active | 完成深度审计，开始加固执行机制                                              |
 | 2026-09-06 | active | 完成 schema 2 执行内核、可追踪测试、运行时隔离与 CI 接入                    |
 | 2026-09-13 | active | 修复中断重构后的 CLI 入口；验证默认模块生成、旧证据重测与规则文件的输入追踪 |
+| 2026-09-14 | verifying | 当前策略 2 集成与发布证据、开发 E2E 和独立干净克隆均已通过，等待最终准出 |
 
 ## 准出条件
 
-- [ ] 所有 AC 有自动化测试和当前输入的运行证据。
-- [ ] 伪造、过期、跨环境和仍在运行的证据都不能完成 Plan。
-- [ ] Release 只声明范围，状态完全自动推导。
-- [ ] 检查无法降级，且提交前后都能得到相同真实改动范围。
-- [ ] 并发和中断演练只产生一个有效运行，恢复状态准确。
-- [x] 全新副本完成与 release 对应的验证命令后工作区仍然干净；仍需完成其余执行边界审计后才能将 Plan 设为 `done`。
+- [x] 所有 AC 有自动化测试和当前输入的运行证据。
+- [x] 伪造、过期、跨环境和仍在运行的证据都不能完成 Plan。
+- [x] Release 只声明范围，状态完全自动推导。
+- [x] 检查无法降级，且提交前后都能得到相同真实改动范围。
+- [x] 并发和中断演练只产生一个有效运行，恢复状态准确。
+- [x] 全新副本完成与 release 对应的验证命令后工作区仍然干净。

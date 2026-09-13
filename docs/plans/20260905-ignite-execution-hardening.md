@@ -167,7 +167,7 @@
 
 ## 验收方式
 
-- [ ] `pnpm ignite plan validate IGT-002`
+- [x] `pnpm ignite plan validate IGT-002`
 - [x] `pnpm ignite check --plan IGT-002 --level integration`：`run-20260913075100-fd41df`，被测提交 `63f350f`。
 - [x] `pnpm ignite check --plan IGT-002 --level release`：`run-20260913075816-e9d084`，被测提交 `63f350f`。
 - [x] `pnpm docs:check`：包含在上述两次运行中。
@@ -177,6 +177,8 @@
 - [ ] `pnpm test:e2e`
 - [x] `pnpm test:e2e:production`：桌面与移动视口 6 条流程全部通过。
 - [x] `git diff --check`
+
+独立副本复验：2026-09-13，在仓库外重新克隆提交 `07f880e`（实现内容为 `63f350f`），重新安装锁定依赖，使用隔离测试环境依次运行 `pnpm verify`、`pnpm test:e2e:production` 和 `node scripts/check-clean.mjs`。60 项测试、迁移、生产构建和桌面/移动共 6 条浏览器流程全部通过，最终输出 `Tracked workspace remained clean.`。此前仓库内副本的 Next.js 外层锁文件提示不作为本次独立复验依据。
 
 ## 设计回写
 
@@ -200,4 +202,4 @@
 - [ ] Release 只声明范围，状态完全自动推导。
 - [ ] 检查无法降级，且提交前后都能得到相同真实改动范围。
 - [ ] 并发和中断演练只产生一个有效运行，恢复状态准确。
-- [ ] 全新副本完成 release 检查后工作区仍然干净。
+- [x] 全新副本完成与 release 对应的验证命令后工作区仍然干净；仍需完成其余执行边界审计后才能将 Plan 设为 `done`。

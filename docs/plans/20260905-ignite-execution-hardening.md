@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-002",
   "release": "ignite-execution-v2",
-  "status": "active",
+  "status": "verifying",
   "outcome": "任何 AI 都只能基于当前代码、当前环境和真实证据完成任务，并能在中断后安全继续",
   "change_type": "存量改动",
   "base_commit": "194ad5348edda95d620061a8d979de275cbc4801",
@@ -18,13 +18,49 @@
     "REQ-AUTH-006"
   ],
   "acceptance": [
-    { "id": "AC-PRODUCT-005", "tests": ["tests/contracts/ignite-cli.test.ts"] },
-    { "id": "AC-PRODUCT-006", "tests": ["tests/contracts/ignite-checks.test.ts"] },
-    { "id": "AC-PRODUCT-007", "tests": ["tests/contracts/ignite-runs.test.ts"] },
-    { "id": "AC-PRODUCT-008", "tests": ["tests/contracts/ignite-cli.test.ts"] },
-    { "id": "AC-PRODUCT-009", "tests": ["tests/contracts/template-runtime.test.ts"] },
-    { "id": "AC-PRODUCT-010", "tests": ["tests/contracts/docs-traceability.test.ts"] },
-    { "id": "AC-AUTH-005", "tests": ["tests/contracts/auth-runtime.test.ts", "tests/e2e/auth.spec.ts"] }
+    {
+      "id": "AC-PRODUCT-005",
+      "tests": [
+        "tests/contracts/ignite-cli.test.ts"
+      ]
+    },
+    {
+      "id": "AC-PRODUCT-006",
+      "tests": [
+        "tests/contracts/ignite-checks.test.ts"
+      ]
+    },
+    {
+      "id": "AC-PRODUCT-007",
+      "tests": [
+        "tests/contracts/ignite-runs.test.ts"
+      ]
+    },
+    {
+      "id": "AC-PRODUCT-008",
+      "tests": [
+        "tests/contracts/ignite-cli.test.ts"
+      ]
+    },
+    {
+      "id": "AC-PRODUCT-009",
+      "tests": [
+        "tests/contracts/template-runtime.test.ts"
+      ]
+    },
+    {
+      "id": "AC-PRODUCT-010",
+      "tests": [
+        "tests/contracts/docs-traceability.test.ts"
+      ]
+    },
+    {
+      "id": "AC-AUTH-005",
+      "tests": [
+        "tests/contracts/auth-runtime.test.ts",
+        "tests/e2e/auth.spec.ts"
+      ]
+    }
   ],
   "depends_on": [],
   "owner": "template-maintainer",
@@ -47,11 +83,23 @@
     "tests/",
     "vitest.config.ts"
   ],
-  "required_evidence": ["check-integration", "check-release"],
-  "evidence": [],
+  "required_evidence": [
+    "check-integration",
+    "check-release"
+  ],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20260913075100-fd41df"
+    },
+    {
+      "id": "check-release",
+      "run_id": "run-20260913075816-e9d084"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "63f350ff4bca56c0e7a17d31e6432ebd38f336a2",
   "updated_at": "2026-09-13"
 }
 -->
@@ -115,18 +163,20 @@
 - [ ] 让测试、状态查询和发布验证保持工作区干净。
 - [ ] 将相同规则接入 CI，补齐生产构建 E2E 和移动视口。
 - [ ] 从干净副本演练采用、功能检查、中断恢复和发布判定。
+- [ ] 复核运行时跳过测试的证据判定、取消 Plan 的混合发布，以及检查策略升级后的历史兼容。
 
 ## 验收方式
 
 - [ ] `pnpm ignite plan validate IGT-002`
-- [ ] `pnpm ignite check --plan IGT-002 --level integration`
-- [ ] `pnpm ignite check --plan IGT-002 --level release`
-- [ ] `pnpm docs:check`
+- [x] `pnpm ignite check --plan IGT-002 --level integration`：`run-20260913075100-fd41df`，被测提交 `63f350f`。
+- [x] `pnpm ignite check --plan IGT-002 --level release`：`run-20260913075816-e9d084`，被测提交 `63f350f`。
+- [x] `pnpm docs:check`：包含在上述两次运行中。
 - [x] `pnpm check`：2026-09-13 通过，10 个测试文件、60 项测试全部通过。
-- [ ] `pnpm test:migrations`
-- [ ] `pnpm build`
+- [x] `pnpm test:migrations`：新库迁移、重复应用和结构对比通过。
+- [x] `pnpm build`：生产构建通过。
 - [ ] `pnpm test:e2e`
-- [ ] `git diff --check`
+- [x] `pnpm test:e2e:production`：桌面与移动视口 6 条流程全部通过。
+- [x] `git diff --check`
 
 ## 设计回写
 

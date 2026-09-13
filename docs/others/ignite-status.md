@@ -6,16 +6,16 @@
 
 ## 当前工作
 
-- `IGT-002` · `active` · `ignite-execution-v2`
+- `IGT-002` · `verifying` · `ignite-execution-v2`
 
 ## 发布范围
 
 - `ignite-execution-v1` · `legacy_unverified`
   - Plan：`IGT-001`
   - 缺少证据：历史证据不参与当前验证
-- `ignite-execution-v2` · `active`
+- `ignite-execution-v2` · `verifying`
   - Plan：`IGT-002`
-  - 缺少证据：`check-integration`、`check-release`
+  - 缺少证据：无
 
 ## 结构问题
 

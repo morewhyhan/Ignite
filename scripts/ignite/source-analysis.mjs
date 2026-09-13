@@ -103,7 +103,8 @@ export function acceptanceTestTitles(content) {
       const call = invocation(node.expression, bindings)
       if (call) {
         const title = node.arguments[0]
-        const callback = node.arguments.at(-1)
+        // Vitest also accepts a timeout/options argument after the callback.
+        const callback = node.arguments[1]
         if (!isActive(call) || !title || !callback || callback === title) return
         if (call.kind === 'suite') {
           if (ts.isArrowFunction(callback) || ts.isFunctionExpression(callback))

@@ -45,7 +45,9 @@ pnpm ignite release status                              # 查看派生发布状�
 
 每条 Feature 验收标准使用稳定 `AC-*` ID，并在覆盖它的测试标题中写成 `[AC-*]`。Plan 的 `acceptance` 字段必须把 AC 映射到包含该标记的具体测试文件；文档检查会拒绝断链、重复 ID 或不存在的 Design 契约。
 
-CI 是合并门槛，不接受仍处于 `draft`、`ready`、`active`、`verifying` 或 `blocked` 的 schema 2 Plan，也不接受未推导为 `done` 的当前 Release。CI 还会确认本次 diff 中每个非状态文件都落在本次完成 Plan 的 `write_scope` 内，防止没有 Plan 的夹带改动。开发中可以提交分支进度，但在合并前必须完成证据闭环并刷新生成状态。
+静态标记只能证明关联。Vitest 与 Playwright 在运行结束后还必须检查实际结果：带 AC 标记的测试若跳过、未完成、预期失败或重试后才通过，均不能作为通过证据。统一检查入口会传入当前 Plan，并要求本层适用的每条 AC 在所声明文件中实际通过；只运行其他测试不能补足缺失的验收结果。
+
+CI 是合并门槛，本次改动的 schema 2 Plan 必须达到终态，对应 Release 也必须完成或明确取消；未改动的未来草稿不阻塞本次交付。CI 还会确认本次 diff 中每个非状态文件都落在本次完成 Plan 的 `write_scope` 内，且内容与被测提交一致，防止没有验证的夹带改动。开发中可以提交分支进度，但在合并前必须完成证据闭环并刷新生成状态。
 
 行为、权限、缓存或输入契约变化必须更新对应测试；不能用 typecheck、lint 或 build
 代替行为测试。

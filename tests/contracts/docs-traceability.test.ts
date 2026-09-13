@@ -61,6 +61,7 @@ describe('documentation traceability', () => {
           () => {},
         )
         it.each([1, 2])('[AC-REAL-003] handles %i', () => {})
+        verify('[AC-REAL-005] explicit timeout', () => {}, 90_000)
         it.each([])('[AC-FAKE-004] zero cases', () => {})
         test.todo('[AC-FAKE-005] no body')
       })
@@ -70,7 +71,7 @@ describe('documentation traceability', () => {
       })
     `
     expect(acceptanceTestTitles(source)).toEqual(
-      new Set(['AC-REAL-001', 'AC-REAL-002', 'AC-REAL-003', 'AC-REAL-004']),
+      new Set(['AC-REAL-001', 'AC-REAL-002', 'AC-REAL-003', 'AC-REAL-004', 'AC-REAL-005']),
     )
   })
 

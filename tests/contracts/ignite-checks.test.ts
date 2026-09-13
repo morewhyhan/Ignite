@@ -14,6 +14,19 @@ const plan = {
 }
 
 describe('Ignite risk-derived checks', () => {
+  it('[AC-PRODUCT-006] preserves old command policies and includes mapped tests in new checks', () => {
+    const files = ['src/modules/tasks/hooks/use-tasks.ts']
+    const current = commandsForLevel('integration', files, plan, 2)
+    const historical = commandsForLevel('integration', files, plan, 1)
+    expect(current.find((command) => command.label === 'targeted-tests')?.args).toContain(
+      'tests/contracts/sample.test.ts',
+    )
+    expect(historical.find((command) => command.label === 'targeted-tests')?.args).not.toContain(
+      'tests/contracts/sample.test.ts',
+    )
+    expect(() => commandsForLevel('integration', files, plan, 999)).toThrow('unknown check policy')
+  })
+
   it('[AC-PRODUCT-006] classifies contract and implementation changes as integration risk', () => {
     for (const path of [
       'src/modules/tasks/hooks/use-tasks.ts',

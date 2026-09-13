@@ -14,12 +14,20 @@ const productionServer = process.env.E2E_SERVER_MODE === 'production'
 export default defineConfig({
   testDir: './tests/e2e',
   fullyParallel: false,
-  forbidOnly: isCI,
+  forbidOnly: true,
   retries: isCI ? 2 : 0,
   workers: 1,
   reporter: isCI
-    ? [['github'], ['html', { open: 'never' }]]
-    : [['list'], ['html', { open: 'never' }]],
+    ? [
+        ['github'],
+        ['html', { open: 'never' }],
+        ['./scripts/testing/playwright-acceptance-reporter.mjs'],
+      ]
+    : [
+        ['list'],
+        ['html', { open: 'never' }],
+        ['./scripts/testing/playwright-acceptance-reporter.mjs'],
+      ],
   use: {
     baseURL,
     launchOptions: executablePath ? { executablePath } : undefined,

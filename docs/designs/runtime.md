@@ -59,6 +59,12 @@ Plan 进入 `done` 前必须满足：所有 `required_evidence` 都存在且为 
 
 普通结构校验检查旧证据与其被测提交的一致性，允许开发中继续修改和重测；`set-status done` 额外执行当前输入校验。这样修改代码后仍能恢复执行，过期记录也无法被用来宣布完成。
 
+运行清单的 `check_policy_version` 固定本次命令选择规则。没有此字段的 schema 2 历史清单按策略 1 解释；新运行使用策略 2，集成检查还会补齐 Plan 显式映射的测试。升级命令选择规则必须保留旧策略的语义并增加版本，旧记录按旧策略校验，完成当前 Plan 则必须使用当前策略。
+
+Vitest 和 Playwright 的验收结果检查器在运行结束时确认 AC 的实际结果，并校验当前 Plan 在该测试层映射的文件。跳过、预期失败、遗漏或重试后才通过的验收测试会使检查失败；源码里有 AC 标记不能替代通过结果。
+
 Release JSON 只声明 `plan_ids`、`must_pass` 和排除项，不保存状态。CLI 根据 Plan 状态与有效证据推导 `draft`、`ready`、`active`、`verifying`、`blocked`、`done` 或 `invalid`，从结构上消除手工“宣布完成”。
+
+`cancelled` 与 `superseded` Plan 保留在历史范围中，并列入派生的 `excluded_plans`，不要求它们补交付证据。其余 Plan 全部完成后，Release 可以完成；若全部取消或被替代，Release 显示 `cancelled`，不会计为交付成功。
 
 CI 还会用本次 Git diff 做反向覆盖检查：每一个非状态文件的改动，都必须落在本次完成 Plan 的 `write_scope` 内，且文件内容与该 Plan 的被测提交一致。已有的未改动草稿不阻塞本次交付；本次改动的 Plan 必须达到终态。这样既保留历史证据，又能检测同一路径在验证后追加的修改。

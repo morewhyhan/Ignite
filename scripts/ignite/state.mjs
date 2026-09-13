@@ -22,7 +22,7 @@ import {
   walkFiles,
   writeTextIfChanged,
 } from './core.mjs'
-import { commandsForLevel } from './checks.mjs'
+import { CHECK_POLICY_VERSION, SUPPORTED_CHECK_POLICIES, commandsForLevel } from './checks.mjs'
 import { acceptanceTestTitles } from './source-analysis.mjs'
 export { acceptanceTestTitles } from './source-analysis.mjs'
 
@@ -236,6 +236,7 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
 
   const value = plan.metadata
   const failures = []
+  const retired = ['cancelled', 'superseded'].includes(value.status)
   const historicalCommit =
     value.status === 'done' && gitCommitExists(value.integrated_commit)
       ? value.integrated_commit
@@ -263,7 +264,8 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
     failures.push('requirements must contain at least one REQ-* ID')
   } else {
     for (const id of value.requirements) {
-      if (!registry.requirements.has(id)) failures.push(`unknown requirement: ${id}`)
+      if (!/^REQ-[A-Z0-9-]+$/.test(id) || (!retired && !registry.requirements.has(id)))
+        failures.push(`unknown requirement: ${id}`)
     }
     if (new Set(value.requirements).size !== value.requirements.length) {
       failures.push('requirements must be unique')
@@ -282,7 +284,8 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
       if (acceptanceIds.has(item.id)) failures.push(`duplicate acceptance mapping: ${item.id}`)
       acceptanceIds.add(item.id)
       const spec = registry.acceptance.get(item.id)
-      if (!spec) failures.push(`unknown acceptance criterion: ${item.id}`)
+      if (!/^AC-[A-Z0-9-]+$/.test(item.id) || (!retired && !spec))
+        failures.push(`unknown acceptance criterion: ${item.id}`)
       for (const requirement of spec?.requirements || []) {
         coveredRequirements.add(requirement)
         if (!value.requirements?.includes(requirement)) {
@@ -301,6 +304,7 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
             failures.push(`acceptance ${item.id} references a non-runnable test ${testPath}`)
             continue
           }
+          if (retired) continue
           const testContent = readRepositoryText(testPath, historicalCommit)
           if (testContent === null) {
             failures.push(`acceptance ${item.id} references missing test ${testPath}`)
@@ -311,7 +315,7 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
       }
     }
     for (const requirement of value.requirements || []) {
-      if (!coveredRequirements.has(requirement)) {
+      if (!retired && !coveredRequirements.has(requirement)) {
         failures.push(`requirement ${requirement} is not linked by a Plan acceptance criterion`)
       }
     }
@@ -454,16 +458,25 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
       evidenceFailures.push('plan-contract')
     }
     const validLevel = ['dev', 'integration', 'release'].includes(manifest.level)
+    const policyVersion = manifest.check_policy_version ?? 1
+    const validPolicy = SUPPORTED_CHECK_POLICIES.has(policyVersion)
+    if (requireCurrentEvidence && policyVersion !== CHECK_POLICY_VERSION) {
+      failures.push(`evidence ${item.id} must use the current check policy`)
+      evidenceFailures.push('policy')
+    }
     const evidenceFiles =
       !requireCurrentEvidence && gitCommitExists(manifest.commit)
         ? changedFilesForPlanAtCommit(evidencePlan, manifest.commit)
         : changedFilesForPlan(plan)
-    const expectedCommands = validLevel
-      ? commandsForLevel(manifest.level, evidenceFiles, evidencePlan).map((command) => ({
-          label: command.label,
-          command: [command.command, ...command.args],
-        }))
-      : []
+    const expectedCommands =
+      validLevel && validPolicy
+        ? commandsForLevel(manifest.level, evidenceFiles, evidencePlan, policyVersion).map(
+            (command) => ({
+              label: command.label,
+              command: [command.command, ...command.args],
+            }),
+          )
+        : []
     const actualCommands = Array.isArray(manifest.commands)
       ? manifest.commands.map((command) => ({
           label: command?.label,
@@ -472,6 +485,7 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
       : []
     if (
       !validLevel ||
+      !validPolicy ||
       manifest.evidence_id !== `check-${manifest.level}` ||
       JSON.stringify(actualCommands) !== JSON.stringify(expectedCommands) ||
       !Array.isArray(manifest.commands) ||
@@ -557,7 +571,7 @@ export function validateAllPlans() {
       const target = ids.get(dependency)
       if (!target) failures.push(`${plan.relativePath}: missing dependency ${dependency}`)
       else if (
-        target.metadata.status !== 'done' &&
+        (target.metadata.schema !== 2 || target.metadata.status !== 'done') &&
         ['active', 'verifying', 'done'].includes(plan.metadata.status)
       ) {
         failures.push(`${plan.relativePath}: dependency ${dependency} is not done`)
@@ -635,21 +649,45 @@ export function deriveRelease(release) {
   for (const plan of plans)
     failures.push(...validatePlan(plan).map((error) => `${plan.metadata.id}: ${error}`))
   const evidence = new Set(
-    plans.flatMap((plan) => (plan.metadata.evidence || []).map((item) => item.id)),
+    plans
+      .filter((plan) => !['cancelled', 'superseded'].includes(plan.metadata.status))
+      .flatMap((plan) => (plan.metadata.evidence || []).map((item) => item.id)),
   )
-  const missingEvidence = (release.must_pass || []).filter((id) => !evidence.has(id))
+  const remainingPlans = plans.filter(
+    (plan) => !['cancelled', 'superseded'].includes(plan.metadata.status),
+  )
+  const remainingRequired = new Set(
+    remainingPlans.flatMap((plan) => plan.metadata.required_evidence || []),
+  )
+  const missingEvidence = (release.must_pass || []).filter(
+    (id) => remainingRequired.has(id) && !evidence.has(id),
+  )
 
   let status = 'draft'
   if (failures.length) status = 'invalid'
   else if (plans.some((plan) => plan.metadata.schema === 1)) status = 'legacy_unverified'
+  else if (plans.length > 0 && remainingPlans.length === 0) status = 'cancelled'
   else if (plans.some((plan) => plan.metadata.status === 'blocked')) status = 'blocked'
-  else if (plans.every((plan) => plan.metadata.status === 'done') && missingEvidence.length === 0)
+  else if (
+    remainingPlans.length > 0 &&
+    remainingPlans.every((plan) => plan.metadata.status === 'done') &&
+    missingEvidence.length === 0
+  )
     status = 'done'
   else if (plans.some((plan) => plan.metadata.status === 'verifying')) status = 'verifying'
   else if (plans.some((plan) => plan.metadata.status === 'active')) status = 'active'
-  else if (plans.every((plan) => ['ready', 'done'].includes(plan.metadata.status))) status = 'ready'
+  else if (remainingPlans.every((plan) => ['ready', 'done'].includes(plan.metadata.status)))
+    status = 'ready'
 
-  return { ...release, status, failures: [...new Set(failures)], missing_evidence: missingEvidence }
+  return {
+    ...release,
+    status,
+    failures: [...new Set(failures)],
+    missing_evidence: missingEvidence,
+    excluded_plans: plans
+      .filter((plan) => ['cancelled', 'superseded'].includes(plan.metadata.status))
+      .map((plan) => ({ id: plan.metadata.id, status: plan.metadata.status })),
+  }
 }
 
 export function validateAllReleases() {

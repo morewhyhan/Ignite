@@ -9,6 +9,56 @@ import { runnerIdentity } from '../../scripts/ignite/core.mjs'
 import { makeFixture, repositoryRoot } from './ignite-fixture'
 
 describe('Ignite recoverable runs', () => {
+  it('[AC-PRODUCT-007] gives simultaneous independent processes exactly one lock owner', () => {
+    const directory = mkdtempSync(join(tmpdir(), 'ignite-process-race-'))
+    try {
+      const runsUrl = pathToFileURL(join(repositoryRoot, 'scripts/ignite/runs.mjs')).href
+      const childCode = `
+        const { acquireLock } = await import(${JSON.stringify(runsUrl)})
+        process.stdout.write('ready\\n')
+        process.stdin.once('data', () => {
+          const result = acquireLock(process.argv[1], process.argv[2], () => null)
+          process.stdout.write(JSON.stringify(result) + '\\n')
+          process.stdin.destroy()
+        })
+      `
+      const script = `
+        import { spawn } from 'node:child_process'
+        const children = []
+        let ready = 0
+        const results = await Promise.all([1, 2].map((id) => new Promise((resolve, reject) => {
+          const child = spawn(process.execPath, ['--input-type=module', '--eval', ${JSON.stringify(childCode)},
+            ${JSON.stringify(join(directory, 'worktree.lock'))}, 'run-' + id])
+          children.push(child)
+          let output = ''
+          let announced = false
+          child.stdout.on('data', (chunk) => {
+            output += chunk
+            if (!announced && output.startsWith('ready\\n')) {
+              announced = true
+              if (++ready === 2) children.forEach((worker) => worker.stdin.end('go'))
+            }
+          })
+          child.on('error', reject)
+          child.on('exit', (code) => code === 0 ? resolve(JSON.parse(output.split('\\n')[1])) : reject(new Error('child exited ' + code)))
+        })))
+        process.stdout.write(JSON.stringify(results))
+      `
+      const result = spawnSync(process.execPath, ['--input-type=module', '--eval', script], {
+        cwd: repositoryRoot,
+        encoding: 'utf8',
+        windowsHide: true,
+        timeout: 25_000,
+      })
+      expect(result.status, result.stderr || result.error?.message).toBe(0)
+      const owners = JSON.parse(result.stdout) as { acquired: boolean }[]
+      expect(owners.filter((owner) => owner.acquired)).toHaveLength(1)
+      expect(owners.filter((owner) => !owner.acquired)).toHaveLength(1)
+    } finally {
+      rmSync(directory, { recursive: true, force: true })
+    }
+  })
+
   it('[AC-PRODUCT-007] protects a freshly opened empty lock and recovers an abandoned one', () => {
     const directory = mkdtempSync(join(tmpdir(), 'ignite-lock-starting-'))
     const path = join(directory, 'worktree.lock')

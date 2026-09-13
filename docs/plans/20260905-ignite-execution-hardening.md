@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-002",
   "release": "ignite-execution-v2",
-  "status": "verifying",
+  "status": "active",
   "outcome": "任何 AI 都只能基于当前代码、当前环境和真实证据完成任务，并能在中断后安全继续",
   "change_type": "存量改动",
   "base_commit": "194ad5348edda95d620061a8d979de275cbc4801",
@@ -51,7 +51,8 @@
     {
       "id": "AC-PRODUCT-010",
       "tests": [
-        "tests/contracts/docs-traceability.test.ts"
+        "tests/contracts/docs-traceability.test.ts",
+        "tests/contracts/acceptance-runtime.test.ts"
       ]
     },
     {
@@ -155,15 +156,15 @@
 
 ## 实现任务
 
-- [ ] 建立 schema 2 Plan、状态转换和自动 Release 推导。
-- [ ] 基于 base commit 计算真实改动，禁止风险降级并执行统一 diff 检查。
-- [ ] 建立隔离运行目录、原子锁、环境指纹、心跳和脱敏证据导出。
-- [ ] 建立 REQ → AC → Test → Run 覆盖校验和 Design 结构校验。
-- [ ] 固定 WSL/Windows、Node、换行和依赖平台边界。
+- [x] 建立 schema 2 Plan、状态转换和自动 Release 推导。
+- [x] 基于 base commit 计算真实改动，禁止风险降级并执行统一 diff 检查。
+- [x] 建立隔离运行目录、原子锁、环境指纹、心跳和脱敏证据导出。
+- [x] 建立 REQ → AC → Test → Run 覆盖校验和 Design 结构校验。
+- [x] 固定 WSL/Windows、Node、换行和依赖平台边界。
 - [ ] 让测试、状态查询和发布验证保持工作区干净。
 - [ ] 将相同规则接入 CI，补齐生产构建 E2E 和移动视口。
 - [ ] 从干净副本演练采用、功能检查、中断恢复和发布判定。
-- [ ] 复核运行时跳过测试的证据判定、取消 Plan 的混合发布，以及检查策略升级后的历史兼容。
+- [x] 复核运行时跳过测试的证据判定、取消 Plan 的混合发布，以及检查策略升级后的历史兼容；补充真实双进程锁竞争测试。
 
 ## 验收方式
 

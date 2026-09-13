@@ -8,6 +8,8 @@ export default defineConfig({
     },
   },
   test: {
+    allowOnly: false,
+    reporters: ['default', './scripts/testing/vitest-acceptance-reporter.mjs'],
     clearMocks: true,
     environment: 'node',
     fileParallelism: false,

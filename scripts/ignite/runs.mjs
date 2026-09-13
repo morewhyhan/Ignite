@@ -29,6 +29,7 @@ import {
   writeJson,
 } from './core.mjs'
 import { bindPlanEvidence, findPlan, planContractAtCommit } from './state.mjs'
+import { CHECK_POLICY_VERSION } from './checks.mjs'
 
 const HEARTBEAT_INTERVAL_MS = 5_000
 const STALE_AFTER_MS = 25_000
@@ -258,6 +259,7 @@ function durableManifest(record, logPath) {
   return {
     schema: 2,
     run_id: record.run_id,
+    check_policy_version: record.check_policy_version,
     plan_id: record.plan_id,
     evidence_id: record.evidence_id,
     level: record.level,
@@ -292,6 +294,7 @@ export async function executeCheckPlan({ plan, checkPlan, force = false }) {
   const active = listLocalRuns().find((record) => derivedRunStatus(record) === 'running')
   if (active) return { status: 'running', exitCode: 2, record: active, reused: true }
   const environment = makeSafeTestEnvironment()
+  environment.IGNITE_PLAN_ID = plan.metadata.id
   mkdirSync(join(repositoryRoot, '.ignite', 'runtime'), {
     recursive: true,
   })
@@ -372,6 +375,7 @@ export async function executeCheckPlan({ plan, checkPlan, force = false }) {
     record = {
       schema: 2,
       run_id: runId,
+      check_policy_version: CHECK_POLICY_VERSION,
       plan_id: plan.metadata.id,
       evidence_id: evidenceId,
       level: checkPlan.level,

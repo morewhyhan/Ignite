@@ -2,6 +2,8 @@ import { extname } from 'node:path'
 import { changedFilesForPlan, normalizePath, validateWriteScope } from './core.mjs'
 
 const LEVEL_RANK = { dev: 1, integration: 2, release: 3 }
+export const CHECK_POLICY_VERSION = 2
+export const SUPPORTED_CHECK_POLICIES = new Set([1, 2])
 const SAFE_DOC_PATTERNS = [
   /^README\.md$/,
   /^docs\/README\.md$/,
@@ -137,7 +139,9 @@ function pnpm(args, label) {
   return command('corepack', ['pnpm', ...args], label)
 }
 
-export function commandsForLevel(level, files, plan) {
+export function commandsForLevel(level, files, plan, policyVersion = CHECK_POLICY_VERSION) {
+  if (!SUPPORTED_CHECK_POLICIES.has(policyVersion))
+    throw new Error(`unknown check policy: ${policyVersion}`)
   const commands = [
     command('node', ['scripts/check-diff.mjs', '--base', plan.metadata.base_commit], 'git-diff'),
   ]
@@ -158,7 +162,18 @@ export function commandsForLevel(level, files, plan) {
     commands.push(pnpm(['typecheck'], 'typecheck'))
     commands.push(pnpm(['lint'], 'lint'))
     commands.push(pnpm(['format:check'], 'format'))
-    const tests = targetedTests(files)
+    const selectedTests = targetedTests(files)
+    const mappedTests = (plan.metadata.acceptance || [])
+      .flatMap((item) => item.tests || [])
+      .map((path) => path.split('::', 1)[0])
+      .filter((path) => /\.test\.tsx?$/.test(path))
+    // Policy 1 is retained for receipts published before Plan-mapped test selection.
+    const tests =
+      policyVersion === 1
+        ? selectedTests
+        : selectedTests.length
+          ? [...new Set([...selectedTests, ...mappedTests])].sort()
+          : []
     commands.push(
       tests.length
         ? pnpm(['exec', 'vitest', 'run', ...tests], 'targeted-tests')

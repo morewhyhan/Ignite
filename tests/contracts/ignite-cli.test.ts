@@ -12,7 +12,7 @@ import {
   write,
 } from './ignite-fixture'
 
-function makePassedEvidence(root: string, baseCommit: string) {
+function makePassedEvidence(root: string, baseCommit: string, policyVersion = 2) {
   const coreUrl = pathToFileURL(join(repositoryRoot, 'scripts/ignite/core.mjs')).href
   const stateUrl = pathToFileURL(join(repositoryRoot, 'scripts/ignite/state.mjs')).href
   const checksUrl = pathToFileURL(join(repositoryRoot, 'scripts/ignite/checks.mjs')).href
@@ -29,7 +29,7 @@ function makePassedEvidence(root: string, baseCommit: string) {
       environment,
       commands: Object.fromEntries(['integration', 'release'].map((level) => [
         level,
-        checks.commandsForLevel(level, files, plan).map((item) => ({
+        checks.commandsForLevel(level, files, plan, ${policyVersion}).map((item) => ({
           label: item.label,
           command: [item.command, ...item.args],
           status: 'passed',
@@ -62,6 +62,7 @@ function makePassedEvidence(root: string, baseCommit: string) {
         {
           schema: 2,
           run_id: runId,
+          check_policy_version: policyVersion,
           plan_id: 'IGT-900',
           evidence_id: `check-${level}`,
           level,
@@ -98,6 +99,75 @@ function makePassedEvidence(root: string, baseCommit: string) {
 }
 
 describe('Ignite Plan and Release contracts', () => {
+  it('[AC-PRODUCT-005] preserves policy 1 receipts but requires the current policy for new completion', () => {
+    const fixture = makeFixture()
+    try {
+      makePassedEvidence(fixture.root, fixture.baseCommit, 1)
+      const historical = runCli(fixture.root, 'plan', 'validate', 'IGT-900')
+      expect(historical.status, historical.stderr).toBe(0)
+      write(
+        fixture.root,
+        'docs/plans/fixture.md',
+        read(fixture.root, 'docs/plans/fixture.md').replace(
+          '"status": "done"',
+          '"status": "verifying"',
+        ),
+      )
+      const completion = runCli(fixture.root, 'plan', 'set-status', 'IGT-900', 'done')
+      expect(completion.status).not.toBe(0)
+      expect(completion.stderr).toContain('must use the current check policy')
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
+  it.each(['cancelled', 'superseded'])(
+    '[AC-PRODUCT-008] excludes a %s Plan without claiming that it was delivered',
+    (status) => {
+      const fixture = makeFixture()
+      try {
+        makePassedEvidence(fixture.root, fixture.baseCommit)
+        write(
+          fixture.root,
+          'docs/plans/excluded.md',
+          planContent(fixture.baseCommit, {
+            id: 'IGT-901',
+            status,
+            risk: 'docs',
+            required_evidence: ['check-dev'],
+          }),
+        )
+        const releasePath = 'docs/plans/releases/fixture-v1.json'
+        const release = JSON.parse(read(fixture.root, releasePath))
+        release.plan_ids.push('IGT-901')
+        release.must_pass.push('check-dev')
+        write(fixture.root, releasePath, JSON.stringify(release))
+        const result = runCli(fixture.root, 'release', 'status', 'fixture-v1')
+        expect(result.status, result.stderr).toBe(0)
+        expect(JSON.parse(result.stdout)[0]).toMatchObject({
+          status: 'done',
+          missing_evidence: [],
+          excluded_plans: [{ id: 'IGT-901', status }],
+        })
+        write(fixture.root, 'docs/features/product.md', '# Retired requirements\n')
+        write(fixture.root, 'tests/contracts/sample.test.ts', '// Retired test\n')
+        const retired = runCli(fixture.root, 'release', 'status', 'fixture-v1')
+        expect(retired.status, retired.stderr).toBe(0)
+        expect(JSON.parse(retired.stdout)[0].status).toBe('done')
+        write(
+          fixture.root,
+          'docs/plans/fixture.md',
+          planContent(fixture.baseCommit, { status: 'cancelled' }),
+        )
+        const cancelled = runCli(fixture.root, 'release', 'status', 'fixture-v1')
+        expect(cancelled.status, cancelled.stderr).toBe(0)
+        expect(JSON.parse(cancelled.stdout)[0].status).toBe('cancelled')
+      } finally {
+        fixture.cleanup()
+      }
+    },
+  )
+
   it('[AC-PRODUCT-005] permits editing and retrying a Plan but refuses completion with old evidence', () => {
     const fixture = makeFixture()
     try {

@@ -2,15 +2,14 @@
 
 ## 模板定位
 
-Ignite 是可复用的个人全栈模板，不是固定产品。任何改动都要判断是 `[新增模块]` 还是 `[存量改动]`，并同步 Feature、Plan、Design 和测试证据。默认优先做小步、可回滚的增量修改。
-Ignite 是一个可复制、可增量演进的模板。
+Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定产品。任何改动都要判断是 `[新增模块]` 还是 `[存量改动]`，并同步 Feature、Plan、Design 和测试证据。默认优先做小步、可回滚的增量修改。
 
 ## 增量与存量
 
 - 一个 Plan 对应一个可独立验收、集成和回滚的交付结果。API、页面、测试、格式修复和状态回写是同一 Plan 的子任务，不为“收口”另建 Plan。
 - 新 Plan 使用 `docs/plans/_template.md` 顶部的结构化元数据；状态只能使用 `draft`、`ready`、`active`、`verifying`、`done`、`blocked`、`cancelled`、`superseded`。历史未迁移 Plan 保留为 `legacy_unverified`，不能自动视为完成。
-- 当前发布只由 `docs/plans/releases/*.json` 定义；状态表由 `pnpm ignite:status -- --write` 生成，不手工维护派生副本。
-- 每次检查由 `pnpm ignite:check -- --plan <IGT-ID> --level auto` 选择范围并记录运行证据。相同输入的活动或已通过运行必须复用，不重复启动。
+- 当前发布只由 `docs/plans/releases/*.json` 定义；状态表由 `pnpm ignite status --write` 生成，不手工维护派生副本。
+- 每次检查由 `pnpm ignite check --plan <IGT-ID> --level auto` 选择范围并记录运行证据。相同输入的活动或已通过运行必须复用，不重复启动。
 
 ## 规范真源
 
@@ -48,6 +47,7 @@ Ignite 是一个可复制、可增量演进的模板。
 
 ## 环境与安全
 
+- 运行时以 `.node-version`、`packageManager` 和 `.ai/runtime.json` 为准；默认使用 WSL/Linux。Windows 与 WSL 不得共享 `node_modules`，先运行 `pnpm runtime:check`。
 - `.env.example` 只放变量名和安全本地示例；不得提交 `.env`、生产 secret 或真实邮箱配置。
 - `APP_ENV` 必须显式设置为 `development`、`test` 或 `production`。
 - 生产必须使用 HTTPS 纯 origin、高熵 `BETTER_AUTH_SECRET` 和持久化数据库；不得使用 localhost、开发 secret 或 `file:` SQLite。
@@ -60,12 +60,12 @@ Ignite 是一个可复制、可增量演进的模板。
 
 ## 验证与交付
 
-每次改动通过 `pnpm ignite:check -- --plan <IGT-ID> --level auto` 选择开发或集成检查；发布候选运行 `pnpm ignite:check -- --plan <IGT-ID> --level release`。所有层级都保留 `git diff --check` 和对应证据；涉及构建、迁移或核心用户流程时，额外运行 `pnpm build`、`pnpm test:migrations` 或 `pnpm test:e2e`。最终只报告实际执行并通过的检查，不把 typecheck/lint 当行为测试。
+每次改动通过 `pnpm ignite check --plan <IGT-ID> --level auto` 选择开发或集成检查；发布候选运行 `pnpm ignite check --plan <IGT-ID> --level release`。所有层级都保留 `git diff --check` 和对应证据；涉及构建、迁移或核心用户流程时，额外运行 `pnpm build`、`pnpm test:migrations` 或 `pnpm test:e2e:production`。最终只报告实际执行并通过的检查，不把 typecheck/lint 当行为测试。
 
 ## 推荐开发流程
 
-1. 先读相关 Feature、Plan、Design 和测试用例。
-2. 明确增量/存量边界与验收标准。
-3. 先写或更新契约测试，再实现最小代码。
-4. 让页面只消费 module screen，让业务请求只走 Hook 与 RPC。
-5. 更新事实设计和验收记录，运行准出检查。
+1. 在规范化运行时执行 `pnpm runtime:check` 和 `pnpm ignite status --json`，先识别模板状态、当前 Plan 与结构问题。
+2. 只读取本轮相关的 Feature、Plan、Standards、Design 和测试；继续匹配的现有 Plan，不为同一结果另建 Plan。
+3. 明确增量/存量、基线 commit、写入范围和验收标准；关闭开放问题后再进入实现。
+4. 先写或更新契约测试，再实现最小代码；页面只消费 module screen，业务请求只走 Hook 与 RPC。
+5. 在提交实现后运行集成检查，进入 `verifying` 再运行 release 检查；最后回写 Design、完成 Plan 并刷新状态摘要。

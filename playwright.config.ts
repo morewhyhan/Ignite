@@ -9,25 +9,31 @@ if (!Number.isInteger(e2ePort) || e2ePort < 1 || e2ePort > 65_535) {
 const baseURL = `http://127.0.0.1:${e2ePort}`
 const isCI = process.env.CI === 'true'
 const executablePath = process.env.PLAYWRIGHT_EXECUTABLE_PATH
+const productionServer = process.env.E2E_SERVER_MODE === 'production'
 
 export default defineConfig({
   testDir: './tests/e2e',
   fullyParallel: false,
   forbidOnly: isCI,
   retries: isCI ? 2 : 0,
-  workers: isCI ? 1 : undefined,
+  workers: 1,
   reporter: isCI
     ? [['github'], ['html', { open: 'never' }]]
     : [['list'], ['html', { open: 'never' }]],
   use: {
-    ...devices['Desktop Chrome'],
     baseURL,
     launchOptions: executablePath ? { executablePath } : undefined,
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
   },
+  projects: [
+    { name: 'desktop-chromium', use: { ...devices['Desktop Chrome'] } },
+    { name: 'mobile-chromium', use: { ...devices['Pixel 7'] } },
+  ],
   webServer: {
-    command: `corepack pnpm exec next dev --hostname 127.0.0.1 --port ${e2ePort}`,
+    command: productionServer
+      ? `corepack pnpm exec next start --hostname 127.0.0.1 --port ${e2ePort}`
+      : `corepack pnpm exec next dev --hostname 127.0.0.1 --port ${e2ePort}`,
     env: {
       ...(process.platform === 'win32' ? { RUST_LOG: 'info' } : {}),
       APP_ENV: 'test',

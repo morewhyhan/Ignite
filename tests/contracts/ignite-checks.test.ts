@@ -1,0 +1,109 @@
+import { describe, expect, it } from 'vitest'
+import { isExecutionStatePath } from '../../scripts/ignite/core.mjs'
+import {
+  commandsForLevel,
+  minimumLevel,
+  planCheck,
+  resolveLevel,
+} from '../../scripts/ignite/checks.mjs'
+import { extractPlanMetadata } from '../../scripts/ignite/state.mjs'
+import { makeFixture, planContent, runCli, write } from './ignite-fixture'
+
+const plan = {
+  metadata: extractPlanMetadata(planContent('0'.repeat(40)))!.value,
+}
+
+describe('Ignite risk-derived checks', () => {
+  it('[AC-PRODUCT-006] classifies contract and implementation changes as integration risk', () => {
+    for (const path of [
+      'src/modules/tasks/hooks/use-tasks.ts',
+      'src/app/globals.css',
+      'docs/designs/api.yaml',
+      'docs/others/adr/0001-example.md',
+      'prisma/schema.prisma',
+      'scripts/ignite.mjs',
+      'tests/api/tasks.test.ts',
+    ]) {
+      expect(minimumLevel([path]), path).toBe('integration')
+    }
+    expect(minimumLevel(['README.md'])).toBe('dev')
+    expect(minimumLevel(['README.md'], 'infrastructure')).toBe('integration')
+    expect(() => resolveLevel('dev', ['src/app/globals.css'])).toThrow('cannot lower check level')
+  })
+
+  it('[AC-PRODUCT-006] uses the Plan baseline and forbids file omission in a real run', () => {
+    const fixture = makeFixture()
+    try {
+      write(fixture.root, 'README.md', '# changed after baseline\n')
+      const result = runCli(fixture.root, 'check', '--plan', 'IGT-900', '--dry-run')
+      expect(result.status, result.stderr).toBe(0)
+      const files = JSON.parse(result.stdout).changed_files
+      expect(files).toContain('README.md')
+      expect(files).toContain('docs/features/product.md')
+    } finally {
+      fixture.cleanup()
+    }
+    expect(() =>
+      planCheck({
+        plan,
+        requestedLevel: 'dev',
+        explicitFiles: ['README.md'],
+        dryRun: false,
+      }),
+    ).toThrow('--files is only available with --dry-run')
+    expect(
+      planCheck({
+        plan,
+        requestedLevel: 'auto',
+        explicitFiles: ['README.md'],
+        dryRun: true,
+      }).level,
+    ).toBe('integration')
+    expect(() =>
+      planCheck({
+        plan: { ...plan, metadata: { ...plan.metadata, risk: 'docs' } },
+        requestedLevel: 'auto',
+        explicitFiles: ['docs/features/product.md'],
+        dryRun: true,
+      }),
+    ).toThrow('Plan risk docs understates the actual changes')
+  })
+
+  it('keeps diff validation in every level and production E2E in release', () => {
+    for (const level of ['dev', 'integration', 'release']) {
+      const commands = commandsForLevel(level, ['README.md'], plan)
+      expect(commands[0]).toMatchObject({ command: 'node', label: 'git-diff' })
+    }
+    expect(commandsForLevel('release', ['README.md'], plan)).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ label: 'verify' }),
+        expect.objectContaining({ label: 'e2e-production' }),
+      ]),
+    )
+    expect(commandsForLevel('integration', ['README.md'], plan)).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ label: 'template-doctor' }),
+        expect.objectContaining({ label: 'governance' }),
+        expect.objectContaining({ label: 'format' }),
+      ]),
+    )
+  })
+
+  it('[AC-PRODUCT-006] includes Plan rules in execution inputs while excluding state records', () => {
+    for (const path of [
+      'docs/plans/README.md',
+      'docs/plans/_template.md',
+      'docs/plans/releases/_template.json',
+    ]) {
+      expect(isExecutionStatePath(path), path).toBe(false)
+      expect(minimumLevel([path]), path).toBe('integration')
+    }
+    for (const path of [
+      'docs/plans/20260913-example.md',
+      'docs/plans/releases/example-v1.json',
+      'docs/others/ignite-status.md',
+    ]) {
+      expect(isExecutionStatePath(path), path).toBe(true)
+    }
+  })
+})

@@ -13,6 +13,10 @@ const prismaCli = resolve(repositoryRoot, 'node_modules', 'prisma', 'build', 'in
 const playwrightCli = resolve(repositoryRoot, 'node_modules', '@playwright', 'test', 'cli.js')
 const databasePath = join(workspace, 'e2e.db')
 const databaseUrl = `file:${databasePath.replaceAll('\\', '/')}`
+const production = process.argv.includes('--production')
+const playwrightArguments = process.argv
+  .slice(2)
+  .filter((argument) => argument !== '--production' && argument !== '--')
 
 function findAvailablePort() {
   return new Promise((resolvePort, reject) => {
@@ -65,13 +69,14 @@ try {
     stdio: 'inherit',
   })
 
-  execFileSync(process.execPath, [playwrightCli, 'test', ...process.argv.slice(2)], {
+  execFileSync(process.execPath, [playwrightCli, 'test', ...playwrightArguments], {
     cwd: repositoryRoot,
     env: {
       ...process.env,
       APP_ENV: 'test',
       E2E_DATABASE_URL: databaseUrl,
       E2E_PORT: String(e2ePort),
+      E2E_SERVER_MODE: production ? 'production' : 'development',
     },
     stdio: 'inherit',
   })

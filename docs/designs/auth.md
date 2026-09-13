@@ -18,6 +18,7 @@ AuthModal
 - session 变化或退出时清空 React Query 私有缓存。
 - API 通过 `requireUserId` 从 session 获取当前用户。
 - 模板基线不配置真实邮箱、验证码或外部邮件 provider。
+- Better Auth 限流按 `APP_ENV` 判断：真实 `production` 开启，`development` 与隔离 `test` 关闭；生产构建 E2E 仍使用 `APP_ENV=test`，不会把同一回环地址上的多个用例互相限流。
 
 Better Auth schema 的 `verification` 表仍保留，用于保持官方 schema 与迁移兼容；它是预留存储，不会在当前基线触发邮件发送。
 

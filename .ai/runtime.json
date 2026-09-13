@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "node": "24.19.0",
+  "package_manager": "pnpm@9.11.0",
+  "preferred_environment": "wsl-linux",
+  "supported_platforms": ["linux", "win32"],
+  "supported_architectures": ["x64"],
+  "shared_node_modules_across_platforms": false
+}

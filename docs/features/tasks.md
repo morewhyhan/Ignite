@@ -51,10 +51,11 @@ Tasks 是仓库当前可运行的参考纵向切片。它说明需求如何连�
 
 ## 验收标准
 
-- AC-TASKS-001：Given 未登录用户 When 访问任务页面 Then 应跳转到首页。
-- AC-TASKS-002：Given 已登录用户 When 创建任务 Then 任务只属于当前用户并出现在列表中。
-- AC-TASKS-003：Given 用户访问其他用户任务 When 更新或删除 Then 返回 `404`。
-- AC-TASKS-004：Given 输入不合法 When 调用 API Then 返回 `422`。
+- AC-TASKS-001（REQ-TASKS-001）：Given 未登录用户 When 访问任务页面 Then 应跳转到首页。
+- AC-TASKS-002（REQ-TASKS-001、REQ-TASKS-002）：Given 已登录用户 When 创建任务 Then 任务只属于当前用户并出现在列表中。
+- AC-TASKS-003（REQ-TASKS-001、REQ-TASKS-005）：Given 用户访问其他用户任务 When 更新或删除 Then 返回 `404`。
+- AC-TASKS-004（REQ-TASKS-003、REQ-TASKS-004）：Given 输入不合法 When 调用 API Then 返回 `422`。
+- AC-TASKS-005（REQ-TASKS-006）：Given 当前用户有多条任务 When 获取列表 Then 任务按 `createdAt` 倒序返回。
 
 ## 实现与设计映射
 

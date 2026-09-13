@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-test('signs in and completes the Task CRUD workflow', async ({ page }) => {
+test('[AC-TASKS-002] signs in and completes the Task CRUD workflow', async ({ page }) => {
   const runId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
   const email = `playwright-${runId}@example.com`
   const password = 'Playwright!123456'

@@ -1,13 +1,15 @@
 import { expect, test } from '@playwright/test'
 
-test('redirects an unauthenticated dashboard request to the home page', async ({ page }) => {
+test('[AC-TASKS-001] redirects an unauthenticated dashboard request to the home page', async ({
+  page,
+}) => {
   await page.goto('/dashboard')
 
   await expect(page).toHaveURL('/')
   await expect(page.getByRole('button', { name: '开始使用' })).toBeVisible()
 })
 
-test('registers, signs out, and signs back in without depending on the Tasks example', async ({
+test('[AC-AUTH-001] [AC-AUTH-002] [AC-AUTH-003] [AC-AUTH-005] [AC-PRODUCT-004] authenticates without the Tasks example', async ({
   page,
 }) => {
   const runId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
@@ -28,6 +30,8 @@ test('registers, signs out, and signs back in without depending on the Tasks exa
   await expect(page).toHaveURL(/\/dashboard$/)
   await page.goto('/dashboard/settings')
   await page.getByRole('button', { name: '退出登录' }).click()
+  await expect(page).toHaveURL('/')
+  await page.goto('/dashboard')
   await expect(page).toHaveURL('/')
 
   await page.getByRole('button', { name: '开始使用' }).click()

@@ -37,15 +37,24 @@ if (isAdopted) {
 }
 
 const environmentPath = resolve(repositoryRoot, '.env')
+let environment = ''
 if (!existsSync(environmentPath)) {
   const message = 'No .env file found. Copy .env.example before running the application.'
-  if (isAdopted) issue(message)
+  if (isAdopted && !process.env.APP_ENV) issue(message)
   else notice(message)
 } else {
-  const environment = readFileSync(environmentPath, 'utf8')
+  environment = readFileSync(environmentPath, 'utf8')
+}
 
+if (environment) {
   if (!/^APP_ENV\s*=\s*["']?(?:development|test|production)["']?\s*$/m.test(environment)) {
     issue('.env must declare APP_ENV explicitly.')
+  }
+
+  for (const name of ['APP_URL', 'DATABASE_URL', 'BETTER_AUTH_SECRET']) {
+    if (!new RegExp(`^${name}\\s*=\\s*.+$`, 'm').test(environment)) {
+      issue(`.env must declare ${name}.`)
+    }
   }
 
   if (
@@ -56,6 +65,16 @@ if (!existsSync(environmentPath)) {
     const message = 'Generate a unique BETTER_AUTH_SECRET for this local project.'
     if (isAdopted) issue(message)
     else notice(message)
+  }
+} else if (isAdopted) {
+  if (!['development', 'test', 'production'].includes(process.env.APP_ENV || '')) {
+    issue('APP_ENV must be provided when an adopted project has no local .env file.')
+  }
+  if (!process.env.APP_URL || !process.env.DATABASE_URL || !process.env.BETTER_AUTH_SECRET) {
+    issue('APP_URL, DATABASE_URL and BETTER_AUTH_SECRET are required for an adopted project.')
+  }
+  if (process.env.BETTER_AUTH_SECRET === 'ignite-development-only-secret-change-before-deploying') {
+    issue('Generate a unique BETTER_AUTH_SECRET for this project.')
   }
 }
 

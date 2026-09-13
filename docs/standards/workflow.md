@@ -1,6 +1,6 @@
 # 规格驱动开发工作流
 
-本文档把 Ignite 的需求规格、Plan/Go、测试先行和 E2E 闭环转化为可执行流程。工具可以替换，闭环不能省略。`pnpm ignite:*` 是状态、检查和证据的统一入口。
+本文档把 Ignite 的需求规格、Plan/Go、测试先行和 E2E 闭环转化为可执行流程。工具可以替换，闭环不能省略。`pnpm ignite` 是状态、检查和证据的统一入口。
 
 ## 0. 任务单位和状态机
 
@@ -15,9 +15,9 @@ draft → ready → active → verifying → done
                     └→ superseded
 ```
 
-`done` 必须有所有 `required_evidence` 的 `passed` 运行记录和集成 commit；`blocked` 必须说明缺什么、责任方、恢复动作；`legacy_unverified` 只用于历史 Plan，不代表完成。用 `pnpm ignite plan validate` 检查结构，用 `pnpm ignite plan set-status <IGT-ID> <status>` 修改状态并刷新摘要。
+`done` 必须有所有 `required_evidence` 的 schema 2 `passed` 证据、当前输入指纹和真实集成 commit；`blocked` 必须说明缺什么、责任方、恢复动作；`legacy_unverified` 只用于历史 Plan，不代表完成。用 `pnpm ignite plan validate` 检查结构，用 `pnpm ignite plan set-status <IGT-ID> <status>` 修改状态并刷新摘要。
 
-当前发布范围只在 `docs/plans/releases/*.json` 维护。`pnpm ignite status --write` 从 Plan 和发布机器源生成 `docs/others/ignite-status.md`，不要手改派生表。
+当前发布范围只在 `docs/plans/releases/*.json` 维护。Release 文件不保存状态；`pnpm ignite status --write` 从 Plan 与证据实时推导 `docs/others/ignite-status.md`，不要手改派生表。
 
 ## 1. 先确定输入
 
@@ -50,7 +50,7 @@ Plan 进入实现前必须写清：
 3. 编写满足测试的最小实现。
 4. 运行目标测试，修复失败直到通过。
 5. 重构重复逻辑，保持测试为绿色。
-6. 运行 `pnpm check`；Schema 变化再运行 `pnpm test:migrations`。
+6. 运行 `pnpm ignite check --plan <IGT-ID> --level auto`；CLI 会根据真实改动选择不可降级的最低检查层级。
 
 如果修复会扩大范围、需要新权限、会破坏数据或与规格冲突，应停止循环并报告，而不是静默绕过。
 
@@ -80,15 +80,20 @@ Plan 进入实现前必须写清：
 
 - 需求验收标准均有证据；
 - 目标测试曾按预期失败，随后通过；不适用时在 Plan 说明原因；
-- `pnpm check` 通过；
+- `pnpm ignite check --plan <IGT-ID> --level integration` 通过；
 - Schema/Migration 变化通过 `pnpm test:migrations`；
-- 用户关键路径变化通过 `pnpm test:e2e` 或记录无法执行的原因和手动结果；
-- 生产路径或依赖变化通过 `pnpm build`；
+- 发布候选通过生产构建和 `pnpm test:e2e:production`；
 - 相关设计文档和 Plan 状态已更新；
 - 最终报告列出实际执行的验证，不声称未执行项通过。
 
 ## 7. 运行恢复与阻塞
 
-长命令由 `pnpm ignite:check` 记录 `run_id`、Plan、命令、工作树输入指纹、commit、环境指纹、PID、退出码和日志路径。`pnpm ignite run status` 会区分仍在运行、已通过、失败和进程消失后的 `orphaned/needs_retry`。观察超时、暂时无输出或一次轮询失败都不能直接重跑；先读取原 run。
+长命令由 `pnpm ignite check` 记录 `run_id`、Plan、命令、仓库输入指纹、commit、环境指纹、runner 身份、心跳和退出码。运行中状态与完整日志只保存在被忽略的 `.ignite/`；成功后才把脱敏、无绝对路径的摘要写入 `docs/others/evidence/runs/`。`pnpm ignite run status` 会只读地区分运行中、已通过、失败和 `orphaned`。观察超时、暂时无输出或一次轮询失败都不能直接重跑；先读取原 run。
 
 同一 Plan、同一命令和同一输入指纹已有活动 run 时复用它；已有通过记录时默认复用，只有输入改变或明确 `--force` 才重新执行。相同失败连续两次且没有新证据时停止机械重试，记录阻塞而不是修改目标宣布完成。
+
+旧证据按运行 commit 保留为历史记录，允许继续修改代码和重新检查；进入 `done` 的瞬间，所有必需证据必须匹配当前输入。过期证据不能完成 Plan，也不应阻止 Plan 回到 `active`、记录阻塞或启动重测。后续增量不会重跑旧 Plan，但 CI 会要求本次 diff 由本次完成 Plan 的 `write_scope` 覆盖。
+
+## 8. 运行时边界
+
+`.node-version`、`packageManager` 与 `.ai/runtime.json` 共同定义可复现运行时。默认在 WSL/Linux 执行；若改用 Windows，必须单独安装该平台的 `node_modules`。两个系统不得共享同一依赖目录，`pnpm runtime:check` 会在执行前拒绝跨平台复用。

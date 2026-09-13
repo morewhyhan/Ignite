@@ -47,7 +47,7 @@
 
 ## 验收标准
 
-- AC-<FEATURE>-001：Given ... When ... Then ...
+- AC-<FEATURE>-001（REQ-<FEATURE>-001）：Given ... When ... Then ...
 
 ## 实现完成后更新
 

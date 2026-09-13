@@ -6,6 +6,7 @@
 
 - [`auth.md`](./auth.md)：认证、会话和路由守卫
 - [`tasks.md`](./tasks.md)：任务 API 和用户流程
+- [`product.md`](./product.md)：模板采用、AI 执行、证据和发布状态
 
 ## 自动化映射
 

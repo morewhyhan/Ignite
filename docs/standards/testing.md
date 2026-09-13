@@ -11,33 +11,41 @@
 | 视觉检查 | Playwright 截图 / 人工浏览器   | 布局、响应式、动效和 DOM 难以断言的状态 |
 | 代码审查 | 人 + AI                        | 复杂度、安全、边界和可维护性            |
 
+`test:e2e:production` 使用已经编译的 Next.js 产物，以 `next start` 和隔离的测试数据库执行浏览器用例；这里的“production”指生产构建与启动方式，不代表真实生产环境、真实数据或部署验收。
+
+桌面与移动项目共用每次运行新建的临时 SQLite，因此默认单 worker 串行执行，避免并发写锁把基础设施抖动误报成产品失败。
+
 常用命令：
 
 ```text
-pnpm check             # typecheck + lint + format + Vitest
-pnpm docs:check        # 文档、Plan、链接和结构化规格
-pnpm test:migrations   # migration smoke checks
-pnpm test:e2e          # Playwright
-pnpm verify            # check + migrations + production build
-pnpm ignite:check -- --plan IGT-000 --level auto --dry-run # 查看本轮最小检查范围
-pnpm ignite run status # 查看运行中、已完成或需要重试的证据
+pnpm ignite check --plan IGT-000 --level auto --dry-run # 查看不可降低的检查范围
+pnpm ignite check --plan IGT-000 --level integration    # 生成集成证据
+pnpm ignite check --plan IGT-000 --level release        # 生产构建 + 生产态 E2E
+pnpm ignite run status                                  # 只读查看运行状态
+pnpm ignite release status                              # 查看派生发布状态
 ```
 
 ### 分级检查
 
-`ignite:check` 根据工作树改动选择三层检查：
+`ignite check` 根据 Plan 声明的风险，以及 `base_commit...HEAD`、暂存区、工作区和未跟踪文件选择三层检查；两者取更高等级：
 
 | 层级          | 用途                 | 默认范围                                             |
 | ------------- | -------------------- | ---------------------------------------------------- |
 | `dev`         | 实现中的快速反馈     | 文档结构/相关格式，或受影响源码 lint                 |
 | `integration` | 一个 Plan 的集成验证 | 类型、lint、Vitest；认证和 Schema 变化追加 migration |
-| `release`     | 固定候选版本准出     | `verify`、关键 E2E 和发布门槛                        |
+| `release`     | 固定候选版本准出     | `verify`、生产态桌面/移动 E2E 和发布门槛             |
 
-普通说明文字不会启动 Next、Prisma 或 E2E。改动分类不明确、公共契约、认证、数据库、脚本和锁文件会自动提高等级；不能为了提速手工降低风险等级。每个运行都保存内容指纹，源码、测试、Schema、锁文件或 runner 改变后旧证据不能复用。
+普通说明文字不会启动 Next、Prisma 或 E2E。公共契约、认证、数据库、脚本、CSS、模块 Hook、设计快照、CI 和锁文件至少进入 integration；不能为了提速手工降低风险等级。真实运行不接受调用者提供的 `--files`。每个运行都保存输入与环境指纹，源码、测试、Schema、锁文件、Node、pnpm 或平台改变后旧运行不能复用。
+
+`risk: docs` 只适用于 README、文档入口和静态资源等安全说明修改；如果实际差异触及 Feature、Design、Standards、测试或工程配置，CLI 会要求提高 Plan 风险和必需证据，而不是留下一个无法完成的低风险 Plan。
 
 ### 证据等级
 
-结构检查、行为测试、真实数据库集成、浏览器旅程和真实外部走查是不同证据。源码中存在按钮、mock 请求成功或类型检查通过，不能替代用户操作和外部 provider 的真实证据。`done` 只在 Plan 元数据引用所需的 `passed` 运行记录后成立。
+结构检查、行为测试、真实数据库集成、浏览器旅程和真实外部走查是不同证据。源码中存在按钮、mock 请求成功或类型检查通过，不能替代用户操作和外部 provider 的真实证据。`done` 只在 Plan 元数据引用当前输入、允许运行时、真实 commit 的 `passed` manifest 后成立。
+
+每条 Feature 验收标准使用稳定 `AC-*` ID，并在覆盖它的测试标题中写成 `[AC-*]`。Plan 的 `acceptance` 字段必须把 AC 映射到包含该标记的具体测试文件；文档检查会拒绝断链、重复 ID 或不存在的 Design 契约。
+
+CI 是合并门槛，不接受仍处于 `draft`、`ready`、`active`、`verifying` 或 `blocked` 的 schema 2 Plan，也不接受未推导为 `done` 的当前 Release。CI 还会确认本次 diff 中每个非状态文件都落在本次完成 Plan 的 `write_scope` 内，防止没有 Plan 的夹带改动。开发中可以提交分支进度，但在合并前必须完成证据闭环并刷新生成状态。
 
 行为、权限、缓存或输入契约变化必须更新对应测试；不能用 typecheck、lint 或 build
 代替行为测试。

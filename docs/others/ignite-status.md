@@ -1,22 +1,24 @@
 # Ignite 状态摘要
 
-生成时间：2026-09-05T11:54:21.559Z
-结构化 Plan：1；历史未迁移 Plan：3
+模板状态：`template-baseline`
+输入指纹：`60437df13c99`
+当前 Plan：1；结构化历史：1；未迁移历史：3
 
-| 状态 | 数量 |
-| ---- | ---: |
-| done |    1 |
+## 当前工作
 
-## 当前 Plan
-
-| ID      | 状态 | 交付结果                                                                        | 发布                |
-| ------- | ---- | ------------------------------------------------------------------------------- | ------------------- |
-| IGT-001 | done | AI 可以在同一份 Plan 内完成一个功能切片、按风险验证、恢复中断并交付带证据的结果 | ignite-execution-v1 |
+- `IGT-002` · `active` · `ignite-execution-v2`
 
 ## 发布范围
 
-| 发布                | 状态 | 纳入 Plan |
-| ------------------- | ---- | --------- |
-| ignite-execution-v1 | done | IGT-001   |
+- `ignite-execution-v1` · `legacy_unverified`
+  - Plan：`IGT-001`
+  - 缺少证据：历史证据不参与当前验证
+- `ignite-execution-v2` · `active`
+  - Plan：`IGT-002`
+  - 缺少证据：`check-integration`、`check-release`
 
-> 此文件由 `pnpm ignite status --write` 生成。不要手工修改状态表；请修改 Plan 元数据。
+## 结构问题
+
+- 无。
+
+> 本文件是确定性派生视图；修改 Plan 或 Release 机器源后重新生成。

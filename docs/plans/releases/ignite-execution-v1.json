@@ -1,7 +1,6 @@
 {
-  "schema": 1,
+  "schema": 2,
   "id": "ignite-execution-v1",
-  "status": "done",
   "plan_ids": ["IGT-001"],
   "must_pass": ["plan-state-contract", "risk-check-contract", "template-slice-replay"],
   "excluded": ["历史 Plan 批量迁移", "真实外部平台凭据和部署", "移动端原生客户端"],

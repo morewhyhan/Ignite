@@ -10,5 +10,6 @@ Ignite 采用“一份真源，多端桥接”的方式：
 - GitHub Copilot：`.github/copilot-instructions.md`
 - 项目技能扩展位：[`.ai/skills/`](./skills/)
 - 项目 MCP 扩展位：[`.ai/mcp/`](./mcp/)
+- 规范化运行时：[`.ai/runtime.json`](./runtime.json)
 
 桥接文件只负责把工具引向 `AGENTS.md` 和 `docs/`，不在各个平台复制一套规则。以后修改开发规范时，只改 `AGENTS.md` 及对应的规范文档。

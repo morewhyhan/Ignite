@@ -65,6 +65,8 @@ Feature（需求起点） → Plan（过程方案） → Test + Code（实现与
 
 开始修改前，先阅读 [`AGENTS.md`](./AGENTS.md) 和 [`docs/README.md`](./docs/README.md)。
 
+AI 不靠“我觉得完成了”结束任务：Plan 绑定真实 Git 基线、验收标准和测试；检查范围由实际差异决定且不能被降级；通过结果绑定输入、运行环境和 commit，Release 状态再由这些证据自动推导。完整日志只留在本机，仓库只保存脱敏证据摘要。
+
 ### 🤖 AI 工作台
 
 Ignite 使用“一份宪法，多端引用”：所有工具都从 [`AGENTS.md`](./AGENTS.md) 开始，再按任务读取 `docs/`。其中 [`docs/designs/`](./docs/designs/) 管理当前系统事实；Claude Code、Cursor、OpenCode 和 GitHub Copilot 的入口只负责引用这些真源，不各自维护一套规则。
@@ -86,12 +88,18 @@ Ignite 的详细规则统一收录在 [`docs/standards/`](./docs/standards/)；�
 ## ⚡ 开始使用
 
 ```bash
+nvm install "$(tr -d '\r\n' < .node-version)"
+nvm use "$(tr -d '\r\n' < .node-version)"
 corepack enable
+node --version # 应与 .node-version 完全一致
 cp .env.example .env
 pnpm install --frozen-lockfile
+pnpm runtime:check
 pnpm db:setup
 pnpm dev
 ```
+
+默认推荐在 WSL/Linux x64 中完成安装和开发。若切换到 Windows，先删除并重新安装该平台的 `node_modules`；不要让 Windows 与 WSL 共享原生依赖。
 
 模板默认提供认证、数据库、API、UI、主题和测试基础；真实邮箱、支付、文件存储、队列等能力按项目需要增量接入。
 

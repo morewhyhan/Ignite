@@ -4,23 +4,25 @@
 
 ## 模板资产分级
 
-| 资产         | 当前内容                                                             | 默认动作                        |
-| ------------ | -------------------------------------------------------------------- | ------------------------------- |
-| 核心基础设施 | Better Auth、Hono RPC、Prisma、React Query、环境校验、测试和文档体系 | 保留；替换属于 `[基础设施变更]` |
-| 产品外壳     | 品牌、Landing、Dashboard、Settings、Theme、导航                      | 按新产品替换；属于 `[存量改动]` |
-| 参考纵向切片 | Tasks 数据模型、API、Hook、页面和测试                                | 明确选择保留、改造或删除        |
+| 资产         | 当前内容                                                             | 默认动作                                               |
+| ------------ | -------------------------------------------------------------------- | ------------------------------------------------------ |
+| 核心基础设施 | Better Auth、Hono RPC、Prisma、React Query、环境校验、测试和文档体系 | 保留；替换属于 `[存量改动]`，风险标为 `infrastructure` |
+| 产品外壳     | 品牌、Landing、Dashboard、Settings、Theme、导航                      | 按新产品替换；属于 `[存量改动]`                        |
+| 参考纵向切片 | Tasks 数据模型、API、Hook、页面和测试                                | 明确选择保留、改造或删除                               |
 
 `auth`、`theme`、`landing`、`dashboard` 属于基础能力或产品外壳，可以使用单数目录；资源型业务模块使用复数 kebab-case，例如 `projects`、`notifications`。
 
 ## 第一步：验证未修改的基线
 
-```powershell
-Copy-Item .env.example .env
+如果使用 GitHub 的 “Use this template” 或下载源码后重新 `git init`，新仓库没有模板旧提交。先提交初始源码，再运行 `pnpm ignite adopt-history` 查看继承记录；确认列表后执行 `pnpm ignite adopt-history --apply`。它把旧 Plan、Release 和运行清单原样归档到 `docs/others/template-history/`，保留恢复索引，随后新建的 Plan 使用新仓库的基线。归档不代表旧任务已验证。普通完整克隆无需此操作；浅克隆应先取回完整历史。
+
+```bash
+cp .env.example .env
 corepack pnpm install --frozen-lockfile
-corepack pnpm db:setup
-corepack pnpm check
-corepack pnpm test:migrations
-corepack pnpm test:e2e
+pnpm runtime:check
+pnpm db:setup
+pnpm verify
+pnpm test:e2e:production
 ```
 
 再手动完成一次：注册或登录 → 打开任务页 → 创建、编辑、完成、删除任务 → 退出登录。
@@ -44,7 +46,7 @@ node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'
 `siteConfig.slug` 同时用于认证 Cookie 前缀。浏览器 Cookie 不按端口隔离，所以同时运行多个衍生项目时必须使用不同 slug 和 secret，避免会话互相覆盖。
 
 完成后运行 `pnpm template:doctor`。在 `docs/features/product.md` 状态改为
-`adopted` 后，仍使用 Ignite 名称、slug、默认 secret 或缺少 `.env` 都会被报告。
+`adopted` 后，仍使用 Ignite 名称、slug、默认 secret，或本地既没有 `.env` 也没有等价环境变量，都会被报告。
 
 ## 第三步：决定 Tasks 的去留
 
@@ -76,7 +78,7 @@ node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'
 
 ## 第四步：开发第一个真实模块
 
-可以先执行 `pnpm create:module <plural-kebab-name> --dry-run` 查看将创建的文件，确认后去掉 `--dry-run`。脚手架只创建 Screen、公开入口、Feature 和 Plan，不猜测数据模型或 API。
+可以先执行 `pnpm create:module <plural-kebab-name> --dry-run` 查看将创建的文件，确认后去掉 `--dry-run`。脚手架会创建 Screen、公开入口、Feature、schema 2 Plan、一个明确失败的验收测试，并把 Plan 纳入 Release；它不猜测数据模型或 API。
 
 1. 从脚手架或 `docs/features/_template.md` 创建需求规格。
 2. 标明是增量模块还是存量修改，补齐字段、原型映射和正交业务规则。
@@ -89,11 +91,11 @@ node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'
 ## 第五步：交付前验证
 
 ```text
-pnpm docs:check
-pnpm check
-pnpm test:migrations
-pnpm build
-pnpm test:e2e
+pnpm ignite plan validate <IGT-ID>
+pnpm ignite check --plan <IGT-ID> --level integration
+pnpm ignite plan set-status <IGT-ID> verifying --commit HEAD
+pnpm ignite check --plan <IGT-ID> --level release
+pnpm ignite plan set-status <IGT-ID> done
 ```
 
 `pnpm build` 只证明当前配置可以完成生产编译。真实生产部署必须把 `APP_ENV` 设为 `production`，并满足 HTTPS、持久数据库和独立 secret；SQLite 默认值不能直接作为无状态生产部署方案。邮箱所有权验证如有需要，另行作为增量模块接入。

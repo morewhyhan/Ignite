@@ -7,4 +7,5 @@
 - 本地表单、弹窗、主题和布局状态使用 React state；服务端状态使用 React Query。
 - 每个行为变化都要补充适用的 API、单元或 E2E 测试。
 - 业务变更遵循 [`workflow.md`](./workflow.md) 的规格、Plan、测试先行和设计回写闭环。
-- 最少运行 `git diff --check`、`pnpm docs:check` 和 `pnpm check`；生产路径或依赖变化额外运行 `pnpm build`。
+- 不手工猜测检查范围。统一运行 `pnpm ignite check --plan <IGT-ID> --level auto`；它按真实 Plan diff 选择最低层级，且所有层级都执行 `git diff --check`。
+- 发布前把 Plan 进入 `verifying` 并运行 `pnpm ignite check --plan <IGT-ID> --level release`；该层级包含完整验证、生产构建和生产态 E2E。

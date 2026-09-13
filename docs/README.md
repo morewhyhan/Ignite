@@ -2,7 +2,7 @@
 
 Ignite 的文档服务于“模板基线 + 后续项目扩展”：AI 应先把本仓库当作模板理解，再根据具体项目需求新增或替换功能规格。`tasks`、认证和当前视觉系统是模板自带基线，不应在没有明确要求时被删除或重命名。
 
-每个任务先标记变更类型：`[新增模块]`、`[存量改动]` 或 `[基础设施变更]`。新增能力建立独立模块；修改现有能力必须列出影响路径、兼容性、迁移和回归测试。
+每个任务先标记变更类型：`[新增模块]` 或 `[存量改动]`。新增能力建立独立模块；修改现有能力或基础设施必须列出影响路径、兼容性、迁移和回归测试，风险强度另由 Plan 的 `risk` 表达。
 
 本目录按“标准、需求、计划、设计、其他资料”组织。文档只描述规则、规格、
 计划或系统事实；代码、`package.json`、Prisma schema 和测试仍是实现真源。
@@ -24,10 +24,10 @@ Ignite 的文档服务于“模板基线 + 后续项目扩展”：AI 应先把�
 ```text
 pnpm ignite plan validate <IGT-ID>       # 检查 Plan 元数据
 pnpm ignite status --write                # 汇总当前 Plan 与发布范围
-pnpm ignite check -- --plan <IGT-ID> --level auto
+pnpm ignite check --plan <IGT-ID> --level auto
 ```
 
-运行记录保存在 `docs/others/evidence/runs/`。同一输入已有运行记录时 CLI 会复用；状态摘要是生成物，不要再维护第二份手工状态表。历史 Plan 保留原文并标记为未迁移，不因新规则自动变成已完成。
+活动状态和完整日志保存在 Git 忽略的 `.ignite/runs/`；只有通过的检查会把脱敏 manifest 写入 `docs/others/evidence/runs/`。同一输入与环境已有运行时 CLI 会复用；状态摘要和 Release 状态都是派生结果，不维护第二份手工状态。历史 Plan 保留原文并标记为未验证，不因新规则自动变成已完成。
 
 ## 变更流转
 

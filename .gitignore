@@ -16,6 +16,7 @@ out/
 # deps
 node_modules/
 .pnpm-store/
+.ignite/
 
 # env
 .env*

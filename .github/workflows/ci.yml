@@ -19,6 +19,7 @@ env:
   AUTH_REQUIRE_EMAIL_VERIFICATION: 'false'
   BETTER_AUTH_SECRET: ci-only-secret-with-at-least-32-characters
   DATABASE_URL: file:./ci.db
+  DIFF_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
 
 jobs:
   quality:
@@ -26,18 +27,25 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: pnpm/action-setup@v4
         with:
           version: 9.11.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version-file: .node-version
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: pnpm runtime:check
+      - run: pnpm template:doctor
+      - run: pnpm ignite validate --ci
+      - run: node scripts/check-diff.mjs --base "$DIFF_BASE"
       - run: pnpm docs:check
       - run: pnpm typecheck
       - run: pnpm lint
       - run: pnpm format:check
+      - run: node scripts/check-clean.mjs
 
   migration:
     runs-on: ubuntu-latest
@@ -49,7 +57,7 @@ jobs:
           version: 9.11.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version-file: .node-version
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm test:migrations
@@ -59,12 +67,14 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: pnpm/action-setup@v4
         with:
           version: 9.11.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version-file: .node-version
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm test
@@ -79,7 +89,7 @@ jobs:
           version: 9.11.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version-file: .node-version
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
@@ -97,11 +107,12 @@ jobs:
           version: 9.11.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version-file: .node-version
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm test:e2e
+      - run: pnpm build
+      - run: pnpm test:e2e:production
       - if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:

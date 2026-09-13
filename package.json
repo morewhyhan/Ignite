@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "next typegen && prisma generate && next build",
     "start": "next start",
     "lint": "eslint .",
     "format": "prettier --write . --ignore-path .gitignore",
@@ -16,20 +16,21 @@
     "ignite:status": "node scripts/ignite.mjs status --write",
     "ignite:plan": "node scripts/ignite.mjs plan validate",
     "ignite:check": "node scripts/ignite.mjs check",
-    "ignite:benchmark": "node scripts/benchmark-ignite.mjs",
-    "typecheck": "prisma generate && tsc --noEmit",
+    "runtime:check": "node scripts/runtime-doctor.mjs",
+    "typecheck": "next typegen && prisma generate && tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:migrations": "node scripts/test-migrations.mjs",
     "test:e2e": "node scripts/run-e2e.mjs",
+    "test:e2e:production": "node scripts/run-e2e.mjs --production",
     "auth:schema": "auth generate --config scripts/better-auth.config.ts --output prisma/better-auth.generated.prisma --yes",
-    "check": "corepack pnpm docs:check && corepack pnpm typecheck && corepack pnpm lint && corepack pnpm format:check && corepack pnpm test",
+    "check": "corepack pnpm runtime:check && corepack pnpm template:doctor && corepack pnpm ignite validate && corepack pnpm docs:check && corepack pnpm typecheck && corepack pnpm lint && corepack pnpm format:check && corepack pnpm test",
     "verify": "corepack pnpm check && corepack pnpm test:migrations && corepack pnpm build",
     "db:generate": "prisma generate",
     "db:setup": "prisma migrate deploy && prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
-    "postinstall": "prisma generate"
+    "postinstall": "node scripts/runtime-doctor.mjs --record && prisma generate"
   },
   "dependencies": {
     "@hono/zod-validator": "0.9.0",
@@ -75,11 +76,12 @@
     "prisma": "^6.19.3",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "yaml": "^2.8.1"
   },
   "packageManager": "pnpm@9.11.0",
   "engines": {
-    "node": "^24.0.0"
+    "node": "24.19.0"
   },
   "prettier": {
     "printWidth": 100,

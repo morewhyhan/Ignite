@@ -121,7 +121,7 @@ beforeEach(() => {
 })
 
 describe('tasks API', () => {
-  it('returns 401 when there is no authenticated user', async () => {
+  it('[AC-AUTH-004] returns 401 when there is no authenticated user', async () => {
     const response = await request('GET', '/api/tasks')
 
     expect(response.status).toBe(401)
@@ -131,7 +131,7 @@ describe('tasks API', () => {
     })
   })
 
-  it('returns 422 for an invalid payload', async () => {
+  it('[AC-TASKS-004] returns 422 for an invalid payload', async () => {
     testState.userId = firstUserId
 
     const response = await request('POST', '/api/tasks', { title: '   ' })
@@ -140,7 +140,7 @@ describe('tasks API', () => {
     await expect(response.json()).resolves.toMatchObject({ code: 422 })
   })
 
-  it('rejects unknown input fields to keep the OpenAPI contract strict', async () => {
+  it('[AC-TASKS-004] rejects unknown input fields to keep the OpenAPI contract strict', async () => {
     testState.userId = firstUserId
 
     const response = await request('POST', '/api/tasks', {
@@ -152,7 +152,7 @@ describe('tasks API', () => {
     expect(testState.tasks).toHaveLength(0)
   })
 
-  it('does not expose another user task', async () => {
+  it('[AC-TASKS-003] does not expose or delete another user task', async () => {
     testState.userId = firstUserId
     const createResponse = await request('POST', '/api/tasks', {
       title: 'private task',
@@ -175,9 +175,13 @@ describe('tasks API', () => {
     const storedTask = testState.tasks.find((item) => item.id === created.data.id)
     expect(storedTask?.title).toBe('private task')
     expect(storedTask?.userId).toBe(firstUserId)
+
+    const deleteResponse = await request('DELETE', `/api/tasks/${created.data.id}`)
+    expect(deleteResponse.status).toBe(404)
+    expect(testState.tasks.some((item) => item.id === created.data.id)).toBe(true)
   })
 
-  it('creates, lists, updates, and deletes the current user task', async () => {
+  it('[AC-TASKS-002] creates, lists, updates, and deletes the current user task', async () => {
     testState.userId = firstUserId
 
     const createResponse = await request('POST', '/api/tasks', {
@@ -225,5 +229,32 @@ describe('tasks API', () => {
     })
 
     expect(testState.tasks.find((item) => item.id === created.data.id)).toBeUndefined()
+  })
+
+  it('[AC-TASKS-005] lists the newest task first', async () => {
+    testState.userId = firstUserId
+    testState.tasks = [
+      {
+        id: '00000000-0000-4000-8000-000000000001',
+        title: 'older',
+        completed: false,
+        userId: firstUserId,
+        createdAt: new Date('2026-01-01T00:00:00.000Z'),
+        updatedAt: new Date('2026-01-01T00:00:00.000Z'),
+      },
+      {
+        id: '00000000-0000-4000-8000-000000000002',
+        title: 'newer',
+        completed: false,
+        userId: firstUserId,
+        createdAt: new Date('2026-01-02T00:00:00.000Z'),
+        updatedAt: new Date('2026-01-02T00:00:00.000Z'),
+      },
+    ]
+
+    const response = await request('GET', '/api/tasks')
+    expect(response.status).toBe(200)
+    const body = (await response.json()) as { data: Array<{ title: string }> }
+    expect(body.data.map((task) => task.title)).toEqual(['newer', 'older'])
   })
 })

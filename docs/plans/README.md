@@ -7,7 +7,4 @@
 
 新计划必须包含顶部 `ignite-plan` JSON 元数据。一个 Plan 对应一个可验收交付切片，内部的代码、测试、修复和设计回写都是子任务。使用 `pnpm ignite plan validate` 检查，使用 `pnpm ignite status --write` 读取派生状态。当前发布只在 [`releases/`](./releases/) 维护。
 
-当前已记录的计划：
-
-- [文档系统重组与技术规格补全](./20260726-doc-system-reorganization.md)
-- [模板方法论与采用体验完善](./20260726-template-methodology-and-adoption.md)
+不要在这里手工维护“当前计划”列表；运行 `pnpm ignite status --write`，从 Plan 元数据和 Release 范围生成当前视图。历史 Plan 留作过程记录，但不会进入 AI 的当前工作表。

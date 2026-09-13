@@ -6,6 +6,7 @@ import { authConfig } from '@/config/auth'
 import { siteConfig } from '@/config/site'
 import { prisma } from '@/server/database/client'
 import { env } from '@/server/env'
+import { authRateLimitEnabled } from './rate-limit'
 
 export const auth = betterAuth({
   appName: siteConfig.name,
@@ -14,6 +15,9 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: 'sqlite',
   }),
+  rateLimit: {
+    enabled: authRateLimitEnabled(env.APP_ENV),
+  },
   advanced: {
     cookiePrefix: siteConfig.slug,
     crossSubDomainCookies: {

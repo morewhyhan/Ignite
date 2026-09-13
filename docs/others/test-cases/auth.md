@@ -7,13 +7,15 @@
 
 ## 用户路径
 
-| 编号    | Given            | When                                       | Then                          | 层级     | 自动化位置                           |
-| ------- | ---------------- | ------------------------------------------ | ----------------------------- | -------- | ------------------------------------ |
-| AUTH-01 | 未登录用户       | 访问 `/dashboard`                          | 跳转首页                      | E2E      | `tests/e2e/auth.spec.ts`             |
-| AUTH-02 | 新邮箱和合法密码 | 注册                                       | 创建账户并进入 Dashboard      | E2E      | `tests/e2e/auth.spec.ts`             |
-| AUTH-03 | 已登录用户       | 退出登录                                   | session 失效并回到首页        | E2E      | `tests/e2e/auth.spec.ts`             |
-| AUTH-04 | 已注册用户       | 使用正确凭证登录                           | 恢复 session 并进入 Dashboard | E2E      | `tests/e2e/auth.spec.ts`             |
-| AUTH-05 | 生产配置         | 使用 localhost、开发 secret 或 file 数据库 | 启动配置校验失败              | Contract | `tests/contracts/server-env.test.ts` |
+| 验收标准    | Given             | When                                       | Then                          | 层级           | 自动化位置                                                       |
+| ----------- | ----------------- | ------------------------------------------ | ----------------------------- | -------------- | ---------------------------------------------------------------- |
+| AC-AUTH-003 | 未登录用户        | 访问 `/dashboard`                          | 跳转首页                      | E2E            | `tests/e2e/auth.spec.ts`                                         |
+| AC-AUTH-001 | 新邮箱和合法密码  | 注册                                       | 创建账户并进入 Dashboard      | E2E            | `tests/e2e/auth.spec.ts`                                         |
+| AC-AUTH-003 | 已登录用户        | 退出后再次访问 Dashboard                   | session 失效并回到首页        | E2E            | `tests/e2e/auth.spec.ts`                                         |
+| AC-AUTH-002 | 已注册用户        | 使用正确凭证登录                           | 恢复 session 并进入 Dashboard | E2E            | `tests/e2e/auth.spec.ts`                                         |
+| AC-AUTH-004 | 无 session        | 请求受保护业务 API                         | 返回统一 `401`                | API            | `tests/api/tasks.test.ts`                                        |
+| AC-AUTH-005 | test / production | 初始化 Better Auth                         | 仅真实生产环境启用认证限流    | Contract + E2E | `tests/contracts/auth-runtime.test.ts`、`tests/e2e/auth.spec.ts` |
+| 环境契约    | 生产配置          | 使用 localhost、开发 secret 或 file 数据库 | 启动配置校验失败              | Contract       | `tests/contracts/server-env.test.ts`                             |
 
 ## 尚未自动化
 

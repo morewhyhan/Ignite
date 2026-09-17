@@ -93,6 +93,13 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: next-build-${{ github.sha }}
+          path: .next/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 1
 
   e2e:
     needs: [quality, migration, test, build]
@@ -111,7 +118,10 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm build
+      - uses: actions/download-artifact@v4
+        with:
+          name: next-build-${{ github.sha }}
+          path: .next/
       - run: pnpm test:e2e:production
       - if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4

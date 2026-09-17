@@ -2,13 +2,14 @@ import { extname } from 'node:path'
 import { changedFilesForPlan, normalizePath, validateWriteScope } from './core.mjs'
 
 const LEVEL_RANK = { dev: 1, integration: 2, release: 3 }
-export const CHECK_POLICY_VERSION = 2
-export const SUPPORTED_CHECK_POLICIES = new Set([1, 2])
+export const CHECK_POLICY_VERSION = 3
+export const SUPPORTED_CHECK_POLICIES = new Set([1, 2, 3])
 const SAFE_DOC_PATTERNS = [
   /^README\.md$/,
   /^docs\/README\.md$/,
   /^docs\/assets\//,
   /^docs\/others\/README\.md$/,
+  /^EXECUTION_AUDIT\.md$/,
 ]
 const GOVERNANCE_PATTERNS = [
   /^AGENTS\.md$/,
@@ -184,7 +185,8 @@ export function commandsForLevel(level, files, plan, policyVersion = CHECK_POLIC
     }
     return commands
   }
-  commands.push(pnpm(['verify'], 'verify'))
+  if (policyVersion < 3) commands.push(pnpm(['verify'], 'verify'))
+  else commands.push(pnpm(['build'], 'build'))
   commands.push(pnpm(['test:e2e:production'], 'e2e-production'))
   return commands
 }

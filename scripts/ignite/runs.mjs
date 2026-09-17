@@ -28,7 +28,7 @@ import {
   runnerIdentity,
   writeJson,
 } from './core.mjs'
-import { bindPlanEvidence, findPlan, planContractAtCommit } from './state.mjs'
+import { bindPlanEvidence, findPlan, listDurableRuns, planContractAtCommit } from './state.mjs'
 import { CHECK_POLICY_VERSION } from './checks.mjs'
 
 const HEARTBEAT_INTERVAL_MS = 5_000
@@ -42,6 +42,26 @@ function localRunPath(runId) {
   return join(localRunsDirectory, `${runId}.json`)
 }
 
+function cancellationPath(runId) {
+  return join(localRunsDirectory, `${runId}.cancel`)
+}
+
+export function requestRunCancellation(runId) {
+  if (!/^run-[0-9a-z-]+$/i.test(runId)) throw new Error('invalid run id')
+  const path = localRunPath(runId)
+  if (!existsSync(path)) throw new Error(`run not found: ${runId}`)
+  const record = readJson(path)
+  if (derivedRunStatus(record) !== 'running' || !sameRunnerMachine(record)) {
+    throw new Error('only a currently running check on this machine can be cancelled')
+  }
+  const marker = cancellationPath(runId)
+  if (!existsSync(marker))
+    writeFileSync(marker, `${JSON.stringify({ run_id: runId, requested_at: now() })}\n`, {
+      flag: 'wx',
+    })
+  return { run_id: runId, status: 'cancellation-requested' }
+}
+
 function worktreeLockPath() {
   return join(localRunsDirectory, 'worktree.lock')
 }
@@ -50,7 +70,18 @@ export function listLocalRuns() {
   if (!existsSync(localRunsDirectory)) return []
   return readdirSync(localRunsDirectory)
     .filter((name) => name.endsWith('.json'))
-    .map((name) => readJson(join(localRunsDirectory, name)))
+    .map((name) => {
+      try {
+        return readJson(join(localRunsDirectory, name))
+      } catch (error) {
+        return {
+          run_id: name.slice(0, -5),
+          status: 'corrupt',
+          started_at: '',
+          failure_reason: `local run record is unreadable: ${error.message}`,
+        }
+      }
+    })
     .sort((left, right) => String(right.started_at).localeCompare(String(left.started_at)))
 }
 
@@ -212,19 +243,50 @@ function runChild(spec, environment, record, logStream, persist) {
 
     let tail = ''
     let settled = false
+    const timeBudgetMs =
+      spec.label === 'e2e-production' || spec.label === 'verify' ? 20 * 60_000 : 10 * 60_000
     const child = spawn(spec.command, spec.args, {
       cwd: repositoryRoot,
       env: environment,
+      detached: process.platform !== 'win32',
       windowsHide: true,
       stdio: ['ignore', 'pipe', 'pipe'],
     })
     record.child_pid = child.pid || null
+    record.current_command = spec.label
+    record.last_output_at = startedAt
     persist()
+
+    const stopChild = (signal) => {
+      if (!child.pid || settled) return
+      try {
+        if (process.platform === 'win32') child.kill(signal)
+        else process.kill(-child.pid, signal)
+      } catch (error) {
+        if (error.code !== 'ESRCH') tail = appendTail(tail, `\n${error.message}\n`)
+      }
+    }
+    const timeout = setTimeout(() => {
+      result.timed_out = true
+      record.failure_reason = `${spec.label} exceeded its ${Math.round(timeBudgetMs / 60_000)} minute budget`
+      stopChild('SIGTERM')
+      setTimeout(() => stopChild('SIGKILL'), 5_000).unref()
+    }, timeBudgetMs)
+    timeout.unref()
+    const cancellation = setInterval(() => {
+      if (!existsSync(cancellationPath(record.run_id)) || settled) return
+      result.cancelled = true
+      record.failure_reason = `run ${record.run_id} was cancelled`
+      stopChild('SIGTERM')
+      setTimeout(() => stopChild('SIGKILL'), 5_000).unref()
+    }, 1_000)
+    cancellation.unref()
 
     const consume = (stream, output) => {
       stream.on('data', (chunk) => {
         const text = chunk.toString()
         tail = appendTail(tail, text)
+        record.last_output_at = now()
         logStream.write(text)
         output.write(text)
       })
@@ -235,14 +297,18 @@ function runChild(spec, environment, record, logStream, persist) {
     const finish = (exitCode, signal, error = null) => {
       if (settled) return
       settled = true
+      clearTimeout(timeout)
+      clearInterval(cancellation)
       result.ended_at = now()
       result.duration_ms = Date.parse(result.ended_at) - Date.parse(startedAt)
-      result.exit_code = exitCode
+      result.exit_code = result.cancelled ? 130 : exitCode
       result.signal = signal
-      result.status = exitCode === 0 ? 'passed' : 'failed'
+      result.status = result.cancelled ? 'cancelled' : exitCode === 0 ? 'passed' : 'failed'
+      if (result.timed_out) result.status = 'failed'
       if (error) tail = appendTail(tail, `\n${error.message}\n`)
       result.output_tail = tail
       record.child_pid = null
+      record.current_command = null
       persist()
       resolveResult(result)
     }
@@ -280,6 +346,7 @@ function durableManifest(record, logPath) {
       duration_ms: command.duration_ms,
     })),
     log_sha256: logDigest,
+    ...(record.check_policy_version >= 3 ? { execution_source: 'ignite-runner-local' } : {}),
   }
 }
 
@@ -307,6 +374,21 @@ export async function executeCheckPlan({ plan, checkPlan, force = false }) {
   }
   if (!planContractAtCommit(plan, commit)) {
     throw new Error('the stable Plan contract must be committed before running evidence checks')
+  }
+  if (checkPlan.level === 'release' && CHECK_POLICY_VERSION >= 3) {
+    const integration = listDurableRuns().find(
+      ({ value }) =>
+        value.plan_id === plan.metadata.id &&
+        value.evidence_id === 'check-integration' &&
+        value.check_policy_version === CHECK_POLICY_VERSION &&
+        value.status === 'passed' &&
+        value.commit === commit &&
+        value.input_fingerprint === inputFingerprint &&
+        value.environment_fingerprint === environmentData.fingerprint,
+    )
+    if (!integration) {
+      throw new Error('release requires a current integration run before build and E2E')
+    }
   }
   const evidenceId = `check-${checkPlan.level}`
   const fingerprint = hash(
@@ -406,21 +488,28 @@ export async function executeCheckPlan({ plan, checkPlan, force = false }) {
     logStream = createWriteStream(logPath, { flags: 'a' })
 
     for (const command of checkPlan.commands) {
+      if (existsSync(cancellationPath(runId))) {
+        record.failure_reason = `run ${runId} was cancelled`
+        record.exit_code = 130
+        record.status = 'cancelled'
+        break
+      }
       const result = await runChild(command, environment, record, logStream, persist)
       if (result.exit_code !== 0) break
     }
     const failed = record.commands.find((command) => command.status !== 'passed')
-    record.exit_code = failed?.exit_code ?? 0
-    record.status = failed ? 'failed' : 'passed'
-    record.needs_retry = Boolean(failed)
+    const cancelled = record.status === 'cancelled' || Boolean(failed?.cancelled)
+    record.exit_code = cancelled ? 130 : (failed?.exit_code ?? 0)
+    record.status = cancelled ? 'cancelled' : failed ? 'failed' : 'passed'
+    record.needs_retry = Boolean(failed) && !cancelled
     record.ended_at = now()
     record.heartbeat_at = now()
     if (!failed) assertCurrentInputs()
     await new Promise((resolve) => logStream.end(resolve))
     logStream = null
     let manifestPath = null
-    if (record.status === 'passed') manifestPath = publishEvidence(record, logPath)
     persist()
+    if (record.status === 'passed') manifestPath = publishEvidence(record, logPath)
     return {
       status: record.status,
       exitCode: record.exit_code,
@@ -443,6 +532,11 @@ export async function executeCheckPlan({ plan, checkPlan, force = false }) {
     if (heartbeat) clearInterval(heartbeat)
     if (logStream) await new Promise((resolve) => logStream.end(resolve))
     releaseLock(lock, runId)
+    try {
+      unlinkSync(cancellationPath(runId))
+    } catch (error) {
+      if (error.code !== 'ENOENT') throw error
+    }
   }
 }
 
@@ -460,5 +554,8 @@ export function runStatus({ runId = null, verbose = false } = {}) {
     started_at: record.started_at,
     ended_at: record.ended_at,
     needs_retry: record.derived_status === 'orphaned' || record.needs_retry,
+    current_command: record.current_command || null,
+    last_output_at: record.last_output_at || null,
+    failure_reason: record.failure_reason || null,
   }))
 }

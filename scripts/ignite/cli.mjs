@@ -1,19 +1,21 @@
 import { spawnSync } from 'node:child_process'
 import { adoptHistory } from './adoption.mjs'
 import { planCheck } from './checks.mjs'
-import { repositoryRoot } from './core.mjs'
+import { currentCommit, repositoryRoot } from './core.mjs'
 import {
   deriveRelease,
   findPlan,
   listPlanFiles,
   listReleases,
   readPlan,
+  reintegratePlan,
   renderStatus,
   setPlanStatus,
   templateMode,
   validateAllPlans,
   validateAllReleases,
   validatePlan,
+  validatePlanDependencies,
   writeGeneratedStatus,
 } from './state.mjs'
 import {
@@ -24,7 +26,7 @@ import {
   validateRuntimeContract,
   validateTraceability,
 } from './governance.mjs'
-import { executeCheckPlan, runStatus } from './runs.mjs'
+import { executeCheckPlan, requestRunCancellation, runStatus } from './runs.mjs'
 
 function parseArgs(argv) {
   const options = {}
@@ -156,7 +158,10 @@ async function commandCheck(options) {
   if (!options.plan) throw new Error('check requires --plan IGT-000')
   checkRuntime()
   const plan = findPlan(options.plan)
-  const planErrors = validatePlan(plan, { allowLegacy: false })
+  const planErrors = [
+    ...validatePlan(plan, { allowLegacy: false }),
+    ...validatePlanDependencies(plan),
+  ]
   if (planErrors.length) throw new Error(`invalid Plan:\n- ${planErrors.join('\n- ')}`)
   const explicitFiles = options.files
     ? String(options.files)
@@ -209,6 +214,117 @@ function commandRunStatus(positionals, options) {
   )
 }
 
+function commandNext(options) {
+  if (!options.plan) throw new Error('next requires --plan IGT-000')
+  const plan = findPlan(options.plan)
+  const failures = [
+    ...validatePlan(plan, { allowLegacy: false }),
+    ...validatePlanDependencies(plan),
+  ]
+  const latestRun = runStatus({ verbose: true }).find(
+    (run) => run.plan_id === plan.metadata.id && run.status !== 'corrupt',
+  )
+  const runState = latestRun?.derived_status || null
+  const boundEvidence = new Set((plan.metadata.evidence || []).map((item) => item.id))
+  const missingEvidence = (plan.metadata.required_evidence || []).filter(
+    (id) => !boundEvidence.has(id),
+  )
+  let nextAction
+  if (failures.length) {
+    const integrationLost = failures.some((item) =>
+      /integrated_commit (must be an ancestor|must be a real)/.test(item),
+    )
+    nextAction = integrationLost
+      ? {
+          kind: 'reintegrate',
+          reason: failures,
+          command: `pnpm ignite plan reintegrate ${plan.metadata.id}`,
+        }
+      : { kind: 'repair-input', reason: failures, command: null }
+  } else if (plan.metadata.status === 'blocked') {
+    nextAction = {
+      kind: 'wait-for-blocker',
+      reason: plan.metadata.blocker,
+      command: null,
+    }
+  } else if (runState === 'running') {
+    nextAction = {
+      kind: 'wait-for-run',
+      reason: `run ${latestRun.run_id} is still active`,
+      command: `pnpm ignite run status ${latestRun.run_id}`,
+    }
+  } else if (['failed', 'orphaned', 'cancelled'].includes(runState)) {
+    nextAction = {
+      kind: 'diagnose-run',
+      reason: latestRun.failure_reason || `run ${latestRun.run_id} ${runState}`,
+      command: `pnpm ignite run status ${latestRun.run_id} --verbose`,
+    }
+  } else if (plan.metadata.status === 'draft') {
+    nextAction = {
+      kind: 'complete-plan',
+      reason: 'close open questions and complete the execution contract',
+      command: `pnpm ignite plan set-status ${plan.metadata.id} ready`,
+    }
+  } else if (plan.metadata.status === 'ready') {
+    nextAction = {
+      kind: 'start-plan',
+      reason: 'dependencies and input are ready',
+      command: `pnpm ignite plan set-status ${plan.metadata.id} active`,
+    }
+  } else if (plan.metadata.status === 'active') {
+    nextAction = {
+      kind: 'implement-and-check',
+      reason: 'implement the next task and validate its acceptance criteria',
+      command: `pnpm ignite check --plan ${plan.metadata.id} --level auto`,
+    }
+  } else if (plan.metadata.status === 'verifying') {
+    const missingIntegration = missingEvidence.includes('check-integration')
+    nextAction = missingEvidence.length
+      ? {
+          kind: missingIntegration ? 'verify-integration' : 'verify-release',
+          reason: `missing evidence: ${missingEvidence.join(', ')}`,
+          command: `pnpm ignite check --plan ${plan.metadata.id} --level ${missingIntegration ? 'integration' : 'release'}`,
+        }
+      : {
+          kind: 'complete-plan',
+          reason: 'required evidence is bound; current inputs still need final validation',
+          command: `pnpm ignite plan set-status ${plan.metadata.id} done`,
+        }
+  } else {
+    nextAction = { kind: 'report-result', reason: plan.metadata.status, command: null }
+  }
+  console.log(
+    JSON.stringify(
+      {
+        plan_id: plan.metadata.id,
+        status: plan.metadata.status,
+        outcome: plan.metadata.outcome,
+        goals: plan.metadata.goals || [],
+        constraints: plan.metadata.constraints || [],
+        plan_path: plan.relativePath,
+        latest_run: latestRun
+          ? {
+              run_id: latestRun.run_id,
+              status: runState,
+              current_command: latestRun.current_command || null,
+              last_output_at: latestRun.last_output_at || null,
+            }
+          : null,
+        next_action: nextAction,
+        delivery: {
+          deliverables: plan.metadata.deliverables || [],
+          local_commit: currentCommit(),
+          local_plan_status: plan.metadata.status,
+          remote_sync: 'not_verified',
+          deployed_url: null,
+        },
+      },
+      null,
+      2,
+    ),
+  )
+}
+
 export async function main(argv = process.argv.slice(2)) {
   const command = argv[0]
   const hasSubcommand = ['plan', 'run', 'release'].includes(command)
@@ -221,16 +337,28 @@ export async function main(argv = process.argv.slice(2)) {
     return
   }
   if (command === 'status') return commandStatus(options)
+  if (command === 'next') return commandNext(options)
   if (command === 'check') return commandCheck(options)
   if (command === 'plan' && subcommand === 'validate') return commandPlanValidate(positionals)
   if (command === 'plan' && subcommand === 'set-status')
     return commandPlanSetStatus(positionals, options)
+  if (command === 'plan' && subcommand === 'reintegrate') {
+    if (!positionals[0]) throw new Error('plan reintegrate requires <plan-id>')
+    const plan = reintegratePlan(positionals[0])
+    console.log(`Reintegrated ${plan.metadata.id}; rerun integration and release on merged HEAD.`)
+    return
+  }
   if (command === 'run' && subcommand === 'status') return commandRunStatus(positionals, options)
+  if (command === 'run' && subcommand === 'cancel') {
+    if (!positionals[0]) throw new Error('run cancel requires <run-id>')
+    console.log(JSON.stringify(requestRunCancellation(positionals[0]), null, 2))
+    return
+  }
   if (command === 'release' && subcommand === 'status') return commandReleaseStatus(positionals)
   throw new Error(
     'commands: validate [--ci], status [--write|--json], plan validate [id], ' +
       'plan set-status <id> <status>, check --plan <id> [--level auto|dev|integration|release], ' +
-      'run status [run-id] [--verbose], release status [release-id], adopt-history [--apply]',
+      'run status [run-id] [--verbose], run cancel <run-id>, release status [release-id], adopt-history [--apply]',
   )
 }
 

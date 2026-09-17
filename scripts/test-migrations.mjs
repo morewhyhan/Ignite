@@ -12,11 +12,14 @@ import {
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { migrationDataFailures } from './ignite/governance.mjs'
+import { databaseTestAdapter } from './testing/database-adapter.mjs'
 
 const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const sourcePrismaDirectory = join(repositoryRoot, 'prisma')
 const sourceMigrationsDirectory = join(sourcePrismaDirectory, 'migrations')
 const prismaCli = join(repositoryRoot, 'node_modules', 'prisma', 'build', 'index.js')
+databaseTestAdapter.assertSchema(join(sourcePrismaDirectory, 'schema.prisma'))
 
 if (!existsSync(prismaCli)) {
   throw new Error('Prisma CLI is missing. Run `pnpm install --frozen-lockfile` first.')
@@ -114,4 +117,9 @@ function verifyFreshInstall() {
 }
 
 verifyFreshInstall()
+const upgradeFailures = migrationDataFailures(
+  migrationNames.map((name) => join(sourceMigrationsDirectory, name, 'migration.sql')),
+)
+if (upgradeFailures.length)
+  throw new Error(`Migration data upgrade failed:\n${upgradeFailures.join('\n')}`)
 console.log('Migration smoke checks passed.')

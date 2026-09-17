@@ -1,25 +1,25 @@
-import { DatabaseSync } from 'node:sqlite'
+import { databaseTestAdapter } from '../testing/database-adapter.mjs'
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import {
   changedFilesSince,
   gitCommitExists,
   isAncestor,
+  relativePath,
   repositoryRoot,
   runGit,
   validateWriteScope,
   walkFiles,
 } from './core.mjs'
 import {
-  deriveRelease,
   listDurableRuns,
   listPlans,
-  listReleases,
   renderStatus,
   specificationRegistry,
   templateMode,
 } from './state.mjs'
 import { acceptanceTestTitles } from './source-analysis.mjs'
+import { minimumLevel } from './checks.mjs'
 
 function read(path) {
   return readFileSync(join(repositoryRoot, path), 'utf8')
@@ -28,7 +28,7 @@ function read(path) {
 export function validateTraceability() {
   const failures = []
   if (templateMode() === 'unknown') {
-    failures.push('docs/features/product.md must declare template-baseline or adopted status')
+    failures.push('.ai/project.json must declare template-baseline or adopted mode')
   }
   const registry = specificationRegistry()
   for (const id of registry.duplicates) failures.push(`duplicate specification id: ${id}`)
@@ -36,7 +36,11 @@ export function validateTraceability() {
   const testsRoot = join(repositoryRoot, 'tests')
   const coveredAcceptance = new Set(
     walkFiles(testsRoot)
-      .filter((path) => /\.(?:ts|tsx)$/.test(path))
+      .filter((path) =>
+        /^tests\/(?:api|contracts)\/.+\.test\.tsx?$|^tests\/e2e\/.+\.spec\.tsx?$/.test(
+          relativePath(path),
+        ),
+      )
       .flatMap((path) => [...acceptanceTestTitles(readFileSync(path, 'utf8'))]),
   )
   const requirementsWithAcceptance = new Set()
@@ -58,7 +62,7 @@ export function validateTraceability() {
 }
 
 function databaseSnapshot(sql) {
-  const database = new DatabaseSync(':memory:')
+  const database = databaseTestAdapter.openMemory()
   try {
     database.exec('PRAGMA foreign_keys = ON;')
     database.exec(sql)
@@ -111,19 +115,118 @@ function databaseSnapshot(sql) {
   }
 }
 
+function quotedIdentifier(value) {
+  return `"${value.replaceAll('"', '""')}"`
+}
+
+export function migrationDataFailures(paths) {
+  const failures = []
+  if (paths.length < 2) return failures
+  for (let boundary = 1; boundary < paths.length; boundary += 1) {
+    const database = databaseTestAdapter.openMemory()
+    try {
+      database.exec('PRAGMA foreign_keys = OFF;')
+      for (const path of paths.slice(0, boundary)) database.exec(readFileSync(path, 'utf8'))
+      const tables = database
+        .prepare("SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%'")
+        .all()
+        .map((row) => row.name)
+      const seeded = new Map()
+      for (const table of tables) {
+        const name = quotedIdentifier(table)
+        const columns = database.prepare(`PRAGMA table_info(${name})`).all()
+        const columnNames = columns.map((column) => column.name)
+        const values = columns.map((column) =>
+          /INT|REAL|NUMERIC|DECIMAL/i.test(column.type) ? 1 : `probe-${table}-${column.name}`,
+        )
+        database
+          .prepare(
+            `INSERT INTO ${name} (${columnNames.map(quotedIdentifier).join(', ')}) VALUES (${columns.map(() => '?').join(', ')})`,
+          )
+          .run(...values)
+        seeded.set(
+          table,
+          database
+            .prepare(`SELECT ${columnNames.map(quotedIdentifier).join(', ')} FROM ${name}`)
+            .all(),
+        )
+      }
+      database.exec(readFileSync(paths[boundary], 'utf8'))
+      for (const [table, expectedRows] of seeded) {
+        const name = quotedIdentifier(table)
+        const exists = database
+          .prepare("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ?")
+          .get(table)
+        if (!exists) {
+          failures.push(`migration ${paths[boundary]} drops existing data table ${table}`)
+          continue
+        }
+        const columns = Object.keys(expectedRows[0] || {})
+        const actualRows = database
+          .prepare(`SELECT ${columns.map(quotedIdentifier).join(', ')} FROM ${name}`)
+          .all()
+        if (JSON.stringify(actualRows) !== JSON.stringify(expectedRows)) {
+          failures.push(`migration ${paths[boundary]} changes existing data in ${table}`)
+        }
+      }
+    } catch (error) {
+      failures.push(`migration ${paths[boundary]} data upgrade check failed: ${error.message}`)
+    } finally {
+      database.close()
+    }
+  }
+  return failures
+}
+
+function immutableMigrationFailures() {
+  const completed = listPlans()
+    .filter((plan) => plan.metadata?.status === 'done')
+    .map((plan) => plan.metadata.integrated_commit)
+    .filter((commit) => gitCommitExists(commit) && isAncestor(commit, 'HEAD'))
+  const baseline = completed.sort((left, right) => {
+    if (isAncestor(left, right)) return 1
+    if (isAncestor(right, left)) return -1
+    return 0
+  })[0]
+  if (!baseline) return []
+  const protectedPaths = runGit([
+    'ls-tree',
+    '-r',
+    '--name-only',
+    baseline,
+    '--',
+    'prisma/migrations/',
+  ])
+    .stdout.split(/\r?\n/)
+    .filter((path) => path.endsWith('/migration.sql'))
+  return protectedPaths.flatMap((path) => {
+    const currentPath = join(repositoryRoot, path)
+    if (!existsSync(currentPath)) return [`published migration was deleted: ${path}`]
+    const originalBlob = runGit(['rev-parse', `${baseline}:${path}`]).stdout
+    const currentBlob = runGit(['hash-object', path]).stdout
+    if (currentBlob !== originalBlob) {
+      return [`published migration was rewritten: ${path}`]
+    }
+    return []
+  })
+}
+
 export async function validateDesignArtifacts() {
   const failures = []
+  failures.push(...immutableMigrationFailures())
   try {
-    const migrationSql = walkFiles(join(repositoryRoot, 'prisma', 'migrations'))
+    const schemaPath = join(repositoryRoot, 'prisma', 'schema.prisma')
+    if (existsSync(schemaPath)) databaseTestAdapter.assertSchema(schemaPath)
+    const migrationPaths = walkFiles(join(repositoryRoot, 'prisma', 'migrations'))
       .filter((path) => path.endsWith('migration.sql'))
       .sort()
-      .map((path) => readFileSync(path, 'utf8'))
-      .join('\n')
+    const migrationSql = migrationPaths.map((path) => readFileSync(path, 'utf8')).join('\n')
     const design = databaseSnapshot(read('docs/designs/database.sql'))
     const migrations = databaseSnapshot(migrationSql)
     if (JSON.stringify(design) !== JSON.stringify(migrations)) {
       failures.push('docs/designs/database.sql differs semantically from applied migrations')
     }
+    failures.push(...migrationDataFailures(migrationPaths))
   } catch (error) {
     failures.push(`database design cannot be executed: ${error.message}`)
   }
@@ -239,10 +342,14 @@ export function validateCiCompletion() {
   const failures = []
   const currentPlans = listPlans().filter((plan) => plan.metadata?.schema === 2)
   const diffBase = process.env.DIFF_BASE
-  const validBase = diffBase && gitCommitExists(diffBase)
+  const firstPush = /^0{40}$/.test(diffBase || '')
+  const effectiveBase = firstPush
+    ? runGit(['rev-list', '--max-parents=0', 'HEAD']).stdout.split(/\r?\n/)[0]
+    : diffBase
+  const validBase = effectiveBase && gitCommitExists(effectiveBase)
   const changedPlanPaths = validBase
     ? new Set(
-        runGit(['diff', '--name-only', `${diffBase}...HEAD`, '--', 'docs/plans/'])
+        runGit(['diff', '--name-only', `${effectiveBase}...HEAD`, '--', 'docs/plans/'])
           .stdout.trim()
           .split(/\r?\n/),
       )
@@ -257,33 +364,26 @@ export function validateCiCompletion() {
       )
     }
   }
-  for (const { value } of listReleases()) {
-    const releasePlans = selectedPlans.filter((plan) => value.plan_ids?.includes(plan.metadata.id))
-    if (releasePlans.length === 0) continue
-    if (releasePlans.every((plan) => ['cancelled', 'superseded'].includes(plan.metadata.status))) {
-      continue
-    }
-    const release = deriveRelease(value)
-    if (release.status !== 'done') {
-      failures.push(
-        `CI requires release ${release.id} to be done; derived status is ${release.status}`,
-      )
-    }
-  }
+  // CI merges independently completed Plans. The derived Release remains a
+  // separate gate for publishing the entire declared Plan set.
   if (diffBase) {
-    if (!gitCommitExists(diffBase)) {
-      failures.push(`CI DIFF_BASE is not a real commit: ${diffBase}`)
-    } else {
+    // A first push has no remote predecessor. Its root commit is the explicit
+    // initial snapshot; subsequent commits still require completed Plan cover.
+    if (!validBase) failures.push(`CI DIFF_BASE is not a real commit: ${diffBase}`)
+    if (validBase) {
       const coveringPlans = currentPlans.filter(
         (plan) =>
           plan.metadata.status === 'done' &&
-          plan.metadata.integrated_commit !== diffBase &&
+          plan.metadata.integrated_commit !== effectiveBase &&
           gitCommitExists(plan.metadata.integrated_commit) &&
-          isAncestor(diffBase, plan.metadata.integrated_commit) &&
+          isAncestor(effectiveBase, plan.metadata.integrated_commit) &&
           isAncestor(plan.metadata.integrated_commit, 'HEAD'),
       )
       const manifests = new Map(listDurableRuns().map(({ value }) => [value.run_id, value]))
-      for (const path of changedFilesSince(diffBase)) {
+      for (const path of changedFilesSince(effectiveBase)) {
+        // Small prose/asset edits remain protected by CI docs and format checks;
+        // they do not need a fabricated business Plan or receipt.
+        if (minimumLevel([path]) === 'dev') continue
         if (
           !coveringPlans.some((plan) => {
             if (validateWriteScope(plan, [path]).length !== 0) return false

@@ -92,6 +92,7 @@ nvm install "$(tr -d '\r\n' < .node-version)"
 nvm use "$(tr -d '\r\n' < .node-version)"
 corepack enable
 node --version # 应与 .node-version 完全一致
+node scripts/runtime-doctor.mjs --preflight
 cp .env.example .env
 pnpm install --frozen-lockfile
 pnpm runtime:check

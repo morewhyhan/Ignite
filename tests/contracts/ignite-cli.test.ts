@@ -99,6 +99,48 @@ function makePassedEvidence(root: string, baseCommit: string, policyVersion = 2)
 }
 
 describe('Ignite Plan and Release contracts', () => {
+  it('[AC-PRODUCT-012] permits one completed Plan while a future Plan in its Release stays draft', () => {
+    const fixture = makeFixture()
+    try {
+      write(
+        fixture.root,
+        'docs/plans/future.md',
+        planContent(fixture.baseCommit, { id: 'IGT-901', status: 'draft' }),
+      )
+      const release = JSON.parse(read(fixture.root, 'docs/plans/releases/fixture-v1.json'))
+      release.plan_ids.push('IGT-901')
+      write(fixture.root, 'docs/plans/releases/fixture-v1.json', JSON.stringify(release))
+      const diffBase = commitAll(fixture.root, 'Record future task')
+      write(
+        fixture.root,
+        'tests/contracts/sample.test.ts',
+        "it('[AC-TEST-001] validates current evidence', () => { expect(true).toBe(true) })\n",
+      )
+      commitAll(fixture.root, 'Implement independent Plan')
+      makePassedEvidence(fixture.root, fixture.baseCommit)
+      commitAll(fixture.root, 'Record Plan completion')
+
+      const governance = join(repositoryRoot, 'scripts/ignite/governance.mjs')
+      const result = spawnSync(
+        process.execPath,
+        [
+          '--input-type=module',
+          '--eval',
+          `const { validateCiCompletion } = await import(${JSON.stringify(governance)}); process.stdout.write(JSON.stringify(validateCiCompletion()))`,
+        ],
+        {
+          cwd: fixture.root,
+          encoding: 'utf8',
+          env: { ...process.env, APP_ENV: 'test', DIFF_BASE: diffBase, IGNITE_ROOT: fixture.root },
+        },
+      )
+      expect(result.status, result.stderr).toBe(0)
+      expect(JSON.parse(result.stdout)).toEqual([])
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
   it('[AC-PRODUCT-005] preserves policy 1 receipts but requires the current policy for new completion', () => {
     const fixture = makeFixture()
     try {
@@ -422,7 +464,7 @@ describe('Ignite Plan and Release contracts', () => {
       )
       expect(ci.status).not.toBe(0)
       expect(`${ci.stdout}\n${ci.stderr}`).toContain(
-        'CI change is not covered by a completed Plan write_scope: README.md',
+        'CI change is not covered by a completed Plan write_scope: docs/features/product.md',
       )
     } finally {
       fixture.cleanup()

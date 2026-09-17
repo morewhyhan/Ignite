@@ -12,6 +12,7 @@ import { hostname, uptime } from 'node:os'
 import { dirname, join, relative, resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
+import { databaseTestAdapter } from '../testing/database-adapter.mjs'
 
 const defaultRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..')
 
@@ -171,6 +172,16 @@ export function stablePlanContract(metadata) {
     risk: metadata.risk || null,
     write_scope: metadata.write_scope || [],
     required_evidence: metadata.required_evidence || [],
+    ...(metadata.contract_version === 2
+      ? {
+          contract_version: 2,
+          goals: metadata.goals || [],
+          constraints: metadata.constraints || [],
+          non_goals: metadata.non_goals || [],
+          authorization: metadata.authorization || null,
+          deliverables: metadata.deliverables || [],
+        }
+      : {}),
   }
 }
 
@@ -207,8 +218,36 @@ function changedPathSet(baseCommit) {
   return paths
 }
 
+function ownedCommittedPaths(plan, commit = 'HEAD') {
+  const paths = new Set()
+  const history = gitLines([
+    'log',
+    '--reverse',
+    '--format=%H%x09%(trailers:key=Ignite-Plan,valueonly)',
+    `${plan.metadata.base_commit}..${commit}`,
+  ])
+  for (const entry of history) {
+    const [sha, owner] = entry.split('\t', 2)
+    if (owner?.trim() && owner.trim() !== plan.metadata.id) continue
+    const parentCount =
+      runGit(['rev-list', '--parents', '-n', '1', sha]).stdout.split(' ').length - 1
+    if (parentCount > 1 && !owner?.trim()) continue
+    for (const path of gitLines(['diff', '--name-only', `${sha}^`, sha])) paths.add(path)
+  }
+  return paths
+}
+
 export function changedFilesForPlan(plan) {
-  return [...changedPathSet(plan.metadata?.base_commit)]
+  const changed =
+    plan.metadata?.contract_version === 2 && gitCommitExists(plan.metadata?.base_commit)
+      ? new Set([
+          ...ownedCommittedPaths(plan),
+          ...gitLines(['diff', '--name-only', 'HEAD']),
+          ...gitLines(['diff', '--cached', '--name-only']),
+          ...gitLines(['ls-files', '--others', '--exclude-standard']),
+        ])
+      : changedPathSet(plan.metadata?.base_commit)
+  return [...changed]
     .map(normalizePath)
     .filter((path) => !isExecutionStatePath(path))
     .sort()
@@ -216,7 +255,11 @@ export function changedFilesForPlan(plan) {
 
 export function changedFilesForPlanAtCommit(plan, commit) {
   if (!gitCommitExists(plan.metadata?.base_commit) || !gitCommitExists(commit)) return []
-  return gitLines(['diff', '--name-only', `${plan.metadata.base_commit}...${commit}`])
+  const changed =
+    plan.metadata?.contract_version === 2
+      ? [...ownedCommittedPaths(plan, commit)]
+      : gitLines(['diff', '--name-only', `${plan.metadata.base_commit}...${commit}`])
+  return changed
     .map(normalizePath)
     .filter((path) => !isExecutionStatePath(path))
     .sort()
@@ -268,6 +311,12 @@ function currentPnpmVersion(environment) {
 
 export function environmentIdentity(environment = process.env) {
   const databaseUrl = environment.DATABASE_URL || ''
+  const dynamicInputs = Object.fromEntries(
+    Object.keys(environment)
+      .filter((name) => name.startsWith('NEXT_PUBLIC_') || name.startsWith('PLAYWRIGHT_'))
+      .sort()
+      .map((name) => [name, environment[name] || '']),
+  )
   const summary = {
     platform: process.platform,
     arch: process.arch,
@@ -286,6 +335,9 @@ export function environmentIdentity(environment = process.env) {
     app_url: environment.APP_URL || '',
     database_url: databaseUrl,
     auth_secret: environment.BETTER_AUTH_SECRET || '',
+    auth_require_email_verification: environment.AUTH_REQUIRE_EMAIL_VERIFICATION || '',
+    node_env: environment.NODE_ENV || '',
+    dynamic_inputs: dynamicInputs,
   }
   return { summary, fingerprint: hash(JSON.stringify(privateInputs)) }
 }
@@ -307,12 +359,43 @@ export function runnerIdentity() {
 }
 
 export function makeSafeTestEnvironment() {
+  const allowedNames = new Set([
+    'PATH',
+    'HOME',
+    'USER',
+    'TMPDIR',
+    'TMP',
+    'TEMP',
+    'SYSTEMROOT',
+    'WINDIR',
+    'COMSPEC',
+    'PATHEXT',
+    'LANG',
+    'LC_ALL',
+    'TZ',
+    'CI',
+    'NVM_BIN',
+    'XDG_CACHE_HOME',
+    'PLAYWRIGHT_BROWSERS_PATH',
+    'PLAYWRIGHT_EXECUTABLE_PATH',
+  ])
+  const inherited = Object.fromEntries(
+    Object.entries(process.env).filter(
+      ([name]) =>
+        allowedNames.has(name) ||
+        name.startsWith('COREPACK_') ||
+        name.startsWith('PNPM_') ||
+        name.startsWith('npm_config_') ||
+        name.startsWith('NEXT_PUBLIC_'),
+    ),
+  )
   return {
-    ...process.env,
+    ...inherited,
     APP_ENV: 'test',
     APP_URL: 'http://127.0.0.1:3000',
-    DATABASE_URL: 'file:./.ignite/runtime/check.db',
+    DATABASE_URL: databaseTestAdapter.isolatedUrl('./.ignite/runtime/check.db'),
     BETTER_AUTH_SECRET: 'ignite-isolated-check-secret-with-at-least-32-characters',
+    AUTH_REQUIRE_EMAIL_VERIFICATION: 'false',
     IGNITE_RUNNER: 'true',
   }
 }

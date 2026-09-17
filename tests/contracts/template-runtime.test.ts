@@ -55,7 +55,13 @@ describe('template and runtime contracts', () => {
         windowsHide: true,
       })
       expect(scaffold.status, scaffold.stderr).toBe(0)
-      const validation = runCli(fixture.root, 'plan', 'validate', 'IGT-001')
+      const generatedPlan = readdirSync(join(fixture.root, 'docs/plans')).find((name) =>
+        name.endsWith('-invoices.md'),
+      )!
+      const generatedId = read(fixture.root, `docs/plans/${generatedPlan}`).match(
+        /"id": "(IGT-\d+)"/,
+      )?.[1]
+      const validation = runCli(fixture.root, 'plan', 'validate', generatedId!)
       expect(validation.status, validation.stderr).toBe(0)
     } finally {
       fixture.cleanup()
@@ -146,7 +152,14 @@ describe('template and runtime contracts', () => {
           plan_ids: string[]
           status?: string
         }
-        expect(release.plan_ids).toContain('IGT-901')
+        const generatedPlan = readdirSync(join(fixture.root, 'docs/plans')).find((name) =>
+          name.endsWith('-invoices.md'),
+        )!
+        const generatedId = read(fixture.root, `docs/plans/${generatedPlan}`).match(
+          /"id": "(IGT-\d+)"/,
+        )?.[1]
+        expect(generatedId).toMatch(/^IGT-\d{3,}$/)
+        expect(release.plan_ids).toContain(generatedId)
         expect(release).not.toHaveProperty('status')
       } finally {
         fixture.cleanup()

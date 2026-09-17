@@ -89,9 +89,12 @@ describe('Ignite risk-derived checks', () => {
     }
     expect(commandsForLevel('release', ['README.md'], plan)).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({ label: 'verify' }),
+        expect.objectContaining({ label: 'build' }),
         expect.objectContaining({ label: 'e2e-production' }),
       ]),
+    )
+    expect(commandsForLevel('release', ['README.md'], plan, 2)).toEqual(
+      expect.arrayContaining([expect.objectContaining({ label: 'verify' })]),
     )
     expect(commandsForLevel('integration', ['README.md'], plan)).toEqual(
       expect.arrayContaining([

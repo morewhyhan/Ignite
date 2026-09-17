@@ -187,6 +187,7 @@ const eslintConfig = defineConfig([
     },
   },
   globalIgnores([
+    '.ignite/**',
     '.next/**',
     'coverage/**',
     'out/**',

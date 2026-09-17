@@ -1,4 +1,7 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { parse } from 'yaml'
 
 type StoredTask = {
   id: string
@@ -150,6 +153,27 @@ describe('tasks API', () => {
 
     expect(response.status).toBe(422)
     expect(testState.tasks).toHaveLength(0)
+  })
+
+  it('[AC-PRODUCT-013] rejects an empty update as documented', async () => {
+    testState.userId = firstUserId
+    const response = await request('PUT', '/api/tasks/00000000-0000-4000-8000-000000000001', {})
+    expect(response.status).toBe(422)
+  })
+
+  it('[AC-PRODUCT-013] returns exactly the documented task fields', async () => {
+    testState.userId = firstUserId
+    const response = await request('POST', '/api/tasks', { title: 'schema check' })
+    expect(response.status).toBe(200)
+    const body = (await response.json()) as { data: Record<string, unknown> }
+    const document = parse(
+      readFileSync(resolve(process.cwd(), 'docs/designs/api.yaml'), 'utf8'),
+    ) as {
+      components: { schemas: { Task: { properties: Record<string, unknown> } } }
+    }
+    expect(Object.keys(body.data).sort()).toEqual(
+      Object.keys(document.components.schemas.Task.properties).sort(),
+    )
   })
 
   it('[AC-TASKS-003] does not expose or delete another user task', async () => {

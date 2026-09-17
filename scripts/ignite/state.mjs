@@ -10,7 +10,9 @@ import {
   executionWorkspaceIsClean,
   generatedStatusPath,
   gitCommitExists,
+  hash,
   isAncestor,
+  localRunsDirectory,
   normalizePath,
   plansDirectory,
   readJson,
@@ -203,6 +205,18 @@ export function specificationRegistry(commit = null) {
 }
 
 export function templateMode() {
+  const identityPath = join(repositoryRoot, '.ai', 'project.json')
+  if (existsSync(identityPath)) {
+    try {
+      const identity = readJson(identityPath)
+      return identity.schema === 1 && ['template-baseline', 'adopted'].includes(identity.mode)
+        ? identity.mode
+        : 'unknown'
+    } catch {
+      return 'unknown'
+    }
+  }
+  // Historical fixtures and repositories may still use the original prose marker.
   const productPath = join(repositoryRoot, 'docs', 'features', 'product.md')
   if (!existsSync(productPath)) return 'unknown'
   return (
@@ -237,6 +251,7 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
   const value = plan.metadata
   const failures = []
   const retired = ['cancelled', 'superseded'].includes(value.status)
+  const draft = value.status === 'draft'
   const historicalCommit =
     value.status === 'done' && gitCommitExists(value.integrated_commit)
       ? value.integrated_commit
@@ -254,24 +269,71 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
   if (!CURRENT_STATUSES.has(value.status)) failures.push(`unknown current status: ${value.status}`)
   if (typeof value.outcome !== 'string' || !value.outcome.trim())
     failures.push('outcome is required')
+  if (value.contract_version !== undefined && value.contract_version !== 2) {
+    failures.push('contract_version must be 2 when provided')
+  }
+  if (value.contract_version === 2) {
+    for (const field of ['goals', 'constraints', 'non_goals', 'deliverables']) {
+      if (!Array.isArray(value[field])) failures.push(`${field} must be an array`)
+    }
+    if (!draft && (!Array.isArray(value.goals) || value.goals.length === 0)) {
+      failures.push('goals must name each user-visible result')
+    }
+    for (const goal of value.goals || []) {
+      if (
+        typeof goal?.text !== 'string' ||
+        !goal.text.trim() ||
+        !Array.isArray(goal.requirements) ||
+        goal.requirements.length === 0 ||
+        goal.requirements.some((id) => !value.requirements?.includes(id))
+      ) {
+        failures.push('each goal must have text and declared REQ-* mappings')
+      }
+    }
+    if (!draft) {
+      const mappedRequirements = new Set(
+        (value.goals || []).flatMap((goal) => goal.requirements || []),
+      )
+      for (const requirement of value.requirements || []) {
+        if (!mappedRequirements.has(requirement)) {
+          failures.push(`${requirement} has no user-visible goal mapping`)
+        }
+      }
+    }
+    for (const item of [
+      ...(value.constraints || []),
+      ...(value.non_goals || []),
+      ...(value.deliverables || []),
+    ]) {
+      if (typeof item !== 'string' || !item.trim())
+        failures.push('contract entries must be non-empty strings')
+    }
+    if (
+      !value.authorization ||
+      typeof value.authorization.source !== 'string' ||
+      !value.authorization.source.trim()
+    ) {
+      failures.push('authorization.source is required')
+    }
+  }
   if (!CURRENT_CHANGE_TYPES.has(value.change_type)) {
     failures.push('change_type must be 新增模块 or 存量改动')
   }
   if (!gitCommitExists(value.base_commit)) failures.push('base_commit must identify a real commit')
   else if (!isAncestor(value.base_commit, 'HEAD'))
     failures.push('base_commit must be an ancestor of HEAD')
-  if (!Array.isArray(value.requirements) || value.requirements.length === 0) {
+  if (!Array.isArray(value.requirements) || (!draft && value.requirements.length === 0)) {
     failures.push('requirements must contain at least one REQ-* ID')
   } else {
     for (const id of value.requirements) {
-      if (!/^REQ-[A-Z0-9-]+$/.test(id) || (!retired && !registry.requirements.has(id)))
+      if (!/^REQ-[A-Z0-9-]+$/.test(id) || (!retired && !draft && !registry.requirements.has(id)))
         failures.push(`unknown requirement: ${id}`)
     }
     if (new Set(value.requirements).size !== value.requirements.length) {
       failures.push('requirements must be unique')
     }
   }
-  if (!Array.isArray(value.acceptance) || value.acceptance.length === 0) {
+  if (!Array.isArray(value.acceptance) || (!draft && value.acceptance.length === 0)) {
     failures.push('acceptance must map at least one AC to tests')
   } else {
     const coveredRequirements = new Set()
@@ -284,15 +346,15 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
       if (acceptanceIds.has(item.id)) failures.push(`duplicate acceptance mapping: ${item.id}`)
       acceptanceIds.add(item.id)
       const spec = registry.acceptance.get(item.id)
-      if (!/^AC-[A-Z0-9-]+$/.test(item.id) || (!retired && !spec))
+      if (!/^AC-[A-Z0-9-]+$/.test(item.id) || (!retired && !draft && !spec))
         failures.push(`unknown acceptance criterion: ${item.id}`)
       for (const requirement of spec?.requirements || []) {
         coveredRequirements.add(requirement)
-        if (!value.requirements?.includes(requirement)) {
+        if (!draft && !value.requirements?.includes(requirement)) {
           failures.push(`acceptance ${item.id} covers undeclared requirement ${requirement}`)
         }
       }
-      if (!Array.isArray(item.tests) || item.tests.length === 0) {
+      if (!Array.isArray(item.tests) || (!draft && item.tests.length === 0)) {
         failures.push(`acceptance ${item.id} must name at least one test`)
       } else {
         if (new Set(item.tests).size !== item.tests.length) {
@@ -304,7 +366,7 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
             failures.push(`acceptance ${item.id} references a non-runnable test ${testPath}`)
             continue
           }
-          if (retired) continue
+          if (retired || draft) continue
           const testContent = readRepositoryText(testPath, historicalCommit)
           if (testContent === null) {
             failures.push(`acceptance ${item.id} references missing test ${testPath}`)
@@ -315,7 +377,7 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
       }
     }
     for (const requirement of value.requirements || []) {
-      if (!retired && !coveredRequirements.has(requirement)) {
+      if (!retired && !draft && !coveredRequirements.has(requirement)) {
         failures.push(`requirement ${requirement} is not linked by a Plan acceptance criterion`)
       }
     }
@@ -504,6 +566,43 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
       failures.push(`evidence ${item.id} has no valid log digest`)
       evidenceFailures.push('log')
     }
+    if (requireCurrentEvidence && policyVersion >= 3) {
+      const localRecordPath = join(localRunsDirectory, `${manifest.run_id}.json`)
+      const localLogPath = join(localRunsDirectory, `${manifest.run_id}.log`)
+      try {
+        const localRecord = readJson(localRecordPath)
+        const actualLogDigest = hash(readFileSync(localLogPath))
+        const sameRun =
+          localRecord.run_id === manifest.run_id &&
+          localRecord.plan_id === manifest.plan_id &&
+          localRecord.evidence_id === manifest.evidence_id &&
+          localRecord.status === 'passed' &&
+          localRecord.exit_code === 0 &&
+          localRecord.commit === manifest.commit &&
+          localRecord.input_fingerprint === manifest.input_fingerprint &&
+          localRecord.environment_fingerprint === manifest.environment_fingerprint &&
+          JSON.stringify(
+            localRecord.commands.map((command) => ({
+              label: command.label,
+              command: command.command,
+              status: command.status,
+              exit_code: command.exit_code,
+              duration_ms: command.duration_ms,
+            })),
+          ) === JSON.stringify(manifest.commands)
+        if (
+          manifest.execution_source !== 'ignite-runner-local' ||
+          !sameRun ||
+          actualLogDigest !== manifest.log_sha256
+        ) {
+          failures.push(`evidence ${item.id} does not match its local execution record and log`)
+          evidenceFailures.push('source')
+        }
+      } catch {
+        failures.push(`evidence ${item.id} has no readable local execution record and log`)
+        evidenceFailures.push('source')
+      }
+    }
     if (
       !isValidTimestamp(manifest.started_at) ||
       !isValidTimestamp(manifest.ended_at) ||
@@ -550,6 +649,44 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
   return [...new Set(failures)]
 }
 
+export function validatePlanDependencies(
+  plan,
+  plans = listPlans(),
+  { requireDone = ['active', 'verifying', 'done'].includes(plan.metadata?.status) } = {},
+) {
+  const failures = []
+  const byId = new Map(
+    plans.filter((item) => item.metadata).map((item) => [item.metadata.id, item]),
+  )
+  byId.set(plan.metadata.id, plan)
+  const path = []
+  const visited = new Set()
+  function visit(id) {
+    const cycleStart = path.indexOf(id)
+    if (cycleStart !== -1) {
+      failures.push(`dependency cycle: ${[...path.slice(cycleStart), id].join(' -> ')}`)
+      return
+    }
+    if (visited.has(id)) return
+    visited.add(id)
+    path.push(id)
+    const current = byId.get(id)
+    for (const dependency of current?.metadata.depends_on || []) {
+      const target = byId.get(dependency)
+      if (!target) failures.push(`missing dependency ${dependency}`)
+      else {
+        if (id === plan.metadata.id && requireDone && target.metadata.status !== 'done') {
+          failures.push(`dependency ${dependency} is not done`)
+        }
+        visit(dependency)
+      }
+    }
+    path.pop()
+  }
+  visit(plan.metadata.id)
+  return [...new Set(failures)]
+}
+
 export function validateAllPlans() {
   const failures = []
   const plans = listPlans()
@@ -567,15 +704,8 @@ export function validateAllPlans() {
     }
   }
   for (const plan of plans.filter((item) => item.metadata?.schema === 2)) {
-    for (const dependency of plan.metadata.depends_on || []) {
-      const target = ids.get(dependency)
-      if (!target) failures.push(`${plan.relativePath}: missing dependency ${dependency}`)
-      else if (
-        (target.metadata.schema !== 2 || target.metadata.status !== 'done') &&
-        ['active', 'verifying', 'done'].includes(plan.metadata.status)
-      ) {
-        failures.push(`${plan.relativePath}: dependency ${dependency} is not done`)
-      }
+    for (const error of validatePlanDependencies(plan, plans)) {
+      failures.push(`${plan.relativePath}: ${error}`)
     }
   }
   const releases = new Map(listReleases().map(({ value }) => [value.id, value]))
@@ -808,9 +938,55 @@ export function setPlanStatus(planId, nextStatus, { blocker = null, commit = nul
   if (nextStatus === 'blocked') nextMetadata.blocker = blocker
   else nextMetadata.blocker = null
   const candidate = { ...plan, metadata: nextMetadata }
-  const errors = validatePlan(candidate, { allowLegacy: false })
+  const errors = [
+    ...validatePlan(candidate, { allowLegacy: false }),
+    ...validatePlanDependencies(candidate),
+  ]
   if (errors.length) throw new Error(`invalid Plan state:\n- ${errors.join('\n- ')}`)
   const updated = updatePlanMetadata(plan, () => nextMetadata)
+  writeGeneratedStatus()
+  return updated
+}
+
+export function reintegratePlan(planId) {
+  const plan = findPlan(planId)
+  if (plan.metadata?.schema !== 2 || !['verifying', 'done'].includes(plan.metadata.status)) {
+    throw new Error('reintegrate requires a verifying or done schema 2 Plan')
+  }
+  if (!executionWorkspaceIsClean()) {
+    throw new Error('commit the merged snapshot before reintegrating the Plan')
+  }
+  const mergedCommit = currentCommit()
+  if (!planContractAtCommit(plan, mergedCommit)) {
+    throw new Error('merged HEAD does not contain the current stable Plan contract')
+  }
+  if (
+    gitCommitExists(plan.metadata.integrated_commit) &&
+    isAncestor(plan.metadata.integrated_commit, mergedCommit)
+  ) {
+    throw new Error('integrated_commit is still reachable; ordinary verification can continue')
+  }
+  const next = structuredClone(plan.metadata)
+  next.integration_history = [
+    ...(next.integration_history || []),
+    {
+      source_commit: next.integrated_commit,
+      evidence: next.evidence,
+      replaced_by: mergedCommit,
+      recorded_at: new Date().toISOString(),
+    },
+  ]
+  next.status = 'active'
+  next.integrated_commit = null
+  next.evidence = []
+  next.blocker = null
+  next.updated_at = new Date().toISOString().slice(0, 10)
+  const errors = [
+    ...validatePlan({ ...plan, metadata: next }, { allowLegacy: false }),
+    ...validatePlanDependencies({ ...plan, metadata: next }),
+  ]
+  if (errors.length) throw new Error(`cannot reintegrate Plan:\n- ${errors.join('\n- ')}`)
+  const updated = updatePlanMetadata(plan, () => next)
   writeGeneratedStatus()
   return updated
 }

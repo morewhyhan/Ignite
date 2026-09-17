@@ -5,13 +5,13 @@ import { zValidator } from '../../validator'
 import { prisma } from '@/server/database/client'
 import { requireUserId } from '../../session'
 
-const taskSchema = z
+export const taskSchema = z
   .object({
     title: z.string().trim().min(1).max(200),
   })
   .strict()
 
-const updateTaskSchema = z
+export const updateTaskSchema = z
   .object({
     title: z.string().trim().min(1).max(200).optional(),
     completed: z.boolean().optional(),

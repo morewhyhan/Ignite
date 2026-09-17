@@ -6,11 +6,24 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { hostname } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { createRequire } from 'node:module'
 
 const defaultRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const repositoryRoot = resolve(process.env.IGNITE_ROOT || defaultRoot)
 const contractPath = join(repositoryRoot, '.ai', 'runtime.json')
 const markerPath = join(repositoryRoot, 'node_modules', '.ignite-platform.json')
+const preflight = process.argv.includes('--preflight')
+
+function browserStatus() {
+  if (!existsSync(markerPath)) return 'install-dependencies-first'
+  try {
+    const require = createRequire(join(repositoryRoot, 'package.json'))
+    const { chromium } = require('@playwright/test')
+    return existsSync(chromium.executablePath()) ? 'ready' : 'install-required'
+  } catch {
+    return 'install-or-repair-dependencies'
+  }
+}
 
 function fail(message) {
   console.error(`Ignite runtime: ${message}`)
@@ -57,7 +70,35 @@ if (!existsSync(contractPath)) {
     fail(`pnpm ${requiredPnpm} is required; current package manager is ${current.pnpm}`)
   }
 
-  if (process.argv.includes('--record') && !process.exitCode) {
+  if (preflight && !process.exitCode) {
+    const git = spawnSync('git', ['--version'], {
+      cwd: repositoryRoot,
+      encoding: 'utf8',
+      windowsHide: true,
+    })
+    const dependenciesReady = existsSync(markerPath)
+    const browser = browserStatus()
+    console.log(
+      JSON.stringify(
+        {
+          runtime: 'ready',
+          git: git.status === 0 ? 'ready' : 'missing',
+          network: 'not-probed',
+          dependencies: dependenciesReady ? 'installed-marker-present' : 'install-required',
+          browser,
+          local_env: existsSync(join(repositoryRoot, '.env')) ? 'present' : 'create-from-example',
+          database: 'run-pnpm-db-setup-after-env',
+          next_command: !dependenciesReady
+            ? 'corepack pnpm install --frozen-lockfile'
+            : browser === 'install-required'
+              ? 'corepack pnpm exec playwright install chromium'
+              : 'pnpm runtime:check',
+        },
+        null,
+        2,
+      ),
+    )
+  } else if (process.argv.includes('--record') && !process.exitCode) {
     mkdirSync(dirname(markerPath), { recursive: true })
     writeFileSync(markerPath, `${JSON.stringify(current, null, 2)}\n`, 'utf8')
     console.log(`Recorded ${current.platform}/${current.arch} dependency runtime.`)

@@ -12,11 +12,23 @@
 
 `auth`、`theme`、`landing`、`dashboard` 属于基础能力或产品外壳，可以使用单数目录；资源型业务模块使用复数 kebab-case，例如 `projects`、`notifications`。
 
+采用决定应同时落在产品规格、实现与回归检查中；可变外壳与必须保留的安全行为分别核对：
+
+| 决定       | 实现入口                                              | 同步检查                          |
+| ---------- | ----------------------------------------------------- | --------------------------------- |
+| 名称与介绍 | `src/config/site.ts`、`package.json`、README、Landing | 页面标题、模板残留、Cookie slug   |
+| 首页与路由 | `src/app/`、`src/config/navigation.ts`、登录跳转      | 导航入口、重定向、E2E 用户路径    |
+| 视觉与主题 | `src/app/globals.css`、`src/modules/theme/`、共享 UI  | 设计事实、桌面与移动视口          |
+| Tasks 去留 | Schema、API、Hook、页面、导航                         | 独立认证/权限测试以及对应业务测试 |
+
+当前页面名称、粉色主题和 `/dashboard` 是模板基线，不是衍生产品的永久要求。用户已给出目标时，AI 按目标更新对应测试；权限、秘密信息和持久化约束仍需验收。
+
 ## 第一步：验证未修改的基线
 
 如果使用 GitHub 的 “Use this template” 或下载源码后重新 `git init`，新仓库没有模板旧提交。先提交初始源码，再运行 `pnpm ignite adopt-history` 查看继承记录；确认列表后执行 `pnpm ignite adopt-history --apply`。它把旧 Plan、Release 和运行清单原样归档到 `docs/others/template-history/`，保留恢复索引，随后新建的 Plan 使用新仓库的基线。归档不代表旧任务已验证。普通完整克隆无需此操作；浅克隆应先取回完整历史。
 
 ```bash
+node scripts/runtime-doctor.mjs --preflight
 cp .env.example .env
 corepack pnpm install --frozen-lockfile
 pnpm runtime:check
@@ -25,7 +37,7 @@ pnpm verify
 pnpm test:e2e:production
 ```
 
-再手动完成一次：注册或登录 → 打开任务页 → 创建、编辑、完成、删除任务 → 退出登录。
+浏览器用户路径由 `pnpm test:e2e:production` 重放。第一次安装若缺少 Chromium，先执行 `pnpm exec playwright install --with-deps chromium` 再运行该检查；失败时保留报告，不以人工点击作为验收替代。
 
 ## 第二步：建立项目身份
 
@@ -33,9 +45,10 @@ pnpm test:e2e:production
 
 - `package.json` 的 `name`；
 - `src/config/site.ts` 的 `name`、`slug`、`tagline` 和 `description`；
-- `docs/features/product.md` 的状态、目标用户、范围和示例业务决定；
+- `.ai/project.json` 的 `mode`、源仓库和项目目标仓库；`docs/features/product.md` 的目标用户、范围和示例业务决定；
 - README 的产品名称和说明；
 - `.env` 中的独立 `BETTER_AUTH_SECRET`。
+- Git `origin` 的 push URL。完整克隆后必须指向新项目仓库；若暂时只在本地开发，可以先不设置远端，但不得保留指向 Ignite 模板的推送地址。
 
 生成本地 secret：
 
@@ -45,8 +58,7 @@ node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'
 
 `siteConfig.slug` 同时用于认证 Cookie 前缀。浏览器 Cookie 不按端口隔离，所以同时运行多个衍生项目时必须使用不同 slug 和 secret，避免会话互相覆盖。
 
-完成后运行 `pnpm template:doctor`。在 `docs/features/product.md` 状态改为
-`adopted` 后，仍使用 Ignite 名称、slug、默认 secret，或本地既没有 `.env` 也没有等价环境变量，都会被报告。
+完成后运行 `pnpm template:doctor`。`.ai/project.json` 是机器可读的项目身份真源：将 `mode` 改为 `adopted`，把 `source_repository` 保留为模板来源，已确定项目仓库时填入 `project_repository`；尚未确定时保持 `null`，本地开发可以继续，但不要宣称已推送。若仍使用 Ignite 名称、slug、默认 secret，或本地既没有 `.env` 也没有等价环境变量，诊断会报告。
 
 ## 第三步：决定 Tasks 的去留
 

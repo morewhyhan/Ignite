@@ -13,7 +13,7 @@ export default defineConfig({
     clearMocks: true,
     environment: 'node',
     fileParallelism: false,
-    include: ['tests/{api,contracts}/**/*.test.ts'],
+    include: ['tests/{api,contracts}/**/*.test.{ts,tsx}'],
     restoreMocks: true,
     testTimeout: 30_000,
     hookTimeout: 30_000,

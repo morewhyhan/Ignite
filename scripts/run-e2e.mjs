@@ -3,6 +3,7 @@ import { copyFileSync, cpSync, mkdirSync, mkdtempSync, rmSync } from 'node:fs'
 import { createServer } from 'node:net'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
+import { databaseTestAdapter } from './testing/database-adapter.mjs'
 
 const repositoryRoot = process.cwd()
 const workspace = mkdtempSync(join(tmpdir(), 'ignite-e2e-'))
@@ -12,7 +13,8 @@ const schemaPath = resolve(repositoryRoot, 'prisma', 'schema.prisma')
 const prismaCli = resolve(repositoryRoot, 'node_modules', 'prisma', 'build', 'index.js')
 const playwrightCli = resolve(repositoryRoot, 'node_modules', '@playwright', 'test', 'cli.js')
 const databasePath = join(workspace, 'e2e.db')
-const databaseUrl = `file:${databasePath.replaceAll('\\', '/')}`
+databaseTestAdapter.assertSchema(schemaPath)
+const databaseUrl = databaseTestAdapter.isolatedUrl(databasePath)
 const production = process.argv.includes('--production')
 const playwrightArguments = process.argv
   .slice(2)

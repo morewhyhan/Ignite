@@ -1,4 +1,5 @@
 import { spawnSync } from 'node:child_process'
+import { randomInt } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 
@@ -55,7 +56,7 @@ if (!/^[0-9a-f]{40}$/i.test(baseCommit)) {
   process.exit(1)
 }
 
-const existingPlanIds = []
+const existingPlanIds = new Set()
 const planRoot = join(repositoryRoot, 'docs', 'plans')
 if (existsSync(planRoot)) {
   const planFiles = readdirSync(planRoot, { recursive: true, withFileTypes: true })
@@ -63,10 +64,13 @@ if (existsSync(planRoot)) {
     if (!entry.isFile() || !entry.name.endsWith('.md')) continue
     const content = readFileSync(join(entry.parentPath, entry.name), 'utf8')
     const id = content.match(/"id"\s*:\s*"IGT-(\d+)"/)?.[1]
-    if (id) existingPlanIds.push(Number(id))
+    if (id) existingPlanIds.add(`IGT-${id}`)
   }
 }
-const planId = `IGT-${String(Math.max(0, ...existingPlanIds) + 1).padStart(3, '0')}`
+let planId
+do {
+  planId = `IGT-${Date.now()}${String(randomInt(1_000_000)).padStart(6, '0')}`
+} while (existingPlanIds.has(planId))
 const acceptanceId = `AC-${upperName}-001`
 const requirementId = `REQ-${upperName}-001`
 const testPath = `tests/contracts/${moduleName}.test.ts`
@@ -157,6 +161,12 @@ ${JSON.stringify(
     release: releaseId,
     status: 'draft',
     outcome: `完成 ${moduleName} 的一个可验收纵向切片`,
+    contract_version: 2,
+    goals: [{ text: `完成 ${moduleName} 的可验收能力`, requirements: [requirementId] }],
+    constraints: [],
+    non_goals: [],
+    authorization: { source: '待确认具体实施请求' },
+    deliverables: [`${moduleName} 可运行入口和验证结果`],
     change_type: '新增模块',
     base_commit: baseCommit,
     requirements: [requirementId],

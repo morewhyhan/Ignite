@@ -64,8 +64,8 @@ Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定�
 
 ## 推荐开发流程
 
-1. 在规范化运行时执行 `pnpm runtime:check` 和 `pnpm ignite status --json`，先识别模板状态、当前 Plan 与结构问题。
-2. 只读取本轮相关的 Feature、Plan、Standards、Design 和测试；继续匹配的现有 Plan，不为同一结果另建 Plan。
+1. 在安装依赖前执行 `node scripts/runtime-doctor.mjs --preflight`；安装后运行 `pnpm runtime:check` 和 `pnpm ignite status --json`，先识别模板状态、当前 Plan 与结构问题。
+2. 只读取本轮相关的 Feature、Plan、Standards、Design 和测试；用 `pnpm ignite next --plan <IGT-ID>` 接续匹配的现有 Plan，不为同一结果另建 Plan。新模块用 `pnpm create:module`，存量改动可用 `pnpm create:change` 起草。
 3. 明确增量/存量、基线 commit、写入范围和验收标准；关闭开放问题后再进入实现。
 4. 先写或更新契约测试，再实现最小代码；页面只消费 module screen，业务请求只走 Hook 与 RPC。
 5. 在提交实现后运行集成检查，进入 `verifying` 再运行 release 检查；最后回写 Design、完成 Plan 并刷新状态摘要。

@@ -180,6 +180,9 @@ export function stablePlanContract(metadata) {
           non_goals: metadata.non_goals || [],
           authorization: metadata.authorization || null,
           deliverables: metadata.deliverables || [],
+          ...(metadata.remaining_work !== undefined
+            ? { remaining_work: metadata.remaining_work }
+            : {}),
         }
       : {}),
   }

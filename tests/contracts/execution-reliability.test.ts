@@ -1,5 +1,5 @@
-import { spawnSync } from 'node:child_process'
-import { readdirSync } from 'node:fs'
+import { spawn, spawnSync } from 'node:child_process'
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import {
@@ -110,6 +110,19 @@ describe('execution reliability', () => {
       )
       const adopted = doctor()
       expect(adopted.status, adopted.stderr).toBe(0)
+      write(
+        fixture.root,
+        '.env',
+        read(fixture.root, '.env').replace('http://localhost:3000', 'http://localhost:3000/path'),
+      )
+      const invalidOrigin = doctor()
+      expect(invalidOrigin.status).not.toBe(0)
+      expect(invalidOrigin.stderr).toContain('APP_URL must be an origin only')
+      write(
+        fixture.root,
+        '.env',
+        read(fixture.root, '.env').replace('http://localhost:3000/path', 'http://localhost:3000'),
+      )
       git(fixture.root, 'remote', 'add', 'origin', 'git@github.com:morewhyhan/Ignite.git')
       const unsafeRemote = doctor()
       expect(unsafeRemote.status).not.toBe(0)
@@ -236,6 +249,70 @@ describe('execution reliability', () => {
     }
   })
 
+  it('[AC-PRODUCT-012] cancels a real quiet child without publishing success', async () => {
+    const fixture = makeFixture()
+    const runsFile = join(repositoryRoot, 'scripts/ignite/runs.mjs')
+    const stateFile = join(repositoryRoot, 'scripts/ignite/state.mjs')
+    const workerScript = `const state = await import(${JSON.stringify(stateFile)})
+      const runs = await import(${JSON.stringify(runsFile)})
+      const result = await runs.executeCheckPlan({
+        plan: state.findPlan('IGT-900'),
+        checkPlan: { level: 'integration', changedFiles: [], commands: [{
+          label: 'quiet-fixture', command: process.execPath,
+          args: ['--eval', 'setTimeout(() => {}, 12000)'],
+        }] },
+      })
+      process.stdout.write(JSON.stringify({ status: result.status, exitCode: result.exitCode }))`
+    const worker = spawn(process.execPath, ['--input-type=module', '--eval', workerScript], {
+      cwd: fixture.root,
+      env: { ...process.env, IGNITE_ROOT: fixture.root, APP_ENV: 'test' },
+      stdio: ['ignore', 'pipe', 'pipe'],
+    })
+    let output = ''
+    let errors = ''
+    worker.stdout.on('data', (chunk) => {
+      output += chunk.toString()
+    })
+    worker.stderr.on('data', (chunk) => {
+      errors += chunk.toString()
+    })
+    try {
+      const directory = join(fixture.root, '.ignite/runs')
+      let runId = ''
+      for (let attempt = 0; attempt < 100; attempt += 1) {
+        const file = existsSync(directory)
+          ? readdirSync(directory).find((name) => name.endsWith('.json'))
+          : null
+        if (file) {
+          try {
+            const record = JSON.parse(readFileSync(join(directory, file), 'utf8'))
+            if (record.child_pid) {
+              runId = record.run_id
+              break
+            }
+          } catch {
+            /* writer may be replacing this record */
+          }
+        }
+        await new Promise((resolve) => setTimeout(resolve, 100))
+      }
+      expect(runId).not.toBe('')
+      const cancellation = runModule(
+        fixture.root,
+        `const runs = await import(${JSON.stringify(runsFile)})
+         process.stdout.write(JSON.stringify(runs.requestRunCancellation(${JSON.stringify(runId)})))`,
+      )
+      expect(cancellation.status, cancellation.stderr).toBe(0)
+      const code = await new Promise<number | null>((resolve) => worker.once('close', resolve))
+      expect(code, errors).toBe(0)
+      expect(JSON.parse(output)).toMatchObject({ status: 'cancelled', exitCode: 130 })
+      expect(existsSync(join(fixture.root, 'docs/others/evidence/runs'))).toBe(false)
+    } finally {
+      worker.kill('SIGTERM')
+      fixture.cleanup()
+    }
+  }, 20_000)
+
   it('[AC-PRODUCT-012] lets an unrelated draft stay incomplete but blocks its promotion', () => {
     const fixture = makeFixture()
     try {
@@ -352,6 +429,40 @@ describe('execution reliability', () => {
       )
       expect(result.status, result.stderr).toBe(0)
       expect(result.stdout).toBe('true')
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
+  it('[AC-PRODUCT-013] never recommends completion while declared acceptance gaps remain', () => {
+    const fixture = makeFixture()
+    try {
+      write(
+        fixture.root,
+        'docs/plans/fixture.md',
+        planContent(fixture.baseCommit, {
+          contract_version: 2,
+          goals: [{ text: 'Deliver result', requirements: ['REQ-TEST-001'] }],
+          constraints: [],
+          non_goals: [],
+          authorization: { source: 'fixture' },
+          deliverables: ['result'],
+          remaining_work: ['Verify a real cold-start journey'],
+          status: 'active',
+        }),
+      )
+      const next = runCli(fixture.root, 'next', '--plan', 'IGT-900')
+      expect(next.status, next.stderr).toBe(0)
+      expect(JSON.parse(next.stdout).next_action.reason).toContain('real cold-start')
+      const state = join(repositoryRoot, 'scripts/ignite/state.mjs')
+      const checkDone = runModule(
+        fixture.root,
+        `const state = await import(${JSON.stringify(state)})
+         const plan = state.findPlan('IGT-900')
+         process.stdout.write(JSON.stringify(state.validatePlan({ ...plan, metadata: { ...plan.metadata, status: 'done' } })))`,
+      )
+      expect(checkDone.status, checkDone.stderr).toBe(0)
+      expect(JSON.parse(checkDone.stdout).join('\n')).toContain('unverified work')
     } finally {
       fixture.cleanup()
     }

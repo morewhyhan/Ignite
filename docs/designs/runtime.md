@@ -20,6 +20,8 @@
 | `DATABASE_URL`       | `file:./dev.db`         | 不能使用 `file:` SQLite           |
 | `BETTER_AUTH_SECRET` | 本地示例值              | 至少 32 字符高熵随机值            |
 
+`scripts/template-doctor.mjs` 与服务端 `src/server/env.ts` 共用 `src/server/env-policy.mjs` 检查 URL origin、密钥长度和生产环境限制；诊断只报告问题，不输出密钥值。
+
 本模板的注册登录不依赖外部邮件服务。若产品需要邮箱所有权验证，应作为独立增量模块增加 provider、环境变量、契约测试和 E2E。
 
 隔离数据库的当前适配入口是 `scripts/testing/database-adapter.mjs`，支持 SQLite 的临时文件 URL 与内存快照。E2E、迁移测试和治理检查共用这项能力；Prisma 切换到其他 provider 时会先报不支持，而不会把原有 SQLite 绿色结果冒充新 provider 的验收。
@@ -71,4 +73,4 @@ Release JSON 只声明 `plan_ids`、`must_pass` 和排除项，不保存状态�
 
 CI 还会用本次 Git diff 做反向覆盖检查：每一个非状态文件的改动，都必须落在本次完成 Plan 的 `write_scope` 内，且文件内容与该 Plan 的被测提交一致。已有的未改动草稿不阻塞本次交付；本次改动的 Plan 必须达到终态，但同 Release 未来任务不阻止其独立合并。首推没有 before commit 时以仓库根提交为明确基线。这样既保留历史证据，又能检测同一路径在验证后追加的修改。
 
-`pnpm ignite next --plan <ID>` 是派生的接续摘要：列出目标、约束、最近运行和允许的下一步，不维护第二份状态。成果交付只报告已核实的本地提交、远端同步或部署状态；`done` 自身不等于已上线。Squash/rebase 改写提交后需 `plan reintegrate` 并在最终集成提交重测，不能移植源提交的通过摘要。
+`pnpm ignite next --plan <ID>` 是派生的接续摘要：列出目标、约束、最近运行、`remaining_work` 和允许的下一步，不维护第二份状态。若剩余验收非空，即使所有命令通过也不建议 `done`，状态校验同样拒绝。成果交付只报告已核实的本地提交、远端同步或部署状态；`done` 自身不等于已上线。Squash/rebase 改写提交后需 `plan reintegrate` 并在最终集成提交重测，不能移植源提交的通过摘要。

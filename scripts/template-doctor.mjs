@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import ts from 'typescript'
+import { developmentSecret, environmentPolicyIssues } from '../src/server/env-policy.mjs'
 
 const repositoryRoot = process.cwd()
 const issues = []
@@ -169,9 +170,11 @@ if (environment) {
     }
   }
 
-  if (
-    values.get('BETTER_AUTH_SECRET') === 'ignite-development-only-secret-change-before-deploying'
-  ) {
+  for (const policyIssue of environmentPolicyIssues(Object.fromEntries(values))) {
+    issue(policyIssue.message)
+  }
+
+  if (values.get('BETTER_AUTH_SECRET') === developmentSecret) {
     const message = 'Generate a unique BETTER_AUTH_SECRET for this local project.'
     if (isAdopted) issue(message)
     else notice(message)
@@ -183,7 +186,10 @@ if (environment) {
   if (!process.env.APP_URL || !process.env.DATABASE_URL || !process.env.BETTER_AUTH_SECRET) {
     issue('APP_URL, DATABASE_URL and BETTER_AUTH_SECRET are required for an adopted project.')
   }
-  if (process.env.BETTER_AUTH_SECRET === 'ignite-development-only-secret-change-before-deploying') {
+  for (const policyIssue of environmentPolicyIssues(process.env)) {
+    issue(policyIssue.message)
+  }
+  if (process.env.BETTER_AUTH_SECRET === developmentSecret) {
     issue('Generate a unique BETTER_AUTH_SECRET for this project.')
   }
 }

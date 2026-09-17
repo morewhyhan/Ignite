@@ -11,6 +11,7 @@
   "non_goals": ["本轮明确不做的范围"],
   "authorization": { "source": "用户提出直接实施的请求或对应授权记录" },
   "deliverables": ["最终成果入口"],
+  "remaining_work": ["尚未验证的真实使用场景；全部完成后清空并重验"],
   "change_type": "新增模块",
   "base_commit": "运行 git rev-parse HEAD 后替换为 40 位 commit",
   "requirements": ["REQ-FEATURE-001"],
@@ -116,6 +117,7 @@
 ## 准出条件
 
 - [ ] 每条 REQ 均被 AC 覆盖，每条 AC 均映射到带 `[AC-*]` 标记的自动化测试。
+- [ ] `remaining_work` 已通过实际验收清空，并在清空后的最终提交重新验证。
 - [ ] 工作区实现已提交，`integrated_commit` 是真实且可追溯的 commit。
 - [ ] 所有 `required_evidence` 指向当前输入、当前环境且通过的 schema 2 证据。
 - [ ] 当前设计已回写，Plan 状态已由 CLI 更新为 `done`。

@@ -272,24 +272,36 @@ function commandNext(options) {
       command: `pnpm ignite plan set-status ${plan.metadata.id} active`,
     }
   } else if (plan.metadata.status === 'active') {
-    nextAction = {
-      kind: 'implement-and-check',
-      reason: 'implement the next task and validate its acceptance criteria',
-      command: `pnpm ignite check --plan ${plan.metadata.id} --level auto`,
-    }
-  } else if (plan.metadata.status === 'verifying') {
-    const missingIntegration = missingEvidence.includes('check-integration')
-    nextAction = missingEvidence.length
+    nextAction = plan.metadata.remaining_work?.length
       ? {
-          kind: missingIntegration ? 'verify-integration' : 'verify-release',
-          reason: `missing evidence: ${missingEvidence.join(', ')}`,
-          command: `pnpm ignite check --plan ${plan.metadata.id} --level ${missingIntegration ? 'integration' : 'release'}`,
+          kind: 'address-acceptance-gap',
+          reason: `${plan.metadata.remaining_work.length} acceptance gaps remain; first: ${plan.metadata.remaining_work[0]}`,
+          command: null,
         }
       : {
-          kind: 'complete-plan',
-          reason: 'required evidence is bound; current inputs still need final validation',
-          command: `pnpm ignite plan set-status ${plan.metadata.id} done`,
+          kind: 'implement-and-check',
+          reason: 'implement the next task and validate its acceptance criteria',
+          command: `pnpm ignite check --plan ${plan.metadata.id} --level auto`,
         }
+  } else if (plan.metadata.status === 'verifying') {
+    const missingIntegration = missingEvidence.includes('check-integration')
+    nextAction = plan.metadata.remaining_work?.length
+      ? {
+          kind: 'complete-remaining-work',
+          reason: plan.metadata.remaining_work,
+          command: `pnpm ignite plan set-status ${plan.metadata.id} active`,
+        }
+      : missingEvidence.length
+        ? {
+            kind: missingIntegration ? 'verify-integration' : 'verify-release',
+            reason: `missing evidence: ${missingEvidence.join(', ')}`,
+            command: `pnpm ignite check --plan ${plan.metadata.id} --level ${missingIntegration ? 'integration' : 'release'}`,
+          }
+        : {
+            kind: 'complete-plan',
+            reason: 'required evidence is bound; current inputs still need final validation',
+            command: `pnpm ignite plan set-status ${plan.metadata.id} done`,
+          }
   } else {
     nextAction = { kind: 'report-result', reason: plan.metadata.status, command: null }
   }
@@ -301,6 +313,7 @@ function commandNext(options) {
         outcome: plan.metadata.outcome,
         goals: plan.metadata.goals || [],
         constraints: plan.metadata.constraints || [],
+        remaining_work: plan.metadata.remaining_work || [],
         plan_path: plan.relativePath,
         latest_run: latestRun
           ? {

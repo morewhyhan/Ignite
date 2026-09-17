@@ -167,6 +167,7 @@ ${JSON.stringify(
     non_goals: [],
     authorization: { source: '待确认具体实施请求' },
     deliverables: [`${moduleName} 可运行入口和验证结果`],
+    remaining_work: ['确认目标行为并完成实际验收'],
     change_type: '新增模块',
     base_commit: baseCommit,
     requirements: [requirementId],

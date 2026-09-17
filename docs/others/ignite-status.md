@@ -1,7 +1,7 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`4305ae66233d`
+输入指纹：`06b0132ca61b`
 当前 Plan：1；结构化历史：2；未迁移历史：3
 
 ## 当前工作
@@ -18,7 +18,7 @@
   - 缺少证据：无
 - `ignite-execution-v3` · `active`
   - Plan：`IGT-003`
-  - 缺少证据：`check-integration`、`check-release`
+  - 缺少证据：无
 
 ## 结构问题
 

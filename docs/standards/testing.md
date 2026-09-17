@@ -37,6 +37,8 @@ pnpm ignite release status                              # 查看派生发布状�
 
 普通说明文字不会启动 Next、Prisma 或 E2E。公共契约、认证、数据库、脚本、CSS、模块 Hook、设计快照、CI 和锁文件至少进入 integration；不能为了提速手工降低风险等级。真实运行不接受调用者提供的 `--files`。每个运行都保存输入与环境指纹，源码、测试、Schema、锁文件、Node、pnpm 或平台改变后旧运行不能复用。
 
+目标测试优先从 Plan 的验收映射与模块名推导（例如 `src/modules/projects/` 对应可发现的 `tests/api/projects.test.ts` 或 `tests/contracts/projects.test.ts`）；影响关系不明或没有对应测试时回退全量 Vitest，不靠持续增加 Tasks 专属硬编码来维持。
+
 `risk: docs` 只适用于 README、文档入口和静态资源等安全说明修改；如果实际差异触及 Feature、Design、Standards、测试或工程配置，CLI 会要求提高 Plan 风险和必需证据，而不是留下一个无法完成的低风险 Plan。
 
 ### 证据等级

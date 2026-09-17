@@ -1,5 +1,7 @@
 import { extname } from 'node:path'
-import { changedFilesForPlan, normalizePath, validateWriteScope } from './core.mjs'
+import { existsSync } from 'node:fs'
+import { join } from 'node:path'
+import { changedFilesForPlan, normalizePath, repositoryRoot, validateWriteScope } from './core.mjs'
 
 const LEVEL_RANK = { dev: 1, integration: 2, release: 3 }
 export const CHECK_POLICY_VERSION = 3
@@ -95,6 +97,18 @@ function targetedTests(files) {
   const tests = new Set()
   let unknownCode = false
   for (const path of files) {
+    const moduleName = path.match(/^src\/(?:modules|server\/api\/routes)\/([^/]+)\//)?.[1]
+    if (moduleName) {
+      const candidates = [
+        `tests/api/${moduleName}.test.ts`,
+        `tests/contracts/${moduleName}.test.ts`,
+        `tests/contracts/${moduleName}.test.tsx`,
+      ]
+      const found = candidates.filter((candidate) => existsSync(join(repositoryRoot, candidate)))
+      if (found.length === 0) unknownCode = true
+      for (const candidate of found) tests.add(candidate)
+      continue
+    }
     if (path.startsWith('scripts/ignite') || path.includes('ignite-cli')) {
       tests.add('tests/contracts/ignite-cli.test.ts')
       tests.add('tests/contracts/ignite-checks.test.ts')
@@ -114,8 +128,8 @@ function targetedTests(files) {
       tests.add('tests/contracts/api-design.test.ts')
       continue
     }
-    if (path.includes('/tasks/') || path === 'tests/api/tasks.test.ts') {
-      tests.add('tests/api/tasks.test.ts')
+    if (/^tests\/(?:api|contracts)\/.+\.test\.tsx?$/.test(path)) {
+      tests.add(path)
       continue
     }
     if (path.startsWith('src/server/env') || path === '.env.example') {

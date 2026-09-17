@@ -27,6 +27,16 @@ describe('Ignite risk-derived checks', () => {
     expect(() => commandsForLevel('integration', files, plan, 999)).toThrow('unknown check policy')
   })
 
+  it('[AC-PRODUCT-013] selects existing module tests and falls back for an unrecognized module', () => {
+    const selected = commandsForLevel('integration', ['src/server/api/routes/tasks/index.ts'], plan)
+    expect(selected.find((entry) => entry.label === 'targeted-tests')?.args).toContain(
+      'tests/api/tasks.test.ts',
+    )
+
+    const unknown = commandsForLevel('integration', ['src/modules/unmapped/screen.tsx'], plan)
+    expect(unknown.find((entry) => entry.label === 'tests')?.args).toEqual(['pnpm', 'test'])
+  })
+
   it('[AC-PRODUCT-006] classifies contract and implementation changes as integration risk', () => {
     for (const path of [
       'src/modules/tasks/hooks/use-tasks.ts',

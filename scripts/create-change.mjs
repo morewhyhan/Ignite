@@ -58,6 +58,7 @@ const metadata = {
   non_goals: [],
   authorization: { source: '等待填写用户已确定的具体请求' },
   deliverables: [],
+  remaining_work: ['填写并完成目标行为的实际验收'],
   change_type: '存量改动',
   base_commit: baseCommit,
   requirements: [],

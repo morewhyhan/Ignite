@@ -315,6 +315,16 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
     ) {
       failures.push('authorization.source is required')
     }
+    if (value.remaining_work !== undefined) {
+      if (
+        !Array.isArray(value.remaining_work) ||
+        value.remaining_work.some((item) => typeof item !== 'string' || !item.trim())
+      ) {
+        failures.push('remaining_work must be an array of non-empty acceptance gaps')
+      } else if (value.status === 'done' && value.remaining_work.length > 0) {
+        failures.push(`done Plan still has unverified work: ${value.remaining_work.join('; ')}`)
+      }
+    }
   }
   if (!CURRENT_CHANGE_TYPES.has(value.change_type)) {
     failures.push('change_type must be 新增模块 or 存量改动')

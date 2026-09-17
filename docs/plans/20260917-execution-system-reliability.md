@@ -47,6 +47,26 @@
     "通过验证的执行入口、规范和测试",
     "逐项回写的审计清单"
   ],
+  "remaining_work": [
+    "E01 无浏览器缓存和各工具桥接实测",
+    "E02 三种衍生仓库采用演练",
+    "E03 动态计算配置写法的采用诊断",
+    "E04 实际替换外壳及删除 Tasks 的回归",
+    "E05 独立核对原始用户目标未被删减",
+    "E08 关键业务断言的故障注入与放宽审查",
+    "E09 指定提交的独立 CI 重跑",
+    "E10 跨会话完整接续演练",
+    "E11 父进程中断和孤儿恢复的真实演练",
+    "E12 冷热耗时与大项目测试选择验证",
+    "E13 首推、PR 和浅历史的远端演练",
+    "E15 其它接口语义及设计事实漂移检查",
+    "E16 远端和可访问成果入口核实",
+    "E17 真实多版本带数据迁移演练",
+    "E18 新 provider 选定后的适配演练",
+    "E19 新 provider 配置输入登记验证",
+    "E20 并行 worktree 及集成冲突演练",
+    "E21 rebase 与全新克隆的合并后验证"
+  ],
   "change_type": "存量改动",
   "base_commit": "28b9b5972e968dffa54d560de4631e1486214fe6",
   "requirements": [
@@ -72,6 +92,7 @@
       "id": "AC-PRODUCT-013",
       "tests": [
         "tests/contracts/execution-reliability.test.ts",
+        "tests/contracts/ignite-checks.test.ts::[AC-PRODUCT-013] selects existing module tests and falls back for an unrecognized module",
         "tests/contracts/api-design.test.ts::[AC-PRODUCT-013] matches documented task request fields to executable validators",
         "tests/api/tasks.test.ts::[AC-PRODUCT-013] rejects an empty update as documented",
         "tests/api/tasks.test.ts::[AC-PRODUCT-013] returns exactly the documented task fields"
@@ -96,6 +117,8 @@
     "docs/",
     "scripts/",
     "src/server/api/routes/tasks/index.ts",
+    "src/server/env.ts",
+    "src/server/env-policy.mjs",
     "tests/",
     "package.json",
     "eslint.config.mjs",
@@ -107,10 +130,19 @@
     "check-integration",
     "check-release"
   ],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20260917150313-9d7669"
+    },
+    {
+      "id": "check-release",
+      "run_id": "run-20260917151513-3edd2f"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "323ee8dd246b360cd8abab5468b028ca8c67a58c",
   "updated_at": "2026-09-17"
 }
 -->

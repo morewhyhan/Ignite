@@ -1,7 +1,7 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`929c0baa2bd6`
+输入指纹：`7c5a41b78d67`
 当前 Plan：1；结构化历史：2；未迁移历史：3
 
 ## 当前工作

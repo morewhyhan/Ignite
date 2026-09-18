@@ -1,0 +1,97 @@
+{
+  "schema": 2,
+  "run_id": "run-20260918133654-7bc86f",
+  "check_policy_version": 3,
+  "plan_id": "IGT-003",
+  "evidence_id": "check-integration",
+  "level": "integration",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-09-18T13:36:55.544Z",
+  "ended_at": "2026-09-18T13:43:58.392Z",
+  "commit": "78699a5ecfd0119a8e6292931b90df908db6bc21",
+  "input_fingerprint": "fc75ffc5fff955170b39433fd2dee08ebc68535ca168449677ee390de6c47b80",
+  "environment_fingerprint": "a9a342b68b20ef1291357098ab140bd321ffbd348aecc3a91a312972942e8441",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "28b9b5972e968dffa54d560de4631e1486214fe6"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 784
+    },
+    {
+      "label": "template-doctor",
+      "command": ["corepack", "pnpm", "template:doctor"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 659
+    },
+    {
+      "label": "governance",
+      "command": ["corepack", "pnpm", "ignite", "validate"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 8435
+    },
+    {
+      "label": "docs",
+      "command": ["corepack", "pnpm", "docs:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 7100
+    },
+    {
+      "label": "typecheck",
+      "command": ["corepack", "pnpm", "typecheck"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 50893
+    },
+    {
+      "label": "lint",
+      "command": ["corepack", "pnpm", "lint"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 57062
+    },
+    {
+      "label": "format",
+      "command": ["corepack", "pnpm", "format:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 5532
+    },
+    {
+      "label": "tests",
+      "command": ["corepack", "pnpm", "test"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 239098
+    },
+    {
+      "label": "migrations",
+      "command": ["corepack", "pnpm", "test:migrations"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 53163
+    }
+  ],
+  "log_sha256": "1ce09dd3d2d8a7426382492a6e633e5de31d0e8663fb46dd1ddd1208987d4ef9",
+  "execution_source": "ignite-runner-local"
+}

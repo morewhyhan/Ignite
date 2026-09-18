@@ -48,7 +48,7 @@
     "逐项回写的审计清单"
   ],
   "remaining_work": [
-    "E01 无浏览器缓存和各工具桥接实测",
+    "E01 无浏览器缓存时的实际安装及各工具桥接实测",
     "E02 三种衍生仓库采用演练",
     "E03 动态计算配置写法的采用诊断",
     "E04 实际替换外壳及删除 Tasks 的回归",
@@ -64,7 +64,7 @@
     "E17 真实多版本带数据迁移演练",
     "E18 新 provider 选定后的适配演练",
     "E19 新 provider 配置输入登记验证",
-    "E20 并行 worktree 及集成冲突演练",
+    "E20 并行 worktree 完整 Plan 验证及冲突处理演练",
     "E21 rebase 与全新克隆的合并后验证"
   ],
   "change_type": "存量改动",
@@ -133,17 +133,17 @@
   "evidence": [
     {
       "id": "check-integration",
-      "run_id": "run-20260917173404-72fc80"
+      "run_id": "run-20260918133654-7bc86f"
     },
     {
       "id": "check-release",
-      "run_id": "run-20260917174243-f77d04"
+      "run_id": "run-20260918134606-0bfdde"
     }
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "0634cff09cbe0dc3e3ebaf5971d3994107060cc2",
-  "updated_at": "2026-09-17"
+  "integrated_commit": "78699a5ecfd0119a8e6292931b90df908db6bc21",
+  "updated_at": "2026-09-18"
 }
 -->
 

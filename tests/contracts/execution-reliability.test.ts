@@ -87,6 +87,33 @@ describe('execution reliability', () => {
     }
   })
 
+  it('[AC-PRODUCT-011] requests Chromium installation when dependencies exist but browser cache is empty', () => {
+    const fixture = makeFixture()
+    try {
+      const doctor = spawnSync(
+        process.execPath,
+        [join(repositoryRoot, 'scripts/runtime-doctor.mjs'), '--preflight'],
+        {
+          cwd: repositoryRoot,
+          encoding: 'utf8',
+          env: {
+            ...process.env,
+            PLAYWRIGHT_BROWSERS_PATH: join(fixture.root, 'missing-browser-cache'),
+          },
+          windowsHide: true,
+        },
+      )
+      expect(doctor.status, doctor.stderr).toBe(0)
+      expect(JSON.parse(doctor.stdout)).toMatchObject({
+        dependencies: 'installed-marker-present',
+        browser: 'install-required',
+        next_command: 'corepack pnpm exec playwright install chromium',
+      })
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
   it('[AC-PRODUCT-011] reads equivalent configuration syntax and refuses a shared adopted secret', () => {
     const fixture = makeFixture()
     try {
@@ -142,6 +169,23 @@ describe('execution reliability', () => {
       const unsafeRemote = doctor()
       expect(unsafeRemote.status).not.toBe(0)
       expect(unsafeRemote.stderr).toContain('still pushes to the Ignite template repository')
+      write(
+        fixture.root,
+        '.ai/project.json',
+        JSON.stringify({
+          schema: 1,
+          mode: 'adopted',
+          source_repository: 'git@github.com:morewhyhan/Ignite.git',
+          project_repository: 'https://github.com/example/my-project',
+        }),
+      )
+      git(fixture.root, 'remote', 'set-url', 'origin', 'git@github.com:example/wrong-project.git')
+      const wrongRemote = doctor()
+      expect(wrongRemote.status).not.toBe(0)
+      expect(wrongRemote.stderr).toContain('differs from .ai/project.json project_repository')
+      git(fixture.root, 'remote', 'set-url', 'origin', 'git@github.com:example/my-project.git')
+      const correctRemote = doctor()
+      expect(correctRemote.status, correctRemote.stderr).toBe(0)
     } finally {
       fixture.cleanup()
     }

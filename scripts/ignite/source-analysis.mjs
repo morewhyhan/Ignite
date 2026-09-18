@@ -65,6 +65,15 @@ function isActive(call) {
   })
 }
 
+function hasTestBody(callback) {
+  if (ts.isIdentifier(callback)) return callback.text !== 'undefined'
+  if (!ts.isArrowFunction(callback) && !ts.isFunctionExpression(callback)) return false
+  return (
+    !ts.isBlock(callback.body) ||
+    callback.body.statements.some((statement) => !ts.isEmptyStatement(statement))
+  )
+}
+
 /** Find AC tags in statically registered, enabled tests, never in comments or test data. */
 export function acceptanceTestTitles(content) {
   const file = ts.createSourceFile(
@@ -113,9 +122,7 @@ export function acceptanceTestTitles(content) {
         }
         if (
           (ts.isStringLiteral(title) || ts.isNoSubstitutionTemplateLiteral(title)) &&
-          (ts.isArrowFunction(callback) ||
-            ts.isFunctionExpression(callback) ||
-            (ts.isIdentifier(callback) && callback.text !== 'undefined'))
+          hasTestBody(callback)
         ) {
           for (const match of title.text.matchAll(/\[(AC-[A-Z0-9-]+)\]/g)) ids.add(match[1])
         }

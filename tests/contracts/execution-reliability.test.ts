@@ -23,6 +23,21 @@ function runModule(root: string, script: string) {
 }
 
 describe('execution reliability', () => {
+  it('[AC-PRODUCT-013] refuses an empty acceptance test even when it carries a valid AC label', () => {
+    const fixture = makeFixture()
+    try {
+      write(fixture.root, 'docs/plans/fixture.md', planContent(fixture.baseCommit))
+      const populated = runCli(fixture.root, 'plan', 'validate', 'IGT-900')
+      expect(populated.status, populated.stderr).toBe(0)
+      write(fixture.root, 'tests/contracts/sample.test.ts', "it('[AC-TEST-001] no-op', () => {})\n")
+      const empty = runCli(fixture.root, 'plan', 'validate', 'IGT-900')
+      expect(empty.status).not.toBe(0)
+      expect(empty.stderr).toContain('is not tagged inside')
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
   it('[AC-PRODUCT-012] scaffolds an existing-feature change as an incomplete draft', () => {
     const fixture = makeFixture()
     try {

@@ -1,0 +1,55 @@
+{
+  "schema": 2,
+  "run_id": "run-20260917174243-f77d04",
+  "check_policy_version": 3,
+  "plan_id": "IGT-003",
+  "evidence_id": "check-release",
+  "level": "release",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-09-17T17:42:44.911Z",
+  "ended_at": "2026-09-17T17:45:21.404Z",
+  "commit": "0634cff09cbe0dc3e3ebaf5971d3994107060cc2",
+  "input_fingerprint": "ed69222525988d6681031b3f131db6ef5f004f5cb3c14036bfd4de5b1c21423d",
+  "environment_fingerprint": "a9a342b68b20ef1291357098ab140bd321ffbd348aecc3a91a312972942e8441",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "28b9b5972e968dffa54d560de4631e1486214fe6"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 585
+    },
+    {
+      "label": "build",
+      "command": ["corepack", "pnpm", "build"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 95938
+    },
+    {
+      "label": "e2e-production",
+      "command": ["corepack", "pnpm", "test:e2e:production"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 59926
+    }
+  ],
+  "log_sha256": "6b717b0b6f38b0d508afe9201ce1acc04f76f43ae200ddd4a14560cd267fd81e",
+  "execution_source": "ignite-runner-local"
+}

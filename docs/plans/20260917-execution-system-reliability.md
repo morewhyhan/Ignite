@@ -53,7 +53,7 @@
     "E03 动态计算配置写法的采用诊断",
     "E04 实际替换外壳及删除 Tasks 的回归",
     "E05 独立核对原始用户目标未被删减",
-    "E08 关键业务断言的故障注入与放宽审查",
+    "E08 关键业务断言的故障注入与放宽审查（空回调已拦截）",
     "E09 指定提交的独立 CI 重跑",
     "E10 跨会话完整接续演练",
     "E11 父进程中断和孤儿恢复的真实演练",
@@ -133,16 +133,16 @@
   "evidence": [
     {
       "id": "check-integration",
-      "run_id": "run-20260917150313-9d7669"
+      "run_id": "run-20260917173404-72fc80"
     },
     {
       "id": "check-release",
-      "run_id": "run-20260917151513-3edd2f"
+      "run_id": "run-20260917174243-f77d04"
     }
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "323ee8dd246b360cd8abab5468b028ca8c67a58c",
+  "integrated_commit": "0634cff09cbe0dc3e3ebaf5971d3994107060cc2",
   "updated_at": "2026-09-17"
 }
 -->

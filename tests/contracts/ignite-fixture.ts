@@ -61,7 +61,7 @@ Fixture.
   write(
     root,
     'tests/contracts/sample.test.ts',
-    `it('[AC-TEST-001] validates current evidence', () => {})\n`,
+    `it('[AC-TEST-001] validates current evidence', () => { expect(true).toBe(true) })\n`,
   )
   write(
     root,

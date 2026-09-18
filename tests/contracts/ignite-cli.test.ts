@@ -114,7 +114,7 @@ describe('Ignite Plan and Release contracts', () => {
       write(
         fixture.root,
         'tests/contracts/sample.test.ts',
-        "it('[AC-TEST-001] validates current evidence', () => { expect(true).toBe(true) })\n",
+        "it('[AC-TEST-001] validates current evidence', () => { expect(1).toBe(1) })\n",
       )
       commitAll(fixture.root, 'Implement independent Plan')
       makePassedEvidence(fixture.root, fixture.baseCommit)

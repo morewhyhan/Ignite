@@ -58,15 +58,16 @@ describe('documentation traceability', () => {
       suite('enabled', () => {
         verify(
           '[AC-REAL-001] multiline title [AC-REAL-002]',
-          () => {},
+          () => { expect(true).toBe(true) },
         )
-        it.each([1, 2])('[AC-REAL-003] handles %i', () => {})
-        verify('[AC-REAL-005] explicit timeout', () => {}, 90_000)
+        it.each([1, 2])('[AC-REAL-003] handles %i', () => { expect(true).toBe(true) })
+        verify('[AC-REAL-005] explicit timeout', () => { expect(true).toBe(true) }, 90_000)
         it.each([])('[AC-FAKE-004] zero cases', () => {})
         test.todo('[AC-FAKE-005] no body')
+        test('[AC-FAKE-009] empty body', () => {})
       })
       test.describe('browser', () => {
-        test('[AC-REAL-004] browser test', async () => {})
+        test('[AC-REAL-004] browser test', async () => { expect(true).toBe(true) })
         test.step('[AC-FAKE-006] a step is not a test', async () => {})
       })
     `
@@ -90,7 +91,7 @@ describe('documentation traceability', () => {
     expect(
       acceptanceTestTitles(`
       describe.runIf(true)('enabled', () => {
-        it.skipIf(false)('[AC-REAL-001] enabled', () => {})
+        it.skipIf(false)('[AC-REAL-001] enabled', () => { expect(true).toBe(true) })
       })
     `),
     ).toEqual(new Set(['AC-REAL-001']))

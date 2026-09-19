@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-004",
   "release": "ignite-template-baseline-v1",
-  "status": "active",
+  "status": "verifying",
   "outcome": "复制 Ignite 后只看到当前有用的文档真源、模板和一份可追溯的基线记录，而不继承模板建设期的任务档案",
   "contract_version": 2,
   "goals": [
@@ -67,7 +67,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "1d53b67c5d23ef5e0085fd08eeda3e57a3cb2595",
   "updated_at": "2026-09-19"
 }
 -->

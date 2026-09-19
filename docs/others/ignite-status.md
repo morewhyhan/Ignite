@@ -6,11 +6,11 @@
 
 ## 当前工作
 
-- `IGT-004` · `active` · `ignite-template-baseline-v1`
+- `IGT-004` · `verifying` · `ignite-template-baseline-v1`
 
 ## 发布范围
 
-- `ignite-template-baseline-v1` · `active`
+- `ignite-template-baseline-v1` · `verifying`
   - Plan：`IGT-004`
   - 缺少证据：`check-release`
 

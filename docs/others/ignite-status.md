@@ -12,7 +12,7 @@
 
 - `ignite-template-baseline-v1` · `active`
   - Plan：`IGT-004`
-  - 缺少证据：`check-integration`、`check-release`
+  - 缺少证据：`check-release`
 
 ## 结构问题
 

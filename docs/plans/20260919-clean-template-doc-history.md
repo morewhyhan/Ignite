@@ -59,11 +59,16 @@
     "check-integration",
     "check-release"
   ],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20260919165542-15f025"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
-  "updated_at": "2026-09-20"
+  "updated_at": "2026-09-19"
 }
 -->
 

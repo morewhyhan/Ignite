@@ -2,11 +2,11 @@
 
 模板状态：`template-baseline`
 输入指纹：`f705e0a2192b`
-当前 Plan：1；结构化历史：2；未迁移历史：3
+当前 Plan：0；结构化历史：3；未迁移历史：3
 
 ## 当前工作
 
-- `IGT-003` · `verifying` · `ignite-execution-v3`
+- 无。
 
 ## 发布范围
 
@@ -16,7 +16,7 @@
 - `ignite-execution-v2` · `done`
   - Plan：`IGT-002`
   - 缺少证据：无
-- `ignite-execution-v3` · `verifying`
+- `ignite-execution-v3` · `done`
   - Plan：`IGT-003`
   - 缺少证据：无
 

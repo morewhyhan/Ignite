@@ -6,7 +6,7 @@
 
 ## 当前工作
 
-- `IGT-003` · `active` · `ignite-execution-v3`
+- `IGT-003` · `verifying` · `ignite-execution-v3`
 
 ## 发布范围
 
@@ -16,7 +16,7 @@
 - `ignite-execution-v2` · `done`
   - Plan：`IGT-002`
   - 缺少证据：无
-- `ignite-execution-v3` · `active`
+- `ignite-execution-v3` · `verifying`
   - Plan：`IGT-003`
   - 缺少证据：无
 

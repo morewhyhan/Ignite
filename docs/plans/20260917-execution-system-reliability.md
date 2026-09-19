@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-003",
   "release": "ignite-execution-v3",
-  "status": "active",
+  "status": "verifying",
   "outcome": "Ignite 通用模板按同一执行契约推进采用、验证、恢复和合并；具体产品的实例化验收留在采用 Plan",
   "contract_version": 2,
   "goals": [
@@ -130,7 +130,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "a5bea1378a745d519a4b2e0113994b3f3a556049",
+  "integrated_commit": "8ad444e6e449b91adef8320422f535cebeddd9d3",
   "updated_at": "2026-09-19"
 }
 -->

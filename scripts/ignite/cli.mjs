@@ -11,6 +11,7 @@ import {
   reintegratePlan,
   renderStatus,
   setPlanStatus,
+  specificationRegistry,
   templateMode,
   validateAllPlans,
   validateAllReleases,
@@ -217,6 +218,12 @@ function commandRunStatus(positionals, options) {
 function commandNext(options) {
   if (!options.plan) throw new Error('next requires --plan IGT-000')
   const plan = findPlan(options.plan)
+  const registry = specificationRegistry()
+  const featurePaths = [
+    ...new Set(
+      (plan.metadata.requirements || []).map((id) => registry.requirements.get(id)).filter(Boolean),
+    ),
+  ]
   const failures = [
     ...validatePlan(plan, { allowLegacy: false }),
     ...validatePlanDependencies(plan),
@@ -313,8 +320,24 @@ function commandNext(options) {
         outcome: plan.metadata.outcome,
         goals: plan.metadata.goals || [],
         constraints: plan.metadata.constraints || [],
+        non_goals: plan.metadata.non_goals || [],
+        authorization: plan.metadata.authorization || null,
+        open_questions: plan.metadata.open_questions || [],
         remaining_work: plan.metadata.remaining_work || [],
         plan_path: plan.relativePath,
+        context: {
+          repository_root: repositoryRoot,
+          base_commit: plan.metadata.base_commit,
+          write_scope: plan.metadata.write_scope || [],
+          requirements: plan.metadata.requirements || [],
+          features: featurePaths,
+          acceptance: plan.metadata.acceptance || [],
+          entrypoints: {
+            rules: 'AGENTS.md',
+            standards: 'docs/standards/',
+            designs: 'docs/designs/',
+          },
+        },
         latest_run: latestRun
           ? {
               run_id: latestRun.run_id,

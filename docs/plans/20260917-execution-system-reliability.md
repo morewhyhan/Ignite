@@ -50,13 +50,12 @@
   "remaining_work": [
     "E01 无浏览器缓存时的实际安装及各工具桥接实测",
     "E02 三种衍生仓库采用演练",
-    "E03 动态计算配置写法的采用诊断",
     "E04 实际替换外壳及删除 Tasks 的回归",
     "E05 独立核对原始用户目标未被删减",
     "E08 关键业务断言的故障注入与放宽审查（空回调已拦截）",
     "E09 指定提交的独立 CI 重跑",
     "E10 跨会话完整接续演练",
-    "E11 父进程中断和孤儿恢复的真实演练",
+    "E11 长时挂起预算和非 Linux 平台的恢复演练（Linux 父进程崩溃清理及重新取锁已有回归）",
     "E12 大项目测试选择和耗时验证（同输入复用已实测）",
     "E13 首推、PR 和浅历史的远端演练",
     "E15 其它接口语义及设计事实漂移检查",
@@ -132,17 +131,17 @@
   ],
   "evidence": [
     {
-      "id": "check-release",
-      "run_id": "run-20260918134606-0bfdde"
+      "id": "check-integration",
+      "run_id": "run-20260918153728-60edff"
     },
     {
-      "id": "check-integration",
-      "run_id": "run-20260918150247-e50d0e"
+      "id": "check-release",
+      "run_id": "run-20260918154955-ea22f4"
     }
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "78699a5ecfd0119a8e6292931b90df908db6bc21",
+  "integrated_commit": "a5bea1378a745d519a4b2e0113994b3f3a556049",
   "updated_at": "2026-09-18"
 }
 -->

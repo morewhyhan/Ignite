@@ -48,39 +48,77 @@ function repositoryKey(url) {
   return String(url || '')
     .trim()
     .replace(/^git@github\.com:/i, 'github.com/')
+    .replace(/^ssh:\/\/git@github\.com\//i, 'github.com/')
     .replace(/^https?:\/\/github\.com\//i, 'github.com/')
     .replace(/\.git\/?$/i, '')
     .replace(/\/$/, '')
     .toLowerCase()
 }
 
+const siteSource = ts.createSourceFile('site.ts', siteConfig, ts.ScriptTarget.Latest, true)
+const constants = new Map()
+for (const statement of siteSource.statements) {
+  if (!ts.isVariableStatement(statement) || !(statement.declarationList.flags & ts.NodeFlags.Const))
+    continue
+  for (const declaration of statement.declarationList.declarations) {
+    if (ts.isIdentifier(declaration.name))
+      constants.set(declaration.name.text, declaration.initializer)
+  }
+}
+
+// Resolve only local constant expressions. Never execute application code during diagnosis.
+function resolveConstant(expression, seen = new Set()) {
+  if (!expression) return null
+  if (
+    ts.isAsExpression(expression) ||
+    ts.isSatisfiesExpression(expression) ||
+    ts.isParenthesizedExpression(expression)
+  )
+    return resolveConstant(expression.expression, seen)
+  if (ts.isIdentifier(expression)) {
+    if (seen.has(expression.text)) return null
+    return resolveConstant(constants.get(expression.text), new Set([...seen, expression.text]))
+  }
+  return expression
+}
+
+function staticString(expression, seen = new Set()) {
+  const resolved = resolveConstant(expression)
+  if (!resolved || seen.has(resolved)) return null
+  if (ts.isStringLiteralLike(resolved)) return resolved.text
+  const visited = new Set([...seen, resolved])
+  if (ts.isBinaryExpression(resolved) && resolved.operatorToken.kind === ts.SyntaxKind.PlusToken) {
+    const left = staticString(resolved.left, visited)
+    const right = staticString(resolved.right, visited)
+    return left === null || right === null ? null : left + right
+  }
+  return null
+}
+
 function siteValue(property) {
-  const source = ts.createSourceFile('site.ts', siteConfig, ts.ScriptTarget.Latest, true)
-  for (const statement of source.statements) {
-    if (!ts.isVariableStatement(statement)) continue
-    for (const declaration of statement.declarationList.declarations) {
-      if (
-        !ts.isIdentifier(declaration.name) ||
-        !['siteConfig', 'site'].includes(declaration.name.text)
-      )
-        continue
-      let expression = declaration.initializer
-      while (
-        expression &&
-        (ts.isAsExpression(expression) || ts.isSatisfiesExpression(expression))
-      ) {
-        expression = expression.expression
-      }
-      if (!expression || !ts.isObjectLiteralExpression(expression)) continue
-      for (const entry of expression.properties) {
-        if (!ts.isPropertyAssignment(entry)) continue
-        const key =
-          ts.isIdentifier(entry.name) || ts.isStringLiteral(entry.name) ? entry.name.text : null
-        if (key === property && ts.isStringLiteralLike(entry.initializer)) {
-          return entry.initializer.text
-        }
-      }
-    }
+  const expression = resolveConstant(constants.get('siteConfig') || constants.get('site'))
+  if (!expression || !ts.isObjectLiteralExpression(expression)) return null
+  // Unknown spreads/computed keys could override a previously read property.
+  if (
+    expression.properties.some(
+      (entry) =>
+        ts.isSpreadAssignment(entry) || (entry.name && ts.isComputedPropertyName(entry.name)),
+    )
+  )
+    return null
+  for (const entry of [...expression.properties].reverse()) {
+    const key =
+      entry.name && (ts.isIdentifier(entry.name) || ts.isStringLiteral(entry.name))
+        ? entry.name.text
+        : null
+    if (key !== property) continue
+    return staticString(
+      ts.isShorthandPropertyAssignment(entry)
+        ? entry.name
+        : ts.isPropertyAssignment(entry)
+          ? entry.initializer
+          : null,
+    )
   }
   return null
 }
@@ -89,29 +127,37 @@ const slug = siteValue('slug')
 const siteName = siteValue('name')
 
 if (!slug || !siteName) {
-  issue('Unable to read name and slug from src/config/site.ts.')
+  issue(
+    'Unable to statically verify name and slug in src/config/site.ts. Use string literals or local const string concatenation; imports, calls, spreads and runtime expressions require an explicit diagnostic adapter. No application code was executed.',
+  )
 }
 
 if (isAdopted) {
   if (packageJson.name === 'ignite') issue('Adopted project still uses package name "ignite".')
   if (slug === 'ignite') issue('Adopted project still uses the shared Ignite cookie prefix.')
   if (siteName === 'Ignite') issue('Adopted project still uses the Ignite display name.')
-  const pushUrl = spawnSync('git', ['remote', 'get-url', '--push', 'origin'], {
+  const pushUrl = spawnSync('git', ['remote', 'get-url', '--push', '--all', 'origin'], {
     cwd: repositoryRoot,
     encoding: 'utf8',
     windowsHide: true,
   })
+  const pushTargets = String(pushUrl.stdout || '')
+    .trim()
+    .split(/\r?\n/)
+    .filter(Boolean)
+    .map(repositoryKey)
   if (
     pushUrl.status === 0 &&
-    repositoryKey(pushUrl.stdout) ===
-      repositoryKey(identity?.source_repository || 'git@github.com:morewhyhan/Ignite.git')
+    pushTargets.includes(
+      repositoryKey(identity?.source_repository || 'git@github.com:morewhyhan/Ignite.git'),
+    )
   ) {
     issue('Adopted project still pushes to the Ignite template repository; choose its own remote.')
   }
   if (
     identity?.project_repository &&
     pushUrl.status === 0 &&
-    repositoryKey(pushUrl.stdout) !== repositoryKey(identity.project_repository)
+    pushTargets.some((target) => target !== repositoryKey(identity.project_repository))
   ) {
     issue('Git origin push URL differs from .ai/project.json project_repository.')
   }

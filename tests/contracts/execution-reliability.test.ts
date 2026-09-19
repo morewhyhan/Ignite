@@ -186,6 +186,47 @@ describe('execution reliability', () => {
       git(fixture.root, 'remote', 'set-url', 'origin', 'git@github.com:example/my-project.git')
       const correctRemote = doctor()
       expect(correctRemote.status, correctRemote.stderr).toBe(0)
+      write(
+        fixture.root,
+        'src/config/site.ts',
+        `
+        const prefix = 'my'
+        const name = 'My ' + 'Project'
+        const slug = prefix + '-project'
+        const config = { name, slug } satisfies Record<string, string>
+        export const siteConfig = (config)
+      `,
+      )
+      const constantConfig = doctor()
+      expect(constantConfig.status, constantConfig.stderr).toBe(0)
+      write(fixture.root, 'src/config/site.ts', 'export const siteConfig = getRuntimeConfig()\n')
+      const dynamicConfig = doctor()
+      expect(dynamicConfig.status).not.toBe(0)
+      expect(dynamicConfig.stderr).toContain('No application code was executed')
+      write(
+        fixture.root,
+        'src/config/site.ts',
+        'export const siteConfig = { name: "My Project", slug: "my-project" }\n',
+      )
+      git(
+        fixture.root,
+        'config',
+        '--add',
+        'remote.origin.pushurl',
+        'ssh://git@github.com/example/my-project.git',
+      )
+      const sshRemote = doctor()
+      expect(sshRemote.status, sshRemote.stderr).toBe(0)
+      git(
+        fixture.root,
+        'config',
+        '--add',
+        'remote.origin.pushurl',
+        'ssh://git@github.com/morewhyhan/Ignite.git',
+      )
+      const extraUnsafeRemote = doctor()
+      expect(extraUnsafeRemote.status).not.toBe(0)
+      expect(extraUnsafeRemote.stderr).toContain('still pushes to the Ignite template repository')
     } finally {
       fixture.cleanup()
     }
@@ -253,10 +294,32 @@ describe('execution reliability', () => {
   it('[AC-PRODUCT-012] gives a current task next action without claiming remote delivery', () => {
     const fixture = makeFixture()
     try {
+      write(
+        fixture.root,
+        'docs/plans/fixture.md',
+        planContent(fixture.baseCommit, {
+          non_goals: ['Do not replace the UI'],
+          authorization: { source: 'Fixture user request' },
+        }),
+      )
       const result = runCli(fixture.root, 'next', '--plan', 'IGT-900')
       expect(result.status, result.stderr).toBe(0)
       expect(JSON.parse(result.stdout)).toMatchObject({
         plan_id: 'IGT-900',
+        non_goals: ['Do not replace the UI'],
+        authorization: { source: 'Fixture user request' },
+        open_questions: [],
+        context: {
+          repository_root: fixture.root,
+          base_commit: fixture.baseCommit,
+          requirements: ['REQ-TEST-001'],
+          features: ['docs/features/product.md'],
+          acceptance: [
+            { id: 'AC-TEST-001', tests: ['tests/contracts/sample.test.ts::[AC-TEST-001]'] },
+          ],
+          write_scope: expect.arrayContaining(['docs/', 'tests/']),
+          entrypoints: { rules: 'AGENTS.md', designs: 'docs/designs/' },
+        },
         next_action: { kind: 'implement-and-check' },
         delivery: { remote_sync: 'not_verified', deployed_url: null },
       })
@@ -368,6 +431,81 @@ describe('execution reliability', () => {
       expect(existsSync(join(fixture.root, 'docs/others/evidence/runs'))).toBe(false)
     } finally {
       worker.kill('SIGTERM')
+      fixture.cleanup()
+    }
+  }, 20_000)
+
+  it('[AC-PRODUCT-012] stops owned descendants after the runner is killed and exposes an orphan', async () => {
+    const fixture = makeFixture()
+    const heartbeat = join(fixture.root, '.ignite', 'descendant-heartbeat')
+    const grandchildCode = `const fs = require('node:fs'); process.on('SIGTERM', () => {}); setInterval(() => fs.writeFileSync(${JSON.stringify(heartbeat)}, String(Date.now())), 50)`
+    const childCode = `require('node:child_process').spawn(process.execPath, ['--eval', ${JSON.stringify(grandchildCode)}], { stdio: 'ignore' }); console.log('OWNED_GROUP=' + process.pid); setInterval(() => {}, 1000)`
+    const script = `const state = await import(${JSON.stringify(join(repositoryRoot, 'scripts/ignite/state.mjs'))})
+      const runs = await import(${JSON.stringify(join(repositoryRoot, 'scripts/ignite/runs.mjs'))})
+      await runs.executeCheckPlan({ plan: state.findPlan('IGT-900'), checkPlan: {
+        level: 'integration', changedFiles: [], commands: [{ label: 'crash-fixture',
+          command: process.execPath, args: ['--eval', ${JSON.stringify(childCode)}] }]
+      } })`
+    const controller = spawn(process.execPath, ['--input-type=module', '--eval', script], {
+      cwd: fixture.root,
+      env: { ...process.env, IGNITE_ROOT: fixture.root, APP_ENV: 'test' },
+      stdio: ['ignore', 'pipe', 'pipe'],
+    })
+    let output = ''
+    controller.stdout.on('data', (chunk) => {
+      output += chunk.toString()
+    })
+    const closed = new Promise((resolve) => controller.once('close', resolve))
+    try {
+      for (let attempt = 0; attempt < 100 && !existsSync(heartbeat); attempt += 1) {
+        await new Promise((resolve) => setTimeout(resolve, 100))
+      }
+      expect(existsSync(heartbeat)).toBe(true)
+      expect(output).toContain('OWNED_GROUP=')
+      controller.kill('SIGKILL')
+      await closed
+      await new Promise((resolve) => setTimeout(resolve, 4_000))
+      const stoppedHeartbeat = readFileSync(heartbeat, 'utf8')
+      await new Promise((resolve) => setTimeout(resolve, 200))
+      expect(readFileSync(heartbeat, 'utf8')).toBe(stoppedHeartbeat)
+      const recovered = runCli(fixture.root, 'run', 'status')
+      expect(recovered.status, recovered.stderr).toBe(0)
+      expect(JSON.parse(recovered.stdout)).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ status: 'orphaned', needs_retry: true }),
+        ]),
+      )
+      expect(existsSync(join(fixture.root, 'docs/others/evidence/runs'))).toBe(false)
+      const retry = runModule(
+        fixture.root,
+        `
+        const state = await import(${JSON.stringify(join(repositoryRoot, 'scripts/ignite/state.mjs'))})
+        const runs = await import(${JSON.stringify(join(repositoryRoot, 'scripts/ignite/runs.mjs'))})
+        const result = await runs.executeCheckPlan({ plan: state.findPlan('IGT-900'), checkPlan: {
+          level: 'integration', changedFiles: [], commands: [{ label: 'recovered-check',
+            command: process.execPath, args: ['--eval', 'process.exit(1)'] }]
+        } })
+        console.log(JSON.stringify({ status: result.status, reused: result.reused }))
+      `,
+      )
+      expect(retry.status, retry.stderr).toBe(0)
+      expect(retry.stdout).toContain('"status":"failed","reused":false')
+      expect(existsSync(join(fixture.root, 'docs/others/evidence/runs'))).toBe(false)
+    } finally {
+      controller.kill('SIGKILL')
+      const ownedPid = Number(output.match(/OWNED_GROUP=(\d+)/)?.[1])
+      if (ownedPid) {
+        try {
+          if (process.platform === 'win32')
+            spawnSync('taskkill', ['/PID', String(ownedPid), '/T', '/F'], {
+              windowsHide: true,
+              stdio: 'ignore',
+            })
+          else process.kill(-ownedPid, 'SIGKILL')
+        } catch {
+          /* owned group already stopped */
+        }
+      }
       fixture.cleanup()
     }
   }, 20_000)

@@ -61,7 +61,7 @@ function createWorkspace(label) {
   )
 
   return {
-    databaseUrl: `file:../${label}.db`,
+    databaseUrl: databaseTestAdapter.isolatedUrl(join(root, `${label}.db`)),
     migrationsDirectory,
     root,
     schemaPath: join(prismaDirectory, 'schema.prisma'),

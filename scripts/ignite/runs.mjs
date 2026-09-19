@@ -12,6 +12,7 @@ import {
   writeFileSync,
 } from 'node:fs'
 import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { spawn } from 'node:child_process'
 import {
   computeInputFingerprint,
@@ -97,6 +98,10 @@ function sameRunnerMachine(record) {
 function pidAlive(pid) {
   if (!Number.isInteger(pid) || pid <= 0) return false
   try {
+    if (process.platform === 'linux') {
+      const stat = readFileSync(`/proc/${pid}/stat`, 'utf8')
+      if (['Z', 'X'].includes(stat.slice(stat.lastIndexOf(')') + 2).split(' ')[0])) return false
+    }
     process.kill(pid, 0)
     return true
   } catch {
@@ -107,8 +112,8 @@ function pidAlive(pid) {
 export function derivedRunStatus(record) {
   if (record.status !== 'running') return record.status
   const heartbeatAge = Date.now() - Date.parse(record.heartbeat_at || record.started_at)
-  if (sameRunnerMachine(record) && (pidAlive(record.runner?.pid) || pidAlive(record.child_pid))) {
-    return 'running'
+  if (sameRunnerMachine(record)) {
+    return pidAlive(record.runner?.pid) || pidAlive(record.child_pid) ? 'running' : 'orphaned'
   }
   if (heartbeatAge <= STALE_AFTER_MS) return 'running'
   return 'orphaned'
@@ -245,13 +250,16 @@ function runChild(spec, environment, record, logStream, persist) {
     let settled = false
     const timeBudgetMs =
       spec.label === 'e2e-production' || spec.label === 'verify' ? 20 * 60_000 : 10 * 60_000
-    const child = spawn(spec.command, spec.args, {
-      cwd: repositoryRoot,
-      env: environment,
-      detached: process.platform !== 'win32',
-      windowsHide: true,
-      stdio: ['ignore', 'pipe', 'pipe'],
-    })
+    const child = spawn(
+      process.execPath,
+      [fileURLToPath(new URL('./check-worker.mjs', import.meta.url)), spec.command, ...spec.args],
+      {
+        cwd: repositoryRoot,
+        env: environment,
+        windowsHide: true,
+        stdio: ['ignore', 'pipe', 'pipe', 'ipc'],
+      },
+    )
     record.child_pid = child.pid || null
     record.current_command = spec.label
     record.last_output_at = startedAt
@@ -260,8 +268,7 @@ function runChild(spec, environment, record, logStream, persist) {
     const stopChild = (signal) => {
       if (!child.pid || settled) return
       try {
-        if (process.platform === 'win32') child.kill(signal)
-        else process.kill(-child.pid, signal)
+        child.kill(signal)
       } catch (error) {
         if (error.code !== 'ESRCH') tail = appendTail(tail, `\n${error.message}\n`)
       }

@@ -57,7 +57,7 @@ try {
     cwd: repositoryRoot,
     env: {
       ...process.env,
-      DATABASE_URL: 'file:../e2e.db',
+      DATABASE_URL: databaseUrl,
       ...(process.platform === 'win32' ? { RUST_LOG: 'info' } : {}),
     },
     stdio: 'inherit',

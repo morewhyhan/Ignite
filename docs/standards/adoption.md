@@ -60,6 +60,8 @@ node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'
 
 完成后运行 `pnpm template:doctor`。`.ai/project.json` 是机器可读的项目身份真源：将 `mode` 改为 `adopted`，把 `source_repository` 保留为模板来源，已确定项目仓库时填入 `project_repository`；尚未确定时保持 `null`，本地开发可以继续，但不要宣称已推送。若仍使用 Ignite 名称、slug、默认 secret，或本地既没有 `.env` 也没有等价环境变量，诊断会报告。
 
+诊断会检查 origin 的全部推送目标，避免第二个 push URL 仍指向模板。Site 身份支持字符串字面量、本文件内的 `const` 引用、字符串拼接与 TypeScript 类型包装；函数、外部导入或运行时计算会明确报告“无法静态核实”，不会执行应用代码，也不会把无法识别当作通过。需要这类配置时，应同步扩展诊断适配，而不是绕过采用检查。
+
 ## 第三步：决定 Tasks 的去留
 
 ### 保留

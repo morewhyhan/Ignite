@@ -1,0 +1,8 @@
+{
+  "schema": 2,
+  "id": "ignite-template-baseline-v1",
+  "plan_ids": ["IGT-004"],
+  "must_pass": ["check-integration", "check-release"],
+  "excluded": ["尚未确定目标的衍生项目验收"],
+  "updated_at": "2026-09-19"
+}

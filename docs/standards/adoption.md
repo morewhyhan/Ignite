@@ -39,7 +39,7 @@
 
 ## 第一步：验证未修改的基线
 
-如果使用 GitHub 的 “Use this template” 或下载源码后重新 `git init`，新仓库没有模板旧提交。先提交初始源码，再运行 `pnpm ignite adopt-history` 查看继承记录；确认列表后执行 `pnpm ignite adopt-history --apply`。它把旧 Plan、Release 和运行清单原样归档到 `docs/others/template-history/`，保留恢复索引，随后新建的 Plan 使用新仓库的基线。归档不代表旧任务已验证。普通完整克隆无需此操作；浅克隆应先取回完整历史。
+当前模板发布快照只带一份基线交付记录，不附带建设 Ignite 的历次 Plan、Release 和运行证据。使用 GitHub 的 “Use this template” 或下载源码后重新 `git init` 时，新仓库没有模板旧提交；先提交初始源码，再运行 `pnpm ignite adopt-history` 查看这一份继承记录，确认后执行 `pnpm ignite adopt-history --apply`。它把基线 Plan、Release 和运行清单归档到 `docs/others/template-history/`，随后为自己的产品创建 Plan。归档只是区分来源，不表示新产品已经验证通过。普通完整克隆保留原 Git 历史，无需归档；浅克隆应先取回完整历史。
 
 ```bash
 node scripts/runtime-doctor.mjs --preflight

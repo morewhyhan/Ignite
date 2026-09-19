@@ -12,4 +12,4 @@ pnpm ignite run status
 pnpm ignite release status
 ```
 
-证据与输入、运行环境和 commit 绑定。Plan 完成前，任一相关输入变化都会让旧证据失效；Plan 完成后，证据按当时 commit 保留为历史事实，新的代码变化必须由新的 Plan 覆盖。Release 状态由 Plan 与有效证据推导，不在 Release JSON 中手填。
+证据与输入、运行环境和 commit 绑定。Plan 完成前，任一相关输入变化都会让旧证据失效；Plan 完成后，证据按当时 commit 保留为历史事实，新的代码变化必须由新的 Plan 覆盖。Release 状态由 Plan 与有效证据推导，不在 Release JSON 中手填。Ignite 模板发布快照只保留当前基线证据；建设期记录在 Git 历史中。具体产品保留自己的运行证据，不继承模板开发的旧运行清单。

@@ -11,7 +11,6 @@ const SAFE_DOC_PATTERNS = [
   /^docs\/README\.md$/,
   /^docs\/assets\//,
   /^docs\/others\/README\.md$/,
-  /^EXECUTION_AUDIT\.md$/,
 ]
 const GOVERNANCE_PATTERNS = [
   /^AGENTS\.md$/,

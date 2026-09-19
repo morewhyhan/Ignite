@@ -1,24 +1,18 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`f705e0a2192b`
-当前 Plan：0；结构化历史：3；未迁移历史：3
+输入指纹：`d5be1065e719`
+当前 Plan：1；结构化历史：0；未迁移历史：0
 
 ## 当前工作
 
-- 无。
+- `IGT-004` · `active` · `ignite-template-baseline-v1`
 
 ## 发布范围
 
-- `ignite-execution-v1` · `legacy_unverified`
-  - Plan：`IGT-001`
-  - 缺少证据：历史证据不参与当前验证
-- `ignite-execution-v2` · `done`
-  - Plan：`IGT-002`
-  - 缺少证据：无
-- `ignite-execution-v3` · `done`
-  - Plan：`IGT-003`
-  - 缺少证据：无
+- `ignite-template-baseline-v1` · `active`
+  - Plan：`IGT-004`
+  - 缺少证据：`check-integration`、`check-release`
 
 ## 结构问题
 

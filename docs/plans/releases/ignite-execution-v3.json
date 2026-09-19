@@ -1,8 +1,0 @@
-{
-  "schema": 2,
-  "id": "ignite-execution-v3",
-  "plan_ids": ["IGT-003"],
-  "must_pass": ["check-integration", "check-release"],
-  "excluded": ["没有具体项目选定的外部服务、原生客户端与生产部署"],
-  "updated_at": "2026-09-17"
-}

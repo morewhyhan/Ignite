@@ -1,5 +1,6 @@
 import { spawn, spawnSync } from 'node:child_process'
-import { existsSync, readFileSync, readdirSync } from 'node:fs'
+import { cpSync, existsSync, mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import {
@@ -900,6 +901,112 @@ describe('execution reliability', () => {
       expect(JSON.parse(result.stdout)).not.toEqual(
         expect.arrayContaining([expect.stringMatching(/DIFF_BASE is not a real commit/)]),
       )
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
+  it('[AC-PRODUCT-014] keeps complete-clone history and rejects shallow adoption until history is fetched', () => {
+    const fixture = makeFixture()
+    const directory = mkdtempSync(join(tmpdir(), 'ignite-delivery-'))
+    try {
+      const remote = join(directory, 'remote.git')
+      const complete = join(directory, 'complete')
+      const shallow = join(directory, 'shallow')
+      git(directory, 'init', '--bare', remote)
+      git(fixture.root, 'remote', 'add', 'origin', remote)
+      git(fixture.root, 'push', 'origin', 'HEAD:refs/heads/main')
+      git(directory, 'clone', '--branch', 'main', `file://${remote}`, complete)
+      expect(runCli(complete, 'plan', 'validate', 'IGT-900').status).toBe(0)
+      expect(JSON.parse(runCli(complete, 'adopt-history').stdout).status).toBe('unchanged')
+
+      git(directory, 'clone', '--depth', '1', '--branch', 'main', `file://${remote}`, shallow)
+      expect(git(shallow, 'rev-parse', '--is-shallow-repository')).toBe('true')
+      const missing = runCli(shallow, 'adopt-history')
+      expect(missing.status).not.toBe(0)
+      expect(missing.stderr).toContain('fetch full Git history')
+      git(shallow, 'fetch', '--unshallow')
+      expect(JSON.parse(runCli(shallow, 'adopt-history').stdout).status).toBe('unchanged')
+      expect(runCli(shallow, 'plan', 'validate', 'IGT-900').status).toBe(0)
+    } finally {
+      fixture.cleanup()
+      rmSync(directory, { recursive: true, force: true })
+    }
+  })
+
+  it('[AC-PRODUCT-011] archives inherited records in a copied tree with a new Git history', () => {
+    const fixture = makeFixture()
+    const directory = mkdtempSync(join(tmpdir(), 'ignite-new-history-'))
+    try {
+      const project = join(directory, 'project')
+      cpSync(fixture.root, project, {
+        recursive: true,
+        filter: (source) => source !== join(fixture.root, '.git'),
+      })
+      expect(existsSync(join(project, '.git'))).toBe(false)
+      write(
+        project,
+        '.ai/project.json',
+        JSON.stringify({
+          schema: 1,
+          mode: 'template-baseline',
+          source_repository: 'git@github.com:morewhyhan/Ignite.git',
+          project_repository: null,
+        }),
+      )
+      git(project, 'init')
+      commitAll(project, 'Initial copy without template Git history')
+      const preview = runCli(project, 'adopt-history')
+      expect(preview.status, preview.stderr).toBe(0)
+      expect(JSON.parse(preview.stdout).status).toBe('preview')
+      const applied = runCli(project, 'adopt-history', '--apply')
+      expect(applied.status, applied.stderr).toBe(0)
+      const archived = JSON.parse(applied.stdout)
+      expect(archived.status).toBe('archived')
+      expect(archived.files.map((item: { source: string }) => item.source)).toContain(
+        'docs/plans/fixture.md',
+      )
+      expect(existsSync(join(project, 'docs/plans/fixture.md'))).toBe(false)
+      expect(runCli(project, 'plan', 'validate').status).toBe(0)
+    } finally {
+      fixture.cleanup()
+      rmSync(directory, { recursive: true, force: true })
+    }
+  })
+
+  it('[AC-PRODUCT-014] reopens a rebased Plan instead of trusting evidence from the old commit', () => {
+    const fixture = makeFixture()
+    try {
+      const baseBranch = git(fixture.root, 'branch', '--show-current')
+      git(fixture.root, 'checkout', '-b', 'feature')
+      write(fixture.root, 'src/feature.txt', 'new behavior\n')
+      const sourceCommit = commitAll(fixture.root, 'Implement feature')
+      write(
+        fixture.root,
+        'docs/plans/fixture.md',
+        planContent(fixture.baseCommit, {
+          status: 'verifying',
+          integrated_commit: sourceCommit,
+        }),
+      )
+      commitAll(fixture.root, 'Record feature verification state')
+      git(fixture.root, 'checkout', baseBranch)
+      write(fixture.root, 'src/other.txt', 'independent work\n')
+      commitAll(fixture.root, 'Independent change')
+      git(fixture.root, 'checkout', 'feature')
+      git(fixture.root, 'rebase', baseBranch)
+      const stale = runCli(fixture.root, 'plan', 'validate', 'IGT-900')
+      expect(stale.status).not.toBe(0)
+      expect(stale.stderr).toContain('integrated_commit must be an ancestor of HEAD')
+      const repair = runCli(fixture.root, 'plan', 'reintegrate', 'IGT-900')
+      expect(repair.status, repair.stderr).toBe(0)
+      const metadata = JSON.parse(
+        read(fixture.root, 'docs/plans/fixture.md').match(
+          /<!-- ignite-plan\s*([\s\S]*?)\s*-->/,
+        )![1],
+      )
+      expect(metadata).toMatchObject({ status: 'active', integrated_commit: null, evidence: [] })
+      expect(metadata.integration_history[0].source_commit).toBe(sourceCommit)
     } finally {
       fixture.cleanup()
     }

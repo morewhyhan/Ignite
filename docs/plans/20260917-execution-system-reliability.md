@@ -49,21 +49,20 @@
   ],
   "remaining_work": [
     "E01 无浏览器缓存时的实际安装及各工具桥接实测",
-    "E02 三种衍生仓库采用演练",
+    "E02 GitHub Use template 真仓库采用演练（本地完整克隆与新 Git 历史已验证）",
     "E04 实际替换外壳及删除 Tasks 的回归",
     "E05 独立核对原始用户目标未被删减",
-    "E08 关键业务断言的故障注入与放宽审查（空回调已拦截）",
     "E09 指定提交的独立 CI 重跑",
     "E10 跨会话完整接续演练",
     "E11 长时挂起预算和非 Linux 平台的恢复演练（Linux 父进程崩溃清理及重新取锁已有回归）",
     "E12 大项目测试选择和耗时验证（同输入复用已实测）",
-    "E13 首推、PR 和浅历史的远端演练",
+    "E13 GitHub 首推与 PR 的远端演练（本地 bare remote 首推和浅历史恢复已验证）",
     "E15 其它接口语义及设计事实漂移检查",
     "E16 远端和可访问成果入口核实",
     "E18 新 provider 选定后的适配演练",
     "E19 新 provider 配置输入登记验证",
     "E20 并行 worktree 完整 Plan 验证及冲突处理演练",
-    "E21 rebase 与全新克隆的合并后验证"
+    "E21 rebase 与 squash 后完整 Plan 重验（失效与重新绑定已验证）"
   ],
   "change_type": "存量改动",
   "base_commit": "28b9b5972e968dffa54d560de4631e1486214fe6",
@@ -90,6 +89,7 @@
       "id": "AC-PRODUCT-013",
       "tests": [
         "tests/contracts/execution-reliability.test.ts",
+        "tests/contracts/mutation-guards.test.ts::[AC-PRODUCT-013] fails when Tasks ownership checks are removed",
         "tests/contracts/ignite-checks.test.ts::[AC-PRODUCT-013] selects existing module tests and falls back for an unrecognized module",
         "tests/contracts/api-design.test.ts::[AC-PRODUCT-013] matches documented task request fields to executable validators",
         "tests/api/tasks.test.ts::[AC-PRODUCT-013] rejects an empty update as documented",

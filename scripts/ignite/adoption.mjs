@@ -23,6 +23,8 @@ export function adoptHistory({ apply = false } = {}) {
     (plan) => plan.metadata && !gitCommitExists(plan.metadata.base_commit),
   )
   if (foreign.length === 0) return { status: 'unchanged', files: [] }
+  if (runGit(['rev-parse', '--is-shallow-repository']).stdout.trim() === 'true')
+    throw new Error('fetch full Git history before adopting a shallow clone')
   if (templateMode() !== 'template-baseline') {
     throw new Error(
       'history adoption requires template-baseline; restore missing project commits before continuing an adopted project',
@@ -35,8 +37,6 @@ export function adoptHistory({ apply = false } = {}) {
       'mixed local and missing Plan history; fetch the missing Git history before adoption',
     )
   }
-  if (runGit(['rev-parse', '--is-shallow-repository']).stdout.trim() === 'true')
-    throw new Error('fetch full Git history before adopting a shallow clone')
   const commit = currentCommit()
   if (!gitCommitExists(commit))
     throw new Error('create an initial Git commit before adopting template history')

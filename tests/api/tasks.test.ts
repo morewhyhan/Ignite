@@ -37,9 +37,9 @@ vi.mock('@/server/api/session', async () => {
 
 vi.mock('@/server/database/client', () => {
   const task = {
-    findMany: async ({ where }: { where: { userId: string } }) =>
+    findMany: async ({ where }: { where: { userId?: string } }) =>
       testState.tasks
-        .filter((item) => item.userId === where.userId)
+        .filter((item) => where.userId === undefined || item.userId === where.userId)
         .sort((left, right) => right.createdAt.getTime() - left.createdAt.getTime()),
     create: async ({ data }: { data: { title: string; userId: string } }) => {
       const now = new Date()
@@ -58,11 +58,12 @@ vi.mock('@/server/database/client', () => {
       where,
       data,
     }: {
-      where: { id: string; userId: string }
+      where: { id: string; userId?: string }
       data: { title?: string; completed?: boolean }
     }) => {
       const storedTask = testState.tasks.find(
-        (item) => item.id === where.id && item.userId === where.userId,
+        (item) =>
+          item.id === where.id && (where.userId === undefined || item.userId === where.userId),
       )
       if (!storedTask) return { count: 0 }
 
@@ -186,6 +187,10 @@ describe('tasks API', () => {
     }
 
     testState.userId = secondUserId
+    const listResponse = await request('GET', '/api/tasks')
+    expect(listResponse.status).toBe(200)
+    await expect(listResponse.json()).resolves.toMatchObject({ data: [] })
+
     const updateResponse = await request('PUT', `/api/tasks/${created.data.id}`, {
       title: 'stolen task',
     })

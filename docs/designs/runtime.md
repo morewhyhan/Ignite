@@ -76,3 +76,5 @@ Release JSON 只声明 `plan_ids`、`must_pass` 和排除项，不保存状态�
 CI 还会用本次 Git diff 做反向覆盖检查：每一个非状态文件的改动，都必须落在本次完成 Plan 的 `write_scope` 内，且文件内容与该 Plan 的被测提交一致。已有的未改动草稿不阻塞本次交付；本次改动的 Plan 必须达到终态，但同 Release 未来任务不阻止其独立合并。首推没有 before commit 时以仓库根提交为明确基线。这样既保留历史证据，又能检测同一路径在验证后追加的修改。
 
 `pnpm ignite next --plan <ID>` 是派生的接续摘要：列出目标、约束、非目标、授权来源、开放问题、最近运行、`remaining_work` 和允许的下一步。`context` 包含当前工作区、基线、允许写入范围、按 REQ 定位的 Feature 路径、AC 与测试映射，以及规范和事实设计入口；新会话不必从全量历史猜测任务边界，不维护第二份状态。若剩余验收非空，即使所有命令通过也不建议 `done`，状态校验同样拒绝。成果交付只报告已核实的本地提交、远端同步或部署状态；`done` 自身不等于已上线。Squash/rebase 改写提交后需 `plan reintegrate` 并在最终集成提交重测，不能移植源提交的通过摘要。
+
+`next --verify-remote` 使用有时限、禁止交互输入的 Git 只读查询，对比 `origin` 同名分支与本地 HEAD。只有 SHA 相同才给出 `remote_sync: verified`；默认离线摘要和远端不可达时都不宣称已同步。此项不探测应用部署，`deployed_url` 仍为 `null`，直到具体产品另行提供部署目标与可访问性验收。

@@ -329,6 +329,42 @@ describe('execution reliability', () => {
     }
   })
 
+  it('[AC-PRODUCT-014] verifies the exact remote branch commit only when asked', () => {
+    const fixture = makeFixture()
+    const directory = mkdtempSync(join(tmpdir(), 'ignite-remote-check-'))
+    try {
+      const remote = join(directory, 'remote.git')
+      const branch = git(fixture.root, 'branch', '--show-current')
+      git(directory, 'init', '--bare', remote)
+      git(fixture.root, 'remote', 'add', 'origin', remote)
+      const delivery = () => {
+        const result = runCli(fixture.root, 'next', '--plan', 'IGT-900', '--verify-remote')
+        expect(result.status, result.stderr).toBe(0)
+        return JSON.parse(result.stdout).delivery
+      }
+      expect(delivery()).toMatchObject({ remote_sync: 'pending_first_push', branch })
+      git(fixture.root, 'push', 'origin', `HEAD:refs/heads/${branch}`)
+      expect(delivery()).toMatchObject({
+        remote_sync: 'verified',
+        branch,
+        remote_commit: git(fixture.root, 'rev-parse', 'HEAD'),
+      })
+      const secondRemote = join(directory, 'second.git')
+      git(directory, 'init', '--bare', secondRemote)
+      git(fixture.root, 'config', '--add', 'remote.origin.pushurl', remote)
+      git(fixture.root, 'config', '--add', 'remote.origin.pushurl', secondRemote)
+      expect(delivery()).toMatchObject({ remote_sync: 'pending_first_push', branch })
+      git(fixture.root, 'push', secondRemote, `HEAD:refs/heads/${branch}`)
+      expect(delivery()).toMatchObject({ remote_sync: 'verified', branch })
+      write(fixture.root, 'README.md', '# changed after remote verification\n')
+      commitAll(fixture.root, 'Local delivery changed')
+      expect(delivery()).toMatchObject({ remote_sync: 'pending_push', branch })
+    } finally {
+      fixture.cleanup()
+      rmSync(directory, { recursive: true, force: true })
+    }
+  })
+
   it('[AC-PRODUCT-012] keeps other runs visible when one local run record is corrupt', () => {
     const fixture = makeFixture()
     try {

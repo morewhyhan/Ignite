@@ -106,6 +106,8 @@ Plan 进入实现前必须写清：
 
 CI 的合并门禁只要求本次变更涉及的独立 Plan 已完成并覆盖本次差异；同一 Release 内未交付的未来任务不阻挡这次合并。宣布整个 Release 已完成仍需范围内全部有效 Plan 与证据齐备。`done` 表示本地受测提交完成，不自动表示已经推送、部署或用户可访问；这些交付结果需另核对并如实报告。
 
+交付时可执行 `pnpm ignite next --plan <IGT-ID> --verify-remote`，只读比较本地 HEAD 与 `origin` 同名分支的远端提交。`verified` 才表示这一个 Git 提交已在远端；`pending_first_push`、`pending_push`、`behind_remote`、`diverged_or_unknown` 和 `unreachable` 均不能宣称已同步。默认 `next` 不访问网络，远端状态保持 `not_verified`；仓库同步不等于应用已部署或页面可访问。
+
 ## 8. 运行时边界
 
 `.node-version`、`packageManager` 与 `.ai/runtime.json` 共同定义可复现运行时。默认在 WSL/Linux 执行；若改用 Windows，必须单独安装该平台的 `node_modules`。两个系统不得共享同一依赖目录，`pnpm runtime:check` 会在执行前拒绝跨平台复用。

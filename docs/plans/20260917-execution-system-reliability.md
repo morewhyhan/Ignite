@@ -57,8 +57,8 @@
     "E11 长时挂起预算和非 Linux 平台的恢复演练（Linux 父进程崩溃清理及重新取锁已有回归）",
     "E12 大项目测试选择和耗时验证（同输入复用已实测）",
     "E13 GitHub 首推与 PR 的远端演练（本地 bare remote 首推和浅历史恢复已验证）",
-    "E15 其它接口语义及设计事实漂移检查",
-    "E16 远端和可访问成果入口核实",
+    "E15 认证等例外接口语义及视觉/正文设计事实漂移检查（Tasks 与 health 已覆盖）",
+    "E16 具体产品的部署与可访问成果入口核实（远端提交已可显式核对）",
     "E18 新 provider 选定后的适配演练",
     "E19 新 provider 配置输入登记验证",
     "E20 并行 worktree 完整 Plan 验证及冲突处理演练",
@@ -92,6 +92,7 @@
         "tests/contracts/mutation-guards.test.ts::[AC-PRODUCT-013] fails when Tasks ownership checks are removed",
         "tests/contracts/ignite-checks.test.ts::[AC-PRODUCT-013] selects existing module tests and falls back for an unrecognized module",
         "tests/contracts/api-design.test.ts::[AC-PRODUCT-013] matches documented task request fields to executable validators",
+        "tests/contracts/api-design.test.ts::[AC-PRODUCT-013] keeps the public health response aligned with OpenAPI",
         "tests/api/tasks.test.ts::[AC-PRODUCT-013] rejects an empty update as documented",
         "tests/api/tasks.test.ts::[AC-PRODUCT-013] returns exactly the documented task fields"
       ]
@@ -99,7 +100,8 @@
     {
       "id": "AC-PRODUCT-014",
       "tests": [
-        "tests/contracts/execution-reliability.test.ts"
+        "tests/contracts/execution-reliability.test.ts",
+        "tests/contracts/execution-reliability.test.ts::[AC-PRODUCT-014] verifies the exact remote branch commit only when asked"
       ]
     }
   ],

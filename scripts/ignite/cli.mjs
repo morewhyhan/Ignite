@@ -2,6 +2,7 @@ import { spawnSync } from 'node:child_process'
 import { adoptHistory } from './adoption.mjs'
 import { planCheck } from './checks.mjs'
 import { currentCommit, repositoryRoot } from './core.mjs'
+import { verifyRemoteDelivery } from './delivery.mjs'
 import {
   deriveRelease,
   findPlan,
@@ -217,6 +218,9 @@ function commandRunStatus(positionals, options) {
 
 function commandNext(options) {
   if (!options.plan) throw new Error('next requires --plan IGT-000')
+  const remoteDelivery = options['verify-remote']
+    ? verifyRemoteDelivery()
+    : { remote_sync: 'not_verified', branch: null, remote_commit: null }
   const plan = findPlan(options.plan)
   const registry = specificationRegistry()
   const featurePaths = [
@@ -351,7 +355,7 @@ function commandNext(options) {
           deliverables: plan.metadata.deliverables || [],
           local_commit: currentCommit(),
           local_plan_status: plan.metadata.status,
-          remote_sync: 'not_verified',
+          ...remoteDelivery,
           deployed_url: null,
         },
       },
@@ -394,7 +398,8 @@ export async function main(argv = process.argv.slice(2)) {
   throw new Error(
     'commands: validate [--ci], status [--write|--json], plan validate [id], ' +
       'plan set-status <id> <status>, check --plan <id> [--level auto|dev|integration|release], ' +
-      'run status [run-id] [--verbose], run cancel <run-id>, release status [release-id], adopt-history [--apply]',
+      'next --plan <id> [--verify-remote], run status [run-id] [--verbose], ' +
+      'run cancel <run-id>, release status [release-id], adopt-history [--apply]',
   )
 }
 

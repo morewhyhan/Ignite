@@ -66,4 +66,38 @@ describe('OpenAPI design snapshot', () => {
     }
     expect(document.components.schemas.UpdateTaskInput.minProperties).toBe(1)
   })
+
+  it('[AC-PRODUCT-013] keeps the public health response aligned with OpenAPI', async () => {
+    const document = parse(
+      readFileSync(resolve(process.cwd(), 'docs/designs/api.yaml'), 'utf8'),
+    ) as {
+      paths: {
+        '/api/health': {
+          get: {
+            responses: {
+              '200': {
+                content: {
+                  'application/json': {
+                    schema: {
+                      required: string[]
+                      properties: Record<string, { const?: string; format?: string }>
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    const documented =
+      document.paths['/api/health'].get.responses['200'].content['application/json'].schema
+    const response = await api.request('http://localhost/api/health')
+    expect(response.status).toBe(200)
+    const body = (await response.json()) as Record<string, unknown>
+    expect(Object.keys(body).sort()).toEqual(documented.required.sort())
+    expect(body.status).toBe(documented.properties.status.const)
+    expect(documented.properties.timestamp.format).toBe('date-time')
+    expect(Number.isNaN(Date.parse(String(body.timestamp)))).toBe(false)
+  })
 })

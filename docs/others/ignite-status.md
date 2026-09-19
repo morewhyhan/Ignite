@@ -2,17 +2,17 @@
 
 模板状态：`template-baseline`
 输入指纹：`d5be1065e719`
-当前 Plan：1；结构化历史：0；未迁移历史：0
+当前 Plan：0；结构化历史：1；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-004` · `verifying` · `ignite-template-baseline-v1`
+- 无。
 
 ## 发布范围
 
-- `ignite-template-baseline-v1` · `verifying`
+- `ignite-template-baseline-v1` · `done`
   - Plan：`IGT-004`
-  - 缺少证据：`check-release`
+  - 缺少证据：无
 
 ## 结构问题
 

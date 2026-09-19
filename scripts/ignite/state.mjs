@@ -923,6 +923,26 @@ export function bindPlanEvidence(planId, evidenceId, runId) {
   return updated
 }
 
+export function currentIntegrationCommit(plan, head = currentCommit()) {
+  const binding = (plan.metadata.evidence || []).find((item) => item.id === 'check-integration')
+  const manifest = listDurableRuns().find((item) => item.value.run_id === binding?.run_id)?.value
+  if (
+    manifest?.plan_id === plan.metadata.id &&
+    manifest.evidence_id === 'check-integration' &&
+    manifest.check_policy_version === CHECK_POLICY_VERSION &&
+    manifest.status === 'passed' &&
+    manifest.exit_code === 0 &&
+    manifest.workspace_clean === true &&
+    manifest.input_fingerprint === computeInputFingerprint(plan) &&
+    gitCommitExists(manifest.commit) &&
+    isAncestor(manifest.commit, head) &&
+    planContractAtCommit(plan, manifest.commit)
+  ) {
+    return manifest.commit
+  }
+  return head
+}
+
 export function setPlanStatus(planId, nextStatus, { blocker = null, commit = null } = {}) {
   const plan = findPlan(planId)
   if (plan.metadata.schema !== 2) throw new Error('state transitions require a schema 2 Plan')
@@ -944,7 +964,14 @@ export function setPlanStatus(planId, nextStatus, { blocker = null, commit = nul
   const nextMetadata = structuredClone(plan.metadata)
   nextMetadata.status = nextStatus
   nextMetadata.updated_at = new Date().toISOString().slice(0, 10)
-  if (commit) nextMetadata.integrated_commit = commit === 'HEAD' ? currentCommit() : commit
+  if (commit) {
+    nextMetadata.integrated_commit =
+      commit === 'HEAD'
+        ? nextStatus === 'verifying'
+          ? currentIntegrationCommit(plan)
+          : currentCommit()
+        : commit
+  }
   if (nextStatus === 'blocked') nextMetadata.blocker = blocker
   else nextMetadata.blocker = null
   const candidate = { ...plan, metadata: nextMetadata }

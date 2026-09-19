@@ -4,7 +4,7 @@
   "id": "IGT-003",
   "release": "ignite-execution-v3",
   "status": "active",
-  "outcome": "AI 从目标到交付能按同一执行契约推进，并在采用、验证、恢复和合并时拒绝假完成",
+  "outcome": "Ignite 通用模板按同一执行契约推进采用、验证、恢复和合并；具体产品的实例化验收留在采用 Plan",
   "contract_version": 2,
   "goals": [
     {
@@ -38,32 +38,19 @@
   ],
   "non_goals": [
     "接入尚未选定的外部服务",
-    "开发原生客户端"
+    "开发原生客户端",
+    "在没有衍生产品目标时预设品牌、Tasks 去留、第二数据库或部署平台",
+    "把模板基线验证冒充真实项目在 GitHub、其他 AI 宿主或部署环境中的实测"
   ],
   "authorization": {
-    "source": "用户于 2026-09-17 明确要求逐项落实 EXECUTION_AUDIT.md"
+    "source": "用户要求逐项改进 EXECUTION_AUDIT.md；2026-09-19 进一步指定先优化通用模板，衍生项目实测延后"
   },
   "deliverables": [
     "通过验证的执行入口、规范和测试",
-    "逐项回写的审计清单"
+    "逐项回写的审计清单",
+    "清晰区分模板基线与具体项目验收的采用规范"
   ],
-  "remaining_work": [
-    "E01 无浏览器缓存时的实际安装及各工具桥接实测",
-    "E02 GitHub Use template 真仓库采用演练（本地完整克隆与新 Git 历史已验证）",
-    "E04 实际替换外壳及删除 Tasks 的回归",
-    "E05 独立核对原始用户目标未被删减",
-    "E09 指定提交的独立 CI 重跑",
-    "E10 跨会话完整接续演练",
-    "E11 长时挂起预算和非 Linux 平台的恢复演练（Linux 父进程崩溃清理及重新取锁已有回归）",
-    "E12 大项目测试选择和耗时验证（同输入复用已实测）",
-    "E13 GitHub 首推与 PR 的远端演练（本地 bare remote 首推和浅历史恢复已验证）",
-    "E15 认证等例外接口语义及视觉/正文设计事实漂移检查（Tasks 与 health 已覆盖）",
-    "E16 具体产品的部署与可访问成果入口核实（远端提交已可显式核对）",
-    "E18 新 provider 选定后的适配演练",
-    "E19 新 provider 配置输入登记验证",
-    "E20 并行 worktree 完整 Plan 验证及冲突处理演练",
-    "E21 rebase 与 squash 后完整 Plan 重验（失效与重新绑定已验证）"
-  ],
+  "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "28b9b5972e968dffa54d560de4631e1486214fe6",
   "requirements": [
@@ -93,6 +80,7 @@
         "tests/contracts/ignite-checks.test.ts::[AC-PRODUCT-013] selects existing module tests and falls back for an unrecognized module",
         "tests/contracts/api-design.test.ts::[AC-PRODUCT-013] matches documented task request fields to executable validators",
         "tests/contracts/api-design.test.ts::[AC-PRODUCT-013] keeps the public health response aligned with OpenAPI",
+        "tests/contracts/execution-reliability.test.ts::[AC-PRODUCT-013] reuses integration across evidence-only commits but rejects changed inputs",
         "tests/api/tasks.test.ts::[AC-PRODUCT-013] rejects an empty update as documented",
         "tests/api/tasks.test.ts::[AC-PRODUCT-013] returns exactly the documented task fields"
       ]
@@ -151,12 +139,22 @@
 
 ## 目标
 
-逐项处理根目录 `EXECUTION_AUDIT.md` 的 E01—E21，使项目采用、任务准备、执行、验证、恢复和交付形成可检验的链路。最终以可复现的使用场景验收，不以新增规则数量或主观打分替代效果。
+处理根目录 `EXECUTION_AUDIT.md` 的 E01—E21 中属于通用模板的执行机制，使采用、任务准备、验证、恢复和交付有可检验的链路。用户于 2026-09-19 指定先优化模板，再考虑真实衍生项目实测；因此审计表保留的实例化场景不作为此轮模板 Plan 的完成宣称。模板机制以本地可复现检查验收，不以新增规则数量或主观打分替代效果。
+
+## 原始目标与覆盖核对
+
+| 用户已确定的要求或来源                             | 本轮处理                                 | REQ                  | AC                  | 边界                                       |
+| -------------------------------------------------- | ---------------------------------------- | -------------------- | ------------------- | ------------------------------------------ |
+| `EXECUTION_AUDIT.md`：AI 接管、准备、运行与恢复    | 运行预检、Plan 状态、接续摘要与检查器    | REQ-PRODUCT-013、014 | AC-PRODUCT-011、012 | 实际 AI 宿主与平台要在采用时冒烟           |
+| `EXECUTION_AUDIT.md`：避免假完成和重复验证         | 输入指纹、测试敏感性、证据与状态提交复用 | REQ-PRODUCT-015      | AC-PRODUCT-013      | 语义完整性仍需对照用户原话，不能由标签证明 |
+| `EXECUTION_AUDIT.md`：数据、合并和交付安全         | 迁移样本、提交身份、远端只读核对         | REQ-PRODUCT-016      | AC-PRODUCT-014      | 真实 provider、PR 与部署按具体项目验收     |
+| 用户本轮要求“先把它优化成通用模板，之后再考虑实测” | 保留可替换入口，把实例化场景移入采用规范 | REQ-PRODUCT-013、016 | AC-PRODUCT-011、014 | 不为未选定产品做虚构测试                   |
 
 ## 非目标
 
 - 不更换当前业务技术栈或提前接入没有目标项目使用的外部服务。
 - 不重写已经发布的迁移或既有 Plan 的历史证据。
+- 不声称所有 AI 工具、第二数据库、真实衍生产品或部署平台已经完成实测。
 
 ## 变更类型
 

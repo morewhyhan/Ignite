@@ -16,11 +16,14 @@ import { fileURLToPath } from 'node:url'
 import { spawn } from 'node:child_process'
 import {
   computeInputFingerprint,
+  computeInputFingerprintAtCommit,
   currentCommit,
   durableRunsDirectory,
   environmentIdentity,
   executionWorkspaceIsClean,
+  gitCommitExists,
   hash,
+  isAncestor,
   localRunsDirectory,
   makeSafeTestEnvironment,
   readJson,
@@ -364,6 +367,26 @@ function publishEvidence(record, logPath) {
   return relativePath(manifestPath)
 }
 
+export function integrationSupportsRelease(
+  receipt,
+  { plan, commit, inputFingerprint, environmentFingerprint },
+) {
+  return (
+    receipt?.plan_id === plan.metadata.id &&
+    receipt.evidence_id === 'check-integration' &&
+    receipt.check_policy_version === CHECK_POLICY_VERSION &&
+    receipt.status === 'passed' &&
+    receipt.exit_code === 0 &&
+    receipt.workspace_clean === true &&
+    receipt.input_fingerprint === inputFingerprint &&
+    receipt.environment_fingerprint === environmentFingerprint &&
+    gitCommitExists(receipt.commit) &&
+    isAncestor(receipt.commit, commit) &&
+    planContractAtCommit(plan, receipt.commit) &&
+    computeInputFingerprintAtCommit(plan, receipt.commit) === inputFingerprint
+  )
+}
+
 export async function executeCheckPlan({ plan, checkPlan, force = false }) {
   const active = listLocalRuns().find((record) => derivedRunStatus(record) === 'running')
   if (active) return { status: 'running', exitCode: 2, record: active, reused: true }
@@ -383,15 +406,13 @@ export async function executeCheckPlan({ plan, checkPlan, force = false }) {
     throw new Error('the stable Plan contract must be committed before running evidence checks')
   }
   if (checkPlan.level === 'release' && CHECK_POLICY_VERSION >= 3) {
-    const integration = listDurableRuns().find(
-      ({ value }) =>
-        value.plan_id === plan.metadata.id &&
-        value.evidence_id === 'check-integration' &&
-        value.check_policy_version === CHECK_POLICY_VERSION &&
-        value.status === 'passed' &&
-        value.commit === commit &&
-        value.input_fingerprint === inputFingerprint &&
-        value.environment_fingerprint === environmentData.fingerprint,
+    const integration = listDurableRuns().find(({ value }) =>
+      integrationSupportsRelease(value, {
+        plan,
+        commit,
+        inputFingerprint,
+        environmentFingerprint: environmentData.fingerprint,
+      }),
     )
     if (!integration) {
       throw new Error('release requires a current integration run before build and E2E')

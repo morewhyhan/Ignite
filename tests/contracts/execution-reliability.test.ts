@@ -55,6 +55,7 @@ describe('execution reliability', () => {
       const plan = read(fixture.root, `docs/plans/${filename}`)
       expect(plan).toContain('"change_type": "存量改动"')
       expect(plan).toContain('"status": "draft"')
+      expect(plan).toContain('## 原始目标与覆盖核对')
       expect(read(fixture.root, 'docs/plans/releases/rename-existing-screen-v1.json')).toContain(
         '"plan_ids"',
       )
@@ -362,6 +363,80 @@ describe('execution reliability', () => {
     } finally {
       fixture.cleanup()
       rmSync(directory, { recursive: true, force: true })
+    }
+  })
+
+  it('[AC-PRODUCT-013] reuses integration across evidence-only commits but rejects changed inputs', () => {
+    const fixture = makeFixture()
+    try {
+      const testedCommit = git(fixture.root, 'rev-parse', 'HEAD')
+      const fingerprint = runModule(
+        fixture.root,
+        `const core = await import(${JSON.stringify(join(repositoryRoot, 'scripts/ignite/core.mjs'))})
+         const state = await import(${JSON.stringify(join(repositoryRoot, 'scripts/ignite/state.mjs'))})
+         process.stdout.write(core.computeInputFingerprint(state.findPlan('IGT-900')))`,
+      )
+      expect(fingerprint.status, fingerprint.stderr).toBe(0)
+      const runId = 'run-20260919000000-fixture'
+      write(
+        fixture.root,
+        'docs/plans/fixture.md',
+        planContent(fixture.baseCommit, {
+          evidence: [{ id: 'check-integration', run_id: runId }],
+        }),
+      )
+      write(
+        fixture.root,
+        `docs/others/evidence/runs/${runId}.json`,
+        JSON.stringify({
+          run_id: runId,
+          plan_id: 'IGT-900',
+          evidence_id: 'check-integration',
+          check_policy_version: 4,
+          status: 'passed',
+          exit_code: 0,
+          workspace_clean: true,
+          commit: testedCommit,
+          input_fingerprint: fingerprint.stdout,
+          environment_fingerprint: 'fixture-environment',
+        }),
+      )
+      write(fixture.root, 'docs/others/ignite-status.md', 'generated state\n')
+      commitAll(fixture.root, 'Record generated execution state')
+      const verify = () =>
+        runModule(
+          fixture.root,
+          `const core = await import(${JSON.stringify(join(repositoryRoot, 'scripts/ignite/core.mjs'))})
+           const state = await import(${JSON.stringify(join(repositoryRoot, 'scripts/ignite/state.mjs'))})
+           const runs = await import(${JSON.stringify(join(repositoryRoot, 'scripts/ignite/runs.mjs'))})
+           const plan = state.findPlan('IGT-900')
+           const receipt = state.listDurableRuns()[0].value
+           process.stdout.write(JSON.stringify({
+             eligible: runs.integrationSupportsRelease(receipt, {
+               plan, commit: core.currentCommit(),
+               inputFingerprint: core.computeInputFingerprint(plan),
+               environmentFingerprint: 'fixture-environment',
+             }),
+             integratedCommit: state.currentIntegrationCommit(plan),
+           }))`,
+        )
+      const unchanged = verify()
+      expect(unchanged.status, unchanged.stderr).toBe(0)
+      expect(JSON.parse(unchanged.stdout)).toEqual({
+        eligible: true,
+        integratedCommit: testedCommit,
+      })
+
+      write(fixture.root, 'README.md', '# changed behavior\n')
+      commitAll(fixture.root, 'Change execution input')
+      const changed = verify()
+      expect(changed.status, changed.stderr).toBe(0)
+      expect(JSON.parse(changed.stdout)).toEqual({
+        eligible: false,
+        integratedCommit: git(fixture.root, 'rev-parse', 'HEAD'),
+      })
+    } finally {
+      fixture.cleanup()
     }
   })
 

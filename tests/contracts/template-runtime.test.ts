@@ -159,6 +159,7 @@ describe('template and runtime contracts', () => {
           /"id": "(IGT-\d+)"/,
         )?.[1]
         expect(generatedId).toMatch(/^IGT-\d{3,}$/)
+        expect(read(fixture.root, `docs/plans/${generatedPlan}`)).toContain('## 原始目标与覆盖核对')
         expect(release.plan_ids).toContain(generatedId)
         expect(release).not.toHaveProperty('status')
       } finally {

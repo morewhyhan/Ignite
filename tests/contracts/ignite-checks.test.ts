@@ -93,6 +93,20 @@ describe('Ignite risk-derived checks', () => {
   })
 
   it('keeps diff validation in every level and production E2E in release', () => {
+    for (const path of [
+      'scripts/test-migrations.mjs',
+      'scripts/testing/database-adapter.mjs',
+      'scripts/testing/migration-probe.mjs',
+    ]) {
+      expect(commandsForLevel('integration', [path], plan)).toEqual(
+        expect.arrayContaining([expect.objectContaining({ label: 'migrations' })]),
+      )
+      expect(
+        commandsForLevel('integration', [path], plan, 3).some(
+          (command) => command.label === 'migrations',
+        ),
+      ).toBe(false)
+    }
     for (const level of ['dev', 'integration', 'release']) {
       const commands = commandsForLevel(level, ['README.md'], plan)
       expect(commands[0]).toMatchObject({ command: 'node', label: 'git-diff' })

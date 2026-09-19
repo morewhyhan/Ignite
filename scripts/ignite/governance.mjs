@@ -1,4 +1,5 @@
 import { databaseTestAdapter } from '../testing/database-adapter.mjs'
+import { assertMigrationProbe, seedMigrationProbe } from '../testing/migration-probe.mjs'
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import {
@@ -115,60 +116,17 @@ function databaseSnapshot(sql) {
   }
 }
 
-function quotedIdentifier(value) {
-  return `"${value.replaceAll('"', '""')}"`
-}
-
 export function migrationDataFailures(paths) {
   const failures = []
   if (paths.length < 2) return failures
   for (let boundary = 1; boundary < paths.length; boundary += 1) {
     const database = databaseTestAdapter.openMemory()
     try {
-      database.exec('PRAGMA foreign_keys = OFF;')
+      database.exec('PRAGMA foreign_keys = ON;')
       for (const path of paths.slice(0, boundary)) database.exec(readFileSync(path, 'utf8'))
-      const tables = database
-        .prepare("SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%'")
-        .all()
-        .map((row) => row.name)
-      const seeded = new Map()
-      for (const table of tables) {
-        const name = quotedIdentifier(table)
-        const columns = database.prepare(`PRAGMA table_info(${name})`).all()
-        const columnNames = columns.map((column) => column.name)
-        const values = columns.map((column) =>
-          /INT|REAL|NUMERIC|DECIMAL/i.test(column.type) ? 1 : `probe-${table}-${column.name}`,
-        )
-        database
-          .prepare(
-            `INSERT INTO ${name} (${columnNames.map(quotedIdentifier).join(', ')}) VALUES (${columns.map(() => '?').join(', ')})`,
-          )
-          .run(...values)
-        seeded.set(
-          table,
-          database
-            .prepare(`SELECT ${columnNames.map(quotedIdentifier).join(', ')} FROM ${name}`)
-            .all(),
-        )
-      }
+      const seeded = seedMigrationProbe(database)
       database.exec(readFileSync(paths[boundary], 'utf8'))
-      for (const [table, expectedRows] of seeded) {
-        const name = quotedIdentifier(table)
-        const exists = database
-          .prepare("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ?")
-          .get(table)
-        if (!exists) {
-          failures.push(`migration ${paths[boundary]} drops existing data table ${table}`)
-          continue
-        }
-        const columns = Object.keys(expectedRows[0] || {})
-        const actualRows = database
-          .prepare(`SELECT ${columns.map(quotedIdentifier).join(', ')} FROM ${name}`)
-          .all()
-        if (JSON.stringify(actualRows) !== JSON.stringify(expectedRows)) {
-          failures.push(`migration ${paths[boundary]} changes existing data in ${table}`)
-        }
-      }
+      assertMigrationProbe(database, seeded)
     } catch (error) {
       failures.push(`migration ${paths[boundary]} data upgrade check failed: ${error.message}`)
     } finally {

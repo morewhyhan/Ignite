@@ -810,6 +810,66 @@ describe('execution reliability', () => {
     }
   })
 
+  it('[AC-PRODUCT-014] preserves related records through real Prisma upgrades and rejects data loss', () => {
+    const fixture = makeFixture()
+    try {
+      const initialSql = read(repositoryRoot, 'prisma/migrations/20260726000000_init/migration.sql')
+      const schema = read(repositoryRoot, 'prisma/schema.prisma').replace(
+        'model task {',
+        'model task {\n  priority Int @default(0)\n  note String?\n',
+      )
+      write(fixture.root, 'prisma/schema.prisma', schema)
+      write(fixture.root, 'prisma/migrations/migration_lock.toml', 'provider = "sqlite"\n')
+      write(fixture.root, 'prisma/migrations/001_init/migration.sql', initialSql)
+      const upgrade = 'ALTER TABLE "task" ADD COLUMN "priority" INTEGER NOT NULL DEFAULT 0;'
+      write(fixture.root, 'prisma/migrations/002_priority/migration.sql', upgrade)
+      write(
+        fixture.root,
+        'prisma/migrations/003_note/migration.sql',
+        'ALTER TABLE "task" ADD COLUMN "note" TEXT;',
+      )
+      const script = `const { verifyMigrationHistory } = await import(${JSON.stringify(join(repositoryRoot, 'scripts/test-migrations.mjs'))})
+        const result = verifyMigrationHistory({ sourcePrismaDirectory: ${JSON.stringify(join(fixture.root, 'prisma'))} })
+        console.log('UPGRADE_RESULT=' + JSON.stringify(result))`
+      const safe = runModule(fixture.root, script)
+      expect(safe.status, safe.stderr || safe.stdout).toBe(0)
+      expect(safe.stdout).toContain('"upgrade_boundaries":2')
+      expect(safe.stdout).toContain('"seeded_tables":5')
+      write(
+        fixture.root,
+        'prisma/migrations/002_priority/migration.sql',
+        upgrade + '\nDELETE FROM "task";',
+      )
+      const destructive = runModule(fixture.root, script)
+      expect(destructive.status).not.toBe(0)
+      expect(destructive.stderr).toContain('existing data in task')
+    } finally {
+      fixture.cleanup()
+    }
+  }, 120_000)
+
+  it('[AC-PRODUCT-014] builds valid foreign-key probes and rejects an orphan introduced by migration', () => {
+    const fixture = makeFixture()
+    try {
+      const script = `const { databaseTestAdapter } = await import(${JSON.stringify(join(repositoryRoot, 'scripts/testing/database-adapter.mjs'))})
+        const { seedMigrationProbe, assertMigrationProbe } = await import(${JSON.stringify(join(repositoryRoot, 'scripts/testing/migration-probe.mjs'))})
+        const db = databaseTestAdapter.openMemory()
+        try {
+          db.exec('CREATE TABLE parent (id TEXT PRIMARY KEY); CREATE TABLE child (id TEXT PRIMARY KEY, parentId TEXT NOT NULL REFERENCES parent(id));')
+          const snapshot = seedMigrationProbe(db)
+          console.log('FOREIGN_KEYS=' + JSON.stringify(db.prepare('PRAGMA foreign_key_check').all()))
+          db.exec("PRAGMA foreign_keys = OFF; UPDATE child SET parentId = 'missing';")
+          assertMigrationProbe(db, snapshot)
+        } finally { db.close() }`
+      const result = runModule(fixture.root, script)
+      expect(result.status).not.toBe(0)
+      expect(result.stdout).toContain('FOREIGN_KEYS=[]')
+      expect(result.stderr).toContain('foreign key integrity')
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
   it('[AC-PRODUCT-014] refuses a provider switch until isolated test capabilities are adapted', () => {
     const fixture = makeFixture()
     try {

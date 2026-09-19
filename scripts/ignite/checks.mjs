@@ -4,8 +4,8 @@ import { join } from 'node:path'
 import { changedFilesForPlan, normalizePath, repositoryRoot, validateWriteScope } from './core.mjs'
 
 const LEVEL_RANK = { dev: 1, integration: 2, release: 3 }
-export const CHECK_POLICY_VERSION = 3
-export const SUPPORTED_CHECK_POLICIES = new Set([1, 2, 3])
+export const CHECK_POLICY_VERSION = 4
+export const SUPPORTED_CHECK_POLICIES = new Set([1, 2, 3, 4])
 const SAFE_DOC_PATTERNS = [
   /^README\.md$/,
   /^docs\/README\.md$/,
@@ -86,10 +86,18 @@ function changedDocs(files) {
   )
 }
 
-function needsMigrationCheck(files) {
+function needsMigrationCheck(files, policyVersion) {
   return files.some(
     (path) =>
-      path.startsWith('prisma/') || path.startsWith('src/server/auth/') || path === 'package.json',
+      path.startsWith('prisma/') ||
+      path.startsWith('src/server/auth/') ||
+      path === 'package.json' ||
+      (policyVersion >= 4 &&
+        [
+          'scripts/test-migrations.mjs',
+          'scripts/testing/database-adapter.mjs',
+          'scripts/testing/migration-probe.mjs',
+        ].includes(path)),
   )
 }
 
@@ -194,7 +202,7 @@ export function commandsForLevel(level, files, plan, policyVersion = CHECK_POLIC
         ? pnpm(['exec', 'vitest', 'run', ...tests], 'targeted-tests')
         : pnpm(['test'], 'tests'),
     )
-    if (needsMigrationCheck(files)) {
+    if (needsMigrationCheck(files, policyVersion)) {
       commands.push(pnpm(['test:migrations'], 'migrations'))
     }
     return commands

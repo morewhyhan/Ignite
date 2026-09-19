@@ -10,6 +10,9 @@ export const databaseTestAdapter = {
   openMemory() {
     return new DatabaseSync(':memory:')
   },
+  openFile(path) {
+    return new DatabaseSync(path)
+  },
   assertSchema(path) {
     const schema = readFileSync(path, 'utf8')
     if (!/provider\s*=\s*["']sqlite["']/.test(schema)) {

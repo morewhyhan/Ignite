@@ -307,6 +307,7 @@ export function calculateEvidenceCoverage({
 export function renderPlanProgress(metadata) {
   return [
     '<!-- ignite-progress -->',
+    '',
     `状态：\`${metadata.status}\`（由元数据生成）`,
     '',
     ...(metadata.tasks || []).map(

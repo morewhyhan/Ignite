@@ -4,10 +4,10 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { describe, expect, it } from 'vitest'
+import { format } from 'prettier'
 import { acceptanceLayerResults } from '../../scripts/testing/acceptance-results.mjs'
 import { stablePlanContract } from '../../scripts/ignite/core.mjs'
 import {
-  dependencyContractIsCurrent,
   calculateEvidenceCoverage,
   renderPlanProgress,
   renderPlanProgressContent,
@@ -227,7 +227,7 @@ describe('execution contract hardening', () => {
     ])
   })
 
-  it('[AC-EXECUTION-004] keeps task state machine-owned without invalidating a stable contract', () => {
+  it('[AC-EXECUTION-004] keeps task state machine-owned without invalidating a stable contract', async () => {
     const plan = contractPlan()
     const before = stablePlanContract(plan.metadata)
     const updated = {
@@ -238,6 +238,8 @@ describe('execution contract hardening', () => {
     expect(stablePlanContract(updated)).toEqual(before)
     expect(renderPlanProgress(updated)).toContain('- [x] T1 · Implement the behavior · done')
     expect(renderPlanProgressContent(plan.content, updated)).toBe(renderPlanProgress(updated))
+    const generated = `${renderPlanProgress(updated)}\n`
+    expect(await format(generated, { parser: 'markdown' })).toBe(generated)
     expect(
       validateExecutionContract(
         { ...plan, content: '# Plan without generated progress\n' },

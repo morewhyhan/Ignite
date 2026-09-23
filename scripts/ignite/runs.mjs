@@ -348,12 +348,19 @@ function durableManifest(record, logPath) {
     environment_fingerprint: record.environment_fingerprint,
     environment: record.environment,
     workspace_clean: record.workspace_clean,
+    ...(record.check_policy_version >= 5
+      ? {
+          repository_fingerprint: record.repository_fingerprint,
+          acceptance_results: record.acceptance_results || [],
+        }
+      : {}),
     commands: record.commands.map((command) => ({
       label: command.label,
       command: command.command,
       status: command.status,
       exit_code: command.exit_code,
       duration_ms: command.duration_ms,
+      ...(command.reused_from ? { reused_from: command.reused_from } : {}),
     })),
     log_sha256: logDigest,
     ...(record.check_policy_version >= 3 ? { execution_source: 'ignite-runner-local' } : {}),
@@ -397,6 +404,7 @@ export async function executeCheckPlan({ plan, checkPlan, force = false }) {
   })
   const environmentData = environmentIdentity(environment)
   const inputFingerprint = computeInputFingerprint(plan)
+  const repositoryFingerprint = computeInputFingerprint({ metadata: null })
   const commit = currentCommit()
   const workspaceClean = executionWorkspaceIsClean()
   if (!workspaceClean) {
@@ -424,6 +432,7 @@ export async function executeCheckPlan({ plan, checkPlan, force = false }) {
       plan_id: plan.metadata.id,
       evidence_id: evidenceId,
       input_fingerprint: inputFingerprint,
+      repository_fingerprint: repositoryFingerprint,
       environment_fingerprint: environmentData.fingerprint,
       workspace_clean: workspaceClean,
       commands: checkPlan.commands.map((item) => [item.command, ...item.args]),
@@ -497,12 +506,14 @@ export async function executeCheckPlan({ plan, checkPlan, force = false }) {
       child_pid: null,
       commit,
       input_fingerprint: inputFingerprint,
+      repository_fingerprint: repositoryFingerprint,
       environment_fingerprint: environmentData.fingerprint,
       environment: environmentData.summary,
       workspace_clean: workspaceClean,
       fingerprint,
       changed_files: checkPlan.changedFiles,
       commands: [],
+      acceptance_results: [],
       exit_code: null,
       needs_retry: false,
       log_path: relativePath(logPath),
@@ -514,6 +525,12 @@ export async function executeCheckPlan({ plan, checkPlan, force = false }) {
       persist()
     }, HEARTBEAT_INTERVAL_MS)
     logStream = createWriteStream(logPath, { flags: 'a' })
+    environment.IGNITE_ACCEPTANCE_RESULTS = join(
+      repositoryRoot,
+      '.ignite',
+      'acceptance-results',
+      runId,
+    )
 
     for (const command of checkPlan.commands) {
       if (existsSync(cancellationPath(runId))) {
@@ -522,8 +539,55 @@ export async function executeCheckPlan({ plan, checkPlan, force = false }) {
         record.status = 'cancelled'
         break
       }
-      const result = await runChild(command, environment, record, logStream, persist)
+      assertCurrentInputs()
+      // Only cache commands whose output is a verdict, not generated artifacts,
+      // Plan-dependent reporters or application/provider state.
+      // Formatting also reads generated Plan/Release state, which is deliberately
+      // excluded from the repository fingerprint. Always inspect that state anew.
+      const reusableLabels = new Set(['lint', 'migrations'])
+      let reused = null
+      if (!force && reusableLabels.has(command.label)) {
+        for (const source of allRuns) {
+          if (
+            source.status !== 'passed' ||
+            !source.workspace_clean ||
+            source.check_policy_version !== CHECK_POLICY_VERSION ||
+            source.repository_fingerprint !== repositoryFingerprint ||
+            source.environment_fingerprint !== environmentData.fingerprint
+          )
+            continue
+          const prior = source.commands.find(
+            (item) =>
+              item.label === command.label &&
+              item.status === 'passed' &&
+              !item.reused_from &&
+              JSON.stringify(item.command) === JSON.stringify([command.command, ...command.args]),
+          )
+          const originalLog = join(localRunsDirectory, `${source.run_id}.log`)
+          const receiptPath = join(durableRunsDirectory, `${source.run_id}.json`)
+          if (!prior || !existsSync(originalLog) || !existsSync(receiptPath)) continue
+          const receipt = readJson(receiptPath)
+          if (receipt.log_sha256 !== hash(readFileSync(originalLog))) continue
+          reused = {
+            ...prior,
+            reused_from: { run_id: source.run_id, log_sha256: receipt.log_sha256 },
+          }
+          break
+        }
+      }
+      const result = reused || (await runChild(command, environment, record, logStream, persist))
+      if (reused) {
+        record.commands.push(reused)
+        logStream.write(
+          `Reused ${command.label} from ${reused.reused_from.run_id}; identical repository input and environment.\n`,
+        )
+        persist()
+      }
       if (result.exit_code !== 0) break
+    }
+    for (const runner of ['vitest', 'playwright']) {
+      const reportPath = join(environment.IGNITE_ACCEPTANCE_RESULTS, `${runner}.json`)
+      if (existsSync(reportPath)) record.acceptance_results.push(...readJson(reportPath).results)
     }
     const failed = record.commands.find((command) => command.status !== 'passed')
     const cancelled = record.status === 'cancelled' || Boolean(failed?.cancelled)

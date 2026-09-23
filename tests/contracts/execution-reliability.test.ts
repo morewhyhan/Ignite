@@ -3,6 +3,7 @@ import { cpSync, existsSync, mkdtempSync, readFileSync, readdirSync, rmSync } fr
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
+import { CHECK_POLICY_VERSION } from '../../scripts/ignite/checks.mjs'
 import {
   commitAll,
   git,
@@ -42,6 +43,11 @@ describe('execution reliability', () => {
   it('[AC-PRODUCT-012] scaffolds an existing-feature change as an incomplete draft', () => {
     const fixture = makeFixture()
     try {
+      write(
+        fixture.root,
+        'docs/plans/_template.md',
+        read(repositoryRoot, 'docs/plans/_template.md'),
+      )
       const created = spawnSync(
         process.execPath,
         [join(repositoryRoot, 'scripts/create-change.mjs'), 'rename-existing-screen'],
@@ -56,9 +62,47 @@ describe('execution reliability', () => {
       expect(plan).toContain('"change_type": "存量改动"')
       expect(plan).toContain('"status": "draft"')
       expect(plan).toContain('## 原始目标与覆盖核对')
+      expect(plan).toContain('T1 · 识别现有行为、写入边界和原始目标 · todo')
+      expect(created.stdout).toContain('pnpm ignite status --write')
       expect(read(fixture.root, 'docs/plans/releases/rename-existing-screen-v1.json')).toContain(
         '"plan_ids"',
       )
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
+  it('[AC-PRODUCT-012] [AC-EXECUTION-009] previews an existing-feature change without creating or modifying files', () => {
+    const fixture = makeFixture()
+    try {
+      write(
+        fixture.root,
+        'docs/plans/_template.md',
+        read(repositoryRoot, 'docs/plans/_template.md'),
+      )
+      const originalStatus = git(fixture.root, 'status', '--short', '--untracked-files=all')
+      const preview = spawnSync(
+        process.execPath,
+        [
+          join(repositoryRoot, 'scripts/create-change.mjs'),
+          '--dry-run',
+          'rename-screen',
+          '--release',
+          'rename-v2',
+        ],
+        {
+          cwd: fixture.root,
+          encoding: 'utf8',
+          env: { ...process.env, IGNITE_ROOT: fixture.root },
+          windowsHide: true,
+        },
+      )
+      expect(preview.status, preview.stderr).toBe(0)
+      expect(preview.stdout).toContain('rename-screen.md')
+      expect(preview.stdout).toContain('rename-v2.json')
+      expect(preview.stdout).toContain('Preview only')
+      expect(existsSync(join(fixture.root, 'docs/plans/releases/rename-v2.json'))).toBe(false)
+      expect(git(fixture.root, 'status', '--short', '--untracked-files=all')).toBe(originalStatus)
     } finally {
       fixture.cleanup()
     }
@@ -392,7 +436,7 @@ describe('execution reliability', () => {
           run_id: runId,
           plan_id: 'IGT-900',
           evidence_id: 'check-integration',
-          check_policy_version: 4,
+          check_policy_version: CHECK_POLICY_VERSION,
           status: 'passed',
           exit_code: 0,
           workspace_clean: true,
@@ -926,10 +970,7 @@ describe('execution reliability', () => {
     const fixture = makeFixture()
     try {
       const initialSql = read(repositoryRoot, 'prisma/migrations/20260726000000_init/migration.sql')
-      const schema = read(repositoryRoot, 'prisma/schema.prisma').replace(
-        'model task {',
-        'model task {\n  priority Int @default(0)\n  note String?\n',
-      )
+      const schema = read(repositoryRoot, 'tests/fixtures/migrations/upgrade-schema.prisma')
       write(fixture.root, 'prisma/schema.prisma', schema)
       write(fixture.root, 'prisma/migrations/migration_lock.toml', 'provider = "sqlite"\n')
       write(fixture.root, 'prisma/migrations/001_init/migration.sql', initialSql)
@@ -977,6 +1018,40 @@ describe('execution reliability', () => {
       expect(result.status).not.toBe(0)
       expect(result.stdout).toContain('FOREIGN_KEYS=[]')
       expect(result.stderr).toContain('foreign key integrity')
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
+  it('[AC-PRODUCT-014] names a CHECK-constrained table and accepts project-owned legal probe values', () => {
+    const fixture = makeFixture()
+    try {
+      const script = `const { databaseTestAdapter } = await import(${JSON.stringify(join(repositoryRoot, 'scripts/testing/database-adapter.mjs'))})
+        const { seedMigrationProbe } = await import(${JSON.stringify(join(repositoryRoot, 'scripts/testing/migration-probe.mjs'))})
+        const db = databaseTestAdapter.openMemory()
+        try {
+          db.exec("CREATE TABLE invoice (id TEXT PRIMARY KEY, status TEXT NOT NULL CHECK (status IN ('PENDING', 'PAID')), quantity INTEGER NOT NULL, unitPriceCents INTEGER NOT NULL, totalCents INTEGER NOT NULL, CHECK (totalCents = quantity * unitPriceCents));")
+          seedMigrationProbe(db)
+          console.log('INVOICE=' + JSON.stringify(db.prepare('SELECT * FROM invoice').get()))
+        } finally { db.close() }`
+      const missing = runModule(fixture.root, script)
+      expect(missing.status).not.toBe(0)
+      expect(missing.stderr).toContain('table invoice needs valid probe data')
+      expect(missing.stderr).toContain('tables.invoice')
+
+      write(
+        fixture.root,
+        'tests/fixtures/migrations/values.json',
+        JSON.stringify({
+          schema: 1,
+          tables: {
+            invoice: { status: 'PENDING', quantity: 2, unitPriceCents: 100, totalCents: 200 },
+          },
+        }),
+      )
+      const valid = runModule(fixture.root, script)
+      expect(valid.status, valid.stderr).toBe(0)
+      expect(valid.stdout).toContain('"totalCents":200')
     } finally {
       fixture.cleanup()
     }

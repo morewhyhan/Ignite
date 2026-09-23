@@ -1,17 +1,28 @@
 import { randomInt } from 'node:crypto'
 import { spawnSync } from 'node:child_process'
-import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
-import { join, resolve } from 'node:path'
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
+import { dirname, join, resolve } from 'node:path'
+import { renderPlanProgressContent } from './ignite/execution-contract.mjs'
 
 const args = process.argv.slice(2)
-const slug = args[0]
+const dryRun = args.includes('--dry-run')
 const releaseIndex = args.indexOf('--release')
+const positionalArguments = args.filter(
+  (argument, index) =>
+    !argument.startsWith('--') && (releaseIndex < 0 || index !== releaseIndex + 1),
+)
+const [slug] = positionalArguments
 const releaseId = releaseIndex >= 0 ? args[releaseIndex + 1] : `${slug}-v1`
 if (
+  positionalArguments.length !== 1 ||
+  args.some(
+    (argument) => argument.startsWith('--') && !['--dry-run', '--release'].includes(argument),
+  ) ||
+  args.filter((argument) => argument === '--release').length > 1 ||
   !/^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/.test(slug || '') ||
   !/^[a-z0-9][a-z0-9-]*$/.test(releaseId || '')
 ) {
-  throw new Error('Usage: pnpm create:change <kebab-name> [--release <release-id>]')
+  throw new Error('Usage: pnpm create:change <kebab-name> [--release <release-id>] [--dry-run]')
 }
 
 const root = resolve(process.env.IGNITE_ROOT || process.cwd())
@@ -31,6 +42,14 @@ const date = new Intl.DateTimeFormat('en-CA', {
 }).format(new Date())
 const planPath = join(root, 'docs', 'plans', `${date.replaceAll('-', '')}-${slug}.md`)
 const releasePath = join(root, 'docs', 'plans', 'releases', `${releaseId}.json`)
+const planTemplate = readFileSync(join(root, 'docs', 'plans', '_template.md'), 'utf8')
+const planBodyStart = planTemplate.indexOf('-->')
+if (planBodyStart < 0) throw new Error('docs/plans/_template.md is missing ignite-plan metadata')
+const planBody = planTemplate
+  .slice(planBodyStart + 3)
+  .replaceAll('<change-name>', slug)
+  .replaceAll('REQ-FEATURE-001', '待填写')
+  .replaceAll('AC-FEATURE-001', '待填写')
 if (existsSync(planPath)) throw new Error(`Plan already exists: ${planPath}`)
 if (existsSync(releasePath)) throw new Error(`Release already exists: ${releasePath}`)
 
@@ -53,20 +72,34 @@ const metadata = {
   status: 'draft',
   outcome: `完成 ${slug} 的一项可独立验收的存量改动`,
   contract_version: 2,
+  execution_contract: 1,
   goals: [],
   constraints: [],
   non_goals: [],
   authorization: { source: '等待填写用户已确定的具体请求' },
   deliverables: [],
-  remaining_work: ['填写并完成目标行为的实际验收'],
+  remaining_work: ['原始目标尚未细化，无法确认完整验收场景'],
   change_type: '存量改动',
   base_commit: baseCommit,
   requirements: [],
   acceptance: [],
+  verification_requirements: ['unit'],
+  tasks: [
+    { id: 'T1', title: '识别现有行为、写入边界和原始目标', status: 'todo' },
+    { id: 'T2', title: '补充需求和目标行为测试', status: 'todo' },
+    { id: 'T3', title: '实施最小存量修改', status: 'todo' },
+    { id: 'T4', title: '验证兼容性并回写设计', status: 'todo' },
+  ],
   depends_on: [],
+  dependency_contracts: [],
+  shared_files: [],
+  handoff: { interfaces: [], migrations: [], tests: [], remaining: [] },
   owner: 'assigned-worker',
   risk: 'feature',
-  write_scope: [`docs/plans/${date.replaceAll('-', '')}-${slug}.md`],
+  write_scope: [
+    `docs/plans/${date.replaceAll('-', '')}-${slug}.md`,
+    `docs/plans/releases/${releaseId}.json`,
+  ],
   required_evidence: ['check-integration', 'check-release'],
   evidence: [],
   blocker: null,
@@ -77,62 +110,41 @@ const metadata = {
 const release = {
   schema: 2,
   id: releaseId,
+  coverage_version: 1,
   plan_ids: [id],
+  scope: [
+    {
+      id: 'GOAL-001',
+      text: '待填写原始目标',
+      source: '待填写来源',
+      requirements: [],
+      plan_ids: [id],
+      disposition: 'included',
+      reason: '',
+      authorization: '',
+    },
+  ],
   must_pass: ['check-integration', 'check-release'],
   excluded: [],
   updated_at: date,
 }
-writeFileSync(
-  planPath,
-  `<!-- ignite-plan
-${JSON.stringify(metadata, null, 2)}
--->
-
-# Ignite 实施计划：${slug}
-
-## 目标
-
-填写用户可验证的结果，并将每个目标映射到既有或新增的 REQ/AC。
-
-## 原始目标与覆盖核对
-
-| 用户原话或可追溯来源 | 本轮目标 | REQ | AC | 处理结果 |
-| --- | --- | --- | --- | --- |
-| 待逐条填写 | 待填写 | 待填写 | 待填写 | 保留 / 明确排除 / 待确认 |
-
-## 非目标
-
-填写本次不触及的现有行为和数据。
-
-## 变更类型
-
-- 类型：\`[存量改动]\`
-- 影响的现有路径：待识别。
-- 兼容性、数据迁移和回滚影响：待检查。
-
-## 输入规格
-
-- Feature：待填写。
-- Design：待填写。
-
-## 测试与验收设计
-
-先写会因缺少目标行为而失败的测试，再实现。
-
-## 实现任务
-
-- [ ] 缩小写入范围、关闭开放问题，再进入 ready。
-- [ ] 实施、验证、回写当前 Design。
-
-## 状态记录
-
-| 时间 | 状态 | 说明 |
-| --- | --- | --- |
-| ${date} | draft | 建立存量改动草稿 |
-`,
-  'utf8',
-)
-writeFileSync(releasePath, `${JSON.stringify(release, null, 2)}\n`, 'utf8')
-console.log(
-  `Created ${id}: ${planPath}\nNext: close the draft questions, then pnpm ignite plan validate ${id}`,
-)
+console.log(`${dryRun ? 'Would create' : 'Creating'}:\n- ${planPath}\n- ${releasePath}`)
+if (dryRun) {
+  console.log(
+    'Preview only; no files or release membership were changed. Remove --dry-run to create this draft.',
+  )
+} else {
+  mkdirSync(dirname(releasePath), { recursive: true })
+  writeFileSync(
+    planPath,
+    `<!-- ignite-plan\n${JSON.stringify(metadata, null, 2)}\n-->${renderPlanProgressContent(planBody, metadata)}`,
+    'utf8',
+  )
+  writeFileSync(releasePath, `${JSON.stringify(release, null, 2)}\n`, 'utf8')
+  console.log(`Created draft ${id}; Release ${releaseId} includes this Plan.`)
+  console.log(
+    'Next: define the goals, affected files and applicable unit/database/browser/external acceptance.',
+  )
+  console.log('Refresh the generated overview: pnpm ignite status --write')
+  console.log(`Continue: pnpm ignite next --plan ${id}`)
+}

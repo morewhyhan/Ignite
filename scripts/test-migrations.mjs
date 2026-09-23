@@ -13,7 +13,12 @@ import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { databaseTestAdapter } from './testing/database-adapter.mjs'
-import { assertMigrationProbe, seedMigrationProbe } from './testing/migration-probe.mjs'
+import {
+  assertMigrationProbe,
+  loadMigrationProbeFixture,
+  migrationProbeFixturePath,
+  seedMigrationProbe,
+} from './testing/migration-probe.mjs'
 
 const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const prismaCli = join(repositoryRoot, 'node_modules', 'prisma', 'build', 'index.js')
@@ -40,6 +45,8 @@ export function verifyMigrationHistory({
   const schemaPath = join(prismaDirectory, 'schema.prisma')
   const databasePath = join(root, 'upgrade.db')
   const databaseUrl = databaseTestAdapter.isolatedUrl(databasePath)
+  const fixturePath = migrationProbeFixturePath(dirname(sourcePrismaDirectory))
+  const fixture = loadMigrationProbeFixture(fixturePath)
   const seededTables = new Set()
 
   function runPrisma(args, url = databaseUrl) {
@@ -77,7 +84,10 @@ export function verifyMigrationHistory({
       join(migrationsDirectory, 'migration_lock.toml'),
     )
     for (let index = 0; index < migrationNames.length; index += 1) {
-      const snapshot = index === 0 ? null : inspect(seedMigrationProbe)
+      const snapshot =
+        index === 0
+          ? null
+          : inspect((database) => seedMigrationProbe(database, { fixture, fixturePath }))
       for (const table of snapshot?.keys() || []) seededTables.add(table)
       const name = migrationNames[index]
       cpSync(join(sourceMigrationsDirectory, name), join(migrationsDirectory, name), {
@@ -93,7 +103,9 @@ export function verifyMigrationHistory({
       }
     }
     // Verify the current schema can hold representative related data even with one initial migration.
-    const finalSnapshot = inspect(seedMigrationProbe)
+    const finalSnapshot = inspect((database) =>
+      seedMigrationProbe(database, { fixture, fixturePath }),
+    )
     for (const table of finalSnapshot.keys()) seededTables.add(table)
     assertNoDrift(databaseUrl)
     runPrisma(['migrate', 'deploy', '--schema', schemaPath])

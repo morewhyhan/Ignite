@@ -90,19 +90,23 @@ node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'
 
 删除不是只移除 `src/modules/tasks/`。必须在一个可审查的 Plan 中处理：
 
-| 区域         | 检查位置                                                           |
-| ------------ | ------------------------------------------------------------------ |
-| 数据         | `prisma/schema.prisma` 的 `task` 和 `user.tasks`，并新增 migration |
-| API          | `src/server/api/routes/tasks/` 和 `src/server/api/index.ts`        |
-| Client       | `src/modules/tasks/`                                               |
-| Route        | `src/app/dashboard/tasks/`                                         |
-| Navigation   | `src/config/navigation.ts`                                         |
-| Tests        | Tasks API/E2E；认证和路由守卫测试必须仍有独立覆盖                  |
-| Requirements | `docs/features/tasks.md`                                           |
-| Designs      | domain、database、API、sequence 和测试用例规格                     |
-| README/Agent | Tasks 参考切片说明                                                 |
+删除前执行 `pnpm ignite example removal-plan tasks`，取得本项目实际仍存在的文件、注册点、文档和业务测试清单。该命令只读，不删除文件；历史 migration 只列为应保留的记录。参考切片仅在 UI（模块、页面、导航）、API（路由、注册）和当前 Schema（模型、用户关系）全部移除后才判定已删除。只移除其中一处不会跳过 Tasks 所有权回归检查，而会暴露未完成的迁移。
+
+| 区域         | 检查位置                                                                            |
+| ------------ | ----------------------------------------------------------------------------------- |
+| 数据         | `prisma/schema.prisma` 的 `task` 和 `user.tasks`，并新增 migration                  |
+| API          | `src/server/api/routes/tasks/` 和 `src/server/api/index.ts`                         |
+| Client       | `src/modules/tasks/`                                                                |
+| Route        | `src/app/dashboard/tasks/`                                                          |
+| Navigation   | `src/config/navigation.ts`                                                          |
+| Tests        | Tasks API/E2E 和专属契约；独立 `tests/e2e/auth.spec.ts`、认证与路由守卫测试必须保留 |
+| Requirements | `docs/features/tasks.md`                                                            |
+| Designs      | domain、database、API、sequence 和测试用例规格                                      |
+| README/Agent | Tasks 参考切片说明                                                                  |
 
 已经在共享环境应用的 migration 不得删除或改写。模板尚未发布且没有共享数据时，重建基线也必须作为明确的基础设施任务处理。
+
+当 Tasks 被移除时，在覆盖本轮采用目标的 Plan 中给业务数据与访问路径安排迁移，再调整专属测试和设计文档；没有匹配 Plan 时再新建。不能通过删除测试来获得绿色结果；原有认证、跨用户资源隔离和未授权访问的安全断言需要由独立于 Tasks 的测试继续覆盖。
 
 ## 第四步：开发第一个真实模块
 
@@ -110,11 +114,13 @@ node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'
 
 1. 从脚手架或 `docs/features/_template.md` 创建需求规格。
 2. 标明是增量模块还是存量修改，补齐字段、原型映射和正交业务规则。
-3. 从 `docs/plans/_template.md` 创建 Plan，关闭开放问题。
-4. 按 `docs/standards/workflow.md` 的测试先行 Loop 实现。
-5. 完成后更新 `docs/designs/`。
+3. 完善脚手架已生成的 Plan；手工创建模块时才使用 `docs/plans/_template.md`，不要重复创建同一个结果的 Plan。
+4. 把占位失败测试换成用户行为断言，补齐 AC 的真实层级与具体测试路径：页面需要浏览器验收，持久化需要真实数据库验收，外部集成需要对应服务的验收。同步 Plan 的 `verification_requirements`，关闭开放问题后进入 `ready`、`active`。
+5. 按 `docs/standards/workflow.md` 的测试先行 Loop 实现，以 `pnpm ignite next --plan <IGT-ID>` 接续任务，完成后更新 `docs/designs/`。
 
 新增业务应建立独立纵向切片，不塞入 Dashboard、Settings 或 Tasks 等无关模块。
+
+本轮模块开发中的缺陷修复、补测试和设计回写留在这份 Plan。已交付后出现的新改动使用下一份 Plan；Feature 和 Design 只更新受本次改动影响的内容。
 
 ## 第五步：交付前验证
 

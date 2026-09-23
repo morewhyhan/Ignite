@@ -4,8 +4,8 @@ import { join } from 'node:path'
 import { changedFilesForPlan, normalizePath, repositoryRoot, validateWriteScope } from './core.mjs'
 
 const LEVEL_RANK = { dev: 1, integration: 2, release: 3 }
-export const CHECK_POLICY_VERSION = 4
-export const SUPPORTED_CHECK_POLICIES = new Set([1, 2, 3, 4])
+export const CHECK_POLICY_VERSION = 5
+export const SUPPORTED_CHECK_POLICIES = new Set([1, 2, 3, 4, 5])
 const SAFE_DOC_PATTERNS = [
   /^README\.md$/,
   /^docs\/README\.md$/,
@@ -96,11 +96,12 @@ function needsMigrationCheck(files, policyVersion) {
           'scripts/test-migrations.mjs',
           'scripts/testing/database-adapter.mjs',
           'scripts/testing/migration-probe.mjs',
-        ].includes(path)),
+        ].includes(path)) ||
+      (policyVersion >= 5 && path.startsWith('tests/fixtures/migrations/')),
   )
 }
 
-function targetedTests(files) {
+function targetedTests(files, fileExists) {
   const tests = new Set()
   let unknownCode = false
   for (const path of files) {
@@ -111,7 +112,7 @@ function targetedTests(files) {
         `tests/contracts/${moduleName}.test.ts`,
         `tests/contracts/${moduleName}.test.tsx`,
       ]
-      const found = candidates.filter((candidate) => existsSync(join(repositoryRoot, candidate)))
+      const found = candidates.filter(fileExists)
       if (found.length === 0) unknownCode = true
       for (const candidate of found) tests.add(candidate)
       continue
@@ -161,7 +162,28 @@ function pnpm(args, label) {
   return command('corepack', ['pnpm', ...args], label)
 }
 
-export function commandsForLevel(level, files, plan, policyVersion = CHECK_POLICY_VERSION) {
+export function requiredLayersForChanges(files) {
+  const layers = new Set()
+  if (
+    files.some(
+      (path) =>
+        /^src\/app\/.*(?:page|layout)\.tsx$/.test(path) ||
+        /^src\/modules\/[^/]+\/components\/.+\.tsx$/.test(path),
+    )
+  )
+    layers.add('browser')
+  if (files.some((path) => path.startsWith('prisma/') || /^src\/server\/api\/routes\//.test(path)))
+    layers.add('database')
+  return [...layers]
+}
+
+export function commandsForLevel(
+  level,
+  files,
+  plan,
+  policyVersion = CHECK_POLICY_VERSION,
+  { fileExists = (path) => existsSync(join(repositoryRoot, path)) } = {},
+) {
   if (!SUPPORTED_CHECK_POLICIES.has(policyVersion))
     throw new Error(`unknown check policy: ${policyVersion}`)
   const commands = [
@@ -184,7 +206,7 @@ export function commandsForLevel(level, files, plan, policyVersion = CHECK_POLIC
     commands.push(pnpm(['typecheck'], 'typecheck'))
     commands.push(pnpm(['lint'], 'lint'))
     commands.push(pnpm(['format:check'], 'format'))
-    const selectedTests = targetedTests(files)
+    const selectedTests = targetedTests(files, fileExists)
     const mappedTests = (plan.metadata.acceptance || [])
       .flatMap((item) => item.tests || [])
       .map((path) => path.split('::', 1)[0])
@@ -235,7 +257,31 @@ export function planCheck({ plan, requestedLevel = 'auto', explicitFiles = null,
     )
   }
   const files = explicitFiles || changedFilesForPlan(plan)
+  if (plan.metadata.execution_contract === 1) {
+    const declared = new Set(
+      (plan.metadata.acceptance || []).flatMap((item) => item.required_layers || []),
+    )
+    for (const layer of requiredLayersForChanges(files)) {
+      if (!declared.has(layer))
+        throw new Error(
+          `actual changes require ${layer} behavior acceptance; add a real test mapping before checking`,
+        )
+    }
+  }
   const scopeErrors = explicitFiles ? [] : validateWriteScope(plan, files)
+  if (!explicitFiles)
+    for (const claim of plan.metadata.shared_files || []) {
+      if (
+        claim.owner !== plan.metadata.owner &&
+        files.some((path) =>
+          claim.path.endsWith('/') ? path.startsWith(claim.path) : path === claim.path,
+        )
+      ) {
+        scopeErrors.push(
+          `${claim.path} belongs to ${claim.owner}; hand off integration or transfer Plan ownership before checking`,
+        )
+      }
+    }
   if (scopeErrors.length) throw new Error(`Plan scope violation:\n- ${scopeErrors.join('\n- ')}`)
   if (plan.metadata.risk === 'docs' && minimumLevel(files) !== 'dev') {
     throw new Error(

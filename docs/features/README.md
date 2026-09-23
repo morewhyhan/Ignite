@@ -12,6 +12,6 @@
 - Given/When/Then 验收标准
 - 增量需求或对存量模块的变更说明
 
-当前规格：[`product.md`](./product.md)、[`tasks.md`](./tasks.md)、[`auth.md`](./auth.md)。
+当前规格：[`product.md`](./product.md)、[`tasks.md`](./tasks.md)、[`auth.md`](./auth.md)、[`execution.md`](./execution.md)。
 
 模板见 [`_template.md`](./_template.md)。

@@ -1,9 +1,11 @@
 import { spawnSync } from 'node:child_process'
+import { rmSync } from 'node:fs'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import {
   commitAll,
+  git,
   makeFixture,
   planContent,
   read,
@@ -12,7 +14,7 @@ import {
   write,
 } from './ignite-fixture'
 
-function makePassedEvidence(root: string, baseCommit: string, policyVersion = 2) {
+function makePassedEvidence(root: string, baseCommit: string, policyVersion = 2, overrides = {}) {
   const coreUrl = pathToFileURL(join(repositoryRoot, 'scripts/ignite/core.mjs')).href
   const stateUrl = pathToFileURL(join(repositoryRoot, 'scripts/ignite/state.mjs')).href
   const checksUrl = pathToFileURL(join(repositoryRoot, 'scripts/ignite/checks.mjs')).href
@@ -87,6 +89,7 @@ function makePassedEvidence(root: string, baseCommit: string, policyVersion = 2)
     root,
     'docs/plans/fixture.md',
     planContent(baseCommit, {
+      ...overrides,
       status: 'done',
       evidence: [
         { id: 'check-integration', run_id: 'run-integration' },
@@ -99,6 +102,37 @@ function makePassedEvidence(root: string, baseCommit: string, policyVersion = 2)
 }
 
 describe('Ignite Plan and Release contracts', () => {
+  it('[AC-EXECUTION-008] keeps historical check commands valid after a module test is removed', () => {
+    const fixture = makeFixture()
+    try {
+      const baseCommit = git(fixture.root, 'rev-parse', 'HEAD')
+      const overrides = { write_scope: ['src/', 'tests/', 'docs/'] }
+      write(fixture.root, 'docs/plans/fixture.md', planContent(baseCommit, overrides))
+      write(
+        fixture.root,
+        'src/modules/invoices/hooks/use-invoices.ts',
+        'export const invoices = []\n',
+      )
+      write(
+        fixture.root,
+        'tests/api/invoices.test.ts',
+        "it('returns invoices', () => expect([]).toEqual([]))\n",
+      )
+      commitAll(fixture.root, 'Implement an independent module')
+      makePassedEvidence(fixture.root, baseCommit, 2, overrides)
+      commitAll(fixture.root, 'Record module acceptance')
+      expect(read(fixture.root, 'docs/others/evidence/runs/run-integration.json')).toContain(
+        'tests/api/invoices.test.ts',
+      )
+      rmSync(join(fixture.root, 'tests/api/invoices.test.ts'))
+      commitAll(fixture.root, 'Retire the module test in a later change')
+      const historical = runCli(fixture.root, 'plan', 'validate', 'IGT-900')
+      expect(historical.status, historical.stderr).toBe(0)
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
   it('[AC-PRODUCT-012] permits one completed Plan while a future Plan in its Release stays draft', () => {
     const fixture = makeFixture()
     try {
@@ -264,7 +298,7 @@ describe('Ignite Plan and Release contracts', () => {
       expect(result.status, result.stderr).toBe(0)
       expect(JSON.parse(result.stdout)[0]).toMatchObject({
         status: 'active',
-        missing_evidence: ['check-integration', 'check-release'],
+        missing_evidence: ['IGT-900:check-integration', 'IGT-900:check-release'],
       })
     } finally {
       fixture.cleanup()
@@ -331,7 +365,7 @@ describe('Ignite Plan and Release contracts', () => {
       expect(JSON.parse(initial.stdout)[0]).toMatchObject({
         id: 'fixture-v1',
         status: 'active',
-        missing_evidence: ['check-integration', 'check-release'],
+        missing_evidence: ['IGT-900:check-integration', 'IGT-900:check-release'],
       })
 
       const release = JSON.parse(

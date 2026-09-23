@@ -5,6 +5,7 @@ import {
   mkdirSync,
   readFileSync,
   readdirSync,
+  readlinkSync,
   renameSync,
   writeFileSync,
 } from 'node:fs'
@@ -127,21 +128,98 @@ export function isExecutionStatePath(inputPath) {
   )
 }
 
-function repositoryInputFiles() {
-  const paths = new Set([
-    ...gitLines(['ls-files']),
-    ...gitLines(['ls-files', '--others', '--exclude-standard']),
-  ])
-  return [...paths]
-    .map(normalizePath)
-    .filter((path) => !isExecutionStatePath(path))
-    .filter((path) => existsSync(join(repositoryRoot, path)))
-    .sort()
+function gitBlobIdentity(content) {
+  const result = spawnSync('git', ['hash-object', '--stdin'], {
+    cwd: repositoryRoot,
+    input: content,
+    encoding: 'utf8',
+    windowsHide: true,
+    maxBuffer: 1024 * 1024,
+  })
+  if (result.status !== 0) throw new Error(result.stderr || 'Git symlink hashing failed')
+  return result.stdout.trim()
 }
 
-function gitBlobIdentity(content) {
-  const header = Buffer.from(`blob ${content.length}\0`)
-  return createHash('sha1').update(header).update(content).digest('hex')
+export function workingPathBlobIdentity(path) {
+  const absolutePath = join(repositoryRoot, path)
+  let stat
+  try {
+    stat = lstatSync(absolutePath)
+  } catch (error) {
+    if (error.code === 'ENOENT') return null
+    throw error
+  }
+  if (stat.isDirectory())
+    throw new Error(`Cannot fingerprint a directory entry or submodule: ${path}`)
+  if (stat.isSymbolicLink()) return gitBlobIdentity(Buffer.from(readlinkSync(absolutePath)))
+
+  const attributes = spawnSync('git', ['check-attr', 'filter', '--', path], {
+    cwd: repositoryRoot,
+    encoding: 'utf8',
+    windowsHide: true,
+  })
+  if (attributes.status !== 0)
+    throw new Error(attributes.stderr || `Cannot inspect Git attributes for ${path}`)
+  if (!/(?:^|: )filter: (?:unspecified|unset)\s*$/.test(attributes.stdout)) {
+    throw new Error(`Input fingerprint does not support custom Git clean filters: ${path}`)
+  }
+  const content = readFileSync(absolutePath)
+  const result = spawnSync('git', ['hash-object', `--path=${path}`, '--stdin'], {
+    cwd: repositoryRoot,
+    input: content,
+    encoding: 'utf8',
+    windowsHide: true,
+    maxBuffer: Math.max(1024 * 1024, content.length * 2),
+  })
+  if (result.status !== 0) throw new Error(result.stderr || `Git input hashing failed for ${path}`)
+  const identity = result.stdout.trim()
+  if (!/^[0-9a-f]{40}$/.test(identity))
+    throw new Error(`Git returned an invalid input hash for ${path}`)
+  return identity
+}
+
+function gitNulOutput(args, { allowDiff = false } = {}) {
+  const result = spawnSync('git', args, {
+    cwd: repositoryRoot,
+    windowsHide: true,
+    maxBuffer: 32 * 1024 * 1024,
+  })
+  if (result.status !== 0 && !(allowDiff && result.status === 1)) {
+    throw new Error(result.stderr?.toString('utf8') || `git ${args.join(' ')} failed`)
+  }
+  return result.stdout.toString('utf8').split('\0').filter(Boolean)
+}
+
+function committedTreeEntries(commit) {
+  return gitNulOutput(['ls-tree', '-rz', '--full-tree', commit]).flatMap((record) => {
+    const separator = record.indexOf('\t')
+    if (separator < 0) return []
+    const header = record.slice(0, separator)
+    const path = normalizePath(record.slice(separator + 1))
+    const match = header.match(/^\d+ blob ([0-9a-f]+)$/)
+    return match && !isExecutionStatePath(path) ? [[path, match[1]]] : []
+  })
+}
+
+function workingTreeEntries() {
+  const entries = new Map()
+  for (const [path, identity] of committedTreeEntries('HEAD')) entries.set(path, identity)
+
+  const changed = new Set(
+    [
+      ...gitNulOutput(['diff', '--name-only', '--no-renames', '-z', 'HEAD'], { allowDiff: true }),
+      ...gitNulOutput(['ls-files', '--others', '--exclude-standard', '-z']),
+    ].map(normalizePath),
+  )
+  // Rehash only changed paths. Unchanged entries reuse their HEAD blob ID;
+  // Git still applies path-aware .gitattributes conversion to changed text.
+  for (const path of changed) {
+    if (isExecutionStatePath(path)) continue
+    const identity = workingPathBlobIdentity(path)
+    if (identity) entries.set(path, identity)
+    else entries.delete(path)
+  }
+  return [...entries]
 }
 
 function fingerprintFromEntries(plan, entries) {
@@ -180,34 +258,31 @@ export function stablePlanContract(metadata) {
           non_goals: metadata.non_goals || [],
           authorization: metadata.authorization || null,
           deliverables: metadata.deliverables || [],
-          ...(metadata.remaining_work !== undefined
+          ...(metadata.remaining_work !== undefined && metadata.execution_contract !== 1
             ? { remaining_work: metadata.remaining_work }
             : {}),
+        }
+      : {}),
+    ...(metadata.execution_contract === 1
+      ? {
+          execution_contract: 1,
+          owner: metadata.owner,
+          verification_requirements: metadata.verification_requirements || [],
+          tasks: (metadata.tasks || []).map(({ id, title }) => ({ id, title })),
+          dependency_contracts: metadata.dependency_contracts || [],
+          shared_files: metadata.shared_files || [],
         }
       : {}),
   }
 }
 
 export function computeInputFingerprint(plan) {
-  return fingerprintFromEntries(
-    plan,
-    repositoryInputFiles().map((path) => [
-      path,
-      gitBlobIdentity(readFileSync(join(repositoryRoot, path))),
-    ]),
-  )
+  return fingerprintFromEntries(plan, workingTreeEntries())
 }
 
 export function computeInputFingerprintAtCommit(plan, commit) {
   if (!gitCommitExists(commit)) throw new Error(`invalid fingerprint commit: ${commit}`)
-  const entries = runGit(['ls-tree', '-r', '--full-tree', commit])
-    .stdout.split(/\r?\n/)
-    .filter(Boolean)
-    .map((line) => line.match(/^\d+\s+blob\s+([0-9a-f]+)\t(.+)$/))
-    .filter(Boolean)
-    .map((match) => [normalizePath(match[2]), match[1]])
-    .filter(([path]) => !isExecutionStatePath(path))
-  return fingerprintFromEntries(plan, entries)
+  return fingerprintFromEntries(plan, committedTreeEntries(commit))
 }
 
 function changedPathSet(baseCommit) {

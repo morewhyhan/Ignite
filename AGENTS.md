@@ -2,15 +2,18 @@
 
 ## 模板定位
 
-Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定产品。任何改动都要判断是 `[新增模块]` 还是 `[存量改动]`，并同步 Feature、Plan、Design 和测试证据。默认优先做小步、可回滚的增量修改。
+Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定产品。功能与工程规则改动都要判断是 `[新增模块]` 还是 `[存量改动]`，并在对应 Plan 中同步受影响的 Feature、Design 和测试证据。默认优先做小步、可回滚的增量修改。
 
 模板基线验收只证明 Ignite 当前配置可用；换品牌、删改 Tasks、切换数据库或部署到某个平台，属于具体项目采用后的独立验收。未给定项目目标时，保留可替换入口与检查规则，不猜测产品决定，也不把模板的绿色结果当作衍生项目已通过。
 
 ## 增量与存量
 
 - 一个 Plan 对应一个可独立验收、集成和回滚的交付结果。API、页面、测试、格式修复和状态回写是同一 Plan 的子任务，不为“收口”另建 Plan。
+- 先接续覆盖本轮目标的未完成 Plan；只有新的独立交付结果才创建 Plan。本轮检查失败后的修复、同目标的完善和验证都留在原 Plan。已交付结果的后续改动保留原记录，并建立新的存量改动 Plan。仅安全说明文字或静态展示资产可免业务 Plan，具体范围以 `docs/standards/workflow.md` 和检查器为准。
 - 新 Plan 使用 `docs/plans/_template.md` 顶部的结构化元数据；状态只能使用 `draft`、`ready`、`active`、`verifying`、`done`、`blocked`、`cancelled`、`superseded`。历史未迁移 Plan 保留为 `legacy_unverified`，不能自动视为完成。
 - 当前发布只由 `docs/plans/releases/*.json` 定义；状态表由 `pnpm ignite status --write` 生成，不手工维护派生副本。
+- 新 Plan 使用 `execution_contract: 1`；`tasks` 是唯一任务状态，正文进度由 `pnpm ignite plan refresh <ID>` 生成，使用 `pnpm ignite task set-status <ID> <task> <todo|doing|done>` 更新任务。
+- Release 的 `scope` 逐条保存原始目标、来源、REQ 和负责的 Plan。缺账号、未实现或等待外部条件都属于延期，不能自动改成排除；排除必须记录用户的具体授权来源。
 - 每次检查由 `pnpm ignite check --plan <IGT-ID> --level auto` 选择范围并记录运行证据。相同输入的活动或已通过运行必须复用，不重复启动。
 
 ## 规范真源
@@ -23,6 +26,8 @@ Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定�
 - 本文件是 AI 执行规则；发生冲突时，先更新文档再改代码。
 - 规格驱动 Loop：Feature → Plan → Contract/Test → Implementation → Verify → Design。
 - Plan 进入 ready 前，逐条对照用户已确定的原始目标和约束，把对应关系写入 Plan；`open_questions=[]` 不能替代完整性审查。语义完整性不能只凭标签或测试数自动证明。
+- 每条 AC 声明 `required_layers` 和带层级的 `checks`：unit、database、browser、external。模拟数据库的 API 测试只证明 unit 层；新增业务页面、持久化及外部集成必须有对应真实行为验收。
+- 脚手架产物是待完善的草稿。进入 ready 前补齐实际用户行为、测试路径和验收层级；占位失败测试、页面外壳或结构校验通过均不能视为功能完成。
 
 ## AI 工作台
 
@@ -63,12 +68,16 @@ Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定�
 
 ## 验证与交付
 
-每次改动通过 `pnpm ignite check --plan <IGT-ID> --level auto` 选择开发或集成检查；发布候选运行 `pnpm ignite check --plan <IGT-ID> --level release`。所有层级都保留 `git diff --check` 和对应证据；涉及构建、迁移或核心用户流程时，额外运行 `pnpm build`、`pnpm test:migrations` 或 `pnpm test:e2e:production`。最终只报告实际执行并通过的检查，不把 typecheck/lint 当行为测试。
+Plan 内的改动通过 `pnpm ignite check --plan <IGT-ID> --level auto` 选择开发或集成检查；发布候选运行 `pnpm ignite check --plan <IGT-ID> --level release`。统一入口保留差异检查和证据，并按范围运行迁移、构建和生产态 E2E。已有匹配证据时复用，不再手工重复同一检查；额外验收按 Plan 的真实行为要求补齐。最终只报告实际执行并通过的检查，不把 typecheck/lint 当行为测试。
 
 ## 推荐开发流程
 
+用户明确要求暂不测试时，先实现并保留待验证任务；不运行检查、不生成通过证据、不进入 `done`。测试资产可以编写，是否执行以当前用户指令为准。
+
+并行开发时，`depends_on` 约束最终集成；开发阶段可用 `dependency_contracts` 引用上游已提交的明确文件快照。接口变化后重新对齐。Prisma Schema、API 注册、导航等共享文件在 `shared_files` 声明同一负责人。非负责人提交业务切片与 `handoff`，由集成人接管计划 owner 并处理共享文件。交接记录包含接口、迁移、测试入口和未完成项。
+
 1. 在安装依赖前执行 `node scripts/runtime-doctor.mjs --preflight`；安装后运行 `pnpm runtime:check` 和 `pnpm ignite status --json`，先识别模板状态、当前 Plan 与结构问题。
-2. 只读取本轮相关的 Feature、Plan、Standards、Design 和测试；用 `pnpm ignite next --plan <IGT-ID>` 接续匹配的现有 Plan，不为同一结果另建 Plan。新模块用 `pnpm create:module`，存量改动可用 `pnpm create:change` 起草。
+2. 只读取本轮相关的 Feature、Plan、Standards、Design 和测试；用 `pnpm ignite next --plan <IGT-ID>` 接续匹配的现有 Plan。需要新 Plan 时，新模块用 `pnpm create:module <plural-kebab-name>`，存量改动用 `pnpm create:change <kebab-name>` 起草。
 3. 明确增量/存量、基线 commit、写入范围和验收标准；关闭开放问题后再进入实现。
 4. 先写或更新契约测试，再实现最小代码；页面只消费 module screen，业务请求只走 Hook 与 RPC。
 5. 在提交实现后运行集成检查，进入 `verifying` 再运行 release 检查；最后回写 Design、完成 Plan 并刷新状态摘要。

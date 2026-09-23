@@ -16,3 +16,4 @@
 - [`api.yaml`](./api.yaml)：业务 API OpenAPI 快照
 - [`sequence.puml`](./sequence.puml)：任务查询请求时序图
 - [视觉设计系统](./design.md)
+- [AI 执行系统](./execution.md)：Plan 契约、验收分层、证据与并行交接

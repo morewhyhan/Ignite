@@ -8,6 +8,7 @@ import {
 } from '../../scripts/ignite/checks.mjs'
 import { extractPlanMetadata } from '../../scripts/ignite/state.mjs'
 import { makeFixture, planContent, runCli, write } from './ignite-fixture'
+import { tasksExampleState } from '../../scripts/ignite/examples.mjs'
 
 const plan = {
   metadata: extractPlanMetadata(planContent('0'.repeat(40)))!.value,
@@ -28,10 +29,16 @@ describe('Ignite risk-derived checks', () => {
   })
 
   it('[AC-PRODUCT-013] selects existing module tests and falls back for an unrecognized module', () => {
-    const selected = commandsForLevel('integration', ['src/server/api/routes/tasks/index.ts'], plan)
-    expect(selected.find((entry) => entry.label === 'targeted-tests')?.args).toContain(
-      'tests/api/tasks.test.ts',
-    )
+    if (!tasksExampleState(process.cwd()).fullyRemoved) {
+      const selected = commandsForLevel(
+        'integration',
+        ['src/server/api/routes/tasks/index.ts'],
+        plan,
+      )
+      expect(selected.find((entry) => entry.label === 'targeted-tests')?.args).toContain(
+        'tests/api/tasks.test.ts',
+      )
+    }
 
     const unknown = commandsForLevel('integration', ['src/modules/unmapped/screen.tsx'], plan)
     expect(unknown.find((entry) => entry.label === 'tests')?.args).toEqual(['pnpm', 'test'])

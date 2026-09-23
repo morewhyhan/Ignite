@@ -1,0 +1,101 @@
+{
+  "schema": 2,
+  "id": "execution-hardening-v1",
+  "coverage_version": 1,
+  "plan_ids": ["IGT-005"],
+  "must_pass": ["check-integration", "check-release"],
+  "excluded": [],
+  "scope": [
+    {
+      "id": "GOAL-001",
+      "text": "原始目标完整映射，延期不等于排除",
+      "source": "用户确认修复本轮审计列出的八类问题",
+      "requirements": ["REQ-EXECUTION-001"],
+      "plan_ids": ["IGT-005"],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    },
+    {
+      "id": "GOAL-002",
+      "text": "验收区分模拟、真实数据库、浏览器和外部集成",
+      "source": "用户确认修复本轮审计列出的八类问题",
+      "requirements": ["REQ-EXECUTION-002"],
+      "plan_ids": ["IGT-005"],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    },
+    {
+      "id": "GOAL-003",
+      "text": "发布逐计划计算有效证据缺口",
+      "source": "用户确认修复本轮审计列出的八类问题",
+      "requirements": ["REQ-EXECUTION-003"],
+      "plan_ids": ["IGT-005"],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    },
+    {
+      "id": "GOAL-004",
+      "text": "任务状态只维护一份机器源",
+      "source": "用户确认修复本轮审计列出的八类问题",
+      "requirements": ["REQ-EXECUTION-004"],
+      "plan_ids": ["IGT-005"],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    },
+    {
+      "id": "GOAL-005",
+      "text": "稳定契约允许并行开发，最终依赖约束完成",
+      "source": "用户确认修复本轮审计列出的八类问题",
+      "requirements": ["REQ-EXECUTION-005"],
+      "plan_ids": ["IGT-005"],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    },
+    {
+      "id": "GOAL-006",
+      "text": "共享文件明确负责人和交接信息",
+      "source": "用户确认修复本轮审计列出的八类问题",
+      "requirements": ["REQ-EXECUTION-006"],
+      "plan_ids": ["IGT-005"],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    },
+    {
+      "id": "GOAL-007",
+      "text": "迁移夹具可扩展，示例可移除",
+      "source": "用户确认修复本轮审计列出的八类问题",
+      "requirements": ["REQ-EXECUTION-007"],
+      "plan_ids": ["IGT-005"],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    },
+    {
+      "id": "GOAL-008",
+      "text": "跨平台指纹一致，公共检查可复用",
+      "source": "用户确认修复本轮审计列出的八类问题",
+      "requirements": ["REQ-EXECUTION-008"],
+      "plan_ids": ["IGT-005"],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    },
+    {
+      "id": "GOAL-009",
+      "text": "优化为可以直接用于开发的基础模板，并从仓库移除试开发项目",
+      "source": "用户：这一轮优化到顶，删除测试时开发的项目，最终交付最新完整基础模板",
+      "requirements": ["REQ-EXECUTION-009", "REQ-EXECUTION-010"],
+      "plan_ids": ["IGT-005"],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    }
+  ],
+  "updated_at": "2026-09-24"
+}

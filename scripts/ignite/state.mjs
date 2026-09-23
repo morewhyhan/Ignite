@@ -24,8 +24,20 @@ import {
   walkFiles,
   writeTextIfChanged,
 } from './core.mjs'
-import { CHECK_POLICY_VERSION, SUPPORTED_CHECK_POLICIES, commandsForLevel } from './checks.mjs'
+import {
+  CHECK_POLICY_VERSION,
+  SUPPORTED_CHECK_POLICIES,
+  commandsForLevel,
+  requiredLayersForChanges,
+} from './checks.mjs'
 import { acceptanceTestTitles } from './source-analysis.mjs'
+import {
+  calculateEvidenceCoverage,
+  dependencyContractIsCurrent,
+  renderPlanProgressContent,
+  validateExecutionContract,
+  validateReleaseScope,
+} from './execution-contract.mjs'
 export { acceptanceTestTitles } from './source-analysis.mjs'
 
 const PLAN_MARKER = '<!-- ignite-plan'
@@ -258,6 +270,17 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
       : null
   const registry = specificationRegistry(historicalCommit)
   const manifests = new Map(listDurableRuns().map((item) => [item.value.run_id, item.value]))
+  failures.push(
+    ...validateExecutionContract(plan, (path) => readRepositoryText(path, historicalCommit)),
+  )
+  if (value.execution_contract === 1 && (requireCurrentEvidence || value.status === 'done')) {
+    const files = historicalCommit
+      ? changedFilesForPlanAtCommit(plan, historicalCommit)
+      : changedFilesForPlan(plan)
+    const layers = new Set((value.acceptance || []).flatMap((item) => item.required_layers || []))
+    for (const layer of requiredLayersForChanges(files))
+      if (!layers.has(layer)) failures.push(`actual changes require ${layer} acceptance`)
+  }
 
   if (value.schema !== 2) failures.push('schema must be 2 for current Plans')
   if (typeof value.id !== 'string' || !/^IGT-\d{3,}$/.test(value.id)) {
@@ -542,12 +565,14 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
         : changedFilesForPlan(plan)
     const expectedCommands =
       validLevel && validPolicy
-        ? commandsForLevel(manifest.level, evidenceFiles, evidencePlan, policyVersion).map(
-            (command) => ({
-              label: command.label,
-              command: [command.command, ...command.args],
-            }),
-          )
+        ? commandsForLevel(manifest.level, evidenceFiles, evidencePlan, policyVersion, {
+            // A later module removal must not change the commands an older run required.
+            fileExists: (path) =>
+              readRepositoryText(path, requireCurrentEvidence ? null : manifest.commit) !== null,
+          }).map((command) => ({
+            label: command.label,
+            command: [command.command, ...command.args],
+          }))
         : []
     const actualCommands = Array.isArray(manifest.commands)
       ? manifest.commands.map((command) => ({
@@ -571,6 +596,33 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
     ) {
       failures.push(`evidence ${item.id} does not contain the required check command set`)
       evidenceFailures.push('commands')
+    }
+    if (policyVersion >= 5 && evidencePlan.metadata.execution_contract === 1) {
+      const observed = Array.isArray(manifest.acceptance_results) ? manifest.acceptance_results : []
+      for (const criterion of evidencePlan.metadata.acceptance || []) {
+        for (const check of criterion.checks || []) {
+          const browser = /\.spec\.tsx?(?:::|$)/.test(check.test)
+          const applies =
+            manifest.level === 'integration' ? !browser : manifest.level === 'release' && browser
+          if (
+            applies &&
+            !observed.some(
+              (result) =>
+                result.plan_id === value.id &&
+                result.criterion === criterion.id &&
+                result.test === check.test &&
+                result.layer === check.layer &&
+                result.passed === true &&
+                result.cases > 0,
+            )
+          ) {
+            failures.push(
+              `evidence ${item.id} has no actual ${check.layer} result for ${criterion.id}: ${check.test}`,
+            )
+            evidenceFailures.push('behavior-coverage')
+          }
+        }
+      }
     }
     if (typeof manifest.log_sha256 !== 'string' || !/^[0-9a-f]{64}$/.test(manifest.log_sha256)) {
       failures.push(`evidence ${item.id} has no valid log digest`)
@@ -598,11 +650,15 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
               status: command.status,
               exit_code: command.exit_code,
               duration_ms: command.duration_ms,
+              ...(command.reused_from ? { reused_from: command.reused_from } : {}),
             })),
           ) === JSON.stringify(manifest.commands)
         if (
           manifest.execution_source !== 'ignite-runner-local' ||
           !sameRun ||
+          (policyVersion >= 5 &&
+            JSON.stringify(localRecord.acceptance_results || []) !==
+              JSON.stringify(manifest.acceptance_results || [])) ||
           actualLogDigest !== manifest.log_sha256
         ) {
           failures.push(`evidence ${item.id} does not match its local execution record and log`)
@@ -611,6 +667,36 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
       } catch {
         failures.push(`evidence ${item.id} has no readable local execution record and log`)
         evidenceFailures.push('source')
+      }
+    }
+    if (requireCurrentEvidence && policyVersion >= 5) {
+      for (const command of manifest.commands || []) {
+        if (!command.reused_from) continue
+        try {
+          const source = readJson(join(localRunsDirectory, `${command.reused_from.run_id}.json`))
+          const sourceLog = readFileSync(
+            join(localRunsDirectory, `${command.reused_from.run_id}.log`),
+          )
+          const original = source.commands.find(
+            (entry) =>
+              entry.label === command.label &&
+              !entry.reused_from &&
+              entry.status === 'passed' &&
+              JSON.stringify(entry.command) === JSON.stringify(command.command),
+          )
+          if (
+            !['lint', 'migrations'].includes(command.label) ||
+            !original ||
+            source.status !== 'passed' ||
+            source.repository_fingerprint !== manifest.repository_fingerprint ||
+            source.environment_fingerprint !== manifest.environment_fingerprint ||
+            hash(sourceLog) !== command.reused_from.log_sha256
+          )
+            throw new Error('cache provenance mismatch')
+        } catch {
+          failures.push(`evidence ${item.id} has unverifiable cached command ${command.label}`)
+          evidenceFailures.push('cache-source')
+        }
       }
     }
     if (
@@ -685,7 +771,16 @@ export function validatePlanDependencies(
       const target = byId.get(dependency)
       if (!target) failures.push(`missing dependency ${dependency}`)
       else {
-        if (id === plan.metadata.id && requireDone && target.metadata.status !== 'done') {
+        const stableDevelopmentContract =
+          plan.metadata.status === 'active' &&
+          ['active', 'verifying'].includes(target.metadata.status) &&
+          dependencyContractIsCurrent(plan, dependency)
+        if (
+          id === plan.metadata.id &&
+          requireDone &&
+          target.metadata.status !== 'done' &&
+          !stableDevelopmentContract
+        ) {
           failures.push(`dependency ${dependency} is not done`)
         }
         visit(dependency)
@@ -718,6 +813,23 @@ export function validateAllPlans() {
       failures.push(`${plan.relativePath}: ${error}`)
     }
   }
+  const live = plans.filter((item) => ['active', 'verifying'].includes(item.metadata?.status))
+  for (const plan of live) {
+    for (const claim of plan.metadata.shared_files || []) {
+      for (const other of live.filter((item) => item.metadata.id !== plan.metadata.id)) {
+        const overlaps = other.metadata.write_scope?.some((scope) =>
+          scope.endsWith('/') ? claim.path.startsWith(scope) : claim.path === scope,
+        )
+        if (!overlaps) continue
+        const otherClaim = other.metadata.shared_files?.find((item) => item.path === claim.path)
+        if (!otherClaim || otherClaim.owner !== claim.owner || otherClaim.mode !== claim.mode) {
+          failures.push(
+            `${plan.metadata.id}/${other.metadata.id}: shared file ${claim.path} needs the same explicit owner and mode`,
+          )
+        }
+      }
+    }
+  }
   const releases = new Map(listReleases().map(({ value }) => [value.id, value]))
   for (const plan of plans.filter((item) => item.metadata?.schema === 2)) {
     const release = releases.get(plan.metadata.release)
@@ -727,6 +839,10 @@ export function validateAllPlans() {
         `${plan.relativePath}: release ${plan.metadata.release} does not include the Plan`,
       )
     }
+    if (plan.metadata.execution_contract === 1 && release?.coverage_version !== 1)
+      failures.push(
+        `${plan.relativePath}: execution_contract 1 requires release coverage_version 1`,
+      )
   }
   return failures
 }
@@ -736,6 +852,7 @@ export function validateRelease(
   plansById = new Map(listPlans().map((p) => [p.metadata?.id, p])),
 ) {
   const failures = []
+  failures.push(...validateReleaseScope(release, plansById))
   if (release.schema !== 2) failures.push('release schema must be 2')
   if (typeof release.id !== 'string' || !/^[a-z0-9][a-z0-9-]*$/.test(release.id)) {
     failures.push('release id must be kebab-case')
@@ -782,25 +899,39 @@ export function validateRelease(
   return failures
 }
 
+export function evidenceCoverage(plan) {
+  const manifests = new Map(listDurableRuns().map(({ value }) => [value.run_id, value]))
+  const failures = validatePlan(plan)
+  const historical = plan.metadata.status === 'done'
+  const currentFingerprint = historical ? null : computeInputFingerprint(plan)
+  return calculateEvidenceCoverage({
+    plan,
+    manifests,
+    validationFailures: failures,
+    currentFingerprint,
+    currentPolicyVersion: CHECK_POLICY_VERSION,
+  })
+}
+
 export function deriveRelease(release) {
   const plansById = new Map(listPlans().map((plan) => [plan.metadata?.id, plan]))
   const failures = validateRelease(release, plansById)
   const plans = (release.plan_ids || []).map((id) => plansById.get(id)).filter(Boolean)
   for (const plan of plans)
     failures.push(...validatePlan(plan).map((error) => `${plan.metadata.id}: ${error}`))
-  const evidence = new Set(
-    plans
-      .filter((plan) => !['cancelled', 'superseded'].includes(plan.metadata.status))
-      .flatMap((plan) => (plan.metadata.evidence || []).map((item) => item.id)),
-  )
   const remainingPlans = plans.filter(
     (plan) => !['cancelled', 'superseded'].includes(plan.metadata.status),
   )
-  const remainingRequired = new Set(
-    remainingPlans.flatMap((plan) => plan.metadata.required_evidence || []),
+  const missingDetails = remainingPlans.flatMap((plan) =>
+    evidenceCoverage(plan).filter((item) => item.status !== 'passed'),
   )
-  const missingEvidence = (release.must_pass || []).filter(
-    (id) => remainingRequired.has(id) && !evidence.has(id),
+  const missingEvidence = missingDetails.map((item) => `${item.plan_id}:${item.evidence_id}`)
+  const outstandingScope = (release.scope || []).filter(
+    (goal) =>
+      goal.disposition === 'deferred' ||
+      (goal.disposition === 'included' &&
+        (!goal.plan_ids.length ||
+          goal.plan_ids.some((id) => plansById.get(id)?.metadata.status !== 'done'))),
   )
 
   let status = 'draft'
@@ -811,7 +942,8 @@ export function deriveRelease(release) {
   else if (
     remainingPlans.length > 0 &&
     remainingPlans.every((plan) => plan.metadata.status === 'done') &&
-    missingEvidence.length === 0
+    missingEvidence.length === 0 &&
+    outstandingScope.length === 0
   )
     status = 'done'
   else if (plans.some((plan) => plan.metadata.status === 'verifying')) status = 'verifying'
@@ -824,6 +956,8 @@ export function deriveRelease(release) {
     status,
     failures: [...new Set(failures)],
     missing_evidence: missingEvidence,
+    evidence_gaps: missingDetails,
+    outstanding_scope: outstandingScope,
     excluded_plans: plans
       .filter((plan) => ['cancelled', 'superseded'].includes(plan.metadata.status))
       .map((plan) => ({ id: plan.metadata.id, status: plan.metadata.status })),
@@ -880,8 +1014,11 @@ export function renderStatus() {
       `  - 缺少证据：${
         release.status === 'legacy_unverified'
           ? '历史证据不参与当前验证'
-          : release.missing_evidence.map((id) => `\`${id}\``).join('、') || '无'
+          : release.evidence_gaps
+              .map((gap) => `\`${gap.plan_id}:${gap.evidence_id}\`（${gap.status}：${gap.reason}）`)
+              .join('、') || '无'
       }`,
+      `  - 未完成原始目标：${release.outstanding_scope.map((goal) => `${goal.id} ${goal.text}`).join('；') || '无已登记缺口（仍需语义核对）'}`,
     ]),
     '',
     '## 结构问题',
@@ -901,12 +1038,33 @@ export function updatePlanMetadata(plan, updater) {
   if (!plan.metadataRange) throw new Error(`${plan.relativePath} has no structured metadata`)
   const next = updater(structuredClone(plan.metadata))
   const before = plan.content.slice(0, plan.metadataRange.start)
-  const after = plan.content.slice(plan.metadataRange.end)
+  let after = plan.content.slice(plan.metadataRange.end)
+  if (next.execution_contract === 1) after = renderPlanProgressContent(after, next)
   writeTextIfChanged(
     plan.path,
     `${before}${PLAN_MARKER}\n${JSON.stringify(next, null, 2)}\n${PLAN_END_MARKER}${after}`,
   )
   return findPlan(next.id)
+}
+
+export function updatePlanTask(planId, taskId, status) {
+  if (!['todo', 'doing', 'done'].includes(status))
+    throw new Error('task status must be todo|doing|done')
+  const plan = findPlan(planId)
+  if (
+    plan.metadata.execution_contract !== 1 ||
+    ['done', 'cancelled', 'superseded'].includes(plan.metadata.status)
+  )
+    throw new Error('tasks can only be changed on an unfinished execution_contract 1 Plan')
+  if (!plan.metadata.tasks.some((task) => task.id === taskId))
+    throw new Error(`unknown task ${taskId}`)
+  const updated = updatePlanMetadata(plan, (metadata) => {
+    metadata.tasks.find((task) => task.id === taskId).status = status
+    metadata.updated_at = new Date().toISOString().slice(0, 10)
+    return metadata
+  })
+  writeGeneratedStatus()
+  return updated
 }
 
 export function bindPlanEvidence(planId, evidenceId, runId) {
@@ -916,7 +1074,14 @@ export function bindPlanEvidence(planId, evidenceId, runId) {
   evidence.push({ id: evidenceId, run_id: runId })
   nextMetadata.evidence = evidence
   nextMetadata.updated_at = new Date().toISOString().slice(0, 10)
-  const errors = validatePlan({ ...plan, metadata: nextMetadata }, { allowLegacy: false })
+  const candidateContent =
+    nextMetadata.execution_contract === 1
+      ? renderPlanProgressContent(plan.content, nextMetadata)
+      : plan.content
+  const errors = validatePlan(
+    { ...plan, metadata: nextMetadata, content: candidateContent },
+    { allowLegacy: false },
+  )
   if (errors.length) throw new Error(`invalid evidence binding:\n- ${errors.join('\n- ')}`)
   const updated = updatePlanMetadata(plan, () => nextMetadata)
   writeGeneratedStatus()
@@ -974,7 +1139,11 @@ export function setPlanStatus(planId, nextStatus, { blocker = null, commit = nul
   }
   if (nextStatus === 'blocked') nextMetadata.blocker = blocker
   else nextMetadata.blocker = null
-  const candidate = { ...plan, metadata: nextMetadata }
+  const candidateContent =
+    nextMetadata.execution_contract === 1
+      ? renderPlanProgressContent(plan.content, nextMetadata)
+      : plan.content
+  const candidate = { ...plan, metadata: nextMetadata, content: candidateContent }
   const errors = [
     ...validatePlan(candidate, { allowLegacy: false }),
     ...validatePlanDependencies(candidate),
@@ -1019,7 +1188,17 @@ export function reintegratePlan(planId) {
   next.blocker = null
   next.updated_at = new Date().toISOString().slice(0, 10)
   const errors = [
-    ...validatePlan({ ...plan, metadata: next }, { allowLegacy: false }),
+    ...validatePlan(
+      {
+        ...plan,
+        metadata: next,
+        content:
+          next.execution_contract === 1
+            ? renderPlanProgressContent(plan.content, next)
+            : plan.content,
+      },
+      { allowLegacy: false },
+    ),
     ...validatePlanDependencies({ ...plan, metadata: next }),
   ]
   if (errors.length) throw new Error(`cannot reintegrate Plan:\n- ${errors.join('\n- ')}`)

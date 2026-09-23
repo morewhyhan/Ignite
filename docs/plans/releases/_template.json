@@ -1,7 +1,20 @@
 {
   "schema": 2,
   "id": "release-id",
+  "coverage_version": 1,
   "plan_ids": ["IGT-000"],
+  "scope": [
+    {
+      "id": "GOAL-001",
+      "text": "待填写原始目标",
+      "source": "待填写来源",
+      "requirements": [],
+      "plan_ids": ["IGT-000"],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    }
+  ],
   "must_pass": ["check-integration", "check-release"],
   "excluded": [],
   "updated_at": "YYYY-MM-DD"

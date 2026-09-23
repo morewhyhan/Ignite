@@ -1,10 +1,11 @@
 import { spawnSync } from 'node:child_process'
 import { adoptHistory } from './adoption.mjs'
 import { planCheck } from './checks.mjs'
-import { currentCommit, repositoryRoot } from './core.mjs'
+import { computeInputFingerprint, currentCommit, repositoryRoot } from './core.mjs'
 import { verifyRemoteDelivery } from './delivery.mjs'
 import {
   deriveRelease,
+  evidenceCoverage,
   findPlan,
   listPlanFiles,
   listReleases,
@@ -19,7 +20,10 @@ import {
   validatePlan,
   validatePlanDependencies,
   writeGeneratedStatus,
+  updatePlanTask,
+  updatePlanMetadata,
 } from './state.mjs'
+import { exampleRemovalPlan } from './examples.mjs'
 import {
   validateAgentBridges,
   validateCiCompletion,
@@ -236,10 +240,11 @@ function commandNext(options) {
     (run) => run.plan_id === plan.metadata.id && run.status !== 'corrupt',
   )
   const runState = latestRun?.derived_status || null
-  const boundEvidence = new Set((plan.metadata.evidence || []).map((item) => item.id))
-  const missingEvidence = (plan.metadata.required_evidence || []).filter(
-    (id) => !boundEvidence.has(id),
-  )
+  const currentRunInput = latestRun?.input_fingerprint === computeInputFingerprint(plan)
+  const evidenceStatus = evidenceCoverage(plan)
+  const missingEvidence = evidenceStatus
+    .filter((item) => item.status !== 'passed')
+    .map((item) => item.evidence_id)
   let nextAction
   if (failures.length) {
     const integrationLost = failures.some((item) =>
@@ -252,6 +257,8 @@ function commandNext(options) {
           command: `pnpm ignite plan reintegrate ${plan.metadata.id}`,
         }
       : { kind: 'repair-input', reason: failures, command: null }
+  } else if (['done', 'cancelled', 'superseded'].includes(plan.metadata.status)) {
+    nextAction = { kind: 'report-result', reason: plan.metadata.status, command: null }
   } else if (plan.metadata.status === 'blocked') {
     nextAction = {
       kind: 'wait-for-blocker',
@@ -264,7 +271,7 @@ function commandNext(options) {
       reason: `run ${latestRun.run_id} is still active`,
       command: `pnpm ignite run status ${latestRun.run_id}`,
     }
-  } else if (['failed', 'orphaned', 'cancelled'].includes(runState)) {
+  } else if (currentRunInput && ['failed', 'orphaned', 'cancelled'].includes(runState)) {
     nextAction = {
       kind: 'diagnose-run',
       reason: latestRun.failure_reason || `run ${latestRun.run_id} ${runState}`,
@@ -289,13 +296,22 @@ function commandNext(options) {
           reason: `${plan.metadata.remaining_work.length} acceptance gaps remain; first: ${plan.metadata.remaining_work[0]}`,
           command: null,
         }
-      : {
-          kind: 'implement-and-check',
-          reason: 'implement the next task and validate its acceptance criteria',
-          command: `pnpm ignite check --plan ${plan.metadata.id} --level auto`,
-        }
+      : !missingEvidence.includes(plan.metadata.risk === 'docs' ? 'check-dev' : 'check-integration')
+        ? {
+            kind: 'start-verification',
+            reason: 'the current development checks passed; continue to release verification',
+            command: `pnpm ignite plan set-status ${plan.metadata.id} verifying --commit HEAD`,
+          }
+        : {
+            kind: 'implement-and-check',
+            reason: 'implement the next task and validate its acceptance criteria',
+            command: `pnpm ignite check --plan ${plan.metadata.id} --level auto`,
+          }
   } else if (plan.metadata.status === 'verifying') {
     const missingIntegration = missingEvidence.includes('check-integration')
+    const missingDev = missingEvidence.includes('check-dev')
+    const nextLevel = missingIntegration ? 'integration' : missingDev ? 'dev' : 'release'
+    const unfinishedTasks = (plan.metadata.tasks || []).filter((task) => task.status !== 'done')
     nextAction = plan.metadata.remaining_work?.length
       ? {
           kind: 'complete-remaining-work',
@@ -304,15 +320,21 @@ function commandNext(options) {
         }
       : missingEvidence.length
         ? {
-            kind: missingIntegration ? 'verify-integration' : 'verify-release',
+            kind: `verify-${nextLevel}`,
             reason: `missing evidence: ${missingEvidence.join(', ')}`,
-            command: `pnpm ignite check --plan ${plan.metadata.id} --level ${missingIntegration ? 'integration' : 'release'}`,
+            command: `pnpm ignite check --plan ${plan.metadata.id} --level ${nextLevel}`,
           }
-        : {
-            kind: 'complete-plan',
-            reason: 'required evidence is bound; current inputs still need final validation',
-            command: `pnpm ignite plan set-status ${plan.metadata.id} done`,
-          }
+        : unfinishedTasks.length
+          ? {
+              kind: 'complete-tasks',
+              reason: `finish and record the remaining tasks: ${unfinishedTasks.map((task) => task.id).join(', ')}`,
+              command: null,
+            }
+          : {
+              kind: 'complete-plan',
+              reason: 'required evidence is bound; current inputs still need final validation',
+              command: `pnpm ignite plan set-status ${plan.metadata.id} done`,
+            }
   } else {
     nextAction = { kind: 'report-result', reason: plan.metadata.status, command: null }
   }
@@ -328,6 +350,11 @@ function commandNext(options) {
         authorization: plan.metadata.authorization || null,
         open_questions: plan.metadata.open_questions || [],
         remaining_work: plan.metadata.remaining_work || [],
+        tasks: plan.metadata.tasks || [],
+        evidence_coverage: evidenceStatus,
+        shared_files: plan.metadata.shared_files || [],
+        dependency_contracts: plan.metadata.dependency_contracts || [],
+        handoff: plan.metadata.handoff || null,
         plan_path: plan.relativePath,
         context: {
           repository_root: repositoryRoot,
@@ -346,6 +373,7 @@ function commandNext(options) {
           ? {
               run_id: latestRun.run_id,
               status: runState,
+              input_current: currentRunInput,
               current_command: latestRun.current_command || null,
               last_output_at: latestRun.last_output_at || null,
             }
@@ -367,11 +395,27 @@ function commandNext(options) {
 
 export async function main(argv = process.argv.slice(2)) {
   const command = argv[0]
-  const hasSubcommand = ['plan', 'run', 'release'].includes(command)
+  const hasSubcommand = ['plan', 'run', 'release', 'task', 'example'].includes(command)
   const subcommand = hasSubcommand ? argv[1] : null
   const { options, positionals } = parseArgs(argv.slice(hasSubcommand ? 2 : 1))
 
   if (command === 'validate') return commandValidate(options)
+  if (command === 'task' && subcommand === 'set-status') {
+    if (positionals.length !== 3)
+      throw new Error('task set-status <plan-id> <task-id> <todo|doing|done>')
+    console.log(JSON.stringify(updatePlanTask(...positionals).metadata.tasks, null, 2))
+    return
+  }
+  if (command === 'plan' && subcommand === 'refresh') {
+    const plan = findPlan(positionals[0])
+    updatePlanMetadata(plan, (metadata) => metadata)
+    writeGeneratedStatus()
+    return
+  }
+  if (command === 'example' && subcommand === 'removal-plan') {
+    console.log(JSON.stringify(exampleRemovalPlan(positionals[0] || 'tasks'), null, 2))
+    return
+  }
   if (command === 'adopt-history') {
     console.log(JSON.stringify(adoptHistory({ apply: options.apply === true }), null, 2))
     return
@@ -399,7 +443,8 @@ export async function main(argv = process.argv.slice(2)) {
     'commands: validate [--ci], status [--write|--json], plan validate [id], ' +
       'plan set-status <id> <status>, check --plan <id> [--level auto|dev|integration|release], ' +
       'next --plan <id> [--verify-remote], run status [run-id] [--verbose], ' +
-      'run cancel <run-id>, release status [release-id], adopt-history [--apply]',
+      'run cancel <run-id>, release status [release-id], adopt-history [--apply], ' +
+      'task set-status <plan-id> <task-id> <todo|doing|done>, plan refresh <id>, example removal-plan tasks',
   )
 }
 

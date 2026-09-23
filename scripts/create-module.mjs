@@ -2,17 +2,27 @@ import { spawnSync } from 'node:child_process'
 import { randomInt } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
+import { renderPlanProgressContent } from './ignite/execution-contract.mjs'
 
 const arguments_ = process.argv.slice(2)
 const dryRun = arguments_.includes('--dry-run')
 const releaseIndex = arguments_.indexOf('--release')
 const releaseArgument = releaseIndex >= 0 ? arguments_[releaseIndex + 1] : null
-const moduleName = arguments_.find(
+const positionalArguments = arguments_.filter(
   (argument, index) =>
     !argument.startsWith('--') && (releaseIndex < 0 || index !== releaseIndex + 1),
 )
+const [moduleName] = positionalArguments
 
-if (!moduleName || !/^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/.test(moduleName)) {
+if (
+  positionalArguments.length !== 1 ||
+  !/^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/.test(moduleName || '') ||
+  arguments_.some(
+    (argument) => argument.startsWith('--') && !['--dry-run', '--release'].includes(argument),
+  ) ||
+  arguments_.filter((argument) => argument === '--release').length > 1 ||
+  (releaseIndex >= 0 && (!releaseArgument || releaseArgument.startsWith('--')))
+) {
   console.error(
     'Usage: pnpm create:module <plural-kebab-name> [--release <release-id>] [--dry-run]',
   )
@@ -74,8 +84,19 @@ do {
 const acceptanceId = `AC-${upperName}-001`
 const requirementId = `REQ-${upperName}-001`
 const testPath = `tests/contracts/${moduleName}.test.ts`
+const browserTestPath = `tests/e2e/${moduleName}.spec.ts`
 const planPath = `docs/plans/${compactDate}-${moduleName}.md`
 const releasePath = `docs/plans/releases/${releaseId}.json`
+const planTemplate = readFileSync(join(repositoryRoot, 'docs', 'plans', '_template.md'), 'utf8')
+const planBodyStart = planTemplate.indexOf('-->')
+if (planBodyStart < 0) throw new Error('docs/plans/_template.md is missing ignite-plan metadata')
+const planBody = planTemplate
+  .slice(planBodyStart + 3)
+  .replaceAll('<change-name>', moduleName)
+  .replaceAll('REQ-FEATURE-001', requirementId)
+  .replaceAll('AC-FEATURE-001', acceptanceId)
+const renderPlan = (metadata) =>
+  `<!-- ignite-plan\n${JSON.stringify(metadata, null, 2)}\n-->${renderPlanProgressContent(planBody, metadata)}`
 
 const files = new Map([
   [
@@ -138,6 +159,8 @@ const files = new Map([
 ## 验收标准
 
 - ${acceptanceId}（${requirementId}）：Given <context> When <action> Then <observable-result>。
+
+本脚手架包含 UI Screen，验收需要 unit 和真实 browser 两层。先定义页面路由及用户路径，再替换两个失败占位用例；涉及持久化或第三方服务时，另补 database / external 验收。
 `,
   ],
   [
@@ -152,133 +175,79 @@ describe('${moduleName} acceptance', () => {
 `,
   ],
   [
-    planPath,
-    `<!-- ignite-plan
-${JSON.stringify(
-  {
-    schema: 2,
-    id: planId,
-    release: releaseId,
-    status: 'draft',
-    outcome: `完成 ${moduleName} 的一个可验收纵向切片`,
-    contract_version: 2,
-    goals: [{ text: `完成 ${moduleName} 的可验收能力`, requirements: [requirementId] }],
-    constraints: [],
-    non_goals: [],
-    authorization: { source: '待确认具体实施请求' },
-    deliverables: [`${moduleName} 可运行入口和验证结果`],
-    remaining_work: ['确认目标行为并完成实际验收'],
-    change_type: '新增模块',
-    base_commit: baseCommit,
-    requirements: [requirementId],
-    acceptance: [{ id: acceptanceId, tests: [`${testPath}::[${acceptanceId}]`] }],
-    depends_on: [],
-    owner: 'assigned-worker',
-    risk: 'feature',
-    write_scope: [
-      `src/modules/${moduleName}/`,
-      `src/server/api/routes/${moduleName}/`,
-      'src/server/api/index.ts',
-      'src/app/',
-      'src/config/navigation.ts',
-      'prisma/',
-      testPath,
-      `docs/features/${moduleName}.md`,
-      planPath,
-      releasePath,
-      'docs/designs/',
-      'docs/others/test-cases/',
-    ],
-    required_evidence: ['check-integration', 'check-release'],
-    evidence: [],
-    blocker: null,
-    open_questions: ['确认字段、权限、错误、路由和验收范围'],
-    integrated_commit: null,
-    updated_at: dateValue,
-  },
-  null,
-  2,
-)}
--->
+    browserTestPath,
+    `import { test } from '@playwright/test'
 
-# Ignite 实施计划：${moduleName}
-
-## 状态
-
-以顶部元数据为准；当前为 \`draft\`。
-
-## 目标
-
-在需求规格确认后实现 ${moduleName} 纵向切片。
-
-## 原始目标与覆盖核对
-
-| 用户原话或可追溯来源 | 本轮目标 | REQ | AC | 处理结果 |
-| --- | --- | --- | --- | --- |
-| 待逐条填写 | 待填写 | 待填写 | 待填写 | 保留 / 明确排除 / 待确认 |
-
-## 非目标
-
-- 待定义。
-
-## 变更类型
-
-- 类型：\`[新增模块]\`
-- 影响的存量路径：待审计
-- 新增的增量路径：\`src/modules/${moduleName}/\`
-- 兼容性影响：待确认
-- 数据迁移或回滚要求：待确认
-
-## 输入规格
-
-- Feature：\`docs/features/${moduleName}.md\`
-- Standards：\`docs/standards/\`
-- Designs：\`docs/designs/\`
-- Source of truth：\`src/\`、\`prisma/\`、\`tests/\`
-
-## 已关闭问题
-
-- 开放问题：尚未关闭，不能开始实现。
-- 实施授权：等待需求和 Plan 确认。
-
-## 测试与验收设计
-
-| 验收标准 | 覆盖需求 | 自动化测试 | 实现后命令 | 适用层级 |
-| -------- | -------- | ---------- | ---------- | -------- |
-| ${acceptanceId} | ${requirementId} | \`${testPath}\` | \`pnpm test\` | contract / behavior |
-
-## 实现任务
-
-- [ ] 完成需求规格和测试用例。
-- [ ] 让目标测试因缺少目标行为而失败。
-- [ ] 实现并注册纵向切片。
-- [ ] 更新设计规格并完成准出验证。
-
-## 设计回写
-
-- [ ] 领域模型
-- [ ] 数据库
-- [ ] API
-- [ ] 时序图
-
-## 验收方式
-
-- [ ] \`pnpm ignite check --plan ${planId} --level integration\`
-- [ ] \`pnpm ignite plan set-status ${planId} verifying --commit HEAD\`
-- [ ] \`pnpm ignite check --plan ${planId} --level release\`
-
-## 状态记录
-
-| 时间 | 状态 | 说明 |
-| ---- | ---- | ---- |
-| ${dateValue} | draft | 脚手架创建，等待规格确认 |
-
-## 准出条件
-
-- [ ] 每条 REQ 被 AC 覆盖，AC 对应可执行测试。
-- [ ] 当前输入的 integration 与 release 证据通过。
-- [ ] Plan 状态和最终设计已更新。
+test('[${acceptanceId}] completes the specified user journey in a real browser', async () => {
+  throw new Error('Define the ${moduleName} route and implement its real browser journey before moving the Plan to verifying')
+})
 `,
+  ],
+  [
+    planPath,
+    renderPlan({
+      schema: 2,
+      id: planId,
+      release: releaseId,
+      status: 'draft',
+      outcome: `完成 ${moduleName} 的一个可验收纵向切片`,
+      contract_version: 2,
+      execution_contract: 1,
+      goals: [{ text: `完成 ${moduleName} 的可验收能力`, requirements: [requirementId] }],
+      constraints: [],
+      non_goals: [],
+      authorization: { source: '待确认具体实施请求' },
+      deliverables: [`${moduleName} 可运行入口和验证结果`],
+      remaining_work: ['目标行为未定义，尚无法确认完整验收场景'],
+      change_type: '新增模块',
+      base_commit: baseCommit,
+      requirements: [requirementId],
+      acceptance: [
+        {
+          id: acceptanceId,
+          tests: [`${testPath}::[${acceptanceId}]`, `${browserTestPath}::[${acceptanceId}]`],
+          required_layers: ['unit', 'browser'],
+          checks: [
+            { test: `${testPath}::[${acceptanceId}]`, layer: 'unit' },
+            { test: `${browserTestPath}::[${acceptanceId}]`, layer: 'browser' },
+          ],
+        },
+      ],
+      verification_requirements: ['unit', 'browser'],
+      tasks: [
+        { id: 'T1', title: '确认目标、输入输出和验收场景', status: 'todo' },
+        { id: 'T2', title: '定义逻辑与真实浏览器验收并确认预期失败', status: 'todo' },
+        { id: 'T3', title: '实现并接入纵向切片', status: 'todo' },
+        { id: 'T4', title: '完成验证并回写当前设计', status: 'todo' },
+      ],
+      depends_on: [],
+      dependency_contracts: [],
+      shared_files: [],
+      handoff: { interfaces: [], migrations: [], tests: [], remaining: [] },
+      owner: 'assigned-worker',
+      risk: 'feature',
+      write_scope: [
+        `src/modules/${moduleName}/`,
+        `src/server/api/routes/${moduleName}/`,
+        'src/server/api/index.ts',
+        'src/app/',
+        'src/config/navigation.ts',
+        'prisma/',
+        testPath,
+        browserTestPath,
+        `docs/features/${moduleName}.md`,
+        planPath,
+        releasePath,
+        'docs/designs/',
+        'docs/others/test-cases/',
+      ],
+      required_evidence: ['check-integration', 'check-release'],
+      evidence: [],
+      blocker: null,
+      open_questions: ['确认字段、权限、错误、路由和验收范围'],
+      integrated_commit: null,
+      updated_at: dateValue,
+    }),
   ],
 ])
 
@@ -290,16 +259,56 @@ if (existsSync(absoluteReleasePath)) {
     console.error(`Existing release is not a schema 2 release: ${releasePath}`)
     process.exit(1)
   }
+  if (release.coverage_version !== 1 && release.plan_ids.length > 0) {
+    console.error(
+      `Release ${releaseId} already has Plans but no original-goal coverage. ` +
+        'Map its existing scope first or choose a new --release id; refusing to create a misleading partial map.',
+    )
+    process.exit(1)
+  }
   release.plan_ids = [...new Set([...release.plan_ids, planId])]
   release.must_pass = [
     ...new Set([...(release.must_pass || []), 'check-integration', 'check-release']),
+  ]
+  const existingScope = Array.isArray(release.scope) ? release.scope : []
+  const nextGoalNumber =
+    Math.max(
+      0,
+      ...existingScope.map((entry) => Number(entry?.id?.match(/^GOAL-(\d+)$/)?.[1] || 0)),
+    ) + 1
+  release.coverage_version = 1
+  release.scope = [
+    ...existingScope,
+    {
+      id: `GOAL-${String(nextGoalNumber).padStart(3, '0')}`,
+      text: '待填写原始目标',
+      source: '待填写来源',
+      requirements: [],
+      plan_ids: [planId],
+      disposition: 'included',
+      reason: '',
+      authorization: '',
+    },
   ]
   release.updated_at = dateValue
 } else {
   release = {
     schema: 2,
     id: releaseId,
+    coverage_version: 1,
     plan_ids: [planId],
+    scope: [
+      {
+        id: 'GOAL-001',
+        text: '待填写原始目标',
+        source: '待填写来源',
+        requirements: [],
+        plan_ids: [planId],
+        disposition: 'included',
+        reason: '',
+        authorization: '',
+      },
+    ],
     must_pass: ['check-integration', 'check-release'],
     excluded: [],
     updated_at: dateValue,
@@ -315,7 +324,9 @@ if (collisions.length > 0) {
 
 console.log(dryRun ? 'Would create:' : 'Creating:')
 for (const path of files.keys()) console.log(`- ${path}`)
-console.log(`${existsSync(absoluteReleasePath) ? 'Would update' : 'Would create'}: ${releasePath}`)
+console.log(
+  `${dryRun ? 'Would ' : ''}${existsSync(absoluteReleasePath) ? 'update' : 'create'}: ${releasePath}`,
+)
 
 if (!dryRun) {
   for (const [path, content] of files) {
@@ -328,5 +339,15 @@ if (!dryRun) {
 }
 
 console.log('')
-console.log('Next: close the Feature and Plan questions, then replace the red acceptance test.')
-console.log(`Release ${releaseId} already includes ${planId}; no second status file is needed.`)
+if (dryRun) {
+  console.log(
+    'Preview only; no files or release membership were changed. Remove --dry-run to create this draft.',
+  )
+} else {
+  console.log(`Created draft ${planId}; Release ${releaseId} includes this Plan.`)
+  console.log(
+    'Next: define the Feature, route and user journey, then replace both red acceptance tests.',
+  )
+  console.log('Refresh the generated overview: pnpm ignite status --write')
+  console.log(`Continue: pnpm ignite next --plan ${planId}`)
+}

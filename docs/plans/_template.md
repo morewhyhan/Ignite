@@ -6,22 +6,30 @@
   "status": "draft",
   "outcome": "完成后谁能多做哪件事",
   "contract_version": 2,
+  "execution_contract": 1,
   "goals": [{ "text": "用户可验证的目标", "requirements": ["REQ-FEATURE-001"] }],
   "constraints": ["必须保留的能力或数据"],
   "non_goals": ["本轮明确不做的范围"],
   "authorization": { "source": "用户提出直接实施的请求或对应授权记录" },
   "deliverables": ["最终成果入口"],
-  "remaining_work": ["尚未验证的真实使用场景；全部完成后清空并重验"],
+  "remaining_work": ["尚未明确的真实验收场景；明确后转入 tasks 或验收契约"],
   "change_type": "新增模块",
   "base_commit": "运行 git rev-parse HEAD 后替换为 40 位 commit",
   "requirements": ["REQ-FEATURE-001"],
   "acceptance": [
     {
       "id": "AC-FEATURE-001",
-      "tests": ["tests/path/file.test.ts::[AC-FEATURE-001] 用例名"]
+      "tests": ["tests/path/file.test.ts::[AC-FEATURE-001] 用例名"],
+      "required_layers": ["unit"],
+      "checks": [{ "test": "tests/path/file.test.ts::[AC-FEATURE-001] 用例名", "layer": "unit" }]
     }
   ],
+  "verification_requirements": ["unit"],
+  "tasks": [{ "id": "T1", "title": "确认规格与验收", "status": "todo" }],
   "depends_on": [],
+  "dependency_contracts": [],
+  "shared_files": [],
+  "handoff": { "interfaces": [], "migrations": [], "tests": [], "remaining": [] },
   "owner": "assigned-worker",
   "risk": "feature",
   "write_scope": [
@@ -53,9 +61,11 @@
 
 ## 状态
 
-以顶部元数据的 `status` 为唯一状态，不在正文维护第二份状态。新建时为 `draft`；关闭问题后依次进入 `ready`、`active`、`verifying`、`done`。
+顶部元数据的 `status` 是唯一状态；正文不复制当前状态。`tasks` 是唯一的子任务状态，使用 `todo`、`doing`、`done`；真正阻塞时由 Plan 的 `status` 与 `blocker` 表达。不要在正文另建任务复选框。下方进度块由工具刷新，勿手改。
 
 ## 目标
+
+用一句用户可观察的结果描述本轮成果。先写清原始目标，再将其拆成 `goals`、REQ、AC 和测试。
 
 ## 原始目标与覆盖核对
 
@@ -67,65 +77,41 @@
 
 ## 非目标
 
--
+把本轮不处理的范围写入顶部 `non_goals`，这里仅解释容易误解的边界。
 
 ## 变更类型
 
-- 类型：只保留一个：`[新增模块]` 或 `[存量改动]`；基础设施调整属于存量改动，并用 `risk` 表达风险。
-- 影响的存量路径：
-- 新增的增量路径：
-- 兼容性影响：
-- 数据迁移或回滚要求：
+顶部 `change_type` 只选 `[新增模块]` 或 `[存量改动]`；基础设施调整属于存量改动。说明兼容性、数据迁移和回滚策略，并把共享文件写入 `shared_files`，声明 `path`、`owner` 与 `mode`（`exclusive` 或 `integrator`）。
 
 ## 输入规格
 
-- Feature：`docs/features/<feature-name>.md`
-- Standards：`docs/standards/` 中受影响的规范
-- Designs：`docs/designs/` 中受影响的当前设计
-- Source of truth：`src/`、`prisma/`、`tests/`
+只引用本轮相关的 Feature、Standards、Design、代码与测试。跨 Plan 依赖在 `depends_on` 与 `dependency_contracts` 中写清接口契约；交接成果写入 `handoff.interfaces`、`migrations`、`tests` 和 `remaining`。
 
 ## 已关闭问题
 
-- 开放问题：无 / 列出问题及用户确认结论
-- 实施授权：用户已明确要求实施 / 等待确认
+顶部 `open_questions` 记录未决问题，`authorization.source` 记录实施授权来源。不要把空问题列表当作目标完整性证明。
 
 ## 测试与验收设计
 
-| 验收标准     | 覆盖需求        | 自动化测试（含 `[AC-*]` 标记） | 实现后命令 | 适用层级                    |
-| ------------ | --------------- | ------------------------------ | ---------- | --------------------------- |
-| AC-FEATURE-1 | REQ-FEATURE-001 |                                |            | API / contract / E2E / unit |
+每个 AC 的 `tests` 与 `checks[].test` 必须引用同一带 `[AC-*]` 标记的可执行用例。`required_layers` 和 `verification_requirements` 表示必须满足的验证层级：纯逻辑用 `unit`；UI 交互补 `browser`；持久化补 `database`；真实第三方依赖补 `external`。本模板的 `unit` 是填写示例；`create:module` 因生成 UI Screen 会同时准备 `unit` 和 `browser`。所有草稿都需按实际目标补齐行为断言。
 
 ## 实现任务
 
-- [ ] 任务 1
-- [ ] 任务 2
+分解可交付工作至顶部 `tasks`，每项有稳定 ID、标题和状态。`remaining_work` 仅放尚未能转成明确任务的验收缺口，不重复列任务。
 
 ## 验收方式
 
-- [ ] 目标测试先按预期失败，而不是配置或语法错误
-- [ ] `pnpm ignite check --plan IGT-000 --level integration`
-- [ ] `pnpm ignite plan set-status IGT-000 verifying --commit HEAD`
-- [ ] `pnpm ignite check --plan IGT-000 --level release`
-- [ ] `pnpm ignite plan set-status IGT-000 done`
+先确认目标测试因缺少目标行为而失败，再实现并运行 `pnpm ignite check --plan <IGT-ID> --level integration`；集成后进入 `verifying`，运行 `--level release`。按实际层级补齐证据，不能拿类型检查代替行为测试。
 
 ## 设计回写
 
-- [ ] 领域模型
-- [ ] 数据库
-- [ ] API
-- [ ] 时序图
-- [ ] 专题设计
+完成后只回写受影响的当前事实到 `docs/designs/`，不把本 Plan 的过程说明复制过去。
 
 ## 状态记录
 
-| 时间       | 状态  | 说明                   |
-| ---------- | ----- | ---------------------- |
-| YYYY-MM-DD | draft | 建立计划并等待关闭问题 |
+<!-- ignite-progress -->
+<!-- /ignite-progress -->
 
 ## 准出条件
 
-- [ ] 每条 REQ 均被 AC 覆盖，每条 AC 均映射到带 `[AC-*]` 标记的自动化测试。
-- [ ] `remaining_work` 已通过实际验收清空，并在清空后的最终提交重新验证。
-- [ ] 工作区实现已提交，`integrated_commit` 是真实且可追溯的 commit。
-- [ ] 所有 `required_evidence` 指向当前输入、当前环境且通过的 schema 2 证据。
-- [ ] 当前设计已回写，Plan 状态已由 CLI 更新为 `done`。
+每条 REQ 被 AC 覆盖，AC 有匹配层级的真实测试；`tasks` 全部完成，`remaining_work` 清空；`integrated_commit` 可追溯，所需证据属于当前输入与环境；Design 已回写。只有这些条件经验证成立，才把 Plan 标记为 `done`。

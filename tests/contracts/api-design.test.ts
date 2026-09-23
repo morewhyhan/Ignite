@@ -3,6 +3,7 @@ import { resolve } from 'node:path'
 import { beforeAll, describe, expect, it, vi } from 'vitest'
 import { parse } from 'yaml'
 import { z } from 'zod'
+import { tasksExampleState } from '../../scripts/ignite/examples.mjs'
 
 vi.mock('server-only', () => ({}))
 
@@ -47,25 +48,28 @@ describe('OpenAPI design snapshot', () => {
     expect(actual).toEqual(expected)
   })
 
-  it('[AC-PRODUCT-013] matches documented task request fields to executable validators', async () => {
-    const document = parse(
-      readFileSync(resolve(process.cwd(), 'docs/designs/api.yaml'), 'utf8'),
-    ) as {
-      components: { schemas: Record<string, Record<string, unknown>> }
-    }
-    const { taskSchema, updateTaskSchema } = await import('@/server/api/routes/tasks')
-    for (const [name, schema] of [
-      ['CreateTaskInput', taskSchema],
-      ['UpdateTaskInput', updateTaskSchema],
-    ] as const) {
-      const generated = z.toJSONSchema(schema)
-      const documented = document.components.schemas[name]
-      expect(generated.properties).toEqual(documented.properties)
-      expect(generated.required || []).toEqual(documented.required || [])
-      expect(generated.additionalProperties).toBe(documented.additionalProperties)
-    }
-    expect(document.components.schemas.UpdateTaskInput.minProperties).toBe(1)
-  })
+  it.skipIf(tasksExampleState(process.cwd()).fullyRemoved)(
+    '[AC-PRODUCT-013] matches documented task request fields to executable validators',
+    async () => {
+      const document = parse(
+        readFileSync(resolve(process.cwd(), 'docs/designs/api.yaml'), 'utf8'),
+      ) as {
+        components: { schemas: Record<string, Record<string, unknown>> }
+      }
+      const { taskSchema, updateTaskSchema } = await import('@/server/api/routes/tasks')
+      for (const [name, schema] of [
+        ['CreateTaskInput', taskSchema],
+        ['UpdateTaskInput', updateTaskSchema],
+      ] as const) {
+        const generated = z.toJSONSchema(schema)
+        const documented = document.components.schemas[name]
+        expect(generated.properties).toEqual(documented.properties)
+        expect(generated.required || []).toEqual(documented.required || [])
+        expect(generated.additionalProperties).toBe(documented.additionalProperties)
+      }
+      expect(document.components.schemas.UpdateTaskInput.minProperties).toBe(1)
+    },
+  )
 
   it('[AC-PRODUCT-013] keeps the public health response aligned with OpenAPI', async () => {
     const document = parse(

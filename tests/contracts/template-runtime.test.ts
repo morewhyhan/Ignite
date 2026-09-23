@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest'
 import { validateRuntimeContract } from '../../scripts/ignite/governance.mjs'
 import {
   commitAll,
+  git,
   makeFixture,
   planContent,
   read,
@@ -18,10 +19,15 @@ const templateDoctor = join(repositoryRoot, 'scripts', 'template-doctor.mjs')
 const runtimeDoctor = join(repositoryRoot, 'scripts', 'runtime-doctor.mjs')
 const createModule = join(repositoryRoot, 'scripts', 'create-module.mjs')
 
+function prepareScaffoldTemplate(root: string) {
+  write(root, 'docs/plans/_template.md', read(repositoryRoot, 'docs/plans/_template.md'))
+}
+
 describe('template and runtime contracts', () => {
   it('[AC-PRODUCT-009] previews and preserves inherited history before starting a new project Plan', () => {
     const fixture = makeFixture()
     try {
+      prepareScaffoldTemplate(fixture.root)
       const originalPlan = planContent('f'.repeat(40))
       write(fixture.root, 'docs/plans/fixture.md', originalPlan)
       write(
@@ -115,10 +121,27 @@ describe('template and runtime contracts', () => {
   })
 
   it.each([null, 'fixture-v1'])(
-    '[AC-PRODUCT-003] scaffolds a complete red slice with release %s',
+    '[AC-PRODUCT-003] [AC-EXECUTION-009] scaffolds a complete red slice with release %s',
     (releaseId) => {
       const fixture = makeFixture()
       try {
+        prepareScaffoldTemplate(fixture.root)
+        if (releaseId) {
+          const releasePath = `docs/plans/releases/${releaseId}.json`
+          const release = JSON.parse(read(fixture.root, releasePath))
+          release.coverage_version = 1
+          release.scope = [
+            {
+              id: 'GOAL-001',
+              text: 'Validate the fixture execution result',
+              source: 'Fixture requirement',
+              requirements: ['REQ-TEST-001'],
+              plan_ids: ['IGT-900'],
+              disposition: 'included',
+            },
+          ]
+          write(fixture.root, releasePath, JSON.stringify(release))
+        }
         const result = spawnSync(
           process.execPath,
           [createModule, 'invoices', ...(releaseId ? ['--release', releaseId] : [])],
@@ -135,6 +158,7 @@ describe('template and runtime contracts', () => {
           'src/modules/invoices/index.ts',
           'docs/features/invoices.md',
           'tests/contracts/invoices.test.ts',
+          'tests/e2e/invoices.spec.ts',
         ]) {
           expect(existsSync(join(fixture.root, path)), path).toBe(true)
         }
@@ -146,6 +170,8 @@ describe('template and runtime contracts', () => {
         expect(read(fixture.root, 'tests/contracts/invoices.test.ts')).toContain(
           '[AC-INVOICES-001]',
         )
+        expect(read(fixture.root, 'tests/e2e/invoices.spec.ts')).toContain('[AC-INVOICES-001]')
+        expect(read(fixture.root, 'tests/e2e/invoices.spec.ts')).toContain('throw new Error(')
         const release = JSON.parse(
           read(fixture.root, `docs/plans/releases/${releaseId || 'invoices-v1'}.json`),
         ) as {
@@ -155,11 +181,28 @@ describe('template and runtime contracts', () => {
         const generatedPlan = readdirSync(join(fixture.root, 'docs/plans')).find((name) =>
           name.endsWith('-invoices.md'),
         )!
-        const generatedId = read(fixture.root, `docs/plans/${generatedPlan}`).match(
-          /"id": "(IGT-\d+)"/,
-        )?.[1]
+        const planContent = read(fixture.root, `docs/plans/${generatedPlan}`)
+        const metadata = JSON.parse(planContent.match(/<!-- ignite-plan\s*([\s\S]*?)\s*-->/)![1])
+        const generatedId = metadata.id
         expect(generatedId).toMatch(/^IGT-\d{3,}$/)
-        expect(read(fixture.root, `docs/plans/${generatedPlan}`)).toContain('## 原始目标与覆盖核对')
+        expect(planContent).toContain('## 原始目标与覆盖核对')
+        expect(planContent).toContain('T1 · 确认目标、输入输出和验收场景 · todo')
+        expect(metadata).toMatchObject({
+          status: 'draft',
+          verification_requirements: ['unit', 'browser'],
+          evidence: [],
+          acceptance: [
+            {
+              required_layers: ['unit', 'browser'],
+              checks: [
+                { test: 'tests/contracts/invoices.test.ts::[AC-INVOICES-001]', layer: 'unit' },
+                { test: 'tests/e2e/invoices.spec.ts::[AC-INVOICES-001]', layer: 'browser' },
+              ],
+            },
+          ],
+        })
+        expect(metadata.write_scope).toContain('tests/e2e/invoices.spec.ts')
+        expect(result.stdout).toContain('pnpm ignite status --write')
         expect(release.plan_ids).toContain(generatedId)
         expect(release).not.toHaveProperty('status')
       } finally {
@@ -167,6 +210,62 @@ describe('template and runtime contracts', () => {
       }
     },
   )
+
+  it('[AC-PRODUCT-003] previews a module without creating files or changing an existing release', () => {
+    const fixture = makeFixture()
+    try {
+      prepareScaffoldTemplate(fixture.root)
+      const releasePath = 'docs/plans/releases/preview-v1.json'
+      write(
+        fixture.root,
+        releasePath,
+        JSON.stringify({ schema: 2, id: 'preview-v1', plan_ids: [] }),
+      )
+      const originalRelease = read(fixture.root, releasePath)
+      const originalStatus = git(fixture.root, 'status', '--short', '--untracked-files=all')
+      const result = spawnSync(
+        process.execPath,
+        [createModule, '--dry-run', 'invoices', '--release', 'preview-v1'],
+        {
+          cwd: fixture.root,
+          encoding: 'utf8',
+          env: { ...process.env, IGNITE_ROOT: fixture.root },
+          windowsHide: true,
+        },
+      )
+      expect(result.status, result.stderr).toBe(0)
+      expect(result.stdout).toContain('tests/e2e/invoices.spec.ts')
+      expect(result.stdout).toContain('Preview only')
+      expect(result.stdout).not.toContain('already includes')
+      expect(read(fixture.root, releasePath)).toBe(originalRelease)
+      expect(git(fixture.root, 'status', '--short', '--untracked-files=all')).toBe(originalStatus)
+      expect(existsSync(join(fixture.root, 'src/modules/invoices'))).toBe(false)
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
+  it.each([
+    ['invoices', '--release'],
+    ['invoices', '--unknown'],
+    ['invoices', 'extra'],
+  ])('[AC-PRODUCT-003] rejects invalid scaffold arguments %j without writing', (...arguments_) => {
+    const fixture = makeFixture()
+    try {
+      const originalStatus = git(fixture.root, 'status', '--short', '--untracked-files=all')
+      const result = spawnSync(process.execPath, [createModule, ...arguments_], {
+        cwd: fixture.root,
+        encoding: 'utf8',
+        env: { ...process.env, IGNITE_ROOT: fixture.root },
+        windowsHide: true,
+      })
+      expect(result.status).not.toBe(0)
+      expect(result.stderr).toContain('Usage:')
+      expect(git(fixture.root, 'status', '--short', '--untracked-files=all')).toBe(originalStatus)
+    } finally {
+      fixture.cleanup()
+    }
+  })
 
   it('[AC-PRODUCT-009] rejects a dependency tree installed on another platform', () => {
     const root = mkdtempSync(join(tmpdir(), 'ignite-runtime-'))

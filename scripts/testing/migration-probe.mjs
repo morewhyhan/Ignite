@@ -1,3 +1,45 @@
+import { existsSync, readFileSync } from 'node:fs'
+import { join, resolve } from 'node:path'
+
+export const migrationProbeFixturePath = (projectRoot = process.env.IGNITE_ROOT || process.cwd()) =>
+  join(resolve(projectRoot), 'tests', 'fixtures', 'migrations', 'values.json')
+
+/** Optional project-owned data values for tables with CHECK/domain constraints. */
+export function loadMigrationProbeFixture(path = migrationProbeFixturePath()) {
+  if (!existsSync(path)) return { tables: {} }
+  let parsed
+  try {
+    parsed = JSON.parse(readFileSync(path, 'utf8'))
+  } catch (error) {
+    throw new Error(`Invalid migration probe fixture ${path}: ${error.message}`)
+  }
+  if (
+    parsed?.schema !== 1 ||
+    !parsed.tables ||
+    typeof parsed.tables !== 'object' ||
+    Array.isArray(parsed.tables)
+  ) {
+    throw new Error(
+      `Invalid migration probe fixture ${path}: expected schema 1 and a tables object`,
+    )
+  }
+  for (const [table, columns] of Object.entries(parsed.tables)) {
+    if (!columns || typeof columns !== 'object' || Array.isArray(columns)) {
+      throw new Error(
+        `Invalid migration probe fixture ${path}: tables.${table} must be a column-value object`,
+      )
+    }
+    for (const [column, value] of Object.entries(columns)) {
+      if (value !== null && !['string', 'number', 'boolean'].includes(typeof value)) {
+        throw new Error(
+          `Invalid migration probe fixture ${path}: tables.${table}.${column} must be a scalar or null`,
+        )
+      }
+    }
+  }
+  return parsed
+}
+
 function quote(value) {
   return `"${value.replaceAll('"', '""')}"`
 }
@@ -28,7 +70,13 @@ function sampleValue(table, column) {
 }
 
 /** Seed only empty tables; preserve existing migration-provided rows and valid relations. */
-export function seedMigrationProbe(database) {
+export function seedMigrationProbe(
+  database,
+  {
+    fixturePath = migrationProbeFixturePath(),
+    fixture = loadMigrationProbeFixture(fixturePath),
+  } = {},
+) {
   assertIntegrity(database)
   const descriptors = new Map(
     tables(database).map((table) => {
@@ -53,6 +101,10 @@ export function seedMigrationProbe(database) {
     const field = descriptor?.columns.find((entry) => entry.name === column)
     if (!field) throw new Error(`unknown migration probe field ${table}.${column}`)
     if (descriptor.existing) return descriptor.existing[column]
+    if (Object.hasOwn(fixture.tables[table] || {}, column)) {
+      const value = fixture.tables[table][column]
+      return typeof value === 'boolean' ? Number(value) : value
+    }
     const relation = descriptor.foreignKeys.find((entry) => entry.from === column)
     if (!relation) return sampleValue(table, field)
     const target =
@@ -69,11 +121,17 @@ export function seedMigrationProbe(database) {
     for (const [table, descriptor] of descriptors) {
       if (descriptor.existing) continue
       const columns = descriptor.columns.map((column) => column.name)
-      database
-        .prepare(
-          `INSERT INTO ${quote(table)} (${columns.map(quote).join(', ')}) VALUES (${columns.map(() => '?').join(', ')})`,
+      try {
+        database
+          .prepare(
+            `INSERT INTO ${quote(table)} (${columns.map(quote).join(', ')}) VALUES (${columns.map(() => '?').join(', ')})`,
+          )
+          .run(...columns.map((column) => valueFor(table, column)))
+      } catch (error) {
+        throw new Error(
+          `table ${table} needs valid probe data: ${error.message}. Set tables.${table} in ${fixturePath}`,
         )
-        .run(...columns.map((column) => valueFor(table, column)))
+      }
     }
     assertIntegrity(database)
     database.exec('COMMIT;')

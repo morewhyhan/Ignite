@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-005",
   "release": "execution-hardening-v1",
-  "status": "active",
+  "status": "done",
   "outcome": "交付干净、已验收的通用模板，AI 可从脚手架持续推进到真实验收与交接",
   "contract_version": 2,
   "execution_contract": 1,
@@ -275,57 +275,57 @@
     {
       "id": "T1",
       "title": "原始目标完整映射，延期不等于排除",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T2",
       "title": "验收区分模拟、真实数据库、浏览器和外部集成",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T3",
       "title": "发布逐计划计算有效证据缺口",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T4",
       "title": "任务状态只维护一份机器源",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T5",
       "title": "稳定契约允许并行开发，最终依赖约束完成",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T6",
       "title": "共享文件明确负责人和交接信息",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T7",
       "title": "迁移夹具可扩展，示例可移除",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T8",
       "title": "跨平台指纹一致，公共检查可复用",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T9",
       "title": "执行集成、发布与采用验证，清理试开发项目并刷新当前基线",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T10",
       "title": "对齐新模块的验收层级并提供无写入脚手架预览",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T11",
       "title": "修复 next 推进、旧失败和历史证据兼容性",
-      "status": "doing"
+      "status": "done"
     }
   ],
   "depends_on": [],
@@ -353,10 +353,19 @@
     "check-integration",
     "check-release"
   ],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20260923223553-023c9a"
+    },
+    {
+      "id": "check-release",
+      "run_id": "run-20260923224231-e2c3d4"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "dcdf5d862d6624776c95b70748ea1b7d7d79b37f",
   "updated_at": "2026-09-24"
 }
 -->
@@ -408,22 +417,22 @@ tasks 为唯一任务进度，使用 CLI 更新。
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`done`（由元数据生成）
 
-- [ ] T1 · 原始目标完整映射，延期不等于排除 · doing
-- [ ] T2 · 验收区分模拟、真实数据库、浏览器和外部集成 · doing
-- [ ] T3 · 发布逐计划计算有效证据缺口 · doing
-- [ ] T4 · 任务状态只维护一份机器源 · doing
-- [ ] T5 · 稳定契约允许并行开发，最终依赖约束完成 · doing
-- [ ] T6 · 共享文件明确负责人和交接信息 · doing
-- [ ] T7 · 迁移夹具可扩展，示例可移除 · doing
-- [ ] T8 · 跨平台指纹一致，公共检查可复用 · doing
-- [ ] T9 · 执行集成、发布与采用验证，清理试开发项目并刷新当前基线 · todo
-- [ ] T10 · 对齐新模块的验收层级并提供无写入脚手架预览 · doing
-- [ ] T11 · 修复 next 推进、旧失败和历史证据兼容性 · doing
+- [x] T1 · 原始目标完整映射，延期不等于排除 · done
+- [x] T2 · 验收区分模拟、真实数据库、浏览器和外部集成 · done
+- [x] T3 · 发布逐计划计算有效证据缺口 · done
+- [x] T4 · 任务状态只维护一份机器源 · done
+- [x] T5 · 稳定契约允许并行开发，最终依赖约束完成 · done
+- [x] T6 · 共享文件明确负责人和交接信息 · done
+- [x] T7 · 迁移夹具可扩展，示例可移除 · done
+- [x] T8 · 跨平台指纹一致，公共检查可复用 · done
+- [x] T9 · 执行集成、发布与采用验证，清理试开发项目并刷新当前基线 · done
+- [x] T10 · 对齐新模块的验收层级并提供无写入脚手架预览 · done
+- [x] T11 · 修复 next 推进、旧失败和历史证据兼容性 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20260923223553-023c9a；check-release / run-20260923224231-e2c3d4
 <!-- /ignite-progress -->
 
 2026-09-20：用户授权修改，明确暂不测试。

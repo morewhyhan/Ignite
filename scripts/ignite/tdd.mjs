@@ -30,6 +30,11 @@ function matchingVitestCases(report, acceptanceId) {
 }
 
 function matchingPlaywrightCases(report, acceptanceId) {
+  if (Array.isArray(report.tests))
+    return report.tests
+      .filter((test) => `${test.title || ''}`.includes(acceptanceId))
+      .map((test) => ({ status: test.status, failures: test.failures || [] }))
+
   const cases = []
   const visit = (suite) => {
     for (const spec of suite.specs || []) {

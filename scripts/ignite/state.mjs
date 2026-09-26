@@ -9,6 +9,8 @@ import {
   currentCommit,
   durableRunsDirectory,
   executionWorkspaceIsClean,
+  formatJson,
+  formatWithPrettier,
   generatedStatusPath,
   gitCommitExists,
   hash,
@@ -23,6 +25,7 @@ import {
   runGit,
   stablePlanContract,
   walkFiles,
+  writeJson,
   writeTextIfChanged,
 } from './core.mjs'
 import {
@@ -1076,6 +1079,11 @@ export function validateReleaseAcceptanceCoverage(release, plansById) {
   )
   if (!scopeIsActive) return failures
 
+  const missingPlans = (release.plan_ids || []).filter((id) => !plansById.get(id))
+  if (missingPlans.length) {
+    return missingPlans.map((id) => `release references missing Plan ${id}`)
+  }
+
   const registry = specificationRegistry()
   const claims = new Map()
   for (const goal of release.scope || []) {
@@ -1231,7 +1239,7 @@ export function bindReleaseEvidence(releaseId, runId) {
   }
   const errors = validateRelease(next, plansById)
   if (errors.length) throw new Error(`invalid Release evidence binding:\n- ${errors.join('\n- ')}`)
-  writeTextIfChanged(entry.path, `${JSON.stringify(next, null, 2)}\n`)
+  writeJson(entry.path, next)
   writeGeneratedStatus()
   return next
 }
@@ -1559,7 +1567,10 @@ export function updatePlanMetadata(plan, updater) {
   if (next.execution_contract === 1) after = renderPlanProgressContent(after, next)
   writeTextIfChanged(
     plan.path,
-    `${before}${PLAN_MARKER}\n${JSON.stringify(next, null, 2)}\n${PLAN_END_MARKER}${after}`,
+    formatWithPrettier(
+      `${before}${PLAN_MARKER}\n${formatJson(next).trimEnd()}\n${PLAN_END_MARKER}${after}`,
+      { parser: 'markdown' },
+    ),
   )
   return findPlan(next.id)
 }

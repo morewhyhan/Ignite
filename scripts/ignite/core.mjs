@@ -41,6 +41,47 @@ export function readJson(path) {
   return JSON.parse(readFileSync(path, 'utf8'))
 }
 
+function resolvePrettierCli() {
+  const candidates = [repositoryRoot, defaultRoot]
+    .filter((root, index, roots) => roots.indexOf(root) === index)
+    .map((root) => join(root, 'node_modules', 'prettier', 'bin', 'prettier.cjs'))
+  const prettierCli = candidates.find((candidate) => existsSync(candidate))
+  if (!prettierCli) {
+    throw new Error(
+      `Cannot format generated artifacts: Prettier was not found. Install project dependencies first. Checked: ${candidates.join(', ')}`,
+    )
+  }
+  return prettierCli
+}
+
+export function formatWithPrettier(content, { parser = 'json', prettierCli } = {}) {
+  const cli = prettierCli || resolvePrettierCli()
+  if (!existsSync(cli))
+    throw new Error(`Cannot format generated artifacts: Prettier CLI not found at ${cli}`)
+
+  const configRoot = existsSync(join(repositoryRoot, 'package.json')) ? repositoryRoot : defaultRoot
+  const result = spawnSync(
+    process.execPath,
+    [cli, '--config', join(configRoot, 'package.json'), '--parser', parser],
+    {
+      cwd: configRoot,
+      input: content,
+      encoding: 'utf8',
+      windowsHide: true,
+      maxBuffer: 4 * 1024 * 1024,
+    },
+  )
+  if (result.error || result.status !== 0) {
+    const detail = result.error?.message || result.stderr?.trim() || `exit code ${result.status}`
+    throw new Error(`Cannot format generated artifacts with Prettier: ${detail}`)
+  }
+  return result.stdout
+}
+
+export function formatJson(value, options = {}) {
+  return `${formatWithPrettier(JSON.stringify(value, null, 2), { ...options, parser: 'json' }).trimEnd()}\n`
+}
+
 export function writeTextIfChanged(path, content) {
   if (existsSync(path) && readFileSync(path, 'utf8') === content) return false
   mkdirSync(dirname(path), { recursive: true })
@@ -51,23 +92,8 @@ export function writeTextIfChanged(path, content) {
 }
 
 export function writeJson(path, value, { format = true } = {}) {
-  const changed = writeTextIfChanged(path, `${JSON.stringify(value, null, 2)}\n`)
-  if (!changed || !format) return changed
-
-  const prettierBinary = join(
-    repositoryRoot,
-    'node_modules',
-    '.bin',
-    process.platform === 'win32' ? 'prettier.cmd' : 'prettier',
-  )
-  if (existsSync(prettierBinary)) {
-    spawnSync(prettierBinary, ['--write', path], {
-      cwd: repositoryRoot,
-      encoding: 'utf8',
-      windowsHide: true,
-    })
-  }
-  return true
+  const content = format ? formatJson(value) : `${JSON.stringify(value, null, 2)}\n`
+  return writeTextIfChanged(path, content)
 }
 
 export function runGit(

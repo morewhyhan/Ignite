@@ -2,6 +2,7 @@ import { spawnSync } from 'node:child_process'
 import { randomInt } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
+import { formatJson, formatWithPrettier } from './ignite/core.mjs'
 import { renderPlanProgressContent } from './ignite/execution-contract.mjs'
 import { checkScaffoldWorktree } from './scaffold-preflight.mjs'
 
@@ -99,7 +100,10 @@ const planBody = planTemplate
   .replaceAll('REQ-FEATURE-001', requirementId)
   .replaceAll('AC-FEATURE-001', acceptanceId)
 const renderPlan = (metadata) =>
-  `<!-- ignite-plan\n${JSON.stringify(metadata, null, 2)}\n-->${renderPlanProgressContent(planBody, metadata)}`
+  formatWithPrettier(
+    `<!-- ignite-plan\n${formatJson(metadata).trimEnd()}\n-->${renderPlanProgressContent(planBody, metadata)}`,
+    { parser: 'markdown' },
+  )
 const testCaseDocument = readFileSync(
   join(repositoryRoot, 'docs', 'others', 'test-cases', '_template.md'),
   'utf8',
@@ -351,6 +355,7 @@ if (collisions.length > 0) {
   for (const path of collisions) console.error(`- ${path}`)
   process.exit(1)
 }
+const releaseContent = formatJson(release)
 
 console.log(dryRun ? 'Would create:' : 'Creating:')
 for (const path of files.keys()) console.log(`- ${path}`)
@@ -365,7 +370,7 @@ if (!dryRun) {
     writeFileSync(absolutePath, content, 'utf8')
   }
   mkdirSync(dirname(absoluteReleasePath), { recursive: true })
-  writeFileSync(absoluteReleasePath, `${JSON.stringify(release, null, 2)}\n`, 'utf8')
+  writeFileSync(absoluteReleasePath, releaseContent, 'utf8')
 }
 
 console.log('')

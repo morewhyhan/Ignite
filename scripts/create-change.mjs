@@ -2,6 +2,7 @@ import { randomInt } from 'node:crypto'
 import { spawnSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
+import { formatJson, formatWithPrettier } from './ignite/core.mjs'
 import { renderPlanProgressContent } from './ignite/execution-contract.mjs'
 import { checkScaffoldWorktree } from './scaffold-preflight.mjs'
 
@@ -144,6 +145,11 @@ const release = {
   excluded: [],
   updated_at: date,
 }
+const planContent = formatWithPrettier(
+  `<!-- ignite-plan\n${formatJson(metadata).trimEnd()}\n-->${renderPlanProgressContent(planBody, metadata)}`,
+  { parser: 'markdown' },
+)
+const releaseContent = formatJson(release)
 console.log(`${dryRun ? 'Would create' : 'Creating'}:\n- ${planPath}\n- ${releasePath}`)
 if (dryRun) {
   if (dirtyEntries.length)
@@ -153,12 +159,8 @@ if (dryRun) {
   )
 } else {
   mkdirSync(dirname(releasePath), { recursive: true })
-  writeFileSync(
-    planPath,
-    `<!-- ignite-plan\n${JSON.stringify(metadata, null, 2)}\n-->${renderPlanProgressContent(planBody, metadata)}`,
-    'utf8',
-  )
-  writeFileSync(releasePath, `${JSON.stringify(release, null, 2)}\n`, 'utf8')
+  writeFileSync(planPath, planContent, 'utf8')
+  writeFileSync(releasePath, releaseContent, 'utf8')
   console.log(`Created draft ${id}; Release ${releaseId} includes this Plan.`)
   console.log(
     'Next: define the goals, affected files and applicable unit/database/browser/external acceptance.',

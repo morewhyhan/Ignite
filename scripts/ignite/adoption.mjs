@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync, renameSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, readdirSync, renameSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import {
   currentCommit,
@@ -15,6 +15,15 @@ import {
   templateMode,
   writeGeneratedStatus,
 } from './state.mjs'
+
+function listTddEvidence(directory) {
+  if (!existsSync(directory)) return []
+  return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(directory, entry.name)
+    if (entry.isDirectory()) return listTddEvidence(path)
+    return entry.isFile() && entry.name.endsWith('.json') ? [path] : []
+  })
+}
 
 /** Preserve inherited history when GitHub creates a template copy with a new Git history. */
 export function adoptHistory({ apply = false } = {}) {
@@ -44,6 +53,7 @@ export function adoptHistory({ apply = false } = {}) {
     ...plans.map((plan) => plan.path),
     ...listReleases().map((release) => release.path),
     ...listDurableRuns().map((run) => run.path),
+    ...listTddEvidence(join(repositoryRoot, 'docs', 'others', 'evidence', 'tdd')),
   ]
   const archiveRoot = join(repositoryRoot, 'docs', 'others', 'template-history', commit)
   const files = records.map((path) => ({

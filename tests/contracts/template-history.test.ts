@@ -26,7 +26,7 @@ it('[AC-PRODUCT-015] [AC-EXECUTION-009] [AC-EXECUTION-011] keeps all template ba
     const metadata = content.match(/<!-- ignite-plan\s*([\s\S]*?)\s*-->/)?.[1]
     return metadata ? { name, content, metadata: JSON.parse(metadata) } : null
   })
-  const completedPlans = plans.filter((plan) => plan?.metadata.status === 'done')
+  const baselinePlans = plans.filter((plan) => plan?.metadata)
   const releases = readdirSync(join(root, 'docs', 'plans', 'releases'))
     .filter((name) => name.endsWith('.json') && !name.startsWith('_'))
     .sort()
@@ -34,10 +34,10 @@ it('[AC-PRODUCT-015] [AC-EXECUTION-009] [AC-EXECUTION-011] keeps all template ba
       name,
       value: JSON.parse(readFileSync(join(root, 'docs', 'plans', 'releases', name), 'utf8')),
     }))
-  expect(completedPlans.length).toBeGreaterThan(0)
+  expect(baselinePlans.length).toBeGreaterThan(0)
   expect(existsSync(join(root, 'EXECUTION_AUDIT.md'))).toBe(false)
 
-  for (const plan of completedPlans) {
+  for (const plan of baselinePlans) {
     const linkedReleases = releases.filter(
       ({ value }) =>
         value.id === plan?.metadata.release && value.plan_ids?.includes(plan?.metadata.id),
@@ -46,10 +46,10 @@ it('[AC-PRODUCT-015] [AC-EXECUTION-009] [AC-EXECUTION-011] keeps all template ba
   }
 
   const linkedReleases = releases.filter(({ value }) =>
-    completedPlans.some((plan) => value.plan_ids?.includes(plan?.metadata.id)),
+    baselinePlans.some((plan) => value.plan_ids?.includes(plan?.metadata.id)),
   )
   const runIds = [
-    ...completedPlans.flatMap(
+    ...baselinePlans.flatMap(
       (plan) => plan?.metadata.evidence?.map((item: { run_id: string }) => item.run_id) || [],
     ),
     ...linkedReleases.flatMap(
@@ -63,7 +63,7 @@ it('[AC-PRODUCT-015] [AC-EXECUTION-009] [AC-EXECUTION-011] keeps all template ba
     .sort()
   expect(runs).toEqual(runIds.sort())
 
-  const tddEvidence = completedPlans.flatMap(
+  const tddEvidence = baselinePlans.flatMap(
     (plan) => plan?.metadata.tdd_evidence?.map((item: { run_id: string }) => item.run_id) || [],
   )
   const tddDirectory = join(root, 'docs', 'others', 'evidence', 'tdd')

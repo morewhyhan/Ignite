@@ -85,12 +85,12 @@
     {
       "id": "T3",
       "title": "实现 TDD 证据与其余继承记录的统一归档",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T4",
       "title": "运行本 Plan 验收并重新验证最终 Release",
-      "status": "todo"
+      "status": "doing"
     }
   ],
   "depends_on": [],
@@ -192,8 +192,8 @@ T1 核对当前模板记录；T2 加入多记录归档与静态清单验收；T3
 
 - [x] T1 · 确认模板副本中各类基线记录和归档边界 · done
 - [x] T2 · 增加多记录与 TDD 证据归档回归验收 · done
-- [ ] T3 · 实现 TDD 证据与其余继承记录的统一归档 · doing
-- [ ] T4 · 运行本 Plan 验收并重新验证最终 Release · todo
+- [x] T3 · 实现 TDD 证据与其余继承记录的统一归档 · done
+- [ ] T4 · 运行本 Plan 验收并重新验证最终 Release · doing
 
 验收缺口：未记录；完成仍须实际证据
 证据：尚无

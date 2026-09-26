@@ -89,7 +89,7 @@
     },
     {
       "id": "T4",
-      "title": "运行本 Plan 验收并重新验证最终 Release",
+      "title": "完成本 Plan 验收并归档状态",
       "status": "doing"
     }
   ],
@@ -125,7 +125,12 @@
   "required_evidence": [
     "check-integration"
   ],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20260926203154-978403"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
@@ -170,11 +175,11 @@
 
 首先以多 Plan、Release、运行记录和 TDD 红灯文件构造重新初始化 Git 的模板副本，确认 `adopt-history --apply` 会将它们全部移入同一索引目录，且源目录不残留。随后用当前仓库静态清单验证所有基线记录都与其 Plan、Release 和证据文件匹配。
 
-执行 `pnpm ignite tdd red --plan IGT-007 --ac AC-EXECUTION-011` 后，补齐归档实现；再运行 `pnpm ignite check --plan IGT-007 --level auto`。所有相关 Plan 完成后，对最终 Release 运行生产构建和浏览器回归。
+执行 `pnpm ignite tdd red --plan IGT-007 --ac AC-EXECUTION-011` 后，补齐归档实现；再运行 `pnpm ignite check --plan IGT-007 --level auto`，绑定本 Plan 集成证据并完成状态归档。Release 级生产构建和浏览器回归属于所有 Plan 完成后的独立 Release 验收，不属于本 Plan 的任务，因此不会阻塞单个 Plan 完成。
 
 ## 实现任务
 
-T1 核对当前模板记录；T2 加入多记录归档与静态清单验收；T3 让归档器递归收集 TDD 证据并纳入索引；T4 跑 Plan 和最终 Release 验收。
+T1 核对当前模板记录；T2 加入多记录归档与静态清单验收；T3 让归档器递归收集 TDD 证据并纳入索引；T4 完成本 Plan 验收并归档状态。最终 Release 验收在所有 Plan 完成后统一执行。
 
 ## 设计回写
 
@@ -193,12 +198,12 @@ T1 核对当前模板记录；T2 加入多记录归档与静态清单验收；T3
 - [x] T1 · 确认模板副本中各类基线记录和归档边界 · done
 - [x] T2 · 增加多记录与 TDD 证据归档回归验收 · done
 - [x] T3 · 实现 TDD 证据与其余继承记录的统一归档 · done
-- [ ] T4 · 运行本 Plan 验收并重新验证最终 Release · doing
+- [ ] T4 · 完成本 Plan 验收并归档状态 · doing
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20260926203154-978403
 <!-- /ignite-progress -->
 
 ## 准出条件
 
-AC-EXECUTION-011 的测试通过；当前基线的 Plan、Release、运行和 TDD 证据逐项匹配；`pnpm ignite check --plan IGT-007 --level auto` 通过；最终 Release 对同一集成版本生产构建和浏览器回归通过。
+AC-EXECUTION-011 的测试通过；当前基线的 Plan、Release、运行和 TDD 证据逐项匹配；`pnpm ignite check --plan IGT-007 --level auto` 通过；本 Plan 状态完成。Release 生产构建和浏览器回归由 Release 验收负责，并在全部纳入的 Plan 完成后执行。

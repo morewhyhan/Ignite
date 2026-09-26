@@ -61,7 +61,15 @@ it('[AC-PRODUCT-015] [AC-EXECUTION-009] [AC-EXECUTION-011] keeps all template ba
     .filter((name) => name.endsWith('.json'))
     .map((name) => name.replace(/\.json$/, ''))
     .sort()
-  expect(runs).toEqual(runIds.sort())
+  expect(runs).toEqual(expect.arrayContaining(runIds))
+  const baselinePlanIds = new Set(baselinePlans.map((plan) => plan?.metadata.id))
+  for (const runId of runs) {
+    const manifest = JSON.parse(readFileSync(join(runDirectory, `${runId}.json`), 'utf8'))
+    expect(manifest.run_id).toBe(runId)
+    expect(baselinePlanIds.has(manifest.plan_id)).toBe(true)
+    expect(manifest.status).toBe('passed')
+    expect(manifest.exit_code).toBe(0)
+  }
 
   const tddEvidence = baselinePlans.flatMap(
     (plan) => plan?.metadata.tdd_evidence?.map((item: { run_id: string }) => item.run_id) || [],

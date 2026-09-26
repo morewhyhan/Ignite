@@ -240,7 +240,7 @@ export function commandsForLevel(
         const acceptanceIds = [...new Set(browserChecks.map((check) => check.acceptance))].sort()
         commands.push(
           pnpm(
-            ['exec', 'playwright', 'test', ...browserPaths, '--grep', acceptanceIds.join('|')],
+            ['test:e2e', '--', ...browserPaths, '--grep', acceptanceIds.join('|')],
             'targeted-browser-tests',
           ),
         )

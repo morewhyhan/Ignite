@@ -52,6 +52,14 @@ function matchingPlaywrightCases(report, acceptanceId) {
   return cases
 }
 
+export function tddBrowserCommand(test, acceptanceId) {
+  const [testPath] = test.split('::', 1)
+  return [
+    'corepack',
+    ['pnpm', 'test:e2e', '--', testPath, '--grep', acceptanceId],
+  ]
+}
+
 export function isBehaviorAssertionFailure(message) {
   if (
     /(?:Cannot find module|ERR_MODULE_NOT_FOUND|ECONNREFUSED|ECONNRESET|browserType\.launch|Failed to launch|webServer.*(?:timeout|failed))/i.test(
@@ -104,10 +112,7 @@ export function runTddRed(planId, acceptanceId) {
   const reportPath = join(tempDirectory, `${runId}.json`)
   const isBrowser = check.layer === 'browser'
   const command = isBrowser
-    ? [
-        'corepack',
-        ['pnpm', 'exec', 'playwright', 'test', testPath, '--grep', acceptanceId, '--reporter=json'],
-      ]
+    ? tddBrowserCommand(check.test, acceptanceId)
     : [
         'corepack',
         [
@@ -127,6 +132,7 @@ export function runTddRed(planId, acceptanceId) {
   environment.APP_ENV = 'test'
   environment.IGNITE_PLAN_ID = planId
   environment.IGNITE_TDD_AC = acceptanceId
+  environment.IGNITE_TDD_REPORT_PATH = reportPath
   const result = spawnSync(command[0], command[1], {
     cwd: repositoryRoot,
     encoding: 'utf8',
@@ -138,11 +144,7 @@ export function runTddRed(planId, acceptanceId) {
 
   let report = null
   try {
-    const jsonText = isBrowser
-      ? result.stdout
-      : existsSync(reportPath)
-        ? readFileSync(reportPath, 'utf8')
-        : ''
+    const jsonText = existsSync(reportPath) ? readFileSync(reportPath, 'utf8') : ''
     report = JSON.parse(jsonText)
   } catch {
     if (existsSync(reportPath)) unlinkSync(reportPath)

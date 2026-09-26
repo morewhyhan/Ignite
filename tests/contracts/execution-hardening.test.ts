@@ -5,8 +5,10 @@ import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import { format } from 'prettier'
+import { planCheck } from '../../scripts/ignite/checks.mjs'
 import { acceptanceLayerResults } from '../../scripts/testing/acceptance-results.mjs'
 import { runGit, stablePlanContract } from '../../scripts/ignite/core.mjs'
+import { tddBrowserCommand } from '../../scripts/ignite/tdd.mjs'
 import {
   calculateEvidenceCoverage,
   renderPlanProgress,
@@ -58,6 +60,45 @@ function runModule(root: string, source: string) {
 }
 
 describe('execution contract hardening', () => {
+  it('runs browser acceptance through the isolated migrated-database harness', () => {
+    const test = 'tests/e2e/responsive.spec.ts::[AC-TRUST-006]'
+    const plan = {
+      metadata: {
+        status: 'active',
+        execution_contract: 1,
+        verification_contract: 2,
+        risk: 'ui',
+        acceptance: [
+          {
+            id: 'AC-TRUST-006',
+            tests: [test],
+            required_layers: ['browser'],
+            checks: [{ test, layer: 'browser' }],
+          },
+        ],
+      },
+    }
+    const integration = planCheck({
+      plan,
+      requestedLevel: 'integration',
+      explicitFiles: ['src/app/page.tsx'],
+      dryRun: true,
+    })
+    const browserCheck = integration.commands.find(
+      (command) => command.label === 'targeted-browser-tests',
+    )
+
+    expect(browserCheck).toEqual({
+      command: 'corepack',
+      args: ['pnpm', 'test:e2e', '--', 'tests/e2e/responsive.spec.ts', '--grep', 'AC-TRUST-006'],
+      label: 'targeted-browser-tests',
+    })
+    expect(tddBrowserCommand(test, 'AC-TRUST-006')).toEqual([
+      'corepack',
+      ['pnpm', 'test:e2e', '--', 'tests/e2e/responsive.spec.ts', '--grep', 'AC-TRUST-006'],
+    ])
+  })
+
   it('preserves committed source bytes when reading text and excludes evolving TDD evidence from the plan lock', () => {
     const committedPackage = runGit(['show', 'HEAD:package.json'], { trimOutput: false }).stdout
     expect(committedPackage).toBe(readFileSync(join(repositoryRoot, 'package.json'), 'utf8'))

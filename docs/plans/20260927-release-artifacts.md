@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790459700497465269",
   "release": "release-artifacts-v1",
-  "status": "draft",
+  "status": "active",
   "outcome": "脚手架与 Release 验收稳定生成可直接通过格式门禁的文件，覆盖测试适应完整 Release 范围",
   "contract_version": 2,
   "execution_contract": 1,
@@ -11,11 +11,15 @@
   "goals": [
     {
       "text": "脚手架与验收命令生成的 Plan/Release 文件直接符合仓库格式",
-      "requirements": ["REQ-EXECUTION-012"]
+      "requirements": [
+        "REQ-EXECUTION-012"
+      ]
     },
     {
       "text": "Release 覆盖测试随 Release 的完整 Plan 集合变化仍准确",
-      "requirements": ["REQ-EXECUTION-013"]
+      "requirements": [
+        "REQ-EXECUTION-013"
+      ]
     }
   ],
   "constraints": [
@@ -40,7 +44,10 @@
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "ce61ed04e0bf701f06a08b100ae0ac3dc0326c6c",
-  "requirements": ["REQ-EXECUTION-012", "REQ-EXECUTION-013"],
+  "requirements": [
+    "REQ-EXECUTION-012",
+    "REQ-EXECUTION-013"
+  ],
   "acceptance": [
     {
       "id": "AC-EXECUTION-012",
@@ -48,7 +55,9 @@
         "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-012] scaffolds an existing-feature change as an incomplete draft",
         "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-012] formats new-module Plan and Release artifacts"
       ],
-      "required_layers": ["unit"],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
           "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-012] scaffolds an existing-feature change as an incomplete draft",
@@ -65,7 +74,9 @@
       "tests": [
         "tests/contracts/execution-trust.test.ts::[AC-TRUST-002] [AC-EXECUTION-013] blocks active Release scope when a Feature acceptance is unaccounted for"
       ],
-      "required_layers": ["unit"],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
           "test": "tests/contracts/execution-trust.test.ts::[AC-TRUST-002] [AC-EXECUTION-013] blocks active Release scope when a Feature acceptance is unaccounted for",
@@ -138,7 +149,7 @@
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
-  "updated_at": "2026-09-27"
+  "updated_at": "2026-09-26"
 }
 -->
 
@@ -203,14 +214,14 @@ AC-EXECUTION-012 在隔离 Git 夹具中运行实际存量改动脚手架，要�
 
 <!-- ignite-progress -->
 
-状态：`draft`（由元数据生成）
+状态：`active`（由元数据生成）
 
-- [ ] T1 · 识别现有行为、写入边界和原始目标 · todo
-- [ ] T2 · 补充需求和目标行为测试 · todo
-- [ ] T3 · 实施最小存量修改 · todo
-- [ ] T4 · 验证兼容性并回写设计 · todo
+- [x] T1 · 确认所有 Plan 与 Release JSON 写入路径及格式失败行为 · done
+- [ ] T2 · 为格式化产物和多 Plan 覆盖测试记录红灯 · doing
+- [ ] T3 · 统一脚手架、Release 回写与覆盖测试的正确行为 · todo
+- [ ] T4 · 完成 Plan 验收并单独验证 Release · todo
 
-验收缺口：原始目标尚未细化，无法确认完整验收场景
+验收缺口：未记录；完成仍须实际证据
 证据：尚无
 <!-- /ignite-progress -->
 

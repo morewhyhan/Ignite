@@ -11,25 +11,15 @@
   "goals": [
     {
       "text": "脚手架与验收命令生成的 Plan/Release 文件直接符合仓库格式",
-      "requirements": [
-        "REQ-EXECUTION-012"
-      ]
+      "requirements": ["REQ-EXECUTION-012"]
     },
     {
       "text": "Release 覆盖测试随 Release 的完整 Plan 集合变化仍准确",
-      "requirements": [
-        "REQ-EXECUTION-013"
-      ]
+      "requirements": ["REQ-EXECUTION-013"]
     }
   ],
-  "constraints": [
-    "不改变业务功能和 Release 覆盖语义",
-    "格式化失败必须显式报错，不能伪装为成功"
-  ],
-  "non_goals": [
-    "不改写已完成 Release 的历史证据",
-    "不要求用户手工运行格式化来修复 CLI 生成结果"
-  ],
+  "constraints": ["不改变业务功能和 Release 覆盖语义", "格式化失败必须显式报错，不能伪装为成功"],
+  "non_goals": ["不改写已完成 Release 的历史证据", "不要求用户手工运行格式化来修复 CLI 生成结果"],
   "authorization": {
     "source": "用户要求一次性审计并修复会导致 AI 开发流程偏离、卡住或验收失败的问题；全量验收实际发现脚手架文件格式不合规和 Release 覆盖测试与范围脱节"
   },
@@ -44,23 +34,18 @@
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "ce61ed04e0bf701f06a08b100ae0ac3dc0326c6c",
-  "requirements": [
-    "REQ-EXECUTION-012",
-    "REQ-EXECUTION-013"
-  ],
+  "requirements": ["REQ-EXECUTION-012", "REQ-EXECUTION-013"],
   "acceptance": [
     {
       "id": "AC-EXECUTION-012",
       "tests": [
-        "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-012] scaffolds an existing-feature change as an incomplete draft",
+        "tests/contracts/execution-reliability.test.ts::[AC-PRODUCT-012] [AC-EXECUTION-012] scaffolds an existing-feature change as an incomplete draft",
         "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-012] formats new-module Plan and Release artifacts"
       ],
-      "required_layers": [
-        "unit"
-      ],
+      "required_layers": ["unit"],
       "checks": [
         {
-          "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-012] scaffolds an existing-feature change as an incomplete draft",
+          "test": "tests/contracts/execution-reliability.test.ts::[AC-PRODUCT-012] [AC-EXECUTION-012] scaffolds an existing-feature change as an incomplete draft",
           "layer": "unit"
         },
         {
@@ -74,9 +59,7 @@
       "tests": [
         "tests/contracts/execution-trust.test.ts::[AC-TRUST-002] [AC-EXECUTION-013] blocks active Release scope when a Feature acceptance is unaccounted for"
       ],
-      "required_layers": [
-        "unit"
-      ],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/execution-trust.test.ts::[AC-TRUST-002] [AC-EXECUTION-013] blocks active Release scope when a Feature acceptance is unaccounted for",
@@ -85,9 +68,7 @@
       ]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
@@ -144,7 +125,7 @@
   "tdd_evidence": [
     {
       "acceptance_id": "AC-EXECUTION-012",
-      "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-012] scaffolds an existing-feature change as an incomplete draft",
+      "test": "tests/contracts/execution-reliability.test.ts::[AC-PRODUCT-012] [AC-EXECUTION-012] scaffolds an existing-feature change as an incomplete draft",
       "run_id": "tdd-20260926222812-26bb1a"
     },
     {
@@ -153,9 +134,7 @@
       "run_id": "tdd-20260926223747-70dd25"
     }
   ],
-  "required_evidence": [
-    "check-integration"
-  ],
+  "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
@@ -207,7 +186,7 @@
 
 ## 测试与验收设计
 
-AC-EXECUTION-012 在隔离 Git 夹具中运行实际存量改动脚手架，要求生成的 Plan 与 Release 文件通过项目 Prettier。AC-EXECUTION-013 使用当前 Release 和其全部 Plan 验证完整范围通过，并在移除一条验收映射后确认检查器仍精确报告缺口。
+AC-EXECUTION-012 在隔离 Git 夹具中运行实际存量改动脚手架，要求生成的 Plan 与 Release 文件通过项目 Prettier。AC-EXECUTION-013 使用当前 Release 和其全部 Plan 验证完整范围通过，并在移除一条验收映射后确认检查器仍精确报告缺口。集成时修正了 AC-012 的 Plan 测试定位符：红灯运行的测试源与输出不变，仅把漏掉的既有 `[AC-PRODUCT-012]` 前缀补进引用，使其与 Vitest 实际测试标题完全一致。
 
 ## 实现任务
 

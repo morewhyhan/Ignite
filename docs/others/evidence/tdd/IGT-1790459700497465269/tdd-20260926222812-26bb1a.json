@@ -3,7 +3,7 @@
   "run_id": "tdd-20260926222812-26bb1a",
   "plan_id": "IGT-1790459700497465269",
   "acceptance_id": "AC-EXECUTION-012",
-  "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-012] scaffolds an existing-feature change as an incomplete draft",
+  "test": "tests/contracts/execution-reliability.test.ts::[AC-PRODUCT-012] [AC-EXECUTION-012] scaffolds an existing-feature change as an incomplete draft",
   "layer": "unit",
   "status": "assertion-failed",
   "red_commit": "0b79a98ffb7135d2be51b267ceeccbd35d5003e2",

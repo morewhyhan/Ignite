@@ -3,9 +3,7 @@
   "id": "ai-execution-trust-v1",
   "coverage_version": 2,
   "verification_contract": 2,
-  "plan_ids": [
-    "IGT-006"
-  ],
+  "plan_ids": ["IGT-006"],
   "scope": [
     {
       "id": "GOAL-001",
@@ -43,9 +41,7 @@
         "AC-TRUST-015",
         "AC-TRUST-016"
       ],
-      "plan_ids": [
-        "IGT-006"
-      ],
+      "plan_ids": ["IGT-006"],
       "disposition": "included",
       "reason": "",
       "authorization": ""
@@ -54,34 +50,22 @@
       "id": "GOAL-002",
       "text": "先做好响应式 Web，并建立共享业务契约和未来端适配边界",
       "source": "用户已明确的多端落地范围",
-      "requirements": [
-        "REQ-TRUST-006",
-        "REQ-TRUST-007"
-      ],
-      "acceptance": [
-        "AC-TRUST-006",
-        "AC-TRUST-007"
-      ],
-      "plan_ids": [
-        "IGT-006"
-      ],
+      "requirements": ["REQ-TRUST-006", "REQ-TRUST-007"],
+      "acceptance": ["AC-TRUST-006", "AC-TRUST-007"],
+      "plan_ids": ["IGT-006"],
       "disposition": "included",
       "reason": "",
       "authorization": ""
     }
   ],
-  "must_pass": [
-    "check-release"
-  ],
+  "must_pass": ["check-release"],
   "evidence": [
     {
       "id": "check-release",
       "run_id": "run-20260926180627-4f1897",
       "plan_id": "IGT-006",
       "package_version": "0.1.0",
-      "tags": [
-        "v2.0.0"
-      ]
+      "tags": ["v2.0.0"]
     }
   ],
   "integrated_commit": "2ea8cf530bf763ff95cb799df5f22dfb98d20767",

@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-006",
   "release": "ai-execution-trust-v1",
-  "status": "active",
+  "status": "verifying",
   "outcome": "AI 能从用户目标持续推进到可信验收，状态准确、范围可追溯，Web 体验适配常见屏幕",
   "contract_version": 2,
   "execution_contract": 1,
@@ -73,9 +73,7 @@
     "Plan/Release 版本兼容矩阵、一致的下一步解析、精简状态摘要与运行时修复指引",
     "更新后的 Workflow、Adoption、Design 和测试路径说明"
   ],
-  "remaining_work": [
-    "正式 Plan 集成验收和 Release 最终生产验收尚未运行；完成后将两层证据绑定到最终交付版本"
-  ],
+  "remaining_work": [],
   "change_type": "存量改动",
   "data_contract": {
     "access_scope": "not-applicable",
@@ -358,47 +356,47 @@
     {
       "id": "T1",
       "title": "升级规格覆盖、状态输出与旧契约兼容",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T2",
       "title": "拆分 Plan 行为验收和 Release 最终版本验收",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T3",
       "title": "记录有效红绿过程并修正脚手架和工作区保护",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T4",
       "title": "补齐响应式验收与共享请求适配边界",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T5",
       "title": "更新采用说明、Design、版本和交付记录",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T6",
       "title": "修正契约兼容判定并统一 Plan/Release 下一步逻辑",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T7",
       "title": "精简 CLI 状态输出、复用状态快照并补齐运行时修复指引",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T8",
       "title": "保证 TDD 单 AC 红灯不会被其他跳过用例误报",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T9",
       "title": "让多条 TDD 红灯证据可批量记录而不要求中间提交",
-      "status": "todo"
+      "status": "done"
     }
   ],
   "depends_on": [],
@@ -571,10 +569,15 @@
   "required_evidence": [
     "check-integration"
   ],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20260926172019-cba89b"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "35c542aaf9af7aad1a5671b97aa1afad23df740f",
   "updated_at": "2026-09-26"
 }
 -->
@@ -639,20 +642,20 @@
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`verifying`（由元数据生成）
 
-- [ ] T1 · 升级规格覆盖、状态输出与旧契约兼容 · todo
-- [ ] T2 · 拆分 Plan 行为验收和 Release 最终版本验收 · todo
-- [ ] T3 · 记录有效红绿过程并修正脚手架和工作区保护 · todo
-- [ ] T4 · 补齐响应式验收与共享请求适配边界 · todo
-- [ ] T5 · 更新采用说明、Design、版本和交付记录 · todo
-- [ ] T6 · 修正契约兼容判定并统一 Plan/Release 下一步逻辑 · todo
-- [ ] T7 · 精简 CLI 状态输出、复用状态快照并补齐运行时修复指引 · todo
-- [ ] T8 · 保证 TDD 单 AC 红灯不会被其他跳过用例误报 · todo
-- [ ] T9 · 让多条 TDD 红灯证据可批量记录而不要求中间提交 · todo
+- [x] T1 · 升级规格覆盖、状态输出与旧契约兼容 · done
+- [x] T2 · 拆分 Plan 行为验收和 Release 最终版本验收 · done
+- [x] T3 · 记录有效红绿过程并修正脚手架和工作区保护 · done
+- [x] T4 · 补齐响应式验收与共享请求适配边界 · done
+- [x] T5 · 更新采用说明、Design、版本和交付记录 · done
+- [x] T6 · 修正契约兼容判定并统一 Plan/Release 下一步逻辑 · done
+- [x] T7 · 精简 CLI 状态输出、复用状态快照并补齐运行时修复指引 · done
+- [x] T8 · 保证 TDD 单 AC 红灯不会被其他跳过用例误报 · done
+- [x] T9 · 让多条 TDD 红灯证据可批量记录而不要求中间提交 · done
 
-验收缺口：正式 Plan 集成验收和 Release 最终生产验收尚未运行；完成后将两层证据绑定到最终交付版本
-证据：尚无
+验收缺口：未记录；完成仍须实际证据
+证据：check-integration / run-20260926172019-cba89b
 <!-- /ignite-progress -->
 
 ## 准出条件

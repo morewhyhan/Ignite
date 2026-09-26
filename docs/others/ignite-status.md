@@ -6,13 +6,13 @@
 
 ## 当前工作
 
-- `IGT-007` · `active` · `ai-execution-trust-v1`
+- `IGT-007` · `verifying` · `ai-execution-trust-v1`
 
 ## 发布范围
 
-- `ai-execution-trust-v1` · `active`
+- `ai-execution-trust-v1` · `verifying`
   - Plan：`IGT-006`、`IGT-007`
-  - 缺少证据：`IGT-007:check-integration`（stale：repository or Plan inputs changed after this run）
+  - 缺少证据：无
   - 最终版本验收：stale
   - 下一步：pnpm ignite next --plan IGT-007
   - 未完成原始目标：GOAL-003 采用模板时完整归档多个基线交付记录及其 TDD 证据

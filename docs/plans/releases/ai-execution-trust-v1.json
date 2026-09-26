@@ -73,13 +73,13 @@
   "evidence": [
     {
       "id": "check-release",
-      "run_id": "run-20260926180627-4f1897",
-      "plan_id": "IGT-006",
+      "run_id": "run-20260926210040-ce76d6",
+      "plan_id": "IGT-007",
       "package_version": "0.1.0",
       "tags": ["v2.0.0"]
     }
   ],
-  "integrated_commit": "2ea8cf530bf763ff95cb799df5f22dfb98d20767",
+  "integrated_commit": "9b35896895847cda1dcecd09f960038547bbc37a",
   "excluded": [],
   "updated_at": "2026-09-26"
 }

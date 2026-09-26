@@ -97,12 +97,12 @@
     {
       "id": "T2",
       "title": "为格式化产物和多 Plan 覆盖测试记录红灯",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T3",
       "title": "统一脚手架、Release 回写与覆盖测试的正确行为",
-      "status": "todo"
+      "status": "doing"
     },
     {
       "id": "T4",
@@ -141,7 +141,18 @@
     "docs/others/evidence/tdd/",
     "docs/others/ignite-status.md"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-EXECUTION-012",
+      "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-012] scaffolds an existing-feature change as an incomplete draft",
+      "run_id": "tdd-20260926222812-26bb1a"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-013",
+      "test": "tests/contracts/execution-trust.test.ts::[AC-TRUST-002] [AC-EXECUTION-013] blocks active Release scope when a Feature acceptance is unaccounted for",
+      "run_id": "tdd-20260926222906-428066"
+    }
+  ],
   "required_evidence": [
     "check-integration"
   ],
@@ -217,8 +228,8 @@ AC-EXECUTION-012 在隔离 Git 夹具中运行实际存量改动脚手架，要�
 状态：`active`（由元数据生成）
 
 - [x] T1 · 确认所有 Plan 与 Release JSON 写入路径及格式失败行为 · done
-- [ ] T2 · 为格式化产物和多 Plan 覆盖测试记录红灯 · doing
-- [ ] T3 · 统一脚手架、Release 回写与覆盖测试的正确行为 · todo
+- [x] T2 · 为格式化产物和多 Plan 覆盖测试记录红灯 · done
+- [ ] T3 · 统一脚手架、Release 回写与覆盖测试的正确行为 · doing
 - [ ] T4 · 完成 Plan 验收并单独验证 Release · todo
 
 验收缺口：未记录；完成仍须实际证据

@@ -330,3 +330,7 @@ export function renderPlanProgressContent(content, metadata) {
     ? content.replace(/<!-- ignite-progress -->[\s\S]*?<!-- \/ignite-progress -->/, block)
     : `${content.trimEnd()}\n\n${block}\n`
 }
+
+export function validateDataContract() {
+  return []
+}

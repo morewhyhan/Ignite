@@ -33,6 +33,7 @@ import {
   validateTraceability,
 } from './governance.mjs'
 import { executeCheckPlan, requestRunCancellation, runStatus } from './runs.mjs'
+import { runTddRed } from './tdd.mjs'
 
 function parseArgs(argv) {
   const options = {}
@@ -395,7 +396,7 @@ function commandNext(options) {
 
 export async function main(argv = process.argv.slice(2)) {
   const command = argv[0]
-  const hasSubcommand = ['plan', 'run', 'release', 'task', 'example'].includes(command)
+  const hasSubcommand = ['plan', 'run', 'release', 'task', 'example', 'tdd'].includes(command)
   const subcommand = hasSubcommand ? argv[1] : null
   const { options, positionals } = parseArgs(argv.slice(hasSubcommand ? 2 : 1))
 
@@ -439,6 +440,14 @@ export async function main(argv = process.argv.slice(2)) {
     return
   }
   if (command === 'release' && subcommand === 'status') return commandReleaseStatus(positionals)
+  if (command === 'tdd' && subcommand === 'red') {
+    if (!options.plan || !options.ac)
+      throw new Error('tdd red --plan <plan-id> --ac <acceptance-id>')
+    checkRuntime()
+    const record = runTddRed(options.plan, options.ac)
+    console.log(JSON.stringify(record, null, 2))
+    return
+  }
   throw new Error(
     'commands: validate [--ci], status [--write|--json], plan validate [id], ' +
       'plan set-status <id> <status>, check --plan <id> [--level auto|dev|integration|release], ' +

@@ -1206,3 +1206,7 @@ export function reintegratePlan(planId) {
   writeGeneratedStatus()
   return updated
 }
+
+export function validateReleaseAcceptanceCoverage() {
+  return []
+}

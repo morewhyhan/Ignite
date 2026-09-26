@@ -1,6 +1,10 @@
 import type { AppType } from '@/server/api'
 import { hc } from 'hono/client'
 
+export function createApiClient(_options: { baseUrl: string; fetcher: typeof fetch }): any {
+  return { api: { tasks: { $get: async () => new Response(null, { status: 501 }) } } }
+}
+
 const baseUrl =
   typeof window === 'undefined'
     ? (process.env.APP_URL ?? 'http://localhost:3000')

@@ -4,6 +4,7 @@ import { beforeAll, describe, expect, it, vi } from 'vitest'
 import { parse } from 'yaml'
 import { z } from 'zod'
 import { tasksExampleState } from '../../scripts/ignite/examples.mjs'
+import { createApiClient } from '@/lib/api-client'
 
 vi.mock('server-only', () => ({}))
 
@@ -25,6 +26,30 @@ function operationKey(method: string, path: string) {
 }
 
 describe('OpenAPI design snapshot', () => {
+  it('[AC-TRUST-007] lets platform adapters share one typed RPC client contract', async () => {
+    const requests: Array<{ url: string; credentials: RequestCredentials | undefined }> = []
+    const rpc = createApiClient({
+      baseUrl: 'https://api.example.test',
+      fetcher: async (input, init) => {
+        requests.push({ url: String(input), credentials: init?.credentials })
+        return new Response(JSON.stringify({ data: [] }), {
+          status: 200,
+          headers: { 'content-type': 'application/json' },
+        })
+      },
+    })
+
+    const response = await rpc.api.tasks.$get()
+
+    expect(response.status).toBe(200)
+    expect(requests).toEqual([
+      { url: 'https://api.example.test/api/tasks', credentials: 'include' },
+    ])
+    expect(
+      readFileSync(resolve(process.cwd(), 'src/modules/tasks/hooks/use-tasks.ts'), 'utf8'),
+    ).not.toContain("from 'sonner'")
+  })
+
   it('[AC-PRODUCT-010] matches every implemented non-auth Hono route', () => {
     const document = parse(
       readFileSync(resolve(process.cwd(), 'docs/designs/api.yaml'), 'utf8'),

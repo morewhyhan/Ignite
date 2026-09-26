@@ -2,11 +2,11 @@
 
 模板状态：`template-baseline`
 输入指纹：`1907a3b0610f`
-当前 Plan：1；结构化历史：3；未迁移历史：0
+当前 Plan：0；结构化历史：4；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-1790459700497465269` · `verifying` · `release-artifacts-v1`
+- 无。
 
 ## 发布范围
 
@@ -24,8 +24,8 @@
   - Plan：`IGT-1790459700497465269`
   - 缺少证据：无
   - 最终版本验收：missing
-  - 下一步：pnpm ignite next --plan IGT-1790459700497465269
-  - 未完成原始目标：GOAL-001 AI 生成和回写的 Plan/Release 文件符合格式门禁，Release 覆盖测试适应完整 Plan 集合
+  - 下一步：pnpm ignite release verify release-artifacts-v1 --plan IGT-1790459700497465269
+  - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题
 

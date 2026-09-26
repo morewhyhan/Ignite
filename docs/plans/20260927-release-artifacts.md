@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790459700497465269",
   "release": "release-artifacts-v1",
-  "status": "verifying",
+  "status": "done",
   "outcome": "脚手架与 Release 验收稳定生成可直接通过格式门禁的文件，覆盖测试适应完整 Release 范围",
   "contract_version": 2,
   "execution_contract": 1,
@@ -209,7 +209,7 @@ AC-EXECUTION-012 在隔离 Git 夹具中运行实际存量改动脚手架，要�
 
 <!-- ignite-progress -->
 
-状态：`verifying`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 确认所有 Plan 与 Release JSON 写入路径及格式失败行为 · done
 - [x] T2 · 为格式化产物和多 Plan 覆盖测试记录红灯 · done

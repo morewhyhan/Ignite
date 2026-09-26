@@ -19,7 +19,7 @@ export default defineConfig({
   retries: isCI ? 2 : 0,
   workers: 1,
   reporter: tddReportPath
-    ? ['./scripts/testing/playwright-acceptance-reporter.mjs']
+    ? [['./scripts/testing/playwright-acceptance-reporter.mjs']]
     : isCI
       ? [
           ['github'],

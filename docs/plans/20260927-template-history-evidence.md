@@ -80,12 +80,12 @@
     {
       "id": "T2",
       "title": "增加多记录与 TDD 证据归档回归验收",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T3",
       "title": "实现 TDD 证据与其余继承记录的统一归档",
-      "status": "todo"
+      "status": "doing"
     },
     {
       "id": "T4",
@@ -115,7 +115,13 @@
     "docs/others/ignite-status.md",
     "docs/others/evidence/tdd/"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-EXECUTION-011",
+      "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-011]",
+      "run_id": "tdd-20260926202644-532a49"
+    }
+  ],
   "required_evidence": [
     "check-integration"
   ],
@@ -185,8 +191,8 @@ T1 核对当前模板记录；T2 加入多记录归档与静态清单验收；T3
 状态：`active`（由元数据生成）
 
 - [x] T1 · 确认模板副本中各类基线记录和归档边界 · done
-- [ ] T2 · 增加多记录与 TDD 证据归档回归验收 · doing
-- [ ] T3 · 实现 TDD 证据与其余继承记录的统一归档 · todo
+- [x] T2 · 增加多记录与 TDD 证据归档回归验收 · done
+- [ ] T3 · 实现 TDD 证据与其余继承记录的统一归档 · doing
 - [ ] T4 · 运行本 Plan 验收并重新验证最终 Release · todo
 
 验收缺口：未记录；完成仍须实际证据

@@ -40,7 +40,7 @@ describe('execution reliability', () => {
     }
   })
 
-  it('[AC-PRODUCT-012] scaffolds an existing-feature change as an incomplete draft', () => {
+  it('[AC-PRODUCT-012] [AC-EXECUTION-012] scaffolds an existing-feature change as an incomplete draft', () => {
     const fixture = makeFixture()
     try {
       write(
@@ -68,6 +68,63 @@ describe('execution reliability', () => {
       expect(read(fixture.root, 'docs/plans/releases/rename-existing-screen-v1.json')).toContain(
         '"plan_ids"',
       )
+      const formatted = spawnSync(
+        process.execPath,
+        [
+          join(repositoryRoot, 'node_modules', 'prettier', 'bin', 'prettier.cjs'),
+          '--check',
+          '--config',
+          join(repositoryRoot, 'package.json'),
+          join(fixture.root, `docs/plans/${filename}`),
+          join(fixture.root, 'docs/plans/releases/rename-existing-screen-v1.json'),
+        ],
+        { cwd: repositoryRoot, encoding: 'utf8', windowsHide: true },
+      )
+      expect(formatted.status, `${formatted.stdout}\n${formatted.stderr}`).toBe(0)
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
+  it('[AC-EXECUTION-012] formats new-module Plan and Release artifacts', () => {
+    const fixture = makeFixture()
+    try {
+      write(
+        fixture.root,
+        'docs/plans/_template.md',
+        read(repositoryRoot, 'docs/plans/_template.md'),
+      )
+      write(
+        fixture.root,
+        'docs/others/test-cases/_template.md',
+        read(repositoryRoot, 'docs/others/test-cases/_template.md'),
+      )
+      commitAll(fixture.root, 'Install module scaffold templates')
+      const created = spawnSync(
+        process.execPath,
+        [join(repositoryRoot, 'scripts/create-module.mjs'), 'invoices'],
+        {
+          cwd: fixture.root,
+          encoding: 'utf8',
+          env: { ...process.env, IGNITE_ROOT: fixture.root },
+          windowsHide: true,
+        },
+      )
+      expect(created.status, created.stderr).toBe(0)
+      const planPath = join(fixture.root, 'docs/plans/20260927-invoices.md')
+      const formatted = spawnSync(
+        process.execPath,
+        [
+          join(repositoryRoot, 'node_modules', 'prettier', 'bin', 'prettier.cjs'),
+          '--check',
+          '--config',
+          join(repositoryRoot, 'package.json'),
+          planPath,
+          join(fixture.root, 'docs/plans/releases/invoices-v1.json'),
+        ],
+        { cwd: repositoryRoot, encoding: 'utf8', windowsHide: true },
+      )
+      expect(formatted.status, `${formatted.stdout}\n${formatted.stderr}`).toBe(0)
     } finally {
       fixture.cleanup()
     }

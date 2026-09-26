@@ -85,7 +85,7 @@ describe('AI execution trust', () => {
     ])
   })
 
-  it('[AC-TRUST-002] blocks active Release scope when a Feature acceptance is unaccounted for', () => {
+  it('[AC-TRUST-002] [AC-EXECUTION-013] blocks active Release scope when a Feature acceptance is unaccounted for', () => {
     const release = JSON.parse(
       readFileSync(
         resolve(process.cwd(), 'docs/plans/releases/ai-execution-trust-v1.json'),

@@ -122,6 +122,7 @@ export function isExecutionStatePath(inputPath) {
     path === 'docs/others/ignite-status.md' ||
     path.startsWith('.ignite/') ||
     path.startsWith('docs/others/evidence/runs/') ||
+    path.startsWith('docs/others/evidence/tdd/') ||
     (path.startsWith('docs/plans/') &&
       !/(?:^|\/)(?:README\.md|_template\.[^/]+)$/.test(path) &&
       (path.endsWith('.md') || /^docs\/plans\/releases\/[^/]+\.json$/.test(path)))

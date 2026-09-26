@@ -173,7 +173,7 @@ export function runTddRed(planId, acceptanceId) {
   const failureText = failed.flatMap((item) => item.failures).join('\n')
   if (failed.length === 0 || !isBehaviorAssertionFailure(failureText))
     throw new Error(
-      'The selected test did not fail with one recognizable behavior assertion; no red evidence was saved',
+      `The selected test did not fail with one recognizable behavior assertion; no red evidence was saved${failureText ? `: ${failureText.slice(0, 1200)}` : ''}`,
     )
 
   const redEvidencePath = `docs/others/evidence/tdd/${planId}/${runId}.json`

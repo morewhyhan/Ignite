@@ -2,11 +2,53 @@ import { gitCommitExists, isAncestor, runGit, workingPathBlobIdentity } from './
 
 export const VERIFICATION_LAYERS = new Set(['unit', 'database', 'browser', 'external'])
 const nonempty = (value) => typeof value === 'string' && value.trim().length > 0
+const PLACEHOLDER = /待填写|待确认|待定义|待补充|<[^>]+>|TODO|not-decided/i
 const safePath = (value) =>
   nonempty(value) &&
   !value.includes('\\') &&
   !value.split('/').includes('..') &&
   !/^[A-Za-z]:|^\//.test(value)
+
+export function validateDataContract(plan) {
+  const metadata = plan.metadata
+  const needsDataContract =
+    ['auth', 'database', 'security'].includes(metadata.risk) ||
+    (metadata.write_scope || []).some((path) =>
+      path.endsWith('/')
+        ? /^(?:prisma|src\/server\/(?:api\/routes|auth))\//.test(path)
+        : /^(?:prisma\/|src\/server\/(?:api\/routes|auth)\/)/.test(path),
+    )
+  if (!needsDataContract || ['draft', 'cancelled', 'superseded'].includes(metadata.status))
+    return []
+
+  const errors = []
+  const contract = metadata.data_contract
+  const scopes = new Set(['per-user', 'per-organization', 'shared', 'public', 'not-applicable'])
+  const impacts = new Set(['none', 'additive', 'backfill', 'destructive'])
+  if (!contract || !scopes.has(contract.access_scope))
+    errors.push(
+      'data_contract.access_scope must choose per-user|per-organization|shared|public|not-applicable',
+    )
+  if (!nonempty(contract?.access_rationale) || PLACEHOLDER.test(contract.access_rationale))
+    errors.push(
+      'data_contract.access_rationale must explain the owner or why no data access applies',
+    )
+  if (!impacts.has(contract?.migration_impact))
+    errors.push('data_contract.migration_impact must choose none|additive|backfill|destructive')
+  if (!nonempty(contract?.rollback) || PLACEHOLDER.test(contract.rollback))
+    errors.push(
+      'data_contract.rollback must describe a safe recovery or explain why no data rollback applies',
+    )
+  if (
+    contract?.migration_impact === 'destructive' &&
+    (!nonempty(contract.destructive_authorization) ||
+      PLACEHOLDER.test(contract.destructive_authorization))
+  )
+    errors.push(
+      'destructive data changes require explicit user authorization in data_contract.destructive_authorization',
+    )
+  return errors
+}
 
 export function validateExecutionContract(plan, readText) {
   const value = plan.metadata
@@ -198,8 +240,12 @@ export function dependencyContractIsCurrent(plan, dependencyId) {
 export function validateReleaseScope(release, plansById) {
   if (release.coverage_version === undefined) return []
   const errors = []
-  if (release.coverage_version !== 1 || !Array.isArray(release.scope) || !release.scope.length)
-    return ['release coverage_version 1 requires original goal scope']
+  if (
+    ![1, 2].includes(release.coverage_version) ||
+    !Array.isArray(release.scope) ||
+    !release.scope.length
+  )
+    return [`release coverage_version ${release.coverage_version} requires original goal scope`]
   const ids = new Set()
   for (const goal of release.scope) {
     if (!nonempty(goal.id) || ids.has(goal.id) || !nonempty(goal.text) || !nonempty(goal.source))
@@ -211,9 +257,19 @@ export function validateReleaseScope(release, plansById) {
       errors.push(`${goal.id}: requirements and plan_ids must be arrays`)
       continue
     }
+    if (release.coverage_version >= 2 && !Array.isArray(goal.acceptance)) {
+      errors.push(`${goal.id}: coverage_version 2 requires explicit acceptance IDs`)
+      continue
+    }
     const strict = goal.plan_ids.some(
       (id) => !['draft', 'cancelled', 'superseded'].includes(plansById.get(id)?.metadata.status),
     )
+    if (
+      release.coverage_version >= 2 &&
+      strict &&
+      /待填写|待补|待确认|<[^>]+>|TODO/i.test(`${goal.text} ${goal.source}`)
+    )
+      errors.push(`${goal.id}: ready Release scope cannot retain placeholder text`)
     if (
       goal.disposition === 'excluded' &&
       (!nonempty(goal.authorization) || !nonempty(goal.reason))
@@ -232,6 +288,20 @@ export function validateReleaseScope(release, plansById) {
     for (const req of goal.requirements)
       if (!goal.plan_ids.some((id) => plansById.get(id)?.metadata.requirements?.includes(req)))
         errors.push(`${goal.id}: ${req} has no assigned Plan`)
+    if (release.coverage_version >= 2) {
+      for (const acceptance of goal.acceptance) {
+        if (!/^AC-[A-Z0-9-]+$/.test(acceptance)) {
+          errors.push(`${goal.id}: invalid acceptance id ${acceptance}`)
+          continue
+        }
+        if (
+          !goal.plan_ids.some((id) =>
+            plansById.get(id)?.metadata.acceptance?.some((item) => item.id === acceptance),
+          )
+        )
+          errors.push(`${goal.id}: ${acceptance} has no assigned Plan acceptance`)
+      }
+    }
   }
   for (const id of release.plan_ids || []) {
     if (['draft', 'cancelled', 'superseded'].includes(plansById.get(id)?.metadata.status)) continue
@@ -329,8 +399,4 @@ export function renderPlanProgressContent(content, metadata) {
   return starts === 1
     ? content.replace(/<!-- ignite-progress -->[\s\S]*?<!-- \/ignite-progress -->/, block)
     : `${content.trimEnd()}\n\n${block}\n`
-}
-
-export function validateDataContract() {
-  return []
 }

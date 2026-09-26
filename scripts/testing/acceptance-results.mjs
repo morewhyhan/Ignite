@@ -3,8 +3,9 @@ import { mkdirSync, writeFileSync } from 'node:fs'
 import { gitCommitExists, repositoryRoot, runGit } from '../ignite/core.mjs'
 import { findPlan, listPlans } from '../ignite/state.mjs'
 
-function relevantPlans() {
-  if (process.env.IGNITE_PLAN_ID) return [findPlan(process.env.IGNITE_PLAN_ID)]
+function relevantPlans(planId) {
+  const selectedPlan = planId || process.env.IGNITE_PLAN_ID
+  if (selectedPlan) return [findPlan(selectedPlan)]
   if (process.env.CI !== 'true' || !process.env.DIFF_BASE) return []
   const base = /^0{40}$/.test(process.env.DIFF_BASE)
     ? runGit(['rev-list', '--max-parents=0', 'HEAD']).stdout.split(/\r?\n/)[0]
@@ -18,23 +19,36 @@ function relevantPlans() {
   return listPlans().filter((plan) => plan.metadata?.schema === 2 && changed.has(plan.relativePath))
 }
 
-export function acceptanceFailures(cases, runner) {
+/**
+ * @param {Array<{file: string, title: string, passed: boolean}>} cases
+ * @param {'vitest' | 'playwright'} runner
+ * @param {{acceptanceId?: string, planId?: string}} options
+ */
+export function acceptanceFailures(
+  cases,
+  runner,
+  { acceptanceId = process.env.IGNITE_TDD_AC, planId } = {},
+) {
   const normalized = cases.map((test) => ({
     ...test,
     file: relative(repositoryRoot, test.file).replaceAll('\\', '/'),
     ids: [...test.title.matchAll(/\[(AC-[A-Z0-9-]+)\]/g)].map((match) => match[1]),
   }))
-  const failures = normalized
+  const selectedCases = acceptanceId
+    ? normalized.filter((test) => test.ids.includes(acceptanceId))
+    : normalized
+  const failures = selectedCases
     .filter((test) => test.ids.length && !test.passed)
     .map((test) => `${test.file}: ${test.title} did not complete successfully`)
   const extension = runner === 'vitest' ? /\.test\.tsx?$/ : /\.spec\.tsx?$/
   const results = []
-  for (const plan of relevantPlans()) {
+  for (const plan of relevantPlans(planId)) {
     for (const item of plan.metadata.acceptance) {
+      if (acceptanceId && item.id !== acceptanceId) continue
       for (const mapped of item.tests) {
         const [path, title] = mapped.split('::', 2)
         if (!extension.test(path)) continue
-        const matched = normalized.filter(
+        const matched = selectedCases.filter(
           (test) =>
             test.file === path &&
             test.ids.includes(item.id) &&

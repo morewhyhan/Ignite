@@ -10,10 +10,11 @@ Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定�
 
 - 一个 Plan 对应一个可独立验收、集成和回滚的交付结果。API、页面、测试、格式修复和状态回写是同一 Plan 的子任务，不为“收口”另建 Plan。
 - 先接续覆盖本轮目标的未完成 Plan；只有新的独立交付结果才创建 Plan。本轮检查失败后的修复、同目标的完善和验证都留在原 Plan。已交付结果的后续改动保留原记录，并建立新的存量改动 Plan。仅安全说明文字或静态展示资产可免业务 Plan，具体范围以 `docs/standards/workflow.md` 和检查器为准。
-- 新 Plan 使用 `docs/plans/_template.md` 顶部的结构化元数据；状态只能使用 `draft`、`ready`、`active`、`verifying`、`done`、`blocked`、`cancelled`、`superseded`。历史未迁移 Plan 保留为 `legacy_unverified`，不能自动视为完成。
+- 新 Plan 使用 `docs/plans/_template.md` 的结构化元数据，设 `execution_contract: 1`、`verification_contract: 2`；状态只能使用 `draft`、`ready`、`active`、`verifying`、`done`、`blocked`、`cancelled`、`superseded`。历史未迁移 Plan 保留为 `legacy_unverified`，不能自动视为完成。
 - 当前发布只由 `docs/plans/releases/*.json` 定义；状态表由 `pnpm ignite status --write` 生成，不手工维护派生副本。
+- `pnpm ignite next --plan <IGT-ID>` 与 `pnpm ignite release status` 默认给精简摘要；需要完整机器上下文时显式添加 `--verbose`。`next_action` 是建议入口，不能代替原始目标和验收证据。
 - 新 Plan 使用 `execution_contract: 1`；`tasks` 是唯一任务状态，正文进度由 `pnpm ignite plan refresh <ID>` 生成，使用 `pnpm ignite task set-status <ID> <task> <todo|doing|done>` 更新任务。
-- Release 的 `scope` 逐条保存原始目标、来源、REQ 和负责的 Plan。缺账号、未实现或等待外部条件都属于延期，不能自动改成排除；排除必须记录用户的具体授权来源。
+- 新 Release 用 `coverage_version: 2` 和 `verification_contract: 2`；`scope` 逐条保存原始目标、来源、REQ、AC、负责 Plan 和处理方式。每个已列入的 REQ 下所有 Feature AC 都须纳入、延期或经授权排除。缺账号、未实现或等待外部条件都属于延期，不能自动改成排除。
 - 每次检查由 `pnpm ignite check --plan <IGT-ID> --level auto` 选择范围并记录运行证据。相同输入的活动或已通过运行必须复用，不重复启动。
 
 ## 规范真源
@@ -25,8 +26,10 @@ Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定�
 - 验收和 ADR：`docs/others/`
 - 本文件是 AI 执行规则；发生冲突时，先更新文档再改代码。
 - 规格驱动 Loop：Feature → Plan → Contract/Test → Implementation → Verify → Design。
-- Plan 进入 ready 前，逐条对照用户已确定的原始目标和约束，把对应关系写入 Plan；`open_questions=[]` 不能替代完整性审查。语义完整性不能只凭标签或测试数自动证明。
+- Plan 进入 ready 前，逐条对照用户已确定的原始目标和约束，把对应关系写入 Plan；Feature、AC、测试和 Release scope 不能有占位符；`open_questions=[]` 不能替代完整性审查。语义完整性不能只凭标签或测试数自动证明。
 - 每条 AC 声明 `required_layers` 和带层级的 `checks`：unit、database、browser、external。模拟数据库的 API 测试只证明 unit 层；新增业务页面、持久化及外部集成必须有对应真实行为验收。
+- 新 Plan 必须以 `pnpm ignite tdd red --plan <IGT-ID> --ac <AC-ID>` 记录真实行为断言红灯；环境错误、占位失败和事后补写均不算证据。具体测试文件在红灯与实现后保持一致。
+- 触及 Prisma、认证或业务 API 的 Plan 必须填 `data_contract`，明确数据归属、访问依据、迁移影响和回退；破坏性数据变更需用户授权，不强制为简单 CRUD 建 ADR。
 - 脚手架产物是待完善的草稿。进入 ready 前补齐实际用户行为、测试路径和验收层级；占位失败测试、页面外壳或结构校验通过均不能视为功能完成。
 
 ## AI 工作台
@@ -44,7 +47,8 @@ Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定�
 
 - `src/app/` 只负责路由壳和页面编排；业务 UI 放到 `src/modules/<module>/`。
 - 客户端业务数据统一走 `module Hook → Hono Typed RPC → Hono route → Prisma`。
-- 浏览器端只能导入 `src/lib/api-client.ts`，不得直接创建 `hc()` 或 fetch 业务 API。
+- 业务类型以 `AppType` 唯一为真源；`src/lib/api-client.ts` 提供 Web client 与可注入 origin/fetcher 的 `createApiClient` 适配工厂。浏览器端不得直接创建 `hc()` 或 fetch 业务 API。
+- 可复用的业务 Hook 不依赖 `window` 或 Web 通知组件；通知放在 screen/平台外壳，认证是 Better Auth 的独立边界。
 - Hono route 必须使用统一 `zValidator`、session guard 和统一错误格式。
 - 服务端 secret、数据库、Better Auth 配置只允许留在 `src/server/`。
 - 认证使用 Better Auth 客户端/服务端配置，是业务 RPC 的明确例外。
@@ -68,7 +72,7 @@ Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定�
 
 ## 验证与交付
 
-Plan 内的改动通过 `pnpm ignite check --plan <IGT-ID> --level auto` 选择开发或集成检查；发布候选运行 `pnpm ignite check --plan <IGT-ID> --level release`。统一入口保留差异检查和证据，并按范围运行迁移、构建和生产态 E2E。已有匹配证据时复用，不再手工重复同一检查；额外验收按 Plan 的真实行为要求补齐。最终只报告实际执行并通过的检查，不把 typecheck/lint 当行为测试。
+新 Plan 的改动通过 `pnpm ignite check --plan <IGT-ID> --level auto` 执行工程门禁与本 Plan 的行为验收；Plan 全部完成后，由 `pnpm ignite release verify <release-id> --plan <done-plan-id>` 对同一最终版本运行生产构建与全局生产态 E2E。旧 `verification_contract: 1` Plan 继续使用旧的 `check --level release`。状态输出区分工程、Plan、Release 三层，任一检查绿灯都不能冒充其它层完成。最终只报告实际执行并通过的检查。
 
 ## 推荐开发流程
 
@@ -80,4 +84,4 @@ Plan 内的改动通过 `pnpm ignite check --plan <IGT-ID> --level auto` 选择�
 2. 只读取本轮相关的 Feature、Plan、Standards、Design 和测试；用 `pnpm ignite next --plan <IGT-ID>` 接续匹配的现有 Plan。需要新 Plan 时，新模块用 `pnpm create:module <plural-kebab-name>`，存量改动用 `pnpm create:change <kebab-name>` 起草。
 3. 明确增量/存量、基线 commit、写入范围和验收标准；关闭开放问题后再进入实现。
 4. 先写或更新契约测试，再实现最小代码；页面只消费 module screen，业务请求只走 Hook 与 RPC。
-5. 在提交实现后运行集成检查，进入 `verifying` 再运行 release 检查；最后回写 Design、完成 Plan 并刷新状态摘要。
+5. 提交 Feature/Plan/行为测试后先按 AC 运行红灯并提交红灯记录；实现后运行 Plan integration。所有纳入的 Plan 完成后运行一次 Release 最终检查；回写 Design 并根据实际证据更新状态。

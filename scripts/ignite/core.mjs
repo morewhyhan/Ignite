@@ -70,7 +70,10 @@ export function writeJson(path, value, { format = true } = {}) {
   return true
 }
 
-export function runGit(args, { allowFailure = false, cwd = repositoryRoot } = {}) {
+export function runGit(
+  args,
+  { allowFailure = false, cwd = repositoryRoot, trimOutput = true } = {},
+) {
   const result = spawnSync('git', args, {
     cwd,
     encoding: 'utf8',
@@ -82,7 +85,7 @@ export function runGit(args, { allowFailure = false, cwd = repositoryRoot } = {}
   }
   return {
     exitCode: result.status ?? 1,
-    stdout: (result.stdout || '').trim(),
+    stdout: trimOutput ? (result.stdout || '').trim() : result.stdout || '',
     stderr: (result.stderr || '').trim(),
   }
 }
@@ -274,11 +277,26 @@ export function stablePlanContract(metadata) {
           shared_files: metadata.shared_files || [],
         }
       : {}),
+    ...(metadata.verification_contract >= 2
+      ? {
+          verification_contract: metadata.verification_contract,
+          data_contract: metadata.data_contract || null,
+        }
+      : {}),
   }
 }
 
 export function computeInputFingerprint(plan) {
   return fingerprintFromEntries(plan, workingTreeEntries())
+}
+
+/** Reuse one read-only workspace tree when deriving multiple Plan fingerprints. */
+export function createInputFingerprintContext() {
+  let entries = null
+  return (plan) => {
+    entries ||= workingTreeEntries()
+    return fingerprintFromEntries(plan, [...entries])
+  }
 }
 
 export function computeInputFingerprintAtCommit(plan, commit) {

@@ -110,13 +110,14 @@ node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'
 
 ## 第四步：开发第一个真实模块
 
-可以先执行 `pnpm create:module <plural-kebab-name> --dry-run` 查看将创建的文件，确认后去掉 `--dry-run`。脚手架会创建 Screen、公开入口、Feature、schema 2 Plan、一个明确失败的验收测试，并把 Plan 纳入 Release；它不猜测数据模型或 API。
+可以先执行 `pnpm create:module <plural-kebab-name> --dry-run` 查看将创建的文件，确认后去掉 `--dry-run`。脚手架会创建 Screen、公开入口、Feature、测试路径文档、`verification_contract: 2` Plan 和失败的测试草稿，并把它加入 Release；它不猜测数据模型或 API。实际写入前会要求 Git 工作区干净，避免把已有工作混入新 Plan；`--dry-run` 不写任何文件。
 
 1. 从脚手架或 `docs/features/_template.md` 创建需求规格。
 2. 标明是增量模块还是存量修改，补齐字段、原型映射和正交业务规则。
 3. 完善脚手架已生成的 Plan；手工创建模块时才使用 `docs/plans/_template.md`，不要重复创建同一个结果的 Plan。
-4. 把占位失败测试换成用户行为断言，补齐 AC 的真实层级与具体测试路径：页面需要浏览器验收，持久化需要真实数据库验收，外部集成需要对应服务的验收。同步 Plan 的 `verification_requirements`，关闭开放问题后进入 `ready`、`active`。
-5. 按 `docs/standards/workflow.md` 的测试先行 Loop 实现，以 `pnpm ignite next --plan <IGT-ID>` 接续任务，完成后更新 `docs/designs/`。
+4. 把占位 Feature、测试路径和失败测试改为真实用户行为；明确每条 AC 的测试层级。触及 Prisma、认证或业务 API 时，填写 Plan `data_contract` 中的数据归属、访问依据、迁移影响和回退方式；只有破坏性变更需要授权。
+5. 关闭开放问题并检查 Release 对原始目标/REQ/AC 的映射，再把 Plan 转为 `ready`、`active`。提交 Feature、Plan 和真实测试后，对每条 AC 执行 `pnpm ignite tdd red --plan <IGT-ID> --ac <AC-ID>`，提交红灯记录后再实现。占位 `expect.fail` / `throw` 不算红灯。
+6. 用 `pnpm ignite check --plan <IGT-ID> --level integration` 完成工程门禁及本 Plan 的各层验收；所有纳入 Plan 完成后，再运行 `pnpm ignite release verify <release-id> --plan <done-plan-id>` 对最终组合运行生产构建与全量 E2E。回写 `docs/designs/`。桌面与移动基线页面在 1440px、768px、390px 和 360px 宽度都应保持可用；失败时保留 screenshot/trace。
 
 新增业务应建立独立纵向切片，不塞入 Dashboard、Settings 或 Tasks 等无关模块。
 
@@ -128,8 +129,10 @@ node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'
 pnpm ignite plan validate <IGT-ID>
 pnpm ignite check --plan <IGT-ID> --level integration
 pnpm ignite plan set-status <IGT-ID> verifying --commit HEAD
-pnpm ignite check --plan <IGT-ID> --level release
 pnpm ignite plan set-status <IGT-ID> done
+pnpm ignite release verify <release-id> --plan <done-plan-id>
 ```
+
+新契约中，`done` 完成单个 Plan；最后一条命令完成整个 Release。它会记录被测 commit、package version 和指向该 commit 的 Git tag 名称（如果已有），但不会替采用者创建 Git tag、推送或部署。旧 `verification_contract: 1` Plan 仍使用原 `check --level release` 命令。
 
 `pnpm build` 只证明当前配置可以完成生产编译。真实生产部署必须把 `APP_ENV` 设为 `production`，并满足 HTTPS、持久数据库和独立 secret；SQLite 默认值不能直接作为无状态生产部署方案。邮箱所有权验证如有需要，另行作为增量模块接入。

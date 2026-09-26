@@ -11,3 +11,4 @@
 - SQLite 只作为本地默认值；切换生产 provider 必须同步 schema、migration、驱动和部署流程。
 - 当前隔离验证能力集中在 `scripts/testing/database-adapter.mjs`；它明确只支持 SQLite。项目选择新 provider 时必须同步替换隔离库、迁移和数据比对能力；运行检查会拒绝未经适配的 provider，而不能通过删除数据库测试绕过。
 - 未经明确许可，不执行 `prisma migrate reset` 或删除数据库。
+- 涉及 Prisma、认证或业务 API 的新 Plan，在进入 `ready` 前填写 `data_contract`：明确按用户/组织/共享/公开/不适用的访问范围、迁移影响和恢复方式。默认不推断 `userId` 归属，也不要求每项 CRUD 建 ADR；删数据或不可逆转换必须有具体授权。

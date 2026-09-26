@@ -6,7 +6,7 @@ import { pathToFileURL } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import { format } from 'prettier'
 import { acceptanceLayerResults } from '../../scripts/testing/acceptance-results.mjs'
-import { stablePlanContract } from '../../scripts/ignite/core.mjs'
+import { runGit, stablePlanContract } from '../../scripts/ignite/core.mjs'
 import {
   calculateEvidenceCoverage,
   renderPlanProgress,
@@ -58,6 +58,24 @@ function runModule(root: string, source: string) {
 }
 
 describe('execution contract hardening', () => {
+  it('preserves committed source bytes when reading text and excludes evolving TDD evidence from the plan lock', () => {
+    const committedPackage = runGit(['show', 'HEAD:package.json'], { trimOutput: false }).stdout
+    expect(committedPackage).toBe(readFileSync(join(repositoryRoot, 'package.json'), 'utf8'))
+
+    const plan = {
+      schema: 2,
+      id: 'IGT-900',
+      verification_contract: 2,
+      data_contract: { migration_impact: 'none' },
+      tdd_evidence: [],
+    }
+    const planAfterRedRun = {
+      ...plan,
+      tdd_evidence: [{ acceptance_id: 'AC-900', run_id: 'tdd-20260926100747-e98683' }],
+    }
+    expect(stablePlanContract(planAfterRedRun)).toEqual(stablePlanContract(plan))
+  })
+
   it('[AC-EXECUTION-001] traces original goals and blocks a silent partial Release upgrade', () => {
     const release = {
       coverage_version: 1,
@@ -108,6 +126,12 @@ describe('execution contract hardening', () => {
         'docs/plans/_template.md',
         readFileSync(join(repositoryRoot, 'docs/plans/_template.md'), 'utf8'),
       )
+      write(
+        fixture.root,
+        'docs/others/test-cases/_template.md',
+        readFileSync(join(repositoryRoot, 'docs/others/test-cases/_template.md'), 'utf8'),
+      )
+      commitAll(fixture.root, 'Install scaffold templates')
       const result = spawnSync(
         process.execPath,
         [join(repositoryRoot, 'scripts/create-module.mjs'), 'invoices', '--release', 'fixture-v1'],

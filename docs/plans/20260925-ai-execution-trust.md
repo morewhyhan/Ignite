@@ -74,7 +74,7 @@
     "更新后的 Workflow、Adoption、Design 和测试路径说明"
   ],
   "remaining_work": [
-    "补齐符合规范的稳定 Plan/测试基线与真实 AC 红灯证据；随后运行 Plan 集成验收、Release 最终验收并绑定版本"
+    "正式 Plan 集成验收和 Release 最终生产验收尚未运行；完成后将两层证据绑定到最终交付版本"
   ],
   "change_type": "存量改动",
   "data_contract": {
@@ -456,6 +456,7 @@
     "scripts/scaffold-preflight.mjs",
     "scripts/runtime-doctor.mjs",
     "scripts/runtime-guidance.mjs",
+    "scripts/testing/acceptance-results.mjs",
     "src/lib/api-client.ts",
     "src/modules/tasks/hooks/use-tasks.ts",
     "src/modules/tasks/components/tasks-screen.tsx",
@@ -466,6 +467,10 @@
     "playwright.config.ts",
     "tests/contracts/execution-trust.test.ts",
     "tests/contracts/api-design.test.ts",
+    "tests/contracts/execution-hardening.test.ts",
+    "tests/contracts/execution-reliability.test.ts",
+    "tests/contracts/template-history.test.ts",
+    "tests/contracts/template-runtime.test.ts",
     "tests/e2e/responsive.spec.ts",
     "docs/features/ai-execution-trust.md",
     "docs/plans/20260925-ai-execution-trust.md",
@@ -479,7 +484,88 @@
     "docs/others/test-cases/",
     "docs/others/evidence/tdd/"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-TRUST-016",
+      "test": "tests/contracts/execution-trust.test.ts::[AC-TRUST-016]",
+      "run_id": "tdd-20260926100747-e98683"
+    },
+    {
+      "acceptance_id": "AC-TRUST-001",
+      "test": "tests/contracts/execution-trust.test.ts::[AC-TRUST-001]",
+      "run_id": "tdd-20260926101635-f22c91"
+    },
+    {
+      "acceptance_id": "AC-TRUST-002",
+      "test": "tests/contracts/execution-trust.test.ts::[AC-TRUST-002]",
+      "run_id": "tdd-20260926101728-144c91"
+    },
+    {
+      "acceptance_id": "AC-TRUST-003",
+      "test": "tests/contracts/execution-trust.test.ts::[AC-TRUST-003]",
+      "run_id": "tdd-20260926101748-dc6fb8"
+    },
+    {
+      "acceptance_id": "AC-TRUST-005",
+      "test": "tests/contracts/execution-trust.test.ts::[AC-TRUST-005]",
+      "run_id": "tdd-20260926101815-8df0c9"
+    },
+    {
+      "acceptance_id": "AC-TRUST-004",
+      "test": "tests/contracts/execution-trust.test.ts::[AC-TRUST-004]",
+      "run_id": "tdd-20260926102047-3f06aa"
+    },
+    {
+      "acceptance_id": "AC-TRUST-006",
+      "test": "tests/e2e/responsive.spec.ts::[AC-TRUST-006]",
+      "run_id": "tdd-20260926102128-ada8a0"
+    },
+    {
+      "acceptance_id": "AC-TRUST-007",
+      "test": "tests/contracts/api-design.test.ts::[AC-TRUST-007]",
+      "run_id": "tdd-20260926102235-3f66f5"
+    },
+    {
+      "acceptance_id": "AC-TRUST-008",
+      "test": "tests/contracts/execution-trust.test.ts::[AC-TRUST-008]",
+      "run_id": "tdd-20260926102301-eb2786"
+    },
+    {
+      "acceptance_id": "AC-TRUST-009",
+      "test": "tests/contracts/execution-trust.test.ts::[AC-TRUST-009]",
+      "run_id": "tdd-20260926102320-d6b71a"
+    },
+    {
+      "acceptance_id": "AC-TRUST-010",
+      "test": "tests/contracts/execution-trust.test.ts::[AC-TRUST-010]",
+      "run_id": "tdd-20260926102338-609d2e"
+    },
+    {
+      "acceptance_id": "AC-TRUST-011",
+      "test": "tests/contracts/execution-trust.test.ts::[AC-TRUST-011]",
+      "run_id": "tdd-20260926102801-558ef7"
+    },
+    {
+      "acceptance_id": "AC-TRUST-012",
+      "test": "tests/contracts/execution-trust.test.ts::[AC-TRUST-012]",
+      "run_id": "tdd-20260926102822-d5704a"
+    },
+    {
+      "acceptance_id": "AC-TRUST-013",
+      "test": "tests/contracts/execution-trust.test.ts::[AC-TRUST-013]",
+      "run_id": "tdd-20260926102843-646ade"
+    },
+    {
+      "acceptance_id": "AC-TRUST-014",
+      "test": "tests/contracts/execution-trust.test.ts::[AC-TRUST-014]",
+      "run_id": "tdd-20260926102903-866ca4"
+    },
+    {
+      "acceptance_id": "AC-TRUST-015",
+      "test": "tests/contracts/execution-trust.test.ts::[AC-TRUST-015]",
+      "run_id": "tdd-20260926102923-c44b46"
+    }
+  ],
   "required_evidence": [
     "check-integration"
   ],
@@ -563,7 +649,7 @@
 - [ ] T8 · 保证 TDD 单 AC 红灯不会被其他跳过用例误报 · todo
 - [ ] T9 · 让多条 TDD 红灯证据可批量记录而不要求中间提交 · todo
 
-验收缺口：补齐符合规范的稳定 Plan/测试基线与真实 AC 红灯证据；随后运行 Plan 集成验收、Release 最终验收并绑定版本
+验收缺口：正式 Plan 集成验收和 Release 最终生产验收尚未运行；完成后将两层证据绑定到最终交付版本
 证据：尚无
 <!-- /ignite-progress -->
 

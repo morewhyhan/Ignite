@@ -32,7 +32,7 @@ export function TaskEditorDialog({
 }: TaskEditorDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg rounded-3xl border-0 bg-card p-8 shadow-2xl">
+      <DialogContent className="w-[calc(100%-2rem)] max-h-[calc(100dvh-2rem)] max-w-lg overflow-y-auto rounded-3xl border-0 bg-card p-5 shadow-2xl sm:p-8">
         <DialogHeader>
           <DialogTitle>{isEditing ? '编辑任务' : '新建任务'}</DialogTitle>
           <DialogDescription>{isEditing ? '修改任务内容' : '输入任务名称'}</DialogDescription>

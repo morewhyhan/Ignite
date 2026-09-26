@@ -1,22 +1,34 @@
 import type { AppType } from '@/server/api'
 import { hc } from 'hono/client'
 
-export function createApiClient(_options: { baseUrl: string; fetcher: typeof fetch }): any {
-  return { api: { tasks: { $get: async () => new Response(null, { status: 501 }) } } }
+interface CreateApiClientOptions {
+  baseUrl: string
+  fetcher?: typeof globalThis.fetch
+  credentials?: RequestCredentials
 }
 
-const baseUrl =
+/** Builds the shared typed business RPC client behind a platform adapter. */
+export function createApiClient({
+  baseUrl,
+  fetcher = globalThis.fetch,
+  credentials = 'include',
+}: CreateApiClientOptions) {
+  return hc<AppType>(baseUrl, {
+    fetch: (input: RequestInfo | URL, init?: RequestInit) =>
+      fetcher(input, {
+        ...init,
+        credentials,
+      }),
+  })
+}
+
+const webBaseUrl =
   typeof window === 'undefined'
     ? (process.env.APP_URL ?? 'http://localhost:3000')
     : window.location.origin
 
-export const client = hc<AppType>(baseUrl, {
-  fetch: (input: RequestInfo | URL, init?: RequestInit) =>
-    globalThis.fetch(input, {
-      ...init,
-      credentials: 'include',
-    }),
-})
+/** Browser-only adapter used by current module Hooks. Other clients inject their own fetcher. */
+export const client = createApiClient({ baseUrl: webBaseUrl })
 
 function getApiErrorMessage(payload: unknown) {
   if (typeof payload !== 'object' || payload === null) return '请求失败'

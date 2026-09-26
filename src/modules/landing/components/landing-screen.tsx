@@ -23,27 +23,27 @@ export function LandingScreen() {
   return (
     <>
       <div className="min-h-screen flex items-center justify-center px-6">
-        <div className="max-w-xl">
-          <div className="space-y-16">
+        <div className="w-full max-w-xl">
+          <div className="space-y-12 sm:space-y-16">
             <div>
-              <h1 className="text-6xl md:text-8xl font-semibold tracking-tight mb-4 text-primary">
+              <h1 className="mb-4 text-5xl font-semibold tracking-tight text-primary sm:text-6xl md:text-8xl">
                 {siteConfig.name}
               </h1>
-              <p className="text-xl text-muted-foreground">{siteConfig.tagline}</p>
+              <p className="text-lg text-muted-foreground sm:text-xl">{siteConfig.tagline}</p>
             </div>
 
             <div className="space-y-4 text-sm text-muted-foreground">
-              <div className="flex items-baseline gap-3">
-                <span className="w-16">Frontend</span>
+              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <span className="w-16 shrink-0">Frontend</span>
                 <span>Next.js · React · TypeScript</span>
               </div>
-              <div className="flex items-baseline gap-3">
-                <span className="w-16">Backend</span>
+              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <span className="w-16 shrink-0">Backend</span>
                 <span>Hono · Typed API</span>
               </div>
             </div>
 
-            <div className="flex items-center justify-between gap-8">
+            <div className="flex items-center justify-between gap-4 sm:gap-8">
               <button
                 type="button"
                 onClick={handleGetStarted}

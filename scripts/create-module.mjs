@@ -3,6 +3,7 @@ import { randomInt } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { renderPlanProgressContent } from './ignite/execution-contract.mjs'
+import { checkScaffoldWorktree } from './scaffold-preflight.mjs'
 
 const arguments_ = process.argv.slice(2)
 const dryRun = arguments_.includes('--dry-run')
@@ -42,6 +43,7 @@ if (reservedModules.has(moduleName)) {
 }
 
 const repositoryRoot = resolve(process.env.IGNITE_ROOT || process.cwd())
+const dirtyEntries = checkScaffoldWorktree(repositoryRoot, { dryRun })
 const pascalName = moduleName
   .split('-')
   .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
@@ -85,6 +87,7 @@ const acceptanceId = `AC-${upperName}-001`
 const requirementId = `REQ-${upperName}-001`
 const testPath = `tests/contracts/${moduleName}.test.ts`
 const browserTestPath = `tests/e2e/${moduleName}.spec.ts`
+const testCasePath = `docs/others/test-cases/${moduleName}.md`
 const planPath = `docs/plans/${compactDate}-${moduleName}.md`
 const releasePath = `docs/plans/releases/${releaseId}.json`
 const planTemplate = readFileSync(join(repositoryRoot, 'docs', 'plans', '_template.md'), 'utf8')
@@ -97,6 +100,13 @@ const planBody = planTemplate
   .replaceAll('AC-FEATURE-001', acceptanceId)
 const renderPlan = (metadata) =>
   `<!-- ignite-plan\n${JSON.stringify(metadata, null, 2)}\n-->${renderPlanProgressContent(planBody, metadata)}`
+const testCaseDocument = readFileSync(
+  join(repositoryRoot, 'docs', 'others', 'test-cases', '_template.md'),
+  'utf8',
+)
+  .replaceAll('<change-name>', moduleName)
+  .replace('- Feature：', `- Feature：\`docs/features/${moduleName}.md\``)
+  .replace('- Plan：', `- Plan：\`docs/plans/${compactDate}-${moduleName}.md\``)
 
 const files = new Map([
   [
@@ -160,7 +170,7 @@ const files = new Map([
 
 - ${acceptanceId}（${requirementId}）：Given <context> When <action> Then <observable-result>。
 
-本脚手架包含 UI Screen，验收需要 unit 和真实 browser 两层。先定义页面路由及用户路径，再替换两个失败占位用例；涉及持久化或第三方服务时，另补 database / external 验收。
+本脚手架生成的需求、用例和失败测试都只是草稿。先写清真实用户行为，再写可执行断言；提交测试后对每条 AC 执行 \`pnpm ignite tdd red --plan ${planId} --ac ${acceptanceId}\`，确认目标行为断言失败并提交红灯记录，然后实现。涉及持久化或第三方服务时，另补 database / external 验收。
 `,
   ],
   [
@@ -183,6 +193,7 @@ test('[${acceptanceId}] completes the specified user journey in a real browser',
 })
 `,
   ],
+  [testCasePath, testCaseDocument],
   [
     planPath,
     renderPlan({
@@ -193,6 +204,7 @@ test('[${acceptanceId}] completes the specified user journey in a real browser',
       outcome: `完成 ${moduleName} 的一个可验收纵向切片`,
       contract_version: 2,
       execution_contract: 1,
+      verification_contract: 2,
       goals: [{ text: `完成 ${moduleName} 的可验收能力`, requirements: [requirementId] }],
       constraints: [],
       non_goals: [],
@@ -226,6 +238,13 @@ test('[${acceptanceId}] completes the specified user journey in a real browser',
       handoff: { interfaces: [], migrations: [], tests: [], remaining: [] },
       owner: 'assigned-worker',
       risk: 'feature',
+      data_contract: {
+        access_scope: 'not-decided',
+        access_rationale: '',
+        migration_impact: 'not-decided',
+        rollback: '',
+        destructive_authorization: null,
+      },
       write_scope: [
         `src/modules/${moduleName}/`,
         `src/server/api/routes/${moduleName}/`,
@@ -240,8 +259,10 @@ test('[${acceptanceId}] completes the specified user journey in a real browser',
         releasePath,
         'docs/designs/',
         'docs/others/test-cases/',
+        'docs/others/evidence/tdd/',
       ],
-      required_evidence: ['check-integration', 'check-release'],
+      tdd_evidence: [],
+      required_evidence: ['check-integration'],
       evidence: [],
       blocker: null,
       open_questions: ['确认字段、权限、错误、路由和验收范围'],
@@ -259,7 +280,10 @@ if (existsSync(absoluteReleasePath)) {
     console.error(`Existing release is not a schema 2 release: ${releasePath}`)
     process.exit(1)
   }
-  if (release.coverage_version !== 1 && release.plan_ids.length > 0) {
+  if (
+    (release.coverage_version !== 2 || release.verification_contract !== 2) &&
+    release.plan_ids.length > 0
+  ) {
     console.error(
       `Release ${releaseId} already has Plans but no original-goal coverage. ` +
         'Map its existing scope first or choose a new --release id; refusing to create a misleading partial map.',
@@ -267,23 +291,25 @@ if (existsSync(absoluteReleasePath)) {
     process.exit(1)
   }
   release.plan_ids = [...new Set([...release.plan_ids, planId])]
-  release.must_pass = [
-    ...new Set([...(release.must_pass || []), 'check-integration', 'check-release']),
-  ]
+  release.must_pass = ['check-release']
   const existingScope = Array.isArray(release.scope) ? release.scope : []
   const nextGoalNumber =
     Math.max(
       0,
       ...existingScope.map((entry) => Number(entry?.id?.match(/^GOAL-(\d+)$/)?.[1] || 0)),
     ) + 1
-  release.coverage_version = 1
+  release.coverage_version = 2
+  release.verification_contract = 2
+  release.evidence ||= []
+  release.integrated_commit ||= null
   release.scope = [
     ...existingScope,
     {
       id: `GOAL-${String(nextGoalNumber).padStart(3, '0')}`,
       text: '待填写原始目标',
       source: '待填写来源',
-      requirements: [],
+      requirements: [requirementId],
+      acceptance: [acceptanceId],
       plan_ids: [planId],
       disposition: 'included',
       reason: '',
@@ -295,21 +321,25 @@ if (existsSync(absoluteReleasePath)) {
   release = {
     schema: 2,
     id: releaseId,
-    coverage_version: 1,
+    coverage_version: 2,
+    verification_contract: 2,
     plan_ids: [planId],
     scope: [
       {
         id: 'GOAL-001',
         text: '待填写原始目标',
         source: '待填写来源',
-        requirements: [],
+        requirements: [requirementId],
+        acceptance: [acceptanceId],
         plan_ids: [planId],
         disposition: 'included',
         reason: '',
         authorization: '',
       },
     ],
-    must_pass: ['check-integration', 'check-release'],
+    must_pass: ['check-release'],
+    evidence: [],
+    integrated_commit: null,
     excluded: [],
     updated_at: dateValue,
   }
@@ -340,6 +370,8 @@ if (!dryRun) {
 
 console.log('')
 if (dryRun) {
+  if (dirtyEntries.length)
+    console.log(`Worktree has ${dirtyEntries.length} existing change(s); preview is read-only.`)
   console.log(
     'Preview only; no files or release membership were changed. Remove --dry-run to create this draft.',
   )

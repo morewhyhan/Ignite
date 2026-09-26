@@ -36,7 +36,7 @@
 - R13（REQ-TRUST-013）：常用 CLI 默认输出精简、可解析的状态摘要；详细上下文显式请求，不重复输出可从 Feature/Plan 读取的全文数据。
 - R14（REQ-TRUST-014）：运行时版本不匹配时说明所需版本、当前版本和修复方法；检查只诊断，不自动切换开发环境。
 - R15（REQ-TRUST-015）：TDD 定向红灯只校验当前目标 AC；同一测试文件中的其他 AC 被筛选跳过时，不能被误报为失败。
-- R16（REQ-TRUST-016）：同一稳定规格/测试基线可连续记录多条 TDD 红灯；生成的 TDD 证据不得让下一条红灯因工作区变脏而被迫额外提交。
+- R16（REQ-TRUST-016）：多条 TDD 红灯记录是执行状态；记录一条证据不应污染源工作区，也不应要求每条 AC 单独提交一次。
 
 ## 权限、错误与缓存
 
@@ -71,4 +71,4 @@
 - AC-TRUST-013（REQ-TRUST-013）：Given AI 或开发者查询常用 Plan/Release 下一步 When 不指定详细模式 Then 输出包含状态、阻塞、相关路径和下一条命令的精简摘要；指定 `--verbose` 时保留完整上下文。
 - AC-TRUST-014（REQ-TRUST-014）：Given 当前 Node 与仓库固定版本不一致 When 执行 runtime preflight Then 错误信息同时包含期望/当前版本、推荐切换命令和重试检查命令，且不修改 shell 或运行时。
 - AC-TRUST-015（REQ-TRUST-015）：Given 一个 TDD 红灯运行只选择单条 AC、同文件还有其他映射 AC When Vitest acceptance reporter 收到目标失败与非目标跳过 Then 只判定目标 AC，不把被筛选的其它 AC 误报为本次运行失败。
-- AC-TRUST-016（REQ-TRUST-016）：Given 同一 Plan 还有多条 AC 需要记录红灯 When Ignite 已生成本 Plan 的 TDD 证据 Then 这些派生记录视为执行状态而不污染源代码工作区，下一条红灯可在不提交中间证据的情况下继续，且普通未提交代码仍会阻止运行。
+- AC-TRUST-016（REQ-TRUST-016）：Given 同一 Plan 有多条行为验收 When AI 逐条记录真实红灯结果 Then TDD 证据文件和证据元数据不使源工作区变脏，且可连续记录多条而不要求中间为每条证据提交一次。

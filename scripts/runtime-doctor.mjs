@@ -63,7 +63,11 @@ if (!existsSync(contractPath)) {
     fail(`architecture ${current.arch} is not supported`)
   }
   if (contract.node !== current.node) {
-    fail(`Node ${contract.node} is required; current runtime is ${current.node}`)
+    fail(
+      `Node ${contract.node} is required; current runtime is ${current.node}. ` +
+        `In this shell, run: nvm install ${contract.node} && nvm use ${contract.node}; ` +
+        'then retry: node scripts/runtime-doctor.mjs --preflight',
+    )
   }
   const requiredPnpm = String(contract.package_manager || '').replace(/^pnpm@/, '')
   if (current.pnpm !== requiredPnpm) {

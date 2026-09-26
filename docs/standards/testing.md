@@ -22,7 +22,7 @@ Vitest 的测试文件使用最多两个隔离 worker 并行；每个文件内�
 ```text
 pnpm ignite check --plan IGT-000 --level auto --dry-run # 查看不可降低的检查范围
 pnpm ignite check --plan IGT-000 --level integration    # 生成集成证据
-pnpm ignite check --plan IGT-000 --level release        # 生产构建 + 生产态 E2E
+pnpm ignite release verify <release-id> --plan <done-plan-id> # 新契约的最终生产构建 + 全量 E2E
 pnpm ignite run status                                  # 只读查看运行状态
 pnpm ignite release status                              # 查看派生发布状态
 ```
@@ -31,11 +31,11 @@ pnpm ignite release status                              # 查看派生发布状�
 
 `ignite check` 根据 Plan 声明的风险，以及 `base_commit...HEAD`、暂存区、工作区和未跟踪文件选择三层检查；两者取更高等级：
 
-| 层级          | 用途                 | 默认范围                                                  |
-| ------------- | -------------------- | --------------------------------------------------------- |
-| `dev`         | 实现中的快速反馈     | 文档结构/相关格式，或受影响源码 lint                      |
-| `integration` | 一个 Plan 的集成验证 | 类型、lint、Vitest；认证和 Schema 变化追加 migration      |
-| `release`     | 固定候选版本准出     | 复用同提交的集成结果，再运行生产构建与生产态桌面/移动 E2E |
+| 层级          | 用途                 | 默认范围                                                      |
+| ------------- | -------------------- | ------------------------------------------------------------- |
+| `dev`         | 实现中的快速反馈     | 文档结构/相关格式，或受影响源码 lint                          |
+| `integration` | 一个 Plan 的集成验证 | 工程门禁 + 此 Plan 映射的 unit/database/browser/external 验收 |
+| `release`     | 最终 Release 准出    | 所有 Plan 完成后，同一最终 commit 上生产构建与全量 E2E        |
 
 普通说明文字不会启动 Next、Prisma 或 E2E。公共契约、认证、数据库、脚本、CSS、模块 Hook、设计快照、CI 和锁文件至少进入 integration；不能为了提速手工降低风险等级。真实运行不接受调用者提供的 `--files`。每个运行都保存输入与环境指纹，源码、测试、Schema、锁文件、Node、pnpm 或平台改变后旧运行不能复用。
 
@@ -47,23 +47,25 @@ pnpm ignite release status                              # 查看派生发布状�
 
 结构检查、行为测试、真实数据库集成、浏览器旅程和真实外部走查是不同证据。源码中存在按钮、mock 请求成功或类型检查通过，不能替代用户操作和外部 provider 的真实证据。`done` 只在 Plan 元数据引用当前输入、允许运行时、真实 commit 的 `passed` manifest 后成立。
 
-每条 Feature 验收标准使用稳定 `AC-*` ID，并在覆盖它的测试标题中写成 `[AC-*]`。Plan 的 `acceptance` 字段必须把 AC 映射到包含该标记的具体测试文件；文档检查会拒绝断链、重复 ID 或不存在的 Design 契约。
+每条 Feature 验收标准使用稳定 `AC-*` ID，并在覆盖它的测试标题中写成 `[AC-*]`。Plan 的 `acceptance` 字段必须把 AC 映射到包含该标记的具体测试文件；文档检查会拒绝断链、重复 ID 或不存在的 Design 契约。新 Release coverage v2 还要逐个分配目标、REQ、AC 和负责 Plan；部分实现时，剩余 AC 必须显式延期或获授权排除。
 
 静态标记只能证明关联；空回调即使带有 `AC-*` 也不算可运行的验收测试。Vitest 与 Playwright 在运行结束后还必须检查实际结果：带 AC 标记的测试若跳过、未完成、预期失败或重试后才通过，均不能作为通过证据。统一检查入口会传入当前 Plan，并要求本层适用的每条 AC 在所声明文件中实际通过；只运行其他测试不能补足缺失的验收结果。非空回调仍不保证断言正确，关键行为需按需求例子审查。
 
 CI 是合并门槛，本次改动的 schema 2 Plan 必须达到终态；整个 Release 可继续包含未来任务，不因本次独立 Plan 合并而被错误宣布完成。未改动的未来草稿不阻塞本次交付。CI 用本次差异派生待交付 Plan 的验收集合，核对实际运行的测试，并确认每个非状态文件都落在本次完成 Plan 的 `write_scope` 内。只有 `minimumLevel` 认定的安全文案/资产可不建业务 Plan，它们仍经过 CI 文档与格式检查；Feature、Design、Standards、代码和执行规则不能使用此豁免。开发中可以提交分支进度，但在合并前必须完成证据闭环并刷新生成状态。
 
-执行结果由 runner 的本地运行记录与完整日志核对后才发布摘要；仓库中的 manifest 不是不可伪造的证明。独立 CI 应在指定提交重跑验收，不能用手写 receipt 代替执行。Plan 的 `file::用例名` 映射按完整测试标题精确匹配，`.test.ts` 与 `.test.tsx` 均在 Vitest 发现范围内。
+执行结果由 runner 的本地运行记录与完整日志核对后才发布摘要；仓库中的 manifest 不是不可伪造的证明。独立 CI 应在指定提交重跑验收，不能用手写 receipt 代替执行。Plan 的 `file::用例名` 映射按完整测试标题精确匹配，`.test.ts` 与 `.test.tsx` 均在 Vitest 发现范围内。命令输出将工程门禁、Plan 行为验收、Release 最终验收分开；Plan green 不代表 Plan done，Plan done 也不代表 Release 已验收。
 
 行为、权限、缓存或输入契约变化必须更新对应测试；不能用 typecheck、lint 或 build
 代替行为测试。
 
 ## 测试先行
 
-- API 和业务行为先写或更新测试，运行并确认因目标行为尚未实现而失败。
-- 实现后先跑最小目标测试，再跑完整回归。
+- 新 Plan 先提交真实行为测试，再运行 `pnpm ignite tdd red --plan <ID> --ac <AC-ID>`。只有目标行为断言失败才记录红灯；模块加载失败、浏览器未启动、配置错误和脚手架的 `expect.fail` / `throw` 不能作为 TDD 证据。
+- 红灯记录提交后保持同一测试内容，完成实现；Plan integration 运行映射的各层验收并验证同一测试已通过。
+- 实现后先跑最小目标测试，再跑 Plan integration 与适用的 Release 最终验收。
 - 测试不能只断言成功路径；按风险覆盖未登录、非法输入、无权/不存在和缓存更新。
 - UI 需求先在 `docs/others/test-cases/` 写用户路径，再把稳定路径固化为 E2E。
+- 页面交互在 Plan integration 中运行真实浏览器验收；基础模板需覆盖 1440px、768px、390px 和 360px 常见宽度，Playwright 在失败时保留截图与 trace。
 - 视觉、动画或 Canvas 等无法可靠通过 DOM 断言的场景使用截图或人工验证，并在 Plan 记录。
 
 完整闭环见 [`workflow.md`](./workflow.md)。

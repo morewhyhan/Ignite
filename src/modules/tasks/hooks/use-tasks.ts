@@ -1,7 +1,6 @@
 import { client, readApiJson } from '@/lib/api-client'
 import type { InferRequestType, InferResponseType } from 'hono/client'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
 
 const $get = client.api.tasks.$get
 type GetResponseType = InferResponseType<typeof $get, 200>['data']
@@ -46,10 +45,6 @@ export function useCreateTask() {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: taskKeys.all })
-      toast.success('任务创建成功')
-    },
-    onError: (error) => {
-      toast.error('创建失败：' + error.message)
     },
   })
 }
@@ -65,10 +60,6 @@ export function useUpdateTask() {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: taskKeys.all })
-      toast.success('任务更新成功')
-    },
-    onError: (error) => {
-      toast.error('更新失败：' + error.message)
     },
   })
 }
@@ -84,10 +75,6 @@ export function useDeleteTask() {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: taskKeys.all })
-      toast.success('任务删除成功')
-    },
-    onError: (error) => {
-      toast.error('删除失败：' + error.message)
     },
   })
 }

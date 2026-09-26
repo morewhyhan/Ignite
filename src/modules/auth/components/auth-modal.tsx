@@ -62,7 +62,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
         if (!open) onClose()
       }}
     >
-      <DialogContent className="max-w-xl gap-0 overflow-hidden rounded-[2rem] border-0 bg-card p-0 shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
+      <DialogContent className="w-[calc(100%-2rem)] max-h-[calc(100dvh-2rem)] max-w-xl gap-0 overflow-y-auto rounded-[2rem] border-0 bg-card p-0 shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
         <div
           aria-hidden="true"
           className="absolute right-0 top-0 h-64 w-64 -translate-y-1/2 translate-x-1/2 rounded-full bg-primary/5 blur-3xl"
@@ -77,7 +77,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-[shimmer_2s_infinite]" />
         </div>
 
-        <div className="relative px-10 py-8">
+        <div className="relative px-6 py-7 sm:px-10 sm:py-8">
           <div className="mb-6 flex items-center justify-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-accent">
               <Sparkles aria-hidden="true" className="h-4.5 w-4.5 text-white" />

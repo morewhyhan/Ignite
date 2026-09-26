@@ -21,6 +21,12 @@ const createModule = join(repositoryRoot, 'scripts', 'create-module.mjs')
 
 function prepareScaffoldTemplate(root: string) {
   write(root, 'docs/plans/_template.md', read(repositoryRoot, 'docs/plans/_template.md'))
+  write(
+    root,
+    'docs/others/test-cases/_template.md',
+    read(repositoryRoot, 'docs/others/test-cases/_template.md'),
+  )
+  commitAll(root, 'Install scaffold templates')
 }
 
 describe('template and runtime contracts', () => {
@@ -54,6 +60,7 @@ describe('template and runtime contracts', () => {
       expect(JSON.parse(runCli(fixture.root, 'adopt-history', '--apply').stdout).status).toBe(
         'unchanged',
       )
+      commitAll(fixture.root, 'Archive inherited template history')
       const scaffold = spawnSync(process.execPath, [createModule, 'invoices'], {
         cwd: fixture.root,
         encoding: 'utf8',
@@ -129,18 +136,21 @@ describe('template and runtime contracts', () => {
         if (releaseId) {
           const releasePath = `docs/plans/releases/${releaseId}.json`
           const release = JSON.parse(read(fixture.root, releasePath))
-          release.coverage_version = 1
+          release.coverage_version = 2
+          release.verification_contract = 2
           release.scope = [
             {
               id: 'GOAL-001',
               text: 'Validate the fixture execution result',
               source: 'Fixture requirement',
               requirements: ['REQ-TEST-001'],
+              acceptance: ['AC-TEST-001'],
               plan_ids: ['IGT-900'],
               disposition: 'included',
             },
           ]
           write(fixture.root, releasePath, JSON.stringify(release))
+          commitAll(fixture.root, 'Prepare Release fixture')
         }
         const result = spawnSync(
           process.execPath,

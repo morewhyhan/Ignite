@@ -37,6 +37,8 @@
 - 使用 Tailwind 响应式断点。
 - `.container` 的水平内边距为 `2rem`，最大宽度随断点从 `640px` 到 `1400px` 变化。
 - Dashboard 页面由 `src/components/layout/dashboard-layout.tsx` 统一提供布局。
+- 模板基线至少覆盖 1440px 桌面、768px 平板、390px 与 360px 手机宽度；页面不得产生横向溢出，认证和编辑弹窗必须限制在视口内并允许内容滚动。
+- 当前响应式用户路径由 `tests/e2e/responsive.spec.ts` 验收；新页面应在同一主要流程上补充窄视口行为检查，而不只检查 CSS 类名。
 
 ## 变更规则
 

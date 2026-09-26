@@ -8,4 +8,4 @@
 - 每个行为变化都要补充适用的 API、单元或 E2E 测试。
 - 业务变更遵循 [`workflow.md`](./workflow.md) 的规格、Plan、测试先行和设计回写闭环。
 - 不手工猜测检查范围。统一运行 `pnpm ignite check --plan <IGT-ID> --level auto`；它按真实 Plan diff 选择最低层级，且所有层级都执行 `git diff --check`。
-- 发布前把 Plan 进入 `verifying` 并运行 `pnpm ignite check --plan <IGT-ID> --level release`；该层级包含完整验证、生产构建和生产态 E2E。
+- 新版 Plan（`verification_contract: 2`）先完成 Plan integration 和本 Plan 验收，再将 Plan 标为 `done`；所有纳入 Release 的 Plan 完成后，运行 `pnpm ignite release verify <release-id> --plan <IGT-ID>` 验证组合版本的生产构建与生产态 E2E。旧 Plan（`verification_contract: 1`）继续使用 `pnpm ignite check --plan <IGT-ID> --level release`。

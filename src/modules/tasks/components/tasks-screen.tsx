@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from 'react'
 import { Calendar, Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { useAuthSession } from '@/modules/auth'
 import {
@@ -60,15 +61,33 @@ export function TasksScreen() {
     if (!title) return
 
     if (editor.taskId) {
-      updateTask.mutate({ id: editor.taskId, title }, { onSuccess: closeEditor })
+      updateTask.mutate(
+        { id: editor.taskId, title },
+        {
+          onSuccess: () => {
+            toast.success('任务更新成功')
+            closeEditor()
+          },
+          onError: (error) => toast.error(`更新失败：${error.message}`),
+        },
+      )
     } else {
-      createTask.mutate({ title }, { onSuccess: closeEditor })
+      createTask.mutate(
+        { title },
+        {
+          onSuccess: () => {
+            toast.success('任务创建成功')
+            closeEditor()
+          },
+          onError: (error) => toast.error(`创建失败：${error.message}`),
+        },
+      )
     }
   }
 
   if (sessionLoading || (Boolean(session?.user) && tasksQuery.isLoading)) {
     return (
-      <div className="min-h-screen py-20">
+      <div className="min-h-screen py-12 sm:py-20">
         <div className="mx-auto max-w-3xl px-6">
           <p className="text-sm text-muted-foreground">加载中...</p>
         </div>
@@ -108,10 +127,10 @@ export function TasksScreen() {
   }
 
   return (
-    <div className="min-h-screen py-20">
+    <div className="min-h-screen py-12 sm:py-20">
       <div className="mx-auto max-w-3xl px-6">
-        <div className="space-y-16">
-          <header className="flex items-end justify-between gap-8">
+        <div className="space-y-12 sm:space-y-16">
+          <header className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end sm:gap-8">
             <div className="flex-1">
               <h1 className="text-4xl font-semibold tracking-tight">任务清单</h1>
               <p className="mt-2 text-sm text-muted-foreground">
@@ -137,9 +156,22 @@ export function TasksScreen() {
             filter={filter}
             isUpdating={updateTask.isPending}
             isDeleting={deleteTask.isPending}
-            onToggle={(task) => updateTask.mutate({ id: task.id, completed: !task.completed })}
+            onToggle={(task) =>
+              updateTask.mutate(
+                { id: task.id, completed: !task.completed },
+                {
+                  onSuccess: () => toast.success('任务更新成功'),
+                  onError: (error) => toast.error(`更新失败：${error.message}`),
+                },
+              )
+            }
             onEdit={openEditDialog}
-            onDelete={(task) => deleteTask.mutate(task.id)}
+            onDelete={(task) =>
+              deleteTask.mutate(task.id, {
+                onSuccess: () => toast.success('任务删除成功'),
+                onError: (error) => toast.error(`删除失败：${error.message}`),
+              })
+            }
           />
         </div>
       </div>

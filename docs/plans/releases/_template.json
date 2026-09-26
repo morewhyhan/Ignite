@@ -1,7 +1,8 @@
 {
   "schema": 2,
   "id": "release-id",
-  "coverage_version": 1,
+  "coverage_version": 2,
+  "verification_contract": 2,
   "plan_ids": ["IGT-000"],
   "scope": [
     {
@@ -9,13 +10,16 @@
       "text": "待填写原始目标",
       "source": "待填写来源",
       "requirements": [],
+      "acceptance": [],
       "plan_ids": ["IGT-000"],
       "disposition": "included",
       "reason": "",
       "authorization": ""
     }
   ],
-  "must_pass": ["check-integration", "check-release"],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
   "excluded": [],
   "updated_at": "YYYY-MM-DD"
 }

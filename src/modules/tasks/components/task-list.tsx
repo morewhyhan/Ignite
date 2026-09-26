@@ -30,7 +30,7 @@ export function TaskList({
 }: TaskListProps) {
   if (tasks.length === 0) {
     return (
-      <div className="py-32 text-center">
+      <div className="py-20 text-center sm:py-32">
         <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-3xl bg-muted/50">
           <Calendar aria-hidden="true" className="h-10 w-10 text-muted-foreground/40" />
         </div>

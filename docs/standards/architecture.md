@@ -20,7 +20,8 @@ src/server/                Hono、认证、数据库和第三方服务
 
 - 页面只从 module 的 `index.ts` 引入 screen。
 - 远程业务数据必须由 module Hook 封装。
-- Hook 统一使用 `src/lib/api-client.ts` 的 Hono client。
+- Hook 统一使用 `src/lib/api-client.ts` 提供的 Hono Typed RPC 契约；当前 Web 单例由该文件适配浏览器 origin 和 Cookie。`createApiClient` 接受注入的 origin/fetcher，未来端可复用同一 `AppType`，但各端认证与运行时适配单独实现。
+- 可复用的业务 Hook 不直接依赖 `window`、`location` 或 Web 通知 UI；通知由 screen/平台外壳处理。Better Auth 客户端仍是认证专用边界。
 - API 类型以 `src/server/api/index.ts` 的 `AppType` 为真源。
 - 客户端不能运行时导入 `src/server/`。
 - 认证、服务端 layout 守卫和第三方服务 adapter 是明确的运行时例外。

@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "run_id": "tdd-20260926102320-d6b71a",
+  "plan_id": "IGT-006",
+  "acceptance_id": "AC-TRUST-009",
+  "test": "tests/contracts/execution-trust.test.ts::[AC-TRUST-009]",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "183b8eb13ba1b2831f54cb54376dd4107c2082b2",
+  "test_sha256": "5cb292caf48a3c98439a29b12a69bcf97e0040840e81ae7fecbc8187b591cb08",
+  "output_sha256": "c2af2844c4a0a3c80db65fefdd1572716f1fb25f2eafa0d20f4a2cb39125cfca",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/execution-trust.test.ts",
+    "--testNamePattern",
+    "AC-TRUST-009",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-09-26T10:23:20.058Z",
+  "ended_at": "2026-09-26T10:23:25.825Z",
+  "executor": "ignite-tdd-runner"
+}

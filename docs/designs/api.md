@@ -35,11 +35,10 @@ API 组合真源是 `src/server/api/index.ts`，Next.js 适配入口是
 
 状态码语义为 `401` 未登录、`404` 不存在或越权、`422` 输入无效、`500` 未预期错误。
 
-客户端请求路径为：
+业务契约由 `src/server/api/index.ts` 的 `AppType` 唯一推导。请求路径为：
 
 ```text
-module Hook → src/lib/api-client.ts → AppType → Hono route
+module Hook → platform adapter → shared createApiClient(AppType) → Hono route
 ```
 
-认证由 Better Auth Client 处理，不重复创建认证 RPC；服务端 session 守卫和第三方
-服务 adapter 也不属于业务 API 资源。
+当前 Web adapter 在 `src/lib/api-client.ts` 导出默认 `client`，使用浏览器 origin 与 Cookie；同文件 `createApiClient` 接受 origin、fetcher 和 credentials 配置，以便其他端在保持相同 RPC 类型时注入平台传输实现。Hook 不依赖 `window`、Sonner 等 Web 展示能力；缓存属于 Hook，操作提示属于 screen。认证由 Better Auth Client 单独处理，不重复创建认证 RPC；服务端 session 守卫和第三方服务 adapter 也不属于业务 API 资源。

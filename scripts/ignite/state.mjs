@@ -3,6 +3,7 @@ import { extname, join, resolve } from 'node:path'
 import {
   changedFilesForPlan,
   changedFilesForPlanAtCommit,
+  createInputFingerprintContext,
   computeInputFingerprint,
   computeInputFingerprintAtCommit,
   currentCommit,
@@ -35,6 +36,7 @@ import {
   calculateEvidenceCoverage,
   dependencyContractIsCurrent,
   renderPlanProgressContent,
+  validateDataContract,
   validateExecutionContract,
   validateReleaseScope,
 } from './execution-contract.mjs'
@@ -176,7 +178,10 @@ export function findPlan(identifier) {
 
 function readRepositoryText(path, commit = null) {
   if (commit) {
-    const result = runGit(['show', `${commit}:${path}`], { allowFailure: true })
+    const result = runGit(['show', `${commit}:${path}`], {
+      allowFailure: true,
+      trimOutput: false,
+    })
     return result.exitCode === 0 ? result.stdout : null
   }
   const absolutePath = join(repositoryRoot, path)
@@ -204,11 +209,12 @@ export function specificationRegistry(commit = null) {
       requirements.set(match[1], path)
     }
     for (const match of content.matchAll(
-      /^- (AC-[A-Z0-9-]+)(?:（([^）]+)）)?：Given .+When .+Then /gm,
+      /^- (AC-[A-Z0-9-]+)(?:（([^）]+)）)?：Given .+When .+Then .+$/gm,
     )) {
       if (acceptance.has(match[1])) duplicates.push(match[1])
       acceptance.set(match[1], {
         path,
+        text: match[0],
         requirements: [...new Set((match[2] || '').match(/REQ-[A-Z0-9-]+/g) || [])],
       })
     }
@@ -295,6 +301,9 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
   if (value.contract_version !== undefined && value.contract_version !== 2) {
     failures.push('contract_version must be 2 when provided')
   }
+  if (value.verification_contract !== undefined && ![1, 2].includes(value.verification_contract)) {
+    failures.push('verification_contract must be 1 or 2 when provided')
+  }
   if (value.contract_version === 2) {
     for (const field of ['goals', 'constraints', 'non_goals', 'deliverables']) {
       if (!Array.isArray(value[field])) failures.push(`${field} must be an array`)
@@ -311,6 +320,13 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
         goal.requirements.some((id) => !value.requirements?.includes(id))
       ) {
         failures.push('each goal must have text and declared REQ-* mappings')
+      }
+      if (
+        value.status !== 'draft' &&
+        typeof goal?.text === 'string' &&
+        /待填写|待定义|<[^>]+>|TODO/i.test(goal.text)
+      ) {
+        failures.push('ready Plans cannot retain placeholder goal text')
       }
     }
     if (!draft) {
@@ -330,6 +346,8 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
     ]) {
       if (typeof item !== 'string' || !item.trim())
         failures.push('contract entries must be non-empty strings')
+      else if (value.status !== 'draft' && /待填写|待定义|<[^>]+>|TODO/i.test(item))
+        failures.push('ready Plans cannot retain placeholder contract entries')
     }
     if (
       !value.authorization ||
@@ -337,6 +355,11 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
       !value.authorization.source.trim()
     ) {
       failures.push('authorization.source is required')
+    } else if (
+      value.status !== 'draft' &&
+      /待填写|待确认|待定义|<[^>]+>|TODO/i.test(value.authorization.source)
+    ) {
+      failures.push('ready Plans cannot retain placeholder authorization.source')
     }
     if (value.remaining_work !== undefined) {
       if (
@@ -381,6 +404,13 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
       const spec = registry.acceptance.get(item.id)
       if (!/^AC-[A-Z0-9-]+$/.test(item.id) || (!retired && !draft && !spec))
         failures.push(`unknown acceptance criterion: ${item.id}`)
+      if (value.verification_contract >= 2 && !draft && spec) {
+        if (/待填写|待确认|待定义|待补充|<[^>]+>|TODO/i.test(spec.text || ''))
+          failures.push(`${item.id} Feature acceptance still contains a placeholder`)
+        const featureText = readRepositoryText(spec.path, historicalCommit)
+        if (featureText && /待填写|待确认|待定义|待补充|<[^>]+>|TODO/i.test(featureText))
+          failures.push(`${item.id} Feature ${spec.path} still contains unresolved placeholders`)
+      }
       for (const requirement of spec?.requirements || []) {
         coveredRequirements.add(requirement)
         if (!draft && !value.requirements?.includes(requirement)) {
@@ -405,6 +435,14 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
             failures.push(`acceptance ${item.id} references missing test ${testPath}`)
           } else if (!acceptanceTestTitles(testContent).has(item.id)) {
             failures.push(`acceptance ${item.id} is not tagged inside ${testPath}`)
+          } else if (
+            value.verification_contract >= 2 &&
+            value.status !== 'draft' &&
+            /(?:expect\.fail\s*\(|throw new Error\s*\(|replaces this red specification)/i.test(
+              testContent,
+            )
+          ) {
+            failures.push(`acceptance ${item.id} still contains a scaffold failure placeholder`)
           }
         }
       }
@@ -412,6 +450,79 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
     for (const requirement of value.requirements || []) {
       if (!retired && !draft && !coveredRequirements.has(requirement)) {
         failures.push(`requirement ${requirement} is not linked by a Plan acceptance criterion`)
+      }
+    }
+  }
+  if (value.verification_contract >= 2) {
+    failures.push(...validateDataContract(plan))
+    if (!Array.isArray(value.tdd_evidence)) {
+      if (!draft) failures.push('tdd_evidence must be an array')
+    } else {
+      const seenTdd = new Set()
+      const validTdd = new Set()
+      for (const item of value.tdd_evidence) {
+        if (
+          !item ||
+          typeof item.acceptance_id !== 'string' ||
+          typeof item.test !== 'string' ||
+          typeof item.run_id !== 'string' ||
+          !/^tdd-\d{14}-[0-9a-f]{6}$/.test(item.run_id)
+        ) {
+          failures.push('TDD evidence entries require an AC, test reference and runner id')
+          continue
+        }
+        if (seenTdd.has(item.acceptance_id))
+          failures.push(`duplicate TDD evidence for ${item.acceptance_id}`)
+        seenTdd.add(item.acceptance_id)
+        const criterion = value.acceptance?.find((entry) => entry.id === item.acceptance_id)
+        const recordPath = `docs/others/evidence/tdd/${value.id}/${item.run_id}.json`
+        const recordText = readRepositoryText(recordPath, historicalCommit)
+        if (!criterion?.tests?.includes(item.test)) {
+          failures.push(`${item.acceptance_id}: TDD test is outside the declared acceptance paths`)
+          continue
+        }
+        if (!recordText) {
+          failures.push(`${item.acceptance_id}: TDD runner record ${item.run_id} is missing`)
+          continue
+        }
+        try {
+          const record = JSON.parse(recordText)
+          const [testPath] = item.test.split('::', 1)
+          const redTest = readRepositoryText(testPath, record.red_commit)
+          const finalTest = historicalCommit
+            ? readRepositoryText(testPath, historicalCommit)
+            : redTest
+          const recordMatches =
+            record.schema === 1 &&
+            record.run_id === item.run_id &&
+            record.plan_id === value.id &&
+            record.acceptance_id === item.acceptance_id &&
+            record.test === item.test &&
+            record.status === 'assertion-failed' &&
+            record.executor === 'ignite-tdd-runner' &&
+            /^[0-9a-f]{64}$/.test(record.test_sha256 || '') &&
+            /^[0-9a-f]{64}$/.test(record.output_sha256 || '') &&
+            gitCommitExists(record.red_commit) &&
+            isAncestor(value.base_commit, record.red_commit) &&
+            (!historicalCommit || isAncestor(record.red_commit, historicalCommit)) &&
+            redTest !== null &&
+            finalTest !== null &&
+            hash(redTest) === record.test_sha256 &&
+            hash(finalTest) === record.test_sha256
+          if (!recordMatches)
+            failures.push(
+              `${item.acceptance_id}: TDD red proof is invalid or its test changed before green`,
+            )
+          else validTdd.add(item.acceptance_id)
+        } catch {
+          failures.push(`${item.acceptance_id}: TDD runner record is not valid JSON`)
+        }
+      }
+      if (value.status === 'done') {
+        for (const criterion of value.acceptance || []) {
+          if (!validTdd.has(criterion.id))
+            failures.push(`${criterion.id}: done Plan requires a matching behavior-test red result`)
+        }
       }
     }
   }
@@ -450,12 +561,20 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
       if (!EVIDENCE_IDS.has(id)) failures.push(`unknown required evidence: ${id}`)
     }
     const minimumEvidence =
-      value.risk === 'docs' ? ['check-dev'] : ['check-integration', 'check-release']
+      value.risk === 'docs'
+        ? ['check-dev']
+        : value.verification_contract >= 2
+          ? ['check-integration']
+          : ['check-integration', 'check-release']
     for (const id of minimumEvidence) {
       if (!required.has(id)) failures.push(`${value.risk} Plans must require ${id}`)
     }
+    if (value.verification_contract >= 2 && required.has('check-release'))
+      failures.push('verification_contract 2 Plans must leave check-release to the Release')
   }
   if (!Array.isArray(value.evidence)) failures.push('evidence must be an array')
+  if (value.verification_contract >= 2 && !Array.isArray(value.tdd_evidence) && !draft)
+    failures.push('verification_contract 2 requires tdd_evidence before ready')
   if (!Array.isArray(value.open_questions)) failures.push('open_questions must be an array')
   if (!isValidDate(value.updated_at)) failures.push('updated_at must be a real YYYY-MM-DD date')
   if (
@@ -603,7 +722,11 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
         for (const check of criterion.checks || []) {
           const browser = /\.spec\.tsx?(?:::|$)/.test(check.test)
           const applies =
-            manifest.level === 'integration' ? !browser : manifest.level === 'release' && browser
+            policyVersion >= 6 && evidencePlan.metadata.verification_contract >= 2
+              ? manifest.level === 'integration'
+              : manifest.level === 'integration'
+                ? !browser
+                : manifest.level === 'release' && browser
           if (
             applies &&
             !observed.some(
@@ -792,9 +915,35 @@ export function validatePlanDependencies(
   return [...new Set(failures)]
 }
 
-export function validateAllPlans() {
+export function validatePlanReleaseContract(plan, release) {
+  if (!plan?.metadata || plan.metadata.schema !== 2) return []
+
   const failures = []
-  const plans = listPlans()
+  if (!release) {
+    failures.push(`missing release ${plan.metadata.release}`)
+    return failures
+  }
+  if (!release.plan_ids?.includes(plan.metadata.id)) {
+    failures.push(`release ${release.id} does not include the Plan`)
+  }
+  if (plan.metadata.verification_contract === 2) {
+    if (release.verification_contract !== 2 || release.coverage_version !== 2) {
+      failures.push(
+        'verification_contract 2 requires Release verification_contract 2 and coverage_version 2',
+      )
+    }
+  } else if (plan.metadata.execution_contract === 1 && release.coverage_version !== 1) {
+    failures.push('legacy execution_contract 1 Plans require Release coverage_version 1')
+  }
+  return [...new Set(failures)]
+}
+
+export function validateAllPlans(
+  plans = listPlans(),
+  releaseEntries = listReleases(),
+  { planFailuresById = null } = {},
+) {
+  const failures = []
   const ids = new Map()
   for (const plan of plans) {
     if (plan.metadata) {
@@ -802,7 +951,8 @@ export function validateAllPlans() {
         failures.push(`${plan.relativePath}: duplicate id ${plan.metadata.id}`)
       ids.set(plan.metadata.id, plan)
     }
-    for (const error of validatePlan(plan).filter(
+    const planFailures = planFailuresById?.get(plan.metadata?.id) || validatePlan(plan)
+    for (const error of planFailures.filter(
       (item) => item !== 'legacy plan without structured metadata',
     )) {
       failures.push(`${plan.relativePath}: ${error}`)
@@ -830,19 +980,11 @@ export function validateAllPlans() {
       }
     }
   }
-  const releases = new Map(listReleases().map(({ value }) => [value.id, value]))
+  const releases = new Map(releaseEntries.map(({ value }) => [value.id, value]))
   for (const plan of plans.filter((item) => item.metadata?.schema === 2)) {
     const release = releases.get(plan.metadata.release)
-    if (!release) failures.push(`${plan.relativePath}: missing release ${plan.metadata.release}`)
-    else if (!release.plan_ids?.includes(plan.metadata.id)) {
-      failures.push(
-        `${plan.relativePath}: release ${plan.metadata.release} does not include the Plan`,
-      )
-    }
-    if (plan.metadata.execution_contract === 1 && release?.coverage_version !== 1)
-      failures.push(
-        `${plan.relativePath}: execution_contract 1 requires release coverage_version 1`,
-      )
+    for (const error of validatePlanReleaseContract(plan, release))
+      failures.push(`${plan.relativePath}: ${error}`)
   }
   return failures
 }
@@ -875,14 +1017,41 @@ export function validateRelease(
   } else if (new Set(release.must_pass).size !== release.must_pass.length) {
     failures.push('release must_pass must be unique')
   }
-  const declaredEvidence = new Set(
-    (release.plan_ids || []).flatMap((id) => plansById.get(id)?.metadata?.required_evidence || []),
-  )
-  for (const id of release.must_pass || []) {
-    if (!declaredEvidence.has(id)) failures.push(`release requires undeclared evidence ${id}`)
-  }
-  for (const id of declaredEvidence) {
-    if (!release.must_pass?.includes(id)) failures.push(`release omits required evidence ${id}`)
+  if (release.verification_contract === 2) {
+    if (release.coverage_version !== 2)
+      failures.push('Release verification_contract 2 requires coverage_version 2')
+    if (JSON.stringify(release.must_pass) !== JSON.stringify(['check-release']))
+      failures.push('Release verification_contract 2 must require only check-release')
+    if (!Array.isArray(release.evidence)) failures.push('Release evidence must be an array')
+    if (release.integrated_commit !== null && !gitCommitExists(release.integrated_commit))
+      failures.push('Release integrated_commit must identify a real commit or be null')
+    for (const item of release.evidence || []) {
+      if (
+        item?.id !== 'check-release' ||
+        typeof item.run_id !== 'string' ||
+        typeof item.package_version !== 'string' ||
+        !Array.isArray(item.tags) ||
+        item.tags.some((tag) => typeof tag !== 'string')
+      )
+        failures.push(
+          'Release evidence requires check-release, run_id, package_version and exact commit tags',
+        )
+    }
+    if ((release.evidence || []).filter((item) => item?.id === 'check-release').length > 1)
+      failures.push('Release may bind only one current check-release run')
+    failures.push(...validateReleaseAcceptanceCoverage(release, plansById))
+  } else {
+    const declaredEvidence = new Set(
+      (release.plan_ids || []).flatMap(
+        (id) => plansById.get(id)?.metadata?.required_evidence || [],
+      ),
+    )
+    for (const id of release.must_pass || []) {
+      if (!declaredEvidence.has(id)) failures.push(`release requires undeclared evidence ${id}`)
+    }
+    for (const id of declaredEvidence) {
+      if (!release.must_pass?.includes(id)) failures.push(`release omits required evidence ${id}`)
+    }
   }
   if (!Array.isArray(release.excluded)) failures.push('release excluded must be an array')
   else {
@@ -899,33 +1068,247 @@ export function validateRelease(
   return failures
 }
 
-export function evidenceCoverage(plan) {
-  const manifests = new Map(listDurableRuns().map(({ value }) => [value.run_id, value]))
-  const failures = validatePlan(plan)
+export function validateReleaseAcceptanceCoverage(release, plansById) {
+  if (release.coverage_version !== 2) return []
+  const failures = []
+  const scopeIsActive = (release.plan_ids || []).some(
+    (id) => !['draft', 'cancelled', 'superseded'].includes(plansById.get(id)?.metadata.status),
+  )
+  if (!scopeIsActive) return failures
+
+  const registry = specificationRegistry()
+  const claims = new Map()
+  for (const goal of release.scope || []) {
+    if (!Array.isArray(goal.acceptance)) continue
+    if (new Set(goal.acceptance).size !== goal.acceptance.length)
+      failures.push(`${goal.id}: acceptance IDs must be unique`)
+    for (const acceptanceId of goal.acceptance) {
+      const spec = registry.acceptance.get(acceptanceId)
+      if (!spec) {
+        failures.push(`${goal.id}: unknown acceptance criterion ${acceptanceId}`)
+        continue
+      }
+      if (!spec.requirements.some((requirement) => goal.requirements?.includes(requirement)))
+        failures.push(`${goal.id}: ${acceptanceId} does not belong to a listed requirement`)
+      claims.set(acceptanceId, [...(claims.get(acceptanceId) || []), goal])
+
+      if (goal.disposition === 'included') {
+        const covered = goal.plan_ids.some((id) =>
+          plansById
+            .get(id)
+            ?.metadata.acceptance?.some((criterion) => criterion.id === acceptanceId),
+        )
+        if (!covered) failures.push(`${goal.id}: ${acceptanceId} has no assigned Plan acceptance`)
+      } else if (goal.plan_ids.length) {
+        failures.push(`${goal.id}: deferred or excluded acceptance cannot be assigned to a Plan`)
+      }
+    }
+  }
+
+  const scopedRequirements = new Set(
+    (release.scope || []).flatMap((goal) => goal.requirements || []),
+  )
+  for (const requirement of scopedRequirements) {
+    if (!registry.requirements.has(requirement)) {
+      failures.push(`release scope references unknown requirement ${requirement}`)
+      continue
+    }
+    const requiredAcceptance = [...registry.acceptance.entries()]
+      .filter(([, spec]) => spec.requirements.includes(requirement))
+      .map(([id]) => id)
+    for (const acceptanceId of requiredAcceptance) {
+      const owners = claims.get(acceptanceId) || []
+      if (owners.length === 0)
+        failures.push(
+          `${requirement}: ${acceptanceId} is not included, deferred or explicitly excluded`,
+        )
+      else if (owners.length > 1)
+        failures.push(`${acceptanceId} is mapped more than once in Release scope`)
+    }
+  }
+  return [...new Set(failures)]
+}
+
+export function evidenceCoverage(
+  plan,
+  manifests = null,
+  { validationFailures = null, fingerprintForPlan = computeInputFingerprint } = {},
+) {
+  const runManifests =
+    manifests || new Map(listDurableRuns().map(({ value }) => [value.run_id, value]))
+  const failures = validationFailures || validatePlan(plan)
   const historical = plan.metadata.status === 'done'
-  const currentFingerprint = historical ? null : computeInputFingerprint(plan)
+  const currentFingerprint = historical ? null : fingerprintForPlan(plan)
   return calculateEvidenceCoverage({
     plan,
-    manifests,
+    manifests: runManifests,
     validationFailures: failures,
     currentFingerprint,
     currentPolicyVersion: CHECK_POLICY_VERSION,
   })
 }
 
-export function deriveRelease(release) {
+export function computeReleaseInputFingerprint(
+  release,
+  anchorPlan,
+  plansById = new Map(listPlans().map((plan) => [plan.metadata?.id, plan])),
+) {
+  return hash(
+    JSON.stringify({
+      repository_input: computeInputFingerprint(anchorPlan),
+      release: {
+        id: release.id,
+        verification_contract: release.verification_contract,
+        coverage_version: release.coverage_version,
+        plan_ids: release.plan_ids,
+        must_pass: release.must_pass,
+        excluded: release.excluded,
+        scope: release.scope,
+      },
+      plans: release.plan_ids.map((id) => ({
+        id,
+        contract: stablePlanContract(plansById.get(id)?.metadata),
+      })),
+    }),
+  )
+}
+
+function releaseIdentityAtCommit(commit) {
+  const packageJson = readJson(join(repositoryRoot, 'package.json'))
+  const tags = runGit(['tag', '--points-at', commit], { allowFailure: true })
+    .stdout.split(/\r?\n/)
+    .filter(Boolean)
+    .sort()
+  return { package_version: packageJson.version, tags }
+}
+
+export function bindReleaseEvidence(releaseId, runId) {
+  const entry = listReleases().find(({ value }) => value.id === releaseId)
+  if (!entry) throw new Error(`release not found: ${releaseId}`)
+  const release = entry.value
+  if (release.verification_contract !== 2)
+    throw new Error('release evidence binding requires verification_contract 2')
   const plansById = new Map(listPlans().map((plan) => [plan.metadata?.id, plan]))
+  const manifest = listDurableRuns().find(({ value }) => value.run_id === runId)?.value
+  if (!manifest) throw new Error(`release run manifest not found: ${runId}`)
+  if (
+    manifest.release_id !== release.id ||
+    manifest.evidence_id !== 'check-release' ||
+    manifest.level !== 'release' ||
+    manifest.status !== 'passed' ||
+    manifest.exit_code !== 0 ||
+    manifest.workspace_clean !== true
+  )
+    throw new Error('run is not a successful clean check-release for this Release')
+  const includedPlans = release.plan_ids
+    .map((id) => plansById.get(id))
+    .filter((plan) => plan && !['cancelled', 'superseded'].includes(plan.metadata.status))
+  if (!includedPlans.every((plan) => plan.metadata.status === 'done'))
+    throw new Error('all included Plans must be done before binding Release evidence')
+  const anchor = plansById.get(manifest.plan_id)
+  if (!anchor || !includedPlans.some((plan) => plan.metadata.id === anchor.metadata.id))
+    throw new Error('Release evidence anchor Plan must belong to the Release')
+  if (
+    !gitCommitExists(manifest.commit) ||
+    !isAncestor(manifest.commit, 'HEAD') ||
+    manifest.release_fingerprint !== computeReleaseInputFingerprint(release, anchor, plansById) ||
+    JSON.stringify(manifest.release_identity) !==
+      JSON.stringify(releaseIdentityAtCommit(manifest.commit))
+  )
+    throw new Error('Release evidence is stale for the current integrated version or scope')
+  const next = {
+    ...release,
+    evidence: [
+      {
+        id: 'check-release',
+        run_id: runId,
+        plan_id: anchor.metadata.id,
+        ...manifest.release_identity,
+      },
+    ],
+    integrated_commit: manifest.commit,
+    updated_at: new Date().toISOString().slice(0, 10),
+  }
+  const errors = validateRelease(next, plansById)
+  if (errors.length) throw new Error(`invalid Release evidence binding:\n- ${errors.join('\n- ')}`)
+  writeTextIfChanged(entry.path, `${JSON.stringify(next, null, 2)}\n`)
+  writeGeneratedStatus()
+  return next
+}
+
+function releaseEvidenceCoverage(release, plansById, manifests) {
+  if (release.verification_contract !== 2) return null
+  const binding = release.evidence?.find((item) => item.id === 'check-release')
+  const missing = { status: 'missing', reason: 'Release production verification has not run' }
+  if (!binding) return missing
+  const manifest = manifests.get(binding.run_id)
+  if (!manifest) return { status: 'invalid', reason: `run ${binding.run_id} is missing` }
+  const anchor = plansById.get(binding.plan_id)
+  if (
+    !anchor ||
+    anchor.metadata.id !== manifest.plan_id ||
+    !release.plan_ids.includes(binding.plan_id)
+  )
+    return { status: 'invalid', reason: 'run anchor does not belong to this Release' }
+  if (
+    manifest.release_id !== release.id ||
+    manifest.evidence_id !== 'check-release' ||
+    manifest.level !== 'release' ||
+    manifest.status !== 'passed' ||
+    manifest.exit_code !== 0 ||
+    manifest.check_policy_version !== CHECK_POLICY_VERSION ||
+    manifest.workspace_clean !== true ||
+    !gitCommitExists(manifest.commit) ||
+    !isAncestor(manifest.commit, 'HEAD') ||
+    manifest.commit !== release.integrated_commit ||
+    manifest.release_fingerprint !== computeReleaseInputFingerprint(release, anchor, plansById) ||
+    binding.package_version !== releaseIdentityAtCommit(manifest.commit).package_version ||
+    JSON.stringify(binding.tags) !==
+      JSON.stringify(releaseIdentityAtCommit(manifest.commit).tags) ||
+    JSON.stringify(manifest.release_identity) !==
+      JSON.stringify(releaseIdentityAtCommit(manifest.commit))
+  )
+    return {
+      status: 'stale',
+      run_id: manifest.run_id,
+      reason: 'scope, Plan contract, source, policy or integrated commit changed',
+    }
+  return {
+    status: 'passed',
+    run_id: manifest.run_id,
+    commit: manifest.commit,
+    package_version: manifest.release_identity.package_version,
+    tags: manifest.release_identity.tags,
+  }
+}
+
+export function deriveRelease(
+  release,
+  {
+    planSnapshot = listPlans(),
+    manifests = new Map(listDurableRuns().map(({ value }) => [value.run_id, value])),
+    planFailuresById = null,
+    fingerprintForPlan = computeInputFingerprint,
+  } = {},
+) {
+  const plansById = new Map(planSnapshot.map((plan) => [plan.metadata?.id, plan]))
   const failures = validateRelease(release, plansById)
   const plans = (release.plan_ids || []).map((id) => plansById.get(id)).filter(Boolean)
-  for (const plan of plans)
-    failures.push(...validatePlan(plan).map((error) => `${plan.metadata.id}: ${error}`))
+  for (const plan of plans) {
+    const planFailures = planFailuresById?.get(plan.metadata.id) || validatePlan(plan)
+    failures.push(...planFailures.map((error) => `${plan.metadata.id}: ${error}`))
+  }
   const remainingPlans = plans.filter(
     (plan) => !['cancelled', 'superseded'].includes(plan.metadata.status),
   )
   const missingDetails = remainingPlans.flatMap((plan) =>
-    evidenceCoverage(plan).filter((item) => item.status !== 'passed'),
+    evidenceCoverage(plan, manifests, {
+      validationFailures: planFailuresById?.get(plan.metadata.id) || null,
+      fingerprintForPlan,
+    }).filter((item) => item.status !== 'passed'),
   )
   const missingEvidence = missingDetails.map((item) => `${item.plan_id}:${item.evidence_id}`)
+  const releaseEvidence = releaseEvidenceCoverage(release, plansById, manifests)
   const outstandingScope = (release.scope || []).filter(
     (goal) =>
       goal.disposition === 'deferred' ||
@@ -940,10 +1323,20 @@ export function deriveRelease(release) {
   else if (plans.length > 0 && remainingPlans.length === 0) status = 'cancelled'
   else if (plans.some((plan) => plan.metadata.status === 'blocked')) status = 'blocked'
   else if (
+    release.verification_contract === 2 &&
     remainingPlans.length > 0 &&
     remainingPlans.every((plan) => plan.metadata.status === 'done') &&
     missingEvidence.length === 0 &&
-    outstandingScope.length === 0
+    outstandingScope.length === 0 &&
+    releaseEvidence?.status !== 'passed'
+  )
+    status = 'verifying'
+  else if (
+    remainingPlans.length > 0 &&
+    remainingPlans.every((plan) => plan.metadata.status === 'done') &&
+    missingEvidence.length === 0 &&
+    outstandingScope.length === 0 &&
+    (release.verification_contract !== 2 || releaseEvidence?.status === 'passed')
   )
     status = 'done'
   else if (plans.some((plan) => plan.metadata.status === 'verifying')) status = 'verifying'
@@ -953,10 +1346,30 @@ export function deriveRelease(release) {
 
   return {
     ...release,
+    scope: release.scope || [],
     status,
     failures: [...new Set(failures)],
     missing_evidence: missingEvidence,
     evidence_gaps: missingDetails,
+    release_evidence: releaseEvidence,
+    release_evidence_gaps:
+      release.verification_contract === 2 && releaseEvidence?.status !== 'passed'
+        ? [
+            {
+              evidence_id: 'check-release',
+              status: releaseEvidence?.status || 'missing',
+              reason: releaseEvidence?.reason || 'Release production verification has not run',
+            },
+          ]
+        : [],
+    next_action: deriveReleaseNextAction({
+      release,
+      plans,
+      failures,
+      missingDetails,
+      outstandingScope,
+      releaseEvidence,
+    }),
     outstanding_scope: outstandingScope,
     excluded_plans: plans
       .filter((plan) => ['cancelled', 'superseded'].includes(plan.metadata.status))
@@ -964,29 +1377,127 @@ export function deriveRelease(release) {
   }
 }
 
-export function validateAllReleases() {
+function deriveReleaseNextAction({
+  release,
+  plans,
+  failures,
+  missingDetails,
+  outstandingScope,
+  releaseEvidence,
+}) {
+  if (failures.length) {
+    const planFailure = failures.find((failure) =>
+      plans.some((plan) => failure.startsWith(`${plan.metadata.id}:`)),
+    )
+    const affectedPlan = planFailure
+      ? plans.find((plan) => planFailure.startsWith(`${plan.metadata.id}:`))
+      : null
+    return {
+      kind: affectedPlan ? 'repair-plan' : 'repair-release',
+      reason: planFailure || failures[0],
+      files: [affectedPlan?.relativePath || `docs/plans/releases/${release.id}.json`],
+      command: affectedPlan ? `pnpm ignite next --plan ${affectedPlan.metadata.id}` : null,
+    }
+  }
+  const blockedPlan = plans.find((plan) => plan.metadata.status === 'blocked')
+  if (blockedPlan) {
+    return {
+      kind: 'resolve-blocker',
+      reason: blockedPlan.metadata.blocker || `${blockedPlan.metadata.id} is blocked`,
+      files: [blockedPlan.relativePath],
+      command: `pnpm ignite next --plan ${blockedPlan.metadata.id}`,
+    }
+  }
+  const unfinishedPlan = plans.find(
+    (plan) => !['done', 'cancelled', 'superseded'].includes(plan.metadata.status),
+  )
+  if (unfinishedPlan) {
+    return {
+      kind: 'continue-plan',
+      reason: `${unfinishedPlan.metadata.id} is ${unfinishedPlan.metadata.status}`,
+      files: [unfinishedPlan.relativePath],
+      command: `pnpm ignite next --plan ${unfinishedPlan.metadata.id}`,
+    }
+  }
+  if (outstandingScope.length) {
+    return {
+      kind: 'resolve-release-scope',
+      reason: outstandingScope[0].text,
+      files: [`docs/plans/releases/${release.id}.json`],
+      command: null,
+    }
+  }
+  if (missingDetails.length) {
+    const gap = missingDetails[0]
+    const plan = plans.find((item) => item.metadata.id === gap.plan_id)
+    return {
+      kind: 'repair-plan-evidence',
+      reason: `${gap.plan_id}:${gap.evidence_id} ${gap.status} — ${gap.reason}`,
+      files: plan ? [plan.relativePath] : [],
+      command: plan ? `pnpm ignite next --plan ${plan.metadata.id}` : null,
+    }
+  }
+  if (
+    release.verification_contract === 2 &&
+    plans.some((plan) => !['cancelled', 'superseded'].includes(plan.metadata.status)) &&
+    releaseEvidence?.status !== 'passed'
+  ) {
+    const anchor = plans.filter((plan) => plan.metadata.status === 'done').at(-1)
+    return {
+      kind: 'verify-release',
+      reason: releaseEvidence?.reason || 'all Plans are done; verify the combined release once',
+      files: [`docs/plans/releases/${release.id}.json`],
+      command: anchor
+        ? `pnpm ignite release verify ${release.id} --plan ${anchor.metadata.id}`
+        : null,
+    }
+  }
+  return null
+}
+
+export function validateAllReleases(releaseEntries = listReleases(), planSnapshot = listPlans()) {
   const failures = []
   const ids = new Set()
-  for (const { path, value } of listReleases()) {
+  const plansById = new Map(planSnapshot.map((plan) => [plan.metadata?.id, plan]))
+  for (const { path, value } of releaseEntries) {
     if (ids.has(value.id)) failures.push(`${relativePath(path)}: duplicate release id ${value.id}`)
     ids.add(value.id)
     if (path.split(/[\\/]/).at(-1) !== `${value.id}.json`) {
       failures.push(`${relativePath(path)}: filename must match release id`)
     }
-    failures.push(...validateRelease(value).map((error) => `${relativePath(path)}: ${error}`))
+    failures.push(
+      ...validateRelease(value, plansById).map((error) => `${relativePath(path)}: ${error}`),
+    )
   }
   return failures
 }
 
-export function renderStatus() {
-  const allPlans = listPlans()
+export function renderStatus({
+  allPlans = listPlans(),
+  releaseEntries = listReleases(),
+  manifests,
+} = {}) {
   const plans = allPlans.filter((plan) => plan.metadata)
   const legacyPlans = allPlans.filter((plan) => !plan.metadata)
   const currentPlans = plans.filter(
     (plan) => !['done', 'cancelled', 'superseded'].includes(plan.metadata.status),
   )
-  const releases = listReleases().map(({ value }) => deriveRelease(value))
-  const failures = [...validateAllPlans(), ...validateAllReleases()]
+  const runManifests =
+    manifests || new Map(listDurableRuns().map(({ value }) => [value.run_id, value]))
+  const planFailuresById = new Map(plans.map((plan) => [plan.metadata.id, validatePlan(plan)]))
+  const fingerprintForPlan = createInputFingerprintContext()
+  const releases = releaseEntries.map(({ value }) =>
+    deriveRelease(value, {
+      planSnapshot: allPlans,
+      manifests: runManifests,
+      planFailuresById,
+      fingerprintForPlan,
+    }),
+  )
+  const failures = [
+    ...validateAllPlans(allPlans, releaseEntries, { planFailuresById }),
+    ...validateAllReleases(releaseEntries, allPlans),
+  ]
   const contractFingerprint = computeInputFingerprint({
     metadata: { schema: 0, id: 'status' },
   }).slice(0, 12)
@@ -1018,6 +1529,12 @@ export function renderStatus() {
               .map((gap) => `\`${gap.plan_id}:${gap.evidence_id}\`（${gap.status}：${gap.reason}）`)
               .join('、') || '无'
       }`,
+      ...(release.verification_contract === 2
+        ? [
+            `  - 最终版本验收：${release.release_evidence?.status || 'missing'}${release.release_evidence?.commit ? `（${release.release_evidence.commit.slice(0, 12)}）` : ''}`,
+            ...(release.next_action ? [`  - 下一步：${release.next_action.command}`] : []),
+          ]
+        : []),
       `  - 未完成原始目标：${release.outstanding_scope.map((goal) => `${goal.id} ${goal.text}`).join('；') || '无已登记缺口（仍需语义核对）'}`,
     ]),
     '',
@@ -1148,6 +1665,14 @@ export function setPlanStatus(planId, nextStatus, { blocker = null, commit = nul
     ...validatePlan(candidate, { allowLegacy: false }),
     ...validatePlanDependencies(candidate),
   ]
+  if (['ready', 'active', 'verifying', 'done'].includes(nextStatus)) {
+    const release = listReleases().find(({ value }) => value.id === nextMetadata.release)?.value
+    if (release) {
+      const plansById = new Map(listPlans().map((item) => [item.metadata?.id, item]))
+      plansById.set(nextMetadata.id, candidate)
+      errors.push(...validateRelease(release, plansById))
+    }
+  }
   if (errors.length) throw new Error(`invalid Plan state:\n- ${errors.join('\n- ')}`)
   const updated = updatePlanMetadata(plan, () => nextMetadata)
   writeGeneratedStatus()
@@ -1205,8 +1730,4 @@ export function reintegratePlan(planId) {
   const updated = updatePlanMetadata(plan, () => next)
   writeGeneratedStatus()
   return updated
-}
-
-export function validateReleaseAcceptanceCoverage() {
-  return []
 }

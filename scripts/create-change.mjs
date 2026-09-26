@@ -3,6 +3,7 @@ import { spawnSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { renderPlanProgressContent } from './ignite/execution-contract.mjs'
+import { checkScaffoldWorktree } from './scaffold-preflight.mjs'
 
 const args = process.argv.slice(2)
 const dryRun = args.includes('--dry-run')
@@ -26,6 +27,7 @@ if (
 }
 
 const root = resolve(process.env.IGNITE_ROOT || process.cwd())
+const dirtyEntries = checkScaffoldWorktree(root, { dryRun })
 const git = spawnSync('git', ['rev-parse', 'HEAD'], {
   cwd: root,
   encoding: 'utf8',
@@ -73,6 +75,7 @@ const metadata = {
   outcome: `完成 ${slug} 的一项可独立验收的存量改动`,
   contract_version: 2,
   execution_contract: 1,
+  verification_contract: 2,
   goals: [],
   constraints: [],
   non_goals: [],
@@ -96,11 +99,20 @@ const metadata = {
   handoff: { interfaces: [], migrations: [], tests: [], remaining: [] },
   owner: 'assigned-worker',
   risk: 'feature',
+  data_contract: {
+    access_scope: 'not-decided',
+    access_rationale: '',
+    migration_impact: 'not-decided',
+    rollback: '',
+    destructive_authorization: null,
+  },
   write_scope: [
     `docs/plans/${date.replaceAll('-', '')}-${slug}.md`,
     `docs/plans/releases/${releaseId}.json`,
+    'docs/others/evidence/tdd/',
   ],
-  required_evidence: ['check-integration', 'check-release'],
+  tdd_evidence: [],
+  required_evidence: ['check-integration'],
   evidence: [],
   blocker: null,
   open_questions: ['填写目标、受影响的现有 Feature/Design、验收标准与写入范围'],
@@ -110,7 +122,8 @@ const metadata = {
 const release = {
   schema: 2,
   id: releaseId,
-  coverage_version: 1,
+  coverage_version: 2,
+  verification_contract: 2,
   plan_ids: [id],
   scope: [
     {
@@ -118,18 +131,23 @@ const release = {
       text: '待填写原始目标',
       source: '待填写来源',
       requirements: [],
+      acceptance: [],
       plan_ids: [id],
       disposition: 'included',
       reason: '',
       authorization: '',
     },
   ],
-  must_pass: ['check-integration', 'check-release'],
+  must_pass: ['check-release'],
+  evidence: [],
+  integrated_commit: null,
   excluded: [],
   updated_at: date,
 }
 console.log(`${dryRun ? 'Would create' : 'Creating'}:\n- ${planPath}\n- ${releasePath}`)
 if (dryRun) {
+  if (dirtyEntries.length)
+    console.log(`Worktree has ${dirtyEntries.length} existing change(s); preview is read-only.`)
   console.log(
     'Preview only; no files or release membership were changed. Remove --dry-run to create this draft.',
   )

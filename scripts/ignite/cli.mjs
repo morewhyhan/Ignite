@@ -1,7 +1,7 @@
 import { spawnSync } from 'node:child_process'
 import { adoptHistory } from './adoption.mjs'
 import { planCheck } from './checks.mjs'
-import { computeInputFingerprint, currentCommit, repositoryRoot } from './core.mjs'
+import { createInputFingerprintContext, currentCommit, repositoryRoot } from './core.mjs'
 import { verifyRemoteDelivery } from './delivery.mjs'
 import {
   deriveRelease,
@@ -18,7 +18,11 @@ import {
   validateAllPlans,
   validateAllReleases,
   validatePlan,
+  validatePlanReleaseContract,
   validatePlanDependencies,
+  validateRelease,
+  listPlans,
+  listDurableRuns,
   writeGeneratedStatus,
   updatePlanTask,
   updatePlanMetadata,
@@ -34,6 +38,7 @@ import {
 } from './governance.mjs'
 import { executeCheckPlan, requestRunCancellation, runStatus } from './runs.mjs'
 import { runTddRed } from './tdd.mjs'
+import { summarizeVerification } from './verification-summary.mjs'
 
 function parseArgs(argv) {
   const options = {}
@@ -68,9 +73,11 @@ function checkRuntime() {
 }
 
 async function commandValidate(options) {
+  const plans = listPlans()
+  const releases = listReleases()
   const failures = [
-    ...validateAllPlans(),
-    ...validateAllReleases(),
+    ...validateAllPlans(plans, releases),
+    ...validateAllReleases(releases, plans),
     ...validateTraceability(),
     ...(await validateDesignArtifacts()),
     ...validateAgentBridges(),
@@ -129,36 +136,143 @@ function commandPlanSetStatus(positionals, options) {
 }
 
 function commandStatus(options) {
-  const summary = renderStatus()
   if (options.write) {
     const changed = writeGeneratedStatus()
     console.log(changed ? 'Updated docs/others/ignite-status.md.' : 'Status is already current.')
   } else if (options.json) {
-    const allPlans = listPlanFiles().map(readPlan)
+    const allPlans = listPlans()
+    const releaseEntries = listReleases()
+    const manifests = new Map(listDurableRuns().map(({ value }) => [value.run_id, value]))
+    const planFailuresById = new Map(
+      allPlans
+        .filter((plan) => plan.metadata)
+        .map((plan) => [plan.metadata.id, validatePlan(plan)]),
+    )
+    const fingerprintForPlan = createInputFingerprintContext()
     console.log(
       JSON.stringify(
         {
           template_mode: templateMode(),
           plans: allPlans.filter((plan) => plan.metadata).map((plan) => plan.metadata),
           legacy_plans: allPlans.filter((plan) => !plan.metadata).map((plan) => plan.relativePath),
-          releases: listReleases().map(({ value }) => deriveRelease(value)),
-          failures: [...validateAllPlans(), ...validateAllReleases()],
+          releases: releaseEntries.map(({ value }) =>
+            deriveRelease(value, {
+              planSnapshot: allPlans,
+              manifests,
+              planFailuresById,
+              fingerprintForPlan,
+            }),
+          ),
+          failures: [
+            ...validateAllPlans(allPlans, releaseEntries, { planFailuresById }),
+            ...validateAllReleases(releaseEntries, allPlans),
+          ],
         },
         null,
         2,
       ),
     )
-  } else process.stdout.write(summary)
+  } else process.stdout.write(renderStatus())
 }
 
-function commandReleaseStatus(positionals) {
-  const selected = listReleases()
-    .map(({ value }) => deriveRelease(value))
-    .filter((release) => !positionals[0] || release.id === positionals[0])
+function commandReleaseStatus(positionals, options) {
+  const plans = listPlans()
+  const releaseEntries = listReleases()
+  const manifests = new Map(listDurableRuns().map(({ value }) => [value.run_id, value]))
+  const selectedEntries = releaseEntries.filter(
+    ({ value }) => !positionals[0] || value.id === positionals[0],
+  )
+  const planFailuresById = new Map(
+    plans.filter((plan) => plan.metadata).map((plan) => [plan.metadata.id, validatePlan(plan)]),
+  )
+  const fingerprintForPlan = createInputFingerprintContext()
+  const selected = selectedEntries.map(({ value }) =>
+    deriveRelease(value, { planSnapshot: plans, manifests, planFailuresById, fingerprintForPlan }),
+  )
   if (positionals[0] && selected.length === 0)
     throw new Error(`release not found: ${positionals[0]}`)
-  console.log(JSON.stringify(selected, null, 2))
+  const output = options.verbose
+    ? selected
+    : selected.map((release) => ({
+        id: release.id,
+        status: release.status,
+        plan_ids: release.plan_ids,
+        next_action: release.next_action,
+        failures: release.failures,
+        missing_evidence: release.missing_evidence,
+        outstanding_scope: release.outstanding_scope,
+        excluded_plans: release.excluded_plans,
+      }))
+  console.log(JSON.stringify(output, null, 2))
   if (selected.some((release) => release.status === 'invalid')) process.exitCode = 1
+}
+
+async function commandReleaseVerify(positionals, options) {
+  const releaseId = positionals[0]
+  if (!releaseId || !options.plan)
+    throw new Error('release verify <release-id> --plan <done-plan-id>')
+  const release = listReleases().find(({ value }) => value.id === releaseId)?.value
+  if (!release) throw new Error(`release not found: ${releaseId}`)
+  if (release.verification_contract !== 2)
+    throw new Error('release verify is available for verification_contract 2 Releases')
+  const plans = release.plan_ids.map((id) => findPlan(id))
+  const includedPlans = plans.filter(
+    (plan) => !['cancelled', 'superseded'].includes(plan.metadata.status),
+  )
+  if (includedPlans.some((plan) => plan.metadata.status !== 'done'))
+    throw new Error('complete and verify every included Plan before Release verification')
+  if (!includedPlans.some((plan) => plan.metadata.id === options.plan))
+    throw new Error(`anchor Plan ${options.plan} is outside Release ${releaseId}`)
+  if (includedPlans.some((plan) => evidenceCoverage(plan).some((item) => item.status !== 'passed')))
+    throw new Error('Release verification requires valid evidence for every included Plan')
+  const derived = deriveRelease(release)
+  if (derived.outstanding_scope.length || derived.failures.length)
+    throw new Error(
+      `Release scope is not ready:\n- ${[...derived.failures, ...derived.outstanding_scope.map((goal) => `${goal.id}: ${goal.text}`)].join('\n- ')}`,
+    )
+  checkRuntime()
+  const plan = findPlan(options.plan)
+  const checkPlan = planCheck({ plan, requestedLevel: 'release', releaseVerification: true })
+  const result = await executeCheckPlan({ plan, checkPlan, release })
+  console.log(
+    JSON.stringify(
+      {
+        release_id: releaseId,
+        run_id: result.record.run_id,
+        status: result.status,
+        reused: result.reused,
+        evidence: result.manifestPath || null,
+        verification:
+          result.record?.plan_id === plan.metadata.id
+            ? summarizeVerification(result.record, plan, { planEvidencePassed: true })
+            : null,
+      },
+      null,
+      2,
+    ),
+  )
+  if (result.exitCode !== 0) process.exitCode = result.exitCode
+}
+
+function commandTddRed(options) {
+  if (!options.plan || !options.ac) throw new Error('tdd red --plan <plan-id> --ac <acceptance-id>')
+  checkRuntime()
+  const record = runTddRed(options.plan, options.ac)
+  console.log(
+    JSON.stringify(
+      {
+        plan_id: record.plan_id,
+        acceptance_id: record.acceptance_id,
+        status: record.status,
+        run_id: record.run_id,
+        red_commit: record.red_commit,
+        evidence_path: record.evidence_path,
+        next: 'Commit the red record before implementing; do not modify the acceptance test before its green verification.',
+      },
+      null,
+      2,
+    ),
+  )
 }
 
 async function commandCheck(options) {
@@ -203,6 +317,10 @@ async function commandCheck(options) {
         status: result.status,
         reused: result.reused,
         evidence: result.manifestPath || null,
+        verification:
+          result.record?.plan_id === plan.metadata.id
+            ? summarizeVerification(result.record, plan)
+            : null,
       },
       null,
       2,
@@ -226,30 +344,53 @@ function commandNext(options) {
   const remoteDelivery = options['verify-remote']
     ? verifyRemoteDelivery()
     : { remote_sync: 'not_verified', branch: null, remote_commit: null }
-  const plan = findPlan(options.plan)
+  const allPlans = listPlans()
+  const plan = allPlans.find(
+    (candidate) =>
+      candidate.relativePath === options.plan || candidate.metadata?.id === options.plan,
+  )
+  if (!plan) throw new Error(`structured plan not found: ${options.plan}`)
+  const releaseEntry = listReleases().find(({ value }) => value.id === plan.metadata.release)
+  const releasePath = releaseEntry?.path
+    ? releaseEntry.path.slice(repositoryRoot.length + 1).replaceAll('\\', '/')
+    : `docs/plans/releases/${plan.metadata.release}.json`
   const registry = specificationRegistry()
   const featurePaths = [
     ...new Set(
       (plan.metadata.requirements || []).map((id) => registry.requirements.get(id)).filter(Boolean),
     ),
   ]
+  const planFailures = validatePlan(plan, { allowLegacy: false })
   const failures = [
-    ...validatePlan(plan, { allowLegacy: false }),
-    ...validatePlanDependencies(plan),
+    ...planFailures,
+    ...validatePlanDependencies(plan, allPlans),
+    ...validatePlanReleaseContract(plan, releaseEntry?.value),
+    ...(releaseEntry
+      ? validateRelease(
+          releaseEntry.value,
+          new Map(allPlans.map((item) => [item.metadata?.id, item])),
+        ).map((error) => `Release ${releaseEntry.value.id}: ${error}`)
+      : []),
   ]
+  const fingerprintForPlan = createInputFingerprintContext()
   const latestRun = runStatus({ verbose: true }).find(
     (run) => run.plan_id === plan.metadata.id && run.status !== 'corrupt',
   )
   const runState = latestRun?.derived_status || null
-  const currentRunInput = latestRun?.input_fingerprint === computeInputFingerprint(plan)
-  const evidenceStatus = evidenceCoverage(plan)
+  const currentRunInput = latestRun?.input_fingerprint === fingerprintForPlan(plan)
+  const evidenceStatus = evidenceCoverage(plan, null, {
+    validationFailures: planFailures,
+    fingerprintForPlan,
+  })
   const missingEvidence = evidenceStatus
     .filter((item) => item.status !== 'passed')
     .map((item) => item.evidence_id)
   let nextAction
   if (failures.length) {
-    const integrationLost = failures.some((item) =>
-      /integrated_commit (must be an ancestor|must be a real)/.test(item),
+    const integrationLost = failures.some(
+      (item) =>
+        !item.startsWith('Release ') &&
+        /integrated_commit (must be an ancestor|must be a real)/.test(item),
     )
     nextAction = integrationLost
       ? {
@@ -257,7 +398,12 @@ function commandNext(options) {
           reason: failures,
           command: `pnpm ignite plan reintegrate ${plan.metadata.id}`,
         }
-      : { kind: 'repair-input', reason: failures, command: null }
+      : {
+          kind: 'repair-input',
+          reason: failures,
+          files: [plan.relativePath, releasePath],
+          command: null,
+        }
   } else if (['done', 'cancelled', 'superseded'].includes(plan.metadata.status)) {
     nextAction = { kind: 'report-result', reason: plan.metadata.status, command: null }
   } else if (plan.metadata.status === 'blocked') {
@@ -339,59 +485,67 @@ function commandNext(options) {
   } else {
     nextAction = { kind: 'report-result', reason: plan.metadata.status, command: null }
   }
-  console.log(
-    JSON.stringify(
-      {
-        plan_id: plan.metadata.id,
-        status: plan.metadata.status,
-        outcome: plan.metadata.outcome,
-        goals: plan.metadata.goals || [],
-        constraints: plan.metadata.constraints || [],
-        non_goals: plan.metadata.non_goals || [],
-        authorization: plan.metadata.authorization || null,
-        open_questions: plan.metadata.open_questions || [],
-        remaining_work: plan.metadata.remaining_work || [],
-        tasks: plan.metadata.tasks || [],
-        evidence_coverage: evidenceStatus,
-        shared_files: plan.metadata.shared_files || [],
-        dependency_contracts: plan.metadata.dependency_contracts || [],
-        handoff: plan.metadata.handoff || null,
-        plan_path: plan.relativePath,
-        context: {
-          repository_root: repositoryRoot,
-          base_commit: plan.metadata.base_commit,
-          write_scope: plan.metadata.write_scope || [],
-          requirements: plan.metadata.requirements || [],
-          features: featurePaths,
-          acceptance: plan.metadata.acceptance || [],
-          entrypoints: {
-            rules: 'AGENTS.md',
-            standards: 'docs/standards/',
-            designs: 'docs/designs/',
-          },
-        },
-        latest_run: latestRun
-          ? {
-              run_id: latestRun.run_id,
-              status: runState,
-              input_current: currentRunInput,
-              current_command: latestRun.current_command || null,
-              last_output_at: latestRun.last_output_at || null,
-            }
-          : null,
-        next_action: nextAction,
-        delivery: {
-          deliverables: plan.metadata.deliverables || [],
-          local_commit: currentCommit(),
-          local_plan_status: plan.metadata.status,
-          ...remoteDelivery,
-          deployed_url: null,
-        },
+  const fullOutput = {
+    plan_id: plan.metadata.id,
+    status: plan.metadata.status,
+    outcome: plan.metadata.outcome,
+    goals: plan.metadata.goals || [],
+    constraints: plan.metadata.constraints || [],
+    non_goals: plan.metadata.non_goals || [],
+    authorization: plan.metadata.authorization || null,
+    open_questions: plan.metadata.open_questions || [],
+    remaining_work: plan.metadata.remaining_work || [],
+    tasks: plan.metadata.tasks || [],
+    evidence_coverage: evidenceStatus,
+    shared_files: plan.metadata.shared_files || [],
+    dependency_contracts: plan.metadata.dependency_contracts || [],
+    handoff: plan.metadata.handoff || null,
+    plan_path: plan.relativePath,
+    context: {
+      repository_root: repositoryRoot,
+      base_commit: plan.metadata.base_commit,
+      write_scope: plan.metadata.write_scope || [],
+      requirements: plan.metadata.requirements || [],
+      features: featurePaths,
+      acceptance: plan.metadata.acceptance || [],
+      entrypoints: {
+        rules: 'AGENTS.md',
+        standards: 'docs/standards/',
+        designs: 'docs/designs/',
       },
-      null,
-      2,
-    ),
-  )
+    },
+    latest_run: latestRun
+      ? {
+          run_id: latestRun.run_id,
+          status: runState,
+          input_current: currentRunInput,
+          current_command: latestRun.current_command || null,
+          last_output_at: latestRun.last_output_at || null,
+        }
+      : null,
+    next_action: nextAction,
+    delivery: {
+      deliverables: plan.metadata.deliverables || [],
+      local_commit: currentCommit(),
+      local_plan_status: plan.metadata.status,
+      ...remoteDelivery,
+      deployed_url: null,
+    },
+  }
+  const output = options.verbose
+    ? fullOutput
+    : {
+        plan_id: fullOutput.plan_id,
+        status: fullOutput.status,
+        outcome: fullOutput.outcome,
+        plan_path: fullOutput.plan_path,
+        remaining_work: fullOutput.remaining_work,
+        evidence_coverage: fullOutput.evidence_coverage,
+        latest_run: fullOutput.latest_run,
+        next_action: fullOutput.next_action,
+        delivery: fullOutput.delivery,
+      }
+  console.log(JSON.stringify(output, null, 2))
 }
 
 export async function main(argv = process.argv.slice(2)) {
@@ -439,21 +593,17 @@ export async function main(argv = process.argv.slice(2)) {
     console.log(JSON.stringify(requestRunCancellation(positionals[0]), null, 2))
     return
   }
-  if (command === 'release' && subcommand === 'status') return commandReleaseStatus(positionals)
-  if (command === 'tdd' && subcommand === 'red') {
-    if (!options.plan || !options.ac)
-      throw new Error('tdd red --plan <plan-id> --ac <acceptance-id>')
-    checkRuntime()
-    const record = runTddRed(options.plan, options.ac)
-    console.log(JSON.stringify(record, null, 2))
-    return
-  }
+  if (command === 'release' && subcommand === 'status')
+    return commandReleaseStatus(positionals, options)
+  if (command === 'release' && subcommand === 'verify')
+    return commandReleaseVerify(positionals, options)
+  if (command === 'tdd' && subcommand === 'red') return commandTddRed(options)
   throw new Error(
     'commands: validate [--ci], status [--write|--json], plan validate [id], ' +
       'plan set-status <id> <status>, check --plan <id> [--level auto|dev|integration|release], ' +
-      'next --plan <id> [--verify-remote], run status [run-id] [--verbose], ' +
-      'run cancel <run-id>, release status [release-id], adopt-history [--apply], ' +
-      'task set-status <plan-id> <task-id> <todo|doing|done>, plan refresh <id>, example removal-plan tasks',
+      'next --plan <id> [--verify-remote] [--verbose], run status [run-id] [--verbose], ' +
+      'run cancel <run-id>, release status [release-id] [--verbose], release verify <release-id> --plan <done-plan-id>, adopt-history [--apply], ' +
+      'task set-status <plan-id> <task-id> <todo|doing|done>, tdd red --plan <id> --ac <AC-id>, plan refresh <id>, example removal-plan tasks',
   )
 }
 

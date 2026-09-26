@@ -4,8 +4,8 @@ import { join } from 'node:path'
 import { changedFilesForPlan, normalizePath, repositoryRoot, validateWriteScope } from './core.mjs'
 
 const LEVEL_RANK = { dev: 1, integration: 2, release: 3 }
-export const CHECK_POLICY_VERSION = 5
-export const SUPPORTED_CHECK_POLICIES = new Set([1, 2, 3, 4, 5])
+export const CHECK_POLICY_VERSION = 6
+export const SUPPORTED_CHECK_POLICIES = new Set([1, 2, 3, 4, 5, 6])
 const SAFE_DOC_PATTERNS = [
   /^README\.md$/,
   /^docs\/README\.md$/,
@@ -207,22 +207,45 @@ export function commandsForLevel(
     commands.push(pnpm(['lint'], 'lint'))
     commands.push(pnpm(['format:check'], 'format'))
     const selectedTests = targetedTests(files, fileExists)
-    const mappedTests = (plan.metadata.acceptance || [])
-      .flatMap((item) => item.tests || [])
-      .map((path) => path.split('::', 1)[0])
-      .filter((path) => /\.test\.tsx?$/.test(path))
+    const mappedChecks = (plan.metadata.acceptance || []).flatMap((item) =>
+      (item.checks || []).map((check) => ({ ...check, acceptance: item.id })),
+    )
+    const mappedTests =
+      policyVersion >= 6 && plan.metadata.verification_contract >= 2
+        ? mappedChecks
+            .filter((check) => check.layer !== 'browser')
+            .map((check) => check.test.split('::', 1)[0])
+        : (plan.metadata.acceptance || [])
+            .flatMap((item) => item.tests || [])
+            .map((path) => path.split('::', 1)[0])
+    const runnableMappedTests = mappedTests.filter((path) => /\.test\.tsx?$/.test(path))
     // Policy 1 is retained for receipts published before Plan-mapped test selection.
     const tests =
       policyVersion === 1
         ? selectedTests
         : selectedTests.length
-          ? [...new Set([...selectedTests, ...mappedTests])].sort()
+          ? [...new Set([...selectedTests, ...runnableMappedTests])].sort()
           : []
     commands.push(
       tests.length
         ? pnpm(['exec', 'vitest', 'run', ...tests], 'targeted-tests')
         : pnpm(['test'], 'tests'),
     )
+    if (policyVersion >= 6 && plan.metadata.verification_contract >= 2) {
+      const browserChecks = mappedChecks.filter((check) => check.layer === 'browser')
+      const browserPaths = [
+        ...new Set(browserChecks.map((check) => check.test.split('::', 1)[0])),
+      ].sort()
+      if (browserPaths.length) {
+        const acceptanceIds = [...new Set(browserChecks.map((check) => check.acceptance))].sort()
+        commands.push(
+          pnpm(
+            ['exec', 'playwright', 'test', ...browserPaths, '--grep', acceptanceIds.join('|')],
+            'targeted-browser-tests',
+          ),
+        )
+      }
+    }
     if (needsMigrationCheck(files, policyVersion)) {
       commands.push(pnpm(['test:migrations'], 'migrations'))
     }
@@ -242,14 +265,38 @@ export function commandsForLevel(
  *   dryRun?: boolean
  * }} options
  */
-export function planCheck({ plan, requestedLevel = 'auto', explicitFiles = null, dryRun = false }) {
-  if (!['active', 'verifying'].includes(plan.metadata.status)) {
+export function planCheck({
+  plan,
+  requestedLevel = 'auto',
+  explicitFiles = null,
+  dryRun = false,
+  releaseVerification = false,
+}) {
+  if (
+    !['active', 'verifying'].includes(plan.metadata.status) &&
+    !(releaseVerification && plan.metadata.status === 'done')
+  ) {
     throw new Error(
       `checks require an active or verifying Plan; current status is ${plan.metadata.status}`,
     )
   }
-  if (requestedLevel === 'release' && plan.metadata.status !== 'verifying') {
-    throw new Error('release checks require Plan status verifying')
+  if (
+    requestedLevel === 'release' &&
+    plan.metadata.verification_contract >= 2 &&
+    !releaseVerification
+  ) {
+    throw new Error(
+      'verification_contract 2 uses `pnpm ignite release verify`, not a Plan release check',
+    )
+  }
+  if (
+    requestedLevel === 'release' &&
+    plan.metadata.status !== 'verifying' &&
+    !(releaseVerification && plan.metadata.status === 'done')
+  ) {
+    throw new Error(
+      'Plan release checks require verifying; Release verification may use a done Plan',
+    )
   }
   if (explicitFiles && !dryRun) {
     throw new Error(
@@ -257,7 +304,7 @@ export function planCheck({ plan, requestedLevel = 'auto', explicitFiles = null,
     )
   }
   const files = explicitFiles || changedFilesForPlan(plan)
-  if (plan.metadata.execution_contract === 1) {
+  if (plan.metadata.execution_contract === 1 && !releaseVerification) {
     const declared = new Set(
       (plan.metadata.acceptance || []).flatMap((item) => item.required_layers || []),
     )
@@ -268,8 +315,8 @@ export function planCheck({ plan, requestedLevel = 'auto', explicitFiles = null,
         )
     }
   }
-  const scopeErrors = explicitFiles ? [] : validateWriteScope(plan, files)
-  if (!explicitFiles)
+  const scopeErrors = explicitFiles || releaseVerification ? [] : validateWriteScope(plan, files)
+  if (!explicitFiles && !releaseVerification)
     for (const claim of plan.metadata.shared_files || []) {
       if (
         claim.owner !== plan.metadata.owner &&
@@ -283,7 +330,7 @@ export function planCheck({ plan, requestedLevel = 'auto', explicitFiles = null,
       }
     }
   if (scopeErrors.length) throw new Error(`Plan scope violation:\n- ${scopeErrors.join('\n- ')}`)
-  if (plan.metadata.risk === 'docs' && minimumLevel(files) !== 'dev') {
+  if (!releaseVerification && plan.metadata.risk === 'docs' && minimumLevel(files) !== 'dev') {
     throw new Error(
       'Plan risk docs understates the actual changes; update risk and required_evidence',
     )

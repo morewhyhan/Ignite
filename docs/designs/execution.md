@@ -1,44 +1,43 @@
 # AI 执行系统
 
-## 当前实现
+## 契约与状态
 
-`scripts/ignite/execution-contract.mjs` 管理新执行契约；`state.mjs` 负责计划、依赖、范围和逐计划证据；`checks.mjs` 选择检查；`runs.mjs` 保存实际运行及验收结果。CLI 是统一入口，业务分层不变。
+`scripts/ignite/` 是 Plan、Release、检查和证据状态的执行实现。旧 Plan 继续按原执行契约解释；新 Plan 使用 `verification_contract: 2`，新 Release 使用 `coverage_version: 2` 与 `verification_contract: 2`。策略升级不会把历史绿色结果改写成新策略证据。
 
-新 Plan 在 schema 2 / contract_version 2 上启用 `execution_contract: 1`。历史 Plan 和旧策略证据保留原义，不把它们转换成新规则已经通过。检查策略提升为 5，当前验收需要新策略运行。
+Plan 负责一项可独立验收的交付，必需证据是当前输入下的 `check-integration`。Release 负责多个 Plan 合入后的最终快照，单独要求 `check-release`。Release 状态由所有纳入 Plan、原始目标映射、Plan 证据、最终版本证据共同推导；未来 `draft` 不阻塞当前 Release，`deferred` 会阻止 Release 完成，`excluded` 必须有具体用户授权。
 
-## 原始目标与发布
+## 三层结果
 
-Release `coverage_version: 1` 的 `scope` 保存目标、来源、REQ、负责 Plan 和处理方式。`deferred` 一直计入未完成范围；`excluded` 要求具体授权与理由。结构校验能发现未映射项目，不能证明自然语言目标没有遗漏；AI 仍需在开始时对照原始请求。
+`pnpm ignite check --plan <ID> --level auto` 的成功只表示本轮检查通过，并不会自动把 Plan 或 Release 置为完成。runner 的结果分为三部分，并由 `verification` 输出：
 
-证据以 `(plan_id, evidence_id)` 为键逐项检查。绑定缺失、输入变化、策略变化和无效记录分别报告，不因其他 Plan 有同名证据而消失。只有全部纳入目标及其 Plan 完成、证据有效，Release 才是 done。
+1. **工程门禁**：结构、类型、lint、格式、迁移和生产构建等工程质量检查。
+2. **Plan 行为验收**：当前 Plan 映射的真实测试；页面交互的 Playwright 路径也在 Plan integration 中执行。
+3. **Release 最终验收**：所有纳入 Plan 完成后，在一个干净的最终提交上运行生产构建和全量生产态 E2E。
 
-## 验收分层
+新 Release 使用 `pnpm ignite release verify <release-id> --plan <done-plan-id>`。Release manifest 与派生状态记录同一被测 commit、package version，以及当时指向该 commit 的 Git tag 名称（若存在）；系统不创建 tag，也不把本地通过解释成已推送或已部署。包版本或 tag 名称集合变化会使 Release 证据失效。
 
-每条 AC 的 `tests` 保持兼容；`required_layers` 声明需要的层级，`checks` 将每个测试引用标注为 unit / database / browser / external。`verification_requirements` 表示整项交付不可缺少的层级。
+## 原始目标与验收覆盖
 
-- unit：可以模拟依赖，证明局部行为。
-- database：隔离真实数据库，不能直接 mock 数据库边界；事务与约束由行为测试断言。
-- browser：真实 Playwright 页面/API 流程，不拦截替换业务 API；模板认证/Tasks 测试不能冒充新增功能验收。
-- external：指明 provider，真实环境可用后才执行并产出证据。
+Release scope 保存用户原始目标、来源、REQ、AC、负责 Plan 与处理方式。每个 Feature 的验收标准必须且只能被映射一次：纳入本 Release、延期或经授权排除。进入 ready 后不接受占位 Feature、空用户目标或无可执行测试的 AC。结构校验可以证明 ID 映射完整，不能证明自然语言目标无遗漏；AI 仍需逐条回看原始请求。
 
-策略 5 的 Vitest/Playwright reporter 将实际匹配的 AC、测试引用、层级、执行数和结果写入本次运行文件。执行器将这些记录带入脱敏证据，完成检查要求声明的验收确实出现。源码 mock 检测只是静态防错，不能证明任意间接 helper 的语义，应通过测试审查确认真实边界。
+Plan 的 `data_contract` 记录业务数据归属、访问依据、迁移影响与回退方式。只有破坏性数据变更需要具体授权；简单 CRUD 不强制建立 ADR，只有真实架构取舍才写入 ADR。
 
-## 单一状态与依赖
+## 验收层与 TDD
 
-`tasks` 记录 id/title/status；Plan 正文只写设计和决策，进度块由 CLI 生成。`remaining_work` 记录额外验收缺口，`handoff.remaining` 记录交接未完成项。新契约的任务状态和剩余清单属于执行记录，更新它们不让相同测试输入失效；改变目标、AC、测试映射、任务定义或依赖快照仍使证据失效。
+每条 AC 的 `tests` 保持可读路径；`required_layers` 声明验收层，`checks` 将具体用例标为 unit / database / browser / external。Plan integration 执行自己映射的所有层级，Release 则在最终组合上运行生产构建和全量浏览器回归。真实数据库和外部服务仍需各自的隔离边界，mock 不能冒充这些层级。
 
-下游 active 可引用上游 active/verifying 的 `dependency_contracts`，包含计划 ID、已提交 commit 和明确文件路径，工作区文件必须与快照相同。进入 verifying/done 时上游必须 done。共享文件负责人在 `shared_files` 声明；多人范围重叠须认可同一负责人，由集成者接管收口。
+新 Plan 的 TDD 红灯由 `pnpm ignite tdd red --plan <ID> --ac <AC-ID>` 运行。Plan、Feature 和行为测试必须先提交；runner 只接受可识别的行为断言失败，不接受模块缺失、浏览器启动失败、脚手架 `throw` 或 `expect.fail`。记录保存在 `docs/others/evidence/tdd/<plan-id>/`，保存 AC、测试路径、红灯 commit 和测试内容哈希。准出时检查同一测试内容仍在红灯 commit 与最终受测版本中；每条 AC 缺红灯证明时 Plan 不能 done。
 
-## 可扩展夹具与效率
+测试/浏览器 reporter 记录实际匹配的 AC、层级、执行数和结果。源码 mock 检查只是静态防错，不证明任意间接 helper 的语义；关键用户结果仍需审阅具体断言。
 
-迁移可靠性使用独立基线 schema；应用 migration 仍逐版本部署。`tests/fixtures/migrations/values.json` 提供业务约束合法数据，不在模板探针内硬编码业务字段。`ignite example removal-plan tasks` 给出删除示例的关联清单，历史 migration 保留，认证独立回归保留。
+## 状态、依赖与可回查性
 
-工作区指纹由 Git 按 `.gitattributes` 计算文本/二进制对象，避免跨 Windows/WSL 行尾差异及 UTF-8 解码二进制错误。各平台仍须独立安装依赖。
+`tasks` 是子任务状态的唯一真源；正文进度块由 CLI 生成。`remaining_work` 保存未关闭的验收缺口；不能只清空字段就完成。上游 active/verifying 契约可由下游通过已提交 `dependency_contracts` 锁定；进入 verifying/done 前依赖 Plan 必须 done。共享 Schema、API 注册和导航由 `shared_files` 明确负责人。
 
-只复用同一仓库输入、命令、环境和策略下已通过且日志可追溯的 lint、migrations；复用记录携带原 run ID 和日志哈希。格式检查会读取不计入代码指纹的 Plan、Release 和状态文件，因此每次重新检查。构建、生成文件、依赖 Plan 的治理与业务测试不走这层公共缓存。历史运行按当时 Git 提交中的测试文件还原命令，后续删除模块不会追溯破坏旧验收。
+每次运行保留命令、真实 commit、输入/环境指纹和脱敏结果；工程通过、Plan 验收通过、Release 完成分别显示，不跨层借用证据。状态输出提供下一条命令，具体的当前事实以 Plan/Release 元数据和 runner manifest 为准。
 
-`create:module` 生成 UI Screen 及 unit/browser 两层红色验收草稿；`create:change` 提供无写入的 `--dry-run`。两者从元数据直接生成任务进度并给出接续命令。`ignite next` 在集成通过后引导进入 verifying，旧输入的失败只作为历史展示，活动运行仍须等待。
+`pnpm ignite next --plan <ID>` 在建议状态转换前同时检查 Plan、依赖和其关联 Release 契约；Release 不匹配时返回 `repair-input` 和涉及文件，而不会建议进入 `ready`。`pnpm ignite release status` 为每个 Release 给出当前阻塞项及下一步；默认摘要可读，`--verbose` 返回完整上下文。多 Plan 状态推导在一次 CLI 调用中复用文件、运行证据和工作树指纹快照，避免重复扫描；快照不跨命令缓存。
 
-## 验证状态
+TDD runner 将当前 AC 作为显式过滤条件传给 acceptance reporter。Vitest/Playwright 在聚焦红灯时被筛掉的其他 AC 不参与本次判定；正常集成和 CI 仍检查本次运行映射到的全部 AC。
 
-本次基线由 IGT-005 的集成、发布运行清单记录实际验证结果；状态从 Plan 元数据生成。开发中的改动不能借用旧基线的绿色结果，只有当前输入完成验收后才能标记 done。
+迁移可靠性仍使用隔离 SQLite 和独立历史基线；Tasks 删除方案可由 `ignite example removal-plan tasks` 盘点。历史 migration 保留，模板的示例数据/任务不得被误认为衍生项目数据。

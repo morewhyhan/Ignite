@@ -53,7 +53,6 @@ function matchingPlaywrightCases(report, acceptanceId) {
 }
 
 export function isBehaviorAssertionFailure(message) {
-  if (message === 'Error: expect(page).toHaveScreenshot timed out') return false
   if (
     /(?:Cannot find module|ERR_MODULE_NOT_FOUND|ECONNREFUSED|ECONNRESET|browserType\.launch|Failed to launch|webServer.*(?:timeout|failed))/i.test(
       message,

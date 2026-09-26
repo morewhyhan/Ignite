@@ -21,4 +21,4 @@
 | AC-PRODUCT-009 | Windows/WSL 共享依赖或校验污染工作区      | `tests/contracts/template-runtime.test.ts`                        |
 | AC-PRODUCT-010 | REQ、AC、测试或 Design 映射断开           | `tests/contracts/docs-traceability.test.ts`、`api-design.test.ts` |
 
-完整准出由 `pnpm ignite check --plan <IGT-ID> --level release` 生成当前输入的脱敏证据。
+新版 Plan 在 integration 中验收自身映射的行为；所有纳入 Plan 完成后，由 `pnpm ignite release verify <release-id> --plan <done-plan-id>` 验证最终组合版本。旧 `verification_contract: 1` Plan 仍使用 `pnpm ignite check --plan <IGT-ID> --level release`。

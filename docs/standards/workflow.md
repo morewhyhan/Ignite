@@ -15,7 +15,7 @@ draft → ready → active → verifying → done
                     └→ superseded
 ```
 
-`done` 必须有所有 `required_evidence` 的 schema 2 `passed` 证据、当前输入指纹和真实集成 commit；`blocked` 必须说明缺什么、责任方、恢复动作；`legacy_unverified` 只用于历史 Plan，不代表完成。用 `pnpm ignite plan validate` 检查结构，用 `pnpm ignite plan set-status <IGT-ID> <status>` 修改状态并刷新摘要。
+历史 `verification_contract: 1` Plan 按原必需证据执行。新 `verification_contract: 2` Plan 的 `required_evidence` 只包含本切片的 `check-integration`，`done` 必须绑定当前输入、测试层级、红灯证据与真实集成 commit。Release 独立要求最终组合的 `check-release`，不会塞回单个 Plan。`blocked` 必须说明缺什么、责任方、恢复动作；`legacy_unverified` 只用于历史 Plan，不代表完成。
 
 当前发布范围只在 `docs/plans/releases/*.json` 维护。Release 文件不保存状态；`pnpm ignite status --write` 从 Plan 与证据实时推导 `docs/others/ignite-status.md`，不要手改派生表。
 
@@ -32,7 +32,7 @@ AI 开始实现前必须读取：
 
 免业务 Plan 的范围仅限检查器认定的安全说明和展示资产：根 `README.md`、`docs/README.md`、`docs/others/README.md` 和 `docs/assets/`。这些修改仍需文档、格式和差异检查。源码格式修复、Feature、Design、Standards 和 AI 执行规则的改动继续归入对应 Plan，不能因“只是改几个字”跳过契约和验收。
 
-存量功能修改可用 `pnpm create:change <kebab-name>` 建立 `draft` Plan 和 Release；它只创建待填写的执行契约，不会凭空生成需求或测试。先完成目标、REQ/AC、影响范围与授权，再转 `ready`。新模块仍使用 `pnpm create:module`。结构正确但需求尚未展开的未来 draft 不阻塞当前任务；它自己转 `ready` 时必须补齐实施输入。
+新模块或存量修改可分别用 `pnpm create:module <plural-kebab-name>`、`pnpm create:change <kebab-name>` 建立 draft；脚手架先检查 Git 工作区，发现已有改动就拒绝写入，`--dry-run` 可只读预览。草稿不替用户决定需求，也不把占位断言当验收。先补齐目标、REQ/AC、影响范围、数据边界与授权，再转 `ready`。未来 draft 不阻塞当前任务；它自己转 `ready` 时必须补齐实施输入。
 
 已有任务的日常入口只需记住：
 
@@ -40,9 +40,12 @@ AI 开始实现前必须读取：
 pnpm ignite next --plan <IGT-ID>                       # 读取目标、当前任务、缺口与建议动作
 pnpm ignite task set-status <IGT-ID> <task-id> doing   # 开始一项任务；完成后改为 done
 pnpm ignite check --plan <IGT-ID> --level auto         # 在可验证的改动完成后检查
+pnpm ignite release status                              # 查看最终发布验收是否仍缺
 ```
 
 `next` 提供接续信息，不替代读取原始目标和实现工作。新 Plan 补齐输入后依次转为 `ready`、`active`；上述命令用于执行中的任务。检查仍在运行时，用 `pnpm ignite run status <run-id>` 接续已有运行。任务状态命令会生成正文进度，不另写一份勾选表。
+
+`next` 和 `release status` 默认只展示当前状态、缺口、相关文件与下一步；需要完整 Plan/Release 元数据时加 `--verbose`。`next_action.files` 指向需处理的源文件；若 `command` 为空，先按 `reason` 修正规格或范围，不要绕过校验。
 
 ## 2. 关闭 Plan 中的开放问题
 
@@ -51,11 +54,12 @@ Plan 进入实现前必须写清：
 - 只选择一种变更类型；
 - 目标、非目标和影响路径；
 - 兼容性、数据迁移与回滚要求；
+- 若涉及 Prisma、认证或业务 API，填写 `data_contract`：资源归属、访问依据、迁移影响与恢复方式；只有破坏性修改需要具体用户授权；
 - 每条验收标准对应的测试层级和命令；
 - 需要更新的设计规格；
 - 所有开放问题均已关闭，或记录用户明确接受的假设。
 
-脚手架只建立草稿骨架，必须把占位需求和失败测试替换为真实行为断言。每条 AC 的 `required_layers`、`checks` 与 Plan 的 `verification_requirements` 应覆盖实际改动：页面交互需要 `browser`，持久化需要 `database`，真实外部服务需要 `external`。同时补齐测试文件、页面入口和执行条件；一个 mock API 测试不能证明这些层级已经验收。结构校验通过只代表关联和字段完整。
+脚手架只建立草稿骨架，必须把占位需求和失败测试替换为真实行为断言。新 Plan 进入 `ready` 前，相关 Feature 不能含占位符。每条 AC 的 `required_layers`、`checks` 与 Plan 的 `verification_requirements` 应覆盖实际改动：页面交互需要 `browser`，持久化需要 `database`，真实外部服务需要 `external`。同时补齐测试文件、页面入口和执行条件；一个 mock API 测试不能证明这些层级已经验收。结构校验通过只代表关联和字段完整。
 
 在 Plan 正文保留“原始目标或约束 → 本轮目标 → REQ → AC”的核对表。进入 `ready` 前由 AI 回看用户原话，逐项说明保留、排除或待确认的理由；不能只从自己改写后的 goals 反推原始请求。验收测试证明已列出的目标，不自动证明遗漏的目标不存在。新会话先读此表和结构化元数据，再接续实现。
 
@@ -65,10 +69,10 @@ Plan 进入实现前必须写清：
 
 ## 3. API 与业务逻辑 Core Loop
 
-1. 根据需求和 Plan 编写或更新测试。
-2. 运行目标测试，确认它因缺少目标行为而失败，而不是因为语法、配置或环境错误。
-3. 编写满足测试的最小实现。
-4. 运行目标测试，修复失败直到通过。
+1. 根据需求和 Plan 编写或更新真实行为测试，确认 AC 的具体测试映射与行为层。
+2. 提交稳定 Plan/Feature/测试基线后，对每条 AC 运行 `pnpm ignite tdd red --plan <IGT-ID> --ac <AC-ID>`；runner 只接受行为断言失败，不接受环境错误和 scaffold 占位失败。本次运行只判定目标 AC，不把测试筛选导致的其他 AC 跳过误报为失败。提交 runner 生成的红灯记录。
+3. 保持同一测试内容，编写满足测试的最小实现。
+4. 运行 Plan integration，确保原红灯测试变绿，并完成所有映射层级。
 5. 重构重复逻辑，保持测试为绿色。
 6. 运行 `pnpm ignite check --plan <IGT-ID> --level auto`；CLI 会根据真实改动选择不可降级的最低检查层级。
 
@@ -83,7 +87,7 @@ Plan 进入实现前必须写清：
 3. 实现并通过 API/组件层验证。
 4. 使用真实浏览器检查布局、交互、loading、error、empty 和成功状态。
 5. 将稳定路径固化为 Playwright 测试。
-6. 开发中用 `pnpm test:e2e` 获得目标路径反馈；发布时由 `pnpm ignite check --plan <IGT-ID> --level release` 运行生产态 E2E。视觉无法由 DOM 断言覆盖时保留截图或人工验证记录。
+6. Plan integration 会运行其映射的真实浏览器路径。所有 Release Plan 都完成后，使用 `pnpm ignite release verify <release-id> --plan <done-plan-id>` 在同一最终快照运行生产构建和全量生产态 E2E。视觉无法由 DOM 断言覆盖时保留截图或人工验证记录。
 
 浏览器探索只用于发现行为，Playwright 脚本才是可重复执行的回归资产。
 
@@ -92,17 +96,17 @@ Plan 进入实现前必须写清：
 - Plan 是过程方案：追加状态记录，不把失败尝试改写成从未发生。
 - `docs/designs/` 是当前设计契约：完成后更新最终状态。
 - 源码、Schema、Migration 和测试是可执行实现：发现与设计不一致时，本轮必须修正或明确记录未解决差异。
-- 影响长期规则时更新 `docs/standards/`；形成架构取舍时追加 ADR。
+- 影响长期规则时更新 `docs/standards/`；只有形成需长期解释的架构取舍时追加 ADR，不为常规 CRUD 机械建 ADR。
 
 ## 6. 准出条件
 
 任务只有同时满足以下条件才算完成：
 
 - 需求验收标准均有证据；
-- 目标测试曾按预期失败，随后通过；不适用时在 Plan 说明原因；
+- 新 Plan 的每条 AC 都有 CLI 生成的目标行为红灯记录，且同一测试在 Plan 验收中通过；环境错误和占位失败不算；
 - `pnpm ignite check --plan <IGT-ID> --level integration` 通过；
 - Schema/Migration 变化通过 `pnpm test:migrations`；
-- 发布候选通过生产构建和 `pnpm test:e2e:production`；
+- 只有声明整个 Release 完成时，才要求 `pnpm ignite release verify <release-id> --plan <done-plan-id>` 的同 commit 生产构建与生产态 E2E；
 - 相关设计文档和 Plan 状态已更新；
 - 最终报告列出实际执行的验证，不声称未执行项通过。
 
@@ -114,7 +118,7 @@ Plan 进入实现前必须写清：
 
 同一 Plan、同一命令和同一输入指纹已有活动 run 时复用它；已有通过记录时默认复用，只有输入改变或明确 `--force` 才重新执行。相同失败连续两次且没有新证据时停止机械重试，记录阻塞而不是修改目标宣布完成。
 
-集成检查后可以先提交其 Plan 绑定和脱敏证据。发布检查在集成提交仍属于当前历史、稳定 Plan 契约和全部输入指纹均未变化时复用该集成结果；仅提交证据或派生状态不会触发整套重跑。`set-status verifying --commit HEAD` 会把 `integrated_commit` 绑定到实际通过集成的实现提交；如果源码、规则或约束已变化，必须重新集成验证。
+Plan integration 后先提交其证据绑定，再把 Plan 标为 verifying/done。新 Release 必须等待所有纳入 Plan 完成，再运行 `release verify`；该 run 只写入 Release，不混成单个 Plan 的必需证据。Release 证据同时记录被测 commit、package version 和指向该 commit 的 Git tag 名称；包版本、tag 名称集合、源码、规则或 Release scope 变化会要求重验。旧 `verification_contract: 1` 继续按原 release check 流程处理。
 
 每个子命令有总时限；本地运行表同时记录当前命令与最后输出时间。安静不等于挂起，先检查 `pnpm ignite run status <run-id> --verbose`；确需停止本机当前运行时调用 `pnpm ignite run cancel <run-id>`，由其拥有者清理自己创建的进程组，不直接按外部 PID 杀进程。超时、失败和孤儿运行应根据错误类型定位原因，不能简单继续 `--force`。损坏的单条本地记录会以 `corrupt` 显示，不会隐藏其他运行。
 

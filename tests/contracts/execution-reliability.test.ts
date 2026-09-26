@@ -48,6 +48,7 @@ describe('execution reliability', () => {
         'docs/plans/_template.md',
         read(repositoryRoot, 'docs/plans/_template.md'),
       )
+      commitAll(fixture.root, 'Install Plan scaffold template')
       const created = spawnSync(
         process.execPath,
         [join(repositoryRoot, 'scripts/create-change.mjs'), 'rename-existing-screen'],
@@ -348,7 +349,7 @@ describe('execution reliability', () => {
           authorization: { source: 'Fixture user request' },
         }),
       )
-      const result = runCli(fixture.root, 'next', '--plan', 'IGT-900')
+      const result = runCli(fixture.root, 'next', '--plan', 'IGT-900', '--verbose')
       expect(result.status, result.stderr).toBe(0)
       expect(JSON.parse(result.stdout)).toMatchObject({
         plan_id: 'IGT-900',

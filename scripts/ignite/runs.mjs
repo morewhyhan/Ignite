@@ -29,10 +29,21 @@ import {
   readJson,
   relativePath,
   repositoryRoot,
+  runGit,
   runnerIdentity,
   writeJson,
 } from './core.mjs'
-import { bindPlanEvidence, findPlan, listDurableRuns, planContractAtCommit } from './state.mjs'
+import {
+  bindPlanEvidence,
+  bindReleaseEvidence,
+  computeReleaseInputFingerprint,
+  deriveRelease,
+  evidenceCoverage,
+  findPlan,
+  listDurableRuns,
+  listReleases,
+  planContractAtCommit,
+} from './state.mjs'
 import { CHECK_POLICY_VERSION } from './checks.mjs'
 
 const HEARTBEAT_INTERVAL_MS = 5_000
@@ -40,6 +51,16 @@ const STALE_AFTER_MS = 25_000
 
 function now() {
   return new Date().toISOString()
+}
+
+function releaseIdentityAtCommit(commit) {
+  return {
+    package_version: readJson(join(repositoryRoot, 'package.json')).version,
+    tags: runGit(['tag', '--points-at', commit], { allowFailure: true })
+      .stdout.split(/\r?\n/)
+      .filter(Boolean)
+      .sort(),
+  }
 }
 
 function localRunPath(runId) {
@@ -354,6 +375,13 @@ function durableManifest(record, logPath) {
           acceptance_results: record.acceptance_results || [],
         }
       : {}),
+    ...(record.release_id
+      ? {
+          release_id: record.release_id,
+          release_fingerprint: record.release_fingerprint,
+          release_identity: record.release_identity,
+        }
+      : {}),
     commands: record.commands.map((command) => ({
       label: command.label,
       command: command.command,
@@ -370,7 +398,8 @@ function durableManifest(record, logPath) {
 function publishEvidence(record, logPath) {
   const manifestPath = join(durableRunsDirectory, `${record.run_id}.json`)
   writeJson(manifestPath, durableManifest(record, logPath))
-  bindPlanEvidence(record.plan_id, record.evidence_id, record.run_id)
+  if (record.release_id) bindReleaseEvidence(record.release_id, record.run_id)
+  else bindPlanEvidence(record.plan_id, record.evidence_id, record.run_id)
   return relativePath(manifestPath)
 }
 
@@ -394,18 +423,21 @@ export function integrationSupportsRelease(
   )
 }
 
-export async function executeCheckPlan({ plan, checkPlan, force = false }) {
+export async function executeCheckPlan({ plan, checkPlan, release = null, force = false }) {
   const active = listLocalRuns().find((record) => derivedRunStatus(record) === 'running')
   if (active) return { status: 'running', exitCode: 2, record: active, reused: true }
   const environment = makeSafeTestEnvironment()
   environment.IGNITE_PLAN_ID = plan.metadata.id
+  if (release) environment.IGNITE_RELEASE_ID = release.id
   mkdirSync(join(repositoryRoot, '.ignite', 'runtime'), {
     recursive: true,
   })
   const environmentData = environmentIdentity(environment)
   const inputFingerprint = computeInputFingerprint(plan)
+  const releaseFingerprint = release ? computeReleaseInputFingerprint(release, plan) : null
   const repositoryFingerprint = computeInputFingerprint({ metadata: null })
   const commit = currentCommit()
+  const releaseIdentity = release ? releaseIdentityAtCommit(commit) : null
   const workspaceClean = executionWorkspaceIsClean()
   if (!workspaceClean) {
     throw new Error('checks that publish evidence require committed execution inputs')
@@ -414,22 +446,39 @@ export async function executeCheckPlan({ plan, checkPlan, force = false }) {
     throw new Error('the stable Plan contract must be committed before running evidence checks')
   }
   if (checkPlan.level === 'release' && CHECK_POLICY_VERSION >= 3) {
-    const integration = listDurableRuns().find(({ value }) =>
-      integrationSupportsRelease(value, {
-        plan,
-        commit,
-        inputFingerprint,
-        environmentFingerprint: environmentData.fingerprint,
-      }),
-    )
-    if (!integration) {
-      throw new Error('release requires a current integration run before build and E2E')
+    if (release) {
+      const includedPlans = release.plan_ids
+        .map((id) => findPlan(id))
+        .filter((item) => !['cancelled', 'superseded'].includes(item.metadata.status))
+      if (
+        plan.metadata.status !== 'done' ||
+        !includedPlans.some((item) => item.metadata.id === plan.metadata.id) ||
+        !includedPlans.every((item) =>
+          evidenceCoverage(item).every((entry) => entry.status === 'passed'),
+        )
+      ) {
+        throw new Error('Release verification requires a done anchor Plan and valid Plan evidence')
+      }
+    } else {
+      const integration = listDurableRuns().find(({ value }) =>
+        integrationSupportsRelease(value, {
+          plan,
+          commit,
+          inputFingerprint,
+          environmentFingerprint: environmentData.fingerprint,
+        }),
+      )
+      if (!integration) {
+        throw new Error('release requires a current integration run before build and E2E')
+      }
     }
   }
   const evidenceId = `check-${checkPlan.level}`
   const fingerprint = hash(
     JSON.stringify({
       plan_id: plan.metadata.id,
+      ...(release ? { release_id: release.id, release_fingerprint: releaseFingerprint } : {}),
+      ...(release ? { release_identity: releaseIdentity } : {}),
       evidence_id: evidenceId,
       input_fingerprint: inputFingerprint,
       repository_fingerprint: repositoryFingerprint,
@@ -455,13 +504,34 @@ export async function executeCheckPlan({ plan, checkPlan, force = false }) {
 
   const assertCurrentInputs = () => {
     const currentPlan = findPlan(plan.metadata.id)
+    const statusIsValid = release
+      ? currentPlan.metadata.status === 'done'
+      : ['active', 'verifying'].includes(currentPlan.metadata.status)
     if (
       currentCommit() !== commit ||
       !executionWorkspaceIsClean() ||
       computeInputFingerprint(currentPlan) !== inputFingerprint ||
-      !['active', 'verifying'].includes(currentPlan.metadata.status)
+      !statusIsValid
     ) {
       throw new Error('execution inputs or Plan state changed during the check; run it again')
+    }
+    if (release) {
+      const currentRelease = listReleases().find(({ value }) => value.id === release.id)?.value
+      if (!currentRelease) throw new Error('Release was removed while its verification was running')
+      const currentPlans = currentRelease.plan_ids.map((id) => findPlan(id))
+      const currentIncludedPlans = currentPlans.filter(
+        (item) => !['cancelled', 'superseded'].includes(item.metadata.status),
+      )
+      const currentReleaseState = deriveRelease(currentRelease)
+      if (
+        currentIncludedPlans.some((item) => item.metadata.status !== 'done') ||
+        currentReleaseState.failures.length > 0 ||
+        currentReleaseState.outstanding_scope.length > 0 ||
+        computeReleaseInputFingerprint(currentRelease, currentPlan) !== releaseFingerprint ||
+        JSON.stringify(releaseIdentityAtCommit(commit)) !== JSON.stringify(releaseIdentity)
+      ) {
+        throw new Error('Release scope or included Plan contracts changed during the check')
+      }
     }
   }
 
@@ -496,6 +566,8 @@ export async function executeCheckPlan({ plan, checkPlan, force = false }) {
       run_id: runId,
       check_policy_version: CHECK_POLICY_VERSION,
       plan_id: plan.metadata.id,
+      ...(release ? { release_id: release.id, release_fingerprint: releaseFingerprint } : {}),
+      ...(release ? { release_identity: releaseIdentity } : {}),
       evidence_id: evidenceId,
       level: checkPlan.level,
       status: 'running',

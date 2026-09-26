@@ -7,6 +7,7 @@
   "outcome": "完成后谁能多做哪件事",
   "contract_version": 2,
   "execution_contract": 1,
+  "verification_contract": 2,
   "goals": [{ "text": "用户可验证的目标", "requirements": ["REQ-FEATURE-001"] }],
   "constraints": ["必须保留的能力或数据"],
   "non_goals": ["本轮明确不做的范围"],
@@ -32,6 +33,13 @@
   "handoff": { "interfaces": [], "migrations": [], "tests": [], "remaining": [] },
   "owner": "assigned-worker",
   "risk": "feature",
+  "data_contract": {
+    "access_scope": "not-decided",
+    "access_rationale": "",
+    "migration_impact": "not-decided",
+    "rollback": "",
+    "destructive_authorization": null
+  },
   "write_scope": [
     "src/modules/<feature-name>/",
     "src/server/api/routes/<feature-name>/",
@@ -44,9 +52,11 @@
     "docs/plans/YYYYMMDD-<change-name>.md",
     "docs/plans/releases/<release-id>.json",
     "docs/designs/",
-    "docs/others/test-cases/"
+    "docs/others/test-cases/",
+    "docs/others/evidence/tdd/"
   ],
-  "required_evidence": ["check-integration", "check-release"],
+  "tdd_evidence": [],
+  "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
   "open_questions": ["需要关闭的问题"],
@@ -83,6 +93,8 @@
 
 顶部 `change_type` 只选 `[新增模块]` 或 `[存量改动]`；基础设施调整属于存量改动。说明兼容性、数据迁移和回滚策略，并把共享文件写入 `shared_files`，声明 `path`、`owner` 与 `mode`（`exclusive` 或 `integrator`）。
 
+涉及 `prisma/`、认证或业务 API 的 Plan，还要填写顶部 `data_contract`：资源属于谁、访问控制依据、迁移影响和恢复方式。删除或不可逆转换必须记录用户授权。简单决定写在这里即可；只有存在需要长期解释的架构取舍时才新增 ADR。
+
 ## 输入规格
 
 只引用本轮相关的 Feature、Standards、Design、代码与测试。跨 Plan 依赖在 `depends_on` 与 `dependency_contracts` 中写清接口契约；交接成果写入 `handoff.interfaces`、`migrations`、`tests` 和 `remaining`。
@@ -93,7 +105,7 @@
 
 ## 测试与验收设计
 
-每个 AC 的 `tests` 与 `checks[].test` 必须引用同一带 `[AC-*]` 标记的可执行用例。`required_layers` 和 `verification_requirements` 表示必须满足的验证层级：纯逻辑用 `unit`；UI 交互补 `browser`；持久化补 `database`；真实第三方依赖补 `external`。本模板的 `unit` 是填写示例；`create:module` 因生成 UI Screen 会同时准备 `unit` 和 `browser`。所有草稿都需按实际目标补齐行为断言。
+每个 AC 的 `tests` 与 `checks[].test` 必须引用同一带 `[AC-*]` 标记的可执行用例。`required_layers` 和 `verification_requirements` 表示必须满足的验证层级：纯逻辑用 `unit`；UI 交互补 `browser`；持久化补 `database`；真实第三方依赖补 `external`。`verification_contract: 2` 的 Plan 在 integration 中执行自己映射的所有行为层；Release 再对已完成的 Plan 组合执行生产构建和全量浏览器回归。进入 ready 前，脚手架占位失败测试必须换成真实用户行为断言。
 
 ## 实现任务
 
@@ -101,7 +113,7 @@
 
 ## 验收方式
 
-先确认目标测试因缺少目标行为而失败，再实现并运行 `pnpm ignite check --plan <IGT-ID> --level integration`；集成后进入 `verifying`，运行 `--level release`。按实际层级补齐证据，不能拿类型检查代替行为测试。
+新行为先写验收测试并提交规格基线，再对每条 AC 执行 `pnpm ignite tdd red --plan <IGT-ID> --ac <AC-ID>`。该命令只记录真实断言失败；环境错误和脚手架占位失败均不算。提交红灯记录后再实施，测试文件在红灯与绿灯之间保持不变。随后运行 `pnpm ignite check --plan <IGT-ID> --level integration`，完成本 Plan 后将它标记为 done。Release 中所有 Plan 都完成后，运行 `pnpm ignite release verify <release-id> --plan <done-plan-id>`，只对最终组合执行一次生产构建和全量浏览器回归。历史 `verification_contract: 1` Plan 继续按旧流程验证。
 
 ## 设计回写
 

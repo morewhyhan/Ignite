@@ -72,7 +72,7 @@ export function isBehaviorAssertionFailure(message) {
     )
   )
     return false
-  return /AssertionError|expect\([^\n]*\)\.(?:to|not)|expected .+ (?:to|not to)|Expected .+ (?:to|not to)|toHave(?:Text|URL|Value|Count|Attribute|Class|CSS)|toBe(?:Visible|Hidden|Enabled|Disabled|Checked|Focused|Truthy|Falsy|Defined|Null)|toEqual|toStrictEqual|toContain|toMatch/i.test(
+  return /AssertionError|expect\([^\n]*\)\.(?:to|not)|expected .+ (?:to|not to)|Expected .+ (?:to|not to)|toHave(?:Text|URL|Value|Count|Attribute|Class|CSS)|toBe(?:Visible|Hidden|Enabled|Disabled|Checked|Focused|Truthy|Falsy|Defined|Null|GreaterThan(?:OrEqual)?|LessThan(?:OrEqual)?|CloseTo|InstanceOf)|toEqual|toStrictEqual|toContain|toMatch/i.test(
     message,
   )
 }

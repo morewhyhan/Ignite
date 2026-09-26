@@ -59,10 +59,7 @@ function matchingPlaywrightCases(report, acceptanceId) {
 
 export function tddBrowserCommand(test, acceptanceId) {
   const [testPath] = test.split('::', 1)
-  return [
-    'corepack',
-    ['pnpm', 'test:e2e', '--', testPath, '--grep', acceptanceId],
-  ]
+  return ['corepack', ['pnpm', 'test:e2e', '--', testPath, '--grep', acceptanceId]]
 }
 
 export function isBehaviorAssertionFailure(message) {

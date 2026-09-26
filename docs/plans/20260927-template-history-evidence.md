@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-007",
   "release": "ai-execution-trust-v1",
-  "status": "verifying",
+  "status": "done",
   "outcome": "模板副本能完整、安全地归档所有继承的交付与验收证据",
   "contract_version": 2,
   "execution_contract": 1,
@@ -193,7 +193,7 @@ T1 核对当前模板记录；T2 加入多记录归档与静态清单验收；T3
 
 <!-- ignite-progress -->
 
-状态：`verifying`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 确认模板副本中各类基线记录和归档边界 · done
 - [x] T2 · 增加多记录与 TDD 证据归档回归验收 · done

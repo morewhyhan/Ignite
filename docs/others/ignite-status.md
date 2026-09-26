@@ -2,11 +2,11 @@
 
 模板状态：`template-baseline`
 输入指纹：`ae8f7c085214`
-当前 Plan：1；结构化历史：2；未迁移历史：0
+当前 Plan：0；结构化历史：3；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-007` · `verifying` · `ai-execution-trust-v1`
+- 无。
 
 ## 发布范围
 
@@ -14,8 +14,8 @@
   - Plan：`IGT-006`、`IGT-007`
   - 缺少证据：无
   - 最终版本验收：stale
-  - 下一步：pnpm ignite next --plan IGT-007
-  - 未完成原始目标：GOAL-003 采用模板时完整归档多个基线交付记录及其 TDD 证据
+  - 下一步：pnpm ignite release verify ai-execution-trust-v1 --plan IGT-007
+  - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `execution-hardening-v1` · `done`
   - Plan：`IGT-005`
   - 缺少证据：无

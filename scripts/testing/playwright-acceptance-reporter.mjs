@@ -15,7 +15,6 @@ export default class AcceptanceReporter {
         test.results.length > 0 &&
         test.results.every((result) => result.status === 'passed'),
     }))
-
     const failures = acceptanceFailures(cases, 'playwright')
     if (failures.length) {
       console.error(`Ignite acceptance failed:\n- ${failures.join('\n- ')}`)

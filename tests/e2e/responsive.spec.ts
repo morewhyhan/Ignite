@@ -38,6 +38,27 @@ test('[AC-TRUST-003] [AC-TRUST-006] keeps first-use and Tasks flows usable acros
     await expect(dialog).toBeHidden()
   }
 
+  // A compact phone viewport catches a modal that fits horizontally but is
+  // vertically clipped, hiding the registration controls below the fold.
+  await page.setViewportSize({ width: 360, height: 568 })
+  await page.getByRole('button', { name: '开始使用' }).click()
+  await page.getByRole('button', { name: '注册', exact: true }).click()
+  const registrationDialog = page.getByRole('dialog')
+  await expect(registrationDialog).toBeVisible()
+  const registrationBounds = await registrationDialog.boundingBox()
+  expect(registrationBounds).not.toBeNull()
+  expect(registrationBounds!.y).toBeGreaterThanOrEqual(0)
+  expect(registrationBounds!.y + registrationBounds!.height).toBeLessThanOrEqual(569)
+  const createAccount = page.getByRole('button', { name: '创建账户' })
+  await createAccount.scrollIntoViewIfNeeded()
+  const createAccountBounds = await createAccount.boundingBox()
+  expect(createAccountBounds).not.toBeNull()
+  expect(createAccountBounds!.y).toBeGreaterThanOrEqual(registrationBounds!.y)
+  expect(createAccountBounds!.y + createAccountBounds!.height).toBeLessThanOrEqual(
+    registrationBounds!.y + registrationBounds!.height,
+  )
+  await page.keyboard.press('Escape')
+
   const runId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
   await page.getByRole('button', { name: '开始使用' }).click()
   await page.getByRole('button', { name: '注册', exact: true }).click()

@@ -30,6 +30,11 @@ function matchingVitestCases(report, acceptanceId) {
 }
 
 function matchingPlaywrightCases(report, acceptanceId) {
+  if (Array.isArray(report.tests))
+    return report.tests
+      .filter((test) => `${test.title || ''}`.includes(acceptanceId))
+      .map((test) => ({ status: test.status, failures: test.failures || [] }))
+
   const cases = []
   const visit = (suite) => {
     for (const spec of suite.specs || []) {
@@ -67,7 +72,7 @@ export function isBehaviorAssertionFailure(message) {
     )
   )
     return false
-  return /AssertionError|expect\([^\n]*\)\.(?:to|not)|expected .+ (?:to|not to)|Expected .+ (?:to|not to)|toHave(?:Text|URL|Value|Count|Attribute|Class|CSS)|toBe(?:Visible|Hidden|Enabled|Disabled|Checked|Focused|Truthy|Falsy|Defined|Null)|toEqual|toStrictEqual|toContain|toMatch/i.test(
+  return /AssertionError|expect\([^\n]*\)\.(?:to|not)|expected .+ (?:to|not to)|Expected .+ (?:to|not to)|toHave(?:Text|URL|Value|Count|Attribute|Class|CSS)|toBe(?:Visible|Hidden|Enabled|Disabled|Checked|Focused|Truthy|Falsy|Defined|Null|GreaterThan(?:OrEqual)?|LessThan(?:OrEqual)?|CloseTo|InstanceOf)|toEqual|toStrictEqual|toContain|toMatch/i.test(
     message,
   )
 }
@@ -168,7 +173,7 @@ export function runTddRed(planId, acceptanceId) {
   const failureText = failed.flatMap((item) => item.failures).join('\n')
   if (failed.length === 0 || !isBehaviorAssertionFailure(failureText))
     throw new Error(
-      'The selected test did not fail with one recognizable behavior assertion; no red evidence was saved',
+      `The selected test did not fail with one recognizable behavior assertion; no red evidence was saved${failureText ? `: ${failureText.slice(0, 1200)}` : ''}`,
     )
 
   const redEvidencePath = `docs/others/evidence/tdd/${planId}/${runId}.json`

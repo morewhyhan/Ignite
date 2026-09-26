@@ -6,11 +6,11 @@
 
 ## 当前工作
 
-- `IGT-007` · `draft` · `ai-execution-trust-v1`
+- `IGT-007` · `active` · `ai-execution-trust-v1`
 
 ## 发布范围
 
-- `ai-execution-trust-v1` · `draft`
+- `ai-execution-trust-v1` · `active`
   - Plan：`IGT-006`、`IGT-007`
   - 缺少证据：`IGT-007:check-integration`（missing：no run is bound to this evidence requirement）
   - 最终版本验收：stale

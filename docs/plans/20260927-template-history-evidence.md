@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-007",
   "release": "ai-execution-trust-v1",
-  "status": "draft",
+  "status": "active",
   "outcome": "模板副本能完整、安全地归档所有继承的交付与验收证据",
   "contract_version": 2,
   "execution_contract": 1,
@@ -11,7 +11,9 @@
   "goals": [
     {
       "text": "所有继承的 Plan、Release、运行记录和 TDD 证据都能随模板历史一起归档",
-      "requirements": ["REQ-EXECUTION-011"]
+      "requirements": [
+        "REQ-EXECUTION-011"
+      ]
     }
   ],
   "constraints": [
@@ -41,7 +43,9 @@
     "rollback": "回滚本 Plan 的代码、规格和文档提交；归档命令保留原有事务式回滚行为。"
   },
   "base_commit": "6dfd30678b05c51144aa7458e0cc9c0a57e4ad19",
-  "requirements": ["REQ-EXECUTION-011"],
+  "requirements": [
+    "REQ-EXECUTION-011"
+  ],
   "acceptance": [
     {
       "id": "AC-EXECUTION-011",
@@ -49,7 +53,9 @@
         "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-011]",
         "tests/contracts/template-history.test.ts::[AC-EXECUTION-011]"
       ],
-      "required_layers": ["unit"],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
           "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-011]",
@@ -62,17 +68,40 @@
       ]
     }
   ],
-  "verification_requirements": ["unit"],
+  "verification_requirements": [
+    "unit"
+  ],
   "tasks": [
-    {"id": "T1", "title": "确认模板副本中各类基线记录和归档边界", "status": "todo"},
-    {"id": "T2", "title": "增加多记录与 TDD 证据归档回归验收", "status": "todo"},
-    {"id": "T3", "title": "实现 TDD 证据与其余继承记录的统一归档", "status": "todo"},
-    {"id": "T4", "title": "运行本 Plan 验收并重新验证最终 Release", "status": "todo"}
+    {
+      "id": "T1",
+      "title": "确认模板副本中各类基线记录和归档边界",
+      "status": "done"
+    },
+    {
+      "id": "T2",
+      "title": "增加多记录与 TDD 证据归档回归验收",
+      "status": "doing"
+    },
+    {
+      "id": "T3",
+      "title": "实现 TDD 证据与其余继承记录的统一归档",
+      "status": "todo"
+    },
+    {
+      "id": "T4",
+      "title": "运行本 Plan 验收并重新验证最终 Release",
+      "status": "todo"
+    }
   ],
   "depends_on": [],
   "dependency_contracts": [],
   "shared_files": [],
-  "handoff": {"interfaces": [], "migrations": [], "tests": [], "remaining": []},
+  "handoff": {
+    "interfaces": [],
+    "migrations": [],
+    "tests": [],
+    "remaining": []
+  },
   "owner": "template-maintainer",
   "risk": "infrastructure",
   "write_scope": [
@@ -87,12 +116,14 @@
     "docs/others/evidence/tdd/"
   ],
   "tdd_evidence": [],
-  "required_evidence": ["check-integration"],
+  "required_evidence": [
+    "check-integration"
+  ],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
-  "updated_at": "2026-09-27"
+  "updated_at": "2026-09-26"
 }
 -->
 
@@ -150,6 +181,16 @@ T1 核对当前模板记录；T2 加入多记录归档与静态清单验收；T3
 ## 状态记录
 
 <!-- ignite-progress -->
+
+状态：`active`（由元数据生成）
+
+- [x] T1 · 确认模板副本中各类基线记录和归档边界 · done
+- [ ] T2 · 增加多记录与 TDD 证据归档回归验收 · doing
+- [ ] T3 · 实现 TDD 证据与其余继承记录的统一归档 · todo
+- [ ] T4 · 运行本 Plan 验收并重新验证最终 Release · todo
+
+验收缺口：未记录；完成仍须实际证据
+证据：尚无
 <!-- /ignite-progress -->
 
 ## 准出条件

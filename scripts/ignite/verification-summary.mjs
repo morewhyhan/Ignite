@@ -39,5 +39,10 @@ function acceptanceSummary(record, plan) {
 
 /** Present the three separate meanings of green without equating any one with delivery. */
 export function summarizeVerification() {
-  return {}
+  return {
+    engineering_gates: { status: 'unknown', commands: [] },
+    plan_acceptance: { status: 'unknown', criteria: [] },
+    release_acceptance: { status: 'unknown' },
+    next_action: '',
+  }
 }

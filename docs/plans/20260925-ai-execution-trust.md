@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-006",
   "release": "ai-execution-trust-v1",
-  "status": "verifying",
+  "status": "done",
   "outcome": "AI 能从用户目标持续推进到可信验收，状态准确、范围可追溯，Web 体验适配常见屏幕",
   "contract_version": 2,
   "execution_contract": 1,
@@ -642,7 +642,7 @@
 
 <!-- ignite-progress -->
 
-状态：`verifying`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 升级规格覆盖、状态输出与旧契约兼容 · done
 - [x] T2 · 拆分 Plan 行为验收和 Release 最终版本验收 · done

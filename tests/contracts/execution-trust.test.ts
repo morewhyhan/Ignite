@@ -92,11 +92,27 @@ describe('AI execution trust', () => {
         'utf8',
       ),
     )
-    const plan = findPlan('IGT-006')
-    plan.metadata.status = 'active'
-    const plans = new Map([[plan.metadata.id, plan]])
+    const plans = new Map(
+      release.plan_ids.map((id: string) => {
+        const plan = findPlan(id)
+        plan.metadata.status = 'active'
+        return [plan.metadata.id, plan] as const
+      }),
+    )
 
     expect(validateReleaseAcceptanceCoverage(release, plans)).toEqual([])
+
+    const omittedPlanId = release.plan_ids.at(-1)
+    const partialPlans = new Map(
+      release.plan_ids.slice(0, -1).map((id: string) => {
+        const plan = findPlan(id)
+        plan.metadata.status = 'active'
+        return [plan.metadata.id, plan] as const
+      }),
+    )
+    expect(validateReleaseAcceptanceCoverage(release, partialPlans)).toContain(
+      `release references missing Plan ${omittedPlanId}`,
+    )
 
     release.scope[0].acceptance = release.scope[0].acceptance.filter(
       (id: string) => id !== 'AC-TRUST-001',

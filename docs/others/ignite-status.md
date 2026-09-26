@@ -10,11 +10,10 @@
 
 ## 发布范围
 
-- `ai-execution-trust-v1` · `verifying`
+- `ai-execution-trust-v1` · `done`
   - Plan：`IGT-006`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite release verify ai-execution-trust-v1 --plan IGT-006
+  - 最终版本验收：passed（2ea8cf530bf7）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `execution-hardening-v1` · `done`
   - Plan：`IGT-005`

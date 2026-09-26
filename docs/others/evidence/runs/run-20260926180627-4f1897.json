@@ -1,0 +1,80 @@
+{
+  "schema": 2,
+  "run_id": "run-20260926180627-4f1897",
+  "check_policy_version": 6,
+  "plan_id": "IGT-006",
+  "evidence_id": "check-release",
+  "level": "release",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-09-26T18:06:56.505Z",
+  "ended_at": "2026-09-26T18:11:05.705Z",
+  "commit": "2ea8cf530bf763ff95cb799df5f22dfb98d20767",
+  "input_fingerprint": "227478dacda1af4c201a0bfba6dbb2104ba23579da9b04714cf108b6f9254ad2",
+  "environment_fingerprint": "a9a342b68b20ef1291357098ab140bd321ffbd348aecc3a91a312972942e8441",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "cf02ed0a9275bd1547b64b284e27a07e4eb3766533eba71e75595185fffd49d8",
+  "acceptance_results": [
+    {
+      "plan_id": "IGT-006",
+      "criterion": "AC-TRUST-003",
+      "test": "tests/e2e/responsive.spec.ts::[AC-TRUST-003]",
+      "layer": "browser",
+      "passed": true,
+      "cases": 2
+    },
+    {
+      "plan_id": "IGT-006",
+      "criterion": "AC-TRUST-006",
+      "test": "tests/e2e/responsive.spec.ts::[AC-TRUST-006]",
+      "layer": "browser",
+      "passed": true,
+      "cases": 2
+    }
+  ],
+  "release_id": "ai-execution-trust-v1",
+  "release_fingerprint": "0bce52097a96092c952e2f2182161244088e3531898678513a7bea0381f517f2",
+  "release_identity": {
+    "package_version": "0.1.0",
+    "tags": ["v2.0.0"]
+  },
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "ad1b60489d9db1d327fd958ca7e7f066d1ce0532"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 1035
+    },
+    {
+      "label": "build",
+      "command": ["corepack", "pnpm", "build"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 91601
+    },
+    {
+      "label": "e2e-production",
+      "command": ["corepack", "pnpm", "test:e2e:production"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 63445
+    }
+  ],
+  "log_sha256": "71f52783c1b6e46b394d9ef520421715ea0df78e6066ac3a4255a5662c64ddc6",
+  "execution_source": "ignite-runner-local"
+}

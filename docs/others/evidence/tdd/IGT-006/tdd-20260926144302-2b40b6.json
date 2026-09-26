@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "run_id": "tdd-20260926144302-2b40b6",
+  "plan_id": "IGT-006",
+  "acceptance_id": "AC-TRUST-006",
+  "test": "tests/e2e/responsive.spec.ts::[AC-TRUST-006]",
+  "layer": "browser",
+  "status": "assertion-failed",
+  "red_commit": "d06f4cd93f4706a5ce66b6c8ac7b8425bf87ec28",
+  "test_sha256": "9dd92b07141ac1415feaf170e7a8335e9553bc757744d860f1f2e7c4b52bffd0",
+  "output_sha256": "492db5c0395a08134c0b6859749243a2a4a078726334b7d9893c3c75a4541001",
+  "command": [
+    "corepack",
+    "pnpm",
+    "test:e2e",
+    "--",
+    "tests/e2e/responsive.spec.ts",
+    "--grep",
+    "AC-TRUST-006"
+  ],
+  "started_at": "2026-09-26T14:43:02.965Z",
+  "ended_at": "2026-09-26T14:44:06.338Z",
+  "executor": "ignite-tdd-runner"
+}

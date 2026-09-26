@@ -150,7 +150,7 @@
     {
       "acceptance_id": "AC-EXECUTION-013",
       "test": "tests/contracts/execution-trust.test.ts::[AC-TRUST-002] [AC-EXECUTION-013] blocks active Release scope when a Feature acceptance is unaccounted for",
-      "run_id": "tdd-20260926222906-428066"
+      "run_id": "tdd-20260926223747-70dd25"
     }
   ],
   "required_evidence": [

@@ -6,7 +6,7 @@
 
 ## 当前工作
 
-- `IGT-1790459700497465269` · `active` · `release-artifacts-v1`
+- `IGT-1790459700497465269` · `verifying` · `release-artifacts-v1`
 
 ## 发布范围
 
@@ -20,9 +20,9 @@
   - Plan：`IGT-005`
   - 缺少证据：无
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `release-artifacts-v1` · `active`
+- `release-artifacts-v1` · `verifying`
   - Plan：`IGT-1790459700497465269`
-  - 缺少证据：`IGT-1790459700497465269:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1790459700497465269
   - 未完成原始目标：GOAL-001 AI 生成和回写的 Plan/Release 文件符合格式门禁，Release 覆盖测试适应完整 Plan 集合

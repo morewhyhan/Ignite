@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790459700497465269",
   "release": "release-artifacts-v1",
-  "status": "active",
+  "status": "verifying",
   "outcome": "脚手架与 Release 验收稳定生成可直接通过格式门禁的文件，覆盖测试适应完整 Release 范围",
   "contract_version": 2,
   "execution_contract": 1,
@@ -88,7 +88,7 @@
     {
       "id": "T4",
       "title": "完成 Plan 验收并单独验证 Release",
-      "status": "doing"
+      "status": "done"
     }
   ],
   "depends_on": [],
@@ -135,10 +135,15 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20260926230425-273f6a"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "b51b945c7aae5495ceb4e80c53049e56beb4fecd",
   "updated_at": "2026-09-26"
 }
 -->
@@ -204,15 +209,15 @@ AC-EXECUTION-012 在隔离 Git 夹具中运行实际存量改动脚手架，要�
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`verifying`（由元数据生成）
 
 - [x] T1 · 确认所有 Plan 与 Release JSON 写入路径及格式失败行为 · done
 - [x] T2 · 为格式化产物和多 Plan 覆盖测试记录红灯 · done
 - [x] T3 · 统一脚手架、Release 回写与覆盖测试的正确行为 · done
-- [ ] T4 · 完成 Plan 验收并单独验证 Release · doing
+- [x] T4 · 完成 Plan 验收并单独验证 Release · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20260926230425-273f6a
 <!-- /ignite-progress -->
 
 ## 准出条件

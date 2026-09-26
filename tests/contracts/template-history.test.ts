@@ -1,10 +1,18 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
-import { join } from 'node:path'
+import { basename, join } from 'node:path'
 import { expect, it } from 'vitest'
 
 const root = join(import.meta.dirname, '..', '..')
 
-it('[AC-PRODUCT-015] [AC-EXECUTION-009] keeps template history out of a copied baseline', () => {
+function collectFiles(directory: string): string[] {
+  if (!existsSync(directory)) return []
+  return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(directory, entry.name)
+    return entry.isDirectory() ? collectFiles(path) : entry.isFile() ? [path] : []
+  })
+}
+
+it('[AC-PRODUCT-015] [AC-EXECUTION-009] [AC-EXECUTION-011] keeps all template baseline evidence traceable', () => {
   const project = JSON.parse(readFileSync(join(root, '.ai', 'project.json'), 'utf8')) as {
     mode: string
   }
@@ -26,29 +34,42 @@ it('[AC-PRODUCT-015] [AC-EXECUTION-009] keeps template history out of a copied b
       name,
       value: JSON.parse(readFileSync(join(root, 'docs', 'plans', 'releases', name), 'utf8')),
     }))
-  const completedReleaseNames = releases
-    .filter(({ value }) =>
-      completedPlans.some((plan) => value.plan_ids?.includes(plan?.metadata.id)),
-    )
-    .map(({ name }) => name)
-  expect(completedPlans).toHaveLength(1)
-  expect(completedReleaseNames).toHaveLength(1)
+  expect(completedPlans.length).toBeGreaterThan(0)
   expect(existsSync(join(root, 'EXECUTION_AUDIT.md'))).toBe(false)
 
-  const currentPlan = completedPlans[0]!
-  const metadata = currentPlan.metadata
-  const release = JSON.parse(
-    readFileSync(join(root, 'docs', 'plans', 'releases', completedReleaseNames[0]!), 'utf8'),
+  for (const plan of completedPlans) {
+    const linkedReleases = releases.filter(
+      ({ value }) =>
+        value.id === plan?.metadata.release && value.plan_ids?.includes(plan?.metadata.id),
+    )
+    expect(linkedReleases).toHaveLength(1)
+  }
+
+  const linkedReleases = releases.filter(({ value }) =>
+    completedPlans.some((plan) => value.plan_ids?.includes(plan?.metadata.id)),
   )
-  expect(release.id).toBe(metadata.release)
-  expect(release.plan_ids).toEqual([metadata.id])
-  const runIds = [...currentPlan.content.matchAll(/"run_id": "(run-[^"]+)"/g)].map(
-    (match) => match[1],
-  )
+  const runIds = [
+    ...completedPlans.flatMap(
+      (plan) => plan?.metadata.evidence?.map((item: { run_id: string }) => item.run_id) || [],
+    ),
+    ...linkedReleases.flatMap(
+      ({ value }) => value.evidence?.map((item: { run_id: string }) => item.run_id) || [],
+    ),
+  ].sort()
   const runDirectory = join(root, 'docs', 'others', 'evidence', 'runs')
   const runs = (existsSync(runDirectory) ? readdirSync(runDirectory) : [])
     .filter((name) => name.endsWith('.json'))
     .map((name) => name.replace(/\.json$/, ''))
     .sort()
   expect(runs).toEqual(runIds.sort())
+
+  const tddEvidence = completedPlans.flatMap(
+    (plan) => plan?.metadata.tdd_evidence?.map((item: { run_id: string }) => item.run_id) || [],
+  )
+  const tddDirectory = join(root, 'docs', 'others', 'evidence', 'tdd')
+  const tddRuns = collectFiles(tddDirectory)
+    .filter((path) => path.endsWith('.json'))
+    .map((path) => basename(path).replace(/\.json$/, ''))
+    .sort()
+  expect(tddRuns).toEqual(tddEvidence.sort())
 })

@@ -1161,6 +1161,111 @@ describe('execution reliability', () => {
     }
   })
 
+  it('[AC-EXECUTION-011] archives inherited TDD evidence with every other baseline record', () => {
+    const fixture = makeFixture()
+    const directory = mkdtempSync(join(tmpdir(), 'ignite-tdd-history-'))
+    try {
+      const project = join(directory, 'project')
+      cpSync(fixture.root, project, {
+        recursive: true,
+        filter: (source) => source !== join(fixture.root, '.git'),
+      })
+      const tddPaths = [
+        'docs/others/evidence/tdd/IGT-900/tdd-fixture.json',
+        'docs/others/evidence/tdd/IGT-901/tdd-fixture-2.json',
+      ]
+      write(
+        project,
+        'docs/plans/fixture.md',
+        planContent(fixture.baseCommit, {
+          tdd_evidence: [
+            {
+              acceptance_id: 'AC-TEST-001',
+              test: 'tests/contracts/sample.test.ts::[AC-TEST-001]',
+              run_id: 'tdd-fixture',
+            },
+          ],
+        }),
+      )
+      write(
+        project,
+        'docs/plans/fixture-2.md',
+        planContent(fixture.baseCommit, {
+          id: 'IGT-901',
+          release: 'fixture-v2',
+          tdd_evidence: [
+            {
+              acceptance_id: 'AC-TEST-001',
+              test: 'tests/contracts/sample.test.ts::[AC-TEST-001]',
+              run_id: 'tdd-fixture-2',
+            },
+          ],
+        }),
+      )
+      for (const [index, tddPath] of tddPaths.entries()) {
+        write(
+          project,
+          tddPath,
+          JSON.stringify({ run_id: `tdd-fixture${index ? '-2' : ''}`, plan_id: `IGT-90${index}` }),
+        )
+      }
+      const secondRelease = JSON.parse(read(project, 'docs/plans/releases/fixture-v1.json'))
+      write(
+        project,
+        'docs/plans/releases/fixture-v2.json',
+        JSON.stringify({ ...secondRelease, id: 'fixture-v2', plan_ids: ['IGT-901'] }),
+      )
+      write(
+        project,
+        'docs/others/evidence/runs/run-fixture.json',
+        JSON.stringify({ run_id: 'run-fixture', plan_id: 'IGT-900' }),
+      )
+      write(
+        project,
+        '.ai/project.json',
+        JSON.stringify({
+          schema: 1,
+          mode: 'template-baseline',
+          source_repository: 'git@github.com:morewhyhan/Ignite.git',
+          project_repository: null,
+        }),
+      )
+      git(project, 'init')
+      commitAll(project, 'Initial copy without template Git history')
+
+      const applied = runCli(project, 'adopt-history', '--apply')
+      expect(applied.status, applied.stderr).toBe(0)
+      const archived = JSON.parse(applied.stdout)
+      const expectedSources = [
+        'docs/plans/fixture.md',
+        'docs/plans/fixture-2.md',
+        'docs/plans/releases/fixture-v1.json',
+        'docs/plans/releases/fixture-v2.json',
+        'docs/others/evidence/runs/run-fixture.json',
+        ...tddPaths,
+      ]
+      const records = archived.files.filter((item: { source: string }) =>
+        expectedSources.includes(item.source),
+      )
+      expect(records.map((item: { source: string }) => item.source).sort()).toEqual(
+        expectedSources.sort(),
+      )
+      for (const record of records) {
+        expect(existsSync(join(project, record.source))).toBe(false)
+        expect(existsSync(join(project, record.archive))).toBe(true)
+      }
+      const commit = git(project, 'rev-parse', 'HEAD')
+      const indexPath = `docs/others/template-history/${commit}/index.json`
+      const indexedSources = JSON.parse(read(project, indexPath)).files.map(
+        (item: { source: string }) => item.source,
+      )
+      expect(indexedSources).toEqual(expect.arrayContaining(expectedSources))
+    } finally {
+      fixture.cleanup()
+      rmSync(directory, { recursive: true, force: true })
+    }
+  })
+
   it('[AC-PRODUCT-014] reopens a rebased Plan instead of trusting evidence from the old commit', () => {
     const fixture = makeFixture()
     try {

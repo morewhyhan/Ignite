@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
-import { basename, join } from 'node:path'
+import { basename, dirname, join } from 'node:path'
 import { expect } from 'vitest'
 
 export function collectFiles(directory: string): string[] {
@@ -43,9 +43,14 @@ export function assertTemplateBaselineEvidence(root: string) {
     const archivedFiles = indexes.flatMap((indexPath) => {
       const index = JSON.parse(readFileSync(indexPath, 'utf8')) as {
         schema: number
+        baseline_commit: string
         files: { source: string; archive: string }[]
       }
       expect(index.schema).toBe(1)
+      expect(index.baseline_commit).toMatch(/^[0-9a-f]{40}$/)
+      if (index.baseline_commit !== basename(dirname(indexPath))) {
+        throw new Error('Archived history index baseline commit does not match its directory')
+      }
       return index.files
     })
     const archivedSources = archivedFiles.map(({ source }) => source)

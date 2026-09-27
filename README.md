@@ -34,7 +34,7 @@ Ignite 关心的结果很具体：让你更容易开始，在有限时间内交�
 
 开发规则固定为：**规格文档 → 编写测试 → 编写实现 → 运行测试 → 通过则继续 / 不通过则修复重试 → 更新 Design**。这条规则写入 [`AGENTS.md`](./AGENTS.md)，由测试和构建结果决定是否继续，而不是凭主观判断结束。
 
-查看 Ignite CLI 的命令和用法：`pnpm ignite --help`。开始任务时先用 `pnpm ignite status` 读取精简状态；需要自动化消费完整字段时再使用 `pnpm ignite status --json`。
+查看 Ignite CLI 的命令和用法：`pnpm ignite --help`。开始任务时用 `pnpm ignite status --json` 读取项目状态。
 
 人确定问题、目标、边界和验收标准；AI 调查代码、实现功能、补充测试并整理结果；测试、构建和迁移检查为结果提供证据。
 

@@ -264,7 +264,7 @@
     },
     {
       "id": "T2",
-      "title": "为十一项缺口补规格与红灯验收",
+      "title": "为首批十一项缺口补规格与红灯验收",
       "status": "done"
     },
     {
@@ -275,12 +275,12 @@
     {
       "id": "T4",
       "title": "验证隔离副本的采用/新模块/存量修改/失败恢复并交付审计清单",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T5",
       "title": "修正并验证新历史采用的依赖安装顺序",
-      "status": "doing"
+      "status": "done"
     }
   ],
   "depends_on": [],
@@ -434,6 +434,7 @@
 | 两次全量集成运行中，文档追踪和 Plan 全量校验都超过 Vitest 30 秒默认上限，导致同两条验收误报超时                            | 为这两项完整的重型治理测试设置 90 秒上限，不跳过或缩减断言                                                                                       | REQ-EXECUTION-020     | AC-EXECUTION-020     | 实测复现两次；目标用例已设 90 秒，完整集成验收待完成                                 |
 | 新历史副本归档前的 `ignite validate --ci` 把继承记录引用的旧提交误报为数十项结构与证据错误                                 | `template:doctor` 按 Git 历史类型给出阻止验证的具体下一步，并修订手册和 AI 初始入口顺序                                                          | REQ-EXECUTION-021     | AC-EXECUTION-021     | 新历史副本已复现；修复与完整副本验收进行中                                           |
 | 新历史副本归档后生成的空 Release 状态区段违反 Prettier 格式门禁                                                            | 让 `status --write` 在没有 Release 时仍输出符合仓库格式的摘要                                                                                    | REQ-EXECUTION-022     | AC-EXECUTION-022     | 新历史副本 `pnpm verify` 实测在 `format:check` 失败；待修复并复验                    |
+| 全新副本未安装依赖时按文档运行采用 CLI，报缺少 `typescript`；手册把依赖安装排在归档命令之后                                | 先安装锁定依赖，再运行模板诊断、历史预览/归档与基线验收                                                                                          | REQ-EXECUTION-025     | AC-EXECUTION-025     | 新 Git 历史副本确认失败；已重排 `adoption.md` 与 `AGENTS.md`，并在仓库外副本全量验收 |
 
 ### 本轮问题与验收结果
 
@@ -448,6 +449,7 @@
 | Git 转义 Unicode 路径导致写入范围误判                 | 中文文件名在 diff 输出中变成八进制转义串，实际位于范围内的文档仍被判越界                    | 收集 Git 文本路径时关闭 `core.quotepath` 转义，保留原始 Unicode 路径               | AC-EXECUTION-019 验证中文路径原样返回、合法范围通过；不在范围的 Unicode 路径仍拒绝 |
 | 全仓治理测试超过 30 秒默认上限                        | WSL 下全仓断言超时，令有效集成重复执行并误报失败                                            | 只为两条实测重型校验用例设置 90 秒上限，保留完整断言                               | AC-EXECUTION-020 与完整 Plan integration 通过，无 skip 或范围缩减                  |
 | 新项目没有 Release 时，状态摘要多余空行不符合格式门禁 | 新历史副本归档后 `status --write` 生成空 Release 区段，`pnpm verify` 的 `format:check` 失败 | 状态生成器在空集合时输出明确的空状态行，避免产生多余分隔空行                       | AC-EXECUTION-022 证明无 Release 状态摘要可由 Prettier 原样格式化，完整基线验收通过 |
+| 新历史副本采用 CLI 依赖顺序错误                       | 无 `node_modules` 时归档命令报 `ERR_MODULE_NOT_FOUND`，无法依照手册完成首次采用             | 先安装依赖，再运行 `template:doctor`、归档预览和显式 apply；同步 AI 入口与 Design  | AC-EXECUTION-025、仓库外新历史副本 `pnpm verify` 与桌面/移动生产 E2E 通过          |
 
 进入 `ready` 前回看原始请求，确认目标、约束、必须保留的能力都已列入；不把 AI 自己改写后的 goals 当作原始输入。此表是语义审查记录，不能伪称机器已证明无遗漏。
 
@@ -494,10 +496,10 @@
 状态：`active`（由元数据生成）
 
 - [x] T1 · 核实模板采用、CLI 发现和脚手架失败行为 · done
-- [x] T2 · 为十一项缺口补规格与红灯验收 · done
+- [x] T2 · 为首批十一项缺口补规格与红灯验收 · done
 - [x] T3 · 修复历史归档提示、状态格式、测试夹具依赖、CLI 帮助、上下文成本、脚手架回滚、AC/Unicode 误判及全量测试超时 · done
-- [ ] T4 · 验证隔离副本的采用/新模块/存量修改/失败恢复并交付审计清单 · doing
-- [ ] T5 · 修正并验证新历史采用的依赖安装顺序 · doing
+- [x] T4 · 验证隔离副本的采用/新模块/存量修改/失败恢复并交付审计清单 · done
+- [x] T5 · 修正并验证新历史采用的依赖安装顺序 · done
 
 验收缺口：未记录；完成仍须实际证据
 证据：check-integration / run-20260927183514-02a7ea

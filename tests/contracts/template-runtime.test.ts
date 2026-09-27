@@ -131,6 +131,7 @@ describe('template and runtime contracts', () => {
       const full = join(directory, 'complete')
       const shallow = join(directory, 'shallow')
       const newHistory = join(directory, 'new-history')
+      const downloaded = join(directory, 'downloaded')
       git(directory, 'init', '--bare', remote)
       git(fixture.root, 'remote', 'add', 'origin', remote)
       git(fixture.root, 'push', 'origin', 'HEAD:refs/heads/main')
@@ -142,6 +143,10 @@ describe('template and runtime contracts', () => {
       })
       git(newHistory, 'init')
       commitAll(newHistory, 'initialize copied template with a new history')
+      cpSync(full, downloaded, {
+        recursive: true,
+        filter: (source) => source !== join(full, '.git'),
+      })
 
       const diagnose = (root: string) =>
         spawnSync(process.execPath, [templateDoctor], {
@@ -159,6 +164,17 @@ describe('template and runtime contracts', () => {
       expect(shallowResult.status).not.toBe(0)
       expect(shallowResult.stderr).toContain('git fetch --unshallow')
       expect(shallowResult.stderr).not.toContain('adopt-history --apply')
+
+      const downloadedResult = diagnose(downloaded)
+      expect(downloadedResult.status).not.toBe(0)
+      expect(downloadedResult.stderr).toContain('git init')
+      expect(downloadedResult.stderr).toContain('initial commit')
+      expect(read(downloaded, 'docs/plans/fixture.md')).toBe(inheritedPlan)
+
+      git(downloaded, 'init')
+      const emptyGitResult = diagnose(downloaded)
+      expect(emptyGitResult.status).not.toBe(0)
+      expect(emptyGitResult.stderr).toContain('initial Git commit')
 
       const newHistoryResult = diagnose(newHistory)
       expect(newHistoryResult.status).not.toBe(0)

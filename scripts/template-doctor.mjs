@@ -3,6 +3,8 @@ import { resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import ts from 'typescript'
 import { developmentSecret, environmentPolicyIssues } from '../src/server/env-policy.mjs'
+import { gitCommitExists } from './ignite/core.mjs'
+import { listPlans } from './ignite/state.mjs'
 
 const repositoryRoot = process.cwd()
 const issues = []
@@ -43,6 +45,45 @@ if (existsSync(identityPath)) {
   }
 }
 const isAdopted = identity ? identity.mode === 'adopted' : /^- 状态：`adopted`$/m.test(productSpec)
+
+if (!isAdopted) {
+  const plans = listPlans().filter((plan) => plan.metadata)
+  const missingHistory = plans.filter((plan) => !gitCommitExists(plan.metadata.base_commit))
+  if (missingHistory.length > 0) {
+    const history = spawnSync('git', ['rev-parse', '--is-shallow-repository'], {
+      cwd: repositoryRoot,
+      encoding: 'utf8',
+      windowsHide: true,
+    })
+    const head = spawnSync('git', ['rev-parse', '--verify', 'HEAD'], {
+      cwd: repositoryRoot,
+      encoding: 'utf8',
+      windowsHide: true,
+    })
+
+    if (history.status !== 0) {
+      issue(
+        'Inherited template Plans reference unavailable commits, but this copy has no Git repository. Run git init and create an initial commit of the copied source, then preview and apply pnpm ignite adopt-history and commit the archive before pnpm verify.',
+      )
+    } else if (head.status !== 0) {
+      issue(
+        'This Git repository has no initial Git commit. Commit the copied source first, then preview and apply pnpm ignite adopt-history and commit the archive before pnpm verify.',
+      )
+    } else if (history.stdout.trim() === 'true') {
+      issue(
+        'This is a shallow clone and inherited Plan commits are missing. Run git fetch --unshallow before validation; do not archive template history from a shallow clone.',
+      )
+    } else if (missingHistory.length < plans.length) {
+      issue(
+        'Some inherited Plan commits exist and others are missing. Restore the complete expected Git history before validation; do not archive mixed template and project history.',
+      )
+    } else {
+      issue(
+        `${missingHistory.length} inherited Plan(s) reference commits absent from this new Git history. Preview with pnpm ignite adopt-history, review the list, then run pnpm ignite adopt-history --apply and commit the archive before running pnpm verify. This diagnosis did not move any files.`,
+      )
+    }
+  }
+}
 
 function repositoryKey(url) {
   return String(url || '')

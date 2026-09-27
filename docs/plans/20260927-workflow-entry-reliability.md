@@ -191,7 +191,13 @@
     "tests/contracts/source-analysis.test.ts",
     "AI开发执行流程审计清单.md"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-EXECUTION-014",
+      "test": "tests/contracts/workflow-entry.test.ts::[AC-EXECUTION-014] rewrites links to archived Plans so adopted docs remain valid",
+      "run_id": "tdd-20260927005659-d2366a"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

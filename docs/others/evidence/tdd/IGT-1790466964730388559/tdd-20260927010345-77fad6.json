@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "run_id": "tdd-20260927010345-77fad6",
+  "plan_id": "IGT-1790466964730388559",
+  "acceptance_id": "AC-EXECUTION-016",
+  "test": "tests/contracts/workflow-entry.test.ts::[AC-EXECUTION-016] keeps first-entry status guidance concise",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "3e295ee2a7c9f89929ecf087a3abca951df7d3ad",
+  "test_sha256": "76ed4aec633b1e8f49a5950ced8b562c5d2be6c699af502f29d714d60c4901c5",
+  "output_sha256": "165cdccc9e423c792b9f686539863ad55dc52fd3df9c58711b5d13da1a889008",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/workflow-entry.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-016",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-09-27T01:03:45.881Z",
+  "ended_at": "2026-09-27T01:03:52.299Z",
+  "executor": "ignite-tdd-runner"
+}

@@ -201,6 +201,11 @@
       "acceptance_id": "AC-EXECUTION-015",
       "test": "tests/contracts/ignite-cli.test.ts::[AC-EXECUTION-015] prints help without executing the requested command",
       "run_id": "tdd-20260927005750-da0f67"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-016",
+      "test": "tests/contracts/workflow-entry.test.ts::[AC-EXECUTION-016] keeps first-entry status guidance concise",
+      "run_id": "tdd-20260927010345-77fad6"
     }
   ],
   "required_evidence": ["check-integration"],

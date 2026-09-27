@@ -25,6 +25,49 @@ function runModule(root: string, script: string) {
 }
 
 describe('execution reliability', () => {
+  it('[AC-EXECUTION-019] preserves Unicode paths when validating Plan write scope', () => {
+    const fixture = makeFixture()
+    try {
+      write(
+        fixture.root,
+        'docs/plans/fixture.md',
+        planContent(fixture.baseCommit, {
+          contract_version: 2,
+          goals: [{ text: 'Keep Unicode file paths intact', requirements: ['REQ-TEST-001'] }],
+          constraints: [],
+          non_goals: [],
+          authorization: { source: 'fixture' },
+          deliverables: ['Unicode write-scope validation'],
+          write_scope: ['docs/用户说明.md', 'docs/plans/', 'tests/'],
+        }),
+      )
+      write(fixture.root, 'docs/用户说明.md', 'before\n')
+      write(fixture.root, 'docs/意外文件.md', 'before\n')
+      commitAll(fixture.root, 'Install Unicode-scoped Plan')
+      write(fixture.root, 'docs/用户说明.md', 'after\n')
+      write(fixture.root, 'docs/意外文件.md', 'after\n')
+
+      const core = join(repositoryRoot, 'scripts/ignite/core.mjs')
+      const state = join(repositoryRoot, 'scripts/ignite/state.mjs')
+      const result = runModule(
+        fixture.root,
+        `const core = await import(${JSON.stringify(core)})
+         const state = await import(${JSON.stringify(state)})
+         const plan = state.findPlan('IGT-900')
+         const changedFiles = core.changedFilesForPlan(plan)
+         process.stdout.write(JSON.stringify({ changedFiles, errors: core.validateWriteScope(plan, changedFiles) }))`,
+      )
+
+      expect(result.status, result.stderr).toBe(0)
+      const output = JSON.parse(result.stdout)
+      expect(output.changedFiles).toContain('docs/用户说明.md')
+      expect(output.changedFiles).toContain('docs/意外文件.md')
+      expect(output.errors).toEqual(['docs/意外文件.md is outside Plan write_scope'])
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
   it('[AC-EXECUTION-017] rolls back a scaffold when final file promotion fails', () => {
     const fixture = makeFixture()
     const preloadRoot = mkdtempSync(join(tmpdir(), 'ignite-fail-promotion-'))

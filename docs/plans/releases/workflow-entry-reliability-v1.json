@@ -7,21 +7,23 @@
   "scope": [
     {
       "id": "GOAL-001",
-      "text": "模板副本采用与首次任务启动需可恢复、可理解且不制造冗余上下文",
-      "source": "用户授权综合审查与整改；独立模板副本实测发现历史 Plan 归档后文档检查失败",
+      "text": "审计并完善模板从首次采用到交付的 AI 开发执行流程，修复已证实的采用与执行可靠性问题",
+      "source": "用户授权对照团队级 AI Coding 手册和项目使用需求，综合检查七个执行环节并逐项整改；孤立新历史副本实测发现历史 Plan 归档后文档检查失败",
       "requirements": [
         "REQ-EXECUTION-014",
         "REQ-EXECUTION-015",
         "REQ-EXECUTION-016",
         "REQ-EXECUTION-017",
-        "REQ-EXECUTION-018"
+        "REQ-EXECUTION-018",
+        "REQ-EXECUTION-019"
       ],
       "acceptance": [
         "AC-EXECUTION-014",
         "AC-EXECUTION-015",
         "AC-EXECUTION-016",
         "AC-EXECUTION-017",
-        "AC-EXECUTION-018"
+        "AC-EXECUTION-018",
+        "AC-EXECUTION-019"
       ],
       "plan_ids": ["IGT-1790466964730388559"],
       "disposition": "included",

@@ -24,6 +24,10 @@
     {
       "text": "占位失败检测仅针对目标 AC，避免同文件误报",
       "requirements": ["REQ-EXECUTION-018"]
+    },
+    {
+      "text": "Git 改动范围检查保留 Unicode 路径原文",
+      "requirements": ["REQ-EXECUTION-019"]
     }
   ],
   "constraints": [
@@ -37,7 +41,7 @@
     "不承诺未知 AI 工具无需桥接即可自动读取规则"
   ],
   "authorization": {
-    "source": "用户授权综合审查并整改当前项目中妨碍 AI 开发流程或偏离所给工程方法的问题。独立模板副本实测确认历史 Plan 归档后文档门禁失败；CLI 帮助、初始状态输出与脚手架失败回滚属于同一采用和启动可靠性结果。"
+    "source": "用户授权综合审查并整改当前项目中妨碍 AI 开发流程或偏离所给工程方法的问题。独立模板副本实测确认历史 Plan 归档后文档门禁失败；另有 Unicode 路径被 Git 默认转义后造成 write_scope 误判，连同 CLI 帮助、初始状态输出、脚手架失败回滚和占位扫描误拦均属于执行可靠性问题。"
   },
   "deliverables": [
     "历史归档后的可用文档引用",
@@ -54,7 +58,8 @@
     "REQ-EXECUTION-015",
     "REQ-EXECUTION-016",
     "REQ-EXECUTION-017",
-    "REQ-EXECUTION-018"
+    "REQ-EXECUTION-018",
+    "REQ-EXECUTION-019"
   ],
   "acceptance": [
     {
@@ -121,6 +126,19 @@
           "layer": "unit"
         }
       ]
+    },
+    {
+      "id": "AC-EXECUTION-019",
+      "tests": [
+        "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-019] preserves Unicode paths when validating Plan write scope"
+      ],
+      "required_layers": ["unit"],
+      "checks": [
+        {
+          "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-019] preserves Unicode paths when validating Plan write scope",
+          "layer": "unit"
+        }
+      ]
     }
   ],
   "verification_requirements": ["unit"],
@@ -132,17 +150,17 @@
     },
     {
       "id": "T2",
-      "title": "为四项缺口补规格与红灯验收",
+      "title": "为六项缺口补规格与红灯验收",
       "status": "doing"
     },
     {
       "id": "T3",
-      "title": "修复采用引用、CLI 帮助、上下文输出与脚手架回滚",
-      "status": "todo"
+      "title": "修复采用引用、CLI 帮助、上下文输出、脚手架回滚、AC 误拦和 Unicode 路径误判",
+      "status": "doing"
     },
     {
       "id": "T4",
-      "title": "完成隔离副本路径、集成/发布验收并交付审计清单",
+      "title": "验证隔离副本的采用/新模块/存量修改/失败恢复并交付审计清单",
       "status": "todo"
     }
   ],
@@ -180,6 +198,7 @@
     "scripts/ignite/cli.mjs",
     "scripts/ignite/scaffold-writer.mjs",
     "scripts/ignite/source-analysis.mjs",
+    "scripts/ignite/core.mjs",
     "scripts/ignite/state.mjs",
     "scripts/ignite/tdd.mjs",
     "scripts/create-module.mjs",
@@ -245,6 +264,7 @@
 | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------- | -------------------- | ------------------------------------------------------------------------------------ |
 | 用户要求综合审查开发全流程，列出真实问题、修复办法、验收标准，并在最终版本推送；孤立新历史副本归档后 `docs:check` 实测失败 | 修复模板采用与首次任务启动中的引用、命令发现、上下文成本和脚手架失败回滚问题，并对采用、上下文、执行、验收、恢复、交付、过程成本七域形成审计清单 | REQ-EXECUTION-014–017 | AC-EXECUTION-014–017 | 保留；报告已确认的问题、证据、修复和边界；不改业务功能、产品方向或用户确定的架构边界 |
 | 后续检查发现共享测试文件中的普通样例文本会触发全文件占位扫描，阻止合法 Plan 转入 ready                                     | 将占位检测缩小到与 AC 对应的活动测试体                                                                                                           | REQ-EXECUTION-018     | AC-EXECUTION-018     | 纳入执行门禁准确性修复，不放宽真实占位失败检查                                       |
+| 集成 dry-run 中，中文审计清单路径在 Git diff 中以八进制转义显示，导致计划范围校验误判越界                                  | 让 Git 路径采集保留 Unicode 原文                                                                                                                 | REQ-EXECUTION-019     | AC-EXECUTION-019     | 纳入路径准确性修复；集成证据仍待完成                                                 |
 
 ### 本轮问题与验收结果
 
@@ -256,6 +276,7 @@
 | 脚手架逐个写文件，后续写入失败留下部分文件 | 在 Plan/Release 文件集提交过程中出错时，模板可能形成残缺草稿或覆盖已有 Release | 共享事务写入器先暂存全部内容，再提交；异常时恢复已替换文件并清理本轮新文件         | 注入末文件提交错误后无部分产物、原 Release 字节不变，命令报错且可重试            |
 
 | 占位检测扫描整个文件 | 与目标 AC 无关的字符串样例会使 Plan 状态转换误报失败 | 解析活动测试注册并只检查匹配 AC 的测试体 | 目标 AC 有真实断言可进入 ready；对应测试体内真实占位失败仍被拒绝 |
+| Git 转义 Unicode 路径导致写入范围误判 | 中文文件名在 diff 输出中变成八进制转义串，实际位于范围内的文档仍被判越界 | 收集 Git 文本路径时关闭 `core.quotepath` 转义，保留原始 Unicode 路径 | AC-EXECUTION-019 验证中文路径原样返回、合法范围通过；不在范围的 Unicode 路径仍拒绝 |
 
 进入 `ready` 前回看原始请求，确认目标、约束、必须保留的能力都已列入；不把 AI 自己改写后的 goals 当作原始输入。此表是语义审查记录，不能伪称机器已证明无遗漏。
 
@@ -302,9 +323,9 @@
 状态：`active`（由元数据生成）
 
 - [x] T1 · 核实模板采用、CLI 发现和脚手架失败行为 · done
-- [ ] T2 · 为四项缺口补规格与红灯验收 · doing
-- [ ] T3 · 修复采用引用、CLI 帮助、上下文输出与脚手架回滚 · todo
-- [ ] T4 · 完成隔离副本路径、集成/发布验收并交付审计清单 · todo
+- [ ] T2 · 为六项缺口补规格与红灯验收 · doing
+- [ ] T3 · 修复采用引用、CLI 帮助、上下文输出、脚手架回滚、AC 误拦和 Unicode 路径误判 · doing
+- [ ] T4 · 验证隔离副本的采用/新模块/存量修改/失败恢复并交付审计清单 · todo
 
 验收缺口：未记录；完成仍须实际证据
 证据：尚无

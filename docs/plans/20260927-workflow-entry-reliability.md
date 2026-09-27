@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790466964730388559",
   "release": "workflow-entry-reliability-v1",
-  "status": "active",
+  "status": "verifying",
   "outcome": "模板副本采用与首次任务启动可恢复、可理解且不会产生无效上下文",
   "contract_version": 2,
   "execution_contract": 1,
@@ -436,7 +436,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "2de6a315047910b879c72ff4ee7400bf6fba3682",
+  "integrated_commit": "0313a4e1b3bf3a59d5c38301762db8b90fb8c6d6",
   "updated_at": "2026-09-27"
 }
 -->
@@ -525,7 +525,7 @@
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`verifying`（由元数据生成）
 
 - [x] T1 · 核实模板采用、CLI 发现和脚手架失败行为 · done
 - [x] T2 · 为首批十一项缺口补规格与红灯验收 · done

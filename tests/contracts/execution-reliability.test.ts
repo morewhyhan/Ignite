@@ -3,6 +3,7 @@ import { cpSync, existsSync, mkdtempSync, readFileSync, readdirSync, rmSync } fr
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
+import ts from 'typescript'
 import { CHECK_POLICY_VERSION } from '../../scripts/ignite/checks.mjs'
 import {
   commitAll,
@@ -25,6 +26,43 @@ function runModule(root: string, script: string) {
 }
 
 describe('execution reliability', () => {
+  it('[AC-EXECUTION-020] gives repository-wide governance tests an explicit runtime budget', () => {
+    const configuredTimeout = (path: string, acceptanceId: string) => {
+      const source = ts.createSourceFile(
+        path,
+        read(repositoryRoot, path),
+        ts.ScriptTarget.Latest,
+        true,
+      )
+      let timeout: number | undefined
+      const visit = (node: ts.Node) => {
+        if (
+          ts.isCallExpression(node) &&
+          ts.isIdentifier(node.expression) &&
+          ['it', 'test'].includes(node.expression.text) &&
+          node.arguments[0] &&
+          (ts.isStringLiteral(node.arguments[0]) ||
+            ts.isNoSubstitutionTemplateLiteral(node.arguments[0])) &&
+          node.arguments[0].text.includes(`[${acceptanceId}]`) &&
+          node.arguments[2] &&
+          ts.isNumericLiteral(node.arguments[2])
+        ) {
+          timeout = Number(node.arguments[2].text.replaceAll('_', ''))
+        }
+        ts.forEachChild(node, visit)
+      }
+      visit(source)
+      return timeout
+    }
+
+    expect(configuredTimeout('tests/contracts/docs-traceability.test.ts', 'AC-PRODUCT-010')).toBe(
+      90_000,
+    )
+    expect(configuredTimeout('tests/contracts/execution-trust.test.ts', 'AC-TRUST-010')).toBe(
+      90_000,
+    )
+  })
+
   it('[AC-EXECUTION-019] preserves Unicode paths when validating Plan write scope', () => {
     const fixture = makeFixture()
     try {

@@ -28,6 +28,10 @@
     {
       "text": "Git 改动范围检查保留 Unicode 路径原文",
       "requirements": ["REQ-EXECUTION-019"]
+    },
+    {
+      "text": "全仓治理验收在支持的 WSL 环境中不会被 30 秒默认超时误拦",
+      "requirements": ["REQ-EXECUTION-020"]
     }
   ],
   "constraints": [
@@ -41,7 +45,7 @@
     "不承诺未知 AI 工具无需桥接即可自动读取规则"
   ],
   "authorization": {
-    "source": "用户授权综合审查并整改当前项目中妨碍 AI 开发流程或偏离所给工程方法的问题。独立模板副本实测确认历史 Plan 归档后文档门禁失败；另有 Unicode 路径被 Git 默认转义后造成 write_scope 误判，连同 CLI 帮助、初始状态输出、脚手架失败回滚和占位扫描误拦均属于执行可靠性问题。"
+    "source": "用户授权综合审查并整改当前项目中妨碍 AI 开发流程或偏离所给工程方法的问题。独立模板副本实测确认历史 Plan 归档后文档门禁失败；Unicode 路径被 Git 默认转义后造成 write_scope 误判；两次集成运行均发现全仓治理测试超过 30 秒默认测试上限。"
   },
   "deliverables": [
     "历史归档后的可用文档引用",
@@ -59,7 +63,8 @@
     "REQ-EXECUTION-016",
     "REQ-EXECUTION-017",
     "REQ-EXECUTION-018",
-    "REQ-EXECUTION-019"
+    "REQ-EXECUTION-019",
+    "REQ-EXECUTION-020"
   ],
   "acceptance": [
     {
@@ -139,6 +144,19 @@
           "layer": "unit"
         }
       ]
+    },
+    {
+      "id": "AC-EXECUTION-020",
+      "tests": [
+        "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-020] gives repository-wide governance tests an explicit runtime budget"
+      ],
+      "required_layers": ["unit"],
+      "checks": [
+        {
+          "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-020] gives repository-wide governance tests an explicit runtime budget",
+          "layer": "unit"
+        }
+      ]
     }
   ],
   "verification_requirements": ["unit"],
@@ -150,18 +168,18 @@
     },
     {
       "id": "T2",
-      "title": "为六项缺口补规格与红灯验收",
-      "status": "done"
+      "title": "为七项缺口补规格与红灯验收",
+      "status": "doing"
     },
     {
       "id": "T3",
-      "title": "修复采用引用、CLI 帮助、上下文输出、脚手架回滚、AC 误拦和 Unicode 路径误判",
-      "status": "done"
+      "title": "修复归档引用、CLI 帮助、上下文成本、脚手架回滚、AC/Unicode 误判和全仓测试超时",
+      "status": "doing"
     },
     {
       "id": "T4",
       "title": "验证隔离副本的采用/新模块/存量修改/失败恢复并交付审计清单",
-      "status": "doing"
+      "status": "todo"
     }
   ],
   "depends_on": [],
@@ -207,6 +225,8 @@
     "tests/contracts/workflow-entry.test.ts",
     "tests/contracts/ignite-cli.test.ts",
     "tests/contracts/execution-reliability.test.ts",
+    "tests/contracts/docs-traceability.test.ts",
+    "tests/contracts/execution-trust.test.ts",
     "tests/contracts/source-analysis.test.ts",
     "AI开发执行流程审计清单.md"
   ],
@@ -270,6 +290,7 @@
 | 用户要求综合审查开发全流程，列出真实问题、修复办法、验收标准，并在最终版本推送；孤立新历史副本归档后 `docs:check` 实测失败 | 修复模板采用与首次任务启动中的引用、命令发现、上下文成本和脚手架失败回滚问题，并对采用、上下文、执行、验收、恢复、交付、过程成本七域形成审计清单 | REQ-EXECUTION-014–017 | AC-EXECUTION-014–017 | 保留；报告已确认的问题、证据、修复和边界；不改业务功能、产品方向或用户确定的架构边界 |
 | 后续检查发现共享测试文件中的普通样例文本会触发全文件占位扫描，阻止合法 Plan 转入 ready                                     | 将占位检测缩小到与 AC 对应的活动测试体                                                                                                           | REQ-EXECUTION-018     | AC-EXECUTION-018     | 纳入执行门禁准确性修复，不放宽真实占位失败检查                                       |
 | 集成 dry-run 中，中文审计清单路径在 Git diff 中以八进制转义显示，导致计划范围校验误判越界                                  | 让 Git 路径采集保留 Unicode 原文                                                                                                                 | REQ-EXECUTION-019     | AC-EXECUTION-019     | 纳入路径准确性修复；集成证据仍待完成                                                 |
+| 两次全量集成运行中，文档追踪和 Plan 全量校验都超过 Vitest 30 秒默认上限，导致同两条验收误报超时                            | 为这两项完整的重型治理测试设置 90 秒上限，不跳过或缩减断言                                                                                       | REQ-EXECUTION-020     | AC-EXECUTION-020     | 实测复现两次；整改与第三次全量验收待完成                                             |
 
 ### 本轮问题与验收结果
 
@@ -299,7 +320,7 @@
 
 ## 输入规格
 
-本轮依据 `docs/features/execution.md` 的 REQ/AC-EXECUTION-014–019、`docs/standards/workflow.md`、`docs/standards/adoption.md`、`docs/designs/execution.md`、Ignite CLI 与其契约测试。没有跨 Plan 依赖，也不触及业务 API、认证或数据库。
+本轮依据 `docs/features/execution.md` 的 REQ/AC-EXECUTION-014–020、`docs/standards/workflow.md`、`docs/standards/adoption.md`、`docs/designs/execution.md`、Ignite CLI 与其契约测试。没有跨 Plan 依赖，也不触及业务 API、认证或数据库。
 
 ## 未决问题与授权
 
@@ -328,9 +349,9 @@
 状态：`active`（由元数据生成）
 
 - [x] T1 · 核实模板采用、CLI 发现和脚手架失败行为 · done
-- [x] T2 · 为六项缺口补规格与红灯验收 · done
-- [x] T3 · 修复采用引用、CLI 帮助、上下文输出、脚手架回滚、AC 误拦和 Unicode 路径误判 · done
-- [ ] T4 · 验证隔离副本的采用/新模块/存量修改/失败恢复并交付审计清单 · doing
+- [ ] T2 · 为七项缺口补规格与红灯验收 · doing
+- [ ] T3 · 修复归档引用、CLI 帮助、上下文成本、脚手架回滚、AC/Unicode 误判和全仓测试超时 · doing
+- [ ] T4 · 验证隔离副本的采用/新模块/存量修改/失败恢复并交付审计清单 · todo
 
 验收缺口：未记录；完成仍须实际证据
 证据：尚无

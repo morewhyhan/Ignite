@@ -15,7 +15,8 @@
         "REQ-EXECUTION-016",
         "REQ-EXECUTION-017",
         "REQ-EXECUTION-018",
-        "REQ-EXECUTION-019"
+        "REQ-EXECUTION-019",
+        "REQ-EXECUTION-020"
       ],
       "acceptance": [
         "AC-EXECUTION-014",
@@ -23,7 +24,8 @@
         "AC-EXECUTION-016",
         "AC-EXECUTION-017",
         "AC-EXECUTION-018",
-        "AC-EXECUTION-019"
+        "AC-EXECUTION-019",
+        "AC-EXECUTION-020"
       ],
       "plan_ids": ["IGT-1790466964730388559"],
       "disposition": "included",

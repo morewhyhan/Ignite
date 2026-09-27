@@ -17,7 +17,7 @@
 | AC-EXECUTION-018 | 占位代码的文本样例不误报，目标 AC 中的真实占位失败仍被拦截     | `tests/contracts/source-analysis.test.ts`       |
 | AC-EXECUTION-019 | Unicode 文件名按原始路径参与 Plan 写入范围核对                 | `tests/contracts/execution-reliability.test.ts` |
 | AC-EXECUTION-020 | 全仓治理测试使用明确的 90 秒上限且保持完整断言                 | `tests/contracts/execution-reliability.test.ts` |
-| AC-EXECUTION-021 | 新历史副本在基线校验前收到归档提示，完整/浅克隆不被误导        | `tests/contracts/template-runtime.test.ts`      |
+| AC-EXECUTION-021 | 新历史副本在基线校验前收到归档提示；下载副本、空 Git、完整/浅克隆都有明确下一步 | `tests/contracts/template-runtime.test.ts`      |
 | AC-EXECUTION-022 | 没有 Release 的新项目生成格式正确的状态摘要                    | `tests/contracts/ignite-cli.test.ts`            |
 | AC-EXECUTION-023 | 模板归档后治理测试使用夹具并验证历史索引                       | `tests/contracts/template-history.test.ts`      |
 | AC-EXECUTION-024 | 真实 Prisma 升级验收有隔离的充分运行预算                       | `tests/contracts/execution-timeouts.test.ts`    |

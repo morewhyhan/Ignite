@@ -131,7 +131,6 @@ describe('template and runtime contracts', () => {
       const full = join(directory, 'complete')
       const shallow = join(directory, 'shallow')
       const newHistory = join(directory, 'new-history')
-      const downloaded = join(directory, 'downloaded')
       git(directory, 'init', '--bare', remote)
       git(fixture.root, 'remote', 'add', 'origin', remote)
       git(fixture.root, 'push', 'origin', 'HEAD:refs/heads/main')
@@ -143,10 +142,6 @@ describe('template and runtime contracts', () => {
       })
       git(newHistory, 'init')
       commitAll(newHistory, 'initialize copied template with a new history')
-      cpSync(full, downloaded, {
-        recursive: true,
-        filter: (source) => source !== join(full, '.git'),
-      })
 
       const diagnose = (root: string) =>
         spawnSync(process.execPath, [templateDoctor], {
@@ -165,17 +160,6 @@ describe('template and runtime contracts', () => {
       expect(shallowResult.stderr).toContain('git fetch --unshallow')
       expect(shallowResult.stderr).not.toContain('adopt-history --apply')
 
-      const downloadedResult = diagnose(downloaded)
-      expect(downloadedResult.status).not.toBe(0)
-      expect(downloadedResult.stderr).toContain('git init')
-      expect(downloadedResult.stderr).toContain('initial commit')
-      expect(read(downloaded, 'docs/plans/fixture.md')).toBe(inheritedPlan)
-
-      git(downloaded, 'init')
-      const emptyGitResult = diagnose(downloaded)
-      expect(emptyGitResult.status).not.toBe(0)
-      expect(emptyGitResult.stderr).toContain('initial Git commit')
-
       const newHistoryResult = diagnose(newHistory)
       expect(newHistoryResult.status).not.toBe(0)
       expect(newHistoryResult.stderr).toContain('new Git history')
@@ -183,6 +167,64 @@ describe('template and runtime contracts', () => {
       expect(newHistoryResult.stderr).toContain('before running pnpm verify')
       expect(read(newHistory, 'docs/plans/fixture.md')).toBe(inheritedPlan)
       expect(existsSync(join(newHistory, 'docs/others/template-history'))).toBe(false)
+    } finally {
+      fixture.cleanup()
+      rmSync(directory, { recursive: true, force: true })
+    }
+  })
+
+  it('guides downloaded template copies through initial Git setup before history adoption', () => {
+    const fixture = makeFixture()
+    const directory = mkdtempSync(join(tmpdir(), 'ignite-downloaded-template-'))
+    const downloaded = join(directory, 'downloaded')
+    try {
+      write(
+        fixture.root,
+        '.ai/project.json',
+        JSON.stringify({
+          schema: 1,
+          mode: 'template-baseline',
+          source_repository: 'git@github.com:morewhyhan/Ignite.git',
+          project_repository: null,
+        }),
+      )
+      write(
+        fixture.root,
+        'src/config/site.ts',
+        "export const siteConfig = { name: 'Ignite', slug: 'ignite' }\n",
+      )
+      write(fixture.root, 'AGENTS.md', '# Rules\n')
+      write(fixture.root, 'docs/standards/workflow.md', '# Workflow\n')
+      write(fixture.root, 'docs/plans/_template.md', '# Plan template\n')
+      write(fixture.root, 'src/config/navigation.ts', 'export const navigation = []\n')
+      const inheritedPlan = read(fixture.root, 'docs/plans/fixture.md')
+      commitAll(fixture.root, 'prepare downloaded-template doctor fixture')
+      cpSync(fixture.root, downloaded, {
+        recursive: true,
+        filter: (source) => source !== join(fixture.root, '.git'),
+      })
+
+      const diagnose = () =>
+        spawnSync(process.execPath, [templateDoctor], {
+          cwd: downloaded,
+          encoding: 'utf8',
+          env: { ...process.env, IGNITE_ROOT: downloaded },
+          windowsHide: true,
+        })
+
+      const noRepository = diagnose()
+      expect(noRepository.status).not.toBe(0)
+      expect(noRepository.stderr).toContain('no Git repository')
+      expect(noRepository.stderr).toContain('git init')
+      expect(noRepository.stderr).toContain('initial commit')
+      expect(read(downloaded, 'docs/plans/fixture.md')).toBe(inheritedPlan)
+      expect(existsSync(join(downloaded, 'docs/others/template-history'))).toBe(false)
+
+      git(downloaded, 'init')
+      const emptyRepository = diagnose()
+      expect(emptyRepository.status).not.toBe(0)
+      expect(emptyRepository.stderr).toContain('no initial Git commit')
+      expect(read(downloaded, 'docs/plans/fixture.md')).toBe(inheritedPlan)
     } finally {
       fixture.cleanup()
       rmSync(directory, { recursive: true, force: true })

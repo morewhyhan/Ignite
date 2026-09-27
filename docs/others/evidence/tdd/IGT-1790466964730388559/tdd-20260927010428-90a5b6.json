@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "run_id": "tdd-20260927010428-90a5b6",
+  "plan_id": "IGT-1790466964730388559",
+  "acceptance_id": "AC-EXECUTION-017",
+  "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-017] rolls back a scaffold when final file promotion fails",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "9e1847ae1739cd1ec8afb1db38da64f3f5ce027f",
+  "test_sha256": "56bdc0eaa9bde05f3edd93d496178c12f3742cc02fa1a016d2490d5b173f979f",
+  "output_sha256": "ca16e695de598e47305b21e50b92b657e2b2c466404c18ddf1d953ab286e5b7f",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/execution-reliability.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-017",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-09-27T01:04:28.990Z",
+  "ended_at": "2026-09-27T01:04:35.687Z",
+  "executor": "ignite-tdd-runner"
+}

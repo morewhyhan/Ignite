@@ -206,6 +206,11 @@
       "acceptance_id": "AC-EXECUTION-016",
       "test": "tests/contracts/workflow-entry.test.ts::[AC-EXECUTION-016] keeps first-entry status guidance concise",
       "run_id": "tdd-20260927010345-77fad6"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-017",
+      "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-017] rolls back a scaffold when final file promotion fails",
+      "run_id": "tdd-20260927010428-90a5b6"
     }
   ],
   "required_evidence": ["check-integration"],

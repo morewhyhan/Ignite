@@ -431,7 +431,7 @@
   "evidence": [
     {
       "id": "check-integration",
-      "run_id": "run-20260927211153-83047c"
+      "run_id": "run-20260927213652-f05b28"
     }
   ],
   "blocker": null,
@@ -535,7 +535,7 @@
 - [x] T6 · 按目标 AC 用例验证 TDD 红灯证据，并兼容历史记录 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：check-integration / run-20260927211153-83047c
+证据：check-integration / run-20260927213652-f05b28
 <!-- /ignite-progress -->
 
 ## 准出条件

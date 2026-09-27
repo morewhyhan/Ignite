@@ -255,7 +255,11 @@ describe('execution reliability', () => {
         },
       )
       expect(created.status, created.stderr).toBe(0)
-      const planPath = join(fixture.root, 'docs/plans/20260927-invoices.md')
+      const generatedPlans = readdirSync(join(fixture.root, 'docs/plans')).filter((name) =>
+        /^\d{8}-invoices\.md$/.test(name),
+      )
+      expect(generatedPlans).toHaveLength(1)
+      const planPath = join(fixture.root, 'docs/plans', generatedPlans.join(''))
       const formatted = spawnSync(
         process.execPath,
         [

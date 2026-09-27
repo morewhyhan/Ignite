@@ -44,6 +44,10 @@
     {
       "text": "继承历史归档后，模板自己的治理测试仍能使用当前/归档证据",
       "requirements": ["REQ-EXECUTION-023"]
+    },
+    {
+      "text": "真实 Prisma 升级验收有足够的隔离运行预算",
+      "requirements": ["REQ-EXECUTION-024"]
     }
   ],
   "constraints": [
@@ -58,7 +62,7 @@
     "不自动归档模板历史；先展示预览，由采用者明确执行 apply"
   ],
   "authorization": {
-    "source": "用户授权综合审查并整改当前项目中妨碍 AI 开发流程或偏离所给工程方法的问题。独立模板副本实测确认历史 Plan 归档后文档门禁失败；Unicode 路径被 Git 默认转义后造成 write_scope 误判；两次集成运行均发现全仓治理测试超过 30 秒默认测试上限；新 Git 历史下基线验证会因继承记录引用不存在提交而报出数十项错误；继续按新历史采用路径验收时发现空 Release 状态摘要触发格式门禁失败，并发现三项治理测试硬编码依赖已归档的当前 Plan/Release。"
+    "source": "用户授权综合审查并整改当前项目中妨碍 AI 开发流程或偏离所给工程方法的问题。独立模板副本实测确认历史 Plan 归档后文档门禁失败；Unicode 路径被 Git 默认转义后造成 write_scope 误判；两次集成运行均发现全仓治理测试超过 30 秒默认测试上限；新 Git 历史下基线验证会因继承记录引用不存在提交而报出数十项错误；继续按新历史采用路径验收时发现空 Release 状态摘要触发格式门禁失败，并发现三项治理测试硬编码依赖已归档的当前 Plan/Release；完整并行集成还复现真实 Prisma 升级用例超过 120 秒固定上限。"
   },
   "deliverables": [
     "历史归档后的可用文档引用",
@@ -68,7 +72,8 @@
     "AI开发执行流程审计清单.md",
     "新历史采用前置诊断与无歧义的基线验证顺序",
     "无 Release 的新项目也能生成格式合规的状态摘要",
-    "模板治理测试不依赖当前目录保留 Ignite 自身的历史 Plan/Release"
+    "模板治理测试不依赖当前目录保留 Ignite 自身的历史 Plan/Release",
+    "真实 Prisma 升级验收具有隔离的运行时间预算"
   ],
   "remaining_work": [],
   "change_type": "存量改动",
@@ -83,7 +88,8 @@
     "REQ-EXECUTION-020",
     "REQ-EXECUTION-021",
     "REQ-EXECUTION-022",
-    "REQ-EXECUTION-023"
+    "REQ-EXECUTION-023",
+    "REQ-EXECUTION-024"
   ],
   "acceptance": [
     {
@@ -215,6 +221,19 @@
           "layer": "unit"
         }
       ]
+    },
+    {
+      "id": "AC-EXECUTION-024",
+      "tests": [
+        "tests/contracts/execution-timeouts.test.ts::[AC-EXECUTION-024] budgets real Prisma migration verification for a slow full suite"
+      ],
+      "required_layers": ["unit"],
+      "checks": [
+        {
+          "test": "tests/contracts/execution-timeouts.test.ts::[AC-EXECUTION-024] budgets real Prisma migration verification for a slow full suite",
+          "layer": "unit"
+        }
+      ]
     }
   ],
   "verification_requirements": ["unit"],
@@ -226,7 +245,7 @@
     },
     {
       "id": "T2",
-      "title": "为十项缺口补规格与红灯验收",
+      "title": "为十一项缺口补规格与红灯验收",
       "status": "doing"
     },
     {
@@ -284,6 +303,7 @@
     "tests/contracts/template-runtime.test.ts",
     "tests/contracts/template-history.test.ts",
     "tests/contracts/template-history-baseline.ts",
+    "tests/contracts/execution-timeouts.test.ts",
     "tests/contracts/workflow-entry.test.ts",
     "tests/contracts/ignite-cli.test.ts",
     "tests/contracts/execution-reliability.test.ts",
@@ -440,7 +460,7 @@
 状态：`active`（由元数据生成）
 
 - [x] T1 · 核实模板采用、CLI 发现和脚手架失败行为 · done
-- [ ] T2 · 为十项缺口补规格与红灯验收 · doing
+- [ ] T2 · 为十一项缺口补规格与红灯验收 · doing
 - [ ] T3 · 修复历史归档提示、状态格式、测试夹具依赖、CLI 帮助、上下文成本、脚手架回滚、AC/Unicode 误判和全仓测试超时 · doing
 - [ ] T4 · 验证隔离副本的采用/新模块/存量修改/失败恢复并交付审计清单 · doing
 

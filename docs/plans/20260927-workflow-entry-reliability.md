@@ -311,6 +311,11 @@
       "acceptance_id": "AC-EXECUTION-021",
       "test": "tests/contracts/template-runtime.test.ts::[AC-EXECUTION-021] directs new-history copies to archive inherited Plans before baseline verification",
       "run_id": "tdd-20260927092711-c95f59"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-022",
+      "test": "tests/contracts/ignite-cli.test.ts::[AC-EXECUTION-022] generates Prettier-compatible status when no Release exists",
+      "run_id": "tdd-20260927102126-21a41d"
     }
   ],
   "required_evidence": ["check-integration"],

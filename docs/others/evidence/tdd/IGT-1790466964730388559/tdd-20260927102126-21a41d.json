@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "run_id": "tdd-20260927102126-21a41d",
+  "plan_id": "IGT-1790466964730388559",
+  "acceptance_id": "AC-EXECUTION-022",
+  "test": "tests/contracts/ignite-cli.test.ts::[AC-EXECUTION-022] generates Prettier-compatible status when no Release exists",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "62ba365fbd7a368b629e2c9eaba2e4121089a1c0",
+  "test_sha256": "c4fdc2e87865beb5cea47e3aa480264993eef8ff530c1ad980839eedd6e9857a",
+  "output_sha256": "401b850741b5befdf4bc4aac963395658cfe665319ab41d0f767efa385cd071c",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/ignite-cli.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-022",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-09-27T10:21:26.100Z",
+  "ended_at": "2026-09-27T10:21:35.642Z",
+  "executor": "ignite-tdd-runner"
+}

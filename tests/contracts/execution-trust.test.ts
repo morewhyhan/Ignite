@@ -1,31 +1,28 @@
 import { spawnSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import { commandsForLevel, planCheck } from '../../scripts/ignite/checks.mjs'
 import {
   validateDataContract,
   validateReleaseScope,
 } from '../../scripts/ignite/execution-contract.mjs'
-import {
-  findPlan,
-  validateAllPlans,
-  validateReleaseAcceptanceCoverage,
-} from '../../scripts/ignite/state.mjs'
+import { validateAllPlans, validateReleaseAcceptanceCoverage } from '../../scripts/ignite/state.mjs'
 import { isBehaviorAssertionFailure } from '../../scripts/ignite/tdd.mjs'
 import { summarizeVerification } from '../../scripts/ignite/verification-summary.mjs'
 import { checkScaffoldWorktree } from '../../scripts/scaffold-preflight.mjs'
 import { isExecutionStatePath } from '../../scripts/ignite/core.mjs'
-import { acceptanceFailures } from '../../scripts/testing/acceptance-results.mjs'
 import { makeFixture, planContent, read, runCli, write } from './ignite-fixture'
 
-const planFor = (acceptance: Record<string, unknown>[]) => ({
+const planFor = (acceptance: Record<string, unknown>[], requirements: string[] = []) => ({
   metadata: {
     id: 'IGT-900',
     status: 'active',
     verification_contract: 2,
     execution_contract: 1,
     risk: 'feature',
+    requirements,
     acceptance,
   },
 })
@@ -86,39 +83,32 @@ describe('AI execution trust', () => {
   })
 
   it('[AC-TRUST-002] [AC-EXECUTION-013] blocks active Release scope when a Feature acceptance is unaccounted for', () => {
-    const release = JSON.parse(
-      readFileSync(
-        resolve(process.cwd(), 'docs/plans/releases/ai-execution-trust-v1.json'),
-        'utf8',
-      ),
-    )
-    const plans = new Map(
-      release.plan_ids.map((id: string) => {
-        const plan = findPlan(id)
-        plan.metadata.status = 'active'
-        return [plan.metadata.id, plan] as const
-      }),
-    )
+    const plan = planFor([{ id: 'AC-EXECUTION-013' }], ['REQ-EXECUTION-013'])
+    const release = {
+      coverage_version: 2,
+      plan_ids: ['IGT-900'],
+      scope: [
+        {
+          id: 'GOAL-TRUST-002',
+          requirements: ['REQ-EXECUTION-013'],
+          acceptance: ['AC-EXECUTION-013'],
+          plan_ids: ['IGT-900'],
+          disposition: 'included',
+        },
+      ],
+    }
+    const plans = new Map([['IGT-900', plan]])
 
     expect(validateReleaseAcceptanceCoverage(release, plans)).toEqual([])
 
-    const omittedPlanId = release.plan_ids.at(-1)
-    const partialPlans = new Map(
-      release.plan_ids.slice(0, -1).map((id: string) => {
-        const plan = findPlan(id)
-        plan.metadata.status = 'active'
-        return [plan.metadata.id, plan] as const
-      }),
-    )
+    const partialPlans = new Map()
     expect(validateReleaseAcceptanceCoverage(release, partialPlans)).toContain(
-      `release references missing Plan ${omittedPlanId}`,
+      'release references missing Plan IGT-900',
     )
 
-    release.scope[0].acceptance = release.scope[0].acceptance.filter(
-      (id: string) => id !== 'AC-TRUST-001',
-    )
+    release.scope[0].acceptance = []
     expect(validateReleaseAcceptanceCoverage(release, plans).join('\n')).toContain(
-      'AC-TRUST-001 is not included, deferred or explicitly excluded',
+      'AC-EXECUTION-013 is not included, deferred or explicitly excluded',
     )
   })
 
@@ -393,26 +383,51 @@ describe('AI execution trust', () => {
   })
 
   it('[AC-TRUST-015] ignores non-target ACs filtered out of a TDD red run', () => {
-    const previousPlanId = process.env.IGNITE_PLAN_ID
-    process.env.IGNITE_PLAN_ID = 'IGT-006'
+    const fixture = makeFixture()
     try {
-      const file = resolve(process.cwd(), 'tests/contracts/execution-trust.test.ts')
-      const failures = acceptanceFailures(
-        [
-          { file, title: '[AC-TRUST-010] targeted behavior is red', passed: false },
-          { file, title: '[AC-TRUST-011] another AC was filtered out', passed: false },
-        ],
-        'vitest',
-        { acceptanceId: 'AC-TRUST-010', planId: 'IGT-006' },
+      const file = 'tests/contracts/sample.test.ts'
+      write(fixture.root, file, "it('[AC-TRUST-010] targeted behavior is red', () => {})\n")
+      write(
+        fixture.root,
+        'docs/plans/fixture.md',
+        planContent(fixture.baseCommit, {
+          requirements: ['REQ-TEST-001'],
+          acceptance: [
+            { id: 'AC-TRUST-010', tests: [`${file}::[AC-TRUST-010] targeted behavior is red`] },
+            { id: 'AC-TRUST-011', tests: [`${file}::[AC-TRUST-011] another AC was filtered out`] },
+          ],
+        }),
       )
+      const moduleUrl = pathToFileURL(
+        resolve(process.cwd(), 'scripts/testing/acceptance-results.mjs'),
+      ).href
+      const script = `
+        const { acceptanceFailures } = await import(${JSON.stringify(moduleUrl)})
+        const failures = acceptanceFailures(
+          [
+            { file: ${JSON.stringify(resolve(fixture.root, file))}, title: '[AC-TRUST-010] targeted behavior is red', passed: false },
+            { file: ${JSON.stringify(resolve(fixture.root, file))}, title: '[AC-TRUST-011] another AC was filtered out', passed: false },
+          ],
+          'vitest',
+          { acceptanceId: 'AC-TRUST-010', planId: 'IGT-900' },
+        )
+        process.stdout.write(JSON.stringify(failures))
+      `
+      const result = spawnSync(process.execPath, ['--input-type=module', '--eval', script], {
+        cwd: fixture.root,
+        encoding: 'utf8',
+        env: { ...process.env, IGNITE_ROOT: fixture.root },
+        windowsHide: true,
+      })
+      expect(result.status, result.stderr).toBe(0)
+      const failures = JSON.parse(result.stdout) as string[]
 
       expect(failures).toContain(
-        'AC-TRUST-010 has no passing result in tests/contracts/execution-trust.test.ts::[AC-TRUST-010]',
+        'AC-TRUST-010 has no passing result in tests/contracts/sample.test.ts::[AC-TRUST-010] targeted behavior is red',
       )
       expect(failures.some((failure) => failure.includes('AC-TRUST-011'))).toBe(false)
     } finally {
-      if (previousPlanId === undefined) delete process.env.IGNITE_PLAN_ID
-      else process.env.IGNITE_PLAN_ID = previousPlanId
+      fixture.cleanup()
     }
   })
 

@@ -33,6 +33,7 @@
 - R20（REQ-EXECUTION-020）：全仓规格与 Plan 校验在支持的 WSL 环境中不得因过短的默认测试超时产生假失败；不得通过跳过断言或缩小校验范围消除超时。
 - R21（REQ-EXECUTION-021）：新 Git 历史的模板副本在基线验证前，必须明确提示先归档不属于当前历史的模板执行记录；完整克隆与浅克隆分别给出正确动作，不得把继承记录误报为项目自身缺陷。
 - R22（REQ-EXECUTION-022）：没有 Release 的新项目生成状态摘要时，必须保持仓库 Prettier 格式，不能让模板基线检查因空白格式失败。
+- R23（REQ-EXECUTION-023）：模板自身的治理测试不得依赖示例历史 Plan/Release 仍留在当前目录；新历史采用并归档后，基线测试仍须可运行且证据可追溯。
 
 ## 验收标准
 
@@ -58,6 +59,7 @@
 - AC-EXECUTION-020（REQ-EXECUTION-020）：Given 支持的 WSL 环境和完整模板基线，When 全仓文档追踪与 Plan 结构校验运行，Then 两项完整校验保留全部断言并使用足以覆盖实测运行时间的 90 秒测试上限，不因 30 秒默认值误报超时或跳过检查。
 - AC-EXECUTION-021（REQ-EXECUTION-021）：Given 新 Git 历史的模板副本仍包含引用旧提交的继承 Plan，When 运行 `pnpm template:doctor`，Then 它以明确错误阻止后续 `pnpm verify` 并指引先预览、确认归档和提交历史；诊断不自动移动文件。完整历史克隆不阻止，浅克隆指引先取回完整历史。
 - AC-EXECUTION-022（REQ-EXECUTION-022）：Given 新项目归档完历史且当前没有 Release，When 运行 `pnpm ignite status --write`，Then `docs/others/ignite-status.md` 仍符合仓库 Prettier 格式，基线 `pnpm verify` 不会被空 Release 区段的多余空行拦截。
+- AC-EXECUTION-023（REQ-EXECUTION-023）：Given 模板副本已将继承的 Plan、Release 与运行证据归档且当前目录为空，When 执行模板治理测试，Then 测试使用自己的夹具或校验归档索引，不要求被归档路径、ID 仍可从 `docs/plans/` 读取；新历史副本完整 `pnpm verify` 通过。
 
 ## 验收边界
 

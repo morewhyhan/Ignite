@@ -40,6 +40,10 @@
     {
       "text": "新项目无 Release 时，生成的状态摘要仍符合仓库格式门禁",
       "requirements": ["REQ-EXECUTION-022"]
+    },
+    {
+      "text": "继承历史归档后，模板自己的治理测试仍能使用当前/归档证据",
+      "requirements": ["REQ-EXECUTION-023"]
     }
   ],
   "constraints": [
@@ -54,7 +58,7 @@
     "不自动归档模板历史；先展示预览，由采用者明确执行 apply"
   ],
   "authorization": {
-    "source": "用户授权综合审查并整改当前项目中妨碍 AI 开发流程或偏离所给工程方法的问题。独立模板副本实测确认历史 Plan 归档后文档门禁失败；Unicode 路径被 Git 默认转义后造成 write_scope 误判；两次集成运行均发现全仓治理测试超过 30 秒默认测试上限；新 Git 历史下基线验证会因继承记录引用不存在提交而报出数十项错误；继续按新历史采用路径验收时发现空 Release 状态摘要触发格式门禁失败。"
+    "source": "用户授权综合审查并整改当前项目中妨碍 AI 开发流程或偏离所给工程方法的问题。独立模板副本实测确认历史 Plan 归档后文档门禁失败；Unicode 路径被 Git 默认转义后造成 write_scope 误判；两次集成运行均发现全仓治理测试超过 30 秒默认测试上限；新 Git 历史下基线验证会因继承记录引用不存在提交而报出数十项错误；继续按新历史采用路径验收时发现空 Release 状态摘要触发格式门禁失败，并发现三项治理测试硬编码依赖已归档的当前 Plan/Release。"
   },
   "deliverables": [
     "历史归档后的可用文档引用",
@@ -63,7 +67,8 @@
     "可回滚的模块与存量改动脚手架写入",
     "AI开发执行流程审计清单.md",
     "新历史采用前置诊断与无歧义的基线验证顺序",
-    "无 Release 的新项目也能生成格式合规的状态摘要"
+    "无 Release 的新项目也能生成格式合规的状态摘要",
+    "模板治理测试不依赖当前目录保留 Ignite 自身的历史 Plan/Release"
   ],
   "remaining_work": [],
   "change_type": "存量改动",
@@ -77,7 +82,8 @@
     "REQ-EXECUTION-019",
     "REQ-EXECUTION-020",
     "REQ-EXECUTION-021",
-    "REQ-EXECUTION-022"
+    "REQ-EXECUTION-022",
+    "REQ-EXECUTION-023"
   ],
   "acceptance": [
     {
@@ -196,6 +202,19 @@
           "layer": "unit"
         }
       ]
+    },
+    {
+      "id": "AC-EXECUTION-023",
+      "tests": [
+        "tests/contracts/template-history.test.ts::[AC-EXECUTION-023] accepts archived baseline history after adoption"
+      ],
+      "required_layers": ["unit"],
+      "checks": [
+        {
+          "test": "tests/contracts/template-history.test.ts::[AC-EXECUTION-023] accepts archived baseline history after adoption",
+          "layer": "unit"
+        }
+      ]
     }
   ],
   "verification_requirements": ["unit"],
@@ -207,13 +226,13 @@
     },
     {
       "id": "T2",
-      "title": "为九项缺口补规格与红灯验收",
-      "status": "done"
+      "title": "为十一项缺口补规格与红灯验收",
+      "status": "doing"
     },
     {
       "id": "T3",
-      "title": "修复历史归档提示、状态格式、CLI 帮助、上下文成本、脚手架回滚、AC/Unicode 误判和全仓测试超时",
-      "status": "done"
+      "title": "修复历史归档提示、状态格式、测试夹具依赖、CLI 帮助、上下文成本、脚手架回滚、AC/Unicode 误判和全仓测试超时",
+      "status": "doing"
     },
     {
       "id": "T4",
@@ -263,6 +282,7 @@
     "scripts/create-module.mjs",
     "scripts/create-change.mjs",
     "tests/contracts/template-runtime.test.ts",
+    "tests/contracts/template-history.test.ts",
     "tests/contracts/workflow-entry.test.ts",
     "tests/contracts/ignite-cli.test.ts",
     "tests/contracts/execution-reliability.test.ts",

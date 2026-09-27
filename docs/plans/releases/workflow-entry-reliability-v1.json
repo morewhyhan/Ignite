@@ -8,7 +8,7 @@
     {
       "id": "GOAL-001",
       "text": "审计并完善模板从首次采用到交付的 AI 开发执行流程，修复已证实的采用与执行可靠性问题",
-      "source": "用户授权对照团队级 AI Coding 手册和项目使用需求，综合检查七个执行环节并逐项整改；孤立新历史副本实测发现历史 Plan 归档后文档检查失败、归档前基线验证因引用旧提交而误报，以及空 Release 状态摘要未通过格式检查",
+      "source": "用户授权对照团队级 AI Coding 手册和项目使用需求，综合检查七个执行环节并逐项整改；孤立新历史副本实测发现历史 Plan 归档后文档检查失败、归档前基线验证因引用旧提交而误报、空 Release 状态摘要未通过格式检查，以及三项治理测试依赖已归档的模板历史文件",
       "requirements": [
         "REQ-EXECUTION-014",
         "REQ-EXECUTION-015",
@@ -18,7 +18,8 @@
         "REQ-EXECUTION-019",
         "REQ-EXECUTION-020",
         "REQ-EXECUTION-021",
-        "REQ-EXECUTION-022"
+        "REQ-EXECUTION-022",
+        "REQ-EXECUTION-023"
       ],
       "acceptance": [
         "AC-EXECUTION-014",
@@ -29,7 +30,8 @@
         "AC-EXECUTION-019",
         "AC-EXECUTION-020",
         "AC-EXECUTION-021",
-        "AC-EXECUTION-022"
+        "AC-EXECUTION-022",
+        "AC-EXECUTION-023"
       ],
       "plan_ids": ["IGT-1790466964730388559"],
       "disposition": "included",

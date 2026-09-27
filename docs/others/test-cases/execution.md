@@ -19,5 +19,6 @@
 | AC-EXECUTION-020 | 全仓治理测试使用明确的 90 秒上限且保持完整断言             | `tests/contracts/execution-reliability.test.ts` |
 | AC-EXECUTION-021 | 新历史副本在基线校验前收到归档提示，完整/浅克隆不被误导    | `tests/contracts/template-runtime.test.ts`      |
 | AC-EXECUTION-022 | 没有 Release 的新项目生成格式正确的状态摘要                | `tests/contracts/ignite-cli.test.ts`            |
+| AC-EXECUTION-023 | 模板归档后治理测试使用夹具并验证历史索引                   | `tests/contracts/template-history.test.ts`      |
 
 测试资产只声明要验证的行为，不记录手工通过状态；结果以 Plan 绑定的运行证据为准。

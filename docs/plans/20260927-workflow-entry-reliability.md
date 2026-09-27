@@ -239,7 +239,7 @@
     {
       "acceptance_id": "AC-EXECUTION-019",
       "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-019] preserves Unicode paths when validating Plan write scope",
-      "run_id": "tdd-20260927043638-4f4aa2"
+      "run_id": "tdd-20260927053745-a1b344"
     }
   ],
   "required_evidence": ["check-integration"],

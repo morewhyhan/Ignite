@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790466964730388559",
   "release": "workflow-entry-reliability-v1",
-  "status": "verifying",
+  "status": "active",
   "outcome": "模板副本采用与首次任务启动可恢复、可理解且不会产生无效上下文",
   "contract_version": 2,
   "execution_contract": 1,
@@ -52,6 +52,10 @@
     {
       "text": "新历史模板副本先安装依赖再运行采用 CLI，文档步骤可执行",
       "requirements": ["REQ-EXECUTION-025"]
+    },
+    {
+      "text": "TDD 红灯证据绑定目标 AC 用例，不被无关兄弟测试变更作废",
+      "requirements": ["REQ-EXECUTION-026"]
     }
   ],
   "constraints": [
@@ -78,7 +82,8 @@
     "无 Release 的新项目也能生成格式合规的状态摘要",
     "模板治理测试不依赖当前目录保留 Ignite 自身的历史 Plan/Release",
     "真实 Prisma 升级验收具有隔离的运行时间预算",
-    "新历史采用指引先安装运行 CLI 所需依赖"
+    "新历史采用指引先安装运行 CLI 所需依赖",
+    "TDD 红灯证据按 AC 测试用例绑定，兼容历史 schema 1 记录"
   ],
   "remaining_work": [],
   "change_type": "存量改动",
@@ -95,7 +100,8 @@
     "REQ-EXECUTION-022",
     "REQ-EXECUTION-023",
     "REQ-EXECUTION-024",
-    "REQ-EXECUTION-025"
+    "REQ-EXECUTION-025",
+    "REQ-EXECUTION-026"
   ],
   "acceptance": [
     {
@@ -253,6 +259,19 @@
           "layer": "unit"
         }
       ]
+    },
+    {
+      "id": "AC-EXECUTION-026",
+      "tests": [
+        "tests/contracts/source-analysis.test.ts::[AC-EXECUTION-026] fingerprints one acceptance case independently of sibling cases"
+      ],
+      "required_layers": ["unit"],
+      "checks": [
+        {
+          "test": "tests/contracts/source-analysis.test.ts::[AC-EXECUTION-026] fingerprints one acceptance case independently of sibling cases",
+          "layer": "unit"
+        }
+      ]
     }
   ],
   "verification_requirements": ["unit"],
@@ -281,6 +300,11 @@
       "id": "T5",
       "title": "修正并验证新历史采用的依赖安装顺序",
       "status": "done"
+    },
+    {
+      "id": "T6",
+      "title": "按目标 AC 用例验证 TDD 红灯证据，并兼容历史记录",
+      "status": "doing"
     }
   ],
   "depends_on": [],
@@ -436,20 +460,23 @@
 | 新历史副本归档后生成的空 Release 状态区段违反 Prettier 格式门禁                                                            | 让 `status --write` 在没有 Release 时仍输出符合仓库格式的摘要                                                                                    | REQ-EXECUTION-022     | AC-EXECUTION-022     | 新历史副本 `pnpm verify` 实测在 `format:check` 失败；待修复并复验                    |
 | 全新副本未安装依赖时按文档运行采用 CLI，报缺少 `typescript`；手册把依赖安装排在归档命令之后                                | 先安装锁定依赖，再运行模板诊断、历史预览/归档与基线验收                                                                                          | REQ-EXECUTION-025     | AC-EXECUTION-025     | 新 Git 历史副本确认失败；已重排 `adoption.md` 与 `AGENTS.md`，并在仓库外副本全量验收 |
 
+| Plan 完成门禁发现 TDD 红灯用整份测试文件哈希；后续新增无关 AC 会使既有红灯记录失效 | 将新证据哈希缩小到目标活动测试用例；旧记录仍验证红灯提交文件哈希并比较目标用例是否未变 | REQ-EXECUTION-026 | AC-EXECUTION-026 | 完成门禁真实复现；修复与兼容性验收待完成 |
+
 ### 本轮问题与验收结果
 
-| 问题                                                  | 触发与影响                                                                                  | 修复方式                                                                           | 结束标准                                                                           |
-| ----------------------------------------------------- | ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| 新历史副本在归档继承记录前运行基线验证                | 旧 Plan 的 base commit / TDD / 运行证据不存在，`ignite validate --ci` 报数十项错误          | 模板诊断区分完整、浅和新历史；新历史先预览/归档/提交，再执行基线验证               | 新历史副本收到正确提示；归档后 `validate --ci` 与文档检查通过                      |
-| 采用新 Git 历史时归档 Plan 后未更新引用               | `adopt-history --apply` 后 `docs:check` 报已归档 Plan 的本地链接损坏                        | 找出指向被归档文件的存续 Markdown 链接并重写至归档副本；失败时恢复文档与已移动记录 | 孤立模板副本归档后链接目标存在、`pnpm docs:check` 通过，重复执行可安全识别已采用   |
-| CLI 缺少可发现的帮助入口                              | `pnpm ignite --help` 返回错误，`status --help` 会执行状态命令                               | 增加根、命令与子命令帮助解析；帮助只打印用法并成功退出                             | 根帮助和代表性子命令帮助退出码为 0，不触发命令副作用，命令清单完整                 |
-| 初始规则要求打印完整 JSON 状态                        | 新 AI 按入口指南会得到远超摘要所需的机器上下文                                              | 默认指引使用 `pnpm ignite status`，仅机器消费时显式使用 JSON                       | AGENTS、工作流与 README 一致，并有回归测试防止退回 JSON 默认                       |
-| 脚手架逐个写文件，后续写入失败留下部分文件            | 在 Plan/Release 文件集提交过程中出错时，模板可能形成残缺草稿或覆盖已有 Release              | 共享事务写入器先暂存全部内容，再提交；异常时恢复已替换文件并清理本轮新文件         | 注入末文件提交错误后无部分产物、原 Release 字节不变，命令报错且可重试              |
-| 占位检测扫描整个文件                                  | 与目标 AC 无关的字符串样例会使 Plan 状态转换误报失败                                        | 解析活动测试注册并只检查匹配 AC 的测试体                                           | 目标 AC 有真实断言可进入 ready；对应测试体内真实占位失败仍被拒绝                   |
-| Git 转义 Unicode 路径导致写入范围误判                 | 中文文件名在 diff 输出中变成八进制转义串，实际位于范围内的文档仍被判越界                    | 收集 Git 文本路径时关闭 `core.quotepath` 转义，保留原始 Unicode 路径               | AC-EXECUTION-019 验证中文路径原样返回、合法范围通过；不在范围的 Unicode 路径仍拒绝 |
-| 全仓治理测试超过 30 秒默认上限                        | WSL 下全仓断言超时，令有效集成重复执行并误报失败                                            | 只为两条实测重型校验用例设置 90 秒上限，保留完整断言                               | AC-EXECUTION-020 与完整 Plan integration 通过，无 skip 或范围缩减                  |
-| 新项目没有 Release 时，状态摘要多余空行不符合格式门禁 | 新历史副本归档后 `status --write` 生成空 Release 区段，`pnpm verify` 的 `format:check` 失败 | 状态生成器在空集合时输出明确的空状态行，避免产生多余分隔空行                       | AC-EXECUTION-022 证明无 Release 状态摘要可由 Prettier 原样格式化，完整基线验收通过 |
-| 新历史副本采用 CLI 依赖顺序错误                       | 无 `node_modules` 时归档命令报 `ERR_MODULE_NOT_FOUND`，无法依照手册完成首次采用             | 先安装依赖，再运行 `template:doctor`、归档预览和显式 apply；同步 AI 入口与 Design  | AC-EXECUTION-025、仓库外新历史副本 `pnpm verify` 与桌面/移动生产 E2E 通过          |
+| 问题                                                  | 触发与影响                                                                                  | 修复方式                                                                              | 结束标准                                                                           |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| 新历史副本在归档继承记录前运行基线验证                | 旧 Plan 的 base commit / TDD / 运行证据不存在，`ignite validate --ci` 报数十项错误          | 模板诊断区分完整、浅和新历史；新历史先预览/归档/提交，再执行基线验证                  | 新历史副本收到正确提示；归档后 `validate --ci` 与文档检查通过                      |
+| 采用新 Git 历史时归档 Plan 后未更新引用               | `adopt-history --apply` 后 `docs:check` 报已归档 Plan 的本地链接损坏                        | 找出指向被归档文件的存续 Markdown 链接并重写至归档副本；失败时恢复文档与已移动记录    | 孤立模板副本归档后链接目标存在、`pnpm docs:check` 通过，重复执行可安全识别已采用   |
+| CLI 缺少可发现的帮助入口                              | `pnpm ignite --help` 返回错误，`status --help` 会执行状态命令                               | 增加根、命令与子命令帮助解析；帮助只打印用法并成功退出                                | 根帮助和代表性子命令帮助退出码为 0，不触发命令副作用，命令清单完整                 |
+| 初始规则要求打印完整 JSON 状态                        | 新 AI 按入口指南会得到远超摘要所需的机器上下文                                              | 默认指引使用 `pnpm ignite status`，仅机器消费时显式使用 JSON                          | AGENTS、工作流与 README 一致，并有回归测试防止退回 JSON 默认                       |
+| 脚手架逐个写文件，后续写入失败留下部分文件            | 在 Plan/Release 文件集提交过程中出错时，模板可能形成残缺草稿或覆盖已有 Release              | 共享事务写入器先暂存全部内容，再提交；异常时恢复已替换文件并清理本轮新文件            | 注入末文件提交错误后无部分产物、原 Release 字节不变，命令报错且可重试              |
+| 占位检测扫描整个文件                                  | 与目标 AC 无关的字符串样例会使 Plan 状态转换误报失败                                        | 解析活动测试注册并只检查匹配 AC 的测试体                                              | 目标 AC 有真实断言可进入 ready；对应测试体内真实占位失败仍被拒绝                   |
+| Git 转义 Unicode 路径导致写入范围误判                 | 中文文件名在 diff 输出中变成八进制转义串，实际位于范围内的文档仍被判越界                    | 收集 Git 文本路径时关闭 `core.quotepath` 转义，保留原始 Unicode 路径                  | AC-EXECUTION-019 验证中文路径原样返回、合法范围通过；不在范围的 Unicode 路径仍拒绝 |
+| 全仓治理测试超过 30 秒默认上限                        | WSL 下全仓断言超时，令有效集成重复执行并误报失败                                            | 只为两条实测重型校验用例设置 90 秒上限，保留完整断言                                  | AC-EXECUTION-020 与完整 Plan integration 通过，无 skip 或范围缩减                  |
+| 新项目没有 Release 时，状态摘要多余空行不符合格式门禁 | 新历史副本归档后 `status --write` 生成空 Release 区段，`pnpm verify` 的 `format:check` 失败 | 状态生成器在空集合时输出明确的空状态行，避免产生多余分隔空行                          | AC-EXECUTION-022 证明无 Release 状态摘要可由 Prettier 原样格式化，完整基线验收通过 |
+| 新历史副本采用 CLI 依赖顺序错误                       | 无 `node_modules` 时归档命令报 `ERR_MODULE_NOT_FOUND`，无法依照手册完成首次采用             | 先安装依赖，再运行 `template:doctor`、归档预览和显式 apply；同步 AI 入口与 Design     | AC-EXECUTION-025、仓库外新历史副本 `pnpm verify` 与桌面/移动生产 E2E 通过          |
+| TDD 红灯证据绑定整份测试文件                          | 同文件新增无关 AC 会改变文件哈希，导致之前真实的红灯证据无法用于 Plan 准出                  | 新记录 schema 2 哈希精确的 AC 测试用例；schema 1 记录保留原文件哈希检查并比较目标用例 | AC-EXECUTION-026 覆盖兄弟新增不失效、目标用例变化会失效；既有 Plan 可完成证据校验  |
 
 进入 `ready` 前回看原始请求，确认目标、约束、必须保留的能力都已列入；不把 AI 自己改写后的 goals 当作原始输入。此表是语义审查记录，不能伪称机器已证明无遗漏。
 
@@ -493,13 +520,14 @@
 
 <!-- ignite-progress -->
 
-状态：`verifying`（由元数据生成）
+状态：`active`（由元数据生成）
 
 - [x] T1 · 核实模板采用、CLI 发现和脚手架失败行为 · done
 - [x] T2 · 为首批十一项缺口补规格与红灯验收 · done
 - [x] T3 · 修复历史归档提示、状态格式、测试夹具依赖、CLI 帮助、上下文成本、脚手架回滚、AC/Unicode 误判及全量测试超时 · done
 - [x] T4 · 验证隔离副本的采用/新模块/存量修改/失败恢复并交付审计清单 · done
 - [x] T5 · 修正并验证新历史采用的依赖安装顺序 · done
+- [ ] T6 · 按目标 AC 用例验证 TDD 红灯证据，并兼容历史记录 · doing
 
 验收缺口：未记录；完成仍须实际证据
 证据：check-integration / run-20260927201227-38f71f

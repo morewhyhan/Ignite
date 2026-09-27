@@ -36,6 +36,7 @@
 - R23（REQ-EXECUTION-023）：模板自身的治理测试不得依赖示例历史 Plan/Release 仍留在当前目录；新历史采用并归档后，基线测试仍须可运行且证据可追溯。
 - R24（REQ-EXECUTION-024）：真实 Prisma 迁移升级验收必须为完整验证环境预留经实测的单项运行时间，不得因固定短超时中断，也不得降低迁移断言或全局放宽所有测试。
 - R25（REQ-EXECUTION-025）：新历史模板副本必须先按锁文件安装项目依赖，再运行依赖这些包的诊断与历史归档 CLI；采用文档中的命令顺序必须能在干净副本实际执行。
+- R26（REQ-EXECUTION-026）：TDD 红灯证据必须绑定对应 AC 的活动测试用例，而不是整份测试文件；同文件新增无关用例不得让既有证据失效，目标用例发生变化则必须重新验证；历史 schema 1 记录继续可验证。
 
 ## 验收标准
 
@@ -64,6 +65,7 @@
 - AC-EXECUTION-023（REQ-EXECUTION-023）：Given 模板副本已将继承的 Plan、Release 与运行证据归档且当前目录为空，When 执行模板治理测试，Then 测试使用自己的夹具或校验归档索引，不要求被归档路径、ID 仍可从 `docs/plans/` 读取；新历史副本完整 `pnpm verify` 通过。
 - AC-EXECUTION-024（REQ-EXECUTION-024）：Given WSL 中真实 Prisma 升级验收需启动多个隔离迁移子进程，When 完整测试套件运行，Then 该用例具有至少 240 秒的单项预算，且全局默认超时与其它测试预算不被放宽。
 - AC-EXECUTION-025（REQ-EXECUTION-025）：Given 新历史副本尚无 `node_modules`，When 采用者按 `docs/standards/adoption.md` 执行首次采用步骤，Then 锁文件依赖安装必须先于 `template:doctor` 与 `adopt-history` 预览/归档，命令顺序可执行且归档仍先于基线验收。
+- AC-EXECUTION-026（REQ-EXECUTION-026）：Given 同一个测试文件包含一个已记录 TDD 红灯的 AC 用例和其他用例，When 添加或修改不相关的兄弟用例后验证该 Plan，Then 既有红灯证据仍有效；目标 AC 测试用例本身发生变化时证据失效；新生成的记录按活动测试用例内容计算哈希，历史 schema 1 文件级记录兼容验证。
 
 ## 验收边界
 

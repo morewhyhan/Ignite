@@ -21,4 +21,33 @@ it('[AC-TEST-001] is still a scaffold', () => { ${failureExample} })
 `
     expect(acceptanceTestHasScaffoldFailure(matchingFailure, 'AC-TEST-001')).toBe(true)
   })
+
+  it('[AC-EXECUTION-026] fingerprints one acceptance case independently of sibling cases', async () => {
+    const sourceAnalysis = (await import('../../scripts/ignite/source-analysis.mjs')) as Record<
+      string,
+      unknown
+    >
+    const selectCase =
+      typeof sourceAnalysis.acceptanceTestSource === 'function'
+        ? (sourceAnalysis.acceptanceTestSource as (
+            content: string,
+            acceptanceId: string,
+          ) => string | null)
+        : () => ''
+    const target = `import { it, expect } from 'vitest'
+it('[AC-TEST-001] verifies the target behavior', () => {
+  expect(result).toBe('expected')
+})
+`
+    const selected = selectCase(target, 'AC-TEST-001')
+    expect(selected).toContain('[AC-TEST-001]')
+    expect(
+      selectCase(
+        `${target}it('[AC-TEST-002] verifies a sibling behavior', () => expect(true).toBe(true))\n`,
+        'AC-TEST-001',
+      ),
+    ).toBe(selected)
+    expect(selectCase(target.replace('expected', 'changed'), 'AC-TEST-001')).not.toBe(selected)
+    expect(selectCase(target, 'AC-TEST-999')).toBeNull()
+  })
 })

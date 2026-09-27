@@ -102,6 +102,27 @@ function makePassedEvidence(root: string, baseCommit: string, policyVersion = 2,
 }
 
 describe('Ignite Plan and Release contracts', () => {
+  it('[AC-EXECUTION-015] prints help without executing the requested command', () => {
+    const fixture = makeFixture()
+    try {
+      for (const args of [
+        ['--help'],
+        ['help'],
+        ['status', '--help'],
+        ['plan', 'validate', '--help'],
+      ]) {
+        const result = runCli(fixture.root, ...args)
+        expect(result.status, result.stderr).toBe(0)
+        expect(result.stdout).toMatch(/Usage: pnpm ignite/)
+        expect(result.stdout).not.toContain('Template mode:')
+        expect(result.stdout).not.toContain('Validated ')
+      }
+      expect(runCli(fixture.root, '--help').stdout).toContain('plan reintegrate')
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
   it('[AC-EXECUTION-008] keeps historical check commands valid after a module test is removed', () => {
     const fixture = makeFixture()
     try {

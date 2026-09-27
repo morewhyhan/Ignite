@@ -24,6 +24,11 @@
 - R11（REQ-EXECUTION-011）：模板采用归档完整覆盖继承的 Plan、Release、运行清单和 TDD 红灯证据；多个有效基线记录也必须一并归档。
 - R12（REQ-EXECUTION-012）：AI 脚手架与 Release 证据回写生成的 Plan/Release 文件必须符合仓库格式，常规命令完成后无需人工格式修复。
 - R13（REQ-EXECUTION-013）：Release 覆盖检查必须使用 Release 当前列出的全部 Plan；范围遗漏时明确报告缺失 Plan，不得误报为缺少验收映射。
+- R14（REQ-EXECUTION-014）：新 Git 历史采用模板时，归档 Plan 等记录后，保留文档中的链接必须仍能指向归档件。
+- R15（REQ-EXECUTION-015）：Ignite CLI 提供可直接调用的帮助入口，帮助请求不得误执行其他命令。
+- R16（REQ-EXECUTION-016）：AI 初次识别项目状态默认收到精简摘要；完整 JSON 仅在确需机器上下文时读取。
+- R17（REQ-EXECUTION-017）：脚手架批量创建文件遇到写入或提交错误时，必须回滚已创建的文件并保留原有 Release 内容。
+- R18（REQ-EXECUTION-018）：占位失败检测只检查对应 AC 的活动测试体，不能被同文件内其他测试、注释或字符串样例误触发。
 
 ## 验收标准
 
@@ -40,6 +45,11 @@
 - AC-EXECUTION-011（REQ-EXECUTION-011）：Given 重新初始化 Git 的模板副本包含多个已交付 Plan、关联 Release、运行记录和 TDD 证据，When 执行 `pnpm ignite adopt-history --apply`，Then 每份继承记录都进入同一带索引的历史归档且原位置不再残留；保留完整 Git 历史的克隆不做归档。
 - AC-EXECUTION-012（REQ-EXECUTION-012）：Given 在干净的模板副本中新建存量改动 Plan 或记录通过的 Release 验收，When 命令写入 Plan/Release 文件，Then 生成文件立即通过仓库 Prettier 检查；Prettier 缺失或运行失败时命令必须返回错误，不能留下被宣称成功的未格式化结果。
 - AC-EXECUTION-013（REQ-EXECUTION-013）：Given 一个 Release 包含多个 Plan，When 覆盖检查收到完整集合或不完整集合，Then 完整集合准确验证每条 AC，不完整集合明确报告缺失 Plan；删除任意 AC 归属仍能报出具体缺失项。
+- AC-EXECUTION-014（REQ-EXECUTION-014）：Given 新 Git 历史的模板副本中有文档链接到将被归档的 Plan，When 执行 `pnpm ignite adopt-history --apply`，Then 该链接改为指向对应归档文件，目标存在且后续 `pnpm docs:check` 通过。
+- AC-EXECUTION-015（REQ-EXECUTION-015）：Given 用户调用 `pnpm ignite --help`、`pnpm ignite help` 或子命令帮助，When CLI 解析帮助请求，Then 返回对应命令用法、退出码为 0，且不运行状态读取或写入等业务命令。
+- AC-EXECUTION-016（REQ-EXECUTION-016）：Given AI 首次进入仓库或按工作流接续任务，When 读取项目状态指引，Then 默认命令使用精简状态摘要，不要求输出完整 `status --json`；完整上下文仍可显式请求。
+- AC-EXECUTION-017（REQ-EXECUTION-017）：Given 模块或存量改动脚手架在提交文件集合时发生文件系统错误，When 写入流程失败，Then 新建文件全部回滚，已有 Release 字节内容保持不变，命令明确报告失败并可安全重试。
+- AC-EXECUTION-018（REQ-EXECUTION-018）：Given 测试文件中含有其他测试的抛错逻辑或用于断言的占位文本，When 验证指定 AC 是否仍为脚手架占位测试，Then 只根据该 AC 对应的活动测试体判断，不误拒绝合法测试，也能识别对应测试体内真实的占位失败。
 
 ## 验收边界
 

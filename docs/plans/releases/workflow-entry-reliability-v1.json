@@ -1,0 +1,37 @@
+{
+  "schema": 2,
+  "id": "workflow-entry-reliability-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1790466964730388559"],
+  "scope": [
+    {
+      "id": "GOAL-001",
+      "text": "模板副本采用与首次任务启动需可恢复、可理解且不制造冗余上下文",
+      "source": "用户授权综合审查与整改；独立模板副本实测发现历史 Plan 归档后文档检查失败",
+      "requirements": [
+        "REQ-EXECUTION-014",
+        "REQ-EXECUTION-015",
+        "REQ-EXECUTION-016",
+        "REQ-EXECUTION-017",
+        "REQ-EXECUTION-018"
+      ],
+      "acceptance": [
+        "AC-EXECUTION-014",
+        "AC-EXECUTION-015",
+        "AC-EXECUTION-016",
+        "AC-EXECUTION-017",
+        "AC-EXECUTION-018"
+      ],
+      "plan_ids": ["IGT-1790466964730388559"],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-09-27"
+}

@@ -25,6 +25,68 @@ function runModule(root: string, script: string) {
 }
 
 describe('execution reliability', () => {
+  it('[AC-EXECUTION-017] rolls back a scaffold when final file promotion fails', () => {
+    const fixture = makeFixture()
+    const preloadRoot = mkdtempSync(join(tmpdir(), 'ignite-fail-promotion-'))
+    try {
+      write(
+        fixture.root,
+        'docs/plans/_template.md',
+        read(repositoryRoot, 'docs/plans/_template.md'),
+      )
+      write(
+        fixture.root,
+        'docs/others/test-cases/_template.md',
+        read(repositoryRoot, 'docs/others/test-cases/_template.md'),
+      )
+      const originalRelease =
+        '{"schema":2,"id":"invoices-v1","coverage_version":2,"verification_contract":2,"plan_ids":[],"scope":[],"must_pass":["check-release"],"evidence":[],"integrated_commit":null,"excluded":[],"updated_at":"2026-09-27"}\n'
+      write(fixture.root, 'docs/plans/releases/invoices-v1.json', originalRelease)
+      commitAll(fixture.root, 'Install scaffold templates and existing release')
+      const preloader = `
+        import fs from 'node:fs'
+        import { syncBuiltinESMExports } from 'node:module'
+        const originalRename = fs.renameSync
+        fs.renameSync = function (source, destination, ...args) {
+          if (String(destination).endsWith('/docs/plans/releases/invoices-v1.json')) {
+            throw new TypeError('injected promotion failure')
+          }
+          return originalRename.call(this, source, destination, ...args)
+        }
+        syncBuiltinESMExports()
+      `
+      write(preloadRoot, 'fail-promotion.mjs', preloader)
+
+      const failed = spawnSync(
+        process.execPath,
+        [
+          '--import',
+          join(preloadRoot, 'fail-promotion.mjs'),
+          join(repositoryRoot, 'scripts/create-module.mjs'),
+          'invoices',
+        ],
+        {
+          cwd: fixture.root,
+          encoding: 'utf8',
+          env: { ...process.env, IGNITE_ROOT: fixture.root },
+          windowsHide: true,
+        },
+      )
+
+      expect(failed.status).not.toBe(0)
+      expect(`${failed.stderr}\n${failed.stdout}`).toContain('injected promotion failure')
+      expect(read(fixture.root, 'docs/plans/releases/invoices-v1.json')).toBe(originalRelease)
+      expect(existsSync(join(fixture.root, 'docs/features/invoices.md'))).toBe(false)
+      expect(existsSync(join(fixture.root, 'src/modules/invoices'))).toBe(false)
+      expect(
+        readdirSync(join(fixture.root, 'docs/plans')).some((name) => name.endsWith('-invoices.md')),
+      ).toBe(false)
+    } finally {
+      fixture.cleanup()
+      rmSync(preloadRoot, { recursive: true, force: true })
+    }
+  })
+
   it('[AC-PRODUCT-013] refuses an empty acceptance test even when it carries a valid AC label', () => {
     const fixture = makeFixture()
     try {

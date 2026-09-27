@@ -196,6 +196,11 @@
       "acceptance_id": "AC-EXECUTION-014",
       "test": "tests/contracts/workflow-entry.test.ts::[AC-EXECUTION-014] rewrites links to archived Plans so adopted docs remain valid",
       "run_id": "tdd-20260927005659-d2366a"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-015",
+      "test": "tests/contracts/ignite-cli.test.ts::[AC-EXECUTION-015] prints help without executing the requested command",
+      "run_id": "tdd-20260927005750-da0f67"
     }
   ],
   "required_evidence": ["check-integration"],

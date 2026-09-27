@@ -1,7 +1,7 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`1ffda3fc79d8`
+输入指纹：`ce3fb5f8806b`
 当前 Plan：1；结构化历史：4；未迁移历史：0
 
 ## 当前工作
@@ -28,7 +28,7 @@
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `workflow-entry-reliability-v1` · `active`
   - Plan：`IGT-1790466964730388559`
-  - 缺少证据：无
+  - 缺少证据：`IGT-1790466964730388559:check-integration`（stale：repository or Plan inputs changed after this run）
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1790466964730388559
   - 未完成原始目标：GOAL-001 审计并完善模板从首次采用到交付的 AI 开发执行流程，修复已证实的采用与执行可靠性问题

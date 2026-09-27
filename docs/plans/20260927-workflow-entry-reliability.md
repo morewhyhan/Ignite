@@ -359,14 +359,14 @@
       "run_id": "tdd-20260927102126-21a41d"
     },
     {
-      "acceptance_id": "AC-EXECUTION-023",
-      "test": "tests/contracts/template-history.test.ts::[AC-EXECUTION-023] accepts archived baseline history after adoption",
-      "run_id": "tdd-20260927171939-3d264f"
-    },
-    {
       "acceptance_id": "AC-EXECUTION-024",
       "test": "tests/contracts/execution-timeouts.test.ts::[AC-EXECUTION-024] budgets real Prisma migration verification for a slow full suite",
       "run_id": "tdd-20260927180003-188bbe"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-023",
+      "test": "tests/contracts/template-history.test.ts::[AC-EXECUTION-023] accepts archived baseline history after adoption",
+      "run_id": "tdd-20260927182617-5cb9c6"
     }
   ],
   "required_evidence": ["check-integration"],

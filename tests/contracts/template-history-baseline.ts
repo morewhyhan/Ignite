@@ -32,8 +32,33 @@ export function assertTemplateBaselineEvidence(root: string) {
       name,
       value: JSON.parse(readFileSync(join(root, 'docs', 'plans', 'releases', name), 'utf8')),
     }))
-  expect(baselinePlans.length).toBeGreaterThan(0)
   expect(existsSync(join(root, 'EXECUTION_AUDIT.md'))).toBe(false)
+
+  if (baselinePlans.length === 0) {
+    expect(releases).toHaveLength(0)
+    const historyDirectory = join(root, 'docs', 'others', 'template-history')
+    const indexes = collectFiles(historyDirectory).filter((path) => basename(path) === 'index.json')
+    expect(indexes.length).toBeGreaterThan(0)
+
+    const archivedFiles = indexes.flatMap((indexPath) => {
+      const index = JSON.parse(readFileSync(indexPath, 'utf8')) as {
+        schema: number
+        files: { source: string; archive: string }[]
+      }
+      expect(index.schema).toBe(1)
+      return index.files
+    })
+    const archivedSources = archivedFiles.map(({ source }) => source)
+    expect(archivedSources.some((path) => path.startsWith('docs/plans/'))).toBe(true)
+    expect(archivedSources.some((path) => path.startsWith('docs/others/evidence/runs/'))).toBe(true)
+    expect(archivedSources.some((path) => path.startsWith('docs/others/evidence/tdd/'))).toBe(true)
+
+    for (const entry of archivedFiles) {
+      expect(existsSync(join(root, entry.archive))).toBe(true)
+      expect(existsSync(join(root, entry.source))).toBe(false)
+    }
+    return
+  }
 
   for (const plan of baselinePlans) {
     const linkedReleases = releases.filter(

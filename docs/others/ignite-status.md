@@ -26,11 +26,10 @@
   - 最终版本验收：missing
   - 下一步：pnpm ignite release verify release-artifacts-v1 --plan IGT-1790459700497465269
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `workflow-entry-reliability-v1` · `verifying`
+- `workflow-entry-reliability-v1` · `done`
   - Plan：`IGT-1790466964730388559`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite release verify workflow-entry-reliability-v1 --plan IGT-1790466964730388559
+  - 最终版本验收：passed（edf9f3ad71b1）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题

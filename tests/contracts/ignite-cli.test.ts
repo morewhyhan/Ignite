@@ -2,6 +2,7 @@ import { spawnSync } from 'node:child_process'
 import { rmSync } from 'node:fs'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
+import prettier from 'prettier'
 import { describe, expect, it } from 'vitest'
 import {
   commitAll,
@@ -431,6 +432,29 @@ describe('Ignite Plan and Release contracts', () => {
       expect(runCli(fixture.root, 'status', '--write').status).toBe(0)
       expect(runCli(fixture.root, 'status', '--write').stdout).toContain(
         'Status is already current',
+      )
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
+  it('[AC-EXECUTION-022] generates Prettier-compatible status when no Release exists', async () => {
+    const fixture = makeFixture()
+    try {
+      rmSync(join(fixture.root, 'docs/plans/releases/fixture-v1.json'))
+      const result = runCli(fixture.root, 'status', '--write')
+      const statusPath = join(fixture.root, 'docs/others/ignite-status.md')
+      const generated = read(fixture.root, 'docs/others/ignite-status.md')
+      const prettierOptions = await prettier.resolveConfig(
+        join(repositoryRoot, 'docs/others/ignite-status.md'),
+      )
+
+      expect(result.status).toBe(0)
+      expect(generated).toBe(
+        await prettier.format(generated, {
+          ...prettierOptions,
+          filepath: statusPath,
+        }),
       )
     } finally {
       fixture.cleanup()

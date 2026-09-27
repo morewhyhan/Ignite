@@ -211,6 +211,11 @@
       "acceptance_id": "AC-EXECUTION-017",
       "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-017] rolls back a scaffold when final file promotion fails",
       "run_id": "tdd-20260927010428-90a5b6"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-018",
+      "test": "tests/contracts/source-analysis.test.ts::[AC-EXECUTION-018] scopes scaffold detection to the matching active test",
+      "run_id": "tdd-20260927020135-d1fb96"
     }
   ],
   "required_evidence": ["check-integration"],

@@ -283,6 +283,7 @@
     "scripts/create-change.mjs",
     "tests/contracts/template-runtime.test.ts",
     "tests/contracts/template-history.test.ts",
+    "tests/contracts/template-history-baseline.ts",
     "tests/contracts/workflow-entry.test.ts",
     "tests/contracts/ignite-cli.test.ts",
     "tests/contracts/execution-reliability.test.ts",

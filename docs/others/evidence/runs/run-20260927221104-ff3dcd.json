@@ -1,0 +1,63 @@
+{
+  "schema": 2,
+  "run_id": "run-20260927221104-ff3dcd",
+  "check_policy_version": 6,
+  "plan_id": "IGT-1790466964730388559",
+  "evidence_id": "check-release",
+  "level": "release",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-09-27T22:11:47.467Z",
+  "ended_at": "2026-09-27T22:16:18.648Z",
+  "commit": "3d67f12ee56fbc988d9bcf5423f9ddf25d076edd",
+  "input_fingerprint": "baa2e01a63ffc8fe1f749ee847790b628c30b74b7190fdb97c547fc362bd6dec",
+  "environment_fingerprint": "a9a342b68b20ef1291357098ab140bd321ffbd348aecc3a91a312972942e8441",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "5bb8c446f57dde15cc1f2b91970d9d154305ffda9a7260a71ef1eeb1d17dde5f",
+  "acceptance_results": [],
+  "release_id": "workflow-entry-reliability-v1",
+  "release_fingerprint": "5c10416d34e5118f973d11e563a138e698fb6f8f5f6a3f02d5c503aba996a4f0",
+  "release_identity": {
+    "package_version": "0.1.0",
+    "tags": ["v2.0.0"]
+  },
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "8a4b29a56ccbe0b2e967fe9a0f7f44600fbaef27"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 785
+    },
+    {
+      "label": "build",
+      "command": ["corepack", "pnpm", "build"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 86620
+    },
+    {
+      "label": "e2e-production",
+      "command": ["corepack", "pnpm", "test:e2e:production"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 55387
+    }
+  ],
+  "log_sha256": "b72694bbd111061f2b1286609aef43d0d4e34d1d29869184731a84b19c4ad8dc",
+  "execution_source": "ignite-runner-local"
+}

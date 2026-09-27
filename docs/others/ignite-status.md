@@ -29,7 +29,7 @@
 - `workflow-entry-reliability-v1` · `done`
   - Plan：`IGT-1790466964730388559`
   - 缺少证据：无
-  - 最终版本验收：passed（edf9f3ad71b1）
+  - 最终版本验收：passed（3d67f12ee56f）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题

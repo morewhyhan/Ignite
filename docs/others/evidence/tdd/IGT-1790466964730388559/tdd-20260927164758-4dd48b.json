@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "run_id": "tdd-20260927164758-4dd48b",
+  "plan_id": "IGT-1790466964730388559",
+  "acceptance_id": "AC-EXECUTION-023",
+  "test": "tests/contracts/template-history.test.ts::[AC-EXECUTION-023] accepts archived baseline history after adoption",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "1d06424ba1bcbbd091963517c9dd63e817242c5a",
+  "test_sha256": "203fa08e78785ff24041a0fbd4834dcbfca77d553ff775c29474be77fb473f5f",
+  "output_sha256": "24d18cbb73dbe7ed60dd0b3339c23b0728a5ec956f40e73fd133c9f23137710f",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/template-history.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-023",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-09-27T16:47:58.714Z",
+  "ended_at": "2026-09-27T16:48:05.461Z",
+  "executor": "ignite-tdd-runner"
+}

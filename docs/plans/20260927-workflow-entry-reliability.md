@@ -336,6 +336,11 @@
       "acceptance_id": "AC-EXECUTION-022",
       "test": "tests/contracts/ignite-cli.test.ts::[AC-EXECUTION-022] generates Prettier-compatible status when no Release exists",
       "run_id": "tdd-20260927102126-21a41d"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-023",
+      "test": "tests/contracts/template-history.test.ts::[AC-EXECUTION-023] accepts archived baseline history after adoption",
+      "run_id": "tdd-20260927164758-4dd48b"
     }
   ],
   "required_evidence": ["check-integration"],
@@ -434,8 +439,8 @@
 状态：`active`（由元数据生成）
 
 - [x] T1 · 核实模板采用、CLI 发现和脚手架失败行为 · done
-- [x] T2 · 为九项缺口补规格与红灯验收 · done
-- [x] T3 · 修复历史归档提示、状态格式、CLI 帮助、上下文成本、脚手架回滚、AC/Unicode 误判和全仓测试超时 · done
+- [ ] T2 · 为十一项缺口补规格与红灯验收 · doing
+- [ ] T3 · 修复历史归档提示、状态格式、测试夹具依赖、CLI 帮助、上下文成本、脚手架回滚、AC/Unicode 误判和全仓测试超时 · doing
 - [ ] T4 · 验证隔离副本的采用/新模块/存量修改/失败恢复并交付审计清单 · doing
 
 验收缺口：未记录；完成仍须实际证据

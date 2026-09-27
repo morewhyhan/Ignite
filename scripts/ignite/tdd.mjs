@@ -16,7 +16,11 @@ import {
   updatePlanMetadata,
   writeGeneratedStatus,
 } from './state.mjs'
-import { acceptanceTestHasScaffoldFailure, acceptanceTestTitles } from './source-analysis.mjs'
+import {
+  acceptanceTestHasScaffoldFailure,
+  acceptanceTestSource,
+  acceptanceTestTitles,
+} from './source-analysis.mjs'
 
 function matchingVitestCases(report, acceptanceId) {
   return (report.testResults || []).flatMap((suite) =>
@@ -55,6 +59,16 @@ function matchingPlaywrightCases(report, acceptanceId) {
   }
   for (const suite of report.suites || []) visit(suite)
   return cases
+}
+
+export function tddTestFingerprint(source, acceptanceId, expectedTitle = null) {
+  const selectedTest = acceptanceTestSource(source, acceptanceId, expectedTitle)
+  if (!selectedTest) return null
+  return {
+    schema: 2,
+    test_scope: 'acceptance-case',
+    test_sha256: hash(selectedTest),
+  }
 }
 
 export function tddBrowserCommand(test, acceptanceId) {
@@ -100,6 +114,9 @@ export function runTddRed(planId, acceptanceId) {
   const source = readFileSync(absoluteTestPath, 'utf8')
   if (!acceptanceTestTitles(source).has(acceptanceId))
     throw new Error(`${testPath} does not contain an executable ${acceptanceId} test`)
+  const testTitle = check.test.slice(check.test.indexOf('::') + 2)
+  const testFingerprint = tddTestFingerprint(source, acceptanceId, testTitle)
+  if (!testFingerprint) throw new Error(`${testPath} has no active test case for ${acceptanceId}`)
   if (acceptanceTestHasScaffoldFailure(source, acceptanceId))
     throw new Error(
       `${testPath} still contains a scaffold failure; write the behavior assertion first`,
@@ -177,7 +194,7 @@ export function runTddRed(planId, acceptanceId) {
   const redEvidenceAbsolutePath = join(repositoryRoot, redEvidencePath)
   mkdirSync(dirname(redEvidenceAbsolutePath), { recursive: true })
   const record = {
-    schema: 1,
+    ...testFingerprint,
     run_id: runId,
     plan_id: planId,
     acceptance_id: acceptanceId,
@@ -185,7 +202,6 @@ export function runTddRed(planId, acceptanceId) {
     layer: check.layer,
     status: 'assertion-failed',
     red_commit: commit,
-    test_sha256: hash(source),
     output_sha256: hash(`${result.stdout || ''}\n${result.stderr || ''}`),
     command: isBrowser
       ? [command[0], ...command[1]]

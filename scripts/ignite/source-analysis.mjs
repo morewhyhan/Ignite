@@ -147,6 +147,44 @@ export function acceptanceTestTitles(content) {
   return ids
 }
 
+/** Return the active test declaration carrying this AC, excluding sibling cases. */
+export function acceptanceTestSource(content, acceptanceId, expectedTitle = null) {
+  const { file, bindings } = parseTestSource(content)
+  let selected = null
+
+  function visit(node) {
+    if (selected) return
+    if (ts.isCallExpression(node)) {
+      const call = invocation(node.expression, bindings)
+      if (call) {
+        const title = node.arguments[0]
+        const callback = node.arguments[1]
+        if (!isActive(call) || !title || !callback || callback === title) return
+        if (call.kind === 'suite') {
+          if (ts.isArrowFunction(callback) || ts.isFunctionExpression(callback))
+            visit(callback.body)
+          return
+        }
+        if (
+          (ts.isStringLiteral(title) || ts.isNoSubstitutionTemplateLiteral(title)) &&
+          title.text.includes(`[${acceptanceId}]`) &&
+          (expectedTitle === null || title.text === expectedTitle) &&
+          hasTestBody(callback)
+        ) {
+          selected = node.getText(file)
+        }
+        return
+      }
+    }
+    if (ts.isFunctionDeclaration(node) || ts.isFunctionExpression(node) || ts.isArrowFunction(node))
+      return
+    ts.forEachChild(node, visit)
+  }
+
+  visit(file)
+  return selected
+}
+
 /** Detect scaffold failures only inside the active test registered for this AC. */
 export function acceptanceTestHasScaffoldFailure(content, acceptanceId) {
   const { file, bindings, expectBindings } = parseTestSource(content)

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { acceptanceTestHasScaffoldFailure } from '../../scripts/ignite/source-analysis.mjs'
+import { tddTestFingerprint } from '../../scripts/ignite/tdd.mjs'
 
 describe('source-aware acceptance validation', () => {
   it('[AC-EXECUTION-018] scopes scaffold detection to the matching active test', () => {
@@ -49,5 +50,28 @@ it('[AC-TEST-001] verifies the target behavior', () => {
     ).toBe(selected)
     expect(selectCase(target.replace('expected', 'changed'), 'AC-TEST-001')).not.toBe(selected)
     expect(selectCase(target, 'AC-TEST-999')).toBeNull()
+  })
+
+  it('writes schema 2 TDD fingerprints for the selected behavior case', () => {
+    const source = `import { it, expect } from 'vitest'
+it('[AC-TEST-001] checks the target behavior', () => expect(result).toBe('expected'))
+`
+    const original = tddTestFingerprint(source, 'AC-TEST-001')
+    expect(original).toMatchObject({ schema: 2, test_scope: 'acceptance-case' })
+    expect(original?.test_sha256).toBe(
+      tddTestFingerprint(
+        `${source}it('[AC-TEST-002] checks a sibling', () => expect(true).toBe(true))\n`,
+        'AC-TEST-001',
+      )?.test_sha256,
+    )
+    expect(
+      tddTestFingerprint(source.replace('expected', 'changed'), 'AC-TEST-001')?.test_sha256,
+    ).not.toBe(original?.test_sha256)
+
+    const multipleCases = `${source}it('[AC-TEST-001] checks a second behavior', () => expect(result).toBe('second'))\n`
+    expect(
+      tddTestFingerprint(multipleCases, 'AC-TEST-001', '[AC-TEST-001] checks a second behavior')
+        ?.test_sha256,
+    ).not.toBe(original?.test_sha256)
   })
 })

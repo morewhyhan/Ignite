@@ -34,7 +34,11 @@ import {
   commandsForLevel,
   requiredLayersForChanges,
 } from './checks.mjs'
-import { acceptanceTestHasScaffoldFailure, acceptanceTestTitles } from './source-analysis.mjs'
+import {
+  acceptanceTestHasScaffoldFailure,
+  acceptanceTestSource,
+  acceptanceTestTitles,
+} from './source-analysis.mjs'
 import {
   calculateEvidenceCoverage,
   dependencyContractIsCurrent,
@@ -489,12 +493,23 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
         try {
           const record = JSON.parse(recordText)
           const [testPath] = item.test.split('::', 1)
-          const redTest = readRepositoryText(testPath, record.red_commit)
-          const finalTest = historicalCommit
+          const testTitle = item.test.slice(item.test.indexOf('::') + 2)
+          const redSource = readRepositoryText(testPath, record.red_commit)
+          const finalSource = historicalCommit
             ? readRepositoryText(testPath, historicalCommit)
-            : redTest
+            : redSource
+          const redCase =
+            redSource && acceptanceTestSource(redSource, item.acceptance_id, testTitle)
+          const finalCase =
+            finalSource && acceptanceTestSource(finalSource, item.acceptance_id, testTitle)
+          const testDigestMatches =
+            (record.schema === 1 && redSource !== null && hash(redSource) === record.test_sha256) ||
+            (record.schema === 2 &&
+              record.test_scope === 'acceptance-case' &&
+              redCase !== null &&
+              hash(redCase) === record.test_sha256)
           const recordMatches =
-            record.schema === 1 &&
+            [1, 2].includes(record.schema) &&
             record.run_id === item.run_id &&
             record.plan_id === value.id &&
             record.acceptance_id === item.acceptance_id &&
@@ -506,10 +521,12 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
             gitCommitExists(record.red_commit) &&
             isAncestor(value.base_commit, record.red_commit) &&
             (!historicalCommit || isAncestor(record.red_commit, historicalCommit)) &&
-            redTest !== null &&
-            finalTest !== null &&
-            hash(redTest) === record.test_sha256 &&
-            hash(finalTest) === record.test_sha256
+            redSource !== null &&
+            finalSource !== null &&
+            typeof redCase === 'string' &&
+            typeof finalCase === 'string' &&
+            hash(redCase) === hash(finalCase) &&
+            testDigestMatches
           if (!recordMatches)
             failures.push(
               `${item.acceptance_id}: TDD red proof is invalid or its test changed before green`,

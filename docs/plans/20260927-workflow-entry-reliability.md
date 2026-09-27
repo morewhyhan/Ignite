@@ -280,7 +280,7 @@
     {
       "id": "T5",
       "title": "修正并验证新历史采用的依赖安装顺序",
-      "status": "todo"
+      "status": "doing"
     }
   ],
   "depends_on": [],
@@ -391,6 +391,11 @@
       "acceptance_id": "AC-EXECUTION-023",
       "test": "tests/contracts/template-history.test.ts::[AC-EXECUTION-023] accepts archived baseline history after adoption",
       "run_id": "tdd-20260927182617-5cb9c6"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-025",
+      "test": "tests/contracts/workflow-entry.test.ts::[AC-EXECUTION-025] installs dependencies before new-history adoption commands",
+      "run_id": "tdd-20260927193841-e9c9fd"
     }
   ],
   "required_evidence": ["check-integration"],
@@ -403,7 +408,7 @@
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
-  "updated_at": "2026-09-28"
+  "updated_at": "2026-09-27"
 }
 -->
 
@@ -492,6 +497,7 @@
 - [x] T2 · 为十一项缺口补规格与红灯验收 · done
 - [x] T3 · 修复历史归档提示、状态格式、测试夹具依赖、CLI 帮助、上下文成本、脚手架回滚、AC/Unicode 误判及全量测试超时 · done
 - [ ] T4 · 验证隔离副本的采用/新模块/存量修改/失败恢复并交付审计清单 · doing
+- [ ] T5 · 修正并验证新历史采用的依赖安装顺序 · doing
 
 验收缺口：未记录；完成仍须实际证据
 证据：check-integration / run-20260927183514-02a7ea

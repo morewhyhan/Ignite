@@ -37,15 +37,26 @@
 
 当前页面名称、粉色主题和 `/dashboard` 是模板基线，不是衍生产品的永久要求。用户已给出目标时，AI 按目标更新对应测试；权限、秘密信息和持久化约束仍需验收。
 
-## 第一步：验证未修改的基线
+## 第一步：对齐 Git 历史，再验证基线
 
-模板副本可能包含多个当前基线 Plan、Release、运行清单和 TDD 红灯记录；这些都是 Ignite 自身的历史证据，不代表衍生产品已经开发或验收。使用 GitHub 的 “Use this template” 或下载源码后重新 `git init` 时，新仓库没有模板旧提交；先提交初始源码，再运行 `pnpm ignite adopt-history` 查看全部继承记录，确认后执行 `pnpm ignite adopt-history --apply`。它会把 Plan、Release、运行清单和 TDD 证据完整归档到 `docs/others/template-history/`，随后为自己的产品创建 Plan。普通完整克隆保留原 Git 历史，无需归档；浅克隆应先取回完整历史。
+先判断复制方式，避免把 Ignite 自己的历史证据当成新项目的失败：
+
+- 完整 Git 克隆保留模板提交历史，直接运行基线检查，不执行历史归档。
+- 浅克隆先运行 `git fetch --unshallow` 取回完整历史；不要把缺少的提交当作新项目历史归档。
+- GitHub “Use this template”、下载源码后重新 `git init` 等新历史副本，会继承 Plan、Release、运行清单和 TDD 红灯文件，但不继承这些证据对应的旧提交。先提交初始源码，再运行 `pnpm ignite adopt-history` 预览；核对清单后运行 `pnpm ignite adopt-history --apply`，把继承记录归档到 `docs/others/template-history/`，并提交归档结果。**完成这一步后再运行 `pnpm verify`**。`pnpm template:doctor` 会以单条可执行诊断阻止过早验证，不会自动移动记录。
+
+安装和环境检查：
 
 ```bash
 node scripts/runtime-doctor.mjs --preflight
 cp .env.example .env
 corepack pnpm install --frozen-lockfile
 pnpm runtime:check
+```
+
+历史处理完成后验证基线：
+
+```bash
 pnpm db:setup
 pnpm verify
 pnpm test:e2e:production

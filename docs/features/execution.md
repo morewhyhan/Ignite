@@ -31,6 +31,7 @@
 - R18（REQ-EXECUTION-018）：占位失败检测只检查对应 AC 的活动测试体，不能被同文件内其他测试、注释或字符串样例误触发。
 - R19（REQ-EXECUTION-019）：Git 改动路径读取必须保留 Unicode 文件名，写入范围和证据检查不得将合法路径误判为越界。
 - R20（REQ-EXECUTION-020）：全仓规格与 Plan 校验在支持的 WSL 环境中不得因过短的默认测试超时产生假失败；不得通过跳过断言或缩小校验范围消除超时。
+- R21（REQ-EXECUTION-021）：新 Git 历史的模板副本在基线验证前，必须明确提示先归档不属于当前历史的模板执行记录；完整克隆与浅克隆分别给出正确动作，不得把继承记录误报为项目自身缺陷。
 
 ## 验收标准
 
@@ -54,6 +55,7 @@
 - AC-EXECUTION-018（REQ-EXECUTION-018）：Given 测试文件中含有其他测试的抛错逻辑或用于断言的占位文本，When 验证指定 AC 是否仍为脚手架占位测试，Then 只根据该 AC 对应的活动测试体判断，不误拒绝合法测试，也能识别对应测试体内真实的占位失败。
 - AC-EXECUTION-019（REQ-EXECUTION-019）：Given 当前改动含有中文或其他 Unicode 文件名，When Ignite 从 Git 收集 Plan 改动路径并核对 `write_scope`，Then 返回原始文件名并按实际范围正确允许或拒绝，不将 Git 的引用转义文本误认为真实路径。
 - AC-EXECUTION-020（REQ-EXECUTION-020）：Given 支持的 WSL 环境和完整模板基线，When 全仓文档追踪与 Plan 结构校验运行，Then 两项完整校验保留全部断言并使用足以覆盖实测运行时间的 90 秒测试上限，不因 30 秒默认值误报超时或跳过检查。
+- AC-EXECUTION-021（REQ-EXECUTION-021）：Given 新 Git 历史的模板副本仍包含引用旧提交的继承 Plan，When 运行 `pnpm template:doctor`，Then 它以明确错误阻止后续 `pnpm verify` 并指引先预览、确认归档和提交历史；诊断不自动移动文件。完整历史克隆不阻止，浅克隆指引先取回完整历史。
 
 ## 验收边界
 

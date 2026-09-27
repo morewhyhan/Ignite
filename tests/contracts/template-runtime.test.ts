@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process'
-import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs'
+import { cpSync, existsSync, mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
@@ -98,6 +98,79 @@ describe('template and runtime contracts', () => {
       ignite: expect.any(String),
       'test:migrations': expect.any(String),
     })
+  })
+
+  it('[AC-EXECUTION-021] directs new-history copies to archive inherited Plans before baseline verification', () => {
+    const fixture = makeFixture()
+    const directory = mkdtempSync(join(tmpdir(), 'ignite-history-advice-'))
+    try {
+      write(
+        fixture.root,
+        '.ai/project.json',
+        JSON.stringify({
+          schema: 1,
+          mode: 'template-baseline',
+          source_repository: 'git@github.com:morewhyhan/Ignite.git',
+          project_repository: null,
+        }),
+      )
+      write(
+        fixture.root,
+        'src/config/site.ts',
+        "export const siteConfig = { name: 'Ignite', slug: 'ignite' }\n",
+      )
+      write(fixture.root, 'AGENTS.md', '# Rules\n')
+      write(fixture.root, 'docs/standards/workflow.md', '# Workflow\n')
+      write(fixture.root, 'docs/plans/_template.md', '# Plan template\n')
+      write(fixture.root, 'src/config/navigation.ts', 'export const navigation = []\n')
+      const inheritedPlan = planContent(fixture.baseCommit)
+      write(fixture.root, 'docs/plans/fixture.md', inheritedPlan)
+      commitAll(fixture.root, 'prepare adopted-history doctor fixture')
+
+      const remote = join(directory, 'template.git')
+      const full = join(directory, 'complete')
+      const shallow = join(directory, 'shallow')
+      const newHistory = join(directory, 'new-history')
+      git(directory, 'init', '--bare', remote)
+      git(fixture.root, 'remote', 'add', 'origin', remote)
+      git(fixture.root, 'push', 'origin', 'HEAD:refs/heads/main')
+      git(directory, 'clone', '--branch', 'main', `file://${remote}`, full)
+      git(directory, 'clone', '--depth', '1', '--branch', 'main', `file://${remote}`, shallow)
+      cpSync(full, newHistory, {
+        recursive: true,
+        filter: (source) => source !== join(full, '.git'),
+      })
+      git(newHistory, 'init')
+      commitAll(newHistory, 'initialize copied template with a new history')
+
+      const diagnose = (root: string) =>
+        spawnSync(process.execPath, [templateDoctor], {
+          cwd: root,
+          encoding: 'utf8',
+          env: { ...process.env, IGNITE_ROOT: root },
+          windowsHide: true,
+        })
+
+      const completeResult = diagnose(full)
+      expect(completeResult.status, completeResult.stderr).toBe(0)
+      expect(completeResult.stderr).not.toContain('adopt-history')
+
+      const shallowResult = diagnose(shallow)
+      expect(shallowResult.status).not.toBe(0)
+      expect(shallowResult.stderr).toContain('git fetch --unshallow')
+      expect(shallowResult.stderr).not.toContain('adopt-history --apply')
+
+      const newHistoryResult = diagnose(newHistory)
+      expect(newHistoryResult.status).not.toBe(0)
+      expect(newHistoryResult.stderr).toContain('new Git history')
+      expect(newHistoryResult.stderr).toContain('pnpm ignite adopt-history')
+      expect(newHistoryResult.stderr).toContain('before running pnpm verify')
+      expect(read(newHistory, 'docs/plans/fixture.md')).toBe(inheritedPlan)
+      expect(existsSync(join(newHistory, 'docs/others/template-history'))).toBe(false)
+    } finally {
+      fixture.cleanup()
+      rmSync(directory, { recursive: true, force: true })
+    }
   })
 
   it('[AC-PRODUCT-002] refuses an adopted project that keeps shared template identity', () => {

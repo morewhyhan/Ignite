@@ -87,6 +87,7 @@ function parseTestSource(content) {
     ['test', 'test'],
     ['describe', 'describe'],
   ])
+  const expectBindings = new Set(['expect'])
   for (const statement of file.statements) {
     if (!ts.isImportDeclaration(statement) || !ts.isStringLiteral(statement.moduleSpecifier))
       continue
@@ -102,9 +103,11 @@ function parseTestSource(content) {
       } else {
         bindings.delete(element.name.text)
       }
+      if (testModules.has(statement.moduleSpecifier.text) && imported === 'expect')
+        expectBindings.add(element.name.text)
     }
   }
-  return { file, bindings }
+  return { file, bindings, expectBindings }
 }
 
 /** Find AC tags in statically registered, enabled tests, never in comments or test data. */
@@ -146,8 +149,65 @@ export function acceptanceTestTitles(content) {
 
 /** Detect scaffold failures only inside the active test registered for this AC. */
 export function acceptanceTestHasScaffoldFailure(content, acceptanceId) {
-  return (
-    acceptanceTestTitles(content).has(acceptanceId) &&
-    /(?:expect\.fail\s*\(|throw new Error\s*\(|replaces this red specification)/i.test(content)
-  )
+  const { file, bindings, expectBindings } = parseTestSource(content)
+  let found = false
+
+  function inspectTestBody(body) {
+    function inspect(node) {
+      if (found) return
+      if (ts.isThrowStatement(node) && ts.isNewExpression(node.expression)) {
+        const errorConstructor = unwrap(node.expression.expression)
+        if (ts.isIdentifier(errorConstructor) && errorConstructor.text === 'Error') found = true
+      }
+      if (
+        ts.isCallExpression(node) &&
+        ts.isPropertyAccessExpression(node.expression) &&
+        ts.isIdentifier(node.expression.expression) &&
+        expectBindings.has(node.expression.expression.text) &&
+        node.expression.name.text === 'fail'
+      ) {
+        found = true
+      }
+      if (
+        ts.isArrowFunction(node) ||
+        ts.isFunctionExpression(node) ||
+        ts.isFunctionDeclaration(node)
+      )
+        return
+      ts.forEachChild(node, inspect)
+    }
+
+    inspect(body)
+  }
+
+  function visit(node) {
+    if (found) return
+    if (ts.isCallExpression(node)) {
+      const call = invocation(node.expression, bindings)
+      if (call) {
+        const title = node.arguments[0]
+        const callback = node.arguments[1]
+        if (!isActive(call) || !title || !callback || callback === title) return
+        if (call.kind === 'suite') {
+          if (ts.isArrowFunction(callback) || ts.isFunctionExpression(callback))
+            visit(callback.body)
+          return
+        }
+        if (
+          (ts.isStringLiteral(title) || ts.isNoSubstitutionTemplateLiteral(title)) &&
+          title.text.includes(`[${acceptanceId}]`) &&
+          (ts.isArrowFunction(callback) || ts.isFunctionExpression(callback))
+        ) {
+          inspectTestBody(callback.body)
+        }
+        return
+      }
+    }
+    if (ts.isFunctionDeclaration(node) || ts.isFunctionExpression(node) || ts.isArrowFunction(node))
+      return
+    ts.forEachChild(node, visit)
+  }
+
+  visit(file)
+  return found
 }

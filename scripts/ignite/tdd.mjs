@@ -11,12 +11,12 @@ import {
   repositoryRoot,
 } from './core.mjs'
 import {
-  acceptanceTestTitles,
   findPlan,
   planContractAtCommit,
   updatePlanMetadata,
   writeGeneratedStatus,
 } from './state.mjs'
+import { acceptanceTestHasScaffoldFailure, acceptanceTestTitles } from './source-analysis.mjs'
 
 function matchingVitestCases(report, acceptanceId) {
   return (report.testResults || []).flatMap((suite) =>
@@ -100,7 +100,7 @@ export function runTddRed(planId, acceptanceId) {
   const source = readFileSync(absoluteTestPath, 'utf8')
   if (!acceptanceTestTitles(source).has(acceptanceId))
     throw new Error(`${testPath} does not contain an executable ${acceptanceId} test`)
-  if (/(?:expect\.fail\s*\(|throw new Error\s*\(|replaces this red specification)/i.test(source))
+  if (acceptanceTestHasScaffoldFailure(source, acceptanceId))
     throw new Error(
       `${testPath} still contains a scaffold failure; write the behavior assertion first`,
     )

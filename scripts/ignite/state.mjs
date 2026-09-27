@@ -34,7 +34,7 @@ import {
   commandsForLevel,
   requiredLayersForChanges,
 } from './checks.mjs'
-import { acceptanceTestTitles } from './source-analysis.mjs'
+import { acceptanceTestHasScaffoldFailure, acceptanceTestTitles } from './source-analysis.mjs'
 import {
   calculateEvidenceCoverage,
   dependencyContractIsCurrent,
@@ -441,9 +441,7 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
           } else if (
             value.verification_contract >= 2 &&
             value.status !== 'draft' &&
-            /(?:expect\.fail\s*\(|throw new Error\s*\(|replaces this red specification)/i.test(
-              testContent,
-            )
+            acceptanceTestHasScaffoldFailure(testContent, item.id)
           ) {
             failures.push(`acceptance ${item.id} still contains a scaffold failure placeholder`)
           }

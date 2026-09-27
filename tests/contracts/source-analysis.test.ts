@@ -1,35 +1,24 @@
 import { describe, expect, it } from 'vitest'
-import { commitAll, makeFixture, runCli, write } from './ignite-fixture'
+import { acceptanceTestHasScaffoldFailure } from '../../scripts/ignite/source-analysis.mjs'
 
 describe('source-aware acceptance validation', () => {
   it('[AC-EXECUTION-018] scopes scaffold detection to the matching active test', () => {
-    const fixture = makeFixture()
-    try {
-      const exampleText = `${['throw', 'new Error'].join(' ')}('scaffold example')`
-      write(
-        fixture.root,
-        'tests/contracts/sample.test.ts',
-        `import { expect, it } from 'vitest'\nconst documentationExample = ${JSON.stringify(exampleText)}\nit('[AC-TEST-001] checks a normal behavior', () => expect(true).toBe(true))\n`,
-      )
-      commitAll(fixture.root, 'Add a harmless scaffold example string')
+    const failureExample = `${['throw', 'new Error'].join(' ')}('unfinished behavior')`
+    const incidentalText = `import { expect, it } from 'vitest'
+const documentation = ${JSON.stringify(failureExample)}
+it('[AC-TEST-001] checks normal behavior', () => expect(true).toBe(true))
+`
+    expect(acceptanceTestHasScaffoldFailure(incidentalText, 'AC-TEST-001')).toBe(false)
 
-      const valid = runCli(fixture.root, 'plan', 'validate', 'IGT-900')
-      expect(valid.status, valid.stderr).toBe(0)
+    const unrelatedFailure = `import { expect, it } from 'vitest'
+it('[AC-OTHER-001] throws for its own reason', () => { ${failureExample} })
+it('[AC-TEST-001] checks normal behavior', () => expect(true).toBe(true))
+`
+    expect(acceptanceTestHasScaffoldFailure(unrelatedFailure, 'AC-TEST-001')).toBe(false)
 
-      write(
-        fixture.root,
-        'tests/contracts/sample.test.ts',
-        `import { it } from 'vitest'\nit('[AC-TEST-001] still contains a scaffold failure', () => { ${[
-          'throw',
-          'new Error',
-        ].join(' ')}('unfinished behavior') })\n`,
-      )
-      commitAll(fixture.root, 'Add a real scaffold failure to the matching test')
-      const invalid = runCli(fixture.root, 'plan', 'validate', 'IGT-900')
-      expect(invalid.status).not.toBe(0)
-      expect(invalid.stderr).toContain('still contains a scaffold failure placeholder')
-    } finally {
-      fixture.cleanup()
-    }
+    const matchingFailure = `import { it } from 'vitest'
+it('[AC-TEST-001] is still a scaffold', () => { ${failureExample} })
+`
+    expect(acceptanceTestHasScaffoldFailure(matchingFailure, 'AC-TEST-001')).toBe(true)
   })
 })

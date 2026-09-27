@@ -1,12 +1,14 @@
-import { existsSync, mkdirSync, readFileSync, readdirSync, renameSync } from 'node:fs'
-import { dirname, join } from 'node:path'
+import { existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync } from 'node:fs'
+import { dirname, extname, join, relative, resolve } from 'node:path'
 import {
   currentCommit,
   gitCommitExists,
   relativePath,
   repositoryRoot,
   runGit,
+  walkFiles,
   writeJson,
+  writeTextIfChanged,
 } from './core.mjs'
 import {
   listDurableRuns,
@@ -23,6 +25,53 @@ function listTddEvidence(directory) {
     if (entry.isDirectory()) return listTddEvidence(path)
     return entry.isFile() && entry.name.endsWith('.json') ? [path] : []
   })
+}
+
+function linkedDocumentsAfterArchive(files) {
+  const archived = new Map(
+    files.map((item) => [
+      resolve(repositoryRoot, item.source),
+      resolve(repositoryRoot, item.archive),
+    ]),
+  )
+  const archivedSources = new Set(archived.keys())
+  const markdownFiles = walkFiles(join(repositoryRoot, 'docs')).filter(
+    (path) => extname(path).toLowerCase() === '.md' && !archivedSources.has(resolve(path)),
+  )
+  const linkPattern = /(!?\[[^\]]*]\()([^)]+)(\))/g
+  const snapshots = []
+
+  for (const path of markdownFiles) {
+    const before = readFileSync(path, 'utf8')
+    const after = before.replace(linkPattern, (whole, prefix, rawTarget, suffix) => {
+      const trimmed = rawTarget.trim()
+      const wrapped = trimmed.startsWith('<') && trimmed.endsWith('>')
+      const target = wrapped ? trimmed.slice(1, -1) : trimmed
+      if (
+        !target ||
+        target.startsWith('#') ||
+        target.startsWith('/') ||
+        /^[a-z][a-z\d+.-]*:/i.test(target)
+      )
+        return whole
+      const suffixIndex = target.search(/[?#]/)
+      const targetPath = suffixIndex < 0 ? target : target.slice(0, suffixIndex)
+      const targetSuffix = suffixIndex < 0 ? '' : target.slice(suffixIndex)
+      let source
+      try {
+        source = resolve(dirname(path), decodeURIComponent(targetPath))
+      } catch {
+        return whole
+      }
+      const destination = archived.get(source)
+      if (!destination) return whole
+      const nextPath = relative(dirname(path), destination).replaceAll('\\', '/')
+      const nextTarget = `${nextPath}${targetSuffix}`
+      return `${prefix}${wrapped ? `<${nextTarget}>` : nextTarget}${suffix}`
+    })
+    if (after !== before) snapshots.push({ path, before, after })
+  }
+  return snapshots
 }
 
 /** Preserve inherited history when GitHub creates a template copy with a new Git history. */
@@ -65,6 +114,7 @@ export function adoptHistory({ apply = false } = {}) {
     throw new Error('archive destination already exists; inspect it before retrying')
   // Inspect every input and destination before moving the first record.
   for (const item of files) readFileSync(join(repositoryRoot, item.source))
+  const rewrittenDocuments = linkedDocumentsAfterArchive(files)
   const moved = []
   try {
     for (const item of files) {
@@ -73,6 +123,7 @@ export function adoptHistory({ apply = false } = {}) {
       renameSync(join(repositoryRoot, item.source), destination)
       moved.push(item)
     }
+    for (const document of rewrittenDocuments) writeTextIfChanged(document.path, document.after)
     writeJson(join(archiveRoot, 'index.json'), {
       schema: 1,
       reason: 'template copy has a new Git history',
@@ -80,11 +131,33 @@ export function adoptHistory({ apply = false } = {}) {
       files,
     })
   } catch (error) {
-    for (const item of moved.reverse()) {
-      const source = join(repositoryRoot, item.source)
-      mkdirSync(dirname(source), { recursive: true })
-      renameSync(join(repositoryRoot, item.archive), source)
+    const rollbackErrors = []
+    for (const document of [...rewrittenDocuments].reverse()) {
+      try {
+        writeTextIfChanged(document.path, document.before)
+      } catch (rollbackError) {
+        rollbackErrors.push(rollbackError)
+      }
     }
+    for (const item of moved.reverse()) {
+      try {
+        const source = join(repositoryRoot, item.source)
+        mkdirSync(dirname(source), { recursive: true })
+        renameSync(join(repositoryRoot, item.archive), source)
+      } catch (rollbackError) {
+        rollbackErrors.push(rollbackError)
+      }
+    }
+    try {
+      rmSync(archiveRoot, { recursive: true, force: true })
+    } catch (rollbackError) {
+      rollbackErrors.push(rollbackError)
+    }
+    if (rollbackErrors.length)
+      throw new AggregateError(
+        [error, ...rollbackErrors],
+        'history adoption failed and rollback was incomplete',
+      )
     throw error
   }
   writeGeneratedStatus()

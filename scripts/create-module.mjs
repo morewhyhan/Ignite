@@ -1,10 +1,11 @@
 import { spawnSync } from 'node:child_process'
 import { randomInt } from 'node:crypto'
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
-import { dirname, join, resolve } from 'node:path'
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
+import { join, resolve } from 'node:path'
 import { formatJson, formatWithPrettier } from './ignite/core.mjs'
 import { renderPlanProgressContent } from './ignite/execution-contract.mjs'
 import { checkScaffoldWorktree } from './scaffold-preflight.mjs'
+import { writeFileSetAtomically } from './ignite/scaffold-writer.mjs'
 
 const arguments_ = process.argv.slice(2)
 const dryRun = arguments_.includes('--dry-run')
@@ -364,13 +365,7 @@ console.log(
 )
 
 if (!dryRun) {
-  for (const [path, content] of files) {
-    const absolutePath = join(repositoryRoot, path)
-    mkdirSync(dirname(absolutePath), { recursive: true })
-    writeFileSync(absolutePath, content, 'utf8')
-  }
-  mkdirSync(dirname(absoluteReleasePath), { recursive: true })
-  writeFileSync(absoluteReleasePath, releaseContent, 'utf8')
+  writeFileSetAtomically(repositoryRoot, [...files, [releasePath, releaseContent]])
 }
 
 console.log('')

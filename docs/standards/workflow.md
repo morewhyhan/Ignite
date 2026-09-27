@@ -28,7 +28,7 @@ AI 开始实现前必须读取：
 3. 当前 `docs/designs/` 与实际源码、Schema、测试；
 4. 本轮唯一的 `docs/plans/` 文件。
 
-先查看 `pnpm ignite status --json`，找到覆盖本轮目标的未完成 Plan 并接续；本轮实现、修复和验证不另建计划。新的独立交付结果才新建 Plan，已交付结果的后续改动使用新的存量改动 Plan，保留原交付记录。涉及用户行为、API、Schema、依赖、架构、测试或执行规则时，必须由一个 Plan 覆盖；改动文件的数量不是是否新建 Plan 的依据。
+先查看 `pnpm ignite status` 的精简摘要；只有需要脚本化解析完整机器字段时才添加 `--json`，找到覆盖本轮目标的未完成 Plan 并接续；本轮实现、修复和验证不另建计划。新的独立交付结果才新建 Plan，已交付结果的后续改动使用新的存量改动 Plan，保留原交付记录。涉及用户行为、API、Schema、依赖、架构、测试或执行规则时，必须由一个 Plan 覆盖；改动文件的数量不是是否新建 Plan 的依据。
 
 免业务 Plan 的范围仅限检查器认定的安全说明和展示资产：根 `README.md`、`docs/README.md`、`docs/others/README.md` 和 `docs/assets/`。这些修改仍需文档、格式和差异检查。源码格式修复、Feature、Design、Standards 和 AI 执行规则的改动继续归入对应 Plan，不能因“只是改几个字”跳过契约和验收。
 

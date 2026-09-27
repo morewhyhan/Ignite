@@ -1,10 +1,11 @@
 import { randomInt } from 'node:crypto'
 import { spawnSync } from 'node:child_process'
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
-import { dirname, join, resolve } from 'node:path'
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
+import { join, relative, resolve } from 'node:path'
 import { formatJson, formatWithPrettier } from './ignite/core.mjs'
 import { renderPlanProgressContent } from './ignite/execution-contract.mjs'
 import { checkScaffoldWorktree } from './scaffold-preflight.mjs'
+import { writeFileSetAtomically } from './ignite/scaffold-writer.mjs'
 
 const args = process.argv.slice(2)
 const dryRun = args.includes('--dry-run')
@@ -158,9 +159,10 @@ if (dryRun) {
     'Preview only; no files or release membership were changed. Remove --dry-run to create this draft.',
   )
 } else {
-  mkdirSync(dirname(releasePath), { recursive: true })
-  writeFileSync(planPath, planContent, 'utf8')
-  writeFileSync(releasePath, releaseContent, 'utf8')
+  writeFileSetAtomically(root, [
+    [relative(root, planPath), planContent],
+    [relative(root, releasePath), releaseContent],
+  ])
   console.log(`Created draft ${id}; Release ${releaseId} includes this Plan.`)
   console.log(
     'Next: define the goals, affected files and applicable unit/database/browser/external acceptance.',

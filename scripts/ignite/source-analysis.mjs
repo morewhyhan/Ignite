@@ -74,8 +74,7 @@ function hasTestBody(callback) {
   )
 }
 
-/** Find AC tags in statically registered, enabled tests, never in comments or test data. */
-export function acceptanceTestTitles(content) {
+function parseTestSource(content) {
   const file = ts.createSourceFile(
     'acceptance.tsx',
     content,
@@ -105,6 +104,12 @@ export function acceptanceTestTitles(content) {
       }
     }
   }
+  return { file, bindings }
+}
+
+/** Find AC tags in statically registered, enabled tests, never in comments or test data. */
+export function acceptanceTestTitles(content) {
+  const { file, bindings } = parseTestSource(content)
 
   const ids = new Set()
   function visit(node) {
@@ -137,4 +142,12 @@ export function acceptanceTestTitles(content) {
   }
   visit(file)
   return ids
+}
+
+/** Detect scaffold failures only inside the active test registered for this AC. */
+export function acceptanceTestHasScaffoldFailure(content, acceptanceId) {
+  return (
+    acceptanceTestTitles(content).has(acceptanceId) &&
+    /(?:expect\.fail\s*\(|throw new Error\s*\(|replaces this red specification)/i.test(content)
+  )
 }

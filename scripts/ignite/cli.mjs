@@ -61,6 +61,94 @@ function fail(message, code = 1) {
   process.exitCode = code
 }
 
+const generalHelp = `Usage: pnpm ignite <command> [options]
+
+Commands:
+  validate [--ci]
+  status [--write|--json]
+  next --plan <id> [--verify-remote] [--verbose]
+  check --plan <id> [--level auto|dev|integration|release]
+  plan validate [id]
+  plan set-status <id> <status>
+  plan reintegrate <id>
+  plan refresh <id>
+  task set-status <plan-id> <task-id> <todo|doing|done>
+  run status [run-id] [--verbose]
+  run cancel <run-id>
+  release status [release-id] [--verbose]
+  release verify <release-id> --plan <done-plan-id>
+  adopt-history [--apply]
+  tdd red --plan <id> --ac <AC-id>
+  example removal-plan tasks
+
+Use pnpm ignite <command> --help for command details.
+`
+
+const commandHelp = new Map([
+  [
+    'validate',
+    'Usage: pnpm ignite validate [--ci]\nValidate Plans, Releases, traceability, Design, AI bridges and runtime.\n',
+  ],
+  [
+    'status',
+    'Usage: pnpm ignite status [--write|--json]\nPrint the concise project summary; --json emits full machine-readable context.\n',
+  ],
+  [
+    'next',
+    'Usage: pnpm ignite next --plan <id> [--verify-remote] [--verbose]\nShow the next action for a Plan from its current state and evidence.\n',
+  ],
+  [
+    'check',
+    'Usage: pnpm ignite check --plan <id> [--level auto|dev|integration|release]\nRun and record checks for a Plan.\n',
+  ],
+  [
+    'plan',
+    'Usage: pnpm ignite plan <validate|set-status|reintegrate|refresh> ...\nUse pnpm ignite plan <subcommand> --help for details.\n',
+  ],
+  [
+    'plan validate',
+    'Usage: pnpm ignite plan validate [id]\nValidate all structured Plans or one selected Plan.\n',
+  ],
+  [
+    'plan set-status',
+    'Usage: pnpm ignite plan set-status <id> <status> [--blocker id|owner|reason|resume_action]\nMove a Plan through its allowed lifecycle.\n',
+  ],
+  [
+    'plan reintegrate',
+    'Usage: pnpm ignite plan reintegrate <id>\nRebind a completed Plan after final integration; rerun checks on merged HEAD.\n',
+  ],
+  [
+    'plan refresh',
+    'Usage: pnpm ignite plan refresh <id>\nRefresh generated Plan progress and project status.\n',
+  ],
+  [
+    'task',
+    'Usage: pnpm ignite task set-status <plan-id> <task-id> <todo|doing|done>\nUpdate a Plan task and generated progress.\n',
+  ],
+  [
+    'run',
+    'Usage: pnpm ignite run <status|cancel> [run-id]\nInspect or cancel a recorded check run.\n',
+  ],
+  ['release', 'Usage: pnpm ignite release <status|verify> ...\nInspect or verify a Release.\n'],
+  [
+    'adopt-history',
+    'Usage: pnpm ignite adopt-history [--apply]\nPreview or archive inherited template execution history after creating a new Git history.\n',
+  ],
+  [
+    'tdd',
+    'Usage: pnpm ignite tdd red --plan <id> --ac <AC-id>\nRun the selected acceptance test and record a real behavior-assertion red result.\n',
+  ],
+  [
+    'example',
+    'Usage: pnpm ignite example removal-plan tasks\nShow the inventory needed to remove template Tasks safely.\n',
+  ],
+])
+
+function printHelp(target = []) {
+  const key = target.join(' ')
+  process.stdout.write(commandHelp.get(key) || commandHelp.get(target[0]) || generalHelp)
+}
+
 function checkRuntime() {
   if (process.env.IGNITE_SKIP_RUNTIME_CHECK === 'true') return
   const result = spawnSync(process.execPath, ['scripts/runtime-doctor.mjs'], {
@@ -549,6 +637,14 @@ function commandNext(options) {
 }
 
 export async function main(argv = process.argv.slice(2)) {
+  const requestsHelp = argv[0] === 'help' || argv.includes('--help') || argv.includes('-h')
+  if (requestsHelp) {
+    const target = argv
+      .filter((argument) => argument !== '--help' && argument !== '-h')
+      .slice(argv[0] === 'help' ? 1 : 0)
+    printHelp(target)
+    return
+  }
   const command = argv[0]
   const hasSubcommand = ['plan', 'run', 'release', 'task', 'example', 'tdd'].includes(command)
   const subcommand = hasSubcommand ? argv[1] : null
@@ -598,13 +694,7 @@ export async function main(argv = process.argv.slice(2)) {
   if (command === 'release' && subcommand === 'verify')
     return commandReleaseVerify(positionals, options)
   if (command === 'tdd' && subcommand === 'red') return commandTddRed(options)
-  throw new Error(
-    'commands: validate [--ci], status [--write|--json], plan validate [id], ' +
-      'plan set-status <id> <status>, check --plan <id> [--level auto|dev|integration|release], ' +
-      'next --plan <id> [--verify-remote] [--verbose], run status [run-id] [--verbose], ' +
-      'run cancel <run-id>, release status [release-id] [--verbose], release verify <release-id> --plan <done-plan-id>, adopt-history [--apply], ' +
-      'task set-status <plan-id> <task-id> <todo|doing|done>, tdd red --plan <id> --ac <AC-id>, plan refresh <id>, example removal-plan tasks',
-  )
+  throw new Error('Unknown command. Run pnpm ignite --help to see valid commands.')
 }
 
 export function runMain() {

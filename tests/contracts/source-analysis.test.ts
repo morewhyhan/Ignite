@@ -58,6 +58,9 @@ it('[AC-TEST-001] checks the target behavior', () => expect(result).toBe('expect
 `
     const original = tddTestFingerprint(source, 'AC-TEST-001')
     expect(original).toMatchObject({ schema: 2, test_scope: 'acceptance-case' })
+    expect(tddTestFingerprint(source, 'AC-TEST-001', '[AC-TEST-001]')?.test_sha256).toBe(
+      original?.test_sha256,
+    )
     expect(original?.test_sha256).toBe(
       tddTestFingerprint(
         `${source}it('[AC-TEST-002] checks a sibling', () => expect(true).toBe(true))\n`,

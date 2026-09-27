@@ -168,7 +168,9 @@ export function acceptanceTestSource(content, acceptanceId, expectedTitle = null
         if (
           (ts.isStringLiteral(title) || ts.isNoSubstitutionTemplateLiteral(title)) &&
           title.text.includes(`[${acceptanceId}]`) &&
-          (expectedTitle === null || title.text === expectedTitle) &&
+          (expectedTitle === null ||
+            expectedTitle === `[${acceptanceId}]` ||
+            title.text === expectedTitle) &&
           hasTestBody(callback)
         ) {
           selected = node.getText(file)

@@ -26,7 +26,7 @@ Plan 的 `data_contract` 记录业务数据归属、访问依据、迁移影响�
 
 每条 AC 的 `tests` 保持可读路径；`required_layers` 声明验收层，`checks` 将具体用例标为 unit / database / browser / external。Plan integration 执行自己映射的所有层级，Release 则在最终组合上运行生产构建和全量浏览器回归。真实数据库和外部服务仍需各自的隔离边界，mock 不能冒充这些层级。
 
-新 Plan 的 TDD 红灯由 `pnpm ignite tdd red --plan <ID> --ac <AC-ID>` 运行。Plan、Feature 和行为测试必须先提交；runner 只接受可识别的行为断言失败，不接受模块缺失、浏览器启动失败、脚手架 `throw` 或 `expect.fail`。新 schema 2 记录保存在 `docs/others/evidence/tdd/<plan-id>/`，保存 AC、测试路径、红灯 commit、`acceptance-case` 范围和对应活动测试用例的哈希。准出时比较同一 AC 用例在红灯 commit 与最终受测版本中的代码；同文件兄弟用例的增改不使证据失效，目标用例发生变化则必须重验。历史 schema 1 记录仍校验红灯提交上的整文件哈希，并按 AC 比对红灯与最终版本中的目标用例，避免破坏已归档证据。
+新 Plan 的 TDD 红灯由 `pnpm ignite tdd red --plan <ID> --ac <AC-ID>` 运行。Plan、Feature 和行为测试必须先提交；runner 只接受可识别的行为断言失败，不接受模块缺失、浏览器启动失败、脚手架 `throw` 或 `expect.fail`。新 schema 2 记录保存在 `docs/others/evidence/tdd/<plan-id>/`，保存 AC、测试路径、红灯 commit、`acceptance-case` 范围和对应活动测试用例的哈希。准出时比较同一 AC 用例在红灯 commit 与最终受测版本中的代码；同文件兄弟用例的增改不使证据失效，目标用例发生变化则必须重验。历史 schema 1 记录仍校验红灯提交上的整文件哈希，并按 AC 比对红灯与最终版本中的目标用例；历史测试引用若只保存 `[AC-ID]`，则按该标记识别活动用例，避免破坏已归档证据。
 
 测试/浏览器 reporter 记录实际匹配的 AC、层级、执行数和结果。源码 mock 检查只是静态防错，不证明任意间接 helper 的语义；关键用户结果仍需审阅具体断言。
 

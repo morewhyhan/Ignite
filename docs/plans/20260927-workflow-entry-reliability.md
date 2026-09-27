@@ -287,6 +287,11 @@
       "acceptance_id": "AC-EXECUTION-020",
       "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-020] gives repository-wide governance tests an explicit runtime budget",
       "run_id": "tdd-20260927072515-a79bf5"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-021",
+      "test": "tests/contracts/template-runtime.test.ts::[AC-EXECUTION-021] directs new-history copies to archive inherited Plans before baseline verification",
+      "run_id": "tdd-20260927092711-c95f59"
     }
   ],
   "required_evidence": ["check-integration"],

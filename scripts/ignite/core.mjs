@@ -117,7 +117,9 @@ export function runGit(
 }
 
 export function gitLines(args) {
-  return runGit(args, { allowFailure: true }).stdout.split(/\r?\n/).filter(Boolean)
+  return runGit(['-c', 'core.quotepath=false', ...args], { allowFailure: true })
+    .stdout.split(/\r?\n/)
+    .filter(Boolean)
 }
 
 export function currentCommit() {

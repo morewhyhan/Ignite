@@ -40,6 +40,8 @@ Plan 的 `data_contract` 记录业务数据归属、访问依据、迁移影响�
 
 首次查看仓库状态使用精简的 `pnpm ignite status`；完整 `--json` 仅用于需要机器解析所有 Plan/Release 契约的场景。`pnpm ignite --help` 与 `pnpm ignite <command> --help` 只显示用法，不执行对应命令。模板历史归档会同步改写仍存文档中指向归档记录的本地链接，并在归档过程异常时恢复链接与原记录。模块与存量改动脚手架先暂存整个文件集合，再提交到目标路径；遇到提交错误会回滚本轮新增/替换文件。占位失败检测只检查与 AC 对应的活动测试体，不扫描整份测试文件，避免普通代码样例误拦合法验收。
 
+Ignite 读取 Git 路径清单时对单条 Git 命令设置 `core.quotepath=false`，让 Unicode 文件名以原文参与 Plan `write_scope` 与证据路径比对；这只影响该次 Git 调用，不修改用户全局配置。
+
 TDD runner 将当前 AC 作为显式过滤条件传给 acceptance reporter。Vitest/Playwright 在聚焦红灯时被筛掉的其他 AC 不参与本次判定；正常集成和 CI 仍检查本次运行映射到的全部 AC。
 
 迁移可靠性仍使用隔离 SQLite 和独立历史基线；Tasks 删除方案可由 `ignite example removal-plan tasks` 盘点。历史 migration 保留，模板的示例数据/任务不得被误认为衍生项目数据。

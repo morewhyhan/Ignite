@@ -42,7 +42,7 @@ describe('documentation traceability', () => {
     expect(validateTraceability()).toEqual([])
     expect(validateAllPlans()).toEqual([])
     expect(await validateDesignArtifacts()).toEqual([])
-  })
+  }, 90_000)
 
   it('keeps AI bridges and runtime truth connected to their single sources', () => {
     expect(validateAgentBridges()).toEqual([])

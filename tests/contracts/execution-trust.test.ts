@@ -269,7 +269,7 @@ describe('AI execution trust', () => {
     )
 
     expect(versionFailures).toEqual([])
-  })
+  }, 90_000)
 
   it('[AC-TRUST-011] never recommends ready when the linked Release contract is invalid', () => {
     const fixture = makeFixture()

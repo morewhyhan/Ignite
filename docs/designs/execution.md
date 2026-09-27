@@ -42,6 +42,8 @@ Plan 的 `data_contract` 记录业务数据归属、访问依据、迁移影响�
 
 Ignite 读取 Git 路径清单时对单条 Git 命令设置 `core.quotepath=false`，让 Unicode 文件名以原文参与 Plan `write_scope` 与证据路径比对；这只影响该次 Git 调用，不修改用户全局配置。
 
+在支持的 WSL 环境中，全仓规格追踪和 Plan 结构校验属于重型验收；对应测试对完整校验设置 90 秒上限，保留原断言，避免在 30 秒默认值处误报超时。
+
 TDD runner 将当前 AC 作为显式过滤条件传给 acceptance reporter。Vitest/Playwright 在聚焦红灯时被筛掉的其他 AC 不参与本次判定；正常集成和 CI 仍检查本次运行映射到的全部 AC。
 
 迁移可靠性仍使用隔离 SQLite 和独立历史基线；Tasks 删除方案可由 `ignite example removal-plan tasks` 盘点。历史 migration 保留，模板的示例数据/任务不得被误认为衍生项目数据。

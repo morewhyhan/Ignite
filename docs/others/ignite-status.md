@@ -2,11 +2,11 @@
 
 模板状态：`template-baseline`
 输入指纹：`bd43ff9b09f9`
-当前 Plan：1；结构化历史：4；未迁移历史：0
+当前 Plan：0；结构化历史：5；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-1790466964730388559` · `verifying` · `workflow-entry-reliability-v1`
+- 无。
 
 ## 发布范围
 
@@ -30,8 +30,8 @@
   - Plan：`IGT-1790466964730388559`
   - 缺少证据：无
   - 最终版本验收：missing
-  - 下一步：pnpm ignite next --plan IGT-1790466964730388559
-  - 未完成原始目标：GOAL-001 审计并完善模板从首次采用到交付的 AI 开发执行流程，修复已证实的采用与执行可靠性问题
+  - 下一步：pnpm ignite release verify workflow-entry-reliability-v1 --plan IGT-1790466964730388559
+  - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题
 

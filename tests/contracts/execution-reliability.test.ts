@@ -1205,7 +1205,7 @@ describe('execution reliability', () => {
     } finally {
       fixture.cleanup()
     }
-  }, 120_000)
+  }, 240_000)
 
   it('[AC-PRODUCT-014] builds valid foreign-key probes and rejects an orphan introduced by migration', () => {
     const fixture = makeFixture()

@@ -49,8 +49,9 @@ it('[AC-EXECUTION-023] accepts archived baseline history after adoption', () => 
       mkdirSync(dirname(archivePath), { recursive: true })
       writeFileSync(archivePath, 'archived baseline evidence\n')
     }
+    const indexPath = join(fixture, historyRoot, 'index.json')
     writeFileSync(
-      join(fixture, historyRoot, 'index.json'),
+      indexPath,
       `${JSON.stringify(
         {
           schema: 1,
@@ -64,6 +65,11 @@ it('[AC-EXECUTION-023] accepts archived baseline history after adoption', () => 
     )
 
     expect(() => assertTemplateBaselineEvidence(fixture)).not.toThrow()
+
+    const index = JSON.parse(readFileSync(indexPath, 'utf8')) as { baseline_commit: string }
+    index.baseline_commit = 'b'.repeat(40)
+    writeFileSync(indexPath, `${JSON.stringify(index, null, 2)}\n`)
+    expect(() => assertTemplateBaselineEvidence(fixture)).toThrow(/baseline commit/i)
   } finally {
     rmSync(fixture, { recursive: true, force: true })
   }

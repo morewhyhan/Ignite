@@ -151,17 +151,17 @@
     {
       "id": "T2",
       "title": "为六项缺口补规格与红灯验收",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T3",
       "title": "修复采用引用、CLI 帮助、上下文输出、脚手架回滚、AC 误拦和 Unicode 路径误判",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T4",
       "title": "验证隔离副本的采用/新模块/存量修改/失败恢复并交付审计清单",
-      "status": "todo"
+      "status": "doing"
     }
   ],
   "depends_on": [],
@@ -299,9 +299,9 @@
 
 ## 输入规格
 
-本轮依据 `docs/features/execution.md` 的 REQ/AC-EXECUTION-014–017、`docs/standards/workflow.md`、`docs/standards/adoption.md`、`docs/designs/execution.md`、`scripts/ignite/adoption.mjs`、`scripts/ignite/cli.mjs`、两份 scaffold 脚本及其契约测试。没有跨 Plan 依赖，也不触及业务 API、认证或数据库。
+本轮依据 `docs/features/execution.md` 的 REQ/AC-EXECUTION-014–019、`docs/standards/workflow.md`、`docs/standards/adoption.md`、`docs/designs/execution.md`、Ignite CLI 与其契约测试。没有跨 Plan 依赖，也不触及业务 API、认证或数据库。
 
-## 已关闭问题
+## 未决问题与授权
 
 顶部 `open_questions` 记录未决问题，`authorization.source` 记录实施授权来源。不要把空问题列表当作目标完整性证明。
 
@@ -328,9 +328,9 @@
 状态：`active`（由元数据生成）
 
 - [x] T1 · 核实模板采用、CLI 发现和脚手架失败行为 · done
-- [ ] T2 · 为六项缺口补规格与红灯验收 · doing
-- [ ] T3 · 修复采用引用、CLI 帮助、上下文输出、脚手架回滚、AC 误拦和 Unicode 路径误判 · doing
-- [ ] T4 · 验证隔离副本的采用/新模块/存量修改/失败恢复并交付审计清单 · todo
+- [x] T2 · 为六项缺口补规格与红灯验收 · done
+- [x] T3 · 修复采用引用、CLI 帮助、上下文输出、脚手架回滚、AC 误拦和 Unicode 路径误判 · done
+- [ ] T4 · 验证隔离副本的采用/新模块/存量修改/失败恢复并交付审计清单 · doing
 
 验收缺口：未记录；完成仍须实际证据
 证据：尚无

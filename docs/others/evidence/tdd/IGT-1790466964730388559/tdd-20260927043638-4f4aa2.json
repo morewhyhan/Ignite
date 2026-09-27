@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "run_id": "tdd-20260927043638-4f4aa2",
+  "plan_id": "IGT-1790466964730388559",
+  "acceptance_id": "AC-EXECUTION-019",
+  "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-019] preserves Unicode paths when validating Plan write scope",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "1af9a01611a9248af33d7d4e744980bbd86b4b8a",
+  "test_sha256": "5300a4398bacd108fd850e11a01808c6b86b1087fca5ecbbe62dc04d9a0c5c52",
+  "output_sha256": "594c7a787388b7cfb19bca3826e892c8f8bc91febf2c7bbf5f03824bd94062f8",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/execution-reliability.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-019",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-09-27T04:36:38.835Z",
+  "ended_at": "2026-09-27T04:36:48.642Z",
+  "executor": "ignite-tdd-runner"
+}

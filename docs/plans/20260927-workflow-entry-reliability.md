@@ -235,6 +235,11 @@
       "acceptance_id": "AC-EXECUTION-018",
       "test": "tests/contracts/source-analysis.test.ts::[AC-EXECUTION-018] scopes scaffold detection to the matching active test",
       "run_id": "tdd-20260927020135-d1fb96"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-019",
+      "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-019] preserves Unicode paths when validating Plan write scope",
+      "run_id": "tdd-20260927043638-4f4aa2"
     }
   ],
   "required_evidence": ["check-integration"],

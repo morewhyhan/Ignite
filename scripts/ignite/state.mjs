@@ -1507,6 +1507,28 @@ export function renderStatus({
   const contractFingerprint = computeInputFingerprint({
     metadata: { schema: 0, id: 'status' },
   }).slice(0, 12)
+  const releaseLines = releases.length
+    ? releases.flatMap((release) => [
+        `- \`${release.id}\` · \`${release.status}\``,
+        `  - Plan：${release.plan_ids.map((id) => `\`${id}\``).join('、')}`,
+        `  - 缺少证据：${
+          release.status === 'legacy_unverified'
+            ? '历史证据不参与当前验证'
+            : release.evidence_gaps
+                .map(
+                  (gap) => `\`${gap.plan_id}:${gap.evidence_id}\`（${gap.status}：${gap.reason}）`,
+                )
+                .join('、') || '无'
+        }`,
+        ...(release.verification_contract === 2
+          ? [
+              `  - 最终版本验收：${release.release_evidence?.status || 'missing'}${release.release_evidence?.commit ? `（${release.release_evidence.commit.slice(0, 12)}）` : ''}`,
+              ...(release.next_action ? [`  - 下一步：${release.next_action.command}`] : []),
+            ]
+          : []),
+        `  - 未完成原始目标：${release.outstanding_scope.map((goal) => `${goal.id} ${goal.text}`).join('；') || '无已登记缺口（仍需语义核对）'}`,
+      ])
+    : ['- 无。']
   return [
     '# Ignite 状态摘要',
     '',
@@ -1525,24 +1547,7 @@ export function renderStatus({
     '',
     '## 发布范围',
     '',
-    ...releases.flatMap((release) => [
-      `- \`${release.id}\` · \`${release.status}\``,
-      `  - Plan：${release.plan_ids.map((id) => `\`${id}\``).join('、')}`,
-      `  - 缺少证据：${
-        release.status === 'legacy_unverified'
-          ? '历史证据不参与当前验证'
-          : release.evidence_gaps
-              .map((gap) => `\`${gap.plan_id}:${gap.evidence_id}\`（${gap.status}：${gap.reason}）`)
-              .join('、') || '无'
-      }`,
-      ...(release.verification_contract === 2
-        ? [
-            `  - 最终版本验收：${release.release_evidence?.status || 'missing'}${release.release_evidence?.commit ? `（${release.release_evidence.commit.slice(0, 12)}）` : ''}`,
-            ...(release.next_action ? [`  - 下一步：${release.next_action.command}`] : []),
-          ]
-        : []),
-      `  - 未完成原始目标：${release.outstanding_scope.map((goal) => `${goal.id} ${goal.text}`).join('；') || '无已登记缺口（仍需语义核对）'}`,
-    ]),
+    ...releaseLines,
     '',
     '## 结构问题',
     '',

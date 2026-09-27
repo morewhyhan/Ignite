@@ -260,6 +260,11 @@
       "acceptance_id": "AC-EXECUTION-019",
       "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-019] preserves Unicode paths when validating Plan write scope",
       "run_id": "tdd-20260927053745-a1b344"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-020",
+      "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-020] gives repository-wide governance tests an explicit runtime budget",
+      "run_id": "tdd-20260927072515-a79bf5"
     }
   ],
   "required_evidence": ["check-integration"],

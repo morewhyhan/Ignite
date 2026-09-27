@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "run_id": "tdd-20260927072515-a79bf5",
+  "plan_id": "IGT-1790466964730388559",
+  "acceptance_id": "AC-EXECUTION-020",
+  "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-020] gives repository-wide governance tests an explicit runtime budget",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "734e873980d02f62b29f6f1ee550d3cec41c3f99",
+  "test_sha256": "0a16a20444f0133c6c7aa1e506f927f421d98722d47cf219b841e5ef6daa0296",
+  "output_sha256": "54c8de5f195c33e8fdf65058ac1299b4f5fa2578d269201b833144f72712f984",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/execution-reliability.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-020",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-09-27T07:25:15.174Z",
+  "ended_at": "2026-09-27T07:25:21.176Z",
+  "executor": "ignite-tdd-runner"
+}

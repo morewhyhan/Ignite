@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "run_id": "tdd-20260927205238-e360b4",
+  "plan_id": "IGT-1790466964730388559",
+  "acceptance_id": "AC-EXECUTION-026",
+  "test": "tests/contracts/source-analysis.test.ts::[AC-EXECUTION-026] fingerprints one acceptance case independently of sibling cases",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "73e35c909a235ed80ebe511d3dd38720e3d794d9",
+  "test_sha256": "570919357f087346fd64c89204c42eefa9a246177db3f05b0ef04bce1daff79d",
+  "output_sha256": "b5861cb897b5f4560d69d6e65acfa6ed8ed6afff5751125c8c7ffccc6bcbda29",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/source-analysis.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-026",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-09-27T20:52:38.699Z",
+  "ended_at": "2026-09-27T20:52:45.287Z",
+  "executor": "ignite-tdd-runner"
+}

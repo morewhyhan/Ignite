@@ -420,6 +420,11 @@
       "acceptance_id": "AC-EXECUTION-025",
       "test": "tests/contracts/workflow-entry.test.ts::[AC-EXECUTION-025] installs dependencies before new-history adoption commands",
       "run_id": "tdd-20260927193841-e9c9fd"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-026",
+      "test": "tests/contracts/source-analysis.test.ts::[AC-EXECUTION-026] fingerprints one acceptance case independently of sibling cases",
+      "run_id": "tdd-20260927205238-e360b4"
     }
   ],
   "required_evidence": ["check-integration"],

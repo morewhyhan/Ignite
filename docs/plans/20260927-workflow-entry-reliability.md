@@ -402,7 +402,7 @@
   "evidence": [
     {
       "id": "check-integration",
-      "run_id": "run-20260927183514-02a7ea"
+      "run_id": "run-20260927201227-38f71f"
     }
   ],
   "blocker": null,
@@ -502,7 +502,7 @@
 - [x] T5 · 修正并验证新历史采用的依赖安装顺序 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：check-integration / run-20260927183514-02a7ea
+证据：check-integration / run-20260927201227-38f71f
 <!-- /ignite-progress -->
 
 ## 准出条件

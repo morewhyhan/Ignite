@@ -1,0 +1,189 @@
+{
+  "schema": 2,
+  "run_id": "run-20260927183514-02a7ea",
+  "check_policy_version": 6,
+  "plan_id": "IGT-1790466964730388559",
+  "evidence_id": "check-integration",
+  "level": "integration",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-09-27T18:35:15.650Z",
+  "ended_at": "2026-09-27T18:43:20.760Z",
+  "commit": "5468b6957e2878e91ba02661ae8d94f9064bc02b",
+  "input_fingerprint": "ea7566aee43501e65b55af113b06992f058e853dc3bc9fe38565ad0c14be4903",
+  "environment_fingerprint": "a9a342b68b20ef1291357098ab140bd321ffbd348aecc3a91a312972942e8441",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "4eddc0a12caee76baf5a0488a7c13e5a2ebd80ac118aec7b1f0b116d997400ce",
+  "acceptance_results": [
+    {
+      "plan_id": "IGT-1790466964730388559",
+      "criterion": "AC-EXECUTION-014",
+      "test": "tests/contracts/workflow-entry.test.ts::[AC-EXECUTION-014] rewrites links to archived Plans so adopted docs remain valid",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1790466964730388559",
+      "criterion": "AC-EXECUTION-015",
+      "test": "tests/contracts/ignite-cli.test.ts::[AC-EXECUTION-015] prints help without executing the requested command",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1790466964730388559",
+      "criterion": "AC-EXECUTION-016",
+      "test": "tests/contracts/workflow-entry.test.ts::[AC-EXECUTION-016] keeps first-entry status guidance concise",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1790466964730388559",
+      "criterion": "AC-EXECUTION-017",
+      "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-017] rolls back a scaffold when final file promotion fails",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1790466964730388559",
+      "criterion": "AC-EXECUTION-018",
+      "test": "tests/contracts/source-analysis.test.ts::[AC-EXECUTION-018] scopes scaffold detection to the matching active test",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1790466964730388559",
+      "criterion": "AC-EXECUTION-019",
+      "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-019] preserves Unicode paths when validating Plan write scope",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1790466964730388559",
+      "criterion": "AC-EXECUTION-020",
+      "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-020] gives repository-wide governance tests an explicit runtime budget",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1790466964730388559",
+      "criterion": "AC-EXECUTION-021",
+      "test": "tests/contracts/template-runtime.test.ts::[AC-EXECUTION-021] directs new-history copies to archive inherited Plans before baseline verification",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1790466964730388559",
+      "criterion": "AC-EXECUTION-022",
+      "test": "tests/contracts/ignite-cli.test.ts::[AC-EXECUTION-022] generates Prettier-compatible status when no Release exists",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1790466964730388559",
+      "criterion": "AC-EXECUTION-023",
+      "test": "tests/contracts/template-history.test.ts::[AC-EXECUTION-023] accepts archived baseline history after adoption",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1790466964730388559",
+      "criterion": "AC-EXECUTION-024",
+      "test": "tests/contracts/execution-timeouts.test.ts::[AC-EXECUTION-024] budgets real Prisma migration verification for a slow full suite",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-900",
+      "criterion": "AC-TEST-001",
+      "test": "tests/e2e/sample.spec.ts",
+      "layer": "browser",
+      "passed": false,
+      "cases": 1
+    }
+  ],
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "8a4b29a56ccbe0b2e967fe9a0f7f44600fbaef27"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 663
+    },
+    {
+      "label": "template-doctor",
+      "command": ["corepack", "pnpm", "template:doctor"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 864
+    },
+    {
+      "label": "governance",
+      "command": ["corepack", "pnpm", "ignite", "validate"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 39164
+    },
+    {
+      "label": "docs",
+      "command": ["corepack", "pnpm", "docs:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 37551
+    },
+    {
+      "label": "typecheck",
+      "command": ["corepack", "pnpm", "typecheck"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 47799
+    },
+    {
+      "label": "lint",
+      "command": ["corepack", "pnpm", "lint"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 54248
+    },
+    {
+      "label": "format",
+      "command": ["corepack", "pnpm", "format:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 7679
+    },
+    {
+      "label": "tests",
+      "command": ["corepack", "pnpm", "test"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 286290
+    }
+  ],
+  "log_sha256": "45f5a6ce6e5a5f59878cdc8ae09a6eb1c587445df1d05056ae696ec1c73b4a6f",
+  "execution_source": "ignite-runner-local"
+}

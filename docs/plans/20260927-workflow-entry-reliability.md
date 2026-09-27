@@ -251,7 +251,7 @@
     {
       "id": "T3",
       "title": "修复历史归档提示、状态格式、测试夹具依赖、CLI 帮助、上下文成本、脚手架回滚、AC/Unicode 误判及全量测试超时",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T4",
@@ -373,7 +373,7 @@
   "evidence": [
     {
       "id": "check-integration",
-      "run_id": "run-20260927181501-7e405d"
+      "run_id": "run-20260927183514-02a7ea"
     }
   ],
   "blocker": null,
@@ -466,11 +466,11 @@
 
 - [x] T1 · 核实模板采用、CLI 发现和脚手架失败行为 · done
 - [x] T2 · 为十一项缺口补规格与红灯验收 · done
-- [ ] T3 · 修复历史归档提示、状态格式、测试夹具依赖、CLI 帮助、上下文成本、脚手架回滚、AC/Unicode 误判及全量测试超时 · doing
+- [x] T3 · 修复历史归档提示、状态格式、测试夹具依赖、CLI 帮助、上下文成本、脚手架回滚、AC/Unicode 误判及全量测试超时 · done
 - [ ] T4 · 验证隔离副本的采用/新模块/存量修改/失败恢复并交付审计清单 · doing
 
 验收缺口：未记录；完成仍须实际证据
-证据：check-integration / run-20260927181501-7e405d
+证据：check-integration / run-20260927183514-02a7ea
 <!-- /ignite-progress -->
 
 ## 准出条件

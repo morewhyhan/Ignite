@@ -48,6 +48,10 @@
     {
       "text": "真实 Prisma 升级验收有足够的隔离运行预算",
       "requirements": ["REQ-EXECUTION-024"]
+    },
+    {
+      "text": "新历史模板副本先安装依赖再运行采用 CLI，文档步骤可执行",
+      "requirements": ["REQ-EXECUTION-025"]
     }
   ],
   "constraints": [
@@ -62,7 +66,7 @@
     "不自动归档模板历史；先展示预览，由采用者明确执行 apply"
   ],
   "authorization": {
-    "source": "用户授权综合审查并整改当前项目中妨碍 AI 开发流程或偏离所给工程方法的问题。独立模板副本实测确认历史 Plan 归档后文档门禁失败；Unicode 路径被 Git 默认转义后造成 write_scope 误判；两次集成运行均发现全仓治理测试超过 30 秒默认测试上限；新 Git 历史下基线验证会因继承记录引用不存在提交而报出数十项错误；继续按新历史采用路径验收时发现空 Release 状态摘要触发格式门禁失败，并发现三项治理测试硬编码依赖已归档的当前 Plan/Release；完整并行集成还复现真实 Prisma 升级用例超过 120 秒固定上限。"
+    "source": "用户授权综合审查并整改当前项目中妨碍 AI 开发流程或偏离所给工程方法的问题。独立模板副本实测确认历史 Plan 归档后文档门禁失败；Unicode 路径被 Git 默认转义后造成 write_scope 误判；两次集成运行均发现全仓治理测试超过 30 秒默认测试上限；新 Git 历史下基线验证会因继承记录引用不存在提交而报出数十项错误；继续按新历史采用路径验收时发现空 Release 状态摘要触发格式门禁失败，并发现三项治理测试硬编码依赖已归档的当前 Plan/Release；完整并行集成还复现真实 Prisma 升级用例超过 120 秒固定上限。首次采用实测另发现历史归档 CLI 在依赖安装前无法解析 TypeScript 包。"
   },
   "deliverables": [
     "历史归档后的可用文档引用",
@@ -73,7 +77,8 @@
     "新历史采用前置诊断与无歧义的基线验证顺序",
     "无 Release 的新项目也能生成格式合规的状态摘要",
     "模板治理测试不依赖当前目录保留 Ignite 自身的历史 Plan/Release",
-    "真实 Prisma 升级验收具有隔离的运行时间预算"
+    "真实 Prisma 升级验收具有隔离的运行时间预算",
+    "新历史采用指引先安装运行 CLI 所需依赖"
   ],
   "remaining_work": [],
   "change_type": "存量改动",
@@ -89,7 +94,8 @@
     "REQ-EXECUTION-021",
     "REQ-EXECUTION-022",
     "REQ-EXECUTION-023",
-    "REQ-EXECUTION-024"
+    "REQ-EXECUTION-024",
+    "REQ-EXECUTION-025"
   ],
   "acceptance": [
     {
@@ -234,6 +240,19 @@
           "layer": "unit"
         }
       ]
+    },
+    {
+      "id": "AC-EXECUTION-025",
+      "tests": [
+        "tests/contracts/workflow-entry.test.ts::[AC-EXECUTION-025] installs dependencies before new-history adoption commands"
+      ],
+      "required_layers": ["unit"],
+      "checks": [
+        {
+          "test": "tests/contracts/workflow-entry.test.ts::[AC-EXECUTION-025] installs dependencies before new-history adoption commands",
+          "layer": "unit"
+        }
+      ]
     }
   ],
   "verification_requirements": ["unit"],
@@ -257,6 +276,11 @@
       "id": "T4",
       "title": "验证隔离副本的采用/新模块/存量修改/失败恢复并交付审计清单",
       "status": "doing"
+    },
+    {
+      "id": "T5",
+      "title": "修正并验证新历史采用的依赖安装顺序",
+      "status": "todo"
     }
   ],
   "depends_on": [],
@@ -379,7 +403,7 @@
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
-  "updated_at": "2026-09-27"
+  "updated_at": "2026-09-28"
 }
 -->
 
@@ -436,7 +460,7 @@
 
 ## 输入规格
 
-本轮依据 `docs/features/execution.md` 的 REQ/AC-EXECUTION-014–022、`docs/standards/workflow.md`、`docs/standards/adoption.md`、`docs/designs/execution.md`、Ignite CLI 与其契约测试。没有跨 Plan 依赖，也不触及业务 API、认证或数据库。
+本轮依据 `docs/features/execution.md` 的 REQ/AC-EXECUTION-014–025、`docs/standards/workflow.md`、`docs/standards/adoption.md`、`docs/designs/execution.md`、Ignite CLI 与其契约测试。没有跨 Plan 依赖，也不触及业务 API、认证或数据库。
 
 ## 未决问题与授权
 

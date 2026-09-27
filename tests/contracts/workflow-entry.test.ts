@@ -52,4 +52,21 @@ describe('first-entry workflow', () => {
     expect(onboarding).toMatch(/只有需要[^\n]*才[^\n]*`pnpm ignite status --json`/)
     expect(onboarding).not.toMatch(/先运行 `pnpm ignite status --json`/)
   })
+
+  it('[AC-EXECUTION-025] installs dependencies before new-history adoption commands', () => {
+    const adoption = read(repositoryRoot, 'docs/standards/adoption.md')
+    const steps = [
+      'corepack pnpm install --frozen-lockfile',
+      'pnpm runtime:check',
+      'pnpm template:doctor',
+      'pnpm ignite adopt-history` 预览',
+      'pnpm ignite adopt-history --apply',
+      'pnpm db:setup',
+      'pnpm verify',
+      'pnpm test:e2e:production',
+    ].map((step) => adoption.indexOf(step))
+
+    expect(steps.every((step) => step >= 0)).toBe(true)
+    expect(steps).toEqual([...steps].sort((left, right) => left - right))
+  })
 })

@@ -35,6 +35,7 @@
 - R22（REQ-EXECUTION-022）：没有 Release 的新项目生成状态摘要时，必须保持仓库 Prettier 格式，不能让模板基线检查因空白格式失败。
 - R23（REQ-EXECUTION-023）：模板自身的治理测试不得依赖示例历史 Plan/Release 仍留在当前目录；新历史采用并归档后，基线测试仍须可运行且证据可追溯。
 - R24（REQ-EXECUTION-024）：真实 Prisma 迁移升级验收必须为完整验证环境预留经实测的单项运行时间，不得因固定短超时中断，也不得降低迁移断言或全局放宽所有测试。
+- R25（REQ-EXECUTION-025）：新历史模板副本必须先按锁文件安装项目依赖，再运行依赖这些包的诊断与历史归档 CLI；采用文档中的命令顺序必须能在干净副本实际执行。
 
 ## 验收标准
 
@@ -62,6 +63,7 @@
 - AC-EXECUTION-022（REQ-EXECUTION-022）：Given 新项目归档完历史且当前没有 Release，When 运行 `pnpm ignite status --write`，Then `docs/others/ignite-status.md` 仍符合仓库 Prettier 格式，基线 `pnpm verify` 不会被空 Release 区段的多余空行拦截。
 - AC-EXECUTION-023（REQ-EXECUTION-023）：Given 模板副本已将继承的 Plan、Release 与运行证据归档且当前目录为空，When 执行模板治理测试，Then 测试使用自己的夹具或校验归档索引，不要求被归档路径、ID 仍可从 `docs/plans/` 读取；新历史副本完整 `pnpm verify` 通过。
 - AC-EXECUTION-024（REQ-EXECUTION-024）：Given WSL 中真实 Prisma 升级验收需启动多个隔离迁移子进程，When 完整测试套件运行，Then 该用例具有至少 240 秒的单项预算，且全局默认超时与其它测试预算不被放宽。
+- AC-EXECUTION-025（REQ-EXECUTION-025）：Given 新历史副本尚无 `node_modules`，When 采用者按 `docs/standards/adoption.md` 执行首次采用步骤，Then 锁文件依赖安装必须先于 `template:doctor` 与 `adopt-history` 预览/归档，命令顺序可执行且归档仍先于基线验收。
 
 ## 验收边界
 

@@ -21,5 +21,6 @@
 | AC-EXECUTION-022 | 没有 Release 的新项目生成格式正确的状态摘要                | `tests/contracts/ignite-cli.test.ts`            |
 | AC-EXECUTION-023 | 模板归档后治理测试使用夹具并验证历史索引                   | `tests/contracts/template-history.test.ts`      |
 | AC-EXECUTION-024 | 真实 Prisma 升级验收有隔离的充分运行预算                   | `tests/contracts/execution-timeouts.test.ts`    |
+| AC-EXECUTION-025 | 新历史副本先安装依赖，再运行诊断和归档 CLI                 | `tests/contracts/workflow-entry.test.ts`        |
 
 测试资产只声明要验证的行为，不记录手工通过状态；结果以 Plan 绑定的运行证据为准。

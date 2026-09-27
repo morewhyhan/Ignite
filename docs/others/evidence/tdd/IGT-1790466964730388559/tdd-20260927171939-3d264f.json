@@ -1,14 +1,14 @@
 {
   "schema": 1,
-  "run_id": "tdd-20260927164758-4dd48b",
+  "run_id": "tdd-20260927171939-3d264f",
   "plan_id": "IGT-1790466964730388559",
   "acceptance_id": "AC-EXECUTION-023",
   "test": "tests/contracts/template-history.test.ts::[AC-EXECUTION-023] accepts archived baseline history after adoption",
   "layer": "unit",
   "status": "assertion-failed",
-  "red_commit": "1d06424ba1bcbbd091963517c9dd63e817242c5a",
-  "test_sha256": "203fa08e78785ff24041a0fbd4834dcbfca77d553ff775c29474be77fb473f5f",
-  "output_sha256": "24d18cbb73dbe7ed60dd0b3339c23b0728a5ec956f40e73fd133c9f23137710f",
+  "red_commit": "3f2a28c3e3d3d9e4314a9d0cecbe02174edf6689",
+  "test_sha256": "3e9436ab0fca0d422be24efde89569e2a4ddd61fcfb61df43157439868bd1bbb",
+  "output_sha256": "ebf1e91d8eea56f773a94ee0187e575c3a5e8f197c69fff14a2314f97a078bc1",
   "command": [
     "corepack",
     "pnpm",
@@ -21,7 +21,7 @@
     "--reporter=json",
     "--outputFile=<temporary-json-report>"
   ],
-  "started_at": "2026-09-27T16:47:58.714Z",
-  "ended_at": "2026-09-27T16:48:05.461Z",
+  "started_at": "2026-09-27T17:19:39.102Z",
+  "ended_at": "2026-09-27T17:19:50.355Z",
   "executor": "ignite-tdd-runner"
 }

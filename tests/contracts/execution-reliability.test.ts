@@ -28,10 +28,11 @@ describe('execution reliability', () => {
   it('[AC-EXECUTION-019] preserves Unicode paths when validating Plan write scope', () => {
     const fixture = makeFixture()
     try {
+      const planBaseCommit = git(fixture.root, 'rev-parse', 'HEAD')
       write(
         fixture.root,
         'docs/plans/fixture.md',
-        planContent(fixture.baseCommit, {
+        planContent(planBaseCommit, {
           contract_version: 2,
           goals: [{ text: 'Keep Unicode file paths intact', requirements: ['REQ-TEST-001'] }],
           constraints: [],

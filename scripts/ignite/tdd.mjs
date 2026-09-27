@@ -61,6 +61,11 @@ function matchingPlaywrightCases(report, acceptanceId) {
   return cases
 }
 
+/**
+ * @param {string} source
+ * @param {string} acceptanceId
+ * @param {string | null} [expectedTitle=null]
+ */
 export function tddTestFingerprint(source, acceptanceId, expectedTitle = null) {
   const selectedTest = acceptanceTestSource(source, acceptanceId, expectedTitle)
   if (!selectedTest) return null

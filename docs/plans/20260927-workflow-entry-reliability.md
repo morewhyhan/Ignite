@@ -373,7 +373,7 @@
   "evidence": [
     {
       "id": "check-integration",
-      "run_id": "run-20260927074025-cf8440"
+      "run_id": "run-20260927181501-7e405d"
     }
   ],
   "blocker": null,
@@ -470,7 +470,7 @@
 - [ ] T4 · 验证隔离副本的采用/新模块/存量修改/失败恢复并交付审计清单 · doing
 
 验收缺口：未记录；完成仍须实际证据
-证据：check-integration / run-20260927074025-cf8440
+证据：check-integration / run-20260927181501-7e405d
 <!-- /ignite-progress -->
 
 ## 准出条件

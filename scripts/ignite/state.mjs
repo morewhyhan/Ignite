@@ -165,7 +165,16 @@ export function listReleases() {
   return listReleaseFiles().map((path) => ({ path, value: readJson(path) }))
 }
 
-export function listDurableRuns() {
+export function listDurableRuns(commit = null) {
+  if (commit) {
+    return runGit(['ls-tree', '-r', '--name-only', commit, '--', 'docs/others/evidence/runs/'])
+      .stdout.split(/\r?\n/)
+      .filter((path) => path.endsWith('.json'))
+      .map((path) => ({
+        path: join(repositoryRoot, path),
+        value: JSON.parse(readRepositoryText(path, commit)),
+      }))
+  }
   if (!existsSync(durableRunsDirectory)) return []
   return readdirSync(durableRunsDirectory)
     .filter((name) => name.endsWith('.json'))
@@ -183,7 +192,7 @@ export function findPlan(identifier) {
   throw new Error(`structured plan not found: ${identifier}`)
 }
 
-function readRepositoryText(path, commit = null) {
+export function readRepositoryText(path, commit = null) {
   if (commit) {
     const result = runGit(['show', `${commit}:${path}`], {
       allowFailure: true,
@@ -267,7 +276,10 @@ function validateLegacyPlan(plan) {
   return failures
 }
 
-export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence = false } = {}) {
+export function validatePlan(
+  plan,
+  { allowLegacy = true, requireCurrentEvidence = false, evidenceCommit = null } = {},
+) {
   if (!plan.metadata) {
     return allowLegacy ? ['legacy plan without structured metadata'] : ['missing metadata block']
   }
@@ -282,7 +294,9 @@ export function validatePlan(plan, { allowLegacy = true, requireCurrentEvidence 
       ? value.integrated_commit
       : null
   const registry = specificationRegistry(historicalCommit)
-  const manifests = new Map(listDurableRuns().map((item) => [item.value.run_id, item.value]))
+  const manifests = new Map(
+    listDurableRuns(evidenceCommit).map((item) => [item.value.run_id, item.value]),
+  )
   failures.push(
     ...validateExecutionContract(plan, (path) => readRepositoryText(path, historicalCommit)),
   )

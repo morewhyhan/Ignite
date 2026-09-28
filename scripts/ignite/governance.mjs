@@ -5,6 +5,7 @@ import { join } from 'node:path'
 import {
   changedFilesSince,
   gitCommitExists,
+  gitLines,
   isAncestor,
   relativePath,
   repositoryRoot,
@@ -13,11 +14,14 @@ import {
   walkFiles,
 } from './core.mjs'
 import {
+  extractPlanMetadata,
   listDurableRuns,
   listPlans,
+  readRepositoryText,
   renderStatus,
   specificationRegistry,
   templateMode,
+  validatePlan,
 } from './state.mjs'
 import { acceptanceTestTitles } from './source-analysis.mjs'
 import { minimumLevel } from './checks.mjs'
@@ -296,6 +300,71 @@ export function validateGeneratedStatus() {
   return readFileSync(path, 'utf8') === renderStatus() ? [] : ['generated status file is stale']
 }
 
+// Template maintenance receipts can leave the working tree after delivery.
+// Recover only the latest deletion in this CI range, and validate the original
+// contract and receipts at that snapshot before using it to cover source files.
+function retiredTemplatePlans(base, failures) {
+  if (templateMode() !== 'template-baseline') return []
+  const paths = new Set(
+    gitLines([
+      'log',
+      '--format=',
+      '--name-only',
+      '--diff-filter=D',
+      `${base}..HEAD`,
+      '--',
+      'docs/plans/',
+    ]),
+  )
+  const candidates = []
+  for (const path of paths) {
+    if (
+      !/^docs\/plans\/[^/]+\.md$/.test(path) ||
+      /\/(?:README|_template)\.md$/.test(path) ||
+      existsSync(join(repositoryRoot, path))
+    )
+      continue
+    const deletion = runGit([
+      'log',
+      '-1',
+      '--format=%H',
+      '--diff-filter=D',
+      `${base}..HEAD`,
+      '--',
+      path,
+    ]).stdout
+    const snapshot = `${deletion}^`
+    try {
+      const content = readRepositoryText(path, snapshot)
+      if (!content) continue
+      const metadata = extractPlanMetadata(content)?.value
+      if (metadata?.schema !== 2 || metadata.status !== 'done') continue
+      if (
+        metadata.integrated_commit === base ||
+        !gitCommitExists(metadata.integrated_commit) ||
+        !isAncestor(base, metadata.integrated_commit) ||
+        !isAncestor(metadata.integrated_commit, snapshot)
+      )
+        continue
+      const plan = { path: join(repositoryRoot, path), relativePath: path, content, metadata }
+      const errors = validatePlan(plan, { evidenceCommit: snapshot })
+      if (errors.length) {
+        failures.push(
+          ...errors.map((error) => `${metadata.id} retired template evidence: ${error}`),
+        )
+        continue
+      }
+      candidates.push({
+        plan,
+        manifests: new Map(listDurableRuns(snapshot).map(({ value }) => [value.run_id, value])),
+      })
+    } catch (error) {
+      failures.push(`${path} retired template evidence cannot be read: ${error.message}`)
+    }
+  }
+  return candidates
+}
+
 export function validateCiCompletion() {
   const failures = []
   const currentPlans = listPlans().filter((plan) => plan.metadata?.schema === 2)
@@ -329,21 +398,24 @@ export function validateCiCompletion() {
     // initial snapshot; subsequent commits still require completed Plan cover.
     if (!validBase) failures.push(`CI DIFF_BASE is not a real commit: ${diffBase}`)
     if (validBase) {
-      const coveringPlans = currentPlans.filter(
-        (plan) =>
+      const manifests = new Map(listDurableRuns().map(({ value }) => [value.run_id, value]))
+      const coveringPlans = [
+        ...currentPlans.map((plan) => ({ plan, manifests })),
+        ...retiredTemplatePlans(effectiveBase, failures),
+      ].filter(
+        ({ plan }) =>
           plan.metadata.status === 'done' &&
           plan.metadata.integrated_commit !== effectiveBase &&
           gitCommitExists(plan.metadata.integrated_commit) &&
           isAncestor(effectiveBase, plan.metadata.integrated_commit) &&
           isAncestor(plan.metadata.integrated_commit, 'HEAD'),
       )
-      const manifests = new Map(listDurableRuns().map(({ value }) => [value.run_id, value]))
       for (const path of changedFilesSince(effectiveBase)) {
         // Small prose/asset edits remain protected by CI docs and format checks;
         // they do not need a fabricated business Plan or receipt.
         if (minimumLevel([path]) === 'dev') continue
         if (
-          !coveringPlans.some((plan) => {
+          !coveringPlans.some(({ plan, manifests }) => {
             if (validateWriteScope(plan, [path]).length !== 0) return false
             return plan.metadata.evidence.some((binding) => {
               const testedCommit = manifests.get(binding.run_id)?.commit

@@ -10,11 +10,10 @@
 
 ## 发布范围
 
-- `ci-e2e-server-output-v1` · `verifying`
+- `ci-e2e-server-output-v1` · `done`
   - Plan：`IGT-1790591328058139222`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite release verify ci-e2e-server-output-v1 --plan IGT-1790591328058139222
+  - 最终版本验收：passed（534841134514）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题

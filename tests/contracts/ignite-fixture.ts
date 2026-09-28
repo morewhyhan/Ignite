@@ -19,17 +19,10 @@ export function git(root: string, ...args: string[]) {
 }
 
 export function commitAll(root: string, message: string) {
+  git(root, 'config', 'user.name', 'Ignite Test')
+  git(root, 'config', 'user.email', 'ignite@example.com')
   git(root, 'add', '.')
-  git(
-    root,
-    '-c',
-    'user.name=Ignite Test',
-    '-c',
-    'user.email=ignite@example.com',
-    'commit',
-    '-m',
-    message,
-  )
+  git(root, 'commit', '-m', message)
   return git(root, 'rev-parse', 'HEAD')
 }
 

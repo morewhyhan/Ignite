@@ -54,12 +54,12 @@
     {
       "id": "T3",
       "title": "由临时仓库配置本地 Git 身份并重验",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T4",
       "title": "运行本地 CI 检查并核实 GitHub Actions",
-      "status": "todo"
+      "status": "doing"
     }
   ],
   "depends_on": [],
@@ -171,8 +171,8 @@ CI 日志指向隔离夹具未配置本地 committer identity；红灯测试直�
 
 - [x] T1 · 记录夹具身份契约及真实行为测试 · done
 - [x] T2 · 确认新增验收按预期失败 · done
-- [ ] T3 · 由临时仓库配置本地 Git 身份并重验 · doing
-- [ ] T4 · 运行本地 CI 检查并核实 GitHub Actions · todo
+- [x] T3 · 由临时仓库配置本地 Git 身份并重验 · done
+- [ ] T4 · 运行本地 CI 检查并核实 GitHub Actions · doing
 
 验收缺口：未记录；完成仍须实际证据
 证据：尚无

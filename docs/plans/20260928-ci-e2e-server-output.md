@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790591328058139222",
   "release": "ci-e2e-server-output-v1",
-  "status": "active",
+  "status": "verifying",
   "outcome": "GitHub Actions 生产态 E2E readiness 失败时能从 CI 日志看到 Playwright 与 Next 服务器诊断",
   "contract_version": 2,
   "execution_contract": 1,
@@ -65,7 +65,7 @@
     {
       "id": "T4",
       "title": "重跑 Release 与 GitHub CI，确认生产服务器可启动",
-      "status": "doing"
+      "status": "done"
     }
   ],
   "depends_on": [],
@@ -107,10 +107,15 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20260928104009-8760e5"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "40263425bd23f56c6234b84634ba5c12282cff8c",
   "updated_at": "2026-09-28"
 }
 -->
@@ -175,15 +180,15 @@
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`verifying`（由元数据生成）
 
 - [x] T1 · 确认 CI readiness 超时并锁定诊断契约 · done
 - [x] T2 · 新增 CI server-output 验收测试并确认红灯 · done
 - [x] T3 · 输出 Playwright 与 Next server 诊断 · done
-- [ ] T4 · 重跑 Release 与 GitHub CI，确认生产服务器可启动 · doing
+- [x] T4 · 重跑 Release 与 GitHub CI，确认生产服务器可启动 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20260928104009-8760e5
 <!-- /ignite-progress -->
 
 ## 准出条件

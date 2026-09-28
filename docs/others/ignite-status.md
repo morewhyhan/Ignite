@@ -6,13 +6,13 @@
 
 ## 当前工作
 
-- `IGT-1790591328058139222` · `active` · `ci-e2e-server-output-v1`
+- `IGT-1790591328058139222` · `verifying` · `ci-e2e-server-output-v1`
 
 ## 发布范围
 
-- `ci-e2e-server-output-v1` · `active`
+- `ci-e2e-server-output-v1` · `verifying`
   - Plan：`IGT-1790591328058139222`
-  - 缺少证据：`IGT-1790591328058139222:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1790591328058139222
   - 未完成原始目标：GOAL-001 GitHub Actions 生产态 E2E readiness 超时时，日志能显示 Next server stdout 和 Playwright webServer 诊断

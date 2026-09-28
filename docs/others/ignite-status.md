@@ -10,11 +10,10 @@
 
 ## 发布范围
 
-- `ci-fixture-git-identity-v1` · `verifying`
+- `ci-fixture-git-identity-v1` · `done`
   - Plan：`IGT-1790586476155495502`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite release verify ci-fixture-git-identity-v1 --plan IGT-1790586476155495502
+  - 最终版本验收：passed（d23f8486621b）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题

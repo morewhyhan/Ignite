@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790586476155495502",
   "release": "ci-fixture-git-identity-v1",
-  "status": "verifying",
+  "status": "done",
   "outcome": "临时 Git 测试仓库在没有全局身份配置的 CI 上仍可提交并完成 rebase 验收",
   "contract_version": 2,
   "execution_contract": 1,
@@ -172,7 +172,7 @@ CI 日志指向隔离夹具未配置本地 committer identity；红灯测试直�
 
 <!-- ignite-progress -->
 
-状态：`verifying`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 记录夹具身份契约及真实行为测试 · done
 - [x] T2 · 确认新增验收按预期失败 · done

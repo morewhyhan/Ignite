@@ -1,0 +1,25 @@
+{
+  "schema": 2,
+  "id": "ui-visual-refresh-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1790601198510423198"],
+  "scope": [
+    {
+      "id": "GOAL-001",
+      "text": "优化模板前端视觉层级、响应式体验与主题切换可用性",
+      "source": "2026-09-28 用户请求",
+      "requirements": ["REQ-PRODUCT-018"],
+      "acceptance": ["AC-PRODUCT-016"],
+      "plan_ids": ["IGT-1790601198510423198"],
+      "disposition": "included",
+      "reason": "本轮唯一交付目标",
+      "authorization": ""
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-09-28"
+}

@@ -20,5 +20,6 @@
 | AC-PRODUCT-008 | Release 手工状态与 Plan/证据冲突          | `tests/contracts/ignite-cli.test.ts`                              |
 | AC-PRODUCT-009 | Windows/WSL 共享依赖或校验污染工作区      | `tests/contracts/template-runtime.test.ts`                        |
 | AC-PRODUCT-010 | REQ、AC、测试或 Design 映射断开           | `tests/contracts/docs-traceability.test.ts`、`api-design.test.ts` |
+| AC-PRODUCT-016 | 示例界面层级不清、窄屏溢出或主题切换不可访问/不持久 | `tests/e2e/visual-baseline.spec.ts` |
 
 新版 Plan 在 integration 中验收自身映射的行为；所有纳入 Plan 完成后，由 `pnpm ignite release verify <release-id> --plan <done-plan-id>` 验证最终组合版本。旧 `verification_contract: 1` Plan 仍使用 `pnpm ignite check --plan <IGT-ID> --level release`。

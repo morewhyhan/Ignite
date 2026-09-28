@@ -1,0 +1,25 @@
+{
+  "schema": 2,
+  "id": "template-clean-start-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1790564355969714854"],
+  "scope": [
+    {
+      "id": "GOAL-001",
+      "text": "清理不适合从零开始的模板材料，保留工程能力并修复历史记录与工作区的耦合",
+      "source": "用户 2026-09-28 的模板清理请求",
+      "requirements": ["REQ-EXECUTION-027", "REQ-EXECUTION-028"],
+      "acceptance": ["AC-EXECUTION-027", "AC-EXECUTION-028"],
+      "plan_ids": ["IGT-1790564355969714854"],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-09-28"
+}

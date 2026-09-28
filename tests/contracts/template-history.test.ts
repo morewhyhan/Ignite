@@ -6,6 +6,30 @@ import { assertTemplateBaselineEvidence } from './template-history-baseline'
 
 const root = join(import.meta.dirname, '..', '..')
 
+it('[AC-EXECUTION-027] accepts a clean template without inventing archived history', () => {
+  const fixture = mkdtempSync(join(tmpdir(), 'ignite-clean-template-'))
+  try {
+    for (const directory of [
+      '.ai',
+      'docs/plans/releases',
+      'docs/others/evidence/runs',
+      'docs/others/evidence/tdd',
+    ]) {
+      mkdirSync(join(fixture, directory), { recursive: true })
+    }
+    writeFileSync(join(fixture, '.ai/project.json'), '{"mode":"template-baseline"}\n')
+    expect(() => assertTemplateBaselineEvidence(fixture)).not.toThrow()
+    const orphan = join(fixture, 'docs/others/evidence/runs/orphan.json')
+    writeFileSync(orphan, '{}\n')
+    expect(() => assertTemplateBaselineEvidence(fixture)).toThrow()
+    rmSync(orphan)
+    writeFileSync(join(fixture, 'docs/others/evidence/tdd/orphan.json'), '{}\n')
+    expect(() => assertTemplateBaselineEvidence(fixture)).toThrow()
+  } finally {
+    rmSync(fixture, { recursive: true, force: true })
+  }
+})
+
 it('[AC-PRODUCT-015] [AC-EXECUTION-009] [AC-EXECUTION-011] keeps all template baseline evidence traceable', () => {
   assertTemplateBaselineEvidence(root)
 })

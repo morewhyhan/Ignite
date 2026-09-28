@@ -103,6 +103,78 @@ function makePassedEvidence(root: string, baseCommit: string, policyVersion = 2,
 }
 
 describe('Ignite Plan and Release contracts', () => {
+  it('[AC-EXECUTION-028] verifies retired template Plans from Git without accepting untested changes', () => {
+    const fixture = makeFixture()
+    try {
+      write(fixture.root, '.ai/project.json', '{"mode":"template-baseline"}\n')
+      const diffBase = commitAll(fixture.root, 'Begin template maintenance')
+      const overrides = { write_scope: ['src/', 'docs/', '.ai/'] }
+      write(fixture.root, 'docs/plans/fixture.md', planContent(fixture.baseCommit, overrides))
+      write(fixture.root, 'src/title.ts', 'export const title = "template"\n')
+      const pendingCommit = commitAll(fixture.root, 'Implement template change')
+      const governance = join(repositoryRoot, 'scripts/ignite/governance.mjs')
+      const check = () => {
+        const result = spawnSync(
+          process.execPath,
+          [
+            '--input-type=module',
+            '--eval',
+            `const { validateCiCompletion } = await import(${JSON.stringify(governance)}); process.stdout.write(JSON.stringify(validateCiCompletion()))`,
+          ],
+          {
+            cwd: fixture.root,
+            encoding: 'utf8',
+            env: {
+              ...process.env,
+              APP_ENV: 'test',
+              DIFF_BASE: diffBase,
+              IGNITE_ROOT: fixture.root,
+            },
+            windowsHide: true,
+          },
+        )
+        expect(result.status, result.stderr).toBe(0)
+        return JSON.parse(result.stdout) as string[]
+      }
+      rmSync(join(fixture.root, 'docs/plans/fixture.md'))
+      commitAll(fixture.root, 'Attempt cleanup before acceptance')
+      expect(check()).toEqual(expect.arrayContaining([expect.stringContaining('src/title.ts')]))
+      write(
+        fixture.root,
+        'docs/plans/fixture.md',
+        git(fixture.root, 'show', `${pendingCommit}:docs/plans/fixture.md`),
+      )
+      commitAll(fixture.root, 'Restore pending Plan')
+      makePassedEvidence(fixture.root, fixture.baseCommit, 2, overrides)
+      const complete = commitAll(fixture.root, 'Record passed template change')
+      expect(check()).toEqual([])
+      rmSync(join(fixture.root, 'docs/plans/fixture.md'))
+      rmSync(join(fixture.root, 'docs/others/evidence/runs'), { recursive: true })
+      commitAll(fixture.root, 'Publish clean template snapshot')
+      expect(check()).toEqual([])
+
+      write(fixture.root, 'src/title.ts', 'export const title = "unverified"\n')
+      commitAll(fixture.root, 'Change source after acceptance')
+      expect(check()).toEqual(expect.arrayContaining([expect.stringContaining('src/title.ts')]))
+      write(fixture.root, 'src/title.ts', git(fixture.root, 'show', `${complete}:src/title.ts`))
+      write(fixture.root, '.ai/project.json', '{"mode":"adopted"}\n')
+      commitAll(fixture.root, 'Adopted projects retain their own Plans')
+      expect(check()).toEqual(expect.arrayContaining([expect.stringContaining('src/title.ts')]))
+      write(fixture.root, '.ai/project.json', '{"mode":"template-baseline"}\n')
+      write(
+        fixture.root,
+        'docs/plans/fixture.md',
+        git(fixture.root, 'show', `${complete}:docs/plans/fixture.md`),
+      )
+      commitAll(fixture.root, 'Restore Plan without its receipts')
+      rmSync(join(fixture.root, 'docs/plans/fixture.md'))
+      commitAll(fixture.root, 'Attempt cleanup with missing receipts')
+      expect(check()).toEqual(expect.arrayContaining([expect.stringContaining('src/title.ts')]))
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
   it('[AC-EXECUTION-015] prints help without executing the requested command', () => {
     const fixture = makeFixture()
     try {

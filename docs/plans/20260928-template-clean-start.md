@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790564355969714854",
   "release": "template-clean-start-v1",
-  "status": "active",
+  "status": "done",
   "outcome": "复制模板后从干净任务上下文开始，同时保留工程规则与历史可追溯性",
   "contract_version": 2,
   "execution_contract": 1,
@@ -80,7 +80,7 @@
     {
       "id": "T4",
       "title": "验收干净副本与 CI，保存本轮记录后清理发布快照",
-      "status": "doing"
+      "status": "done"
     }
   ],
   "depends_on": [],
@@ -126,7 +126,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "c22a2d4f51f575f76eb8bc8fb87de14550034426",
   "updated_at": "2026-09-28"
 }
 -->
@@ -187,12 +187,12 @@
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 逐层盘点并确定保留边界 · done
 - [x] T2 · 记录空模板和历史验收覆盖的真实红灯 · done
 - [x] T3 · 清理过程材料并同步规范、索引和验证器 · done
-- [ ] T4 · 验收干净副本与 CI，保存本轮记录后清理发布快照 · doing
+- [x] T4 · 验收干净副本与 CI，保存本轮记录后清理发布快照 · done
 
 验收缺口：未记录；完成仍须实际证据
 证据：check-integration / run-20260928075155-c17f66

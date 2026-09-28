@@ -99,7 +99,13 @@
     "docs/others/evidence/runs/",
     "docs/others/ignite-status.md"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-EXECUTION-030",
+      "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-030] exposes production E2E server diagnostics in CI",
+      "run_id": "tdd-20260928103559-c22e8d"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

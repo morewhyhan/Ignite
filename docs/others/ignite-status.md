@@ -10,11 +10,10 @@
 
 ## 发布范围
 
-- `template-clean-start-v1` · `verifying`
+- `template-clean-start-v1` · `done`
   - Plan：`IGT-1790564355969714854`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite release verify template-clean-start-v1 --plan IGT-1790564355969714854
+  - 最终版本验收：passed（42e16dea67dc）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题

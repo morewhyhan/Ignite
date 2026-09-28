@@ -1,15 +1,15 @@
 {
   "schema": 2,
   "test_scope": "acceptance-case",
-  "test_sha256": "bf3c6d1c01a7513e4193521f752954e0fa04407e2ebf52b4dac5bba2bff0cc2b",
-  "run_id": "tdd-20260928031510-524a7f",
+  "test_sha256": "65e37f12070833714939acb9695541ece6ec7441bcd5820369c8a3e3185259a5",
+  "run_id": "tdd-20260928033729-84c157",
   "plan_id": "IGT-1790564355969714854",
   "acceptance_id": "AC-EXECUTION-028",
   "test": "tests/contracts/ignite-cli.test.ts::[AC-EXECUTION-028] verifies retired template Plans from Git without accepting untested changes",
   "layer": "unit",
   "status": "assertion-failed",
-  "red_commit": "284e54961787929e6ebb06df31131e4f6812b704",
-  "output_sha256": "e0c84742f8bdbc18a9b544ce027bcff8ad4164c8a0c147a0bafdd7f483c459f8",
+  "red_commit": "c637cfb570e02e3b05c3cbbf7ad290c57d2cdff7",
+  "output_sha256": "313747a253a29b62b566428a3b49b82c9638f71e4e0b544684cd29578256d3cb",
   "command": [
     "corepack",
     "pnpm",
@@ -22,7 +22,7 @@
     "--reporter=json",
     "--outputFile=<temporary-json-report>"
   ],
-  "started_at": "2026-09-28T03:15:10.999Z",
-  "ended_at": "2026-09-28T03:15:23.276Z",
+  "started_at": "2026-09-28T03:37:29.187Z",
+  "ended_at": "2026-09-28T03:37:36.145Z",
   "executor": "ignite-tdd-runner"
 }

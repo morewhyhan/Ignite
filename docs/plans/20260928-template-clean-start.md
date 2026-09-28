@@ -114,7 +114,7 @@
     {
       "acceptance_id": "AC-EXECUTION-028",
       "test": "tests/contracts/ignite-cli.test.ts::[AC-EXECUTION-028] verifies retired template Plans from Git without accepting untested changes",
-      "run_id": "tdd-20260928031510-524a7f"
+      "run_id": "tdd-20260928033729-84c157"
     }
   ],
   "required_evidence": ["check-integration"],

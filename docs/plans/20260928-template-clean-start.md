@@ -118,7 +118,12 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20260928075155-c17f66"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
@@ -190,7 +195,7 @@
 - [ ] T4 · 验收干净副本与 CI，保存本轮记录后清理发布快照 · doing
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20260928075155-c17f66
 <!-- /ignite-progress -->
 
 ## 准出条件

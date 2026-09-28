@@ -12,7 +12,7 @@
 
 - `template-clean-start-v1` · `active`
   - Plan：`IGT-1790564355969714854`
-  - 缺少证据：`IGT-1790564355969714854:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1790564355969714854
   - 未完成原始目标：GOAL-001 清理不适合从零开始的模板材料，保留工程能力并修复历史记录与工作区的耦合

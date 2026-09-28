@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790586476155495502",
   "release": "ci-fixture-git-identity-v1",
-  "status": "active",
+  "status": "verifying",
   "outcome": "临时 Git 测试仓库在没有全局身份配置的 CI 上仍可提交并完成 rebase 验收",
   "contract_version": 2,
   "execution_contract": 1,
@@ -59,7 +59,7 @@
     {
       "id": "T4",
       "title": "运行本地 CI 检查并核实 GitHub Actions",
-      "status": "doing"
+      "status": "done"
     }
   ],
   "depends_on": [],
@@ -98,10 +98,15 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20260928092543-847ad6"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "efe5f33f51a67d2d8a27bb9ef84085dff3e350ff",
   "updated_at": "2026-09-28"
 }
 -->
@@ -167,15 +172,15 @@ CI 日志指向隔离夹具未配置本地 committer identity；红灯测试直�
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`verifying`（由元数据生成）
 
 - [x] T1 · 记录夹具身份契约及真实行为测试 · done
 - [x] T2 · 确认新增验收按预期失败 · done
 - [x] T3 · 由临时仓库配置本地 Git 身份并重验 · done
-- [ ] T4 · 运行本地 CI 检查并核实 GitHub Actions · doing
+- [x] T4 · 运行本地 CI 检查并核实 GitHub Actions · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20260928092543-847ad6
 <!-- /ignite-progress -->
 
 ## 准出条件

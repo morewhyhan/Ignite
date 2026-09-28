@@ -1,0 +1,116 @@
+{
+  "schema": 2,
+  "run_id": "run-20260928173330-da4853",
+  "check_policy_version": 6,
+  "plan_id": "IGT-1790601198510423198",
+  "evidence_id": "check-integration",
+  "level": "integration",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-09-28T17:33:31.128Z",
+  "ended_at": "2026-09-28T17:41:11.530Z",
+  "commit": "210e9ba2d478af968ea6f01683e7681af6a795f5",
+  "input_fingerprint": "91d0787440c2ddf3af50d677124ddb08e9573bd7759f92d4a98fea17caef6820",
+  "environment_fingerprint": "a9a342b68b20ef1291357098ab140bd321ffbd348aecc3a91a312972942e8441",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "8339a78dd80723c7718db0bcd793a06afdb26e703634099deaee1c7908af2c9d",
+  "acceptance_results": [
+    {
+      "plan_id": "IGT-1790601198510423198",
+      "criterion": "AC-PRODUCT-016",
+      "test": "tests/e2e/visual-baseline.spec.ts::[AC-PRODUCT-016] presents a readable responsive landing page and persists theme choice",
+      "layer": "browser",
+      "passed": true,
+      "cases": 2
+    }
+  ],
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "4dba8c68cb4d0c0ee5c8c31a5143df50b451452d"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 576
+    },
+    {
+      "label": "template-doctor",
+      "command": ["corepack", "pnpm", "template:doctor"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 749
+    },
+    {
+      "label": "governance",
+      "command": ["corepack", "pnpm", "ignite", "validate"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 2130
+    },
+    {
+      "label": "docs",
+      "command": ["corepack", "pnpm", "docs:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 2233
+    },
+    {
+      "label": "typecheck",
+      "command": ["corepack", "pnpm", "typecheck"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 44030
+    },
+    {
+      "label": "lint",
+      "command": ["corepack", "pnpm", "lint"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 56250
+    },
+    {
+      "label": "format",
+      "command": ["corepack", "pnpm", "format:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 7282
+    },
+    {
+      "label": "tests",
+      "command": ["corepack", "pnpm", "test"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 258764
+    },
+    {
+      "label": "targeted-browser-tests",
+      "command": [
+        "corepack",
+        "pnpm",
+        "test:e2e",
+        "--",
+        "tests/e2e/visual-baseline.spec.ts",
+        "--grep",
+        "AC-PRODUCT-016"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 78363
+    }
+  ],
+  "log_sha256": "bbbc1e8d035ac311de012a1f0a5d84e02d68d2293502cc6e8ccbe5e3a3e9d375",
+  "execution_source": "ignite-runner-local"
+}

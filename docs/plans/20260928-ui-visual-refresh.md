@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790601198510423198",
   "release": "ui-visual-refresh-v1",
-  "status": "active",
+  "status": "done",
   "outcome": "改善模板示例界面的视觉层级、主题控制和窄屏体验",
   "contract_version": 2,
   "execution_contract": 1,
@@ -53,17 +53,17 @@
     {
       "id": "T2",
       "title": "实施统一主题与核心页面视觉改版",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T3",
       "title": "验证响应式页面、主题持久化和回归路径",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T4",
       "title": "回写视觉设计事实和验收记录",
-      "status": "todo"
+      "status": "done"
     }
   ],
   "depends_on": [],
@@ -111,10 +111,15 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20260928173330-da4853"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "210e9ba2d478af968ea6f01683e7681af6a795f5",
   "updated_at": "2026-09-28"
 }
 -->
@@ -179,15 +184,15 @@
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 完成视觉契约和浏览器验收设计 · done
-- [ ] T2 · 实施统一主题与核心页面视觉改版 · todo
-- [ ] T3 · 验证响应式页面、主题持久化和回归路径 · todo
-- [ ] T4 · 回写视觉设计事实和验收记录 · todo
+- [x] T2 · 实施统一主题与核心页面视觉改版 · done
+- [x] T3 · 验证响应式页面、主题持久化和回归路径 · done
+- [x] T4 · 回写视觉设计事实和验收记录 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20260928173330-da4853
 <!-- /ignite-progress -->
 
 ## 准出条件

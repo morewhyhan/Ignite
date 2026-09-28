@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790591328058139222",
   "release": "ci-e2e-server-output-v1",
-  "status": "ready",
+  "status": "active",
   "outcome": "GitHub Actions 生产态 E2E readiness 失败时能从 CI 日志看到 Playwright 与 Next 服务器诊断",
   "contract_version": 2,
   "execution_contract": 1,
@@ -167,7 +167,7 @@
 
 <!-- ignite-progress -->
 
-状态：`ready`（由元数据生成）
+状态：`active`（由元数据生成）
 
 - [x] T1 · 确认 CI readiness 超时并锁定诊断契约 · done
 - [ ] T2 · 新增 CI server-output 验收测试并确认红灯 · doing

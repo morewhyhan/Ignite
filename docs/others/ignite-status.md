@@ -6,11 +6,11 @@
 
 ## 当前工作
 
-- `IGT-1790591328058139222` · `ready` · `ci-e2e-server-output-v1`
+- `IGT-1790591328058139222` · `active` · `ci-e2e-server-output-v1`
 
 ## 发布范围
 
-- `ci-e2e-server-output-v1` · `ready`
+- `ci-e2e-server-output-v1` · `active`
   - Plan：`IGT-1790591328058139222`
   - 缺少证据：`IGT-1790591328058139222:check-integration`（missing：no run is bound to this evidence requirement）
   - 最终版本验收：missing

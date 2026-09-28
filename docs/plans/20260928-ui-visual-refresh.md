@@ -107,7 +107,7 @@
     {
       "acceptance_id": "AC-PRODUCT-016",
       "test": "tests/e2e/visual-baseline.spec.ts::[AC-PRODUCT-016] presents a readable responsive landing page and persists theme choice",
-      "run_id": "tdd-20260928160807-7e3daf"
+      "run_id": "tdd-20260928164357-9dde7c"
     }
   ],
   "required_evidence": ["check-integration"],

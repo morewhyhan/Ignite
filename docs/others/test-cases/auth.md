@@ -17,6 +17,6 @@
 | AC-AUTH-005 | test / production | 初始化 Better Auth                         | 仅真实生产环境启用认证限流    | Contract + E2E | `tests/contracts/auth-runtime.test.ts`、`tests/e2e/auth.spec.ts` |
 | 环境契约    | 生产配置          | 使用 localhost、开发 secret 或 file 数据库 | 启动配置校验失败              | Contract       | `tests/contracts/server-env.test.ts`                             |
 
-## 尚未自动化
+## 按需扩展
 
 本模板不接入真实邮箱；如果项目后续启用邮箱验证，再新增 provider、送达和链接点击用例。

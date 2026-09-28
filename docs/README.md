@@ -9,17 +9,17 @@ Ignite 的文档服务于“模板基线 + 后续项目扩展”：AI 应先把�
 
 ## 目录职责
 
-| 目录         | 内容                                    | 维护方式                                   |
-| ------------ | --------------------------------------- | ------------------------------------------ |
-| `standards/` | 架构、API、数据库、命名、安全和开发标准 | 稳定规则，变更时更新最终版本               |
-| `features/`  | 一个业务模块一份需求规格                | 产品/业务起点，按功能新增                  |
-| `plans/`     | 当前任务的实现计划、Tasking 和状态      | 产品 Plan 完成后保留；模板只带当前基线记录 |
-| `designs/`   | 当前数据库、API 和系统设计事实          | 持续更新，作为下一轮工作的事实依据         |
-| `others/`    | ADR、测试用例、发布记录等过程资料       | 追加记录，不混入标准或当前事实             |
+| 目录         | 内容                                    | 维护方式                             |
+| ------------ | --------------------------------------- | ------------------------------------ |
+| `standards/` | 架构、API、数据库、命名、安全和开发标准 | 稳定规则，变更时更新最终版本         |
+| `features/`  | 一个业务模块一份需求规格                | 产品/业务起点，按功能新增            |
+| `plans/`     | 当前项目的实现计划、Tasking 和状态      | 模板只带空白模板；项目创建自己的记录 |
+| `designs/`   | 当前数据库、API 和系统设计事实          | 持续更新，作为下一轮工作的事实依据   |
+| `others/`    | ADR、测试用例、发布记录等过程资料       | 追加记录，不混入标准或当前事实       |
 
 ## 执行入口
 
-新任务先从 [`docs/plans/_template.md`](./plans/_template.md) 创建一个结构化 Plan，并分配稳定的 `IGT-*` ID；当前发布范围写在 [`plans/releases/`](./plans/releases/) 的 JSON 机器源里。日常只需要记住三个入口：
+先读目标模块的 Feature 与 Design，再接续匹配的 Plan；没有匹配任务时，用 `pnpm create:module <name>` 或 `pnpm create:change <name>` 生成草稿。结构见 [`plans/_template.md`](./plans/_template.md)，发布范围由 [`plans/releases/`](./plans/releases/) 的 JSON 保存。日常入口：
 
 ```text
 pnpm ignite plan validate <IGT-ID>       # 检查 Plan 元数据
@@ -53,3 +53,5 @@ standards/ ───────────────┘ 约束整个过程
 `docs/designs/` 是下一轮 Plan 的设计事实依据；源码和测试是当前可执行行为。两者冲突不是选择一个忽略另一个，而是一次未完成的变更：任务范围内必须同步修正或在 Plan 中记录差异。
 
 首次把模板采用为具体项目时，从 [`standards/adoption.md`](./standards/adoption.md) 开始。
+
+普通业务开发按需读取 `product`、`auth`、`tasks` 及自己的模块规格。`features/execution.md`、`features/ai-execution-trust.md` 和 `designs/execution.md` 描述模板自带工具的契约，仅修改执行器、验收或适配边界时读取；不用每轮加载全部工具规格。

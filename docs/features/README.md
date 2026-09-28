@@ -12,6 +12,8 @@
 - Given/When/Then 验收标准
 - 增量需求或对存量模块的变更说明
 
-当前规格：[`product.md`](./product.md)、[`tasks.md`](./tasks.md)、[`auth.md`](./auth.md)、[`execution.md`](./execution.md)。
+业务起点：[`product.md`](./product.md)、[`auth.md`](./auth.md)、[`tasks.md`](./tasks.md)。
+
+工具与平台契约：[`execution.md`](./execution.md)、[`ai-execution-trust.md`](./ai-execution-trust.md)。这些是现有能力的回归依据，不是新项目待执行的整改清单；普通业务任务不必全文读取。
 
 模板见 [`_template.md`](./_template.md)。

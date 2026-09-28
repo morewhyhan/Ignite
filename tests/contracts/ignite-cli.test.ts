@@ -106,7 +106,7 @@ describe('Ignite Plan and Release contracts', () => {
   it('[AC-EXECUTION-028] verifies retired template Plans from Git without accepting untested changes', () => {
     const fixture = makeFixture()
     try {
-      write(fixture.root, '.ai/project.json', '{"mode":"template-baseline"}\n')
+      write(fixture.root, '.ai/project.json', '{"schema":1,"mode":"template-baseline"}\n')
       const diffBase = commitAll(fixture.root, 'Begin template maintenance')
       const overrides = { write_scope: ['src/', 'docs/', '.ai/'] }
       write(fixture.root, 'docs/plans/fixture.md', planContent(fixture.baseCommit, overrides))
@@ -157,10 +157,10 @@ describe('Ignite Plan and Release contracts', () => {
       commitAll(fixture.root, 'Change source after acceptance')
       expect(check()).toEqual(expect.arrayContaining([expect.stringContaining('src/title.ts')]))
       write(fixture.root, 'src/title.ts', git(fixture.root, 'show', `${complete}:src/title.ts`))
-      write(fixture.root, '.ai/project.json', '{"mode":"adopted"}\n')
+      write(fixture.root, '.ai/project.json', '{"schema":1,"mode":"adopted"}\n')
       commitAll(fixture.root, 'Adopted projects retain their own Plans')
       expect(check()).toEqual(expect.arrayContaining([expect.stringContaining('src/title.ts')]))
-      write(fixture.root, '.ai/project.json', '{"mode":"template-baseline"}\n')
+      write(fixture.root, '.ai/project.json', '{"schema":1,"mode":"template-baseline"}\n')
       write(
         fixture.root,
         'docs/plans/fixture.md',

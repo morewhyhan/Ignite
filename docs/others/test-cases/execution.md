@@ -3,7 +3,6 @@
 ## 关联规格
 
 - Feature：[`../../features/execution.md`](../../features/execution.md)
-- Plan：[`../../plans/20260927-workflow-entry-reliability.md`](../../plans/20260927-workflow-entry-reliability.md)
 - 执行设计：[`../../designs/execution.md`](../../designs/execution.md)
 
 ## 关键路径与自动化
@@ -25,3 +24,5 @@
 | AC-EXECUTION-026 | TDD 红灯只绑定目标 AC 用例；兄弟用例可增改，目标用例变化会失效                  | `tests/contracts/source-analysis.test.ts`       |
 
 测试资产只声明要验证的行为，不记录手工通过状态；结果以 Plan 绑定的运行证据为准。
+
+干净模板与维护记录清理：`AC-EXECUTION-027` 由 `tests/contracts/template-history.test.ts` 验证零记录起点及孤立证据拒绝；`AC-EXECUTION-028` 由 `tests/contracts/ignite-cli.test.ts` 验证 CI 从 Git 核对已清理 Plan，以及拒绝未测或缺证据的改动。

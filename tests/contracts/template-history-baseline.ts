@@ -36,7 +36,11 @@ export function assertTemplateBaselineEvidence(root: string) {
 
   if (baselinePlans.length === 0) {
     expect(releases).toHaveLength(0)
+    expect(collectFiles(join(root, 'docs/others/evidence/runs'))).toHaveLength(0)
+    expect(collectFiles(join(root, 'docs/others/evidence/tdd'))).toHaveLength(0)
     const historyDirectory = join(root, 'docs', 'others', 'template-history')
+    // Clean distributions have no inherited execution history to archive.
+    if (!existsSync(historyDirectory)) return
     const indexes = collectFiles(historyDirectory).filter((path) => basename(path) === 'index.json')
     expect(indexes.length).toBeGreaterThan(0)
 

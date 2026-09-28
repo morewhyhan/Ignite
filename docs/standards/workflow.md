@@ -138,6 +138,12 @@ CI 的合并门禁只要求本次变更涉及的独立 Plan 已完成并覆盖�
 
 交付时可执行 `pnpm ignite next --plan <IGT-ID> --verify-remote`，只读比较本地 HEAD 与 `origin` 同名分支的远端提交。`verified` 才表示这一个 Git 提交已在远端；`pending_first_push`、`pending_push`、`behind_remote`、`diverged_or_unknown` 和 `unreachable` 均不能宣称已同步。默认 `next` 不访问网络，远端状态保持 `not_verified`；仓库同步不等于应用已部署或页面可访问。
 
-## 8. 运行时边界
+## 8. 模板维护记录与发布快照
+
+维护 Ignite 时仍按上述闭环保存 Plan 和证据。交付后可把建设期记录从模板工作目录清理，先前 Git 提交保留原件；发布快照只分发可复用资产。此规则只用于 `template-baseline`，已采用项目保留自己的过程历史。
+
+CI 检查跨越清理的提交区间时，从最近删除前的 Git 快照读取完成 Plan 和原运行清单，沿用完整证据校验，再逐个比较当前源码与被测提交。缺失、无效或不能覆盖当前改动的记录不提供放行依据；不得用清理隐藏尚未验收的实现。新 Git 历史的零记录副本从自己的初始提交起步。
+
+## 9. 运行时边界
 
 `.node-version`、`packageManager` 与 `.ai/runtime.json` 共同定义可复现运行时。默认在 WSL/Linux 执行；若改用 Windows，必须单独安装该平台的 `node_modules`。两个系统不得共享同一依赖目录，`pnpm runtime:check` 会在执行前拒绝跨平台复用。

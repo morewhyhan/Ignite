@@ -38,45 +38,6 @@ Browser → Next.js route page → module screen → module Hook / React Query
 
 服务端 layout 负责 session redirect；业务数据仍统一走 Hook → Hono Typed RPC → Prisma。
 
-## AI 执行状态
+## 执行工具
 
-```text
-Feature REQ/AC
-      ↓
-schema 2 Plan（稳定目标/约束 + base commit + write scope + tests）
-      ↓
-真实 Git diff → 最低风险等级 → 不可降级检查命令
-      ↓
-.ignite/runs（锁 + 心跳 + 完整本地日志）
-      ↓ 仅成功且输入已提交
-脱敏 evidence manifest → Plan evidence → 派生 Release 状态
-```
-
-- Plan 的 `base_commit` 与 `Ignite-Plan:` 实现提交标记决定本轮修改归属；未标记的单任务提交仍按兼容规则识别，其他 Plan 标记的提交不计入本任务范围。合并后的全仓输入指纹仍要求整体重新验证。最低检查等级取声明风险与实际文件风险中的较高者。
-- `--files` 只允许 dry-run 演示，真实检查不能由调用者删减文件。
-- 同一工作区的检查共享一个原子锁，保护构建和测试产物。相同 Plan、输入、环境和命令可复用成功记录。活动进程返回 pending 非零状态；本机 runner 和其 worker 均已退出时立即标为 `orphaned`，异机记录按心跳期限判断。命令有总时限，记录当前步骤与最后输出时间；`run cancel` 只对本机的指定活动运行写取消请求。独立 worker 通过 IPC 感知 runner 崩溃，先终止自己创建的进程组，3 秒后强制清理仍存活的后代，不扫描或终止其它任务的进程。孤儿运行可以重新获得锁，但不得发布成功证据。坏记录单独标记，不阻断整个运行列表。
-- 原始状态和日志只在 `.ignite/`，不会进入 Git。通过后导出的 manifest 不含绝对路径、PID、日志正文和 secret。
-- 输入指纹包含源码、测试、规范化设计、依赖锁、Plan 模板及使用说明和稳定 Plan 契约；Plan 状态、派生摘要和 evidence 自身不参与指纹，避免“记录证据导致证据立刻过期”。
-- `pnpm ignite validate` 检查 AI 桥接、REQ/AC/Test 追踪和 Design 快照；源码架构边界统一由 `pnpm lint` 中的 ESLint 规则检查。集成检查会运行这两个入口，客户端越过 Hook/Typed RPC、直接导入服务端代码或跨模块引用内部实现都会被拒绝。
-
-## 完成与发布推导
-
-Plan 进入 `done` 前必须满足：所有 `required_evidence` 都存在且为 schema 2、结果通过、输入指纹仍然匹配当前提交、运行时被允许、工作区输入已提交、commit 真实存在且不早于 `integrated_commit`。进入 `done` 后，证据改为对照当时 commit 的仓库快照，后续合法增量不会让历史完成记录失效。
-
-普通结构校验检查旧证据与其被测提交的一致性，允许开发中继续修改和重测；`set-status done` 额外执行当前输入校验。这样修改代码后仍能恢复执行，过期记录也无法被用来宣布完成。
-
-运行清单的 `check_policy_version` 固定本次命令选择规则。没有此字段的 schema 2 历史清单按策略 1 解释；旧策略 2、3 仍按历史命令校验。新运行使用策略 4：沿用 Plan 映射测试与集成证据复用，并在迁移运行器、数据库适配器或迁移样本工具变化时强制选择迁移检查。发布检查只执行生产构建与生产态 E2E，不再重复整套 `verify`。当前 Plan 完成必须使用当前策略，并核对本地运行记录与日志摘要。历史记录仍按原策略解释。
-
-集成证据先作为状态提交进入 Git 后，发布检查仍可复用：原集成提交必须是当前 HEAD 的祖先，Plan 稳定契约、仓库输入指纹和环境指纹必须一致。源码或约束变化会拒绝复用；`verifying --commit HEAD` 绑定实际通过集成的实现提交，不把后续状态提交误认为被测实现。
-
-Vitest 和 Playwright 的验收结果检查器在运行结束时确认 AC 的实际结果，并校验当前 Plan 在该测试层映射的文件。跳过、预期失败、遗漏或重试后才通过的验收测试会使检查失败；源码里有 AC 标记不能替代通过结果。
-
-Release JSON 只声明 `plan_ids`、`must_pass` 和排除项，不保存状态。CLI 根据 Plan 状态与有效证据推导 `draft`、`ready`、`active`、`verifying`、`blocked`、`done` 或 `invalid`，从结构上消除手工“宣布完成”。
-
-`cancelled` 与 `superseded` Plan 保留在历史范围中，并列入派生的 `excluded_plans`，不要求它们补交付证据。其余 Plan 全部完成后，Release 可以完成；若全部取消或被替代，Release 显示 `cancelled`，不会计为交付成功。
-
-CI 还会用本次 Git diff 做反向覆盖检查：每一个非状态文件的改动，都必须落在本次完成 Plan 的 `write_scope` 内，且文件内容与该 Plan 的被测提交一致。已有的未改动草稿不阻塞本次交付；本次改动的 Plan 必须达到终态，但同 Release 未来任务不阻止其独立合并。首推没有 before commit 时以仓库根提交为明确基线。这样既保留历史证据，又能检测同一路径在验证后追加的修改。
-
-`pnpm ignite next --plan <ID>` 是派生的接续摘要：列出目标、约束、非目标、授权来源、开放问题、最近运行、`remaining_work` 和允许的下一步。`context` 包含当前工作区、基线、允许写入范围、按 REQ 定位的 Feature 路径、AC 与测试映射，以及规范和事实设计入口；新会话不必从全量历史猜测任务边界，不维护第二份状态。若剩余验收非空，即使所有命令通过也不建议 `done`，状态校验同样拒绝。成果交付只报告已核实的本地提交、远端同步或部署状态；`done` 自身不等于已上线。Squash/rebase 改写提交后需 `plan reintegrate` 并在最终集成提交重测，不能移植源提交的通过摘要。
-
-`next --verify-remote` 使用有时限、禁止交互输入的 Git 只读查询，对比 `origin` 同名分支与本地 HEAD。只有 SHA 相同才给出 `remote_sync: verified`；默认离线摘要和远端不可达时都不宣称已同步。此项不探测应用部署，`deployed_url` 仍为 `null`，直到具体产品另行提供部署目标与可访问性验收。
+Plan、Release、运行恢复和证据契约统一见 [AI 执行系统](./execution.md)。实际检查策略以 `scripts/ignite/checks.mjs` 为准，运行清单记录所用版本；本文件只维护应用与测试的运行环境。

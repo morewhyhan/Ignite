@@ -37,7 +37,7 @@
 
 当前页面名称、粉色主题和 `/dashboard` 是模板基线，不是衍生产品的永久要求。用户已给出目标时，AI 按目标更新对应测试；权限、秘密信息和持久化约束仍需验收。
 
-## 第一步：准备本地环境、对齐 Git 历史并验证基线
+## 第一步：准备环境并验证基线
 
 首次采用前，先在新副本提交初始源码，再准备可运行本地命令的环境。Ignite 的诊断与历史归档 CLI 依赖项目包（包括 TypeScript）；在依赖安装前运行 `template:doctor` 或 `adopt-history` 会因缺少包而失败。
 
@@ -48,13 +48,13 @@ corepack pnpm install --frozen-lockfile
 pnpm runtime:check
 ```
 
-依赖安装后，先运行 `pnpm template:doctor`。它会区分完整克隆、浅克隆和新 Git 历史；新历史诊断返回阻止基线验证的结果是预期行为，继续按以下步骤归档，不要把诊断本身当成需要修复的项目错误。
+依赖安装后，运行 `pnpm template:doctor`，再用 `pnpm ignite status` 查看当前任务。干净发布快照没有模板建设期 Plan、Release 或运行清单，零任务是正常结果，无需先归档历史。
 
-先判断复制方式，避免把 Ignite 自己的历史证据当成新项目的失败：
+仅使用带旧记录的版本时，按诊断处理 Git 历史：
 
-- 完整 Git 克隆保留模板提交历史，直接运行基线检查，不执行历史归档。
-- 浅克隆先运行 `git fetch --unshallow` 取回完整历史；不要把缺少的提交当作新项目历史归档。
-- GitHub “Use this template”、下载源码后重新 `git init` 等新历史副本，会继承 Plan、Release、运行清单和 TDD 红灯文件，但不继承这些证据对应的旧提交。先提交初始源码；`pnpm template:doctor` 给出新历史诊断后，运行 `pnpm ignite adopt-history` 预览，核对清单，再运行 `pnpm ignite adopt-history --apply`。它会把继承记录归档到 `docs/others/template-history/`；随后提交归档结果。归档命令只在显式 `--apply` 时写文件，不会由诊断自动执行。
+- 完整 Git 克隆已有对应提交，不执行历史归档。
+- 浅克隆缺少 Plan 引用的提交时，先运行 `git fetch --unshallow`。
+- GitHub “Use this template” 或重新 `git init` 的旧版本副本若仍带有模板执行记录，先提交初始源码；诊断提示后，运行 `pnpm ignite adopt-history` 预览，核对清单，再运行 `pnpm ignite adopt-history --apply` 并提交。记录归档到 `docs/others/template-history/`，不会自动删除。最新干净快照不需要此步骤。
 
 完成历史处理后再初始化数据库并验证基线；完整克隆也需要数据库与项目依赖已准备好：
 

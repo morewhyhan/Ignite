@@ -49,11 +49,12 @@ CLAUDE.md       Claude Code 入口
 .claude/        Claude 本地资产登记
 .opencode/      OpenCode 入口
 .ai/            AI 工具资产登记（Skills / MCP）
-standards/      长期工程标准
-features/       功能需求和验收标准
-plans/          每轮实现计划和过程记录
-designs/        当前系统的最终事实
-others/         ADR、测试用例和发布记录
+docs/
+  standards/    长期工程标准
+  features/     功能需求和验收标准
+  plans/        每轮实现计划和过程记录（从空模板开始）
+  designs/      当前系统的最终事实
+  others/       ADR、测试用例和项目产生的交付证据
 tests/          可执行的验证证据
 ```
 
@@ -64,6 +65,8 @@ Feature（需求起点） → Plan（过程方案） → Test + Code（实现与
 ```
 
 简单记住：Feature 说明要做什么，Plan 说明这轮怎么做，Test 证明是否做对，Design 记录现在是什么；Standards 贯穿整个过程。
+
+发布快照只携带可复用资料。复制后从自己的第一份 Plan 开始，Ignite 建设期的任务、审计报告和运行记录保存在 Git 历史中。
 
 开始修改前，先阅读 [`AGENTS.md`](./AGENTS.md) 和 [`docs/README.md`](./docs/README.md)。
 

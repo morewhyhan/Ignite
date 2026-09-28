@@ -3,7 +3,6 @@
 ## 关联规格
 
 - Feature：[`../../features/ai-execution-trust.md`](../../features/ai-execution-trust.md)
-- Plan：[`../../plans/20260925-ai-execution-trust.md`](../../plans/20260925-ai-execution-trust.md)
 - 执行设计：[`../../designs/execution.md`](../../designs/execution.md)
 - API 设计：[`../../designs/api.md`](../../designs/api.md)
 

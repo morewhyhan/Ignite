@@ -48,6 +48,8 @@ Release 证据还记录 package version 与当时指向受测提交的 tag；这
 
 自动化测试的临时 Git 仓库在初始化时写入本地 `user.name` 与 `user.email`，确保提交和 rebase 测试不依赖开发者机器或 CI runner 的全局 Git 身份。
 
+CI 生产态 E2E 显式输出 Next webServer stdout，并启用 `pw:webserver` 诊断；生产服务器 readiness 超时时能看到实际启动命令和轮询结果，本地运行不默认开启调试。
+
 ## 干净模板与项目历史
 
 发布快照不带模板建设期 Plan、Release、运行清单和审计报告。零记录模板可直接开始；治理测试用隔离夹具验证工作流，不依赖某个旧计划文件。仍适用的 Feature、Design、ADR、测试和空白模板继续保留。

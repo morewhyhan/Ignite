@@ -105,7 +105,18 @@
     "tests/contracts/template-history.test.ts",
     "tests/contracts/ignite-cli.test.ts"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-EXECUTION-027",
+      "test": "tests/contracts/template-history.test.ts::[AC-EXECUTION-027] accepts a clean template without inventing archived history",
+      "run_id": "tdd-20260928031411-da850d"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-028",
+      "test": "tests/contracts/ignite-cli.test.ts::[AC-EXECUTION-028] verifies retired template Plans from Git without accepting untested changes",
+      "run_id": "tdd-20260928031510-524a7f"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "b63a90872ec060223b0c87b6d8703a6b8546e141df0c0f72278793f2ad520158",
+  "run_id": "tdd-20260928031411-da850d",
+  "plan_id": "IGT-1790564355969714854",
+  "acceptance_id": "AC-EXECUTION-027",
+  "test": "tests/contracts/template-history.test.ts::[AC-EXECUTION-027] accepts a clean template without inventing archived history",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "284e54961787929e6ebb06df31131e4f6812b704",
+  "output_sha256": "1e8885db8622cc43d660328da684b3c9854630f09830074b089996dca337d15a",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/template-history.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-027",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-09-28T03:14:11.277Z",
+  "ended_at": "2026-09-28T03:14:18.697Z",
+  "executor": "ignite-tdd-runner"
+}

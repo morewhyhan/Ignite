@@ -87,8 +87,8 @@ export function TasksScreen() {
 
   if (sessionLoading || (Boolean(session?.user) && tasksQuery.isLoading)) {
     return (
-      <div className="min-h-screen py-12 sm:py-20">
-        <div className="mx-auto max-w-3xl px-6">
+      <div className="min-h-screen py-10 sm:py-14">
+        <div className="mx-auto max-w-4xl px-5 sm:px-8">
           <p className="text-sm text-muted-foreground">加载中...</p>
         </div>
       </div>
@@ -97,10 +97,10 @@ export function TasksScreen() {
 
   if (!session?.user) {
     return (
-      <div className="flex min-h-screen items-center justify-center py-20">
-        <div className="text-center">
-          <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-3xl bg-muted/50">
-            <Calendar aria-hidden="true" className="h-10 w-10 text-muted-foreground/40" />
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-5 py-14">
+        <div className="w-full max-w-md rounded-xl border border-border bg-card p-7 text-center shadow-sm sm:p-9">
+          <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+            <Calendar aria-hidden="true" className="h-5 w-5 text-primary" />
           </div>
           <h2 className="mb-2 text-xl font-semibold">请先登录</h2>
           <p className="mb-6 text-sm text-muted-foreground">登录后可以管理你的任务清单</p>
@@ -114,8 +114,8 @@ export function TasksScreen() {
 
   if (tasksQuery.isError) {
     return (
-      <div className="flex min-h-screen items-center justify-center py-20">
-        <div className="max-w-sm px-6 text-center">
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-5 py-14">
+        <div className="w-full max-w-md rounded-xl border border-border bg-card p-7 text-center shadow-sm sm:p-9">
           <h2 className="mb-2 text-xl font-semibold">任务加载失败</h2>
           <p className="mb-6 text-sm text-muted-foreground">{tasksQuery.error.message}</p>
           <Button type="button" onClick={() => void tasksQuery.refetch()}>
@@ -127,12 +127,13 @@ export function TasksScreen() {
   }
 
   return (
-    <div className="min-h-screen py-12 sm:py-20">
-      <div className="mx-auto max-w-3xl px-6">
-        <div className="space-y-12 sm:space-y-16">
-          <header className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end sm:gap-8">
+    <div className="min-h-[calc(100vh-4rem)] px-5 py-9 sm:px-8 sm:py-12">
+      <div className="mx-auto max-w-4xl">
+        <div className="space-y-8 sm:space-y-10">
+          <header className="flex flex-col items-start justify-between gap-5 border-b border-border pb-6 sm:flex-row sm:items-end sm:gap-8">
             <div className="flex-1">
-              <h1 className="text-4xl font-semibold tracking-tight">任务清单</h1>
+              <p className="mb-2 text-sm font-medium text-primary">我的事项</p>
+              <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">任务清单</h1>
               <p className="mt-2 text-sm text-muted-foreground">
                 {pendingCount} 项待办 · {completedCount} 项已完成
               </p>

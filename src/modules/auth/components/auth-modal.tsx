@@ -62,41 +62,25 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
         if (!open) onClose()
       }}
     >
-      <DialogContent className="w-[calc(100%-2rem)] max-h-[calc(100dvh-2rem)] max-w-xl gap-0 overflow-y-auto rounded-[2rem] border-0 bg-card p-0 shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
-        <div
-          aria-hidden="true"
-          className="absolute right-0 top-0 h-64 w-64 -translate-y-1/2 translate-x-1/2 rounded-full bg-primary/5 blur-3xl"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute bottom-0 left-0 h-48 w-48 -translate-x-1/2 translate-y-1/2 rounded-full bg-primary/5 blur-3xl"
-        />
-
-        <div aria-hidden="true" className="relative overflow-hidden">
-          <div className="h-2 bg-gradient-to-r from-primary via-accent to-primary" />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-[shimmer_2s_infinite]" />
-        </div>
+      <DialogContent className="w-[calc(100%-2rem)] max-h-[calc(100dvh-2rem)] max-w-md gap-0 overflow-y-auto rounded-xl border border-border bg-card p-0 shadow-xl">
+        <div aria-hidden="true" className="h-1 bg-primary" />
 
         <div className="relative px-6 py-7 sm:px-10 sm:py-8">
           <div className="mb-6 flex items-center justify-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-accent">
-              <Sparkles aria-hidden="true" className="h-4.5 w-4.5 text-white" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+              <Sparkles aria-hidden="true" className="h-4 w-4" />
             </div>
             <span className="text-lg font-semibold">{siteConfig.name}</span>
           </div>
 
-          <div
-            className="mb-6 flex rounded-xl bg-muted/60 p-1 backdrop-blur-sm"
-            role="group"
-            aria-label="认证方式"
-          >
+          <div className="mb-6 flex rounded-lg bg-muted/60 p-1" role="group" aria-label="认证方式">
             <button
               type="button"
               aria-pressed={mode === 'login'}
               onClick={() => switchMode('login')}
               className={`flex-1 rounded-lg py-2 text-sm font-medium transition-all duration-200 ${
                 mode === 'login'
-                  ? 'bg-card text-foreground shadow-md'
+                  ? 'bg-card text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
@@ -108,7 +92,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               onClick={() => switchMode('register')}
               className={`flex-1 rounded-lg py-2 text-sm font-medium transition-all duration-200 ${
                 mode === 'register'
-                  ? 'bg-card text-foreground shadow-md'
+                  ? 'bg-card text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >

@@ -1,96 +1,92 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Check, Sun, Moon } from 'lucide-react'
+import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
-type ColorScheme =
-  | 'macaron-pink'
-  | 'macaron-blue'
-  | 'macaron-green'
-  | 'macaron-purple'
-  | 'macaron-yellow'
-  | 'macaron-orange'
-  | 'macaron-pink-dark'
-  | 'macaron-blue-dark'
-  | 'macaron-green-dark'
-  | 'macaron-purple-dark'
-  | 'macaron-yellow-dark'
-  | 'macaron-orange-dark'
+type StudioColor =
+  'studio-blue' | 'studio-teal' | 'studio-violet' | 'studio-coral' | 'studio-amber' | 'studio-slate'
+type ColorScheme = StudioColor | `${StudioColor}-dark`
 
 interface ColorConfig {
   name: string
   color: string
 }
 
-const lightSchemes: ColorScheme[] = [
-  'macaron-pink',
-  'macaron-blue',
-  'macaron-green',
-  'macaron-purple',
-  'macaron-yellow',
-  'macaron-orange',
+const lightSchemes: StudioColor[] = [
+  'studio-blue',
+  'studio-teal',
+  'studio-violet',
+  'studio-coral',
+  'studio-amber',
+  'studio-slate',
 ]
 
-const darkSchemes: ColorScheme[] = [
-  'macaron-pink-dark',
-  'macaron-blue-dark',
-  'macaron-green-dark',
-  'macaron-purple-dark',
-  'macaron-yellow-dark',
-  'macaron-orange-dark',
-]
-
-const colorConfigs: Record<ColorScheme, ColorConfig> = {
-  'macaron-pink': { name: '马卡龙粉', color: 'bg-[#FF8F9E]' },
-  'macaron-blue': { name: '马卡龙蓝', color: 'bg-[#7CB9E8]' },
-  'macaron-green': { name: '马卡龙绿', color: 'bg-[#7DD87D]' },
-  'macaron-purple': { name: '马卡龙紫', color: 'bg-[#C8A8D9]' },
-  'macaron-yellow': { name: '马卡龙黄', color: 'bg-[#FFE08A]' },
-  'macaron-orange': { name: '马卡龙橙', color: 'bg-[#FFB088]' },
-  'macaron-pink-dark': { name: '马卡龙粉暗', color: 'bg-[#FF8F9E]' },
-  'macaron-blue-dark': { name: '马卡龙蓝暗', color: 'bg-[#7CB9E8]' },
-  'macaron-green-dark': { name: '马卡龙绿暗', color: 'bg-[#7DD87D]' },
-  'macaron-purple-dark': { name: '马卡龙紫暗', color: 'bg-[#C8A8D9]' },
-  'macaron-yellow-dark': { name: '马卡龙黄暗', color: 'bg-[#FFE08A]' },
-  'macaron-orange-dark': { name: '马卡龙橙暗', color: 'bg-[#FFB088]' },
+const colorConfigs: Record<StudioColor, ColorConfig> = {
+  'studio-blue': { name: '海军蓝', color: '#315ee8' },
+  'studio-teal': { name: '青石绿', color: '#087e78' },
+  'studio-violet': { name: '深紫', color: '#7047c8' },
+  'studio-coral': { name: '砖红', color: '#c84d4d' },
+  'studio-amber': { name: '琥珀', color: '#a66308' },
+  'studio-slate': { name: '石墨灰', color: '#475569' },
 }
+
+const legacySchemes: Record<string, StudioColor> = {
+  'macaron-pink': 'studio-coral',
+  'macaron-blue': 'studio-blue',
+  'macaron-green': 'studio-teal',
+  'macaron-purple': 'studio-violet',
+  'macaron-yellow': 'studio-amber',
+  'macaron-orange': 'studio-coral',
+}
+
+const allSchemes: ColorScheme[] = [
+  ...lightSchemes,
+  ...lightSchemes.map((scheme) => `${scheme}-dark` as ColorScheme),
+]
 
 function applySchemeClass(scheme: ColorScheme) {
   const root = document.documentElement
-  const allSchemes = [...lightSchemes, ...darkSchemes]
-  allSchemes.forEach((s) => {
-    root.classList.remove(`scheme-${s}`)
-  })
+  allSchemes.forEach((item) => root.classList.remove(`scheme-${item}`))
   root.classList.add(`scheme-${scheme}`)
 }
 
-function isDarkScheme(scheme: ColorScheme): scheme is ColorScheme {
-  return scheme.endsWith('-dark')
+function readStoredScheme(stored: string | null): ColorScheme {
+  if (stored && allSchemes.includes(stored as ColorScheme)) return stored as ColorScheme
+  if (stored) {
+    const legacyDark = stored.endsWith('-dark')
+    const legacyName = legacyDark ? stored.slice(0, -5) : stored
+    const migrated = legacySchemes[legacyName]
+    if (migrated) return legacyDark ? `${migrated}-dark` : migrated
+  }
+  return 'studio-blue'
+}
+
+function baseScheme(scheme: ColorScheme): StudioColor {
+  return scheme.replace(/-dark$/, '') as StudioColor
 }
 
 export function ColorSchemeSelector() {
   const { setTheme } = useTheme()
-  const [currentScheme, setCurrentScheme] = useState<ColorScheme>('macaron-pink')
-  const [isDark, setIsDark] = useState(false)
-  const [mounted, setMounted] = useState(false)
+  const [currentScheme, setCurrentScheme] = useState<ColorScheme>('studio-blue')
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
-      setMounted(true)
-      const stored = localStorage.getItem('color-scheme') as ColorScheme
-      const allSchemes = [...lightSchemes, ...darkSchemes]
-      if (stored && allSchemes.includes(stored)) {
-        setCurrentScheme(stored)
-        setIsDark(isDarkScheme(stored))
-        setTheme(isDarkScheme(stored) ? 'dark' : 'light')
-        applySchemeClass(stored)
-      } else {
-        setTheme('light')
-        applySchemeClass('macaron-pink')
-      }
+      const stored = readStoredScheme(localStorage.getItem('color-scheme'))
+      setCurrentScheme(stored)
+      setTheme(stored.endsWith('-dark') ? 'dark' : 'light')
+      applySchemeClass(stored)
     })
-
     return () => window.cancelAnimationFrame(frame)
   }, [setTheme])
 
@@ -98,68 +94,62 @@ export function ColorSchemeSelector() {
     applySchemeClass(scheme)
     localStorage.setItem('color-scheme', scheme)
     setCurrentScheme(scheme)
-    setIsDark(isDarkScheme(scheme))
-    setTheme(isDarkScheme(scheme) ? 'dark' : 'light')
+    setTheme(scheme.endsWith('-dark') ? 'dark' : 'light')
   }
 
   function toggleMode() {
-    const currentColorIndex = isDark
-      ? darkSchemes.indexOf(currentScheme)
-      : lightSchemes.indexOf(currentScheme)
-
-    if (isDark) {
-      const newScheme = lightSchemes[currentColorIndex] || lightSchemes[0]
-      setScheme(newScheme)
-    } else {
-      const newScheme = darkSchemes[currentColorIndex] || darkSchemes[0]
-      setScheme(newScheme)
-    }
+    const nextScheme = currentScheme.endsWith('-dark')
+      ? baseScheme(currentScheme)
+      : (`${baseScheme(currentScheme)}-dark` as ColorScheme)
+    setScheme(nextScheme)
   }
 
-  const currentSchemes = isDark ? darkSchemes : lightSchemes
-
-  if (!mounted) {
-    return (
-      <div className="flex items-center gap-2">
-        <div className="w-8 h-8 rounded-full bg-muted/50 animate-pulse" />
-        <div className="flex items-center gap-1">
-          {currentSchemes.map((scheme) => (
-            <div key={scheme} className="w-5 h-5 rounded bg-muted/50 animate-pulse" />
-          ))}
-        </div>
-      </div>
-    )
-  }
+  const isDark = currentScheme.endsWith('-dark')
+  const currentColor = colorConfigs[baseScheme(currentScheme)]
 
   return (
-    <div className="flex items-center gap-2">
-      {/* 颜色选择器 */}
-      <div className="flex items-center gap-1 flex-wrap">
-        {currentSchemes.map((scheme) => (
-          <button
-            key={scheme}
-            onClick={() => setScheme(scheme)}
-            className="relative w-5 h-5 rounded-md transition-all duration-200 hover:scale-110"
-            title={colorConfigs[scheme].name}
-          >
-            <div className={`w-full h-full rounded-md ${colorConfigs[scheme].color}`} />
-            {currentScheme === scheme && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <Check className="h-3 w-3 text-gray-700 drop-shadow-md" />
-              </div>
-            )}
-          </button>
-        ))}
-      </div>
-
-      {/* 明暗切换按钮 */}
-      <button
-        onClick={toggleMode}
-        className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-current/5 transition-all duration-200"
-        title={isDark ? '切换到浅色模式' : '切换到暗色模式'}
-      >
-        {isDark ? <Sun className="h-3.5 w-3.5" /> : <Moon className="h-3.5 w-3.5" />}
-      </button>
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          type="button"
+          aria-label="选择主题"
+          className="inline-flex h-10 items-center gap-2 rounded-lg border border-border bg-card px-3 text-sm font-medium text-foreground shadow-sm transition-colors hover:bg-muted/50"
+        >
+          <span
+            aria-hidden="true"
+            className="h-3 w-3 rounded-full"
+            style={{ backgroundColor: currentColor.color }}
+          />
+          <span>主题</span>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-52">
+        <DropdownMenuLabel>主题颜色</DropdownMenuLabel>
+        <DropdownMenuRadioGroup
+          value={currentScheme}
+          onValueChange={(value) => setScheme(value as ColorScheme)}
+        >
+          {lightSchemes.map((scheme) => {
+            const value = isDark ? `${scheme}-dark` : scheme
+            return (
+              <DropdownMenuRadioItem key={scheme} value={value}>
+                <span
+                  aria-hidden="true"
+                  className="mr-1 h-3 w-3 rounded-full"
+                  style={{ backgroundColor: colorConfigs[scheme].color }}
+                />
+                {colorConfigs[scheme].name}
+              </DropdownMenuRadioItem>
+            )
+          })}
+        </DropdownMenuRadioGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onSelect={toggleMode}>
+          {isDark ? <Sun aria-hidden="true" /> : <Moon aria-hidden="true" />}
+          {isDark ? '切换到浅色模式' : '切换到深色模式'}
+          <span className="sr-only">，当前配色：{currentColor.name}</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }

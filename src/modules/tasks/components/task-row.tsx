@@ -23,8 +23,10 @@ export function TaskRow({
   return (
     <li
       className={cn(
-        'group flex items-center gap-4 rounded-2xl p-4 transition-all',
-        task.completed ? 'bg-muted/30' : 'border border-border/20 bg-card hover:border-border/40',
+        'group flex items-center gap-3 rounded-xl border p-3 transition-colors sm:gap-4 sm:p-4',
+        task.completed
+          ? 'border-border bg-muted/30'
+          : 'border-border bg-card hover:border-primary/30',
       )}
     >
       <Button
@@ -36,7 +38,7 @@ export function TaskRow({
         onClick={() => onToggle(task)}
         disabled={isUpdating}
         className={cn(
-          'h-6 w-6 flex-shrink-0 rounded-xl border-2 p-0',
+          'h-6 w-6 flex-shrink-0 rounded-md border-2 p-0',
           task.completed
             ? 'border-primary bg-primary/10 hover:bg-primary/20'
             : 'border-border/40 hover:border-primary/60 hover:bg-primary/5',
@@ -57,14 +59,14 @@ export function TaskRow({
         {task.title}
       </span>
 
-      <div className="flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
+      <div className="flex shrink-0 items-center gap-0.5 opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100">
         <Button
           type="button"
           variant="ghost"
           size="icon"
           aria-label={`编辑任务：${task.title}`}
           onClick={() => onEdit(task)}
-          className="h-8 w-8 text-muted-foreground hover:text-foreground"
+          className="h-9 w-9 text-muted-foreground hover:text-foreground"
         >
           <Pencil aria-hidden="true" className="h-4 w-4" />
         </Button>
@@ -75,7 +77,7 @@ export function TaskRow({
           aria-label={`删除任务：${task.title}`}
           onClick={() => onDelete(task)}
           disabled={isDeleting}
-          className="h-8 w-8 text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+          className="h-9 w-9 text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
         >
           <Trash2 aria-hidden="true" className="h-4 w-4" />
         </Button>

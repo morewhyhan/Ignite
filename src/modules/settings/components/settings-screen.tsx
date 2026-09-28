@@ -3,7 +3,6 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Separator } from '@/components/ui/separator'
 import { useAuthSession, useSignOut } from '@/modules/auth'
 import { ColorSchemeSelector } from '@/modules/theme'
 import { LogOut, Palette, User } from 'lucide-react'
@@ -14,14 +13,13 @@ export function SettingsScreen() {
   const user = session?.user
 
   return (
-    <div className="min-h-screen py-20">
-      <div className="max-w-2xl mx-auto px-6">
-        <div className="space-y-16">
-          <div>
-            <h1 className="text-5xl md:text-6xl font-semibold tracking-tight mb-4 text-primary">
-              设置
-            </h1>
-            <p className="text-xl text-muted-foreground">查看账户信息并调整应用外观</p>
+    <div className="min-h-[calc(100vh-4rem)] px-5 py-9 sm:px-8 sm:py-12">
+      <div className="mx-auto max-w-3xl">
+        <div className="space-y-8">
+          <div className="border-b border-border pb-6">
+            <p className="mb-2 text-sm font-medium text-primary">偏好与账户</p>
+            <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">设置</h1>
+            <p className="mt-3 text-base text-muted-foreground">管理当前账户并调整应用外观。</p>
           </div>
 
           {sessionLoading ? (
@@ -34,10 +32,10 @@ export function SettingsScreen() {
             </div>
           ) : (
             <div className="space-y-8">
-              <section className="space-y-6">
+              <section className="space-y-5 rounded-xl border border-border bg-card p-5 sm:p-6">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center text-primary">
-                    <User className="h-5 w-5" />
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <User aria-hidden="true" className="h-4 w-4" />
                   </div>
                   <div>
                     <h2 className="text-lg font-semibold">账户信息</h2>
@@ -45,10 +43,10 @@ export function SettingsScreen() {
                   </div>
                 </div>
 
-                <div className="space-y-4">
+                <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
                     <Label htmlFor="username">用户名</Label>
-                    <Input id="username" value={user.name || ''} disabled className="bg-muted/50" />
+                    <Input id="username" value={user.name || ''} disabled className="bg-muted/30" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">邮箱</Label>
@@ -57,18 +55,16 @@ export function SettingsScreen() {
                       type="email"
                       value={user.email}
                       disabled
-                      className="bg-muted/50"
+                      className="bg-muted/30"
                     />
                   </div>
                 </div>
               </section>
 
-              <Separator />
-
-              <section className="space-y-6">
+              <section className="space-y-5 rounded-xl border border-border bg-card p-5 sm:p-6">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500/20 to-violet-400/20 flex items-center justify-center text-violet-600 dark:text-violet-400">
-                    <Palette className="h-5 w-5" />
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <Palette aria-hidden="true" className="h-4 w-4" />
                   </div>
                   <div>
                     <h2 className="text-lg font-semibold">配色方案</h2>
@@ -78,12 +74,10 @@ export function SettingsScreen() {
                 <ColorSchemeSelector />
               </section>
 
-              <Separator />
-
-              <section className="space-y-6">
+              <section className="space-y-5 rounded-xl border border-border bg-card p-5 sm:p-6">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-destructive/20 to-destructive/10 flex items-center justify-center text-destructive">
-                    <LogOut className="h-5 w-5" />
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-destructive/10 text-destructive">
+                    <LogOut aria-hidden="true" className="h-4 w-4" />
                   </div>
                   <div>
                     <h2 className="text-lg font-semibold">退出登录</h2>
@@ -97,7 +91,7 @@ export function SettingsScreen() {
                   variant="destructive"
                   className="min-w-[120px]"
                 >
-                  <LogOut className="h-4 w-4 mr-2" />
+                  <LogOut aria-hidden="true" className="mr-2 h-4 w-4" />
                   {signOut.isPending ? '退出中...' : '退出登录'}
                 </Button>
               </section>

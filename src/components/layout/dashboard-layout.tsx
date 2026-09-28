@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Pin, PinOff } from 'lucide-react'
+import { Menu, Pin, PinOff } from 'lucide-react'
 import { dashboardNavigation } from '@/config/navigation'
 import { siteConfig } from '@/config/site'
 
@@ -50,7 +50,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         className={`
-          fixed top-16 left-0 z-40 h-[calc(100vh-4rem)] bg-card/90 backdrop-blur-sm border-r border-border/20
+          fixed top-16 left-0 z-40 h-[calc(100vh-4rem)] border-r border-border bg-card
           transform transition-all duration-200 ease-out
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
           lg:translate-x-0
@@ -59,7 +59,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       >
         <div className="flex flex-col h-full py-6">
           {/* 导航 */}
-          <nav className="flex-1 px-3 space-y-1">
+          <nav id="dashboard-navigation" className="flex-1 space-y-1 px-3">
             {dashboardNavigation.map((item) => {
               const isActive = pathname === item.href
               const Icon = item.icon
@@ -109,17 +109,19 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
       {/* 移动端遮罩 */}
       {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-30 lg:hidden"
+        <button
+          type="button"
+          aria-label="关闭导航菜单"
+          className="fixed inset-0 z-30 cursor-default bg-slate-950/30 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* 顶部工具栏 */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border/20">
+      <div className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/95 backdrop-blur-sm">
         <div className="flex items-center justify-between h-16 px-6 lg:px-8">
           {/* 左侧：Logo */}
-          <Link href="/" className="text-2xl font-semibold tracking-tight">
+          <Link href="/" className="text-xl font-semibold tracking-tight">
             {siteConfig.name}
           </Link>
 
@@ -134,19 +136,27 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* 主内容区 */}
-      <div id="main-content" className="flex-1">
+      <div
+        id="main-content"
+        className={`min-w-0 flex-1 transition-[margin] duration-200 ${isCollapsed ? 'lg:ml-20' : 'lg:ml-64'}`}
+      >
         {/* 移动端顶部栏 */}
-        <header className="lg:hidden flex items-center justify-between p-4 mt-16">
+        <header className="mt-16 flex items-center justify-between border-b border-border px-5 py-3 lg:hidden">
           <button
+            type="button"
             onClick={() => setSidebarOpen(true)}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            aria-label="打开导航菜单"
+            aria-expanded={sidebarOpen}
+            aria-controls="dashboard-navigation"
+            className="inline-flex h-10 items-center gap-2 rounded-lg border border-border bg-card px-3 text-sm font-medium text-foreground transition-colors hover:bg-muted/50"
           >
-            菜单
+            <Menu aria-hidden="true" className="h-4 w-4" />
+            导航
           </button>
         </header>
 
         {/* 内容 */}
-        <main className="mt-16">{children}</main>
+        <main className="mt-0 lg:mt-16">{children}</main>
       </div>
     </div>
   )

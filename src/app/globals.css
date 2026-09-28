@@ -160,18 +160,18 @@
   :root {
     --radius: 0.5rem;
 
-    /* 默认使用马卡龙粉色浅色主题 */
-    --scheme-primary: #ff8f9e;
-    --scheme-primary-rgb: 255, 143, 158;
-    --scheme-secondary: #ffd4d9;
-    --scheme-background: #fffbfc;
-    --scheme-foreground: #4a3f40;
-    --scheme-muted: #8b7e7f;
-    --scheme-border: #f8e8eb;
+    /* 默认使用高对比度的工作台蓝灰主题 */
+    --scheme-primary: #315ee8;
+    --scheme-primary-rgb: 49, 94, 232;
+    --scheme-secondary: #e8edff;
+    --scheme-background: #f6f8fc;
+    --scheme-foreground: #172235;
+    --scheme-muted: #64748b;
+    --scheme-border: #e2e8f0;
     --scheme-card: #ffffff;
-    --scheme-card-hover: #fff5f6;
-    --scheme-accent: #ff8f9e;
-    --scheme-accent-hover: #ff7b8c;
+    --scheme-card-hover: #f4f7ff;
+    --scheme-accent: #315ee8;
+    --scheme-accent-hover: #244dcc;
 
     /* Tailwind 兼容变量 */
     --background: var(--scheme-background);
@@ -183,12 +183,12 @@
     --primary: var(--scheme-primary);
     --primary-foreground: #ffffff;
     --secondary: var(--scheme-secondary);
-    --secondary-foreground: #4a3f40;
+    --secondary-foreground: #26324a;
     --muted: var(--scheme-muted);
     --muted-foreground: var(--scheme-muted);
     --accent: var(--scheme-accent);
     --accent-foreground: #ffffff;
-    --destructive: #ff6b6b;
+    --destructive: #d92d3a;
     --destructive-foreground: #ffffff;
     --border: var(--scheme-border);
     --input: var(--scheme-border);
@@ -206,17 +206,8 @@
       'rlig' 1,
       'calt' 1;
     transition:
-      background-color 0.3s ease,
-      color 0.3s ease,
-      border-color 0.3s ease;
-  }
-
-  *,
-  *::before,
-  *::after {
-    transition-property: color, background-color, border-color, box-shadow;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 200ms;
+      background-color 160ms ease,
+      color 160ms ease;
   }
 
   img,
@@ -227,188 +218,158 @@
   }
 }
 
-/* ========== 马卡龙浅色配色方案 (6套) ========== */
-
-/* 【马卡龙粉】 */
-.scheme-macaron-pink {
-  --scheme-primary: #ff8f9e;
-  --scheme-primary-rgb: 255, 143, 158;
-  --scheme-secondary: #ffd4d9;
-  --scheme-background: #fffbfc;
-  --scheme-foreground: #4a3f40;
-  --scheme-muted: #8b7e7f;
-  --scheme-border: #f8e8eb;
-  --scheme-card: #ffffff;
-  --scheme-card-hover: #fff5f6;
-  --scheme-accent: #ff8f9e;
-  --scheme-accent-hover: #ff7b8c;
+/* 主题强调色只用于少量重点，页面背景与正文保持中性、高对比。 */
+.scheme-studio-blue,
+.scheme-studio-blue-dark {
+  --scheme-primary: #315ee8;
+  --scheme-primary-rgb: 49, 94, 232;
+  --scheme-accent: #315ee8;
+  --scheme-accent-hover: #244dcc;
+}
+.scheme-studio-teal,
+.scheme-studio-teal-dark {
+  --scheme-primary: #087e78;
+  --scheme-primary-rgb: 8, 126, 120;
+  --scheme-accent: #087e78;
+  --scheme-accent-hover: #06645f;
+}
+.scheme-studio-violet,
+.scheme-studio-violet-dark {
+  --scheme-primary: #7047c8;
+  --scheme-primary-rgb: 112, 71, 200;
+  --scheme-accent: #7047c8;
+  --scheme-accent-hover: #5936a6;
+}
+.scheme-studio-coral,
+.scheme-studio-coral-dark {
+  --scheme-primary: #c84d4d;
+  --scheme-primary-rgb: 200, 77, 77;
+  --scheme-accent: #c84d4d;
+  --scheme-accent-hover: #a93838;
+}
+.scheme-studio-amber,
+.scheme-studio-amber-dark {
+  --scheme-primary: #a66308;
+  --scheme-primary-rgb: 166, 99, 8;
+  --scheme-accent: #a66308;
+  --scheme-accent-hover: #845006;
+}
+.scheme-studio-slate,
+.scheme-studio-slate-dark {
+  --scheme-primary: #475569;
+  --scheme-primary-rgb: 71, 85, 105;
+  --scheme-accent: #475569;
+  --scheme-accent-hover: #334155;
 }
 
-/* 【马卡龙蓝】 */
-.scheme-macaron-blue {
-  --scheme-primary: #7cb9e8;
-  --scheme-primary-rgb: 124, 185, 232;
-  --scheme-secondary: #b8dff7;
-  --scheme-background: #f7fbff;
-  --scheme-foreground: #3a4a5c;
-  --scheme-muted: #6b7c8e;
-  --scheme-border: #e8f4fc;
-  --scheme-card: #ffffff;
-  --scheme-card-hover: #f0f7ff;
-  --scheme-accent: #7cb9e8;
-  --scheme-accent-hover: #6aa8d8;
+.scheme-studio-blue {
+  --scheme-secondary: #e8edff;
+  --scheme-background: #f6f8fc;
+  --scheme-foreground: #172235;
+  --scheme-muted: #64748b;
+  --scheme-border: #e2e8f0;
+  --scheme-card: #fff;
+  --scheme-card-hover: #f4f7ff;
+}
+.scheme-studio-teal {
+  --scheme-secondary: #e4f3f1;
+  --scheme-background: #f5faf9;
+  --scheme-foreground: #172b2a;
+  --scheme-muted: #617876;
+  --scheme-border: #dce9e7;
+  --scheme-card: #fff;
+  --scheme-card-hover: #f1f8f7;
+}
+.scheme-studio-violet {
+  --scheme-secondary: #eee8fb;
+  --scheme-background: #f8f7fc;
+  --scheme-foreground: #251d36;
+  --scheme-muted: #70677f;
+  --scheme-border: #e7e2ef;
+  --scheme-card: #fff;
+  --scheme-card-hover: #f6f3fc;
+}
+.scheme-studio-coral {
+  --scheme-secondary: #f9e9e7;
+  --scheme-background: #fbf7f6;
+  --scheme-foreground: #30201f;
+  --scheme-muted: #7e6967;
+  --scheme-border: #eee2e0;
+  --scheme-card: #fff;
+  --scheme-card-hover: #fbf3f2;
+}
+.scheme-studio-amber {
+  --scheme-secondary: #f6eddf;
+  --scheme-background: #faf8f4;
+  --scheme-foreground: #30281b;
+  --scheme-muted: #796e5b;
+  --scheme-border: #ece5d9;
+  --scheme-card: #fff;
+  --scheme-card-hover: #f9f5ed;
+}
+.scheme-studio-slate {
+  --scheme-secondary: #e8edf2;
+  --scheme-background: #f5f7f9;
+  --scheme-foreground: #202a35;
+  --scheme-muted: #667482;
+  --scheme-border: #e0e6eb;
+  --scheme-card: #fff;
+  --scheme-card-hover: #f0f3f6;
 }
 
-/* 【马卡龙绿】 */
-.scheme-macaron-green {
-  --scheme-primary: #7dd87d;
-  --scheme-primary-rgb: 125, 216, 125;
-  --scheme-secondary: #b8f0b8;
-  --scheme-background: #f7fff7;
-  --scheme-foreground: #3a5c3a;
-  --scheme-muted: #6b8e6b;
-  --scheme-border: #e8f8e8;
-  --scheme-card: #ffffff;
-  --scheme-card-hover: #f0fff0;
-  --scheme-accent: #7dd87d;
-  --scheme-accent-hover: #6bc86b;
+.scheme-studio-blue-dark {
+  --scheme-secondary: #29385f;
+  --scheme-background: #111827;
+  --scheme-foreground: #f1f5f9;
+  --scheme-muted: #a5b2c5;
+  --scheme-border: #2b3748;
+  --scheme-card: #182334;
+  --scheme-card-hover: #202e42;
 }
-
-/* 【马卡龙紫】 */
-.scheme-macaron-purple {
-  --scheme-primary: #c8a8d9;
-  --scheme-primary-rgb: 200, 168, 217;
-  --scheme-secondary: #e5d9ed;
-  --scheme-background: #fbf7fd;
-  --scheme-foreground: #4a405c;
-  --scheme-muted: #7e6b8e;
-  --scheme-border: #f5edfb;
-  --scheme-card: #ffffff;
-  --scheme-card-hover: #fff5ff;
-  --scheme-accent: #c8a8d9;
-  --scheme-accent-hover: #b898c9;
+.scheme-studio-teal-dark {
+  --scheme-secondary: #234745;
+  --scheme-background: #101e1d;
+  --scheme-foreground: #edf7f6;
+  --scheme-muted: #a0bbb8;
+  --scheme-border: #2a403e;
+  --scheme-card: #172a28;
+  --scheme-card-hover: #203734;
 }
-
-/* 【马卡龙黄】 */
-.scheme-macaron-yellow {
-  --scheme-primary: #ffe08a;
-  --scheme-primary-rgb: 255, 224, 138;
-  --scheme-secondary: #fff0c8;
-  --scheme-background: #fffefa;
-  --scheme-foreground: #5c543a;
-  --scheme-muted: #8e866b;
-  --scheme-border: #fff8e8;
-  --scheme-card: #ffffff;
-  --scheme-card-hover: #fffef5;
-  --scheme-accent: #ffe08a;
-  --scheme-accent-hover: #ffd678;
+.scheme-studio-violet-dark {
+  --scheme-secondary: #3a2e58;
+  --scheme-background: #191523;
+  --scheme-foreground: #f5f1fc;
+  --scheme-muted: #b5a9cb;
+  --scheme-border: #352d45;
+  --scheme-card: #221b30;
+  --scheme-card-hover: #2d2440;
 }
-
-/* 【马卡龙橙】 */
-.scheme-macaron-orange {
-  --scheme-primary: #ffb088;
-  --scheme-primary-rgb: 255, 176, 136;
-  --scheme-secondary: #ffd9c8;
-  --scheme-background: #fffaf7;
-  --scheme-foreground: #5c4a3a;
-  --scheme-muted: #8e7b6b;
-  --scheme-border: #fff0e8;
-  --scheme-card: #ffffff;
-  --scheme-card-hover: #fffef9;
-  --scheme-accent: #ffb088;
-  --scheme-accent-hover: #ffa678;
+.scheme-studio-coral-dark {
+  --scheme-secondary: #553333;
+  --scheme-background: #211717;
+  --scheme-foreground: #fcf1f0;
+  --scheme-muted: #c4aaa7;
+  --scheme-border: #47302f;
+  --scheme-card: #2d1e1d;
+  --scheme-card-hover: #3a2523;
 }
-
-/* ========== 马卡龙暗色配色方案 (6套) ========== */
-
-/* 【马卡龙粉暗色】 */
-.scheme-macaron-pink-dark {
-  --scheme-primary: #ff8f9e;
-  --scheme-primary-rgb: 255, 143, 158;
-  --scheme-secondary: #ff6b7b;
-  --scheme-background: #2a1e22;
-  --scheme-foreground: #fff0f2;
-  --scheme-muted: #c8b8ba;
-  --scheme-border: #3e2e32;
-  --scheme-card: #35262a;
-  --scheme-card-hover: #3e2e32;
-  --scheme-accent: #ff8f9e;
-  --scheme-accent-hover: #ff9faa;
+.scheme-studio-amber-dark {
+  --scheme-secondary: #4b3a23;
+  --scheme-background: #201b14;
+  --scheme-foreground: #f9f4e9;
+  --scheme-muted: #c2b59d;
+  --scheme-border: #403626;
+  --scheme-card: #2c2419;
+  --scheme-card-hover: #392e1e;
 }
-
-/* 【马卡龙蓝暗色】 */
-.scheme-macaron-blue-dark {
-  --scheme-primary: #7cb9e8;
-  --scheme-primary-rgb: 124, 185, 232;
-  --scheme-secondary: #5fa8dc;
-  --scheme-background: #1e2632;
-  --scheme-foreground: #f0f7ff;
-  --scheme-muted: #a8c5d8;
-  --scheme-border: #2e3848;
-  --scheme-card: #26313e;
-  --scheme-card-hover: #2e3848;
-  --scheme-accent: #7cb9e8;
-  --scheme-accent-hover: #8fc5f0;
-}
-
-/* 【马卡龙绿暗色】 */
-.scheme-macaron-green-dark {
-  --scheme-primary: #7dd87d;
-  --scheme-primary-rgb: 125, 216, 125;
-  --scheme-secondary: #5bc85b;
-  --scheme-background: #1e2a26;
-  --scheme-foreground: #f0fff0;
-  --scheme-muted: #a8d8a8;
-  --scheme-border: #2e3e32;
-  --scheme-card: #26352e;
-  --scheme-card-hover: #2e3e32;
-  --scheme-accent: #7dd87d;
-  --scheme-accent-hover: #8fe08f;
-}
-
-/* 【马卡龙紫暗色】 */
-.scheme-macaron-purple-dark {
-  --scheme-primary: #c8a8d9;
-  --scheme-primary-rgb: 200, 168, 217;
-  --scheme-secondary: #b88fc9;
-  --scheme-background: #261e2e;
-  --scheme-foreground: #fff5ff;
-  --scheme-muted: #d8b8e8;
-  --scheme-border: #382e42;
-  --scheme-card: #2f2638;
-  --scheme-card-hover: #382e42;
-  --scheme-accent: #c8a8d9;
-  --scheme-accent-hover: #d8b8e9;
-}
-
-/* 【马卡龙黄暗色】 */
-.scheme-macaron-yellow-dark {
-  --scheme-primary: #ffe08a;
-  --scheme-primary-rgb: 255, 224, 138;
-  --scheme-secondary: #ffd070;
-  --scheme-background: #2a261e;
-  --scheme-foreground: #fffef5;
-  --scheme-muted: #e8d8a8;
-  --scheme-border: #3e382e;
-  --scheme-card: #352f26;
-  --scheme-card-hover: #3e382e;
-  --scheme-accent: #ffe08a;
-  --scheme-accent-hover: #ffe898;
-}
-
-/* 【马卡龙橙暗色】 */
-.scheme-macaron-orange-dark {
-  --scheme-primary: #ffb088;
-  --scheme-primary-rgb: 255, 176, 136;
-  --scheme-secondary: #ff9868;
-  --scheme-background: #2a241e;
-  --scheme-foreground: #fff9f5;
-  --scheme-muted: #e8c8a8;
-  --scheme-border: #3e362e;
-  --scheme-card: #352e26;
-  --scheme-card-hover: #3e362e;
-  --scheme-accent: #ffb088;
-  --scheme-accent-hover: #ffc098;
+.scheme-studio-slate-dark {
+  --scheme-secondary: #364454;
+  --scheme-background: #171c22;
+  --scheme-foreground: #f1f4f7;
+  --scheme-muted: #aab6c2;
+  --scheme-border: #303a45;
+  --scheme-card: #202832;
+  --scheme-card-hover: #2b3743;
 }
 
 /* ========== 滚动条样式 ========== */

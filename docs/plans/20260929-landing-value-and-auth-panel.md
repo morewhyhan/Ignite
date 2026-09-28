@@ -99,7 +99,13 @@
     "src/modules/auth/components/auth-modal.tsx",
     "tests/e2e/landing-auth-content.spec.ts"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-PRODUCT-017",
+      "test": "tests/e2e/landing-auth-content.spec.ts::[AC-PRODUCT-017] explains Ignite value and document system before a responsive sign-in panel",
+      "run_id": "tdd-20260928185529-a3b0c9"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

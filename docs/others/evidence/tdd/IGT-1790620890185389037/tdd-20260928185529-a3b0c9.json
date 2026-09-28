@@ -1,0 +1,25 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "4b59bf97d83d42a2a288c653e04ed47ba446264048665079b7664e33358ae68d",
+  "run_id": "tdd-20260928185529-a3b0c9",
+  "plan_id": "IGT-1790620890185389037",
+  "acceptance_id": "AC-PRODUCT-017",
+  "test": "tests/e2e/landing-auth-content.spec.ts::[AC-PRODUCT-017] explains Ignite value and document system before a responsive sign-in panel",
+  "layer": "browser",
+  "status": "assertion-failed",
+  "red_commit": "255ce5fa0f0542dc9fd9562099def167c754aa66",
+  "output_sha256": "e7a690458035606259cb6a36b9a21b012bd70ea91a79cdae4c417e0f836cb69b",
+  "command": [
+    "corepack",
+    "pnpm",
+    "test:e2e",
+    "--",
+    "tests/e2e/landing-auth-content.spec.ts",
+    "--grep",
+    "AC-PRODUCT-017"
+  ],
+  "started_at": "2026-09-28T18:55:29.822Z",
+  "ended_at": "2026-09-28T18:57:05.913Z",
+  "executor": "ignite-tdd-runner"
+}

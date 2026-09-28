@@ -55,17 +55,17 @@
     {
       "id": "T2",
       "title": "新增 CI server-output 验收测试并确认红灯",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T3",
       "title": "输出 Playwright 与 Next server 诊断",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T4",
       "title": "重跑 Release 与 GitHub CI，确认生产服务器可启动",
-      "status": "todo"
+      "status": "doing"
     }
   ],
   "depends_on": [],
@@ -176,9 +176,9 @@
 状态：`active`（由元数据生成）
 
 - [x] T1 · 确认 CI readiness 超时并锁定诊断契约 · done
-- [ ] T2 · 新增 CI server-output 验收测试并确认红灯 · doing
-- [ ] T3 · 输出 Playwright 与 Next server 诊断 · todo
-- [ ] T4 · 重跑 Release 与 GitHub CI，确认生产服务器可启动 · todo
+- [x] T2 · 新增 CI server-output 验收测试并确认红灯 · done
+- [x] T3 · 输出 Playwright 与 Next server 诊断 · done
+- [ ] T4 · 重跑 Release 与 GitHub CI，确认生产服务器可启动 · doing
 
 验收缺口：未记录；完成仍须实际证据
 证据：尚无

@@ -49,12 +49,12 @@
     {
       "id": "T2",
       "title": "确认新增验收按预期失败",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T3",
       "title": "由临时仓库配置本地 Git 身份并重验",
-      "status": "todo"
+      "status": "doing"
     },
     {
       "id": "T4",
@@ -90,7 +90,13 @@
     "docs/plans/releases/ci-fixture-git-identity-v1.json",
     "docs/others/evidence/tdd/"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-EXECUTION-029",
+      "test": "tests/contracts/execution-reliability.test.ts::[AC-EXECUTION-029] configures local commit identity for isolated Git fixtures",
+      "run_id": "tdd-20260928092108-0f89d4"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
@@ -164,8 +170,8 @@ CI 日志指向隔离夹具未配置本地 committer identity；红灯测试直�
 状态：`active`（由元数据生成）
 
 - [x] T1 · 记录夹具身份契约及真实行为测试 · done
-- [ ] T2 · 确认新增验收按预期失败 · doing
-- [ ] T3 · 由临时仓库配置本地 Git 身份并重验 · todo
+- [x] T2 · 确认新增验收按预期失败 · done
+- [ ] T3 · 由临时仓库配置本地 Git 身份并重验 · doing
 - [ ] T4 · 运行本地 CI 检查并核实 GitHub Actions · todo
 
 验收缺口：未记录；完成仍须实际证据

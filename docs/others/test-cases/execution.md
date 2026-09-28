@@ -22,7 +22,7 @@
 | AC-EXECUTION-024 | 真实 Prisma 升级验收有隔离的充分运行预算                                        | `tests/contracts/execution-timeouts.test.ts`    |
 | AC-EXECUTION-025 | 新历史副本先安装依赖，再运行诊断和归档 CLI                                      | `tests/contracts/workflow-entry.test.ts`        |
 | AC-EXECUTION-026 | TDD 红灯只绑定目标 AC 用例；兄弟用例可增改，目标用例变化会失效                  | `tests/contracts/source-analysis.test.ts`       |
-| AC-EXECUTION-029 | 临时 Git 仓库自带提交身份，无需依赖 runner 的全局 Git 配置                     | `tests/contracts/execution-reliability.test.ts` |
+| AC-EXECUTION-029 | 临时 Git 仓库自带提交身份，无需依赖 runner 的全局 Git 配置                      | `tests/contracts/execution-reliability.test.ts` |
 
 测试资产只声明要验证的行为，不记录手工通过状态；结果以 Plan 绑定的运行证据为准。
 

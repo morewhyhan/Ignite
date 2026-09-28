@@ -29,8 +29,14 @@ describe('execution reliability', () => {
   it('[AC-EXECUTION-029] configures local commit identity for isolated Git fixtures', () => {
     const fixture = makeFixture()
     try {
-      expect(git(fixture.root, 'config', '--local', 'user.name')).toBe('Ignite Test')
-      expect(git(fixture.root, 'config', '--local', 'user.email')).toBe('ignite@example.com')
+      const localConfig = (key: string) =>
+        spawnSync('git', ['config', '--local', '--get', key], {
+          cwd: fixture.root,
+          encoding: 'utf8',
+          windowsHide: true,
+        }).stdout.trim()
+      expect(localConfig('user.name')).toBe('Ignite Test')
+      expect(localConfig('user.email')).toBe('ignite@example.com')
     } finally {
       fixture.cleanup()
     }

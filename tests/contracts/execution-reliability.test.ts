@@ -26,6 +26,16 @@ function runModule(root: string, script: string) {
 }
 
 describe('execution reliability', () => {
+  it('[AC-EXECUTION-029] configures local commit identity for isolated Git fixtures', () => {
+    const fixture = makeFixture()
+    try {
+      expect(git(fixture.root, 'config', '--local', 'user.name')).toBe('Ignite Test')
+      expect(git(fixture.root, 'config', '--local', 'user.email')).toBe('ignite@example.com')
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
   it('[AC-EXECUTION-020] gives repository-wide governance tests an explicit runtime budget', () => {
     const configuredTimeout = (path: string, acceptanceId: string) => {
       const source = ts.createSourceFile(

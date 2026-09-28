@@ -1,16 +1,21 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`83692703e840`
-当前 Plan：0；结构化历史：0；未迁移历史：0
+输入指纹：`2ed4bf2edbb2`
+当前 Plan：1；结构化历史：0；未迁移历史：0
 
 ## 当前工作
 
-- 无。
+- `IGT-1790586476155495502` · `active` · `ci-fixture-git-identity-v1`
 
 ## 发布范围
 
-- 无。
+- `ci-fixture-git-identity-v1` · `active`
+  - Plan：`IGT-1790586476155495502`
+  - 缺少证据：`IGT-1790586476155495502:check-integration`（missing：no run is bound to this evidence requirement）
+  - 最终版本验收：missing
+  - 下一步：pnpm ignite next --plan IGT-1790586476155495502
+  - 未完成原始目标：GOAL-001 测试临时 Git 仓库不依赖 runner 的全局提交身份，GitHub CI 可完成 rebase 验收
 
 ## 结构问题
 

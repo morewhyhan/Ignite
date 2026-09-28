@@ -13,6 +13,7 @@
 
 - R27（REQ-EXECUTION-027）：干净模板允许零 Plan、零 Release、零运行证据且无需归档目录；若保留了历史记录，其关联和完整性仍须校验，孤立证据不得被忽略。
 - R28（REQ-EXECUTION-028）：模板维护记录从发布快照清理后，CI 可从本次 Git 提交区间恢复已删除的完成 Plan 及同一快照证据，按原校验验证并核对源码一致性；未完成、损坏或不能覆盖当前代码的历史记录不能放行，已采用项目不启用此模板清理规则。
+- R29（REQ-EXECUTION-029）：自动化测试创建的临时 Git 仓库必须自行设置提交身份，不依赖运行机器的全局 Git 配置。
 
 - R1（REQ-EXECUTION-001）：原始目标完整映射，延期不等于排除。
 - R2（REQ-EXECUTION-002）：验收区分模拟、真实数据库、浏览器和外部集成。
@@ -45,6 +46,7 @@
 
 - AC-EXECUTION-027（REQ-EXECUTION-027）：Given 没有继承过程记录的模板副本，When 校验模板历史完整性，Then 无需创建虚假归档即可通过，出现孤立运行或红灯记录时仍失败。
 - AC-EXECUTION-028（REQ-EXECUTION-028）：Given 模板维护 Plan 和证据已提交后从工作目录删除，When CI 检查跨越清理的提交区间，Then 真实通过且源码未变的 Plan 仍能覆盖改动，非终态、缺失证据、后续未测改动及已采用项目删除 Plan 均不能借此通过。
+- AC-EXECUTION-029（REQ-EXECUTION-029）：Given 测试在没有全局 Git 用户配置的干净 CI runner 上运行，When 测试夹具创建提交并重写历史，Then 临时仓库使用自身的提交身份并可完成验收。
 
 - AC-EXECUTION-001（REQ-EXECUTION-001）：Given 已登记原始目标，When 延期或排除目标，Then 延期仍计入未完成范围，排除必须有用户授权来源。
 - AC-EXECUTION-002（REQ-EXECUTION-002）：Given 带层级的验收映射，When 声称 database/browser 验收，Then 拒绝直接 mock 边界和错误测试类型，运行结果逐层归属。

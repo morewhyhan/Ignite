@@ -1,0 +1,25 @@
+{
+  "schema": 2,
+  "id": "landing-value-and-auth-panel-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1790620890185389037"],
+  "scope": [
+    {
+      "id": "GOAL-001",
+      "text": "访客能理解 Ignite 的核心价值和文档体系，并顺畅使用响应式登录/注册面板",
+      "source": "2026-09-29 用户请求",
+      "requirements": ["REQ-PRODUCT-019"],
+      "acceptance": ["AC-PRODUCT-017"],
+      "plan_ids": ["IGT-1790620890185389037"],
+      "disposition": "included",
+      "reason": "本轮唯一交付目标",
+      "authorization": ""
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-09-29"
+}

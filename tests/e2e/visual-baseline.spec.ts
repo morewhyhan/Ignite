@@ -26,9 +26,11 @@ test('[AC-PRODUCT-016] presents a readable responsive landing page and persists 
     .poll(() => page.evaluate(() => localStorage.getItem('color-scheme')))
     .toBe('studio-blue')
   await expect
-    .poll(() => page.evaluate(() =>
-      getComputedStyle(document.documentElement).getPropertyValue('--scheme-primary').trim(),
-    ))
+    .poll(() =>
+      page.evaluate(() =>
+        getComputedStyle(document.documentElement).getPropertyValue('--scheme-primary').trim(),
+      ),
+    )
     .toBe('#315ee8')
 
   await page.reload()

@@ -1,16 +1,16 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`faf87d9a48c5`
+输入指纹：`4117d81ef0d9`
 当前 Plan：1；结构化历史：1；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-1790620890185389037` · `active` · `landing-value-and-auth-panel-v1`
+- `IGT-1790620890185389037` · `blocked` · `landing-value-and-auth-panel-v1`
 
 ## 发布范围
 
-- `landing-value-and-auth-panel-v1` · `active`
+- `landing-value-and-auth-panel-v1` · `blocked`
   - Plan：`IGT-1790620890185389037`
   - 缺少证据：`IGT-1790620890185389037:check-integration`（missing：no run is bound to this evidence requirement）
   - 最终版本验收：missing

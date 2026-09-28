@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790620890185389037",
   "release": "landing-value-and-auth-panel-v1",
-  "status": "active",
+  "status": "blocked",
   "outcome": "未登录访客能理解 Ignite 的核心价值和文档体系，并顺畅使用登录/注册面板",
   "contract_version": 2,
   "execution_contract": 1,
@@ -27,7 +27,9 @@
     "更清晰、响应式的登录/注册面板",
     "桌面与移动浏览器验收"
   ],
-  "remaining_work": [],
+  "remaining_work": [
+    "修复或明确现存 tests/contracts/mutation-guards.test.ts 的超时/诊断问题，并重新通过本 Plan 的集成门禁。目标浏览器 E2E 已通过，但集成门禁不能因无关测试失败而视为通过。"
+  ],
   "change_type": "存量改动",
   "base_commit": "358cc1b4393a7b20c468398b84491c559cd993bc",
   "requirements": ["REQ-PRODUCT-019"],
@@ -61,12 +63,12 @@
     {
       "id": "T3",
       "title": "实施最小存量修改",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T4",
       "title": "验证兼容性并回写设计",
-      "status": "todo"
+      "status": "doing"
     }
   ],
   "depends_on": [],
@@ -108,7 +110,12 @@
   ],
   "required_evidence": ["check-integration"],
   "evidence": [],
-  "blocker": null,
+  "blocker": {
+    "id": "TASKS-MUTATION-GUARD",
+    "owner": "集成者",
+    "reason": "现存 mutation-guard 测试在隔离运行时超时，未产生预期断言输出",
+    "resume_action": "先修复该测试的超时和诊断，再重跑本计划集成检查"
+  },
   "open_questions": [],
   "integrated_commit": null,
   "updated_at": "2026-09-28"
@@ -176,14 +183,14 @@
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`blocked`（由元数据生成）
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
 - [x] T2 · 补充需求和目标行为测试 · done
-- [ ] T3 · 实施最小存量修改 · doing
-- [ ] T4 · 验证兼容性并回写设计 · todo
+- [x] T3 · 实施最小存量修改 · done
+- [ ] T4 · 验证兼容性并回写设计 · doing
 
-验收缺口：未记录；完成仍须实际证据
+验收缺口：修复或明确现存 tests/contracts/mutation-guards.test.ts 的超时/诊断问题，并重新通过本 Plan 的集成门禁。目标浏览器 E2E 已通过，但集成门禁不能因无关测试失败而视为通过。
 证据：尚无
 <!-- /ignite-progress -->
 

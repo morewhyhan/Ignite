@@ -1,6 +1,7 @@
 export const siteConfig = {
   name: 'Ignite',
   slug: 'ignite',
-  tagline: '快速、清晰、可扩展的全栈项目模板',
-  description: '面向比赛、黑客松和个人项目的 Next.js 全栈启动模板。',
+  tagline: '从一个问题开始，快速做出产品，并且继续做下去',
+  description:
+    '为个人开发者与小团队准备的 AI 协作全栈模板，帮助你更快验证真实问题，并沿着清晰的工程流程持续迭代。',
 } as const

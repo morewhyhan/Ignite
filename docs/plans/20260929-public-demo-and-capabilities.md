@@ -4,19 +4,19 @@
   "id": "IGT-1790683745143711116",
   "release": "public-demo-and-capabilities-v1",
   "status": "active",
-  "outcome": "访客能直接获取 Ignite、自动进入真实仪表盘体验并准确理解集成与扩展边界",
+  "outcome": "访客能直接获取 Ignite、免登录体验仪表盘，并准确理解已集成与可扩展边界",
   "contract_version": 2,
   "execution_contract": 1,
   "verification_contract": 2,
   "goals": [
     {
-      "text": "首页区分 GitHub 获取入口、自动登录 Demo 与集成能力说明；Demo 复用原仪表盘和真实业务链路，数据按访客隔离并自动清理",
+      "text": "首页清楚区分 GitHub 获取入口、免登录 Demo 与集成能力说明；Demo 可操作但永不改动访客账户或服务端数据",
       "requirements": ["REQ-PRODUCT-020"]
     }
   ],
   "constraints": [
     "正式登录、注册和真实用户 Tasks 行为保持不变",
-    "Demo 使用独立 Better Auth session 和临时账号；业务仍走原有 Hono API 与 Prisma，真实账号 cookie 与数据保持隔离",
+    "Demo 与真实登录态、Hono API、Prisma 数据库隔离",
     "只介绍源码中已交付的技术和能力，不把未来多端扩展说成已实现"
   ],
   "non_goals": [
@@ -25,33 +25,29 @@
     "不修改 GitHub 仓库可见性、权限或发布设置"
   ],
   "authorization": {
-    "source": "用户明确要求开始使用跳转 GitHub；预览时自动登录临时账号并进入原仪表盘，体验数据需自动恢复；另增加说明当前集成能力和扩展边界的页面"
+    "source": "用户明确要求首页提供开始使用与预览两个入口，开始使用跳转其 GitHub 仓库，预览进入临时数据 Demo 仪表盘，并增加解释集成能力和可扩展边界的独立页面"
   },
   "deliverables": [
-    "首页 GitHub 开始使用、自动登录 Demo 预览及能力说明入口",
-    "自动登录、复用原仪表盘、真实 Tasks CRUD 的短时 Demo 账号；退出/到期后清理临时账号与数据",
+    "首页 GitHub 开始使用、免登录预览及能力说明入口",
+    "无服务端写入、离开/刷新即还原的交互式 Demo 仪表盘",
     "如实列出已集成能力、可立即开展的工作和未预置范围的说明页",
     "桌面与移动浏览器行为验收及当前事实设计回写"
   ],
   "remaining_work": [],
   "change_type": "存量改动",
-  "base_commit": "746306bcb1dd63ff2df1fbb0454ba113c85684dc",
+  "base_commit": "3fc622213af9799de79b99c98b6326f62788603c",
   "requirements": ["REQ-PRODUCT-020"],
   "acceptance": [
     {
       "id": "AC-PRODUCT-018",
       "tests": [
-        "tests/e2e/landing-preview.spec.ts::[AC-PRODUCT-018] auto-signs visitors into the real isolated dashboard and explains capabilities"
+        "tests/e2e/landing-preview.spec.ts::[AC-PRODUCT-018] routes visitors to GitHub or a resettable demo and explains shipped capabilities"
       ],
-      "required_layers": ["browser", "database"],
+      "required_layers": ["browser"],
       "checks": [
         {
-          "test": "tests/e2e/landing-preview.spec.ts::[AC-PRODUCT-018] auto-signs visitors into the real isolated dashboard and explains capabilities",
+          "test": "tests/e2e/landing-preview.spec.ts::[AC-PRODUCT-018] routes visitors to GitHub or a resettable demo and explains shipped capabilities",
           "layer": "browser"
-        },
-        {
-          "test": "tests/e2e/landing-preview.spec.ts::[AC-PRODUCT-018] auto-signs visitors into the real isolated dashboard and explains capabilities",
-          "layer": "database"
         }
       ]
     }
@@ -91,10 +87,10 @@
   "owner": "integrator",
   "risk": "feature",
   "data_contract": {
-    "access_scope": "每次预览建立独立临时 Better Auth 用户/session；Tasks 仍经现有 Hook → Hono Typed RPC → route → Prisma，userId 只从对应 session 读取",
-    "access_rationale": "真实仪表盘体验需要真实数据链路；每位访客独立临时身份避免共享账号互相覆盖，独立 auth cookie 保留已登录用户会话，临时用户只允许按 DemoSession 标记退出/到期清理",
-    "migration_impact": "新增带 TTL 的 DemoSession 元数据表；不改现有业务表和真实用户数据",
-    "rollback": "停止 Demo 入口、删除到期的 DemoSession 所属用户及数据，再回退新增 session 表与认证分流；真实用户记录不纳入删除条件。",
+    "access_scope": "访客 Demo 仅操作客户端内存中的固定示例任务，不读取或写入真实账号、Hono 业务 API 或 Prisma 数据",
+    "access_rationale": "匿名预览是展示路径而非真实账户；内存态避免访客互相影响、数据库清理任务及真实数据污染。正式登录工作台保持原有用户归属与持久化行为。",
+    "migration_impact": "none",
+    "rollback": "撤回 /demo 和能力说明页面、移除首页入口并恢复原始 CTA；不涉及数据回滚。",
     "destructive_authorization": null
   },
   "write_scope": [
@@ -107,12 +103,6 @@
     "src/config/site.ts",
     "src/modules/landing/components/landing-screen.tsx",
     "src/modules/demo/",
-    "src/server/auth/",
-    "src/server/api/session.ts",
-    "src/server/api/index.ts",
-    "src/app/api/demo/",
-    "prisma/schema.prisma",
-    "prisma/migrations/",
     "src/modules/capabilities/",
     "src/app/demo/",
     "src/app/capabilities/",
@@ -133,32 +123,32 @@
 
 ## 目标
 
-访客在首页能立即分辨如何取得模板、如何预览以及模板已集成什么。“预览 Demo”不是跳过登录，而是服务端自动创建并登录一个短时、独立的 Demo 账号，然后进入与正式用户相同的 `/dashboard`。现有 Tasks 页面、Hook、Typed RPC 和 Prisma 均照常工作；每位访客的数据独立，退出时删除，到期后失效并在后续 Demo 入口清理。普通账号的认证 Cookie 和数据不能被 Demo 覆盖。能力说明页以源码为准，列出已交付基础、可直接开展的工作和留待按需接入的边界。
+访客在首页能立即分辨如何取得模板、如何预览以及模板已集成什么。预览不需要注册，呈现类似工作台的样例仪表盘，允许尝试任务操作，但任何改动只存在当前页面内存，刷新、离开或重置后恢复；正式登录工作台仍按真实账号持久化。能力说明页以源码和规格为依据，列出已交付基础、可直接开展的工作和刻意留给后续按需接入的边界。
 
 ## 原始目标与覆盖核对
 
 | 用户原话或来源                                                  | 本轮目标                                              | REQ             | AC             | 处理                                   |
 | --------------------------------------------------------------- | ----------------------------------------------------- | --------------- | -------------- | -------------------------------------- |
 | “开始使用的话，就直接跳到我的 GitHub 仓库”                      | 首页主入口打开 `https://github.com/morewhyhan/Ignite` | REQ-PRODUCT-020 | AC-PRODUCT-018 | 直接到仓库，不打开认证面板             |
-| “预览的话，就是进入那个 Demo…后面的仪表盘”                      | 自动建立 Demo 登录态并进入原有 `/dashboard`            | REQ-PRODUCT-020 | AC-PRODUCT-018 | 使用同一工作台与真实 Tasks 功能         |
-| “修改什么之后，它也会自动地去恢复”                               | 每访客独立临时账号；退出删除，到期失效并清理            | REQ-PRODUCT-020 | AC-PRODUCT-018 | 不共用 Demo 用户，不触碰真实用户数据   |
+| “预览的话，就是进入那个 Demo…后面的仪表盘”                      | 提供免登录仪表盘和可操作样例任务                      | REQ-PRODUCT-020 | AC-PRODUCT-018 | 独立于受保护的正式 Dashboard 路由      |
+| “这些数据…只是让他体验一下子”                                   | 操作只改客户端内存；离开、刷新或手动重置即还原        | REQ-PRODUCT-020 | AC-PRODUCT-018 | 不调用真实业务 API，不建立共享演示账号 |
 | “多加一个页面说清楚…集成哪些东西…可以直接去做什么…可拓展性极高” | 新建能力说明页，准确区分已集成、可直接用和未预置能力  | REQ-PRODUCT-020 | AC-PRODUCT-018 | 不夸大未实现的原生多端或外部服务       |
 
 ## 输入规格与边界
 
-相关真源：`docs/features/product.md`、`src/config/navigation.ts`、`src/server/api/routes/tasks/index.ts`、认证和首页组件、对应 E2E 测试。Demo 只增加临时账号入口和生命周期管理；原有 Tasks、Dashboard 和业务链路保持同一份实现。
+相关真源：`docs/features/product.md`、`docs/standards/workflow.md`、`docs/designs/design.md`、`src/config/navigation.ts`、`src/server/api/routes/tasks/index.ts`、认证和首页组件、对应 E2E 测试。正式 Tasks 的 Hook → Hono Typed RPC → Hono route → Prisma 链路不变；Demo 是明确隔离的只读服务端、可交互客户端预览，不伪装成生产全栈验收。
 
 ## 测试与验收
 
-`AC-PRODUCT-018` 使用 `tests/e2e/landing-preview.spec.ts` 检查仓库链接、自动登录并进入 `/dashboard`、真实 Tasks CRUD、访客间隔离、退出清理、普通账号会话保留、能力页事实准确及窄屏无横向溢出。集成前记录真实浏览器红灯；实现后运行本 Plan 集成检查。
+`AC-PRODUCT-018` 使用 `tests/e2e/landing-preview.spec.ts` 检查仓库链接、免登录进入 Demo、示例任务临时变更与刷新还原、没有 `/api/tasks` 写入请求、能力页真实说明及窄屏无横向溢出。集成前先使用 `pnpm ignite tdd red --plan IGT-1790683745143711116 --ac AC-PRODUCT-018` 记录真实浏览器断言红灯；实现后测试文件保持不变并运行本 Plan 集成检查。
 
 ## 实现与设计回写
 
-首页预览通过 POST 创建临时身份和 DemoSession 元数据，再以独立 Demo auth cookie 重定向到原有 `/dashboard`；用户继续使用同一导航、认证感知和 Tasks Hook → RPC → Prisma。Demo session 绝对有效期为 60 分钟，退出时级联删除标记为 Demo 的用户和数据，新的预览入口清理已到期账号。普通认证 Cookie 单独保留。`/capabilities` 说明实际集成内容和未来扩展边界；完成后只需把已实现边界同步回 Design。
+以最小独立路由实现 `/demo` 与 `/capabilities`。Demo 不调用认证 Hook、业务 Hook 或浏览器持久化存储；访客手动重置或页面重新加载/退出即回到固定样例。首页 CTA 清楚区分 GitHub 获取、Demo 预览与可选账号登录。结束时回写 `docs/designs/design.md` 当前页面和数据边界事实。
 
 ## 准出条件
 
-AC-PRODUCT-018 浏览器用例验证真实 CRUD、至少两个访客隔离、退出清理、到期策略和普通账号会话保留；首页与能力页在桌面及窄屏通过。数据库迁移、类型检查和本 Plan 行为验收通过后，回写简明 Design 事实。
+AC-PRODUCT-018 浏览器用例在桌面和移动视口通过；Demo 不发起业务 CRUD 请求且刷新后恢复样例；能力说明无超出源码事实的承诺；任务完成、`remaining_work` 清空，当前 Design 与实现一致并留有集成证据。
 
 <!-- ignite-progress -->
 

@@ -1,0 +1,25 @@
+{
+  "schema": 2,
+  "id": "public-demo-and-capabilities-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1790683745143711116"],
+  "scope": [
+    {
+      "id": "GOAL-001",
+      "text": "首页分别提供 GitHub 获取模板、免登录 Demo 预览和集成能力说明入口；Demo 使用临时样例数据，不写入真实账号或服务端业务数据。",
+      "source": "用户要求开始使用直达 GitHub、预览进入 Demo 仪表盘、操作数据仅供体验并说明实际集成能力与扩展边界。",
+      "requirements": ["REQ-PRODUCT-020"],
+      "acceptance": ["AC-PRODUCT-018"],
+      "plan_ids": ["IGT-1790683745143711116"],
+      "disposition": "included",
+      "reason": "本次公共访客体验交付目标。",
+      "authorization": "用户在本轮明确提出。"
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-09-29"
+}

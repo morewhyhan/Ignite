@@ -119,7 +119,13 @@
     "tests/e2e/landing-auth-content.spec.ts",
     "tests/e2e/landing-preview.spec.ts"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-PRODUCT-018",
+      "test": "tests/e2e/landing-preview.spec.ts::[AC-PRODUCT-018] auto-signs visitors into the real isolated dashboard and explains capabilities",
+      "run_id": "tdd-20260929143320-58ad1f"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
@@ -137,12 +143,12 @@
 
 ## 原始目标与覆盖核对
 
-| 用户原话或来源                                                  | 本轮目标                                              | REQ             | AC             | 处理                                   |
-| --------------------------------------------------------------- | ----------------------------------------------------- | --------------- | -------------- | -------------------------------------- |
-| “开始使用的话，就直接跳到我的 GitHub 仓库”                      | 首页主入口打开 `https://github.com/morewhyhan/Ignite` | REQ-PRODUCT-020 | AC-PRODUCT-018 | 直接到仓库，不打开认证面板             |
-| “预览的话，就是进入那个 Demo…后面的仪表盘”                      | 自动建立 Demo 登录态并进入原有 `/dashboard`            | REQ-PRODUCT-020 | AC-PRODUCT-018 | 使用同一工作台与真实 Tasks 功能         |
-| “修改什么之后，它也会自动地去恢复”                               | 每访客独立临时账号；退出删除，到期失效并清理            | REQ-PRODUCT-020 | AC-PRODUCT-018 | 不共用 Demo 用户，不触碰真实用户数据   |
-| “多加一个页面说清楚…集成哪些东西…可以直接去做什么…可拓展性极高” | 新建能力说明页，准确区分已集成、可直接用和未预置能力  | REQ-PRODUCT-020 | AC-PRODUCT-018 | 不夸大未实现的原生多端或外部服务       |
+| 用户原话或来源                                                  | 本轮目标                                              | REQ             | AC             | 处理                                 |
+| --------------------------------------------------------------- | ----------------------------------------------------- | --------------- | -------------- | ------------------------------------ |
+| “开始使用的话，就直接跳到我的 GitHub 仓库”                      | 首页主入口打开 `https://github.com/morewhyhan/Ignite` | REQ-PRODUCT-020 | AC-PRODUCT-018 | 直接到仓库，不打开认证面板           |
+| “预览的话，就是进入那个 Demo…后面的仪表盘”                      | 自动建立 Demo 登录态并进入原有 `/dashboard`           | REQ-PRODUCT-020 | AC-PRODUCT-018 | 使用同一工作台与真实 Tasks 功能      |
+| “修改什么之后，它也会自动地去恢复”                              | 每访客独立临时账号；退出删除，到期失效并清理          | REQ-PRODUCT-020 | AC-PRODUCT-018 | 不共用 Demo 用户，不触碰真实用户数据 |
+| “多加一个页面说清楚…集成哪些东西…可以直接去做什么…可拓展性极高” | 新建能力说明页，准确区分已集成、可直接用和未预置能力  | REQ-PRODUCT-020 | AC-PRODUCT-018 | 不夸大未实现的原生多端或外部服务     |
 
 ## 输入规格与边界
 

@@ -16,19 +16,22 @@
   ],
   "constraints": [
     "保留现有邮箱密码登录、注册、校验、提交状态和认证 API 行为",
-    "首页沿用现有语义主题令牌与组件体系，不添加外部服务、图库或新依赖"
+    "首页沿用现有语义主题令牌与组件体系，不添加外部服务、图库或新依赖",
+    "保留价值区与文档区既定目标，只重排图示与信息层级，提升理解速度和说服力"
   ],
   "non_goals": ["不改变产品定位、认证方式或登录后的工作台", "不创建 GitHub Release 或推送代码"],
   "authorization": {
     "source": "用户要求改善登录注册面板，并在登录前的首页滚动内容中清楚介绍项目优势和文档体系"
   },
   "deliverables": [
-    "首页的模板价值介绍与文档体系说明",
+    "以用户实际使用场景和交付结果为中心的首页价值介绍",
+    "准确呈现 Ignite 文档职责、主线流转与 Plan / Design 区别的说明",
     "更清晰、响应式的登录/注册面板",
     "桌面与移动浏览器验收"
   ],
   "remaining_work": [
-    "修复或明确现存 tests/contracts/mutation-guards.test.ts 的超时/诊断问题，并重新通过本 Plan 的集成门禁。目标浏览器 E2E 已通过，但集成门禁不能因无关测试失败而视为通过。"
+    "修复或明确现存 tests/contracts/mutation-guards.test.ts 的超时/诊断问题，并重新通过本 Plan 的集成门禁。",
+    "本轮按用户反馈重写了价值与文档展示断言；既有 TDD 红灯记录对应修改前的测试内容。Plan 恢复 active 后，须为当前 AC 重新记录有效红灯，再由集成门禁绑定本轮通过结果。"
   ],
   "change_type": "存量改动",
   "base_commit": "358cc1b4393a7b20c468398b84491c559cd993bc",
@@ -69,6 +72,11 @@
       "id": "T4",
       "title": "验证兼容性并回写设计",
       "status": "doing"
+    },
+    {
+      "id": "T5",
+      "title": "重构用户价值表达与文档体系说明",
+      "status": "done"
     }
   ],
   "depends_on": [],
@@ -97,6 +105,8 @@
     "docs/others/test-cases/product.md",
     "docs/designs/design.md",
     "src/modules/landing/components/landing-screen.tsx",
+    "src/modules/landing/components/landing-value-story.tsx",
+    "src/modules/landing/components/document-system-map.tsx",
     "src/config/site.ts",
     "src/modules/auth/components/auth-modal.tsx",
     "tests/e2e/landing-auth-content.spec.ts"
@@ -113,12 +123,12 @@
   "blocker": {
     "id": "TASKS-MUTATION-GUARD",
     "owner": "集成者",
-    "reason": "现存 mutation-guard 测试在隔离运行时超时，未产生预期断言输出",
-    "resume_action": "先修复该测试的超时和诊断，再重跑本计划集成检查"
+    "reason": "现存 mutation-guard 测试在隔离运行时超时，未产生预期断言输出；Plan 处于 blocked 时不能为本轮更新后的 AC 重新记录 TDD 红灯",
+    "resume_action": "先修复该测试的超时和诊断，将 Plan 恢复 active；再为当前 AC 记录真实红灯并重跑本计划集成检查"
   },
   "open_questions": [],
   "integrated_commit": null,
-  "updated_at": "2026-09-28"
+  "updated_at": "2026-09-29"
 }
 -->
 
@@ -136,10 +146,11 @@
 
 ## 原始目标与覆盖核对
 
-| 用户原话或可追溯来源                         | 本轮目标                                                   | REQ             | AC             | 处理结果                        |
-| -------------------------------------------- | ---------------------------------------------------------- | --------------- | -------------- | ------------------------------- |
-| 用户指出登录/注册面板很丑                    | 简化认证面板层级、强化表单可读性并适配窄屏；不改变认证行为 | REQ-PRODUCT-019 | AC-PRODUCT-017 | 保留邮箱密码认证与现有 API 行为 |
-| 用户要求访客向下滚动能看到项目优势和文档体系 | 首页补充模板价值与文档分工说明，使访客登录前理解项目       | REQ-PRODUCT-019 | AC-PRODUCT-017 | 纳入首页正文与浏览器验收        |
+| 用户原话或可追溯来源                                                            | 本轮目标                                                                                      | REQ             | AC             | 处理结果                                                       |
+| ------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------- | -------------- | -------------------------------------------------------------- |
+| 用户指出登录/注册面板很丑                                                       | 简化认证面板层级、强化表单可读性并适配窄屏；不改变认证行为                                    | REQ-PRODUCT-019 | AC-PRODUCT-017 | 保留邮箱密码认证与现有 API 行为                                |
+| 用户要求访客向下滚动能看到项目优势和文档体系                                    | 首页补充模板价值与文档分工说明，使访客登录前理解项目                                          | REQ-PRODUCT-019 | AC-PRODUCT-017 | 纳入首页正文与浏览器验收                                       |
+| 用户明确价值页要说明何时用、实际得到什么；下一页要按项目文档与 PDF 讲清文档系统 | 价值页展示用户情境、具体交付结果和继续修改的影响；文档页解释规则入口、主线与 Plan/Design 分工 | REQ-PRODUCT-019 | AC-PRODUCT-017 | 按 README、docs/README.md、Standards 与 PDF 对齐文案和信息结构 |
 
 进入 `ready` 前回看原始请求，确认目标、约束、必须保留的能力都已列入；不把 AI 自己改写后的 goals 当作原始输入。此表是语义审查记录，不能伪称机器已证明无遗漏。
 
@@ -189,8 +200,9 @@
 - [x] T2 · 补充需求和目标行为测试 · done
 - [x] T3 · 实施最小存量修改 · done
 - [ ] T4 · 验证兼容性并回写设计 · doing
+- [x] T5 · 重构用户价值表达与文档体系说明 · done
 
-验收缺口：修复或明确现存 tests/contracts/mutation-guards.test.ts 的超时/诊断问题，并重新通过本 Plan 的集成门禁。目标浏览器 E2E 已通过，但集成门禁不能因无关测试失败而视为通过。
+验收缺口：修复或明确现存 tests/contracts/mutation-guards.test.ts 的超时/诊断问题，并重新通过本 Plan 的集成门禁。；本轮按用户反馈重写了价值与文档展示断言；既有 TDD 红灯记录对应修改前的测试内容。Plan 恢复 active 后，须为当前 AC 重新记录有效红灯，再由集成门禁绑定本轮通过结果。
 证据：尚无
 <!-- /ignite-progress -->
 

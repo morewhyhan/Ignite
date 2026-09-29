@@ -3,72 +3,13 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import {
-  ArrowDown,
-  ArrowRight,
-  BookOpenText,
-  Boxes,
-  ClipboardCheck,
-  FileCheck2,
-  Layers3,
-  ShieldCheck,
-  Zap,
-} from 'lucide-react'
+import { ArrowDown, ArrowRight, Boxes, Layers3, ShieldCheck, Zap } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { siteConfig } from '@/config/site'
 import { AuthModal, useAuthSession } from '@/modules/auth'
 import { ColorSchemeSelector } from '@/modules/theme'
-
-const benefits = [
-  {
-    icon: Zap,
-    title: '更快开始',
-    description: '运行底座和常用工程链路已经准备好，把时间留给真正要解决的问题。',
-  },
-  {
-    icon: Layers3,
-    title: 'AI 有章可循',
-    description: '规则、需求和本轮任务各有位置，AI 能按当前工作接续，不必每次从头猜。',
-  },
-  {
-    icon: ClipboardCheck,
-    title: '完成有依据',
-    description: '验收与测试对应到具体需求，做完能知道是否达到目标，也方便继续修改。',
-  },
-] as const
-
-const documentAreas = [
-  {
-    path: 'docs/standards/',
-    title: '长期规则',
-    description: 'AI 应该怎样开发，项目必须遵守哪些工程边界。',
-    icon: ShieldCheck,
-  },
-  {
-    path: 'docs/features/',
-    title: '产品目标',
-    description: '要解决什么问题，用户行为怎样才算完成。',
-    icon: BookOpenText,
-  },
-  {
-    path: 'docs/plans/',
-    title: '本轮任务',
-    description: '这次改什么、分几步做、还有什么未完成。',
-    icon: Layers3,
-  },
-  {
-    path: 'docs/designs/',
-    title: '当前事实',
-    description: '系统现在的架构、接口和数据边界是什么。',
-    icon: Boxes,
-  },
-  {
-    path: 'docs/others/',
-    title: '验证与决策',
-    description: '测试路径、重要取舍和可回查的验收证据。',
-    icon: FileCheck2,
-  },
-] as const
+import { DocumentSystemMap } from './document-system-map'
+import { LandingValueStory } from './landing-value-story'
 
 export function LandingScreen() {
   const router = useRouter()
@@ -207,26 +148,16 @@ export function LandingScreen() {
                 id="why-ignite-title"
                 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl"
               >
-                真正省下的，是从想法到持续修改的距离
+                把一个问题，做成能用、能验证、还能继续改的产品
               </h2>
               <p className="mt-4 text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-                项目很快能跑起来，难的是每次改动之后还能看懂、验证并继续。Ignite
-                预先整理好工程底座和 AI
-                可遵循的工作路径，让你更快进入真实问题，也更有把握地把产品做下去。
+                适合有具体问题、想尽快开始验证的个人开发者和小团队。Ignite 把可运行的全栈起点和 AI
+                协作规则准备好：你说明目标与取舍，AI
+                负责实现并验证；你更早拿到可体验的版本，也能有依据地继续修改。
               </p>
             </div>
 
-            <div className="mt-10 grid gap-4 md:grid-cols-3">
-              {benefits.map(({ icon: Icon, title, description }) => (
-                <article key={title} className="rounded-xl border border-border bg-card p-5 sm:p-6">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                    <Icon aria-hidden="true" className="h-5 w-5" />
-                  </span>
-                  <h3 className="mt-5 text-lg font-semibold tracking-tight">{title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{description}</p>
-                </article>
-              ))}
-            </div>
+            <LandingValueStory />
           </div>
         </section>
 
@@ -242,39 +173,14 @@ export function LandingScreen() {
               id="documents-title"
               className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl"
             >
-              文档不是堆在一起，而是各自回答一个问题
+              让 AI 看得懂项目，也让每次修改都有据可循
             </h2>
             <p className="mt-4 text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-              人来确定目标，AI
-              按当前任务读取需要的上下文；完成后再把验证结果和系统现状写回对应位置。
+              文档各有职责：标准约束整个过程，需求说明要交付什么，计划记录这一轮怎么做，验收后再把系统当前事实写回设计文档。
             </p>
           </div>
 
-          <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {documentAreas.map(({ path, title, description, icon: Icon }) => (
-              <article key={path} className="rounded-xl border border-border bg-card p-5">
-                <div className="flex items-center gap-3">
-                  <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                    <Icon aria-hidden="true" className="h-4 w-4" />
-                  </span>
-                  <div>
-                    <p className="text-xs font-medium text-muted-foreground">
-                      <code>{path}</code>
-                    </p>
-                    <h3 className="mt-1 text-base font-semibold">{title}</h3>
-                  </div>
-                </div>
-                <p className="mt-4 text-sm leading-6 text-muted-foreground">{description}</p>
-              </article>
-            ))}
-          </div>
-
-          <div className="mt-8 rounded-xl border border-border bg-muted/40 p-5 sm:p-6">
-            <p className="text-sm font-semibold">一轮开发怎样走完</p>
-            <p className="mt-2 text-sm leading-7 text-muted-foreground">
-              问题 → Feature 规格 → Plan → 测试 → AI 实现 → Verify → Design 回写，再开始下一轮增量。
-            </p>
-          </div>
+          <DocumentSystemMap />
         </section>
 
         <section className="border-t border-border bg-card/60">
@@ -296,6 +202,84 @@ export function LandingScreen() {
               立即开始体验
               <ArrowRight aria-hidden="true" className="h-4 w-4" />
             </Button>
+          </div>
+        </section>
+
+        <section
+          aria-labelledby="ignite-manifesto-title"
+          className="border-t border-border bg-foreground text-background"
+        >
+          <div className="mx-auto grid w-full max-w-6xl items-start gap-10 px-5 py-16 sm:px-8 sm:pt-24 sm:pb-16 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
+            <div className="max-w-lg">
+              <h2
+                id="ignite-manifesto-title"
+                className="text-3xl font-semibold leading-tight tracking-tight sm:text-4xl lg:text-5xl lg:leading-[1.08]"
+              >
+                <span className="block">好想法死在脑子里，</span>
+                <span className="block text-background/70">是最可惜的。</span>
+              </h2>
+            </div>
+
+            <div className="max-w-2xl space-y-6 pt-1 text-lg leading-9 text-background/75">
+              <p>
+                想法不是拿来收藏的。
+                <br />
+                <strong className="font-semibold text-background">是拿来点燃的。</strong>
+              </p>
+
+              <p>
+                但火种不是烟花。烟花只争一瞬。
+                <br />
+                <strong className="font-semibold text-background">火种，是要燎原的。</strong>
+              </p>
+
+              <p>
+                <strong className="font-semibold text-background">燎原之前，先入炉。</strong>
+                <br />
+                烈火一遍遍烧过。直到炉门再开——
+                <br />
+                <strong className="font-semibold text-background">
+                  那一点火种，已有了可以被举起的形状。
+                </strong>
+                <br />
+                它叫火炬。
+              </p>
+
+              <p>
+                于是一句“我想做”，也终于变成——
+                <br />
+                <strong className="font-semibold text-background">“我做成了。”</strong>
+              </p>
+
+              <p>
+                把它举起来。
+                <br />
+                <span className="flex flex-nowrap gap-x-2 whitespace-nowrap text-base sm:gap-x-3 sm:text-lg">
+                  <span>让人看见、</span>
+                  <span>让人借光、</span>
+                  <span>让人取暖。</span>
+                </span>
+                <br />
+                <span className="flex flex-nowrap gap-x-2 whitespace-nowrap font-semibold text-base text-background sm:gap-x-3 sm:text-lg">
+                  <span>从一双手，</span>
+                  <span>到另一双手。</span>
+                </span>
+              </p>
+
+              <div className="border-t border-background/20 pt-6">
+                <div className="flex flex-nowrap items-baseline gap-x-3 whitespace-nowrap">
+                  <p className="text-xl font-semibold tracking-tight text-background sm:text-2xl">
+                    Ignite your idea.
+                  </p>
+                  <p className="text-xs font-normal tracking-normal text-background/65 sm:text-sm">
+                    点燃你的想法。
+                  </p>
+                </div>
+                <p className="mt-4 whitespace-nowrap text-xl font-semibold leading-tight tracking-tight text-background sm:text-3xl">
+                  从一念火种，到万家灯火。
+                </p>
+              </div>
+            </div>
           </div>
         </section>
       </main>

@@ -57,17 +57,17 @@
     {
       "id": "T2",
       "title": "先用契约测试验证当前行为拒绝合法 opt-in",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T3",
       "title": "实施最小生产 SQLite opt-in 并更新运行时说明",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T4",
       "title": "验证配置边界并回写设计事实",
-      "status": "todo"
+      "status": "doing"
     }
   ],
   "depends_on": [],
@@ -182,9 +182,9 @@
 状态：`active`（由元数据生成）
 
 - [x] T1 · 明确默认拒绝、显式 opt-in 与持久路径契约 · done
-- [ ] T2 · 先用契约测试验证当前行为拒绝合法 opt-in · todo
-- [ ] T3 · 实施最小生产 SQLite opt-in 并更新运行时说明 · todo
-- [ ] T4 · 验证配置边界并回写设计事实 · todo
+- [x] T2 · 先用契约测试验证当前行为拒绝合法 opt-in · done
+- [x] T3 · 实施最小生产 SQLite opt-in 并更新运行时说明 · done
+- [ ] T4 · 验证配置边界并回写设计事实 · doing
 
 验收缺口：未记录；完成仍须实际证据
 证据：尚无

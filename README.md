@@ -131,6 +131,7 @@ README 介绍能力与入口；具体步骤、规则和系统事实在对应文�
 | 查架构、安全、测试等工程约定 | [工程标准索引](./docs/standards/README.md)                                        |
 | 配置 AI 工具与项目资产       | [AI 工作台](./.ai/README.md) · [AI 协作规范](./docs/standards/ai-agents.md)       |
 | 查验收用例、决策与交付记录   | [验收与决策资料](./docs/others/README.md)                                         |
+| 查看已发布版本的变化         | [版本更新说明](./CHANGELOG.md)                                                    |
 
 ---
 

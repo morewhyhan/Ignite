@@ -3,6 +3,13 @@
   <p><strong>从一个问题开始，快速做出产品，并且继续做下去</strong></p>
   <p>一个面向个人开发者、独立产品和小团队的 AI 友好型全栈开发模板。</p>
   <p>
+    <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-16-111111?logo=next.js&logoColor=white" alt="Next.js 16"></a>
+    <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-19-087ea4?logo=react&logoColor=white" alt="React 19"></a>
+    <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white" alt="TypeScript 5"></a>
+    <a href="https://hono.dev/"><img src="https://img.shields.io/badge/Hono-4-e36002?logo=hono&logoColor=white" alt="Hono 4"></a>
+    <a href="https://www.prisma.io/"><img src="https://img.shields.io/badge/Prisma-6-2d3748?logo=prisma&logoColor=white" alt="Prisma 6"></a>
+  </p>
+  <p>
     <a href="https://github.com/morewhyhan/Ignite/generate"><strong>使用这个模板 ↗</strong></a>
     &nbsp; · &nbsp;
     <a href="#开始使用">快速开始</a>
@@ -127,3 +134,22 @@ Ignite 采用**模块化单体架构**：前后端在同一项目中组织，业
 [架构规范](./docs/standards/architecture.md) · [API 设计](./docs/designs/api.md) · [数据库设计](./docs/designs/database.md)
 
 ---
+
+## Ignite 的理想
+
+<div align="center">
+  <h2>好想法死在脑子里，<br>是最可惜的。</h2>
+  <p>想法是火种，不是烟花。</p>
+  <p><strong>烟花亮一瞬，火种是要燎原的。</strong></p>
+  <p>火种钻进炉火，烈火淬过，杂质褪去，<br>直至它有了可以被举起的形状。</p>
+  <p>那是火炬。<br>那是“我想做”，变成了“我做成了”。</p>
+  <p>举起来。<br>让人看见，让人借光，让人取暖。<br>从一双手，到另一双手。</p>
+  <p><strong>Ignite your idea.</strong><br><sub>从一念想法，到万家灯火。</sub></p>
+  <h3>✦ 让星星之火得以燎原。</h3>
+</div>
+
+> **别让想法卡在技术准备上。**
+>
+> Ignite 是一套轻量、可扩展的 AI 协作全栈模板：基础能力开箱即用，工程边界清楚、结果可验证，让你快速启动、验证想法，并持续迭代。
+>
+> 快速启动 · 快速验证 · 持续迭代

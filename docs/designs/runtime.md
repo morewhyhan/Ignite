@@ -13,13 +13,13 @@
 
 ## 环境变量
 
-| 变量                 | 本地示例                | 生产约束                          |
-| -------------------- | ----------------------- | --------------------------------- |
-| `APP_ENV`            | `development`           | 必须显式为 `production`           |
-| `APP_URL`            | `http://localhost:3000` | HTTPS 纯 origin，不能是 localhost |
-| `DATABASE_URL`       | `file:./dev.db`         | 不能使用 `file:` SQLite           |
-| `ALLOW_PRODUCTION_SQLITE` | `false`             | 默认关闭；仅单机展示部署可显式设为 `true` |
-| `BETTER_AUTH_SECRET` | 本地示例值              | 至少 32 字符高熵随机值            |
+| 变量                      | 本地示例                | 生产约束                                  |
+| ------------------------- | ----------------------- | ----------------------------------------- |
+| `APP_ENV`                 | `development`           | 必须显式为 `production`                   |
+| `APP_URL`                 | `http://localhost:3000` | HTTPS 纯 origin，不能是 localhost         |
+| `DATABASE_URL`            | `file:./dev.db`         | 不能使用 `file:` SQLite                   |
+| `ALLOW_PRODUCTION_SQLITE` | `false`                 | 默认关闭；仅单机展示部署可显式设为 `true` |
+| `BETTER_AUTH_SECRET`      | 本地示例值              | 至少 32 字符高熵随机值                    |
 
 `scripts/template-doctor.mjs` 与服务端 `src/server/env.ts` 共用 `src/server/env-policy.mjs` 检查 URL origin、密钥长度和生产环境限制；诊断只报告问题，不输出密钥值。
 

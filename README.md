@@ -11,150 +11,23 @@
   </p>
 </div>
 
-<div align="center">
-
-[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/) [![React](https://img.shields.io/badge/React-19-149eca?logo=react)](https://react.dev/) [![Hono](https://img.shields.io/badge/Hono-4-e36002?logo=hono)](https://hono.dev/) [![Prisma](https://img.shields.io/badge/Prisma-6-2d3748?logo=prisma)](https://www.prisma.io/) [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript)](https://www.typescriptlang.org/)
-
-</div>
-
-**本页导航**　[AI 开发 Loop](#ai-开发-loop) · [文档系统](#文档系统) · [AI 工作台](#ai-工作台) · [核心规格](#核心规格总览) · [开始使用](#开始使用) · [基本架构](#基本架构) · [文档导航](#文档导航)
+<p align="center"><sub><a href="#开始使用">01　快速开始</a>　·　<a href="#ai-开发-loop">02　开发流程</a>　·　<a href="#文档系统">03　文档系统</a>　·　<a href="#基本架构">04　代码架构</a></sub></p>
 
 ---
 
-Ignite 是为快速解决真实问题准备的全栈开发模板。很多项目的开始都很相似：一个想法出现了，时间有限，最好马上做出一个能运行的版本。
+AI 可以很快生成第一版；真正磨人的是需求不断变化后，原先的目标和决策逐渐散失，AI 需要反复重建上下文，改完也难确认结果是否可靠。Ignite 把这段开发过程组织成三个互相支撑的部分：
 
-AI 让页面、接口和数据库的生成变得很快，真正困难的部分却常常出现在**第一次修改之后**：代码开始分散，边界变得模糊，AI 需要反复重新理解上下文，产品明明已经能跑，却越来越让人不敢继续碰。
+1. **能直接启动的产品底座**：已有首页、邮箱密码注册登录、工作台、设置页、Tasks 参考业务和本地 SQLite；注册不依赖真实邮件。
+2. **AI 能接续的工作上下文**：一份项目规则真源、清楚的文档分工，以及从规格到验证的开发 Loop。
+3. **后续改动有明确边界**：业务模块化组织、统一 API 链路；复杂度出现时再增加相应分层或平台适配。
 
-Ignite 提供一个可以直接运行的起点，也把后续开发需要遵守的工程边界和验证方式组织起来。你可以从真正要解决的问题开始，快速做出第一个可验证的版本；之后每一次新增、修改和修复，都沿着同一条路径推进，项目不会因为追求速度而失去方向。
-
-它尤其适合**个人开发者、独立产品、比赛、黑客松和小团队的快速验证项目**：你有明确的问题和时间压力，希望 AI 尽可能多地承担执行工作，同时仍然掌握产品方向、工程边界和交付质量。
-
-Ignite 关心的结果很具体：让你更容易开始，在有限时间内交付一个真实可用的版本，并且在第一版完成后仍然有信心继续修改和扩展。
-
-> **一句话：**让 AI 负责执行，让工程规范守住方向，让产品持续向前。
-
----
-
-<a id="ai-开发-loop"></a>
-
-## 🚀 AI 开发 Loop
-
-每个功能都沿着同一条路径推进：
-
-```text
-问题 → Feature → Plan → Test → AI 实现 → Verify → Design → 下一轮增量
-```
-
-<p align="center">
-  <img src="./docs/assets/ignite-ai-loop.svg" width="760" alt="Ignite AI 开发 Loop">
-</p>
-
-这套 Loop 的判断逻辑很明确：先把需求、约束和验收标准写进 Feature / Plan，再按规格编写测试和最小实现；运行测试后，结果决定下一步——通过就继续并更新 Design，不通过就修改代码、重新运行测试，直到验证通过。
-
-开发规则固定为：**规格文档 → 编写测试 → 编写实现 → 运行测试 → 通过则继续 / 不通过则修复重试 → 更新 Design**。这条规则写入 [`AGENTS.md`](./AGENTS.md)，由测试和构建结果决定是否继续，而不是凭主观判断结束。
-
-人确定问题、目标、边界和验收标准；AI 调查代码、实现功能、补充测试并整理结果；测试、构建和迁移检查为结果提供证据。
-
-<details>
-<summary>接续开发：查看状态与命令</summary>
-
-查看 Ignite CLI 的命令和用法：`pnpm ignite --help`。开始任务时先用 `pnpm ignite status` 读取精简状态；需要自动化消费完整字段时再使用 `pnpm ignite status --json`。
-
-具体操作见[开发工作流](./docs/standards/workflow.md)，验证方式见[测试规范](./docs/standards/testing.md)。
-
-</details>
-
----
-
-<a id="文档系统"></a>
-
-## 📚 文档系统
-
-README 只负责入口和导航；具体规则都在文档系统中维护：
-
-```text
-Ignite/
-├── AGENTS.md                       所有 AI 工具共用的项目规则
-├── CLAUDE.md                       Claude Code 规则入口
-├── .cursor/rules/ignite.mdc        Cursor 规则桥接
-├── .claude/                        Claude 专属资产登记
-├── .opencode/                      OpenCode 入口
-├── .github/copilot-instructions.md  GitHub Copilot 规则入口
-├── .ai/                            Skills、MCP 与运行时登记
-├── docs/
-│   ├── standards/                  长期工程标准
-│   ├── features/                   功能需求和验收标准
-│   ├── plans/                      每轮实现计划和过程记录
-│   ├── designs/                    当前系统事实
-│   └── others/                     ADR、测试用例和交付证据
-└── tests/                          可执行的验证证据
-```
-
-文档流转关系：
-
-```text
-Feature（需求起点） → Plan（过程方案） → Test + Code（实现与证据） → Design（最终事实）
-```
-
-简单记住：Feature 说明要做什么，Plan 说明这轮怎么做，Test 证明是否做对，Design 记录现在是什么；Standards 贯穿整个过程。
-
-> **Plan 保留这一轮的过程，Design 保存系统当前的事实。** 下一轮从现行需求与设计出发，接续相关计划。
-
-发布快照只携带可复用资料。复制后从自己的第一份 Plan 开始，Ignite 建设期的任务、审计报告和运行记录保存在 Git 历史中。
-
-开始修改前，先阅读 [`AGENTS.md`](./AGENTS.md) 和 [`docs/README.md`](./docs/README.md)。
-
-<details>
-<summary>交付结果如何留下可核对的依据</summary>
-
-AI 不靠“我觉得完成了”结束任务：Plan 绑定真实 Git 基线、验收标准和测试；检查范围由实际差异决定且不能被降级；通过结果绑定输入、运行环境和 commit，Release 状态再由这些证据自动推导。完整日志只留在本机，仓库只保存脱敏证据摘要。
-
-</details>
-
-<a id="ai-工作台"></a>
-
-### 🤖 AI 工作台
-
-Ignite 使用“一份宪法，多端引用”：所有工具都从 [`AGENTS.md`](./AGENTS.md) 开始，再按任务读取 `docs/`。其中 [`docs/designs/`](./docs/designs/) 管理当前系统事实；Claude Code、Cursor、OpenCode 和 GitHub Copilot 的入口只负责引用这些真源，不各自维护一套规则。
-
-工具入口与配置：[AI 工作台](./.ai/README.md) · [AI 协作规范](./docs/standards/ai-agents.md)。
-
-<a id="核心规格总览"></a>
-
-### 🧭 核心规格总览
-
-Ignite 的详细规则统一收录在 [`docs/standards/`](./docs/standards/)；这里先记住几条总原则：
-
-- **[模板基线](./docs/standards/adoption.md)**：先理解并保留现有基线，再按项目需求做增量修改。
-- **[模块化组织](./docs/standards/architecture.md)**：新增能力进入独立模块，存量改动必须说明影响范围、兼容性和回归验证。
-- **[统一数据链路](./docs/standards/api.md)**：客户端通过 Hook 和 React Query，服务端通过 Hono Typed RPC，数据访问集中经过 Prisma。
-- **[规格驱动开发](./docs/standards/workflow.md)**：先写 Feature 和验收标准，再制定 Plan，实现后用 Test 验证，最后把结果更新到 Design。
-- **[可验证交付](./docs/standards/testing.md)**：代码、测试、构建、迁移和文档共同构成交付证据；长期规则以 `AGENTS.md` 和 Standards 为准。
-
-详细的架构、API、数据库、安全、测试、工作流和模板采用规则，统一从 [`docs/standards/README.md`](./docs/standards/README.md) 进入；需求、计划、设计和 ADR 等项目资料见 [`docs/README.md`](./docs/README.md)。
-
-### 文档导航
-
-按你当前要做的事情，进入对应文档：
-
-| 你现在想做什么               | 从这里开始                                                                        |
-| ---------------------------- | --------------------------------------------------------------------------------- |
-| 把模板用于自己的项目         | [模板采用指南](./docs/standards/adoption.md)                                      |
-| 了解已有功能与验收要求       | [功能规格索引](./docs/features/README.md)                                         |
-| 理解文档如何分工与流转       | [文档系统导览](./docs/README.md)                                                  |
-| 让 AI 开始或接续一轮开发     | [开发工作流](./docs/standards/workflow.md) · [计划与执行](./docs/plans/README.md) |
-| 查当前模块、接口与数据设计   | [当前设计索引](./docs/designs/README.md)                                          |
-| 查架构、安全、测试等工程约定 | [工程标准索引](./docs/standards/README.md)                                        |
-| 配置 AI 工具与项目资产       | [AI 工作台](./.ai/README.md) · [AI 协作规范](./docs/standards/ai-agents.md)       |
-| 查看验收、决策与版本更新     | [验收与决策资料](./docs/others/README.md) · [版本更新](./CHANGELOG.md)            |
-
----
+它适合快速验证产品、参加比赛或黑客松，也适合边做边学、从小工具开始持续迭代。模板不预装支付、真实邮件、文件存储、队列或多租户；先解决当前问题，再按需要增加能力。
 
 <a id="开始使用"></a>
 
-## ⚡ 开始使用
+## 开始使用
 
-通过 [Use this template](https://github.com/morewhyhan/Ignite/generate) 创建自己的仓库并克隆到本地，在项目根目录运行：
+通过 [Use this template](https://github.com/morewhyhan/Ignite/generate) 创建自己的仓库。推荐在 WSL/Linux x64 中运行；准备好 Git 和 nvm 后，在项目根目录执行：
 
 ```bash
 nvm install "$(tr -d '\r\n' < .node-version)"
@@ -169,45 +42,88 @@ pnpm db:setup
 pnpm dev
 ```
 
-打开 [localhost:3000](http://localhost:3000)，注册后即可体验工作台和 Tasks 示例。默认使用本地 SQLite，无需配置真实邮箱服务。功能说明见[产品基线](./docs/features/product.md)、[账户认证](./docs/features/auth.md)和 [Tasks](./docs/features/tasks.md)。
+打开 [localhost:3000](http://localhost:3000)，注册后可体验工作台和 Tasks。Tasks 是一条从页面到数据库的完整参考切片，可供参考、改造或删除。采用模板后，按[采用指南](./docs/standards/adoption.md)更换项目名称、标识和本地密钥，并针对自己的功能与部署环境重新验收。
 
-默认推荐在 WSL/Linux x64 中完成安装和开发。若切换到 Windows，先删除并重新安装该平台的 `node_modules`；不要让 Windows 与 WSL 共享原生依赖。
+Windows 与 WSL 不应共享 `node_modules`；切换环境时，按对应平台重新安装依赖。
 
-模板默认提供认证、数据库、API、UI、主题和测试基础；真实邮箱、支付、文件存储、队列等能力按项目需要增量接入。
+---
 
-> 以上步骤用于启动 Ignite 模板基线。复制为自己的项目后，先按[模板采用规范](./docs/standards/adoption.md)确定名称、外壳、Tasks 去留与交付目标，再验证那个项目；模板通过不代表衍生项目已经通过。
+<a id="ai-开发-loop"></a>
+
+## AI 开发 Loop
+
+你确定问题、目标、边界和验收方式；AI 按照项目上下文制定本轮计划、编写测试和实现，再根据运行结果修正。通过验证后，更新系统当前设计，进入下一轮。
+
+<p align="center">
+  <img src="./docs/assets/ignite-ai-loop.svg" width="760" alt="Ignite AI 开发 Loop">
+</p>
+
+具体来说，Feature 说明用户需要什么，Plan 锁定本轮目标和验收范围；实现前，目标行为测试应按预期失败，实现后再运行测试和检查。失败就修复重跑；通过后回写 Design。缺少账号、外部服务或用户决策时，任务明确保持阻塞，不把未验证的工作报成完成。规则见 [`AGENTS.md`](./AGENTS.md)。
+
+人负责产品方向、范围和关键取舍；AI 负责调查、拆解、实现、验证和整理结果。状态可接续，完成条件有证据。
+
+<details>
+<summary>查看任务状态与命令</summary>
+
+用 `pnpm ignite status` 查看当前任务；用 `pnpm ignite --help` 查看命令。需要读取完整机器状态时，使用 `pnpm ignite status --json`。具体操作见[开发工作流](./docs/standards/workflow.md)，验证方式见[测试规范](./docs/standards/testing.md)。
+
+</details>
+
+---
+
+<a id="文档系统"></a>
+
+## 文档系统
+
+文档为开发过程保存上下文。每类信息有自己的位置，AI 能据此判断该读什么、该更新什么：
+
+```text
+Ignite/
+├── AGENTS.md
+├── .ai/
+├── docs/
+│   ├── standards/
+│   ├── features/
+│   ├── plans/
+│   ├── designs/
+│   └── others/
+└── tests/
+```
+
+记住这组分工就够了：**功能规格（Feature）定义需求，计划（Plan）管理本轮，工程标准（Standards）约束做法，设计（Design）记录当前事实，测试和检查提供证据。**`Plan` 说明“这一轮怎么完成”，`Design` 说明“系统现在是什么”。
+
+`AGENTS.md` 是项目规则的唯一真源；Claude Code、Cursor、OpenCode 和 GitHub Copilot 通过各自的轻量入口引用它。`.ai/` 登记项目使用的 Skills、MCP 和运行环境。工具入口可以变化，项目规则不必复制维护多份。
+
+交付证据绑定本轮基线、验收和被测版本。工程门禁、Plan 验收和 Release 验收各有边界；完整运行日志留在本机，仓库只保存脱敏摘要。
+
+### 文档导航
+
+- **第一次采用模板**：[采用指南](./docs/standards/adoption.md) · [已有功能](./docs/features/README.md)
+- **开始一轮开发**：[开发工作流](./docs/standards/workflow.md) · [计划与执行](./docs/plans/README.md)
+- **了解工程约定**：[架构与安全标准](./docs/standards/README.md) · [测试标准](./docs/standards/testing.md)
+- **查询当前系统**：[设计索引](./docs/designs/README.md) · [AI 工具配置](./.ai/README.md)
+- **追溯交付和变化**：[决策与验收](./docs/others/README.md) · [更新日志](./CHANGELOG.md)
 
 ---
 
 <a id="基本架构"></a>
 
-## 🧩 基本架构
+## 基本架构
 
-Ignite 采用**模块化单体架构**：前端和后端在同一个 Next.js 项目中组织，但每个业务能力都保持清晰的模块边界。
+Ignite 采用**模块化单体架构**：前后端在同一项目中组织，业务按模块划分。大多数功能可以在一个仓库里完成页面、接口和数据库改动；只有复杂度真实出现时，才增加相应分层或平台适配。
 
 <p align="center">
   <img src="./docs/assets/ignite-architecture.svg" width="680" alt="Ignite 模块化单体架构">
 </p>
 
-<details>
-<summary>展开查看文字版请求链路</summary>
+`src/app/` 负责路由与页面编排，`src/modules/` 保存业务界面和 Hook，`src/server/` 集中处理 Hono API 与 Prisma 数据访问，`src/components/ui/` 提供共享界面组件。
 
-```text
-页面 / 组件（Next.js + React）
-          ↓
-业务 Hook（React Query）
-          ↓
-Hono Typed RPC（类型安全的 API 调用）
-          ↓
-Hono 路由（服务端业务入口）
-          ↓
-Prisma（数据访问）
-          ↓
-SQLite（本地默认数据库）
-```
+业务数据沿着 **页面 → 模块 Hook → Hono Typed RPC → Hono 路由 → Prisma** 流动。业务类型共享同一 API 契约；API client 支持注入传输方式，为后续端复用业务契约留出边界，而不要求各端共用浏览器实现。认证由 Better Auth 单独处理。
 
-</details>
+验证使用 Vitest 与 Playwright，数据库变更由 Prisma migration 管理。当前技术栈：
 
-通用界面由共享组件提供，业务代码放在 `src/modules/`，页面只负责组合和路由。认证由 Better Auth 处理；测试、文档和数据库迁移作为独立的工程保障层，共同围绕这条主链路工作。
+<p align="center"><sub>Next.js 16　·　React 19　·　TypeScript 5　·　Tailwind CSS 4　·　Hono 4　·　React Query 5　·　Prisma 6　·　SQLite</sub></p>
 
-[架构规范](./docs/standards/architecture.md) · [API 设计](./docs/designs/api.md) · [数据库设计](./docs/designs/database.md) · [返回文档导航 ↑](#文档导航)
+[架构规范](./docs/standards/architecture.md) · [API 设计](./docs/designs/api.md) · [数据库设计](./docs/designs/database.md)
+
+---

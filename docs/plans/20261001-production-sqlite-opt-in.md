@@ -101,7 +101,13 @@
     "docs/standards/adoption.md",
     "docs/others/adr/0003-sqlite-local-only.md"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-PRODUCT-018",
+      "test": "tests/contracts/server-env.test.ts::[AC-PRODUCT-018] keeps production SQLite opt-in explicit and requires a durable absolute path",
+      "run_id": "tdd-20260930181814-0fffdc"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

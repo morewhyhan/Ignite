@@ -64,7 +64,7 @@ Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定�
 - 运行时以 `.node-version`、`packageManager` 和 `.ai/runtime.json` 为准；默认使用 WSL/Linux。Windows 与 WSL 不得共享 `node_modules`，先运行 `pnpm runtime:check`。
 - `.env.example` 只放变量名和安全本地示例；不得提交 `.env`、生产 secret 或真实邮箱配置。
 - `APP_ENV` 必须显式设置为 `development`、`test` 或 `production`。
-- 生产必须使用 HTTPS 纯 origin、高熵 `BETTER_AUTH_SECRET` 和持久化数据库；不得使用 localhost、开发 secret 或 `file:` SQLite。
+- 生产必须使用 HTTPS 纯 origin、高熵 `BETTER_AUTH_SECRET` 和持久化数据；不得使用 localhost 或开发 secret。SQLite 默认拒绝；仅低流量单机展示部署经明确选择后可设置 `ALLOW_PRODUCTION_SQLITE=true`，并使用版本目录外的持久化绝对路径、安排备份。该例外不能用于多实例、高可用或通用生产部署。
 - API 从 session 获取当前用户，绝不信任客户端传入的 `userId`。
 - 用户无权访问私有资源时返回 `404`；未登录访问受保护 API 返回 `401`。
 

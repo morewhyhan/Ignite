@@ -98,8 +98,10 @@
     ".env.example",
     "tests/contracts/server-env.test.ts",
     "docs/designs/runtime.md",
+    "docs/designs/database.md",
     "docs/standards/adoption.md",
-    "docs/others/adr/0003-sqlite-local-only.md"
+    "docs/others/adr/0003-sqlite-local-only.md",
+    "AGENTS.md"
   ],
   "tdd_evidence": [
     {

@@ -18,9 +18,12 @@
 | `APP_ENV`            | `development`           | 必须显式为 `production`           |
 | `APP_URL`            | `http://localhost:3000` | HTTPS 纯 origin，不能是 localhost |
 | `DATABASE_URL`       | `file:./dev.db`         | 不能使用 `file:` SQLite           |
+| `ALLOW_PRODUCTION_SQLITE` | `false`             | 默认关闭；仅单机展示部署可显式设为 `true` |
 | `BETTER_AUTH_SECRET` | 本地示例值              | 至少 32 字符高熵随机值            |
 
 `scripts/template-doctor.mjs` 与服务端 `src/server/env.ts` 共用 `src/server/env-policy.mjs` 检查 URL origin、密钥长度和生产环境限制；诊断只报告问题，不输出密钥值。
+
+生产 SQLite 默认仍会被拒绝。只有低流量单机展示部署明确设置 `ALLOW_PRODUCTION_SQLITE=true`，并将 `DATABASE_URL` 指向版本目录外的持久化绝对路径（例如 `file:/var/lib/ignite/app.db`）时才允许启动；操作者负责定期备份。该例外不适用于多实例、高可用或通用生产部署。
 
 本模板的注册登录不依赖外部邮件服务。若产品需要邮箱所有权验证，应作为独立增量模块增加 provider、环境变量、契约测试和 E2E。
 

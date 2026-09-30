@@ -148,4 +148,4 @@ pnpm ignite release verify <release-id> --plan <done-plan-id>
 
 新契约中，`done` 完成单个 Plan；最后一条命令完成整个 Release。它会记录被测 commit、package version 和指向该 commit 的 Git tag 名称（如果已有），但不会替采用者创建 Git tag、推送或部署。旧 `verification_contract: 1` Plan 仍使用原 `check --level release` 命令。
 
-`pnpm build` 只证明当前配置可以完成生产编译。真实生产部署必须把 `APP_ENV` 设为 `production`，并满足 HTTPS、持久数据库和独立 secret；SQLite 默认值不能直接作为无状态生产部署方案。邮箱所有权验证如有需要，另行作为增量模块接入。
+`pnpm build` 只证明当前配置可以完成生产编译。真实生产部署必须把 `APP_ENV` 设为 `production`，并满足 HTTPS、持久数据存储和独立 secret。SQLite 默认拒绝；只有低流量单机展示场景经明确选择后，才可设置 `ALLOW_PRODUCTION_SQLITE=true`，并使用版本目录外的持久化绝对文件路径、安排备份。这不是通用生产或多实例部署方案。邮箱所有权验证如有需要，另行作为增量模块接入。

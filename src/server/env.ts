@@ -10,6 +10,7 @@ const serverEnvSchema = z
     APP_URL: z.string().url(),
     DATABASE_URL: z.string().min(1),
     BETTER_AUTH_SECRET: z.string().min(32),
+    ALLOW_PRODUCTION_SQLITE: z.string().optional(),
   })
   .superRefine((value, context) => {
     for (const issue of environmentPolicyIssues(value)) {

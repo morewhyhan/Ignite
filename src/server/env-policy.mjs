@@ -1,8 +1,17 @@
 export const developmentSecret = 'ignite-development-only-secret-change-before-deploying'
 
-/** @param {{ NODE_ENV?: string, APP_ENV?: string, APP_URL?: string, DATABASE_URL?: string, BETTER_AUTH_SECRET?: string }} value */
+/** @param {{ NODE_ENV?: string, APP_ENV?: string, APP_URL?: string, DATABASE_URL?: string, BETTER_AUTH_SECRET?: string, ALLOW_PRODUCTION_SQLITE?: string }} value */
 export function environmentPolicyIssues(value) {
   const issues = []
+  if (
+    value.ALLOW_PRODUCTION_SQLITE !== undefined &&
+    !['true', 'false'].includes(value.ALLOW_PRODUCTION_SQLITE)
+  ) {
+    issues.push({
+      path: 'ALLOW_PRODUCTION_SQLITE',
+      message: 'ALLOW_PRODUCTION_SQLITE must be exactly true or false.',
+    })
+  }
   if (value.BETTER_AUTH_SECRET && value.BETTER_AUTH_SECRET.length < 32) {
     issues.push({
       path: 'BETTER_AUTH_SECRET',
@@ -57,11 +66,19 @@ export function environmentPolicyIssues(value) {
     })
   }
   if (value.DATABASE_URL?.startsWith('file:')) {
-    issues.push({
-      path: 'DATABASE_URL',
-      message:
-        'The bundled SQLite setup is local-only. Migrate the Prisma provider, adapter, and migrations before production.',
-    })
+    if (value.ALLOW_PRODUCTION_SQLITE !== 'true') {
+      issues.push({
+        path: 'DATABASE_URL',
+        message:
+          'The bundled SQLite setup is local-only by default. Set ALLOW_PRODUCTION_SQLITE=true only for a low-traffic single-server deployment with persistent storage.',
+      })
+    } else if (!/^file:\/(?!\/)/.test(value.DATABASE_URL)) {
+      issues.push({
+        path: 'DATABASE_URL',
+        message:
+          'Production SQLite opt-in requires an absolute file: path on persistent storage, for example file:/var/lib/ignite/app.db.',
+      })
+    }
   }
   return issues
 }

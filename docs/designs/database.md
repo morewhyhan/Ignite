@@ -1,6 +1,6 @@
 # 当前数据库设计
 
-当前 provider 是 SQLite，本地连接由 `DATABASE_URL` 提供；生产切换数据库必须同步
+当前 provider 是 SQLite，本地连接由 `DATABASE_URL` 提供；生产默认拒绝 SQLite，单机低流量展示可通过 `ALLOW_PRODUCTION_SQLITE=true` 限定使用持久文件。其他生产切换数据库必须同步
 Prisma provider、schema、migration 和部署流程。
 
 当前核心实体：

@@ -306,12 +306,9 @@ export function LandingScreen() {
                 别让想法卡在技术准备上。
               </h2>
               <p className="mt-2 max-w-4xl text-sm leading-6 text-white/70 sm:text-base sm:leading-7">
-                Ignite 是一套轻量、可扩展的 AI
-                协作全栈模板：基础能力开箱即用，工程边界清楚、结果可验证，让你快速启动、验证想法，并持续迭代。
-              </p>
-              <p className="mt-3 text-xs font-medium tracking-wide text-white/50 sm:text-sm">
-                快速启动 <span className="px-1.5">·</span> 快速验证{' '}
-                <span className="px-1.5">·</span> 持续迭代
+                AI
+                可以很快帮你做出一个能展示的样子；难的是让它真正解决问题、稳定好用，出了问题能修，需求变了也能接着改。Ignite
+                会先帮你理清想解决什么问题、谁会需要它，再用清楚严谨的方法一步步实现和检查，让每次修改都对准最初的目标。哪怕你不懂技术、不懂商业，想法也只是雏形，也能从一粒火种开始，把它做成经得起真实使用的产品，让那束光不止亮在屏幕上，更照进真实生活。
               </p>
             </div>
           </div>

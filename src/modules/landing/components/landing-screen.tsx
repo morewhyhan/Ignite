@@ -243,35 +243,33 @@ export function LandingScreen() {
                 id="ignite-manifesto-title"
                 className="text-3xl font-semibold leading-tight tracking-tight sm:text-4xl lg:text-5xl lg:leading-[1.08]"
               >
-                <span className="block">好想法，</span>
-                <span className="block text-background/70">不该死在脑子里。</span>
+                <span className="block">好想法死在脑子里，</span>
+                <span className="block text-background/70">是最可惜的。</span>
               </h2>
             </div>
 
-            <div className="max-w-2xl space-y-6 pt-1 text-lg leading-9 text-background/75">
-              <p>
-                想法是火种。
-                <br />
-                火种不是烟花——
-                <br />
-                烟花亮一瞬，火种要燎原。
+            <div className="max-w-2xl pt-1 text-lg leading-9 text-background/75">
+              <p className="text-xl font-medium tracking-wide text-background sm:text-2xl">
+                想法是火种，不是烟花。
               </p>
 
-              <p>
-                燎原之前，先入炉。
-                <br />
-                烈火淬过，杂质褪去，
-                <br />
-                直到它有了可以被举起的形状。
+              <p className="mt-4 border-l-2 border-background/70 bg-background/5 py-2 pl-4 text-xl font-semibold leading-8 text-background sm:text-2xl">
+                烟花亮一瞬，火种是要燎原的。
               </p>
 
-              <p>
+              <p className="mt-6">
+                火种钻进炉火，烈火淬过，杂质褪去，
+                <br />
+                直至它有了可以被举起的形状。
+              </p>
+
+              <p className="mt-5">
                 那是火炬。
                 <br />
                 那是“我想做”，变成了“我做成了”。
               </p>
 
-              <p>
+              <p className="mt-5">
                 举起来。
                 <br />
                 让人看见，让人借光，让人取暖。
@@ -279,12 +277,18 @@ export function LandingScreen() {
                 从一双手，到另一双手。
               </p>
 
-              <div className="border-t border-background/20 pt-6">
+              <div className="mt-7 border-t border-background/20 pt-6">
                 <p className="text-xl font-semibold tracking-tight text-background sm:text-2xl">
-                  Ignite
+                  Ignite your idea.
                 </p>
-                <p className="mt-3 text-xl font-semibold leading-tight tracking-tight text-background sm:text-3xl">
-                  星星之火，可以燎原。
+                <p className="mt-1 text-sm leading-6 text-background/65 sm:text-base">
+                  从一念想法，到万家灯火。
+                </p>
+                <p className="mt-7 flex items-center gap-3 text-xl font-bold leading-tight tracking-tight text-background sm:text-3xl">
+                  <span aria-hidden="true" className="text-background/55">
+                    ✦
+                  </span>
+                  让星星之火得以燎原。
                 </p>
               </div>
             </div>

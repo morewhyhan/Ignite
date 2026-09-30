@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790791844798755166",
   "release": "production-sqlite-opt-in-v1",
-  "status": "ready",
+  "status": "active",
   "outcome": "仅在显式 opt-in 和持久化绝对路径下允许低流量单机展示站使用 SQLite，其他生产环境仍默认拒绝",
   "contract_version": 2,
   "execution_contract": 1,
@@ -106,7 +106,7 @@
   "evidence": [],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "11955d70d6569c328ee2151630c3dce7a967b3f6",
+  "integrated_commit": "ffafaf009794b6df01e9734de96a36a2639af51b",
   "updated_at": "2026-09-30"
 }
 -->
@@ -169,7 +169,7 @@
 
 <!-- ignite-progress -->
 
-状态：`ready`（由元数据生成）
+状态：`active`（由元数据生成）
 
 - [x] T1 · 明确默认拒绝、显式 opt-in 与持久路径契约 · done
 - [ ] T2 · 先用契约测试验证当前行为拒绝合法 opt-in · todo

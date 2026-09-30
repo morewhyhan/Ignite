@@ -3,18 +3,31 @@
   "schema": 2,
   "id": "IGT-1790791844798755166",
   "release": "production-sqlite-opt-in-v1",
-  "status": "draft",
+  "status": "ready",
   "outcome": "仅在显式 opt-in 和持久化绝对路径下允许低流量单机展示站使用 SQLite，其他生产环境仍默认拒绝",
   "contract_version": 2,
   "execution_contract": 1,
   "verification_contract": 2,
-  "goals": [{ "text": "为展示站提供受限的生产 SQLite opt-in，同时保持模板生产默认拒绝 SQLite", "requirements": ["REQ-PRODUCT-020"] }],
-  "constraints": ["SQLite 仅用于低流量单机展示站", "必须使用持久化绝对文件路径并自行备份", "默认关闭 opt-in，既有生产保护继续生效"],
+  "goals": [
+    {
+      "text": "为展示站提供受限的生产 SQLite opt-in，同时保持模板生产默认拒绝 SQLite",
+      "requirements": ["REQ-PRODUCT-020"]
+    }
+  ],
+  "constraints": [
+    "SQLite 仅用于低流量单机展示站",
+    "必须使用持久化绝对文件路径并自行备份",
+    "默认关闭 opt-in，既有生产保护继续生效"
+  ],
   "non_goals": ["提供高可用或横向扩展数据库", "自动备份或数据库迁移到其他 provider"],
   "authorization": {
     "source": "用户已授权 Ignite 展示站使用 SQLite；此前明确要求将当前仓库部署至自己的服务器和域名"
   },
-  "deliverables": ["有受限 opt-in 的生产环境校验", "对默认拒绝与绝对持久路径规则的契约测试", "更新后的运行时与数据库约束说明"],
+  "deliverables": [
+    "有受限 opt-in 的生产环境校验",
+    "对默认拒绝与绝对持久路径规则的契约测试",
+    "更新后的运行时与数据库约束说明"
+  ],
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "91db731a597536fbc2932c0856d7957c7b87ee72",
@@ -22,9 +35,16 @@
   "acceptance": [
     {
       "id": "AC-PRODUCT-018",
-      "tests": ["tests/contracts/server-env.test.ts::[AC-PRODUCT-018] keeps production SQLite opt-in explicit and requires a durable absolute path"],
+      "tests": [
+        "tests/contracts/server-env.test.ts::[AC-PRODUCT-018] keeps production SQLite opt-in explicit and requires a durable absolute path"
+      ],
       "required_layers": ["unit"],
-      "checks": [{ "test": "tests/contracts/server-env.test.ts::[AC-PRODUCT-018] keeps production SQLite opt-in explicit and requires a durable absolute path", "layer": "unit" }]
+      "checks": [
+        {
+          "test": "tests/contracts/server-env.test.ts::[AC-PRODUCT-018] keeps production SQLite opt-in explicit and requires a durable absolute path",
+          "layer": "unit"
+        }
+      ]
     }
   ],
   "verification_requirements": ["unit"],
@@ -86,8 +106,8 @@
   "evidence": [],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
-  "updated_at": "2026-10-01"
+  "integrated_commit": "11955d70d6569c328ee2151630c3dce7a967b3f6",
+  "updated_at": "2026-09-30"
 }
 -->
 
@@ -105,8 +125,8 @@
 
 ## 原始目标与覆盖核对
 
-| 用户原话或可追溯来源 | 本轮目标 | REQ | AC | 处理结果 |
-| --- | --- | --- | --- | --- |
+| 用户原话或可追溯来源                                               | 本轮目标                                              | REQ             | AC             | 处理结果                         |
+| ------------------------------------------------------------------ | ----------------------------------------------------- | --------------- | -------------- | -------------------------------- |
 | “这个只是作为一个展示页面，所以数据库的话，就使用 SQLite 没关系。” | 允许低流量单机展示站显式启用 SQLite；生产默认继续拒绝 | REQ-PRODUCT-020 | AC-PRODUCT-018 | 保留用户选择，限定持久化绝对路径 |
 
 进入 `ready` 前回看原始请求，确认目标、约束、必须保留的能力都已列入；不把 AI 自己改写后的 goals 当作原始输入。此表是语义审查记录，不能伪称机器已证明无遗漏。
@@ -149,14 +169,14 @@
 
 <!-- ignite-progress -->
 
-状态：`draft`（由元数据生成）
+状态：`ready`（由元数据生成）
 
-- [ ] T1 · 识别现有行为、写入边界和原始目标 · todo
-- [ ] T2 · 补充需求和目标行为测试 · todo
-- [ ] T3 · 实施最小存量修改 · todo
-- [ ] T4 · 验证兼容性并回写设计 · todo
+- [x] T1 · 明确默认拒绝、显式 opt-in 与持久路径契约 · done
+- [ ] T2 · 先用契约测试验证当前行为拒绝合法 opt-in · todo
+- [ ] T3 · 实施最小生产 SQLite opt-in 并更新运行时说明 · todo
+- [ ] T4 · 验证配置边界并回写设计事实 · todo
 
-验收缺口：原始目标尚未细化，无法确认完整验收场景
+验收缺口：未记录；完成仍须实际证据
 证据：尚无
 <!-- /ignite-progress -->
 

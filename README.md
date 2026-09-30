@@ -139,26 +139,33 @@ docs/
 ---
 
 <div align="center">
+  <p>✦ ───────── ✦ ───────── ✦</p>
   <h2>好想法，不该死在脑子里。</h2>
+  <p><sub>从脑海中的念头，到可以被传递的光</sub></p>
   <p>
+    <strong>✦ 起念</strong><br>
     想法是火种。<br>
     火种不是烟花——<br>
     烟花亮一瞬，火种要燎原。
   </p>
   <p>
+    <strong>🔥 淬炼</strong><br>
     燎原之前，先入炉。<br>
     烈火淬过，杂质褪去，<br>
     直到它有了可以被举起的形状。
   </p>
   <p>
+    <strong>✧ 成炬</strong><br>
     那是火炬。<br>
     那是“我想做”，变成了“我做成了”。
   </p>
   <p>
+    <strong>↗ 传递</strong><br>
     举起来。<br>
     让人看见，让人借光，让人取暖。<br>
     从一双手，到另一双手。
   </p>
   <p><strong>Ignite</strong></p>
-  <p><strong>星星之火，可以燎原。</strong></p>
+  <p>✨ <strong>星星之火，可以燎原。</strong> ✨</p>
+  <p>✦ ───────── ✦ ───────── ✦</p>
 </div>

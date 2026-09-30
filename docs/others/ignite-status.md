@@ -1,7 +1,7 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`3b1629e4aaa3`
+输入指纹：`786f2dd1c22c`
 当前 Plan：2；结构化历史：1；未迁移历史：0
 
 ## 当前工作
@@ -19,7 +19,7 @@
   - 未完成原始目标：GOAL-001 访客能理解 Ignite 的核心价值和文档体系，并顺畅使用响应式登录/注册面板
 - `production-sqlite-opt-in-v1` · `active`
   - Plan：`IGT-1790791844798755166`
-  - 缺少证据：`IGT-1790791844798755166:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1790791844798755166
   - 未完成原始目标：GOAL-001 为低流量单机展示部署显式启用持久化 SQLite，同时保留生产环境默认拒绝

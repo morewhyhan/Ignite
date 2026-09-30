@@ -67,7 +67,7 @@
     {
       "id": "T4",
       "title": "验证配置边界并回写设计事实",
-      "status": "doing"
+      "status": "done"
     }
   ],
   "depends_on": [],
@@ -111,7 +111,12 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20260930183431-6f7a85"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": "ffafaf009794b6df01e9734de96a36a2639af51b",
@@ -184,10 +189,10 @@
 - [x] T1 · 明确默认拒绝、显式 opt-in 与持久路径契约 · done
 - [x] T2 · 先用契约测试验证当前行为拒绝合法 opt-in · done
 - [x] T3 · 实施最小生产 SQLite opt-in 并更新运行时说明 · done
-- [ ] T4 · 验证配置边界并回写设计事实 · doing
+- [x] T4 · 验证配置边界并回写设计事实 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20260930183431-6f7a85
 <!-- /ignite-progress -->
 
 ## 准出条件

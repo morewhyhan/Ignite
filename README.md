@@ -73,19 +73,21 @@ Ignite 关心的结果很具体：让你更容易开始，在有限时间内交�
 README 只负责入口和导航；具体规则都在文档系统中维护：
 
 ```text
-AGENTS.md       AI 执行规则（宪法）
-CLAUDE.md       Claude Code 入口
-.cursor/        Cursor 规则桥接
-.claude/        Claude 本地资产登记
-.opencode/      OpenCode 入口
-.ai/            AI 工具资产登记（Skills / MCP）
-docs/
-├── standards/ 长期工程标准
-├── features/  功能需求和验收标准
-├── plans/     每轮实现计划和过程记录（从空模板开始）
-├── designs/   当前系统的最终事实
-└── others/    ADR、测试用例和项目产生的交付证据
-tests/          可执行的验证证据
+Ignite/
+├── AGENTS.md                       所有 AI 工具共用的项目规则
+├── CLAUDE.md                       Claude Code 规则入口
+├── .cursor/rules/ignite.mdc        Cursor 规则桥接
+├── .claude/                        Claude 专属资产登记
+├── .opencode/                      OpenCode 入口
+├── .github/copilot-instructions.md  GitHub Copilot 规则入口
+├── .ai/                            Skills、MCP 与运行时登记
+├── docs/
+│   ├── standards/                  长期工程标准
+│   ├── features/                   功能需求和验收标准
+│   ├── plans/                      每轮实现计划和过程记录
+│   ├── designs/                    当前系统事实
+│   └── others/                     ADR、测试用例和交付证据
+└── tests/                          可执行的验证证据
 ```
 
 文档流转关系：

@@ -21,7 +21,7 @@ test('[AC-TRUST-003] [AC-TRUST-006] keeps first-use and Tasks flows usable acros
 
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
     await expectNoHorizontalOverflow(page)
-    const start = page.getByRole('button', { name: '开始使用' })
+    const start = page.getByRole('button', { name: '预览应用', exact: true }).first()
     await expect(start).toBeEnabled()
     await start.click()
 
@@ -41,7 +41,7 @@ test('[AC-TRUST-003] [AC-TRUST-006] keeps first-use and Tasks flows usable acros
   // A compact phone viewport catches a modal that fits horizontally but is
   // vertically clipped, hiding the registration controls below the fold.
   await page.setViewportSize({ width: 360, height: 568 })
-  await page.getByRole('button', { name: '开始使用' }).click()
+  await page.getByRole('button', { name: '预览应用', exact: true }).first().click()
   await page.getByRole('button', { name: '注册', exact: true }).click()
   const registrationDialog = page.getByRole('dialog')
   await expect(registrationDialog).toBeVisible()
@@ -60,10 +60,10 @@ test('[AC-TRUST-003] [AC-TRUST-006] keeps first-use and Tasks flows usable acros
   await page.keyboard.press('Escape')
 
   const runId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
-  await page.getByRole('button', { name: '开始使用' }).click()
+  await page.getByRole('button', { name: '预览应用', exact: true }).first().click()
   await page.getByRole('button', { name: '注册', exact: true }).click()
   await page.getByPlaceholder('你的用户名').fill(`Responsive ${runId}`)
-  await page.getByPlaceholder('your@email.com').fill(`responsive-${runId}@example.com`)
+  await page.getByLabel('邮箱', { exact: true }).fill(`responsive-${runId}@example.com`)
   const passwords = page.locator('input[type="password"]')
   await passwords.nth(0).fill('Responsive!123456')
   await passwords.nth(1).fill('Responsive!123456')

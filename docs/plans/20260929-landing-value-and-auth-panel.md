@@ -19,9 +19,9 @@
     "首页沿用现有语义主题令牌与组件体系，不添加外部服务、图库或新依赖",
     "保留价值区与文档区既定目标，只重排图示与信息层级，提升理解速度和说服力"
   ],
-  "non_goals": ["不改变产品定位、认证方式或登录后的工作台", "不创建 GitHub Release 或推送代码"],
+  "non_goals": ["不改变产品定位、认证方式或登录后的工作台", "不创建新的 GitHub Release 或变更版本标签"],
   "authorization": {
-    "source": "用户要求改善登录注册面板，并在登录前的首页滚动内容中清楚介绍项目优势和文档体系"
+    "source": "用户要求改善登录注册面板、首页价值与文档目录展示，区分 GitHub 开始使用和注册登录后的预览；后续明确要求将 README 优化连同此前改动提交并推送 GitHub。"
   },
   "deliverables": [
     "以用户实际使用场景和交付结果为中心的首页价值介绍",
@@ -109,7 +109,10 @@
     "src/modules/landing/components/document-system-map.tsx",
     "src/config/site.ts",
     "src/modules/auth/components/auth-modal.tsx",
-    "tests/e2e/landing-auth-content.spec.ts"
+    "tests/e2e/landing-auth-content.spec.ts",
+    "tests/e2e/auth.spec.ts",
+    "tests/e2e/tasks.spec.ts",
+    "tests/e2e/responsive.spec.ts"
   ],
   "tdd_evidence": [
     {
@@ -189,6 +192,12 @@
 ## 设计回写
 
 完成后只回写受影响的当前事实到 `docs/designs/`，不把本 Plan 的过程说明复制过去。
+
+### 2026-09-30 提交前复核
+
+按用户要求一并提交已有首页改动，更新目录展示、两个按钮的浏览器断言，并同步认证、Tasks 和响应式测试的旧入口及邮箱定位。针对当前本地开发服务（localhost:3000）运行的 `AC-PRODUCT-017` 检查通过；`AC-PRODUCT-016` 主题回归未通过，点击主题按钮后未找到“海军蓝”选项，仍需排查。文档检查与 README 导航检查通过。
+
+WSL 新命令暂时无响应，此次轻量检查使用 Windows Node 和独立的依赖解析入口，没有重装或修改 WSL 依赖。以上不替代规定运行时中的 Plan integration / Release 验收，也不作为有效 TDD 红灯归档；本 Plan 保持 blocked，既有验收缺口未被清空。
 
 ## 状态记录
 

@@ -3,7 +3,16 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowDown, ArrowRight, Boxes, Layers3, ShieldCheck, Zap } from 'lucide-react'
+import {
+  ArrowDown,
+  ArrowRight,
+  ArrowUpRight,
+  Boxes,
+  Layers3,
+  Quote,
+  ShieldCheck,
+  Zap,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { siteConfig } from '@/config/site'
 import { AuthModal, useAuthSession } from '@/modules/auth'
@@ -17,7 +26,7 @@ export function LandingScreen() {
   const { data: session, isPending: sessionLoading } = useAuthSession()
   const isLoggedIn = Boolean(session?.user)
 
-  const handleGetStarted = () => {
+  const handlePreviewApp = () => {
     if (isLoggedIn) {
       router.push('/dashboard')
     } else {
@@ -58,14 +67,21 @@ export function LandingScreen() {
               {siteConfig.description}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
+              <Button asChild size="lg">
+                <a href={siteConfig.repositoryUrl} target="_blank" rel="noreferrer">
+                  开始使用
+                  <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+                </a>
+              </Button>
               <Button
                 type="button"
-                onClick={handleGetStarted}
+                variant="outline"
+                onClick={handlePreviewApp}
                 disabled={sessionLoading}
                 aria-busy={sessionLoading}
                 size="lg"
               >
-                开始使用
+                预览应用
                 <ArrowRight aria-hidden="true" className="h-4 w-4" />
               </Button>
               <a
@@ -76,6 +92,9 @@ export function LandingScreen() {
                 <ArrowDown aria-hidden="true" className="h-4 w-4" />
               </a>
             </div>
+            <p className="mt-3 text-xs leading-5 text-muted-foreground">
+              开始使用：前往 GitHub 克隆模板。预览应用：注册或登录后进入工作台。
+            </p>
             <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 border-t border-border pt-5 text-sm text-muted-foreground">
               <span className="inline-flex items-center gap-2">
                 <Layers3 aria-hidden="true" className="h-4 w-4 text-primary" />
@@ -176,7 +195,8 @@ export function LandingScreen() {
               让 AI 看得懂项目，也让每次修改都有据可循
             </h2>
             <p className="mt-4 text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-              文档各有职责：标准约束整个过程，需求说明要交付什么，计划记录这一轮怎么做，验收后再把系统当前事实写回设计文档。
+              标准定规则，Feature 说清要解决什么，Plan 记录这一轮，Design 留下验收后的系统现状；AI
+              按目录找到需要的上下文。
             </p>
           </div>
 
@@ -191,17 +211,25 @@ export function LandingScreen() {
                 把目标说清楚，剩下的工作交给一套有边界、能验收的开发流程。
               </p>
             </div>
-            <Button
-              type="button"
-              onClick={handleGetStarted}
-              disabled={sessionLoading}
-              aria-busy={sessionLoading}
-              size="lg"
-              className="shrink-0"
-            >
-              立即开始体验
-              <ArrowRight aria-hidden="true" className="h-4 w-4" />
-            </Button>
+            <div className="flex flex-wrap gap-3">
+              <Button asChild size="lg">
+                <a href={siteConfig.repositoryUrl} target="_blank" rel="noreferrer">
+                  开始使用
+                  <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+                </a>
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handlePreviewApp}
+                disabled={sessionLoading}
+                aria-busy={sessionLoading}
+                size="lg"
+              >
+                预览应用
+                <ArrowRight aria-hidden="true" className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </section>
 
@@ -282,9 +310,35 @@ export function LandingScreen() {
             </div>
           </div>
         </section>
+
+        <footer className="bg-neutral-950 text-white">
+          <div className="mx-auto flex max-w-6xl items-start gap-5 px-5 py-8 sm:gap-8 sm:px-8 sm:py-10">
+            <Quote
+              aria-hidden="true"
+              className="mt-1 h-8 w-8 shrink-0 text-white/35 sm:h-10 sm:w-10"
+            />
+            <div>
+              <h2 className="text-lg font-semibold tracking-tight sm:text-xl">
+                别让想法卡在技术准备上。
+              </h2>
+              <p className="mt-2 max-w-4xl text-sm leading-6 text-white/70 sm:text-base sm:leading-7">
+                Ignite 是一套轻量、可扩展的 AI
+                协作全栈模板：基础能力开箱即用，工程边界清楚、结果可验证，让你快速启动、验证想法，并持续迭代。
+              </p>
+              <p className="mt-3 text-xs font-medium tracking-wide text-white/50 sm:text-sm">
+                快速启动 <span className="px-1.5">·</span> 快速验证{' '}
+                <span className="px-1.5">·</span> 持续迭代
+              </p>
+            </div>
+          </div>
+        </footer>
       </main>
 
-      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} />
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        initialMode="register"
+      />
     </>
   )
 }

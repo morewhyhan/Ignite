@@ -21,13 +21,14 @@ type AuthMode = 'login' | 'register'
 interface AuthModalProps {
   isOpen: boolean
   onClose: () => void
+  initialMode?: AuthMode
 }
 
 const inputClassName =
   'h-11 rounded-lg border-input bg-background px-3.5 text-sm shadow-none placeholder:text-muted-foreground/80 focus-visible:ring-2 focus-visible:ring-primary/20'
 
-export function AuthModal({ isOpen, onClose }: AuthModalProps) {
-  const [mode, setMode] = useState<AuthMode>('login')
+export function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalProps) {
+  const [mode, setMode] = useState<AuthMode>(initialMode)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')

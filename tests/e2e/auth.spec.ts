@@ -6,7 +6,7 @@ test('[AC-TASKS-001] redirects an unauthenticated dashboard request to the home 
   await page.goto('/dashboard')
 
   await expect(page).toHaveURL('/')
-  await expect(page.getByRole('button', { name: '开始使用' })).toBeVisible()
+  await expect(page.getByRole('button', { name: '预览应用', exact: true }).first()).toBeVisible()
 })
 
 test('[AC-AUTH-001] [AC-AUTH-002] [AC-AUTH-003] [AC-AUTH-005] [AC-PRODUCT-004] authenticates without the Tasks example', async ({
@@ -17,11 +17,11 @@ test('[AC-AUTH-001] [AC-AUTH-002] [AC-AUTH-003] [AC-AUTH-005] [AC-PRODUCT-004] a
   const password = 'Playwright!123456'
 
   await page.goto('/')
-  await page.getByRole('button', { name: '开始使用' }).click()
+  await page.getByRole('button', { name: '预览应用', exact: true }).first().click()
   await page.getByRole('button', { name: '注册', exact: true }).click()
 
   await page.getByPlaceholder('你的用户名').fill(`Playwright ${runId}`)
-  await page.getByPlaceholder('your@email.com').fill(email)
+  await page.getByLabel('邮箱', { exact: true }).fill(email)
   const registrationPasswords = page.locator('input[type="password"]')
   await registrationPasswords.nth(0).fill(password)
   await registrationPasswords.nth(1).fill(password)
@@ -34,8 +34,12 @@ test('[AC-AUTH-001] [AC-AUTH-002] [AC-AUTH-003] [AC-AUTH-005] [AC-PRODUCT-004] a
   await page.goto('/dashboard')
   await expect(page).toHaveURL('/')
 
-  await page.getByRole('button', { name: '开始使用' }).click()
-  await page.getByPlaceholder('your@email.com').fill(email)
+  await page.getByRole('button', { name: '预览应用', exact: true }).first().click()
+  await page
+    .getByRole('group', { name: '登录或注册' })
+    .getByRole('button', { name: '登录', exact: true })
+    .click()
+  await page.getByLabel('邮箱', { exact: true }).fill(email)
   await page.locator('input[type="password"]').fill(password)
   await page.locator('form').getByRole('button', { name: '登录', exact: true }).click()
   await expect(page).toHaveURL(/\/dashboard$/)

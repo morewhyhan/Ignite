@@ -118,12 +118,36 @@ describe('parseServerEnv', () => {
     ).toThrow(/development-only secret/)
   })
 
-  it('rejects a file database in production', () => {
+  it('[AC-PRODUCT-018] keeps production SQLite opt-in explicit and requires a durable absolute path', () => {
     expect(() =>
       parseServerEnv({
         ...productionEnvironment,
         DATABASE_URL: 'file:./production.db',
       }),
-    ).toThrow(/SQLite setup is local-only/)
+    ).toThrow(/local-only by default/)
+
+    expect(() =>
+      parseServerEnv({
+        ...productionEnvironment,
+        DATABASE_URL: 'file:./production.db',
+        ALLOW_PRODUCTION_SQLITE: 'true',
+      }),
+    ).toThrow(/absolute file: path on persistent storage/)
+
+    expect(() =>
+      parseServerEnv({
+        ...productionEnvironment,
+        DATABASE_URL: 'file:/var/lib/ignite/app.db',
+        ALLOW_PRODUCTION_SQLITE: 'true',
+      }),
+    ).not.toThrow()
+
+    expect(() =>
+      parseServerEnv({
+        ...productionEnvironment,
+        DATABASE_URL: 'file:/var/lib/ignite/app.db',
+        ALLOW_PRODUCTION_SQLITE: 'yes',
+      }),
+    ).toThrow(/ALLOW_PRODUCTION_SQLITE must be exactly true or false/)
   })
 })

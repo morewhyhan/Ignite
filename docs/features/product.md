@@ -49,6 +49,7 @@ Ignite 不是一个固定业务产品，而是一个可复制的全栈模板。�
 - R17（REQ-PRODUCT-017）：模板发布工作区只保留供后续开发使用的文档真源、空白模板和回归资产；建设 Ignite 时形成的 Plan、Release、运行证据和整改报告只留在 Git 历史，不作为衍生项目的当前上下文。
 - R18（REQ-PRODUCT-018）：模板示例界面必须有清晰、可读、响应式的视觉层级；主题选择应可访问、收纳于明确的控件中，并兼容已有用户的主题偏好。
 - R19（REQ-PRODUCT-019）：未登录访客应能在首页理解 Ignite 适合谁、解决什么开发阻力、文档体系如何协作；登录/注册面板应保持清晰、克制并适配窄屏，不改变认证行为。
+- R20（REQ-PRODUCT-020）：生产环境默认拒绝 SQLite；用户为低流量单机展示部署明确选择 SQLite 时，必须显式启用开关并使用持久存储上的绝对文件路径。
 
 ## 原型与交互
 
@@ -75,3 +76,4 @@ Ignite 不是一个固定业务产品，而是一个可复制的全栈模板。�
 - AC-PRODUCT-015（REQ-PRODUCT-017）：Given 复制模板的初始工作区，When 扫描 Plans、Releases、证据和根目录，Then 不包含建设期遗留记录，空任务目录可正常校验，维护证据仍可从 Ignite Git 历史追溯。
 - AC-PRODUCT-016（REQ-PRODUCT-018）：Given 用户浏览模板示例界面，When 在桌面或窄屏访问首页并调整主题，Then 主次信息清晰、页面无横向溢出、主题可通过键盘可访问的选择控件切换且刷新后保持。
 - AC-PRODUCT-017（REQ-PRODUCT-019）：Given 未登录访客访问首页，When 向下浏览并打开登录/注册面板，Then 能读懂模板的核心价值、各类项目文档的职责，且认证表单标签明确、布局在桌面和手机视口内完整可用。
+- AC-PRODUCT-018（REQ-PRODUCT-020）：Given `APP_ENV=production` 且数据库使用 SQLite，When 未明确启用生产 SQLite 或使用相对路径，Then 环境校验拒绝启动；只有显式设置 `ALLOW_PRODUCTION_SQLITE=true` 且数据库指向持久存储的绝对路径时才接受。

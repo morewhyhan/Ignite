@@ -1,57 +1,70 @@
 # 文档系统
 
-Ignite 的文档服务于“模板基线 + 后续项目扩展”：AI 应先把本仓库当作模板理解，再根据具体项目需求新增或替换功能规格。`tasks`、认证和当前视觉系统是模板自带基线，不应在没有明确要求时被删除或重命名。
+[返回项目介绍](../README.md) · [首次采用模板](./standards/adoption.md) · [开发工作流](./standards/workflow.md)
 
-每个任务先标记变更类型：`[新增模块]` 或 `[存量改动]`。新增能力建立独立模块；修改现有能力或基础设施必须列出影响路径、兼容性、迁移和回归测试，风险强度另由 Plan 的 `risk` 表达。
+文档让人和 AI 都能查清三件事：要做什么、这轮做到哪里、系统现在是什么样。它们随代码一起维护，为下一次修改留下依据。
 
-本目录按“标准、需求、计划、设计、其他资料”组织。文档只描述规则、规格、
-计划或系统事实；代码、`package.json`、Prisma schema 和测试仍是实现真源。
+## 按当前任务选择入口
 
-## 目录职责
+| 当前任务                     | 建议阅读                                                                                                                                    |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| 第一次用 Ignite 建项目       | [模板采用指南](./standards/adoption.md)：环境、项目身份、示例替换与交付边界                                                                 |
+| 了解模板已经提供什么         | [产品基线](./features/product.md)、[认证](./features/auth.md)、[Tasks](./features/tasks.md)                                                 |
+| 交给 AI 实现或修改功能       | [AGENTS.md](../AGENTS.md) → [工作流](./standards/workflow.md) → 对应 Feature、Design 和 Plan                                                |
+| 查代码应该放在哪里、如何连接 | [架构规范](./standards/architecture.md)、[领域设计](./designs/domain.md)、[API 设计](./designs/api.md)、[数据库设计](./designs/database.md) |
+| 判断工作是否真正完成         | [测试规范](./standards/testing.md)、[验收用例](./others/test-cases/)、[验证证据](./others/evidence/)                                        |
+| 接入或调整 AI 工具           | [AI 工作台](../.ai/README.md)、[AI 协作规范](./standards/ai-agents.md)                                                                      |
 
-| 目录         | 内容                                    | 维护方式                             |
-| ------------ | --------------------------------------- | ------------------------------------ |
-| `standards/` | 架构、API、数据库、命名、安全和开发标准 | 稳定规则，变更时更新最终版本         |
-| `features/`  | 一个业务模块一份需求规格                | 产品/业务起点，按功能新增            |
-| `plans/`     | 当前项目的实现计划、Tasking 和状态      | 模板只带空白模板；项目创建自己的记录 |
-| `designs/`   | 当前数据库、API 和系统设计事实          | 持续更新，作为下一轮工作的事实依据   |
-| `others/`    | ADR、测试用例、发布记录等过程资料       | 追加记录，不混入标准或当前事实       |
+普通业务开发只读本轮相关资料。只有修改执行器、验收或适配边界时，才需要阅读[执行工具规格](./features/execution.md)、[执行可信性规格](./features/ai-execution-trust.md)和[执行系统设计](./designs/execution.md)，无需每轮加载全部工具文档。
+
+## 每类文档回答一个问题
+
+| 入口                               | 回答的问题                           | 维护方式                                            |
+| ---------------------------------- | ------------------------------------ | --------------------------------------------------- |
+| [AGENTS.md](../AGENTS.md)          | AI 在这个项目里应怎样工作？          | 所有工具共用的项目执行规则，工具入口只引用它        |
+| [Standards](./standards/README.md) | 开发应遵守哪些长期约定？             | 架构、API、数据库、安全、测试等标准，规则改变时更新 |
+| [Features](./features/README.md)   | 用户需要什么，怎样才算做对？         | 按模块维护需求与验收标准                            |
+| [Plans](./plans/README.md)         | 这轮怎么做，做到哪里，还缺什么？     | 记录方案、任务状态、范围和证据，保留过程            |
+| [Designs](./designs/README.md)     | 系统现在实际怎样工作？               | 随实现更新，保存当前模块、接口、数据库等事实        |
+| [Others](./others/README.md)       | 如何验收，重要取舍与交付记录在哪里？ | 按分类维护验收用例、ADR 和证据记录                  |
+
+**Plan 保存这一轮的过程，Design 保存当前的事实。** 下一轮开发从现行需求与设计出发，接续相关计划，避免把历史方案误当成当前实现。
+
+## 文档如何进入开发循环
+
+```text
+Feature → Plan → Contract/Test → Implementation → Verify → Design
+需求      计划    契约与行为测试    实现             验证      当前事实
+```
+
+Standards 约束整个过程。先明确需求与验收方式，再制定本轮计划、编写测试并实现；检查失败就定位和修复，超出授权或缺少外部条件则记录阻塞。验证通过后回写事实设计，让下一轮有据可依。完整顺序与准入、准出条件见[工作流](./standards/workflow.md)。
+
+每轮先区分 `[新增模块]` 与 `[存量改动]`：新能力建立模块；修改现有能力或基础设施，要说明影响路径、兼容性、迁移和回归验证。风险强度由 Plan 的 `risk` 表达。
+
+品牌、页面、Tasks 和当前视觉都属于可替换的模板基线。采用时按[采用指南](./standards/adoption.md)确定去留；没有具体项目目标时保留现状，不替用户猜测产品决定。
 
 ## 执行入口
 
-先读目标模块的 Feature 与 Design，再接续匹配的 Plan；没有匹配任务时，用 `pnpm create:module <name>` 或 `pnpm create:change <name>` 生成草稿。结构见 [`plans/_template.md`](./plans/_template.md)，发布范围由 [`plans/releases/`](./plans/releases/) 的 JSON 保存。日常入口：
+先查看状态、读取目标模块的 Feature 与 Design，再接续匹配的未完成 Plan：
 
 ```text
-pnpm ignite plan validate <IGT-ID>       # 检查 Plan 元数据
-pnpm ignite status --write                # 汇总当前 Plan 与发布范围
+pnpm ignite status
+pnpm ignite next --plan <IGT-ID>
 pnpm ignite check --plan <IGT-ID> --level auto
+pnpm ignite release status
 ```
 
-活动状态和完整日志保存在 Git 忽略的 `.ignite/runs/`；只有通过的检查会把脱敏 manifest 写入 `docs/others/evidence/runs/`。同一输入与环境已有运行时 CLI 会复用；状态摘要和 Release 状态都是派生结果，不维护第二份手工状态。模板建设期的历史 Plan 和证据不随发布快照进入新项目工作区，仍可从 Ignite 的 Git 历史查阅。
+新的独立交付结果才创建 Plan：新增模块用 `pnpm create:module <plural-kebab-name>`，存量改动用 `pnpm create:change <kebab-name>`。脚手架生成草稿，需按实际目标完善需求、任务和验收。结构见 [Plan 模板](./plans/_template.md)，整轮发布范围见 [Release 说明](./plans/releases/README.md)。
 
-## 变更流转
+活动运行和完整日志保存在 Git 忽略的 `.ignite/runs/`；通过的检查将脱敏摘要写入 [`others/evidence/runs/`](./others/evidence/runs/)。相同输入与环境的已有运行应复用，避免重复检查。状态表用 `pnpm ignite status --write` 生成，不手工维护第二份进度。
 
-```text
-features/  →  plans/  →  tests + code  →  designs/
-                         ↓
-                      others/
-standards/ ───────────────┘ 约束整个过程
-```
+模板发布快照只带可复用资料，建设期任务与审计记录留在 Git 历史中；采用后的项目保留自己的 Plan、Release 和证据，不能套用模板清理规则。
 
-规范性规则以仓库根目录的 [`AGENTS.md`](../AGENTS.md) 为准。
+## 文档与实现的关系
 
-## 真源与冲突处理
+- **AGENTS 与 Standards** 是执行规则和长期工程约定。
+- **Feature** 保存产品意图与验收标准，**Plan** 保存本轮过程、状态和证据引用。
+- **Design** 是当前设计事实，也是下一轮 Plan 的依据。
+- **源码、Prisma schema、测试与 `package.json`** 是可执行实现。
 
-| 内容                     | 权威来源                                    |
-| ------------------------ | ------------------------------------------- |
-| AI 行为和长期规则        | `AGENTS.md`、`docs/standards/`              |
-| 产品意图和验收标准       | `docs/features/`                            |
-| 本轮过程、状态和验证证据 | `docs/plans/`                               |
-| 当前设计契约             | `docs/designs/`                             |
-| 可执行实现               | `src/`、`prisma/`、`tests/`、`package.json` |
-
-`docs/designs/` 是下一轮 Plan 的设计事实依据；源码和测试是当前可执行行为。两者冲突不是选择一个忽略另一个，而是一次未完成的变更：任务范围内必须同步修正或在 Plan 中记录差异。
-
-首次把模板采用为具体项目时，从 [`standards/adoption.md`](./standards/adoption.md) 开始。
-
-普通业务开发按需读取 `product`、`auth`、`tasks` 及自己的模块规格。`features/execution.md`、`features/ai-execution-trust.md` 和 `designs/execution.md` 描述模板自带工具的契约，仅修改执行器、验收或适配边界时读取；不用每轮加载全部工具规格。
+文档和实现不一致，代表仍有未完成的变更。应在任务范围内同步修正，或在 Plan 中明确记录差异，不能忽略其中一方。

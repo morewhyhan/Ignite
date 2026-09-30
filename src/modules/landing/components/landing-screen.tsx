@@ -243,68 +243,48 @@ export function LandingScreen() {
                 id="ignite-manifesto-title"
                 className="text-3xl font-semibold leading-tight tracking-tight sm:text-4xl lg:text-5xl lg:leading-[1.08]"
               >
-                <span className="block">好想法死在脑子里，</span>
-                <span className="block text-background/70">是最可惜的。</span>
+                <span className="block">好想法，</span>
+                <span className="block text-background/70">不该死在脑子里。</span>
               </h2>
             </div>
 
             <div className="max-w-2xl space-y-6 pt-1 text-lg leading-9 text-background/75">
               <p>
-                想法不是拿来收藏的。
+                想法是火种。
                 <br />
-                <strong className="font-semibold text-background">是拿来点燃的。</strong>
+                火种不是烟花——
+                <br />
+                烟花亮一瞬，火种要燎原。
               </p>
 
               <p>
-                但火种不是烟花。烟花只争一瞬。
+                燎原之前，先入炉。
                 <br />
-                <strong className="font-semibold text-background">火种，是要燎原的。</strong>
+                烈火淬过，杂质褪去，
+                <br />
+                直到它有了可以被举起的形状。
               </p>
 
               <p>
-                <strong className="font-semibold text-background">燎原之前，先入炉。</strong>
+                那是火炬。
                 <br />
-                烈火一遍遍烧过。直到炉门再开——
-                <br />
-                <strong className="font-semibold text-background">
-                  那一点火种，已有了可以被举起的形状。
-                </strong>
-                <br />
-                它叫火炬。
+                那是“我想做”，变成了“我做成了”。
               </p>
 
               <p>
-                于是一句“我想做”，也终于变成——
+                举起来。
                 <br />
-                <strong className="font-semibold text-background">“我做成了。”</strong>
-              </p>
-
-              <p>
-                把它举起来。
+                让人看见，让人借光，让人取暖。
                 <br />
-                <span className="flex flex-nowrap gap-x-2 whitespace-nowrap text-base sm:gap-x-3 sm:text-lg">
-                  <span>让人看见、</span>
-                  <span>让人借光、</span>
-                  <span>让人取暖。</span>
-                </span>
-                <br />
-                <span className="flex flex-nowrap gap-x-2 whitespace-nowrap font-semibold text-base text-background sm:gap-x-3 sm:text-lg">
-                  <span>从一双手，</span>
-                  <span>到另一双手。</span>
-                </span>
+                从一双手，到另一双手。
               </p>
 
               <div className="border-t border-background/20 pt-6">
-                <div className="flex flex-nowrap items-baseline gap-x-3 whitespace-nowrap">
-                  <p className="text-xl font-semibold tracking-tight text-background sm:text-2xl">
-                    Ignite your idea.
-                  </p>
-                  <p className="text-xs font-normal tracking-normal text-background/65 sm:text-sm">
-                    点燃你的想法。
-                  </p>
-                </div>
-                <p className="mt-4 whitespace-nowrap text-xl font-semibold leading-tight tracking-tight text-background sm:text-3xl">
-                  从一念火种，到万家灯火。
+                <p className="text-xl font-semibold tracking-tight text-background sm:text-2xl">
+                  Ignite
+                </p>
+                <p className="mt-3 text-xl font-semibold leading-tight tracking-tight text-background sm:text-3xl">
+                  星星之火，可以燎原。
                 </p>
               </div>
             </div>

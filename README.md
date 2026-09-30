@@ -136,7 +136,29 @@ docs/
 | 配置 AI 工具         | [AI 工作台](./.ai/README.md) · [AI 协作规范](./docs/standards/ai-agents.md)      |
 | 查看验收和已发布版本 | [验收资料](./docs/others/README.md) · [版本更新](./CHANGELOG.md)                 |
 
+---
+
 <div align="center">
-  <p><strong>Ignite your idea.</strong></p>
-  <p>从一念火种，到万家灯火。</p>
+  <h2>好想法，不该死在脑子里。</h2>
+  <p>
+    想法是火种。<br>
+    火种不是烟花——<br>
+    烟花亮一瞬，火种要燎原。
+  </p>
+  <p>
+    燎原之前，先入炉。<br>
+    烈火淬过，杂质褪去，<br>
+    直到它有了可以被举起的形状。
+  </p>
+  <p>
+    那是火炬。<br>
+    那是“我想做”，变成了“我做成了”。
+  </p>
+  <p>
+    举起来。<br>
+    让人看见，让人借光，让人取暖。<br>
+    从一双手，到另一双手。
+  </p>
+  <p><strong>Ignite</strong></p>
+  <p><strong>星星之火，可以燎原。</strong></p>
 </div>

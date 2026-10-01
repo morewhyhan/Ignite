@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790838314910384474",
   "release": "native-execution-standards-v1",
-  "status": "active",
+  "status": "done",
   "outcome": "正常使用现有文档即可执行六项标准，无需额外提示词及路由",
   "contract_version": 2,
   "execution_contract": 1,
@@ -173,7 +173,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "a0b50b8c131ed2e4a4ab459f6099a903006e20b2",
   "updated_at": "2026-10-01"
 }
 -->
@@ -257,7 +257,7 @@ Plan integration run-20261001073935-d4cf3b 在 a0b50b8 的实现版本通过全�
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
 - [x] T2 · 补充需求和目标行为测试 · done

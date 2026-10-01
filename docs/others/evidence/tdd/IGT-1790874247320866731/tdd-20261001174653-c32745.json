@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "d7735c911de41e2bd704a65bf9db4150c42167cb8e3bdb4c6424326f6c71dd70",
+  "run_id": "tdd-20261001174653-c32745",
+  "plan_id": "IGT-1790874247320866731",
+  "acceptance_id": "AC-EXECUTION-041",
+  "test": "tests/contracts/ci-build-artifact.test.ts::[AC-EXECUTION-041] loads external dependencies after the configured artifact round trip",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "783876493b9fbe4ea9716e273eaa5727d81f6093",
+  "output_sha256": "6064da18ede9a1a2bdff298058a19dbedcdeadb8ebeab333cace6154b6047d6c",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/ci-build-artifact.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-041",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-01T17:46:53.586Z",
+  "ended_at": "2026-10-01T17:47:08.504Z",
+  "executor": "ignite-tdd-runner"
+}

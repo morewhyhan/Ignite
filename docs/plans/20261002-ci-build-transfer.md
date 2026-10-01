@@ -113,7 +113,18 @@
     "docs/plans/releases/ci-build-transfer-v1.json",
     "docs/others/evidence/tdd/"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-EXECUTION-030",
+      "test": "tests/contracts/ci-build-artifact.test.ts::[AC-EXECUTION-030] preserves actual server output when CI startup fails before tests",
+      "run_id": "tdd-20261001174522-6593d0"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-041",
+      "test": "tests/contracts/ci-build-artifact.test.ts::[AC-EXECUTION-041] loads external dependencies after the configured artifact round trip",
+      "run_id": "tdd-20261001174653-c32745"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

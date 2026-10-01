@@ -1,0 +1,63 @@
+{
+  "schema": 2,
+  "run_id": "run-20261001181846-9106eb",
+  "check_policy_version": 6,
+  "plan_id": "IGT-1790874247320866731",
+  "evidence_id": "check-release",
+  "level": "release",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-10-01T18:18:53.728Z",
+  "ended_at": "2026-10-01T18:21:43.246Z",
+  "commit": "acd2add331d803399ff9219a02cd56c7febb32bb",
+  "input_fingerprint": "cb47eaeffd387b4c3b31ddfe2b0b6806b5cad6b2841471eb479e58b0829e10b3",
+  "environment_fingerprint": "a9a342b68b20ef1291357098ab140bd321ffbd348aecc3a91a312972942e8441",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "0cfa50208b97e09a4cd309174a268d326a4d4853f3ef64a1bf31eb8cebf52f99",
+  "acceptance_results": [],
+  "release_id": "ci-build-transfer-v1",
+  "release_fingerprint": "e5f537053860359b12fd78d3f4ac43097306d885c1dbe71f99eca499ba40a5c1",
+  "release_identity": {
+    "package_version": "0.1.0",
+    "tags": []
+  },
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "3ca1f15eb4e90f5063e750e2106d7192a1556109"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 733
+    },
+    {
+      "label": "build",
+      "command": ["corepack", "pnpm", "build"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 84289
+    },
+    {
+      "label": "e2e-production",
+      "command": ["corepack", "pnpm", "test:e2e:production"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 57667
+    }
+  ],
+  "log_sha256": "f7694d24bda9d3bfac2e52d2edeac99d0aed45d874bae1d7d9a520d9a8c39305",
+  "execution_source": "ignite-runner-local"
+}

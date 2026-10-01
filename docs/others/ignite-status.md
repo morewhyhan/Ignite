@@ -10,11 +10,10 @@
 
 ## 发布范围
 
-- `ci-build-transfer-v1` · `verifying`
+- `ci-build-transfer-v1` · `done`
   - Plan：`IGT-1790874247320866731`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite release verify ci-build-transfer-v1 --plan IGT-1790874247320866731
+  - 最终版本验收：passed（acd2add331d8）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题

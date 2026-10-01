@@ -1,0 +1,36 @@
+{
+  "schema": 2,
+  "id": "native-execution-standards-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1790838314910384474"],
+  "scope": [
+    {
+      "id": "GOAL-001",
+      "text": "接续直接保留原始目标与行动，移除提示词路由",
+      "requirements": ["REQ-EXECUTION-036"],
+      "acceptance": ["AC-EXECUTION-036"],
+      "source": "用户已要求直接落实六项改动，本轮纠正为自然融入现有文档体系，拒绝额外提示词约束",
+      "plan_ids": ["IGT-1790838314910384474"],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    },
+    {
+      "id": "GOAL-002",
+      "text": "六项标准归入原有文档，生成草稿在对应位置支持实际判断",
+      "requirements": ["REQ-EXECUTION-037"],
+      "acceptance": ["AC-EXECUTION-037"],
+      "source": "用户已要求直接落实六项改动，本轮纠正为自然融入现有文档体系，拒绝额外提示词约束",
+      "plan_ids": ["IGT-1790838314910384474"],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-10-01"
+}

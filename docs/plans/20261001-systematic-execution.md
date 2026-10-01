@@ -99,7 +99,7 @@
     {
       "id": "T4",
       "title": "执行适用验收并回写设计与实际限制",
-      "status": "doing"
+      "status": "done"
     }
   ],
   "depends_on": [],
@@ -158,7 +158,12 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261001043612-c9234b"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
@@ -228,6 +233,8 @@ Feature: docs/features/execution.md。规则依据：AGENTS.md、workflow.md、t
 
 确认 SQLite 原始红灯提交也不在当前祖先链，原 Plan 登记历史恢复阻塞；没有改变其业务或制造事后红灯。本轮独立 Plan 不依赖该 Release，继续按自身门禁验证。文档检查暴露本 Plan 正文缺少既定栏目与精确变更类型行，已按现有检查器补齐，未降低检查要求。
 
+Plan integration run-20261001043612-c9234b 已通过工程门禁、全部三个 AC 及 167 个回归测试。作废的首次 AC-EXECUTION-032 记录从当前证据目录移除，Git 保留历史，孤立证据检查通过。八个人工案例已建立，未执行跨模型实验，不声明已证实偏移率降低；最终生产构建和浏览器回归由本 Release 单独验证。
+
 <!-- ignite-progress -->
 
 状态：`active`（由元数据生成）
@@ -235,10 +242,10 @@ Feature: docs/features/execution.md。规则依据：AGENTS.md、workflow.md、t
 - [x] T1 · 核对现有目标追溯、检查复用和接续入口，确定主要缺口 · done
 - [x] T2 · 建立目标摘要、任务优先和双脚手架的真实红灯基线 · done
 - [x] T3 · 落实整体判断、行动取舍、纠偏标准与接续行为 · done
-- [ ] T4 · 执行适用验收并回写设计与实际限制 · doing
+- [x] T4 · 执行适用验收并回写设计与实际限制 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20261001043612-c9234b
 <!-- /ignite-progress -->
 
 ## 准出条件

@@ -1,7 +1,7 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`c1f2fc4900a0`
+输入指纹：`01ca2fcf08d9`
 当前 Plan：3；结构化历史：1；未迁移历史：0
 
 ## 当前工作
@@ -26,7 +26,7 @@
   - 未完成原始目标：GOAL-001 为低流量单机展示部署显式启用持久化 SQLite，同时保留生产环境默认拒绝
 - `systematic-execution-v1` · `active`
   - Plan：`IGT-1790826869649125989`
-  - 缺少证据：`IGT-1790826869649125989:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1790826869649125989
   - 未完成原始目标：GOAL-001 让 AI 先覆盖整体目标和关键链路，再选择主要问题并按证据纠偏

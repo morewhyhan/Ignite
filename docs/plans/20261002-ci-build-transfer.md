@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790874247320866731",
   "release": "ci-build-transfer-v1",
-  "status": "active",
+  "status": "verifying",
   "outcome": "支持完整 CI 的生产构建交接保留依赖链接，启动失败时输出真实服务异常",
   "contract_version": 2,
   "execution_contract": 1,
@@ -79,7 +79,7 @@
     {
       "id": "T4",
       "title": "完成本轮集成验收并回写设计",
-      "status": "doing"
+      "status": "done"
     }
   ],
   "depends_on": [],
@@ -129,12 +129,12 @@
   "evidence": [
     {
       "id": "check-integration",
-      "run_id": "run-20261001175325-455bae"
+      "run_id": "run-20261001181130-bf9117"
     }
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "eb3e0cc6b924c3d93f619f7daf2c902d24171352",
   "updated_at": "2026-10-01"
 }
 -->
@@ -202,6 +202,8 @@ tasks 是唯一任务状态。
 
 ## 准出条件
 
+2026-10-02：最终 Plan 合同的集成记录 run-20261001181130-bf9117 已通过工程门禁及 173 项测试，两项本轮 AC 均通过；生产构建、全量浏览器验收及最终云端结果仍待 Release 与推送确认。
+
 Plan 准出：两项目标行为有真实红灯和匹配的集成证据，设计已回写。
 
 Release 准出：全部 Plan 完成后，生产构建及全量 E2E 通过。
@@ -210,13 +212,13 @@ Release 准出：全部 Plan 完成后，生产构建及全量 E2E 通过。
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`verifying`（由元数据生成）
 
 - [x] T1 · 复现云端依赖加载失败并确认传输边界 · done
 - [x] T2 · 补齐规格与实际行为回归测试并记录红灯 · done
 - [x] T3 · 保留构建链接并恢复启动诊断输出 · done
-- [ ] T4 · 完成本轮集成验收并回写设计 · doing
+- [x] T4 · 完成本轮集成验收并回写设计 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：check-integration / run-20261001175325-455bae
+证据：check-integration / run-20261001181130-bf9117
 <!-- /ignite-progress -->

@@ -1,0 +1,113 @@
+{
+  "schema": 2,
+  "run_id": "run-20261001181130-bf9117",
+  "check_policy_version": 6,
+  "plan_id": "IGT-1790874247320866731",
+  "evidence_id": "check-integration",
+  "level": "integration",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-10-01T18:11:31.309Z",
+  "ended_at": "2026-10-01T18:16:58.486Z",
+  "commit": "eb3e0cc6b924c3d93f619f7daf2c902d24171352",
+  "input_fingerprint": "cb47eaeffd387b4c3b31ddfe2b0b6806b5cad6b2841471eb479e58b0829e10b3",
+  "environment_fingerprint": "a9a342b68b20ef1291357098ab140bd321ffbd348aecc3a91a312972942e8441",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "0cfa50208b97e09a4cd309174a268d326a4d4853f3ef64a1bf31eb8cebf52f99",
+  "acceptance_results": [
+    {
+      "plan_id": "IGT-1790874247320866731",
+      "criterion": "AC-EXECUTION-041",
+      "test": "tests/contracts/ci-build-artifact.test.ts::[AC-EXECUTION-041] loads external dependencies after the configured artifact round trip",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1790874247320866731",
+      "criterion": "AC-EXECUTION-030",
+      "test": "tests/contracts/ci-build-artifact.test.ts::[AC-EXECUTION-030] preserves actual server output when CI startup fails before tests",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    }
+  ],
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "3ca1f15eb4e90f5063e750e2106d7192a1556109"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 459
+    },
+    {
+      "label": "template-doctor",
+      "command": ["corepack", "pnpm", "template:doctor"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 666
+    },
+    {
+      "label": "governance",
+      "command": ["corepack", "pnpm", "ignite", "validate"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 2766
+    },
+    {
+      "label": "docs",
+      "command": ["corepack", "pnpm", "docs:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 4088
+    },
+    {
+      "label": "typecheck",
+      "command": ["corepack", "pnpm", "typecheck"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 39720
+    },
+    {
+      "label": "lint",
+      "command": ["corepack", "pnpm", "lint"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 56892,
+      "reused_from": {
+        "run_id": "run-20261001175325-455bae",
+        "log_sha256": "5fdd326ee87c896d1b0049b38d5b1b7f4d444c01527657c9f3ec0b1674400eb2"
+      }
+    },
+    {
+      "label": "format",
+      "command": ["corepack", "pnpm", "format:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 5823
+    },
+    {
+      "label": "tests",
+      "command": ["corepack", "pnpm", "test"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 266495
+    }
+  ],
+  "log_sha256": "a25f3226116ac1357dc07a8c0ae140eca3d8fda63e810e35e0eb4253d91372c9",
+  "execution_source": "ignite-runner-local"
+}

@@ -235,6 +235,8 @@ Feature: docs/features/execution.md。规则依据：AGENTS.md、workflow.md、t
 
 Plan integration run-20261001043612-c9234b 已通过工程门禁、全部三个 AC 及 167 个回归测试。作废的首次 AC-EXECUTION-032 记录从当前证据目录移除，Git 保留历史，孤立证据检查通过。八个人工案例已建立，未执行跨模型实验，不声明已证实偏移率降低；最终生产构建和浏览器回归由本 Release 单独验证。
 
+Release run-20261001044820-48eb9b 在最终提交 02c55e335ab31ddfdcdd1a24d95722ebf9dc34e0 通过生产构建与 12 个桌面/移动浏览器用例。Plan 与本 Release 均已按有效证据完成；旧 SQLite Plan 的历史恢复阻塞独立保留。
+
 <!-- ignite-progress -->
 
 状态：`done`（由元数据生成）

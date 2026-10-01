@@ -18,8 +18,16 @@
     }
   ],
   "must_pass": ["check-release"],
-  "evidence": [],
-  "integrated_commit": null,
+  "evidence": [
+    {
+      "id": "check-release",
+      "run_id": "run-20261001044820-48eb9b",
+      "plan_id": "IGT-1790826869649125989",
+      "package_version": "0.1.0",
+      "tags": []
+    }
+  ],
+  "integrated_commit": "02c55e335ab31ddfdcdd1a24d95722ebf9dc34e0",
   "excluded": [],
   "updated_at": "2026-10-01"
 }

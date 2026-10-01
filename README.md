@@ -45,6 +45,8 @@ node scripts/runtime-doctor.mjs --preflight
 cp .env.example .env
 pnpm install --frozen-lockfile
 pnpm runtime:check
+pnpm template:doctor
+pnpm ignite status --write
 pnpm db:setup
 pnpm dev
 ```
@@ -52,6 +54,8 @@ pnpm dev
 打开 [localhost:3000](http://localhost:3000)，注册后可体验工作台和 Tasks。Tasks 是一条从页面到数据库的完整参考切片，可供参考、改造或删除。采用模板后，按[采用指南](./docs/standards/adoption.md)更换项目名称、标识和本地密钥，并针对自己的功能与部署环境重新验收。
 
 Windows 与 WSL 不应共享 `node_modules`；切换环境时，按对应平台重新安装依赖。
+
+状态摘要由上面的命令按当前仓库生成，初始为零 Plan、零 Release。若复制源码后重新建立 Git 历史，也需生成自己的摘要。创建第一个模块前，提交需要保留的初始化变更，保持 Git 工作区干净。
 
 ---
 

@@ -147,14 +147,14 @@
       "run_id": "tdd-20261001040553-3a27d6"
     },
     {
-      "acceptance_id": "AC-EXECUTION-032",
-      "test": "tests/contracts/execution-focus.test.ts::[AC-EXECUTION-032] resumes unfinished work before offering checks and retains gap, blocker and legacy precedence",
-      "run_id": "tdd-20261001040619-c7e94b"
-    },
-    {
       "acceptance_id": "AC-EXECUTION-033",
       "test": "tests/contracts/execution-focus.test.ts::[AC-EXECUTION-033] generates module and change drafts with a whole-task review and no completion evidence",
       "run_id": "tdd-20261001040637-61f5cf"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-032",
+      "test": "tests/contracts/execution-focus.test.ts::[AC-EXECUTION-032] resumes unfinished work before offering checks and retains gap, blocker and legacy precedence",
+      "run_id": "tdd-20261001041320-1e684e"
     }
   ],
   "required_evidence": ["check-integration"],
@@ -199,6 +199,8 @@ Feature: docs/features/execution.md。规则依据：AGENTS.md、workflow.md、t
 回写摘要字段、任务建议优先级、规则入口及验收限制。不改变旧 Plan 的目标与证据。
 
 ## 状态记录
+
+首次回归发现隔离夹具缺少旧契约要求的 Release coverage 和 scope，使 AC-EXECUTION-032 先遇到输入校验；已修正夹具，恢复未实施 CLI 后重新记录真实任务接续断言红灯。原记录保留为历史，不作为本 Plan 当前证据；未放宽任何输入校验。
 
 <!-- ignite-progress -->
 

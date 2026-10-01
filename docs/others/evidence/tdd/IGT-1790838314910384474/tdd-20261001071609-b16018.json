@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "a2475559b980ded223e4ebbfe6182612fd681b8b2ebb014ba8d9177132fa049e",
+  "run_id": "tdd-20261001071609-b16018",
+  "plan_id": "IGT-1790838314910384474",
+  "acceptance_id": "AC-EXECUTION-036",
+  "test": "tests/contracts/native-execution.test.ts::[AC-EXECUTION-036] resumes real Plan states without an extra prompt router and preserves decisions and context",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "ec53c08abb04a8d28a90f278903953d6da8d5fa2",
+  "output_sha256": "19656913c799999829ed93e5c9ef42e7d6162de0618642af0e5bed9eb29e73aa",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/native-execution.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-036",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-01T07:16:09.719Z",
+  "ended_at": "2026-10-01T07:16:24.159Z",
+  "executor": "ignite-tdd-runner"
+}

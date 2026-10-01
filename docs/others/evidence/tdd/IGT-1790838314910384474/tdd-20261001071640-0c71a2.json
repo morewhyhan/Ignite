@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "a4f13f29abe7eac430da6d103c35ede76a16dc4e70fa259555fcde85426e92f0",
+  "run_id": "tdd-20261001071640-0c71a2",
+  "plan_id": "IGT-1790838314910384474",
+  "acceptance_id": "AC-EXECUTION-037",
+  "test": "tests/contracts/native-execution.test.ts::[AC-EXECUTION-037] generates native requirement and Plan drafts without prompt dependencies or completion evidence",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "ec53c08abb04a8d28a90f278903953d6da8d5fa2",
+  "output_sha256": "171e253eacebb2320a4b9fc4d2b58a68a7338ba4eade3e6120e75a31e2ec8053",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/native-execution.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-037",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-01T07:16:40.779Z",
+  "ended_at": "2026-10-01T07:16:47.156Z",
+  "executor": "ignite-tdd-runner"
+}

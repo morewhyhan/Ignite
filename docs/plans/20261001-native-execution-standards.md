@@ -132,7 +132,18 @@
     "tests/contracts/execution-prompts.test.ts",
     "docs/others/evidence/tdd/"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-EXECUTION-036",
+      "test": "tests/contracts/native-execution.test.ts::[AC-EXECUTION-036] resumes real Plan states without an extra prompt router and preserves decisions and context",
+      "run_id": "tdd-20261001071609-b16018"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-037",
+      "test": "tests/contracts/native-execution.test.ts::[AC-EXECUTION-037] generates native requirement and Plan drafts without prompt dependencies or completion evidence",
+      "run_id": "tdd-20261001071640-0c71a2"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

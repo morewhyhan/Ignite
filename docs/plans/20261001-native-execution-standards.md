@@ -104,7 +104,7 @@
     {
       "id": "T4",
       "title": "验证兼容性并回写设计",
-      "status": "doing"
+      "status": "done"
     }
   ],
   "depends_on": [],
@@ -165,7 +165,12 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261001073935-d4cf3b"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
@@ -248,6 +253,8 @@ execution Design 记录真实文档归属、草稿行为及直接接续输出。
 
 作者内容复核结论：需求在 workflow 的“需求写到能判断行为”定义正确/错误结果及人的决定边界，Feature 提供行为表；行动在“Plan 写到能选择下一步”和 testing 的检查尺度中定义相关完整链路、必要条件、竞争方向和不同观察结果；执行反馈明确阶段触发与局部停止；完成回写逐项核对原始承诺、层级及版本；沟通单列复述、事实依据和读者理解；维护在 ai-agents 原条款中定义失败归因、归属、正反例及效果证据。保存与间距、纯文案、新权限风险三类尺度反例保留。正常任务无需另填六表、评分或重读提示词。这是作者复核，独立读者理解与九个模型行为案例均未实际评估。
 
+Plan integration run-20261001073935-d4cf3b 在 a0b50b8 的实现版本通过全部工程门禁、23 个测试文件及 170 个用例；AC-EXECUTION-036/037/038 均实际通过。此次完整检查首次通过，未机械重复或降低门禁。原始目标、六项内容归属及无旧文件依赖已经核对，Design 与采用边界已回写；Release 的最终构建及浏览器证据需在 Plan 完成后独立执行。
+
 <!-- ignite-progress -->
 
 状态：`active`（由元数据生成）
@@ -255,10 +262,10 @@ execution Design 记录真实文档归属、草稿行为及直接接续输出。
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
 - [x] T2 · 补充需求和目标行为测试 · done
 - [x] T3 · 实施最小存量修改 · done
-- [ ] T4 · 验证兼容性并回写设计 · doing
+- [x] T4 · 验证兼容性并回写设计 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20261001073935-d4cf3b
 <!-- /ignite-progress -->
 
 ## 准出条件

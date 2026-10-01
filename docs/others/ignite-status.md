@@ -26,7 +26,7 @@
   - 未完成原始目标：GOAL-001 访客能理解 Ignite 的核心价值和文档体系，并顺畅使用响应式登录/注册面板
 - `native-execution-standards-v1` · `active`
   - Plan：`IGT-1790838314910384474`
-  - 缺少证据：`IGT-1790838314910384474:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1790838314910384474
   - 未完成原始目标：GOAL-001 接续直接保留原始目标与行动，移除提示词路由；GOAL-002 六项标准归入原有文档，生成草稿在对应位置支持实际判断

@@ -1,0 +1,125 @@
+{
+  "schema": 2,
+  "run_id": "run-20261001073935-d4cf3b",
+  "check_policy_version": 6,
+  "plan_id": "IGT-1790838314910384474",
+  "evidence_id": "check-integration",
+  "level": "integration",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-10-01T07:39:36.792Z",
+  "ended_at": "2026-10-01T07:46:12.196Z",
+  "commit": "a0b50b8c131ed2e4a4ab459f6099a903006e20b2",
+  "input_fingerprint": "e5f9d51d54115ded437490da67a3eb882c787058b64e08b701412cdc11001935",
+  "environment_fingerprint": "a9a342b68b20ef1291357098ab140bd321ffbd348aecc3a91a312972942e8441",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "154b5353e7565dbc465a897c869851d63df249b50855113d41b86c171afbe106",
+  "acceptance_results": [
+    {
+      "plan_id": "IGT-1790838314910384474",
+      "criterion": "AC-EXECUTION-036",
+      "test": "tests/contracts/native-execution.test.ts::[AC-EXECUTION-036] resumes real Plan states without an extra prompt router and preserves decisions and context",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1790838314910384474",
+      "criterion": "AC-EXECUTION-037",
+      "test": "tests/contracts/native-execution.test.ts::[AC-EXECUTION-037] generates native requirement and Plan drafts without prompt dependencies or completion evidence",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1790838314910384474",
+      "criterion": "AC-EXECUTION-038",
+      "test": "tests/contracts/historical-release-scope.test.ts::[AC-EXECUTION-038] validates completed Release coverage at its tested specification and rejects gaps and unfinished snapshots",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-900",
+      "criterion": "AC-TEST-001",
+      "test": "tests/e2e/sample.spec.ts",
+      "layer": "browser",
+      "passed": false,
+      "cases": 1
+    }
+  ],
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "da4580b29423968ad9d26f60e932bc25cd7a6268"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 611
+    },
+    {
+      "label": "template-doctor",
+      "command": ["corepack", "pnpm", "template:doctor"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 839
+    },
+    {
+      "label": "governance",
+      "command": ["corepack", "pnpm", "ignite", "validate"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 13352
+    },
+    {
+      "label": "docs",
+      "command": ["corepack", "pnpm", "docs:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 15388
+    },
+    {
+      "label": "typecheck",
+      "command": ["corepack", "pnpm", "typecheck"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 45176
+    },
+    {
+      "label": "lint",
+      "command": ["corepack", "pnpm", "lint"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 53894
+    },
+    {
+      "label": "format",
+      "command": ["corepack", "pnpm", "format:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 7230
+    },
+    {
+      "label": "tests",
+      "command": ["corepack", "pnpm", "test"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 250937
+    }
+  ],
+  "log_sha256": "3ee27d73a952124a158c31b399803b3c0c029e9892636ea1f4b31ef8f2780e93",
+  "execution_source": "ignite-runner-local"
+}

@@ -12,7 +12,7 @@
 
 - `ci-build-transfer-v1` · `active`
   - Plan：`IGT-1790874247320866731`
-  - 缺少证据：`IGT-1790874247320866731:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：`IGT-1790874247320866731:check-integration`（stale：repository or Plan inputs changed after this run）
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1790874247320866731
   - 未完成原始目标：GOAL-001 生产构建跨 CI 任务传输后仍可运行；GOAL-002 启动失败时保留真实服务输出

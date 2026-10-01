@@ -25,7 +25,7 @@
   "deliverables": [
     "保留相对链接的 CI 构建归档传输",
     "实际验证依赖加载与失败日志的回归测试",
-    "通过工程门禁和完整生产态浏览器验收的 CI 配置"
+    "通过工程门禁和两项实际行为回归验收的 CI 配置"
   ],
   "remaining_work": [],
   "change_type": "存量改动",
@@ -78,7 +78,7 @@
     },
     {
       "id": "T4",
-      "title": "完成集成、Release 生产态验收并回写设计",
+      "title": "完成本轮集成验收并回写设计",
       "status": "doing"
     }
   ],
@@ -126,7 +126,12 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261001175325-455bae"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
@@ -197,7 +202,9 @@ tasks 是唯一任务状态。
 
 ## 准出条件
 
-两项目标行为有真实红灯和匹配的集成证据，Release 生产构建及全量 E2E 通过。
+Plan 准出：两项目标行为有真实红灯和匹配的集成证据，设计已回写。
+
+Release 准出：全部 Plan 完成后，生产构建及全量 E2E 通过。
 
 本轮用户交付还须推送并等待同一最终提交的 GitHub 五项 CI 全部通过；Plan done 只表示本地修复已验收，不代替远端结果。模板建设记录提交后从发布快照移除，状态由 CLI 生成。
 
@@ -208,8 +215,8 @@ tasks 是唯一任务状态。
 - [x] T1 · 复现云端依赖加载失败并确认传输边界 · done
 - [x] T2 · 补齐规格与实际行为回归测试并记录红灯 · done
 - [x] T3 · 保留构建链接并恢复启动诊断输出 · done
-- [ ] T4 · 完成集成、Release 生产态验收并回写设计 · doing
+- [ ] T4 · 完成本轮集成验收并回写设计 · doing
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20261001175325-455bae
 <!-- /ignite-progress -->

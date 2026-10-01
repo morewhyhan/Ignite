@@ -14,6 +14,18 @@ import {
 } from './ignite-fixture'
 
 function focusedPlan(root: string, baseCommit: string, overrides: Record<string, unknown> = {}) {
+  const resolvedOverrides =
+    typeof overrides.blocker === 'string'
+      ? {
+          ...overrides,
+          blocker: {
+            id: 'BLOCKER-001',
+            owner: 'fixture',
+            reason: overrides.blocker,
+            resume_action: 'Provide the required external account',
+          },
+        }
+      : overrides
   const content = planContent(baseCommit, {
     contract_version: 2,
     execution_contract: 1,
@@ -45,18 +57,9 @@ function focusedPlan(root: string, baseCommit: string, overrides: Record<string,
     dependency_contracts: [],
     shared_files: [],
     handoff: { interfaces: [], migrations: [], tests: [], remaining: [] },
-    ...overrides,
+    ...resolvedOverrides,
   })
   const metadata = JSON.parse(content.match(/<!-- ignite-plan\s*([\s\S]*?)-->/)![1])
-  if (metadata.status === 'blocked' && typeof metadata.blocker === 'string') {
-    metadata.blocker = {
-      id: 'BLOCKER-001',
-      owner: 'fixture',
-      reason: metadata.blocker,
-      resume_action: 'Provide the required external account',
-    }
-    return focusedPlan(root, baseCommit, { ...overrides, blocker: metadata.blocker })
-  }
   write(root, 'docs/plans/fixture.md', renderPlanProgressContent(content, metadata))
   const release = JSON.parse(read(root, 'docs/plans/releases/fixture-v1.json'))
   release.coverage_version = 1

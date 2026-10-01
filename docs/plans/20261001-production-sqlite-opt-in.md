@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790791844798755166",
   "release": "production-sqlite-opt-in-v1",
-  "status": "blocked",
+  "status": "cancelled",
   "outcome": "仅在显式 opt-in 和持久化绝对路径下允许低流量单机展示站使用 SQLite，其他生产环境仍默认拒绝",
   "contract_version": 2,
   "execution_contract": 1,
@@ -112,12 +112,7 @@
   ],
   "required_evidence": ["check-integration"],
   "evidence": [],
-  "blocker": {
-    "id": "SQLITE-HISTORY-001",
-    "owner": "repository-history",
-    "reason": "原 integrated_commit 与 TDD red_commit 均不在当前 HEAD 的祖先链；reintegrate 已保留旧记录，但不可把事后失败冒充原始红灯",
-    "resume_action": "恢复可追溯的原始提交关系后，在原 Plan 重新执行 integration 与 Release；不手改证据或重造事后红灯"
-  },
+  "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
   "updated_at": "2026-10-01",
@@ -195,9 +190,11 @@
 
 ## 状态记录
 
+- 2026-10-01：用户明确要求清理全部模板建设期任务，取消本任务并将记录留在 Git 历史；未满足的原验收不记为完成。
+
 <!-- ignite-progress -->
 
-状态：`blocked`（由元数据生成）
+状态：`cancelled`（由元数据生成）
 
 - [x] T1 · 明确默认拒绝、显式 opt-in 与持久路径契约 · done
 - [x] T2 · 先用契约测试验证当前行为拒绝合法 opt-in · done

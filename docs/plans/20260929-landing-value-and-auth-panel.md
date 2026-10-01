@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790620890185389037",
   "release": "landing-value-and-auth-panel-v1",
-  "status": "blocked",
+  "status": "cancelled",
   "outcome": "未登录访客能理解 Ignite 的核心价值和文档体系，并顺畅使用登录/注册面板",
   "contract_version": 2,
   "execution_contract": 1,
@@ -19,7 +19,10 @@
     "首页沿用现有语义主题令牌与组件体系，不添加外部服务、图库或新依赖",
     "保留价值区与文档区既定目标，只重排图示与信息层级，提升理解速度和说服力"
   ],
-  "non_goals": ["不改变产品定位、认证方式或登录后的工作台", "不创建新的 GitHub Release 或变更版本标签"],
+  "non_goals": [
+    "不改变产品定位、认证方式或登录后的工作台",
+    "不创建新的 GitHub Release 或变更版本标签"
+  ],
   "authorization": {
     "source": "用户要求改善登录注册面板、首页价值与文档目录展示，区分 GitHub 开始使用和注册登录后的预览；后续明确要求将 README 优化连同此前改动提交并推送 GitHub。"
   },
@@ -123,15 +126,10 @@
   ],
   "required_evidence": ["check-integration"],
   "evidence": [],
-  "blocker": {
-    "id": "TASKS-MUTATION-GUARD",
-    "owner": "集成者",
-    "reason": "现存 mutation-guard 测试在隔离运行时超时，未产生预期断言输出；Plan 处于 blocked 时不能为本轮更新后的 AC 重新记录 TDD 红灯",
-    "resume_action": "先修复该测试的超时和诊断，将 Plan 恢复 active；再为当前 AC 记录真实红灯并重跑本计划集成检查"
-  },
+  "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
-  "updated_at": "2026-09-29"
+  "updated_at": "2026-10-01"
 }
 -->
 
@@ -201,9 +199,11 @@ WSL 新命令暂时无响应，此次轻量检查使用 Windows Node 和独立�
 
 ## 状态记录
 
+- 2026-10-01：用户明确要求清理全部模板建设期任务，取消本任务并将记录留在 Git 历史；未满足的原验收不记为完成。
+
 <!-- ignite-progress -->
 
-状态：`blocked`（由元数据生成）
+状态：`cancelled`（由元数据生成）
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
 - [x] T2 · 补充需求和目标行为测试 · done

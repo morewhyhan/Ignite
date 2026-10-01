@@ -2,12 +2,11 @@
 
 模板状态：`template-baseline`
 输入指纹：`d4183b2afca0`
-当前 Plan：2；结构化历史：6；未迁移历史：0
+当前 Plan：0；结构化历史：8；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-1790620890185389037` · `blocked` · `landing-value-and-auth-panel-v1`
-- `IGT-1790791844798755166` · `blocked` · `production-sqlite-opt-in-v1`
+- 无。
 
 ## 发布范围
 
@@ -23,11 +22,11 @@
   - 最终版本验收：stale
   - 下一步：pnpm ignite release verify execution-prompts-v1 --plan IGT-1790833767681868205
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `landing-value-and-auth-panel-v1` · `blocked`
+- `landing-value-and-auth-panel-v1` · `cancelled`
   - Plan：`IGT-1790620890185389037`
-  - 缺少证据：`IGT-1790620890185389037:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
-  - 下一步：pnpm ignite next --plan IGT-1790620890185389037
+  - 下一步：null
   - 未完成原始目标：GOAL-001 访客能理解 Ignite 的核心价值和文档体系，并顺畅使用响应式登录/注册面板
 - `native-execution-standards-v1` · `verifying`
   - Plan：`IGT-1790838314910384474`
@@ -35,11 +34,11 @@
   - 最终版本验收：stale
   - 下一步：pnpm ignite release verify native-execution-standards-v1 --plan IGT-1790838314910384474
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `production-sqlite-opt-in-v1` · `blocked`
+- `production-sqlite-opt-in-v1` · `cancelled`
   - Plan：`IGT-1790791844798755166`
-  - 缺少证据：`IGT-1790791844798755166:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：stale
-  - 下一步：pnpm ignite next --plan IGT-1790791844798755166
+  - 下一步：null
   - 未完成原始目标：GOAL-001 为低流量单机展示部署显式启用持久化 SQLite，同时保留生产环境默认拒绝
 - `remove-redundant-workflow-v1` · `done`
   - Plan：`IGT-1790853920702377365`

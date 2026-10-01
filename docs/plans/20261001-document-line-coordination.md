@@ -124,7 +124,13 @@
     "tests/contracts/execution-focus.test.ts",
     "docs/others/evidence/tdd/"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-EXECUTION-039",
+      "test": "tests/contracts/document-ownership.test.ts::[AC-EXECUTION-039] generates drafts whose professional rules resolve directly to their owners and coordination stays separate",
+      "run_id": "tdd-20261001095715-f5cb48"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

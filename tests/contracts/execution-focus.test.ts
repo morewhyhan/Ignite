@@ -48,6 +48,15 @@ function focusedPlan(root: string, baseCommit: string, overrides: Record<string,
     ...overrides,
   })
   const metadata = JSON.parse(content.match(/<!-- ignite-plan\s*([\s\S]*?)-->/)![1])
+  if (metadata.status === 'blocked' && typeof metadata.blocker === 'string') {
+    metadata.blocker = {
+      id: 'BLOCKER-001',
+      owner: 'fixture',
+      reason: metadata.blocker,
+      resume_action: 'Provide the required external account',
+    }
+    return focusedPlan(root, baseCommit, { ...overrides, blocker: metadata.blocker })
+  }
   write(root, 'docs/plans/fixture.md', renderPlanProgressContent(content, metadata))
   const release = JSON.parse(read(root, 'docs/plans/releases/fixture-v1.json'))
   release.coverage_version = 1

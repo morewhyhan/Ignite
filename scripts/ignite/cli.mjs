@@ -473,6 +473,7 @@ function commandNext(options) {
   const missingEvidence = evidenceStatus
     .filter((item) => item.status !== 'passed')
     .map((item) => item.evidence_id)
+  const unfinishedTasks = (plan.metadata.tasks || []).filter((task) => task.status !== 'done')
   let nextAction
   if (failures.length) {
     const integrationLost = failures.some(
@@ -531,22 +532,35 @@ function commandNext(options) {
           reason: `${plan.metadata.remaining_work.length} acceptance gaps remain; first: ${plan.metadata.remaining_work[0]}`,
           command: null,
         }
-      : !missingEvidence.includes(plan.metadata.risk === 'docs' ? 'check-dev' : 'check-integration')
+      : plan.metadata.execution_contract === 1 && unfinishedTasks.length
         ? {
-            kind: 'start-verification',
-            reason: 'the current development checks passed; continue to release verification',
-            command: `pnpm ignite plan set-status ${plan.metadata.id} verifying --commit HEAD`,
+            kind: 'continue-task',
+            reason:
+              'Resume unfinished work using the Plan goals and whole-task judgment; choose the priority from that basis. Fast checks remain available as needed.',
+            task_ids: (unfinishedTasks.some((task) => task.status === 'doing')
+              ? unfinishedTasks.filter((task) => task.status === 'doing')
+              : unfinishedTasks
+            ).map((task) => task.id),
+            files: [plan.relativePath, ...featurePaths],
+            command: null,
           }
-        : {
-            kind: 'implement-and-check',
-            reason: 'implement the next task and validate its acceptance criteria',
-            command: `pnpm ignite check --plan ${plan.metadata.id} --level auto`,
-          }
+        : !missingEvidence.includes(
+              plan.metadata.risk === 'docs' ? 'check-dev' : 'check-integration',
+            )
+          ? {
+              kind: 'start-verification',
+              reason: 'the current development checks passed; continue to release verification',
+              command: `pnpm ignite plan set-status ${plan.metadata.id} verifying --commit HEAD`,
+            }
+          : {
+              kind: 'implement-and-check',
+              reason: 'implement the next task and validate its acceptance criteria',
+              command: `pnpm ignite check --plan ${plan.metadata.id} --level auto`,
+            }
   } else if (plan.metadata.status === 'verifying') {
     const missingIntegration = missingEvidence.includes('check-integration')
     const missingDev = missingEvidence.includes('check-dev')
     const nextLevel = missingIntegration ? 'integration' : missingDev ? 'dev' : 'release'
-    const unfinishedTasks = (plan.metadata.tasks || []).filter((task) => task.status !== 'done')
     nextAction = plan.metadata.remaining_work?.length
       ? {
           kind: 'complete-remaining-work',
@@ -626,6 +640,10 @@ function commandNext(options) {
         plan_id: fullOutput.plan_id,
         status: fullOutput.status,
         outcome: fullOutput.outcome,
+        goals: fullOutput.goals,
+        constraints: fullOutput.constraints,
+        non_goals: fullOutput.non_goals,
+        tasks: fullOutput.tasks,
         plan_path: fullOutput.plan_path,
         remaining_work: fullOutput.remaining_work,
         evidence_coverage: fullOutput.evidence_coverage,

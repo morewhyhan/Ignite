@@ -89,17 +89,17 @@
     {
       "id": "T2",
       "title": "建立目标摘要、任务优先和双脚手架的真实红灯基线",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T3",
       "title": "落实整体判断、行动取舍、纠偏标准与接续行为",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T4",
       "title": "执行适用验收并回写设计与实际限制",
-      "status": "todo"
+      "status": "doing"
     }
   ],
   "depends_on": [],
@@ -207,9 +207,9 @@ Feature: docs/features/execution.md。规则依据：AGENTS.md、workflow.md、t
 状态：`active`（由元数据生成）
 
 - [x] T1 · 核对现有目标追溯、检查复用和接续入口，确定主要缺口 · done
-- [ ] T2 · 建立目标摘要、任务优先和双脚手架的真实红灯基线 · doing
-- [ ] T3 · 落实整体判断、行动取舍、纠偏标准与接续行为 · todo
-- [ ] T4 · 执行适用验收并回写设计与实际限制 · todo
+- [x] T2 · 建立目标摘要、任务优先和双脚手架的真实红灯基线 · done
+- [x] T3 · 落实整体判断、行动取舍、纠偏标准与接续行为 · done
+- [ ] T4 · 执行适用验收并回写设计与实际限制 · doing
 
 验收缺口：未记录；完成仍须实际证据
 证据：尚无

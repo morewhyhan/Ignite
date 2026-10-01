@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790874247320866731",
   "release": "ci-build-transfer-v1",
-  "status": "verifying",
+  "status": "done",
   "outcome": "支持完整 CI 的生产构建交接保留依赖链接，启动失败时输出真实服务异常",
   "contract_version": 2,
   "execution_contract": 1,
@@ -212,7 +212,7 @@ Release 准出：全部 Plan 完成后，生产构建及全量 E2E 通过。
 
 <!-- ignite-progress -->
 
-状态：`verifying`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 复现云端依赖加载失败并确认传输边界 · done
 - [x] T2 · 补齐规格与实际行为回归测试并记录红灯 · done

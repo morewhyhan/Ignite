@@ -14,7 +14,7 @@
 
 - `execution-prompts-v1` · `active`
   - Plan：`IGT-1790833767681868205`
-  - 缺少证据：`IGT-1790833767681868205:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1790833767681868205
   - 未完成原始目标：GOAL-001 六项提示词覆盖任务、行动、执行、完成、沟通与维护，草稿按阶段引用同一真源；六项逐条语义复核见 Plan；GOAL-002 日常接续按实际动作提供所需提示词引用，保留原始目标、权限、状态和检查边界

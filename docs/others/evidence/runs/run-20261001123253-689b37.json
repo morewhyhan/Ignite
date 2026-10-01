@@ -1,0 +1,63 @@
+{
+  "schema": 2,
+  "run_id": "run-20261001123253-689b37",
+  "check_policy_version": 6,
+  "plan_id": "IGT-1790853920702377365",
+  "evidence_id": "check-release",
+  "level": "release",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-10-01T12:33:00.734Z",
+  "ended_at": "2026-10-01T12:35:50.720Z",
+  "commit": "24da44445ea42fc74925b0155d82c5c459c02e09",
+  "input_fingerprint": "20d2aa7c61384ecdcd88c7309c9ef6de558e70d848c733c5b6273d9fdcab9dd5",
+  "environment_fingerprint": "a9a342b68b20ef1291357098ab140bd321ffbd348aecc3a91a312972942e8441",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "3d828e36a34c08b0eef130d49fd65e0db2fc9af6a3633487900d7dbd12022ff1",
+  "acceptance_results": [],
+  "release_id": "remove-redundant-workflow-v1",
+  "release_fingerprint": "99a202fddd02213fc1538014c63d42d1a08221e66bf588cd6877f7103d87d780",
+  "release_identity": {
+    "package_version": "0.1.0",
+    "tags": []
+  },
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "d2c5bfcf6bebf94cdb497eec5dc76720adc9257b"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 645
+    },
+    {
+      "label": "build",
+      "command": ["corepack", "pnpm", "build"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 85405
+    },
+    {
+      "label": "e2e-production",
+      "command": ["corepack", "pnpm", "test:e2e:production"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 62574
+    }
+  ],
+  "log_sha256": "9c4572769365bcacd568fe137f09d98d18c467b626b8010448cb58b7d6239007",
+  "execution_source": "ignite-runner-local"
+}

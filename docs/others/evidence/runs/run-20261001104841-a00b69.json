@@ -1,0 +1,109 @@
+{
+  "schema": 2,
+  "run_id": "run-20261001104841-a00b69",
+  "check_policy_version": 6,
+  "plan_id": "IGT-1790848085501147562",
+  "evidence_id": "check-integration",
+  "level": "integration",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-10-01T10:48:43.167Z",
+  "ended_at": "2026-10-01T10:57:07.813Z",
+  "commit": "388de06f4165573caeadf7853801116eb1158a71",
+  "input_fingerprint": "7abebb00b9e4c4b6c4e2f68e0e0c7b88854e5ce8cf5b184f220c860f16379ee3",
+  "environment_fingerprint": "a9a342b68b20ef1291357098ab140bd321ffbd348aecc3a91a312972942e8441",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "cbdb1f09ccc1e6a03b791026ca09646715419ba91bae93acdeb385fb71244d94",
+  "acceptance_results": [
+    {
+      "plan_id": "IGT-1790848085501147562",
+      "criterion": "AC-EXECUTION-039",
+      "test": "tests/contracts/document-ownership.test.ts::[AC-EXECUTION-039] generates drafts whose professional rules resolve directly to their owners and coordination stays separate",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-900",
+      "criterion": "AC-TEST-001",
+      "test": "tests/e2e/sample.spec.ts",
+      "layer": "browser",
+      "passed": false,
+      "cases": 1
+    }
+  ],
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "c780ce8b0a0af9c159be4951caa01ecf92203f3e"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 940
+    },
+    {
+      "label": "template-doctor",
+      "command": ["corepack", "pnpm", "template:doctor"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 1318
+    },
+    {
+      "label": "governance",
+      "command": ["corepack", "pnpm", "ignite", "validate"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 25321
+    },
+    {
+      "label": "docs",
+      "command": ["corepack", "pnpm", "docs:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 22070
+    },
+    {
+      "label": "typecheck",
+      "command": ["corepack", "pnpm", "typecheck"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 44786
+    },
+    {
+      "label": "lint",
+      "command": ["corepack", "pnpm", "lint"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 54285
+    },
+    {
+      "label": "format",
+      "command": ["corepack", "pnpm", "format:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 7459
+    },
+    {
+      "label": "tests",
+      "command": ["corepack", "pnpm", "test"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 338228
+    }
+  ],
+  "log_sha256": "5110c16a14eede6c16989b530e3cf69b61fb795916e637bc22690b6903d4dd3c",
+  "execution_source": "ignite-runner-local"
+}

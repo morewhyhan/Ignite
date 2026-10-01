@@ -1,7 +1,7 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`d2fe53f9f610`
+输入指纹：`80f6d60097c8`
 当前 Plan：3；结构化历史：4；未迁移历史：0
 
 ## 当前工作
@@ -14,7 +14,7 @@
 
 - `document-line-coordination-v1` · `active`
   - Plan：`IGT-1790848085501147562`
-  - 缺少证据：`IGT-1790848085501147562:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1790848085501147562
   - 未完成原始目标：GOAL-001 按条条与块块归位六项标准，正常使用各类文档即可执行，跨环节协调有明确边界

@@ -1,12 +1,13 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`786f2dd1c22c`
-当前 Plan：1；结构化历史：2；未迁移历史：0
+输入指纹：`1f1813803c50`
+当前 Plan：2；结构化历史：2；未迁移历史：0
 
 ## 当前工作
 
 - `IGT-1790620890185389037` · `blocked` · `landing-value-and-auth-panel-v1`
+- `IGT-1790826869649125989` · `active` · `systematic-execution-v1`
 
 ## 发布范围
 
@@ -16,11 +17,18 @@
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1790620890185389037
   - 未完成原始目标：GOAL-001 访客能理解 Ignite 的核心价值和文档体系，并顺畅使用响应式登录/注册面板
-- `production-sqlite-opt-in-v1` · `done`
+- `production-sqlite-opt-in-v1` · `invalid`
   - Plan：`IGT-1790791844798755166`
   - 缺少证据：无
-  - 最终版本验收：passed（1d51d006bbae）
+  - 最终版本验收：stale
+  - 下一步：pnpm ignite next --plan IGT-1790791844798755166
   - 未完成原始目标：无已登记缺口（仍需语义核对）
+- `systematic-execution-v1` · `active`
+  - Plan：`IGT-1790826869649125989`
+  - 缺少证据：`IGT-1790826869649125989:check-integration`（missing：no run is bound to this evidence requirement）
+  - 最终版本验收：missing
+  - 下一步：pnpm ignite next --plan IGT-1790826869649125989
+  - 未完成原始目标：GOAL-001 让 AI 先覆盖整体目标和关键链路，再选择主要问题并按证据纠偏
 - `ui-visual-refresh-v1` · `verifying`
   - Plan：`IGT-1790601198510423198`
   - 缺少证据：无
@@ -30,6 +38,6 @@
 
 ## 结构问题
 
-- 无。
+- docs/plans/20261001-production-sqlite-opt-in.md: integrated_commit must be an ancestor of HEAD
 
 > 本文件是确定性派生视图；修改 Plan 或 Release 机器源后重新生成。

@@ -11,6 +11,10 @@
 
 ## 业务规则
 
+- R31（REQ-EXECUTION-031）：日常接续摘要保留全部目标、约束、非目标和任务状态，AI 先回看 Plan 的整体判断，再选择行动；摘要不自动证明分析完整或优先级正确。
+- R32（REQ-EXECUTION-032）：使用 execution_contract 1 的 active Plan 有未完成任务时，优先提示接续任务而不是默认启动检查；验收缺口、输入错误、阻塞和活动运行保持优先处理，快速验证仍可按需执行。
+- R33（REQ-EXECUTION-033）：新增模块和存量改动脚手架沿用同一 Plan 模板，生成整体判断与推进顺序的草稿入口；草稿没有通过证据，进入实现前需完成语义审查。
+
 - R27（REQ-EXECUTION-027）：干净模板允许零 Plan、零 Release、零运行证据且无需归档目录；若保留了历史记录，其关联和完整性仍须校验，孤立证据不得被忽略。
 - R28（REQ-EXECUTION-028）：模板维护记录从发布快照清理后，CI 可从本次 Git 提交区间恢复已删除的完成 Plan 及同一快照证据，按原校验验证并核对源码一致性；未完成、损坏或不能覆盖当前代码的历史记录不能放行，已采用项目不启用此模板清理规则。
 - R29（REQ-EXECUTION-029）：自动化测试创建的临时 Git 仓库必须自行设置提交身份，不依赖运行机器的全局 Git 配置。
@@ -44,6 +48,10 @@
 - R26（REQ-EXECUTION-026）：TDD 红灯证据必须绑定对应 AC 的活动测试用例，而不是整份测试文件；同文件新增无关用例不得让既有证据失效，目标用例发生变化则必须重新验证；历史 schema 1 记录继续可验证。
 
 ## 验收标准
+
+- AC-EXECUTION-031（REQ-EXECUTION-031）：Given Plan 已记录 goals、constraints、non_goals 和 tasks When 不加 verbose 查询 next Then 全部内容保留在精简摘要，详细验收上下文仍只在 verbose 中输出。
+- AC-EXECUTION-032（REQ-EXECUTION-032）：Given active Plan 有未完成任务 When 查询 next Then 优先接续进行中的任务，没有进行中任务时展示全部待办供按 Plan 依据选择，不武断选第一个；真实缺口或阻塞优先，任务完成后仍提供正式检查，历史契约入口保持可用。
+- AC-EXECUTION-033（REQ-EXECUTION-033）：Given 干净工作区 When 分别创建新增模块与存量改动 Then 两种 draft 都包含同一整体判断入口及执行标准链接，任务仍未完成且没有验收或红灯通过记录。
 
 - AC-EXECUTION-027（REQ-EXECUTION-027）：Given 没有继承过程记录的模板副本，When 校验模板历史完整性，Then 无需创建虚假归档即可通过，出现孤立运行或红灯记录时仍失败。
 - AC-EXECUTION-028（REQ-EXECUTION-028）：Given 模板维护 Plan 和证据已提交后从工作目录删除，When CI 检查跨越清理的提交区间，Then 真实通过且源码未变的 Plan 仍能覆盖改动，非终态、缺失证据、后续未测改动及已采用项目删除 Plan 均不能借此通过。

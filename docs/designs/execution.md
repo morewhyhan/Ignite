@@ -26,6 +26,8 @@
 
 Release scope 逐条连接原始目标、来源、REQ、AC 和负责 Plan。延期保持未完成；排除需要明确授权。结构校验只能证明映射完整，AI 仍需核对自然语言目标。数据归属、访问依据、迁移与回退由 Plan 的 `data_contract` 声明。
 
+Release 有真实集成提交且所有纳入 Plan 已完成时，覆盖校验从该被测提交读取 Feature；后续能力替换不把历史记录误报为未知需求。未完成组合仍读当前规格；缺失 Plan、未知目标和当时未覆盖 AC 继续拒绝。快照选取不代替真实发布证据，旧发布输入变化仍显示 stale。
+
 ## 测试与证据
 
 AC 通过 `required_layers` 和 `checks` 对应 unit、database、browser、external。模拟测试不能充当真实数据库、浏览器或外部服务验收。Reporter 记录实际执行结果，跳过、遗漏或重试后才通过均不算完成。

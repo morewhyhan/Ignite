@@ -1113,7 +1113,15 @@ export function validateReleaseAcceptanceCoverage(release, plansById) {
     return missingPlans.map((id) => `release references missing Plan ${id}`)
   }
 
-  const registry = specificationRegistry()
+  // Completed combinations keep their tested specification when later work
+  // retires a capability. Active work still validates the current specification.
+  // This snapshot selection does not replace the separate run/evidence checks.
+  const historicalCommit =
+    gitCommitExists(release.integrated_commit) &&
+    release.plan_ids.every((id) => plansById.get(id).metadata.status === 'done')
+      ? release.integrated_commit
+      : null
+  const registry = specificationRegistry(historicalCommit)
   const claims = new Map()
   for (const goal of release.scope || []) {
     if (!Array.isArray(goal.acceptance)) continue

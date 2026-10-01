@@ -222,7 +222,7 @@ Feature: docs/features/execution.md。规则依据：AGENTS.md、workflow.md、t
 
 ## 状态记录
 
-首次回归发现隔离夹具缺少旧契约要求的 Release coverage 和 scope，使 AC-EXECUTION-032 先遇到输入校验；已修正夹具，恢复未实施 CLI 后重新记录真实任务接续断言红灯。原记录保留为历史，不作为本 Plan 当前证据；未放宽任何输入校验。
+首次回归发现隔离夹具缺少旧契约要求的 Release coverage 和 scope，使 AC-EXECUTION-032 先遇到输入校验；已修正夹具，恢复未实施 CLI 后重新记录真实任务接续断言红灯。原记录由 Git 历史保留，从当前证据目录移除，不作为本 Plan 当前证据；未放宽任何输入校验。
 
 三个新增用例与三个历史接续回归已通过。第一次统一运行 run-20261001041619-5af33e 通过 diff 和 template doctor，但治理被现存 SQLite Plan 的不可达 integrated_commit 阻止；按仓库规定处理原 Plan 的 reintegrate，旧提交与证据保留在 integration_history，新的验证仍需真实执行。
 

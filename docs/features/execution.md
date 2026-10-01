@@ -11,6 +11,9 @@
 
 ## 业务规则
 
+- R34（REQ-EXECUTION-034）：next 的精简与详细输出都提供同一提示词真源、通用提示词、当前动作所需提示词和规则维护入口；只路由提示词，不改变任务、权限、检查或完成判定，也不自动评价模型判断。
+- R35（REQ-EXECUTION-035）：两种脚手架的 Plan 草稿按六项结果引用同一提示词真源，新模块 Feature 引用任务澄清提示词；引用不复制提示词正文，不新增任务状态或通过证据。提示词内容由人工按六项覆盖、正反例与权限边界复核，生成测试不替代该复核。
+
 - R31（REQ-EXECUTION-031）：日常接续摘要保留全部目标、约束、非目标和任务状态，AI 先回看 Plan 的整体判断，再选择行动；摘要不自动证明分析完整或优先级正确。
 - R32（REQ-EXECUTION-032）：使用 execution_contract 1 的 active Plan 有未完成任务时，优先提示接续任务而不是默认启动检查；验收缺口、输入错误、阻塞和活动运行保持优先处理，快速验证仍可按需执行。
 - R33（REQ-EXECUTION-033）：新增模块和存量改动脚手架沿用同一 Plan 模板，生成整体判断与推进顺序的草稿入口；草稿没有通过证据，进入实现前需完成语义审查。
@@ -48,6 +51,9 @@
 - R26（REQ-EXECUTION-026）：TDD 红灯证据必须绑定对应 AC 的活动测试用例，而不是整份测试文件；同文件新增无关用例不得让既有证据失效，目标用例发生变化则必须重新验证；历史 schema 1 记录继续可验证。
 
 ## 验收标准
+
+- AC-EXECUTION-034（REQ-EXECUTION-034）：Given Plan 分别处于继续实现、输入修复、阻塞、验证或终止后的报告入口 When 查询精简及详细 next Then 通用 P1/P5、当前动作提示词和条件 P6 引用一致且指向真源中的实际段落，既有 next_action 和权限不变。
+- AC-EXECUTION-035（REQ-EXECUTION-035）：Given 干净工作区 When 分别创建新增模块和存量改动 Then 两种 Plan 草稿按阶段引用 P1 至 P6，新模块 Feature 引用 P1，提示词正文只在标准中维护，草稿任务、红灯和验收证据保持未完成。
 
 - AC-EXECUTION-031（REQ-EXECUTION-031）：Given Plan 已记录 goals、constraints、non_goals 和 tasks When 不加 verbose 查询 next Then 全部内容保留在精简摘要，详细验收上下文仍只在 verbose 中输出。
 - AC-EXECUTION-032（REQ-EXECUTION-032）：Given active Plan 有未完成任务 When 查询 next Then 优先接续进行中的任务，没有进行中任务时展示全部待办供按 Plan 依据选择，不武断选第一个；真实缺口或阻塞优先，任务完成后仍提供正式检查，历史契约入口保持可用。

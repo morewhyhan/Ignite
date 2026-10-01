@@ -2,22 +2,21 @@
 
 模板状态：`template-baseline`
 输入指纹：`80f6d60097c8`
-当前 Plan：3；结构化历史：4；未迁移历史：0
+当前 Plan：2；结构化历史：5；未迁移历史：0
 
 ## 当前工作
 
 - `IGT-1790620890185389037` · `blocked` · `landing-value-and-auth-panel-v1`
-- `IGT-1790848085501147562` · `active` · `document-line-coordination-v1`
 - `IGT-1790791844798755166` · `blocked` · `production-sqlite-opt-in-v1`
 
 ## 发布范围
 
-- `document-line-coordination-v1` · `active`
+- `document-line-coordination-v1` · `verifying`
   - Plan：`IGT-1790848085501147562`
   - 缺少证据：无
   - 最终版本验收：missing
-  - 下一步：pnpm ignite next --plan IGT-1790848085501147562
-  - 未完成原始目标：GOAL-001 按条条与块块归位六项标准，正常使用各类文档即可执行，跨环节协调有明确边界
+  - 下一步：pnpm ignite release verify document-line-coordination-v1 --plan IGT-1790848085501147562
+  - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `execution-prompts-v1` · `verifying`
   - Plan：`IGT-1790833767681868205`
   - 缺少证据：无

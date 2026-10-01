@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790848085501147562",
   "release": "document-line-coordination-v1",
-  "status": "active",
+  "status": "done",
   "outcome": "各专业文档直接提供自己的标准，Plan/Release 协调交付，工作流只负责必要衔接",
   "contract_version": 2,
   "execution_contract": 1,
@@ -142,7 +142,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "388de06f4165573caeadf7853801116eb1158a71",
   "updated_at": "2026-10-01"
 }
 -->
@@ -232,7 +232,7 @@
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
 - [x] T2 · 补充需求和目标行为测试 · done

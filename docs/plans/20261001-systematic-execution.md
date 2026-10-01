@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790826869649125989",
   "release": "systematic-execution-v1",
-  "status": "active",
+  "status": "done",
   "outcome": "让 AI 先覆盖整体目标与关键链路，再选择主要问题并按证据纠偏；日常接续保留目标边界和未完成任务",
   "contract_version": 2,
   "execution_contract": 1,
@@ -166,7 +166,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "6c17700316a8cf654dff49a8f14a4f6cae96ecf3",
   "updated_at": "2026-10-01"
 }
 -->
@@ -237,7 +237,7 @@ Plan integration run-20261001043612-c9234b 已通过工程门禁、全部三个 
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 核对现有目标追溯、检查复用和接续入口，确定主要缺口 · done
 - [x] T2 · 建立目标摘要、任务优先和双脚手架的真实红灯基线 · done

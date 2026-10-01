@@ -63,7 +63,7 @@ pnpm ignite release status
 
 新的独立交付结果才创建 Plan：新增模块用 `pnpm create:module <plural-kebab-name>`，存量改动用 `pnpm create:change <kebab-name>`。脚手架生成草稿，需按实际目标完善需求、任务和验收。结构见 [Plan 模板](./plans/_template.md)，整轮发布范围见 [Release 说明](./plans/releases/README.md)。
 
-活动运行和完整日志保存在 Git 忽略的 `.ignite/runs/`；通过的检查将脱敏摘要写入 [`others/evidence/runs/`](./others/evidence/runs/)。相同输入与环境的已有运行应复用，避免重复检查。状态表用 `pnpm ignite status --write` 生成，不手工维护第二份进度。
+活动运行和完整日志保存在 Git 忽略的 `.ignite/runs/`；通过的检查按 [验收证据说明](./others/evidence/README.md) 将脱敏摘要写入按需生成的 `docs/others/evidence/runs/`。相同输入与环境的已有运行应复用，避免重复检查。状态表用 `pnpm ignite status --write` 生成，不手工维护第二份进度。
 
 模板发布快照只带可复用资料，建设期任务与审计记录留在 Git 历史中；采用后的项目保留自己的 Plan、Release 和证据，不能套用模板清理规则。
 

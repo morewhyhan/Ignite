@@ -7,7 +7,7 @@
 ## 当前工作
 
 - `IGT-1790620890185389037` · `blocked` · `landing-value-and-auth-panel-v1`
-- `IGT-1790791844798755166` · `active` · `production-sqlite-opt-in-v1`
+- `IGT-1790791844798755166` · `blocked` · `production-sqlite-opt-in-v1`
 - `IGT-1790826869649125989` · `active` · `systematic-execution-v1`
 
 ## 发布范围
@@ -18,7 +18,7 @@
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1790620890185389037
   - 未完成原始目标：GOAL-001 访客能理解 Ignite 的核心价值和文档体系，并顺畅使用响应式登录/注册面板
-- `production-sqlite-opt-in-v1` · `active`
+- `production-sqlite-opt-in-v1` · `blocked`
   - Plan：`IGT-1790791844798755166`
   - 缺少证据：`IGT-1790791844798755166:check-integration`（missing：no run is bound to this evidence requirement）
   - 最终版本验收：stale

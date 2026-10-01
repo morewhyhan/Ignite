@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790791844798755166",
   "release": "production-sqlite-opt-in-v1",
-  "status": "done",
+  "status": "active",
   "outcome": "仅在显式 opt-in 和持久化绝对路径下允许低流量单机展示站使用 SQLite，其他生产环境仍默认拒绝",
   "contract_version": 2,
   "execution_contract": 1,
@@ -111,16 +111,24 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [
-    {
-      "id": "check-integration",
-      "run_id": "run-20260930183431-6f7a85"
-    }
-  ],
+  "evidence": [],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "7b118f53104dd2f40588492f227abde1c847a387",
-  "updated_at": "2026-09-30"
+  "integrated_commit": null,
+  "updated_at": "2026-10-01",
+  "integration_history": [
+    {
+      "source_commit": "7b118f53104dd2f40588492f227abde1c847a387",
+      "evidence": [
+        {
+          "id": "check-integration",
+          "run_id": "run-20260930183431-6f7a85"
+        }
+      ],
+      "replaced_by": "23513b3577bf4b64941cfa7c87176ebccf09af28",
+      "recorded_at": "2026-10-01T04:19:45.273Z"
+    }
+  ]
 }
 -->
 
@@ -184,7 +192,7 @@
 
 <!-- ignite-progress -->
 
-状态：`done`（由元数据生成）
+状态：`active`（由元数据生成）
 
 - [x] T1 · 明确默认拒绝、显式 opt-in 与持久路径契约 · done
 - [x] T2 · 先用契约测试验证当前行为拒绝合法 opt-in · done
@@ -192,7 +200,7 @@
 - [x] T4 · 验证配置边界并回写设计事实 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：check-integration / run-20260930183431-6f7a85
+证据：尚无
 <!-- /ignite-progress -->
 
 ## 准出条件

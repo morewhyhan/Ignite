@@ -44,7 +44,7 @@
   - 未完成原始目标：GOAL-001 为低流量单机展示部署显式启用持久化 SQLite，同时保留生产环境默认拒绝
 - `remove-redundant-workflow-v1` · `active`
   - Plan：`IGT-1790853920702377365`
-  - 缺少证据：`IGT-1790853920702377365:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1790853920702377365
   - 未完成原始目标：GOAL-001 移除冗余 workflow 及当前依赖，将必要协作细节归还 Plan 与 Release，并保持实际诊断、生成和回归有效

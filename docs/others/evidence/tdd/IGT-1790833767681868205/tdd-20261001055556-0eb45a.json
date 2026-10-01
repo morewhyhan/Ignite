@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "b8c6db4bddeee591e2ccac0459dda96c98aae8a1115964a8278b9ce50b9f71cf",
+  "run_id": "tdd-20261001055556-0eb45a",
+  "plan_id": "IGT-1790833767681868205",
+  "acceptance_id": "AC-EXECUTION-035",
+  "test": "tests/contracts/execution-prompts.test.ts::[AC-EXECUTION-035] scaffolds stage prompt references for all six results without copying prompts or completion evidence",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "97eac58aae4bfb1dfee5e3b2d6eb8f102158d12c",
+  "output_sha256": "cf7eb1eaa209aa20080c97121ab843569b61ed7daf50f805244bc5351bedb302",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/execution-prompts.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-035",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-01T05:55:56.096Z",
+  "ended_at": "2026-10-01T05:56:03.313Z",
+  "executor": "ignite-tdd-runner"
+}

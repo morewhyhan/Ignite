@@ -143,7 +143,18 @@
     "tests/contracts/execution-prompts.test.ts",
     "docs/others/evidence/tdd/"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-EXECUTION-034",
+      "test": "tests/contracts/execution-prompts.test.ts::[AC-EXECUTION-034] routes real next actions to the same prompt source without replacing action decisions",
+      "run_id": "tdd-20261001055445-fa946c"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-035",
+      "test": "tests/contracts/execution-prompts.test.ts::[AC-EXECUTION-035] scaffolds stage prompt references for all six results without copying prompts or completion evidence",
+      "run_id": "tdd-20261001055556-0eb45a"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

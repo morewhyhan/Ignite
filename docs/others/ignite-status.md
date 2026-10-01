@@ -23,11 +23,10 @@
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1790620890185389037
   - 未完成原始目标：GOAL-001 访客能理解 Ignite 的核心价值和文档体系，并顺畅使用响应式登录/注册面板
-- `native-execution-standards-v1` · `verifying`
+- `native-execution-standards-v1` · `done`
   - Plan：`IGT-1790838314910384474`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite release verify native-execution-standards-v1 --plan IGT-1790838314910384474
+  - 最终版本验收：passed（a8f79c051845）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `production-sqlite-opt-in-v1` · `blocked`
   - Plan：`IGT-1790791844798755166`

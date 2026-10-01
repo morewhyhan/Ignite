@@ -1,0 +1,25 @@
+{
+  "schema": 2,
+  "id": "document-line-coordination-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1790848085501147562"],
+  "scope": [
+    {
+      "id": "GOAL-001",
+      "text": "按条条与块块归位六项标准，正常使用各类文档即可执行，跨环节协调有明确边界",
+      "source": "用户要求依照条条和块块分别把文档体系优化好；前文已确定六项结果和原生规则归属",
+      "requirements": ["REQ-EXECUTION-039"],
+      "acceptance": ["AC-EXECUTION-039"],
+      "plan_ids": ["IGT-1790848085501147562"],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-10-01"
+}

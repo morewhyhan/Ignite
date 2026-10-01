@@ -11,15 +11,11 @@
   "goals": [
     {
       "text": "接续直接保留原始目标与行动，移除提示词路由",
-      "requirements": [
-        "REQ-EXECUTION-036"
-      ]
+      "requirements": ["REQ-EXECUTION-036"]
     },
     {
       "text": "六项标准归入原有文档，生成草稿在对应位置支持实际判断",
-      "requirements": [
-        "REQ-EXECUTION-037"
-      ]
+      "requirements": ["REQ-EXECUTION-037"]
     }
   ],
   "constraints": [
@@ -46,19 +42,14 @@
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "da4580b29423968ad9d26f60e932bc25cd7a6268",
-  "requirements": [
-    "REQ-EXECUTION-036",
-    "REQ-EXECUTION-037"
-  ],
+  "requirements": ["REQ-EXECUTION-036", "REQ-EXECUTION-037"],
   "acceptance": [
     {
       "id": "AC-EXECUTION-036",
       "tests": [
         "tests/contracts/native-execution.test.ts::[AC-EXECUTION-036] resumes real Plan states without an extra prompt router and preserves decisions and context"
       ],
-      "required_layers": [
-        "unit"
-      ],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/native-execution.test.ts::[AC-EXECUTION-036] resumes real Plan states without an extra prompt router and preserves decisions and context",
@@ -71,9 +62,7 @@
       "tests": [
         "tests/contracts/native-execution.test.ts::[AC-EXECUTION-037] generates native requirement and Plan drafts without prompt dependencies or completion evidence"
       ],
-      "required_layers": [
-        "unit"
-      ],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/native-execution.test.ts::[AC-EXECUTION-037] generates native requirement and Plan drafts without prompt dependencies or completion evidence",
@@ -86,9 +75,7 @@
       "tests": [
         "tests/contracts/historical-release-scope.test.ts::[AC-EXECUTION-038] validates completed Release coverage at its tested specification and rejects gaps and unfinished snapshots"
       ],
-      "required_layers": [
-        "unit"
-      ],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/historical-release-scope.test.ts::[AC-EXECUTION-038] validates completed Release coverage at its tested specification and rejects gaps and unfinished snapshots",
@@ -97,9 +84,7 @@
       ]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
@@ -172,11 +157,14 @@
       "acceptance_id": "AC-EXECUTION-037",
       "test": "tests/contracts/native-execution.test.ts::[AC-EXECUTION-037] generates native requirement and Plan drafts without prompt dependencies or completion evidence",
       "run_id": "tdd-20261001071640-0c71a2"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-038",
+      "test": "tests/contracts/historical-release-scope.test.ts::[AC-EXECUTION-038] validates completed Release coverage at its tested specification and rejects gaps and unfinished snapshots",
+      "run_id": "tdd-20261001072956-82f9b6"
     }
   ],
-  "required_evidence": [
-    "check-integration"
-  ],
+  "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],

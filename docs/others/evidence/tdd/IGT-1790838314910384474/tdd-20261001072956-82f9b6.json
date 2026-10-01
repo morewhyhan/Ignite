@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "630fade4f925250068dda698e021a1db7ace45b563eaafafe0a45ef8c797811e",
+  "run_id": "tdd-20261001072956-82f9b6",
+  "plan_id": "IGT-1790838314910384474",
+  "acceptance_id": "AC-EXECUTION-038",
+  "test": "tests/contracts/historical-release-scope.test.ts::[AC-EXECUTION-038] validates completed Release coverage at its tested specification and rejects gaps and unfinished snapshots",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "293e49991308f19ca76359434713505a55f36740",
+  "output_sha256": "1b064d1e876305a63a0f6ec9cb15263cc2d68adf57dcde7ef96db80ea3ca25d8",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/historical-release-scope.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-038",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-01T07:29:56.268Z",
+  "ended_at": "2026-10-01T07:30:02.382Z",
+  "executor": "ignite-tdd-runner"
+}

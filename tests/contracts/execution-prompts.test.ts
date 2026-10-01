@@ -13,6 +13,20 @@ import {
 } from './ignite-fixture'
 
 function next(root: string, verbose = false) {
+  const path = 'docs/plans/fixture.md'
+  const content = read(root, path)
+  const metadata = JSON.parse(content.match(/<!-- ignite-plan\s*([\s\S]*?)-->/)![1])
+  if (metadata.status === 'verifying' && !metadata.integrated_commit) {
+    metadata.integrated_commit = commitAll(root, 'Capture the verification Plan contract')
+    write(
+      root,
+      path,
+      content.replace(
+        /<!-- ignite-plan\s*[\s\S]*?-->/,
+        `<!-- ignite-plan\n${JSON.stringify(metadata, null, 2)}\n-->`,
+      ),
+    )
+  }
   const result = runCli(root, 'next', '--plan', 'IGT-900', ...(verbose ? ['--verbose'] : []))
   expect(result.status, result.stderr || result.stdout).toBe(0)
   return JSON.parse(result.stdout)

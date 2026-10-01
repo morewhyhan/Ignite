@@ -38,11 +38,13 @@ Release 证据还记录 package version 与当时指向受测提交的 tag；这
 
 ## 接续与失败恢复
 
-执行方法由 [整体分析与执行取舍](../standards/execution-focus.md) 维护：覆盖本轮目标与相关链路，说明主要问题和推进依据，并在新证据、扩大范围或无效重复时纠偏。Plan 模板提供“整体判断与推进顺序”正文入口；新增模块与存量改动都继承该入口，未增加状态或契约版本。结构测试只验证入口与工具行为，实际模型效果需按 [评估案例](../others/test-cases/execution-focus.md) 人工判定。
+执行方法由 [六项执行提示词](../standards/execution-focus.md) 维护：P1 任务、P2 行动、P3 执行、P4 完成、P5 沟通、P6 维护。AGENTS 要求按阶段执行；Feature、Plan 与测试草稿只引用段落，提示词正文不复制。Plan 的“整体判断与推进顺序”保存当前条件比较、重点依据、检查结果分支和纠偏条件，没有新增状态或契约版本。引用与路由测试只验证工具行为，实际模型效果需按 [评估案例](../others/test-cases/execution-focus.md) 由人判定。
 
 `tasks` 是唯一任务状态；正文进度和总览由 CLI 派生。`next` 先核对 Plan 与 Release，再给允许的下一步；`remaining_work` 非空时不能完成。默认输出精简摘要，完整上下文通过 `--verbose` 或 `status --json` 请求。
 
 `next` 精简摘要包含全部 goals、constraints、non_goals、tasks。execution_contract 1 的 active Plan 存在未完成任务时返回 `continue-task`，优先提供所有进行中任务；没有进行中任务时提供全部待办，不自动按首项判断重要性。输入错误、阻塞、活动运行、当前失败和验收缺口优先级保持；快速检查仍可主动调用，任务完成后仍提供正式验收入口。旧 Plan 的无任务接续保持原行为。
+
+精简与详细 next 均有 `execution_guidance`，使用 `source`、`common`、`phase`、`on_rule_change` 引用同一标准。CLI 根据已决定的 `next_action.kind` 与当前状态选择提示词：输入准备 P2/P4，任务 P2/P3，等待 P3，重新集成 P3/P4，验证和报告 P4，其他实现及诊断入口 P2/P3/P4；通用 P1/P5、规则改动时 P6。它只提供引用，不注入宿主系统提示词、不执行行动，也不评价模型是否遵守；人的决定和既有校验优先级保持。
 
 同一工作区使用运行锁；相同输入的活动或成功运行可复用。进程中断、超时、取消与失败分别记录；worker 在控制进程退出后清理自身后代，不终止其他任务。坏记录单独报告，恢复从原 run 开始。
 

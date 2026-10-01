@@ -141,7 +141,7 @@ const files = new Map([
 
 作为 <actor>，我想要 <capability>，以便 <value>。
 
-需求尺度见 [整体分析与执行取舍](../standards/execution-focus.md)：补齐真实用户、条件、动作和可观察结果，澄清影响权限、数据和产品决定的分歧，已有决定直接引用。
+完善需求前执行 [P1：把任务说准](../standards/execution-focus.md#P1)，根据原始承诺与实际链路确定行为、必要条件和人的决定边界；尺度对照与提示词正文只在该标准维护。
 
 ## 模块边界
 

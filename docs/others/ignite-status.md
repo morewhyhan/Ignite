@@ -11,11 +11,10 @@
 
 ## 发布范围
 
-- `document-line-coordination-v1` · `verifying`
+- `document-line-coordination-v1` · `done`
   - Plan：`IGT-1790848085501147562`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite release verify document-line-coordination-v1 --plan IGT-1790848085501147562
+  - 最终版本验收：passed（0f006e88d3ce）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `execution-prompts-v1` · `verifying`
   - Plan：`IGT-1790833767681868205`

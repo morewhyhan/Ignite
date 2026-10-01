@@ -1,11 +1,12 @@
 import { spawnSync } from 'node:child_process'
 import {
   copyFileSync,
-  cpSync,
   mkdirSync,
   mkdtempSync,
   readFileSync,
+  readdirSync,
   rmSync,
+  statSync,
   symlinkSync,
   writeFileSync,
 } from 'node:fs'
@@ -35,6 +36,13 @@ function installedClient(root: string) {
 }
 function runnerPath(path: string, runnerTemp: string) {
   return path.replaceAll('${{ runner.temp }}', runnerTemp).replaceAll('$RUNNER_TEMP', runnerTemp)
+}
+function zipDirectoryContents(source: string, destination: string) {
+  if (statSync(source).isDirectory()) {
+    mkdirSync(destination, { recursive: true })
+    for (const entry of readdirSync(source))
+      zipDirectoryContents(join(source, entry), join(destination, entry))
+  } else copyFileSync(source, destination)
 }
 function runTar(step: Step, cwd: string, runnerTemp: string) {
   const tokens = (step.run || '').match(/"[^"]*"|\S+/g) || []
@@ -98,11 +106,10 @@ describe('CI production build handoff', () => {
         )
       } else {
         // A directory uploaded as ZIP dereferences links and loses pnpm's resolution context.
-        cpSync(join(sender, upload.with!.path!), join(receiver, download.with!.path!), {
-          recursive: true,
-          dereference: true,
-        })
+        zipDirectoryContents(join(sender, upload.with!.path!), join(receiver, download.with!.path!))
       }
+      // The receiving CI job cannot use files remaining on the build runner.
+      rmSync(sender, { recursive: true, force: true })
       const result = spawnSync(
         process.execPath,
         [
@@ -151,7 +158,13 @@ export default { ...base, testDir: './cases', outputDir: './output', projects: [
         ],
         {
           cwd: fixture,
-          env: { ...process.env, CI: 'true', DEBUG: 'pw:webserver' },
+          env: {
+            ...process.env,
+            CI: 'true',
+            DEBUG: 'pw:webserver',
+            NO_PROXY: '127.0.0.1,localhost',
+            no_proxy: '127.0.0.1,localhost',
+          },
           encoding: 'utf8',
           windowsHide: true,
           timeout: 25000,

@@ -9,6 +9,7 @@
 - [安全标准](./security.md)
 - [测试标准](./testing.md)
 - [规格驱动工作流](./workflow.md)
+- [整体分析与执行取舍](./execution-focus.md)
 - [模板采用规范](./adoption.md)
 - [AI 工作台与真源](./ai-agents.md)
 

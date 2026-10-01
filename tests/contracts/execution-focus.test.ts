@@ -49,6 +49,19 @@ function focusedPlan(root: string, baseCommit: string, overrides: Record<string,
   })
   const metadata = JSON.parse(content.match(/<!-- ignite-plan\s*([\s\S]*?)-->/)![1])
   write(root, 'docs/plans/fixture.md', renderPlanProgressContent(content, metadata))
+  const release = JSON.parse(read(root, 'docs/plans/releases/fixture-v1.json'))
+  release.coverage_version = 1
+  release.scope = [
+    {
+      id: 'GOAL-001',
+      text: 'Data survives a reload',
+      source: 'Implement the requested persistence fix',
+      requirements: ['REQ-TEST-001'],
+      plan_ids: ['IGT-900'],
+      disposition: 'included',
+    },
+  ]
+  write(root, 'docs/plans/releases/fixture-v1.json', `${JSON.stringify(release, null, 2)}\n`)
   return metadata
 }
 

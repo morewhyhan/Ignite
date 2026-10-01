@@ -21,6 +21,8 @@ draft → ready → active → verifying → done
 
 ## 1. 先确定输入
 
+先按 [整体分析与执行取舍](./execution-focus.md) 复述任务，覆盖原始目标、相关关键链路和重要未知，再选择当前主要问题。在 Plan 中写清整体判断与推进顺序；简单任务可简写，复杂度由真实分歧、依赖和风险决定。全面性不要求扫描全仓，原始目标映射仍是覆盖真源。
+
 AI 开始实现前必须读取：
 
 1. 对应的 `docs/features/` 需求规格；
@@ -45,7 +47,9 @@ pnpm ignite release status                              # 查看最终发布验�
 
 `next` 提供接续信息，不替代读取原始目标和实现工作。新 Plan 补齐输入后依次转为 `ready`、`active`；上述命令用于执行中的任务。检查仍在运行时，用 `pnpm ignite run status <run-id>` 接续已有运行。任务状态命令会生成正文进度，不另写一份勾选表。
 
-`next` 和 `release status` 默认只展示当前状态、缺口、相关文件与下一步；需要完整 Plan/Release 元数据时加 `--verbose`。`next_action.files` 指向需处理的源文件；若 `command` 为空，先按 `reason` 修正规格或范围，不要绕过校验。
+`next` 和 `release status` 默认给精简接续摘要；需要完整 Plan/Release 元数据时加 `--verbose`。`next_action.files` 指向需处理的相关文件；若 `command` 为空，按 `reason` 继续实现或修正规格与范围，不要绕过校验。
+
+`next` 的精简摘要还保留本 Plan 的全部 goals、constraints、non_goals 与 tasks。active Plan 有未完成任务时先提示接续进行中任务，没有进行中任务时列出全部待办，由执行者结合 Plan 的推进依据选择；不以列表第一项或缺少运行证据自动判定主要问题。命令为空也可能表示继续实现任务；快速反馈仍按需运行，状态建议不替代语义判断。
 
 ## 2. 关闭 Plan 中的开放问题
 
@@ -92,6 +96,8 @@ Plan 进入实现前必须写清：
 浏览器探索只用于发现行为，Playwright 脚本才是可重复执行的回归资产。
 
 ## 5. 结果回写
+
+阶段结果、新证据、扩大范围和没有新信息的重复失败触发 [执行纠偏](./execution-focus.md)。任务、真实验收缺口和阻塞继续使用现有字段；不另建进度表，不把停止一条无效探索误写成整个 Plan 无法推进。
 
 - Plan 是过程方案：追加状态记录，不把失败尝试改写成从未发生。
 - `docs/designs/` 是当前设计契约：完成后更新最终状态。

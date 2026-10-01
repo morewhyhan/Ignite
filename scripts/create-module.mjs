@@ -141,6 +141,8 @@ const files = new Map([
 
 作为 <actor>，我想要 <capability>，以便 <value>。
 
+需求尺度见 [整体分析与执行取舍](../standards/execution-focus.md)：补齐真实用户、条件、动作和可观察结果，澄清影响权限、数据和产品决定的分歧，已有决定直接引用。
+
 ## 模块边界
 
 - 需求类型：增量模块

@@ -72,7 +72,7 @@ Windows 与 WSL 不应共享 `node_modules`；切换环境时，按对应平台�
 <details>
 <summary>查看任务状态与命令</summary>
 
-用 `pnpm ignite status` 查看当前任务；用 `pnpm ignite --help` 查看命令。需要读取完整机器状态时，使用 `pnpm ignite status --json`。具体操作见[开发工作流](./docs/standards/workflow.md)，验证方式见[测试规范](./docs/standards/testing.md)。
+用 `pnpm ignite status` 查看当前任务；用 `pnpm ignite --help` 查看命令。需要读取完整机器状态时，使用 `pnpm ignite status --json`。具体操作见[计划与执行](./docs/plans/README.md)，验证方式见[测试规范](./docs/standards/testing.md)；跨 Plan 依赖、共享写入或交接时再查[协作说明](./docs/standards/workflow.md)。
 
 </details>
 
@@ -106,7 +106,8 @@ Ignite/
 ### 文档导航
 
 - **第一次采用模板**：[采用指南](./docs/standards/adoption.md) · [已有功能](./docs/features/README.md)
-- **开始一轮开发**：[开发工作流](./docs/standards/workflow.md) · [计划与执行](./docs/plans/README.md)
+- **开始一轮开发**：[需求编写](./docs/features/README.md) · [计划与执行](./docs/plans/README.md)
+- **协调多项交付**：[跨文档与跨 Plan 协作](./docs/standards/workflow.md) · [Release 范围与完成](./docs/plans/releases/README.md)
 - **了解工程约定**：[架构与安全标准](./docs/standards/README.md) · [测试标准](./docs/standards/testing.md)
 - **查询当前系统**：[设计索引](./docs/designs/README.md) · [AI 工具配置](./.ai/README.md)
 - **追溯交付和变化**：[决策与验收](./docs/others/README.md) · [更新日志](./CHANGELOG.md)

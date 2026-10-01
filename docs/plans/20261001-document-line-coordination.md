@@ -70,12 +70,12 @@
     {
       "id": "T3",
       "title": "实施最小存量修改",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T4",
       "title": "验证兼容性并回写设计",
-      "status": "todo"
+      "status": "doing"
     }
   ],
   "depends_on": [],
@@ -100,6 +100,7 @@
     "docs/plans/20261001-document-line-coordination.md",
     "docs/plans/releases/document-line-coordination-v1.json",
     "AGENTS.md",
+    "README.md",
     ".ai/README.md",
     "docs/README.md",
     "docs/features/README.md",
@@ -166,7 +167,7 @@
 | ---------- | --------------------------------------------------- | ----------------------------------- |
 | 任务说准   | features/README，需求编写与 AC                      | Feature 和 Plan 原始目标覆盖        |
 | 行动选对   | plans/README，整体判断与尺度                        | 当前 Plan 推进依据和 tasks          |
-| 执行守住   | plans/README，接续与纠偏；testing 的运行恢复        | 当前 Plan 判断、真实缺口与运行      |
+| 执行守住   | plans/README，接续与纠偏；evidence/README 运行恢复  | 当前 Plan 判断、真实缺口与运行      |
 | 完成可信   | Feature AC、testing 证据、Plan/Release 各自完成条件 | 原始目标与被测版本、真实证据        |
 | 沟通明白   | AGENTS 沟通                                         | 每次回应的意图、结论、依据和缺口    |
 | 依据可维护 | ai-agents 规则归属与维护                            | 对应原规则及维护 Plan，不建新管理层 |
@@ -211,14 +212,20 @@
 
 ## 状态记录
 
+作者内容复核：六项按处理结果归属到 Feature 需求尺度、Plan 条件比较与接续纠偏、测试层级和证据有效性、Plan/Release 完成、AGENTS 沟通、ai-agents 维护。对照迁移前 workflow 的任务单位、开放问题、TDD、UI 路径、结果回写、恢复、并行交接、模板清理及运行时条款，分别保留在专业原入口或已有 AGENTS/采用规范；workflow 仅留下衔接和冲突协调。没有新增管理文件、状态或检查策略。
+
+四类尺度复核：已确定的文案修改引用既有行为，不进入跨 Plan 协调；保存失败与间距问题由当前 Plan 按必要条件选择重点，测试区分写入/读取/呈现；上游接口变化更新原契约快照并对齐下游；共享 Schema 由声明负责人集成，其他切片按 handoff 交接，不另建收口 Plan。局部停止不冒充全局阻塞，新权限风险仍可改变重点。
+
+两种实际脚手架的专业链接文件和段落解析、草稿状态，以及既有生成与接续回归共 6 个定向用例通过。新 AC 的活动用例保持红灯时内容。同步根 README 的旧必读工作流导航，纳入同一写入范围，确保普通任务入口一致。上述内容复核是作者审查；实际模型行为、独立读者理解和跨 Plan 人工行为案例未执行，不能据此宣称效果已实证。
+
 <!-- ignite-progress -->
 
 状态：`active`（由元数据生成）
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
 - [x] T2 · 补充需求和目标行为测试 · done
-- [ ] T3 · 实施最小存量修改 · doing
-- [ ] T4 · 验证兼容性并回写设计 · todo
+- [x] T3 · 实施最小存量修改 · done
+- [ ] T4 · 验证兼容性并回写设计 · doing
 
 验收缺口：未记录；完成仍须实际证据
 证据：尚无

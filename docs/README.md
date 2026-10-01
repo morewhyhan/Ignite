@@ -1,6 +1,6 @@
 # 文档系统
 
-[返回项目介绍](../README.md) · [首次采用模板](./standards/adoption.md) · [开发工作流](./standards/workflow.md)
+[返回项目介绍](../README.md) · [首次采用模板](./standards/adoption.md) · [Plan 编写与维护](./plans/README.md)
 
 文档让人和 AI 都能查清三件事：要做什么、这轮做到哪里、系统现在是什么样。它们随代码一起维护，为下一次修改留下依据。
 
@@ -10,14 +10,15 @@
 
 ## 按当前任务选择入口
 
-| 当前任务                     | 建议阅读                                                                                                                                    |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| 第一次用 Ignite 建项目       | [模板采用指南](./standards/adoption.md)：环境、项目身份、示例替换与交付边界                                                                 |
-| 了解模板已经提供什么         | [产品基线](./features/product.md)、[认证](./features/auth.md)、[Tasks](./features/tasks.md)                                                 |
-| 交给 AI 实现或修改功能       | [AGENTS.md](../AGENTS.md) → [工作流](./standards/workflow.md) → 对应 Feature、Design 和 Plan                                                |
-| 查代码应该放在哪里、如何连接 | [架构规范](./standards/architecture.md)、[领域设计](./designs/domain.md)、[API 设计](./designs/api.md)、[数据库设计](./designs/database.md) |
-| 判断工作是否真正完成         | [测试规范](./standards/testing.md)、[验收用例](./others/test-cases/)、[验证证据](./others/evidence/)                                        |
-| 接入或调整 AI 工具           | [AI 工作台](../.ai/README.md)、[AI 协作规范](./standards/ai-agents.md)                                                                      |
+| 当前任务                     | 建议阅读                                                                                                                                                             |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 第一次用 Ignite 建项目       | [模板采用指南](./standards/adoption.md)：环境、项目身份、示例替换与交付边界                                                                                          |
+| 了解模板已经提供什么         | [产品基线](./features/product.md)、[认证](./features/auth.md)、[Tasks](./features/tasks.md)                                                                          |
+| 交给 AI 实现或修改功能       | [AGENTS.md](../AGENTS.md) → 对应 Feature、Design 和 Plan；编写与接续规则在各自目录 README                                                                            |
+| 协调跨 Plan 依赖或共享写入   | [跨文档与跨 Plan 协作](./standards/workflow.md)，在原 Plan/Release 对齐接口、责任和组合版本                                                                          |
+| 查代码应该放在哪里、如何连接 | [架构规范](./standards/architecture.md)、[领域设计](./designs/domain.md)、[API 设计](./designs/api.md)、[数据库设计](./designs/database.md)                          |
+| 判断工作是否真正完成         | [Plan 完成](./plans/README.md#完成与证据)、[Release 完成](./plans/releases/README.md#完成与证据)、[测试规范](./standards/testing.md)、[验证证据](./others/evidence/) |
+| 接入或调整 AI 工具           | [AI 工作台](../.ai/README.md)、[AI 协作规范](./standards/ai-agents.md)                                                                                               |
 
 普通业务开发只读本轮相关资料。只有修改执行器、验收或适配边界时，才需要阅读[执行工具规格](./features/execution.md)、[执行可信性规格](./features/ai-execution-trust.md)和[执行系统设计](./designs/execution.md)，无需每轮加载全部工具文档。
 
@@ -27,8 +28,8 @@
 | ---------------------------------- | ------------------------------------ | --------------------------------------------------- |
 | [AGENTS.md](../AGENTS.md)          | AI 在这个项目里应怎样工作？          | 所有工具共用的项目执行规则，工具入口只引用它        |
 | [Standards](./standards/README.md) | 开发应遵守哪些长期约定？             | 架构、API、数据库、安全、测试等标准，规则改变时更新 |
-| [Features](./features/README.md)   | 用户需要什么，怎样才算做对？         | 按模块维护需求与验收标准                            |
-| [Plans](./plans/README.md)         | 这轮怎么做，做到哪里，还缺什么？     | 记录方案、任务状态、范围和证据，保留过程            |
+| [Features](./features/README.md)   | 用户需要什么，怎样才算做对？         | README 定义编写尺度，各规格维护行为与验收标准       |
+| [Plans](./plans/README.md)         | 这轮怎么做，做到哪里，还缺什么？     | README 定义立项、推进与完成，各 Plan 协调本轮交付   |
 | [Designs](./designs/README.md)     | 系统现在实际怎样工作？               | 随实现更新，保存当前模块、接口、数据库等事实        |
 | [Others](./others/README.md)       | 如何验收，重要取舍与交付记录在哪里？ | 按分类维护验收用例、ADR 和证据记录                  |
 
@@ -43,7 +44,7 @@ Feature → Plan → Contract/Test → Implementation → Verify → Design
 需求      计划    契约与行为测试    实现             验证      当前事实
 ```
 
-Standards 约束整个过程。先明确需求与验收方式，再制定本轮计划、编写测试并实现；检查失败就定位和修复，超出授权或缺少外部条件则记录阻塞。验证通过后回写事实设计，让下一轮有据可依。完整顺序与准入、准出条件见[工作流](./standards/workflow.md)。
+各专业规则约束对应产出，具体 Plan/Release 组织交付。需求尺度见 [Feature 规则](./features/README.md)，原始目标、重点和接续见 [Plan 规则](./plans/README.md)，测试先行与检查见 [测试标准](./standards/testing.md)，组合完成见 [Release 规则](./plans/releases/README.md)，当前事实维护见 [Design 规则](./designs/README.md)。跨环节交接存在冲突时使用 [协作说明](./standards/workflow.md)，无需每轮先读一套总管规则。
 
 每轮先区分 `[新增模块]` 与 `[存量改动]`：新能力建立模块；修改现有能力或基础设施，要说明影响路径、兼容性、迁移和回归验证。风险强度由 Plan 的 `risk` 表达。
 

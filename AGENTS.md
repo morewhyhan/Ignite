@@ -11,7 +11,7 @@ Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定�
 ## 增量与存量
 
 - 一个 Plan 对应一个可独立验收、集成和回滚的交付结果。API、页面、测试、格式修复和状态回写是同一 Plan 的子任务，不为“收口”另建 Plan。
-- 先接续覆盖本轮目标的未完成 Plan；只有新的独立交付结果才创建 Plan。本轮检查失败后的修复、同目标的完善和验证都留在原 Plan。已交付结果的后续改动保留原记录，并建立新的存量改动 Plan。仅安全说明文字或静态展示资产可免业务 Plan，具体范围以 `docs/standards/workflow.md` 和检查器为准。
+- 先接续覆盖本轮目标的未完成 Plan；只有新的独立交付结果才创建 Plan。本轮检查失败后的修复、同目标的完善和验证都留在原 Plan。已交付结果的后续改动保留原记录，并建立新的存量改动 Plan。仅安全说明文字或静态展示资产可免业务 Plan，具体范围以 `docs/plans/README.md` 和检查器为准。
 - 新 Plan 使用 `docs/plans/_template.md` 的结构化元数据，设 `execution_contract: 1`、`verification_contract: 2`；状态只能使用 `draft`、`ready`、`active`、`verifying`、`done`、`blocked`、`cancelled`、`superseded`。历史未迁移 Plan 保留为 `legacy_unverified`，不能自动视为完成。
 - 当前发布只由 `docs/plans/releases/*.json` 定义；状态表由 `pnpm ignite status --write` 生成，不手工维护派生副本。
 - `pnpm ignite next --plan <IGT-ID>` 与 `pnpm ignite release status` 默认给精简摘要；需要完整机器上下文时显式添加 `--verbose`。`next_action` 是建议入口，不能代替原始目标和验收证据。
@@ -21,7 +21,7 @@ Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定�
 
 ## 规范真源
 
-- 长期方法：`docs/standards/`
+- 工程专业标准：`docs/standards/`；各类文档的编写、维护与验收规则：所属目录的 `README.md`；沟通规则：本文件
 - 功能规格：`docs/features/`
 - 本轮计划：`docs/plans/`
 - 当前事实设计：`docs/designs/`
@@ -76,9 +76,17 @@ Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定�
 
 新 Plan 的改动通过 `pnpm ignite check --plan <IGT-ID> --level auto` 执行工程门禁与本 Plan 的行为验收；Plan 全部完成后，由 `pnpm ignite release verify <release-id> --plan <done-plan-id>` 对同一最终版本运行生产构建与全局生产态 E2E。旧 `verification_contract: 1` Plan 继续使用旧的 `check --level release`。状态输出区分工程、Plan、Release 三层，任一检查绿灯都不能冒充其它层完成。最终只报告实际执行并通过的检查。
 
+## 沟通
+
+- 收到新的要求先用简短的话复述理解的目标、结果和边界；沿用已有决定与授权。发现理解冲突时指出具体差异，不靠重新询问已知事项推进。
+- 先说结论，再说支撑它的事实和未确定部分。围绕读者需要的结果组织内容，同类合并、去除重复；术语必要时用具体行为解释。事实、推测和未执行的建议分开表述。
+- 进展说明发现了什么、还有什么缺口、下一步怎样帮助达成目标或区分原因。最终报告独立可读，说明实际结果、依据和未完成影响；验收引用 REQ/AC、真实运行和被测版本，不用命令日志替代解释。
+- 需要人决定产品或边界时，给出具体选项、各自结果与取舍；普通实现选择按已授权目标推进，不重复索要确认。
+- 表达是否清楚，以读者能复述结果、依据及待定事项判断。作者自查不等于独立读者已理解；评估规则时可采用 [复述测试](https://digital.gov/guides/plain-language/test/paraphrase-testing)，不要求每条消息都新增人工流程。
+
 ## 推荐开发流程
 
-执行标准直接维护在对应文档：`workflow.md` 定义需求、推进、纠偏、完成与沟通，`testing.md` 定义检查选择和证据，`ai-agents.md` 定义规则维护；Feature、Plan 和测试模板提供填写位置。接续先回看原始目标映射与整体判断，依据当前事实选择下一步。具体尺度与判定见各自标准，不新增独立提示词或并行状态。
+需求编写按 `docs/features/README.md`，立项、重点、接续与完成按 `docs/plans/README.md`，检查选择按 `docs/standards/testing.md`，运行恢复与证据维护按 `docs/others/evidence/README.md`，组合完成按 `docs/plans/releases/README.md`，规则维护按 `docs/standards/ai-agents.md`。Feature、Plan 和测试模板只提供填写位置。具体 Plan/Release 围绕原始结果协调各专业产出；普通任务直接读取相关规则，跨 Plan 依赖、共享写入或交接时才查 `docs/standards/workflow.md`。
 
 用户明确要求暂不测试时，先实现并保留待验证任务；不运行检查、不生成通过证据、不进入 `done`。测试资产可以编写，是否执行以当前用户指令为准。
 

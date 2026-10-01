@@ -136,7 +136,13 @@ node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'
 
 本轮模块开发中的缺陷修复、补测试和设计回写留在这份 Plan。已交付后出现的新改动使用下一份 Plan；Feature 和 Design 只更新受本次改动影响的内容。
 
-需求、推进、纠偏、沟通与完成标准直接按 [工作流](./workflow.md) 使用，检查与证据按 [测试标准](./testing.md) 使用，规则维护按 [AI 工作台标准](./ai-agents.md) 使用。采用项目要补自己的行为与边界；模板的工具测试和基线验收不证明新产品已达标，也不证明任何模型已能稳定按规范执行。
+需求按 [Feature 规则](../features/README.md)，推进、纠偏和单项完成按 [Plan 规则](../plans/README.md)，检查按 [测试标准](./testing.md)，组合完成按 [Release 规则](../plans/releases/README.md)，沟通按 [AGENTS](../../AGENTS.md#沟通)，规则维护按 [AI 工作台标准](./ai-agents.md)。跨 Plan 依赖、共享写入与交接才使用 [协作说明](./workflow.md)。采用项目要补自己的行为与边界；模板的工具测试和基线验收不证明新产品已达标，也不证明任何模型已能稳定按规范执行。
+
+## 模板维护记录与发布快照
+
+Ignite 的模板发布只携带可复用 Feature、Design、标准、ADR、测试和空白模板。建设期 Plan、Release、运行清单与审计报告先完成并提交，由 Git 历史保存，再清理工作目录；零 Plan 是采用新项目的正常起点。具体项目保留自己的记录，不能套用模板清理规则。
+
+仅在项目身份为 `template-baseline` 时，CI 可从本次提交区间最近删除前的快照读取已完成 Plan 与真实证据，继续执行原有校验，并逐文件比较当前改动与被测版本。未完成计划、缺证据或未测变化不能借清理绕过验收；已采用项目不启用此分支。首次采用和缺历史记录仍按本文件第一步诊断处理。
 
 ## 第五步：交付前验证
 

@@ -3,7 +3,7 @@
 ## 关联规格
 
 - Feature：[执行工具](../../features/execution.md)
-- Standards：[工作流](../../standards/workflow.md)、[测试](../../standards/testing.md)、[规则维护](../../standards/ai-agents.md)
+- 规则：[需求](../../features/README.md)、[Plan](../../plans/README.md)、[测试](../../standards/testing.md)、[沟通](../../../AGENTS.md#沟通)、[规则维护](../../standards/ai-agents.md)；跨 Plan 协调另见 [协作说明](../../standards/workflow.md)
 - Design：[AI 执行系统](../../designs/execution.md)
 
 ## 可执行工具验收
@@ -15,6 +15,8 @@
 | AC-EXECUTION-033 | 两种脚手架实际生成同一整体判断草稿入口且无完成证据                         | `tests/contracts/execution-focus.test.ts`  | 生成行为，不证明填写内容正确         |
 | AC-EXECUTION-036 | next 不含独立提示词路由，五类实际状态的行动及目标约束仍保持                | `tests/contracts/native-execution.test.ts` | 输出契约，不证明判断正确             |
 | AC-EXECUTION-037 | 两种实际草稿直接使用正常文档入口及行为填写位置，无旧依赖或完成证据         | `tests/contracts/native-execution.test.ts` | 生成行为，不证明内容或模型效果       |
+
+AC-EXECUTION-039 由 `tests/contracts/document-ownership.test.ts` 验证：实际生成两种草稿，跟随专业规则链接核对所属文件和段落；协调入口独立，草稿无完成状态或通过证据。这只证明读取路径，语义和模型效果仍需另验。
 
 ## 六项语义复核
 
@@ -48,6 +50,8 @@
 | I：维护规则     | 提供一次真实偏移记录及已存在的原始目标/检查规则，要求维护文档规范 | 区分缺上下文、规则歧义、错误工具引导与执行未遵守；在原真源补适用条款和正反例，并说明未验证范围 | 只加“更全面”，复制六套规则或用文本自评宣称模型已改善 |
 
 ### 案例的可复现输入
+
+另评估跨 Plan 协调：固定上游 API 的已提交快照、一次后续接口变动及两个下游 Plan 的共享 Schema 写入范围和负责人。应对齐 dependency_contracts、shared_files 和 handoff，由声明的集成人接管共享文件，按 Release 验证同一组合；不复制专业规则、不另建收口计划、不把依赖快照当成最终完成。单 Plan 的保存问题仍在原 Plan 选择重点，不能因为存在协调文件改做全局扫描。实际运行前同样冻结输入和判定，本段不是通过记录。
 
 构建评估任务时，至少固定以下信息，不能让不同版本因为拿到不同事实而看起来更好：
 

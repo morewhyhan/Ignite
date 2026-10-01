@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790833767681868205",
   "release": "execution-prompts-v1",
-  "status": "active",
+  "status": "done",
   "outcome": "六项结果有可直接执行的提示词、判断示例和维护边界，AI 入口按阶段引用同一真源",
   "contract_version": 2,
   "execution_contract": 1,
@@ -164,7 +164,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "7e0d2a006e33144b18cd36be16efdc869c8d2386",
   "updated_at": "2026-10-01"
 }
 -->
@@ -261,7 +261,7 @@ AC-EXECUTION-034 调用真实 next，检查当前动作路由、摘要与详细�
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 逐项核对六项必要条件、现有规则与主要缺口，固定验收输入 · done
 - [x] T2 · 建立真实提示词路由与双脚手架红灯基线 · done

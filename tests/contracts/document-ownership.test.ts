@@ -34,7 +34,6 @@ it('[AC-EXECUTION-039] generates drafts whose professional rules resolve directl
         'docs/plans/_template.md',
         'docs/plans/releases/README.md',
         'docs/standards/testing.md',
-        'docs/standards/workflow.md',
         'docs/others/test-cases/_template.md',
       ])
         write(fixture.root, path, read(repositoryRoot, path))
@@ -58,7 +57,7 @@ it('[AC-EXECUTION-039] generates drafts whose professional rules resolve directl
       followRule(fixture.root, plan, '接续与纠偏', 'docs/plans/README.md')
       followRule(fixture.root, plan, '完成条件', 'docs/plans/README.md')
       followRule(fixture.root, plan, '沟通规则', 'AGENTS.md')
-      followRule(fixture.root, plan, '跨 Plan 协作', 'docs/standards/workflow.md')
+      followRule(fixture.root, plan, '跨 Plan 协作', 'docs/plans/README.md')
       followRule(fixture.root, plan, '测试标准', 'docs/standards/testing.md')
       const metadata = JSON.parse(
         read(fixture.root, plan).match(/<!-- ignite-plan\s*([\s\S]*?)-->/)![1],

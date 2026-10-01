@@ -106,7 +106,7 @@ describe('Native execution documentation', () => {
         expect(draft).not.toContain('execution-focus.md')
         expect(draft).toContain('## 原始目标与覆盖核对')
         expect(draft).toContain('## 整体判断与推进顺序')
-        expect(draft).toContain('../standards/workflow.md')
+        expect(draft).toContain('./README.md#跨-plan-依赖与交接')
         expect(draft).toContain('../standards/testing.md')
         const metadata = JSON.parse(draft.match(/<!-- ignite-plan\s*([\s\S]*?)-->/)![1])
         expect(metadata.status).toBe('draft')

@@ -28,7 +28,7 @@ for (const path of [
   'AGENTS.md',
   'docs/README.md',
   'docs/standards/adoption.md',
-  'docs/standards/workflow.md',
+  'docs/plans/README.md',
   'docs/features/product.md',
   'docs/features/_template.md',
   'docs/plans/_template.md',

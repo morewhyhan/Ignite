@@ -420,7 +420,7 @@ describe('execution reliability', () => {
       write(fixture.root, 'docs/features/product.md', '- 状态：`adopted`\n')
       write(fixture.root, 'package.json', '{"name":"my-project"}\n')
       write(fixture.root, 'AGENTS.md', '# Rules\n')
-      write(fixture.root, 'docs/standards/workflow.md', '# Workflow\n')
+      write(fixture.root, 'docs/plans/README.md', '# Plan rules\n')
       write(fixture.root, 'docs/plans/_template.md', '# Plan\n')
       write(fixture.root, 'src/config/navigation.ts', 'export const navigation = []\n')
       write(

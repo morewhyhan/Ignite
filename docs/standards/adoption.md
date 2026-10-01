@@ -136,7 +136,7 @@ node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'
 
 本轮模块开发中的缺陷修复、补测试和设计回写留在这份 Plan。已交付后出现的新改动使用下一份 Plan；Feature 和 Design 只更新受本次改动影响的内容。
 
-需求按 [Feature 规则](../features/README.md)，推进、纠偏和单项完成按 [Plan 规则](../plans/README.md)，检查按 [测试标准](./testing.md)，组合完成按 [Release 规则](../plans/releases/README.md)，沟通按 [AGENTS](../../AGENTS.md#沟通)，规则维护按 [AI 工作台标准](./ai-agents.md)。跨 Plan 依赖、共享写入与交接才使用 [协作说明](./workflow.md)。采用项目要补自己的行为与边界；模板的工具测试和基线验收不证明新产品已达标，也不证明任何模型已能稳定按规范执行。
+需求按 [Feature 规则](../features/README.md)，推进、纠偏、依赖与交接按 [Plan 规则](../plans/README.md)，检查按 [测试标准](./testing.md)，组合完成按 [Release 规则](../plans/releases/README.md)，沟通按 [AGENTS](../../AGENTS.md#沟通)，规则维护按 [AI 工作台标准](./ai-agents.md)。采用项目要补自己的行为与边界；模板的工具测试和基线验收不证明新产品已达标，也不证明任何模型已能稳定按规范执行。
 
 ## 模板维护记录与发布快照
 

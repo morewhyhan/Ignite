@@ -108,7 +108,7 @@
 
 ## 输入规格
 
-只引用本轮相关的 Feature、Standards、Design、代码与测试。存在跨 Plan 依赖、共享写入或交接时按 [跨 Plan 协作](../standards/workflow.md#跨-plan-依赖与交接) 对齐，在原协作字段保存接口与交接结果。
+只引用本轮相关的 Feature、Standards、Design、代码与测试。存在跨 Plan 依赖、共享写入或交接时按 [跨 Plan 协作](./README.md#跨-plan-依赖与交接) 对齐，在原协作字段保存接口与交接结果。
 
 ## 已关闭问题
 

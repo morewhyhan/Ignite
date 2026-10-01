@@ -86,11 +86,11 @@ Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定�
 
 ## 推荐开发流程
 
-需求编写按 `docs/features/README.md`，立项、重点、接续与完成按 `docs/plans/README.md`，检查选择按 `docs/standards/testing.md`，运行恢复与证据维护按 `docs/others/evidence/README.md`，组合完成按 `docs/plans/releases/README.md`，规则维护按 `docs/standards/ai-agents.md`。Feature、Plan 和测试模板只提供填写位置。具体 Plan/Release 围绕原始结果协调各专业产出；普通任务直接读取相关规则，跨 Plan 依赖、共享写入或交接时才查 `docs/standards/workflow.md`。
+需求编写按 `docs/features/README.md`，立项、重点、接续与完成按 `docs/plans/README.md`，检查选择按 `docs/standards/testing.md`，运行恢复与证据维护按 `docs/others/evidence/README.md`，组合完成按 `docs/plans/releases/README.md`，规则维护按 `docs/standards/ai-agents.md`。Feature、Plan 和测试模板只提供填写位置。具体 Plan/Release 围绕原始结果协调各专业产出；普通任务直接读取相关规则。
 
 用户明确要求暂不测试时，先实现并保留待验证任务；不运行检查、不生成通过证据、不进入 `done`。测试资产可以编写，是否执行以当前用户指令为准。
 
-并行开发时，`depends_on` 约束最终集成；开发阶段可用 `dependency_contracts` 引用上游已提交的明确文件快照。接口变化后重新对齐。Prisma Schema、API 注册、导航等共享文件在 `shared_files` 声明同一负责人。非负责人提交业务切片与 `handoff`，由集成人接管计划 owner 并处理共享文件。交接记录包含接口、迁移、测试入口和未完成项。
+跨 Plan 依赖、共享写入和并行交接按 `docs/plans/README.md` 的“跨 Plan 依赖与交接”维护，继续使用原有协作字段；最终组合由 Release 验收。
 
 1. 在安装依赖前执行 `node scripts/runtime-doctor.mjs --preflight`；按采用规范准备 `.env` 并安装依赖后，运行 `pnpm runtime:check` 和 `pnpm template:doctor`。若诊断提示新 Git 历史仍含继承记录，先运行 `pnpm ignite adopt-history` 预览，核对后再运行 `pnpm ignite adopt-history --apply` 并提交归档；之后运行 `pnpm ignite status`。不要逐条修复旧提交缺失造成的模板证据错误。确认采用历史完整后，再用精简状态摘要识别当前 Plan 与结构问题。只有需要程序化解析完整机器上下文时才运行 `pnpm ignite status --json`。
 2. 只读取本轮相关的 Feature、Plan、Standards、Design 和测试；用 `pnpm ignite next --plan <IGT-ID>` 接续匹配的现有 Plan。需要新 Plan 时，新模块用 `pnpm create:module <plural-kebab-name>`，存量改动用 `pnpm create:change <kebab-name>` 起草。

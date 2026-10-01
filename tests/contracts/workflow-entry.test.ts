@@ -45,7 +45,7 @@ describe('first-entry workflow', () => {
   it('[AC-EXECUTION-016] keeps first-entry status guidance concise', () => {
     const onboarding = [
       read(repositoryRoot, 'AGENTS.md'),
-      read(repositoryRoot, 'docs/standards/workflow.md'),
+      read(repositoryRoot, 'docs/plans/README.md'),
       read(repositoryRoot, 'README.md'),
     ].join('\n')
     expect(onboarding).toContain('pnpm ignite status')

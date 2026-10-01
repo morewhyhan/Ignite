@@ -171,7 +171,7 @@
 
 ## 输入规格
 
-只引用本轮相关的 Feature、Standards、Design、代码与测试：`docs/features/product.md`、`docs/standards/workflow.md`、`docs/designs/design.md`、首页/认证组件和 `tests/e2e/landing-auth-content.spec.ts`。本轮以当前设计系统为准，无外部原型；仅修改文案与展示，不触及认证接口或数据。
+只引用本轮相关的 Feature、Standards、Design、代码与测试：`docs/features/product.md`、`docs/plans/README.md`、`docs/designs/design.md`、首页/认证组件和 `tests/e2e/landing-auth-content.spec.ts`。本轮以当前设计系统为准，无外部原型；仅修改文案与展示，不触及认证接口或数据。
 
 ## 已关闭问题
 

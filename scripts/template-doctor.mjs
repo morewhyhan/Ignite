@@ -283,7 +283,7 @@ if (environment) {
 
 for (const path of [
   'AGENTS.md',
-  'docs/standards/workflow.md',
+  'docs/plans/README.md',
   'docs/plans/_template.md',
   'src/config/navigation.ts',
 ]) {

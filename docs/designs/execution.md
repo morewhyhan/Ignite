@@ -1,6 +1,6 @@
 # AI 执行系统
 
-本文件描述执行器当前如何工作。日常接续见 [Plan 规则](../plans/README.md)，跨任务协调见 [协作说明](../standards/workflow.md)，首次复制见 [采用规范](../standards/adoption.md)。
+本文件描述执行器当前如何工作。日常接续与跨任务交接见 [Plan 规则](../plans/README.md)，组合验收见 [Release 规则](../plans/releases/README.md)，首次复制见 [采用规范](../standards/adoption.md)。
 
 ## 实现分工
 
@@ -44,9 +44,9 @@ Release 证据还记录 package version 与当时指向受测提交的 tag；这
 
 执行标准由各专业入口维护：Feature README 定义需求与 AC；Plan README 定义立项、整体判断、接续、纠偏和单项完成；testing 定义检查选择与断言层级，evidence README 定义运行恢复与证据维护；Release README 定义范围与组合完成；AGENTS 定义沟通；ai-agents 定义规则维护；Design README 定义当前事实的维护与一致性核对。
 
-具体 Plan 围绕本轮原始结果连接专业产出，具体 Release 组织组合版本。workflow 只说明跨文档衔接、跨 Plan 依赖、共享写入和交接冲突；普通任务直接读取相关专业入口，不以 workflow 作为必读总管。Feature 草稿提供“用户行为与边界”，Plan 的“整体判断与推进顺序”保存条件比较、重点依据、结果分支和纠偏条件，测试用例保存具体行为、层级及能发现的错误。没有独立提示词文件、并行状态或阶段路由。
+具体 Plan 围绕本轮原始结果连接专业产出，具体 Release 组织组合版本。跨 Plan 的依赖、共享写入、交接和冲突处理归 Plan README，组合完成归 Release README；无需独立 workflow 文档。Feature 草稿提供“用户行为与边界”，Plan 的“整体判断与推进顺序”保存条件比较、重点依据、结果分支和纠偏条件，测试用例保存具体行为、层级及能发现的错误。没有独立提示词文件、并行状态或阶段路由。
 
-两种脚手架生成 Plan 时直接引用 Plan 的推进、纠偏与完成段落，沟通直达 AGENTS，测试直达 testing；跨 Plan 协作另有条件入口。新模块 Feature 直达需求编写规则。`tests/contracts/document-ownership.test.ts` 实际生成草稿并跟随链接核对所属文件与段落；`tests/contracts/native-execution.test.ts` 验证原生输出与生成行为。草稿保持未完成且没有通过证据；语义质量和实际模型效果需按 [评估案例](../others/test-cases/execution-focus.md) 另行判定。
+两种脚手架生成 Plan 时直接引用 Plan 的推进、纠偏、完成与跨 Plan 交接段落，沟通直达 AGENTS，测试直达 testing。新模块 Feature 直达需求编写规则。`tests/contracts/document-ownership.test.ts` 实际生成草稿并跟随链接核对所属文件与段落，也在无 workflow 的副本运行真实模板诊断，缺少 Plan README 仍拒绝通过；`tests/contracts/native-execution.test.ts` 验证原生输出与生成行为。文档检查与模板诊断要求原生 Plan 规则，不再要求已删除的冗余文件。草稿保持未完成且没有通过证据；语义质量和实际模型效果需按 [评估案例](../others/test-cases/execution-focus.md) 另行判定。
 
 `tasks` 是唯一任务状态；正文进度和总览由 CLI 派生。`next` 先核对 Plan 与 Release，再给允许的下一步；`remaining_work` 非空时不能完成。默认输出精简摘要，完整上下文通过 `--verbose` 或 `status --json` 请求。
 

@@ -63,7 +63,7 @@ tasks 按可判断产出拆分，不同责任、依赖、风险或验收需要�
 
 Plan done 只证明此交付，不表示整个 Release 完成；组合版本由 [Release 完成条件](./releases/README.md#完成与证据) 判断，也不自动表示推送、部署或用户可访问。最终报告遵循 [沟通规则](../../AGENTS.md#沟通)。
 
-## 命令与协作字段
+## 命令
 
 模板见 [_template.md](./_template.md)。需要新交付时用 create:module 或 create:change；脚手架要求工作区干净，dry-run 只读预览。免业务 Plan 仅限检查器认定的根 README、docs/README、docs/others/README 和 docs/assets 静态展示资产，仍须文档、格式和差异检查；执行规则、专业规格、设计、测试和代码不能使用该豁免。
 
@@ -78,7 +78,18 @@ pnpm ignite plan set-status <IGT-ID> done
 
 next 默认保留全部 goals、constraints、non_goals 与 tasks，是接续建议；active 的进行中任务优先，没有进行中任务时列出全部待办供按证据选择。输入错误、真实缺口、阻塞和活动运行优先，快速验证仍可按需执行。详细机器上下文才加 --verbose。默认 next 不联网，不宣称远端已同步；需要核对时使用 next --verify-remote，只有 verified 表示该提交已在远端。
 
-depends_on 表示最终依赖；dependency_contracts 锁定开发期上游文件快照；shared_files 声明负责人；handoff 保存接口、迁移、测试和剩余项。遇到跨 Plan 依赖、共享写入与交接时按 [跨 Plan 协作](../standards/workflow.md#跨-plan-依赖与交接) 对齐，单 Plan 的专业判断在本页完成。
+## 跨 Plan 依赖与交接
+
+有跨 Plan 依赖、共享写入或交接时，在原 Plan 的协作字段对齐，不另建协调文件、收口 Plan 或状态表：
+
+- `depends_on` 约束最终集成；开发阶段由上游提交明确接口及相关文件，下游在 `dependency_contracts` 引用 commit 和 paths。接口变化后重新对齐，文件快照不代替依赖 Plan 完成。
+- Prisma Schema、API 注册、导航等共享文件在各相关 Plan 的 `shared_files` 声明同一负责人和模式。非负责人提交业务切片和 `handoff`；集成人接管相关 Plan owner 后修改共享文件并集成。
+- `handoff` 包含接口、迁移、测试入口和未完成项。接收者核对实际快照与现有证据，上游局部通过不能当作组合完成。
+- 并行开发优先不同工作区，提交用 `Ignite-Plan` trailer 标明归属。依赖或写入冲突在原 Plan 对齐；组合版本由 [Release 完成条件](./releases/README.md#完成与证据) 验证，当前事实按 Design 规则回写。
+
+例如两个 Plan 都涉及 Prisma Schema，由已声明的集成人统一修改，其他人交接业务需求与迁移信息。上游 API 改动时更新原契约，让实际下游执行者对齐；发送消息仍须已有用户授权，文档交接不自动授权通知。
+
+发生冲突时先辨明是目标、规格、接口、实现还是证据不一致，在所属真源修正：需求回 Feature，范围与行动回原 Plan，实际实现回 Design 和测试，组合范围回 Release。影响当前重点时按本页的接续与纠偏处理；产品结果或授权边界由人决定，独立相关工作继续。需要长期解释的架构取舍才记 ADR。
 
 ## 历史与方法依据
 

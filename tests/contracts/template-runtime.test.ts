@@ -120,7 +120,7 @@ describe('template and runtime contracts', () => {
         "export const siteConfig = { name: 'Ignite', slug: 'ignite' }\n",
       )
       write(fixture.root, 'AGENTS.md', '# Rules\n')
-      write(fixture.root, 'docs/standards/workflow.md', '# Workflow\n')
+      write(fixture.root, 'docs/plans/README.md', '# Plan rules\n')
       write(fixture.root, 'docs/plans/_template.md', '# Plan template\n')
       write(fixture.root, 'src/config/navigation.ts', 'export const navigation = []\n')
       const inheritedPlan = planContent(fixture.baseCommit)
@@ -194,7 +194,7 @@ describe('template and runtime contracts', () => {
         "export const siteConfig = { name: 'Ignite', slug: 'ignite' }\n",
       )
       write(fixture.root, 'AGENTS.md', '# Rules\n')
-      write(fixture.root, 'docs/standards/workflow.md', '# Workflow\n')
+      write(fixture.root, 'docs/plans/README.md', '# Plan rules\n')
       write(fixture.root, 'docs/plans/_template.md', '# Plan template\n')
       write(fixture.root, 'src/config/navigation.ts', 'export const navigation = []\n')
       const inheritedPlan = read(fixture.root, 'docs/plans/fixture.md')
@@ -239,7 +239,7 @@ describe('template and runtime contracts', () => {
       write(root, 'package.json', '{"name":"ignite"}\n')
       for (const path of [
         'AGENTS.md',
-        'docs/standards/workflow.md',
+        'docs/plans/README.md',
         'docs/plans/_template.md',
         'src/config/navigation.ts',
       ]) {

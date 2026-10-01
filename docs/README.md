@@ -15,7 +15,7 @@
 | 第一次用 Ignite 建项目       | [模板采用指南](./standards/adoption.md)：环境、项目身份、示例替换与交付边界                                                                                          |
 | 了解模板已经提供什么         | [产品基线](./features/product.md)、[认证](./features/auth.md)、[Tasks](./features/tasks.md)                                                                          |
 | 交给 AI 实现或修改功能       | [AGENTS.md](../AGENTS.md) → 对应 Feature、Design 和 Plan；编写与接续规则在各自目录 README                                                                            |
-| 协调跨 Plan 依赖或共享写入   | [跨文档与跨 Plan 协作](./standards/workflow.md)，在原 Plan/Release 对齐接口、责任和组合版本                                                                          |
+| 协调跨 Plan 依赖或共享写入   | [Plan 依赖与交接](./plans/README.md#跨-plan-依赖与交接)，组合范围和完成按 [Release 规则](./plans/releases/README.md)                                                 |
 | 查代码应该放在哪里、如何连接 | [架构规范](./standards/architecture.md)、[领域设计](./designs/domain.md)、[API 设计](./designs/api.md)、[数据库设计](./designs/database.md)                          |
 | 判断工作是否真正完成         | [Plan 完成](./plans/README.md#完成与证据)、[Release 完成](./plans/releases/README.md#完成与证据)、[测试规范](./standards/testing.md)、[验证证据](./others/evidence/) |
 | 接入或调整 AI 工具           | [AI 工作台](../.ai/README.md)、[AI 协作规范](./standards/ai-agents.md)                                                                                               |
@@ -44,7 +44,7 @@ Feature → Plan → Contract/Test → Implementation → Verify → Design
 需求      计划    契约与行为测试    实现             验证      当前事实
 ```
 
-各专业规则约束对应产出，具体 Plan/Release 组织交付。需求尺度见 [Feature 规则](./features/README.md)，原始目标、重点和接续见 [Plan 规则](./plans/README.md)，测试先行与检查见 [测试标准](./standards/testing.md)，组合完成见 [Release 规则](./plans/releases/README.md)，当前事实维护见 [Design 规则](./designs/README.md)。跨环节交接存在冲突时使用 [协作说明](./standards/workflow.md)，无需每轮先读一套总管规则。
+各专业规则约束对应产出，具体 Plan/Release 组织交付。需求尺度见 [Feature 规则](./features/README.md)，原始目标、重点、接续与交接见 [Plan 规则](./plans/README.md)，测试先行与检查见 [测试标准](./standards/testing.md)，组合完成见 [Release 规则](./plans/releases/README.md)，当前事实维护见 [Design 规则](./designs/README.md)。有冲突时修正所属真源，由原 Plan 更新行动与范围。
 
 每轮先区分 `[新增模块]` 与 `[存量改动]`：新能力建立模块；修改现有能力或基础设施，要说明影响路径、兼容性、迁移和回归验证。风险强度由 Plan 的 `risk` 表达。
 

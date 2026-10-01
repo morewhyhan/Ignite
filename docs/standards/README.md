@@ -8,7 +8,6 @@
 - [开发标准](./development.md)
 - [安全标准](./security.md)
 - [测试标准](./testing.md)
-- [跨文档与跨 Plan 协作](./workflow.md)：按需处理交接、依赖与共享写入
 - [模板采用规范](./adoption.md)
 - [AI 工作台与真源](./ai-agents.md)
 

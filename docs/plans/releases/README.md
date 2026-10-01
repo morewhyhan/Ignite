@@ -27,7 +27,7 @@ pnpm ignite release status
 
 ## 集成、历史与对外交付
 
-Release 的组合负责人确认接口和迁移交接、依赖 Plan 已完成、最终 Design 与受测实现一致；出现跨 Plan 冲突按 [协作说明](../../standards/workflow.md#跨-plan-依赖与交接) 处理。
+Release 的组合负责人确认接口和迁移交接、依赖 Plan 已完成、最终 Design 与受测实现一致，在同一版本执行本页规定的最终验收。跨 Plan 的文件负责人、依赖快照和交接在 [Plan 协作字段](../README.md#跨-plan-依赖与交接) 对齐；组合范围有变化时更新原 Release。
 
 CI 只要求本次差异的独立 Plan 完成并覆盖写入；其他未来草稿不阻挡这次合并，却不能让整个 Release 提前完成。普通 merge 可保留原提交证据；squash/rebase 改写身份后由 Plan reintegrate 重新验收，不只修改 integrated_commit 字符串。
 

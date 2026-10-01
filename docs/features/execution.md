@@ -13,7 +13,7 @@
 
 - R40（REQ-EXECUTION-040）：删除没有独立职责的 workflow 文档及当前入口、生成器与检查器对它的依赖。跨 Plan 的依赖、共享写入、交接与冲突处理由 Plan 规则维护，组合完成由 Release 规则维护；专业规则仍在各自真源。模板缺少冗余文件时正常诊断与生成，缺少必要的 Plan 规则仍应拒绝诊断通过。保留原有任务状态、协作契约、真实验收和历史证据。
 
-- R39（REQ-EXECUTION-039）：需求、Plan、测试、完成条件、沟通和规范维护各自拥有单一的编写与维护入口；生成的 Feature 和 Plan 直接引用所属规则，专业判断不必跳转工作流。具体 Plan 与 Release 协调本轮结果；工作流仅说明跨文档衔接、跨 Plan 依赖、共享写入及交接，不另建权限、状态或验收条件。保留原始目标、整体判断和现有真实验收边界。
+- R39（REQ-EXECUTION-039）：需求、Plan、测试、完成条件、沟通和规范维护各自拥有单一的编写与维护入口；生成的 Feature 和 Plan 直接引用所属规则。具体 Plan 与 Release 协调本轮结果，依赖与交接归 Plan 规则，组合完成归 Release 规则，不另建权限、状态或验收条件。保留原始目标、整体判断和现有真实验收边界。
 
 - R36（REQ-EXECUTION-036）：next 直接提供目标、任务、缺口与下一步，不增加独立的提示词文件或阶段路由字段；删除提示词路由后，精简与详细输出的既有行动、验证和授权边界保持一致。当前规格替换旧能力时，已完成 Release 的覆盖按被测版本解释，未完成发布仍核对当前规格；未知目标和遗漏 AC 继续拒绝。
 - R37（REQ-EXECUTION-037）：需求、Plan、测试、验收、沟通与规则维护的执行标准直接归入各自现有文档；实际生成的两种 Plan 草稿保留原始目标核对、整体判断和原生规则及协作入口，新模块 Feature 提供可观察行为与边界的填写位置，不依赖额外提示词。草稿仍未完成，自动化只验证生成与接续行为，内容是否合理及模型是否改善另行评估。
@@ -58,11 +58,11 @@
 
 - AC-EXECUTION-040（REQ-EXECUTION-040）：Given 只有原生专业规则、没有 workflow 文件的干净模板 When 执行实际 template:doctor 并分别生成模块与存量改动 Then 诊断通过，两种 Plan 的跨 Plan 链接直接到 Plan 的实际协作段落，Plan 的组合完成链接直接到 Release 的实际完成段落，无需恢复 workflow 文件；移除 Plan 规则时诊断仍报缺少必要文件。正式文档检查不得要求已删除文件或留下失效链接，既有协作契约和业务回归保持通过。
 
-- AC-EXECUTION-039（REQ-EXECUTION-039）：Given 干净模板中已准备各专业规则 When 实际创建新增模块与存量改动 Then 两种 Plan 的推进、纠偏、完成和沟通链接直接落到对应真源，模块 Feature 直接链接需求编写规则，所有这些目标文件及段落存在；跨 Plan 协作单独引用工作流，草稿任务与红灯、验收证据保持未完成。
+- AC-EXECUTION-039（REQ-EXECUTION-039）：Given 干净模板中已准备各专业规则 When 实际创建新增模块与存量改动 Then 两种 Plan 的推进、纠偏、完成和沟通链接直接落到对应真源，模块 Feature 直接链接需求编写规则，所有这些目标文件及段落存在；跨 Plan 协作直接引用 Plan 规则，草稿任务与红灯、验收证据保持未完成。
 
 - AC-EXECUTION-036（REQ-EXECUTION-036）：Given Plan 分别处于实现、输入修复、阻塞、验证或终止后的报告入口 When 查询精简及详细 next Then 不含 execution_guidance，目标与约束仍保留，next_action 在两种输出中一致并保持原有缺口和阻塞优先级。
 - AC-EXECUTION-038（REQ-EXECUTION-036）：Given 完成的 Release 引用真实被测提交且当前规格已替换旧能力 When 检查覆盖 Then 使用被测规格验证，遗漏当时 AC 或添加未知目标仍失败；未完成 Plan、没有被测提交或缺失 Plan 不能沿用历史规格绕过当前校验。
-- AC-EXECUTION-037（REQ-EXECUTION-037）：Given 干净工作区 When 分别创建新增模块和存量改动 Then 两种 Plan 草稿直接含原始目标核对、整体判断与正常工作流和测试入口，新模块 Feature 含用户行为与边界填写位置，所有生成文档不引用独立提示词文件；任务、红灯及验收证据仍未完成。
+- AC-EXECUTION-037（REQ-EXECUTION-037）：Given 干净工作区 When 分别创建新增模块和存量改动 Then 两种 Plan 草稿直接含原始目标核对、整体判断与原生 Plan 和测试入口，新模块 Feature 含用户行为与边界填写位置，所有生成文档不引用独立提示词文件；任务、红灯及验收证据仍未完成。
 
 - AC-EXECUTION-031（REQ-EXECUTION-031）：Given Plan 已记录 goals、constraints、non_goals 和 tasks When 不加 verbose 查询 next Then 全部内容保留在精简摘要，详细验收上下文仍只在 verbose 中输出。
 - AC-EXECUTION-032（REQ-EXECUTION-032）：Given active Plan 有未完成任务 When 查询 next Then 优先接续进行中的任务，没有进行中任务时展示全部待办供按 Plan 依据选择，不武断选第一个；真实缺口或阻塞优先，任务完成后仍提供正式检查，历史契约入口保持可用。

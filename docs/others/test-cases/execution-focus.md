@@ -3,7 +3,7 @@
 ## 关联规格
 
 - Feature：[执行工具](../../features/execution.md)
-- 规则：[需求](../../features/README.md)、[Plan](../../plans/README.md)、[测试](../../standards/testing.md)、[沟通](../../../AGENTS.md#沟通)、[规则维护](../../standards/ai-agents.md)；跨 Plan 协调另见 [协作说明](../../standards/workflow.md)
+- 规则：[需求](../../features/README.md)、[Plan](../../plans/README.md)、[测试](../../standards/testing.md)、[沟通](../../../AGENTS.md#沟通)、[规则维护](../../standards/ai-agents.md)；跨 Plan 交接也由 Plan 规则负责
 - Design：[AI 执行系统](../../designs/execution.md)
 
 ## 可执行工具验收
@@ -16,7 +16,9 @@
 | AC-EXECUTION-036 | next 不含独立提示词路由，五类实际状态的行动及目标约束仍保持                | `tests/contracts/native-execution.test.ts` | 输出契约，不证明判断正确             |
 | AC-EXECUTION-037 | 两种实际草稿直接使用正常文档入口及行为填写位置，无旧依赖或完成证据         | `tests/contracts/native-execution.test.ts` | 生成行为，不证明内容或模型效果       |
 
-AC-EXECUTION-039 由 `tests/contracts/document-ownership.test.ts` 验证：实际生成两种草稿，跟随专业规则链接核对所属文件和段落；协调入口独立，草稿无完成状态或通过证据。这只证明读取路径，语义和模型效果仍需另验。
+AC-EXECUTION-039 由 `tests/contracts/document-ownership.test.ts` 验证：实际生成两种草稿，跟随专业规则链接核对所属文件和段落；跨 Plan 交接直接归 Plan，草稿无完成状态或通过证据。这只证明读取路径，语义和模型效果仍需另验。
+
+AC-EXECUTION-040 在同一测试文件验证真实模板诊断及两种生成器：没有 workflow 文件仍可诊断并生成直达 Plan 和 Release 的链接，缺少必要 Plan 规则仍报错。正式文档门禁另核对当前文件和链接，既有协作契约继续由原回归验证；这不证明模型判断已改善。
 
 ## 六项语义复核
 
@@ -51,7 +53,7 @@ AC-EXECUTION-039 由 `tests/contracts/document-ownership.test.ts` 验证：实�
 
 ### 案例的可复现输入
 
-另评估跨 Plan 协调：固定上游 API 的已提交快照、一次后续接口变动及两个下游 Plan 的共享 Schema 写入范围和负责人。应对齐 dependency_contracts、shared_files 和 handoff，由声明的集成人接管共享文件，按 Release 验证同一组合；不复制专业规则、不另建收口计划、不把依赖快照当成最终完成。单 Plan 的保存问题仍在原 Plan 选择重点，不能因为存在协调文件改做全局扫描。实际运行前同样冻结输入和判定，本段不是通过记录。
+另评估跨 Plan 协调：固定上游 API 的已提交快照、一次后续接口变动及两个下游 Plan 的共享 Schema 写入范围和负责人。应对齐 dependency_contracts、shared_files 和 handoff，由声明的集成人接管共享文件，按 Release 验证同一组合；不复制专业规则、不另建收口计划、不把依赖快照当成最终完成。单 Plan 的保存问题仍在原 Plan 选择重点，不能因为存在交接规则改做全局扫描。实际运行前同样冻结输入和判定，本段不是通过记录。
 
 构建评估任务时，至少固定以下信息，不能让不同版本因为拿到不同事实而看起来更好：
 

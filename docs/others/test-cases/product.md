@@ -4,7 +4,7 @@
 
 - Feature：[`../../features/product.md`](../../features/product.md)
 - Runtime Design：[`../../designs/runtime.md`](../../designs/runtime.md)
-- Workflow：[`../../standards/workflow.md`](../../standards/workflow.md)
+- Plan 规则：[编写、接续与交接](../../plans/README.md)
 
 ## 可执行契约
 

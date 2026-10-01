@@ -65,17 +65,17 @@
     {
       "id": "T2",
       "title": "定义真实诊断及生成验收，记录先行红灯",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T3",
       "title": "归还交接细节，删除 workflow，修正当前引用与工具依赖",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T4",
       "title": "回写设计并完成 Plan 和组合版本验收",
-      "status": "todo"
+      "status": "doing"
     }
   ],
   "depends_on": [],
@@ -102,6 +102,7 @@
     ".ai/README.md",
     "docs/README.md",
     "docs/features/execution.md",
+    "docs/plans/20260929-landing-value-and-auth-panel.md",
     "docs/plans/20261001-remove-redundant-workflow.md",
     "docs/plans/releases/remove-redundant-workflow-v1.json",
     "docs/plans/README.md",
@@ -203,15 +204,16 @@ required_layers 为 unit，本轮不增加业务页面、持久化或外部集�
 ## 状态记录
 
 - 2026-10-01：与实际入口、模板及检查脚本核对后确定删除边界，保留历史记录和必要协作契约。
+- 2026-10-01：已提交真实诊断红灯 tdd-20261001113623-31fa63；协作细节归回 Plan/Release，删除 workflow 并清理当前引用和硬依赖。未完成的首页 Plan 只修正输入文档路径，状态与业务范围不变；已完成记录保留当时路径。
 
 <!-- ignite-progress -->
 
 状态：`active`（由元数据生成）
 
 - [x] T1 · 核对职责与原始目标，确定删除和保留边界 · done
-- [ ] T2 · 定义真实诊断及生成验收，记录先行红灯 · doing
-- [ ] T3 · 归还交接细节，删除 workflow，修正当前引用与工具依赖 · todo
-- [ ] T4 · 回写设计并完成 Plan 和组合版本验收 · todo
+- [x] T2 · 定义真实诊断及生成验收，记录先行红灯 · done
+- [x] T3 · 归还交接细节，删除 workflow，修正当前引用与工具依赖 · done
+- [ ] T4 · 回写设计并完成 Plan 和组合版本验收 · doing
 
 验收缺口：未记录；完成仍须实际证据
 证据：尚无

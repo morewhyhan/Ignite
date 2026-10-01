@@ -32,7 +32,7 @@
 
 规则按处理后的结果归属：需求清楚由 [Feature 规则](../features/README.md) 负责；行动合适、执行不偏和单项完成由 [Plan 规则](../plans/README.md) 负责；检查尺度由 [测试标准](./testing.md)、运行恢复与证据维护由 [验收证据](../others/evidence/README.md) 负责；组合完成由 [Release 规则](../plans/releases/README.md)、沟通易懂由 [AGENTS](../../AGENTS.md#沟通) 负责；规则一致、可维护由本文件负责。具体 Feature、Plan、Release 和测试用例保存各自实例，当前系统事实写在 Design。
 
-每条专业规则在原位置维护，模板只引用和提供填写位置，目录导航与工具桥接只指路。具体 Plan/Release 协调目标、专业产出与组合版本；[workflow](./workflow.md) 只处理跨文档衔接和跨 Plan 依赖、共享写入、交接冲突。修改原条款或合并重复条款，不另建平行提示词、清单和状态。
+每条专业规则在原位置维护，模板只引用和提供填写位置，目录导航与工具桥接只指路。具体 Plan/Release 协调目标、专业产出与组合版本；依赖、共享写入和交接由 [Plan 规则](../plans/README.md#跨-plan-依赖与交接) 负责，组合完成由 Release 规则负责。修改原条款或合并重复条款，不另建平行工作流、提示词、清单和状态。
 
 ### 写到能判断是否适用
 

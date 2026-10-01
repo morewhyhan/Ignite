@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process'
-import { existsSync, readdirSync, readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync, rmSync } from 'node:fs'
 import { dirname, join, relative, resolve } from 'node:path'
 import { expect, it } from 'vitest'
 import { commitAll, makeFixture, read, repositoryRoot, write } from './ignite-fixture'
@@ -75,6 +75,71 @@ it('[AC-EXECUTION-039] generates drafts whose professional rules resolve directl
           'docs/features/README.md',
         )
       }
+    } finally {
+      fixture.cleanup()
+    }
+  }
+})
+
+it('[AC-EXECUTION-040] diagnoses and scaffolds a template without a standalone workflow while requiring native Plan rules', () => {
+  for (const script of ['create-change.mjs', 'create-module.mjs']) {
+    const fixture = makeFixture()
+    try {
+      for (const path of [
+        'AGENTS.md',
+        'docs/features/README.md',
+        'docs/plans/README.md',
+        'docs/plans/_template.md',
+        'docs/plans/releases/README.md',
+        'docs/standards/testing.md',
+        'docs/others/test-cases/_template.md',
+      ])
+        write(fixture.root, path, read(repositoryRoot, path))
+      write(
+        fixture.root,
+        'src/config/site.ts',
+        "export const siteConfig = { name: 'Ignite', slug: 'ignite' }\n",
+      )
+      write(fixture.root, 'src/config/navigation.ts', 'export const navigation = []\n')
+      const diagnose = () =>
+        spawnSync(process.execPath, [join(repositoryRoot, 'scripts/template-doctor.mjs')], {
+          cwd: fixture.root,
+          encoding: 'utf8',
+          windowsHide: true,
+          env: { ...process.env, IGNITE_ROOT: fixture.root },
+        })
+      const diagnosis = diagnose()
+      expect(diagnosis.status, diagnosis.stderr || diagnosis.stdout).toBe(0)
+
+      rmSync(join(fixture.root, 'docs/plans/README.md'))
+      const missingOwner = diagnose()
+      expect(missingOwner.status).not.toBe(0)
+      expect(missingOwner.stderr).toContain('Missing template baseline file: docs/plans/README.md')
+      write(fixture.root, 'docs/plans/README.md', read(repositoryRoot, 'docs/plans/README.md'))
+      commitAll(fixture.root, 'Prepare template with native rules and no standalone workflow')
+
+      const generated = spawnSync(
+        process.execPath,
+        [join(repositoryRoot, 'scripts', script), 'native-coordination'],
+        {
+          cwd: fixture.root,
+          encoding: 'utf8',
+          windowsHide: true,
+          env: { ...process.env, IGNITE_ROOT: fixture.root },
+        },
+      )
+      expect(generated.status, generated.stderr || generated.stdout).toBe(0)
+      const filename = readdirSync(join(fixture.root, 'docs/plans')).find((name) =>
+        name.endsWith('-native-coordination.md'),
+      )!
+      followRule(fixture.root, `docs/plans/${filename}`, '跨 Plan 协作', 'docs/plans/README.md')
+      followRule(
+        fixture.root,
+        'docs/plans/README.md',
+        'Release 完成条件',
+        'docs/plans/releases/README.md',
+      )
+      expect(existsSync(join(fixture.root, 'docs/standards/workflow.md'))).toBe(false)
     } finally {
       fixture.cleanup()
     }

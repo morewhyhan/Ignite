@@ -1,0 +1,25 @@
+{
+  "schema": 2,
+  "id": "remove-redundant-workflow-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1790853920702377365"],
+  "scope": [
+    {
+      "id": "GOAL-001",
+      "text": "移除冗余 workflow 及当前依赖，将必要协作细节归还 Plan 与 Release，并保持实际诊断、生成和回归有效",
+      "source": "用户已认可吸收必要细节后删除冗余协作文档，明确指示：行行行，交给你来协调。你把这些该删的删。",
+      "requirements": ["REQ-EXECUTION-040"],
+      "acceptance": ["AC-EXECUTION-040"],
+      "plan_ids": ["IGT-1790853920702377365"],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-10-01"
+}

@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790838314910384474",
   "release": "native-execution-standards-v1",
-  "status": "draft",
+  "status": "active",
   "outcome": "正常使用现有文档即可执行六项标准，无需额外提示词及路由",
   "contract_version": 2,
   "execution_contract": 1,
@@ -76,17 +76,17 @@
     {
       "id": "T1",
       "title": "识别现有行为、写入边界和原始目标",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T2",
       "title": "补充需求和目标行为测试",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T3",
       "title": "实施最小存量修改",
-      "status": "todo"
+      "status": "doing"
     },
     {
       "id": "T4",
@@ -215,11 +215,11 @@ execution Design 记录真实文档归属、草稿行为及直接接续输出。
 
 <!-- ignite-progress -->
 
-状态：`draft`（由元数据生成）
+状态：`active`（由元数据生成）
 
-- [ ] T1 · 识别现有行为、写入边界和原始目标 · todo
-- [ ] T2 · 补充需求和目标行为测试 · todo
-- [ ] T3 · 实施最小存量修改 · todo
+- [x] T1 · 识别现有行为、写入边界和原始目标 · done
+- [x] T2 · 补充需求和目标行为测试 · done
+- [ ] T3 · 实施最小存量修改 · doing
 - [ ] T4 · 验证兼容性并回写设计 · todo
 
 验收缺口：未记录；完成仍须实际证据

@@ -118,7 +118,7 @@ describe('CI production build handoff', () => {
         ],
         { encoding: 'utf8', windowsHide: true },
       )
-      expect({ exitCode: result.status, output: result.stdout.trim() }, result.stderr).toEqual({
+      expect({ exitCode: result.status, output: result.stdout.trim() }).toEqual({
         exitCode: 0,
         output: '{"health":"ok"}',
       })
@@ -171,8 +171,9 @@ export default { ...base, testDir: './cases', outputDir: './output', projects: [
         },
       )
       expect(result.status).not.toBe(0)
-      expect(`${result.stdout}\n${result.stderr}`).toContain('IGNITE_STARTUP_STDOUT')
-      expect(`${result.stdout}\n${result.stderr}`).toContain('IGNITE_STARTUP_STDERR')
+      const output = `${result.stdout}\n${result.stderr}`
+      expect(output.includes('IGNITE_STARTUP_STDOUT')).toBe(true)
+      expect(output.includes('IGNITE_STARTUP_STDERR')).toBe(true)
     } finally {
       rmSync(fixture, { recursive: true, force: true })
     }

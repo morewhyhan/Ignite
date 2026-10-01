@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790853920702377365",
   "release": "remove-redundant-workflow-v1",
-  "status": "draft",
+  "status": "active",
   "outcome": "使用者直接在原生文档处理依赖与交接，模板诊断和生成无需额外的 workflow 文档",
   "contract_version": 2,
   "execution_contract": 1,
@@ -11,9 +11,7 @@
   "goals": [
     {
       "text": "移除冗余 workflow 及当前依赖，将必要协作细节归还 Plan 与 Release，并保持实际诊断、生成和回归有效",
-      "requirements": [
-        "REQ-EXECUTION-040"
-      ]
+      "requirements": ["REQ-EXECUTION-040"]
     }
   ],
   "constraints": [
@@ -41,18 +39,14 @@
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "d2c5bfcf6bebf94cdb497eec5dc76720adc9257b",
-  "requirements": [
-    "REQ-EXECUTION-040"
-  ],
+  "requirements": ["REQ-EXECUTION-040"],
   "acceptance": [
     {
       "id": "AC-EXECUTION-040",
       "tests": [
         "tests/contracts/document-ownership.test.ts::[AC-EXECUTION-040] diagnoses and scaffolds a template without a standalone workflow while requiring native Plan rules"
       ],
-      "required_layers": [
-        "unit"
-      ],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/document-ownership.test.ts::[AC-EXECUTION-040] diagnoses and scaffolds a template without a standalone workflow while requiring native Plan rules",
@@ -61,19 +55,17 @@
       ]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
       "title": "核对职责与原始目标，确定删除和保留边界",
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T2",
       "title": "定义真实诊断及生成验收，记录先行红灯",
-      "status": "todo"
+      "status": "doing"
     },
     {
       "id": "T3",
@@ -96,7 +88,7 @@
     "remaining": []
   },
   "owner": "codex",
-  "risk": "infra",
+  "risk": "infrastructure",
   "data_contract": {
     "access_scope": "not-applicable",
     "access_rationale": "仅调整执行文档入口、模板诊断及生成验收，不涉及业务数据",
@@ -132,9 +124,7 @@
     "tests/contracts/template-runtime.test.ts"
   ],
   "tdd_evidence": [],
-  "required_evidence": [
-    "check-integration"
-  ],
+  "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
@@ -209,6 +199,16 @@ required_layers 为 unit，本轮不增加业务页面、持久化或外部集�
 - 2026-10-01：与实际入口、模板及检查脚本核对后确定删除边界，保留历史记录和必要协作契约。
 
 <!-- ignite-progress -->
+
+状态：`active`（由元数据生成）
+
+- [x] T1 · 核对职责与原始目标，确定删除和保留边界 · done
+- [ ] T2 · 定义真实诊断及生成验收，记录先行红灯 · doing
+- [ ] T3 · 归还交接细节，删除 workflow，修正当前引用与工具依赖 · todo
+- [ ] T4 · 回写设计并完成 Plan 和组合版本验收 · todo
+
+验收缺口：未记录；完成仍须实际证据
+证据：尚无
 <!-- /ignite-progress -->
 
 ## 准出条件

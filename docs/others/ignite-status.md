@@ -1,20 +1,22 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`80f6d60097c8`
-当前 Plan：2；结构化历史：5；未迁移历史：0
+输入指纹：`9a9390b8bf52`
+当前 Plan：3；结构化历史：5；未迁移历史：0
 
 ## 当前工作
 
 - `IGT-1790620890185389037` · `blocked` · `landing-value-and-auth-panel-v1`
 - `IGT-1790791844798755166` · `blocked` · `production-sqlite-opt-in-v1`
+- `IGT-1790853920702377365` · `active` · `remove-redundant-workflow-v1`
 
 ## 发布范围
 
-- `document-line-coordination-v1` · `done`
+- `document-line-coordination-v1` · `verifying`
   - Plan：`IGT-1790848085501147562`
   - 缺少证据：无
-  - 最终版本验收：passed（0f006e88d3ce）
+  - 最终版本验收：stale
+  - 下一步：pnpm ignite release verify document-line-coordination-v1 --plan IGT-1790848085501147562
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `execution-prompts-v1` · `verifying`
   - Plan：`IGT-1790833767681868205`
@@ -40,6 +42,12 @@
   - 最终版本验收：stale
   - 下一步：pnpm ignite next --plan IGT-1790791844798755166
   - 未完成原始目标：GOAL-001 为低流量单机展示部署显式启用持久化 SQLite，同时保留生产环境默认拒绝
+- `remove-redundant-workflow-v1` · `active`
+  - Plan：`IGT-1790853920702377365`
+  - 缺少证据：`IGT-1790853920702377365:check-integration`（missing：no run is bound to this evidence requirement）
+  - 最终版本验收：missing
+  - 下一步：pnpm ignite next --plan IGT-1790853920702377365
+  - 未完成原始目标：GOAL-001 移除冗余 workflow 及当前依赖，将必要协作细节归还 Plan 与 Release，并保持实际诊断、生成和回归有效
 - `systematic-execution-v1` · `verifying`
   - Plan：`IGT-1790826869649125989`
   - 缺少证据：无

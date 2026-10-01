@@ -168,6 +168,10 @@
 
 # Ignite 实施计划：systematic-execution
 
+## 状态
+
+顶部元数据是状态真源，任务进度由工具生成。
+
 ## 目标
 
 让执行前的整体覆盖、行动取舍和执行中的证据纠偏成为一条可接续的工作流。
@@ -196,7 +200,9 @@ Feature: docs/features/execution.md。规则依据：AGENTS.md、workflow.md、t
 
 ## 变更类型
 
-[存量改动]：完善现有执行规范、模板和接续入口，兼容旧契约；无数据迁移，回退本轮提交可恢复旧行为。既有提交身份漂移按原 Plan 的 reintegrate 处理。
+- 类型：`[存量改动]`
+
+完善现有执行规范、模板和接续入口，兼容旧契约；无数据迁移，回退本轮提交可恢复旧行为。既有提交身份漂移按原 Plan 的 reintegrate 处理。
 
 ## 测试与验收设计
 
@@ -219,6 +225,8 @@ Feature: docs/features/execution.md。规则依据：AGENTS.md、workflow.md、t
 首次回归发现隔离夹具缺少旧契约要求的 Release coverage 和 scope，使 AC-EXECUTION-032 先遇到输入校验；已修正夹具，恢复未实施 CLI 后重新记录真实任务接续断言红灯。原记录保留为历史，不作为本 Plan 当前证据；未放宽任何输入校验。
 
 三个新增用例与三个历史接续回归已通过。第一次统一运行 run-20261001041619-5af33e 通过 diff 和 template doctor，但治理被现存 SQLite Plan 的不可达 integrated_commit 阻止；按仓库规定处理原 Plan 的 reintegrate，旧提交与证据保留在 integration_history，新的验证仍需真实执行。
+
+确认 SQLite 原始红灯提交也不在当前祖先链，原 Plan 登记历史恢复阻塞；没有改变其业务或制造事后红灯。本轮独立 Plan 不依赖该 Release，继续按自身门禁验证。文档检查暴露本 Plan 正文缺少既定栏目与精确变更类型行，已按现有检查器补齐，未降低检查要求。
 
 <!-- ignite-progress -->
 

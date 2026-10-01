@@ -25,7 +25,8 @@
 | AC-EXECUTION-025 | 新历史副本先安装依赖，再运行诊断和归档 CLI                                      | `tests/contracts/workflow-entry.test.ts`        |
 | AC-EXECUTION-026 | TDD 红灯只绑定目标 AC 用例；兄弟用例可增改，目标用例变化会失效                  | `tests/contracts/source-analysis.test.ts`       |
 | AC-EXECUTION-029 | 临时 Git 仓库自带提交身份，无需依赖 runner 的全局 Git 配置                      | `tests/contracts/execution-reliability.test.ts` |
-| AC-EXECUTION-030 | CI 生产态 E2E 启动不起来时，日志能显示 Next stdout 与 Playwright webServer 诊断 | `tests/contracts/execution-reliability.test.ts` |
+| AC-EXECUTION-030 | CI 启动失败时实际保留服务 stdout、stderr 和 webServer 诊断，不只检查配置字样    | `tests/contracts/ci-build-artifact.test.ts`     |
+| AC-EXECUTION-041 | 按实际工作流跨工作区传递构建后，仍可加载链接包及其相邻生成依赖                  | `tests/contracts/ci-build-artifact.test.ts`     |
 
 测试资产只声明要验证的行为，不记录手工通过状态；结果以 Plan 绑定的运行证据为准。
 

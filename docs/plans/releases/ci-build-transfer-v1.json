@@ -1,0 +1,36 @@
+{
+  "schema": 2,
+  "id": "ci-build-transfer-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1790874247320866731"],
+  "scope": [
+    {
+      "id": "GOAL-001",
+      "text": "生产构建跨 CI 任务传输后仍可运行",
+      "source": "用户推送并防止类似问题的请求；GitHub CI 36888057471",
+      "requirements": ["REQ-EXECUTION-041"],
+      "acceptance": ["AC-EXECUTION-041"],
+      "plan_ids": ["IGT-1790874247320866731"],
+      "disposition": "included",
+      "reason": "纳入本轮修复",
+      "authorization": ""
+    },
+    {
+      "id": "GOAL-002",
+      "text": "启动失败时保留真实服务输出",
+      "source": "用户推送并防止类似问题的请求；GitHub CI 36888057471",
+      "requirements": ["REQ-EXECUTION-030"],
+      "acceptance": ["AC-EXECUTION-030"],
+      "plan_ids": ["IGT-1790874247320866731"],
+      "disposition": "included",
+      "reason": "纳入本轮修复",
+      "authorization": ""
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-10-02"
+}

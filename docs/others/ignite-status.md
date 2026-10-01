@@ -1,16 +1,21 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`a9d998e52ea4`
-当前 Plan：0；结构化历史：0；未迁移历史：0
+输入指纹：`862ee9b5aafd`
+当前 Plan：1；结构化历史：0；未迁移历史：0
 
 ## 当前工作
 
-- 无。
+- `IGT-1790874247320866731` · `active` · `ci-build-transfer-v1`
 
 ## 发布范围
 
-- 无。
+- `ci-build-transfer-v1` · `active`
+  - Plan：`IGT-1790874247320866731`
+  - 缺少证据：`IGT-1790874247320866731:check-integration`（missing：no run is bound to this evidence requirement）
+  - 最终版本验收：missing
+  - 下一步：pnpm ignite next --plan IGT-1790874247320866731
+  - 未完成原始目标：GOAL-001 生产构建跨 CI 任务传输后仍可运行；GOAL-002 启动失败时保留真实服务输出
 
 ## 结构问题
 

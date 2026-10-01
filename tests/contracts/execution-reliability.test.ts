@@ -4,7 +4,6 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import ts from 'typescript'
-import { parse as parseYaml } from 'yaml'
 import { CHECK_POLICY_VERSION } from '../../scripts/ignite/checks.mjs'
 import {
   commitAll,
@@ -27,37 +26,6 @@ function runModule(root: string, script: string) {
 }
 
 describe('execution reliability', () => {
-  it('[AC-EXECUTION-030] exposes production E2E server diagnostics in CI', () => {
-    const configPath = 'playwright.config.ts'
-    const configSource = ts.createSourceFile(
-      configPath,
-      read(repositoryRoot, configPath),
-      ts.ScriptTarget.Latest,
-      true,
-    )
-    let stdoutExpression = ''
-    const visit = (node: ts.Node) => {
-      if (
-        ts.isPropertyAssignment(node) &&
-        ts.isIdentifier(node.name) &&
-        node.name.text === 'stdout'
-      ) {
-        stdoutExpression = node.initializer.getText(configSource)
-      }
-      ts.forEachChild(node, visit)
-    }
-    visit(configSource)
-    expect(stdoutExpression).toBe("isCI ? 'pipe' : 'ignore'")
-
-    const workflow = parseYaml(read(repositoryRoot, '.github/workflows/ci.yml')) as {
-      jobs: { e2e: { steps: Array<{ run?: string; env?: Record<string, string> }> } }
-    }
-    const productionE2eStep = workflow.jobs.e2e.steps.find(
-      (step) => step.run === 'pnpm test:e2e:production',
-    )
-    expect(productionE2eStep?.env?.DEBUG).toBe('pw:webserver')
-  })
-
   it('[AC-EXECUTION-029] configures local commit identity for isolated Git fixtures', () => {
     const fixture = makeFixture()
     try {

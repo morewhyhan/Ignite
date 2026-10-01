@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790853920702377365",
   "release": "remove-redundant-workflow-v1",
-  "status": "active",
+  "status": "done",
   "outcome": "使用者直接在原生文档处理依赖与交接，模板诊断和生成无需额外的 workflow 文档",
   "contract_version": 2,
   "execution_contract": 1,
@@ -140,7 +140,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "4bb84f4b7e792222c0111a6940f3fac75d7b60b8",
   "updated_at": "2026-10-01"
 }
 -->
@@ -218,7 +218,7 @@ required_layers 为 unit，本轮不增加业务页面、持久化或外部集�
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 核对职责与原始目标，确定删除和保留边界 · done
 - [x] T2 · 定义真实诊断及生成验收，记录先行红灯 · done

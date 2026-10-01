@@ -69,12 +69,12 @@
     {
       "id": "T2",
       "title": "补齐规格与实际行为回归测试并记录红灯",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T3",
       "title": "保留构建链接并恢复启动诊断输出",
-      "status": "todo"
+      "status": "doing"
     },
     {
       "id": "T4",
@@ -115,14 +115,14 @@
   ],
   "tdd_evidence": [
     {
-      "acceptance_id": "AC-EXECUTION-030",
-      "test": "tests/contracts/ci-build-artifact.test.ts::[AC-EXECUTION-030] preserves actual server output when CI startup fails before tests",
-      "run_id": "tdd-20261001174522-6593d0"
-    },
-    {
       "acceptance_id": "AC-EXECUTION-041",
       "test": "tests/contracts/ci-build-artifact.test.ts::[AC-EXECUTION-041] loads external dependencies after the configured artifact round trip",
       "run_id": "tdd-20261001174653-c32745"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-030",
+      "test": "tests/contracts/ci-build-artifact.test.ts::[AC-EXECUTION-030] preserves actual server output when CI startup fails before tests",
+      "run_id": "tdd-20261001174814-187273"
     }
   ],
   "required_evidence": ["check-integration"],
@@ -193,6 +193,8 @@ tasks 是唯一任务状态。
 
 2026-10-02：云端旧证据问题已消失，本轮发现生产构建 ZIP 传输展开 Prisma 链接后导致 500；本地原始构建 200，与展开链接副本 500 已复现。云端尚未完整通过。
 
+2026-10-02：传输测试补齐接收环境独立性后记录真实断言红灯；诊断断言调整为只报告是否收到输出，随后重新记录红灯。被替换的诊断红灯已提交，保留在 Git 历史，不作为本轮绿灯依据。
+
 ## 准出条件
 
 两项目标行为有真实红灯和匹配的集成证据，Release 生产构建及全量 E2E 通过；推送后同一最终提交的 GitHub 五项 CI 全部通过。模板建设记录提交后从发布快照移除，状态由 CLI 生成。
@@ -202,8 +204,8 @@ tasks 是唯一任务状态。
 状态：`active`（由元数据生成）
 
 - [x] T1 · 复现云端依赖加载失败并确认传输边界 · done
-- [ ] T2 · 补齐规格与实际行为回归测试并记录红灯 · doing
-- [ ] T3 · 保留构建链接并恢复启动诊断输出 · todo
+- [x] T2 · 补齐规格与实际行为回归测试并记录红灯 · done
+- [ ] T3 · 保留构建链接并恢复启动诊断输出 · doing
 - [ ] T4 · 完成集成与最终云端验收并发布零记录模板 · todo
 
 验收缺口：未记录；完成仍须实际证据

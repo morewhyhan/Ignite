@@ -1,15 +1,15 @@
 {
   "schema": 2,
   "test_scope": "acceptance-case",
-  "test_sha256": "3a87eb84fac45f29540b802f275221de25f7fa82464d961bcb68d2e0d17cae01",
-  "run_id": "tdd-20261001174522-6593d0",
+  "test_sha256": "9517686c26c06e065bd206c946bc67b3ec86cd55e8dcb7570ad8392a805f9372",
+  "run_id": "tdd-20261001174814-187273",
   "plan_id": "IGT-1790874247320866731",
   "acceptance_id": "AC-EXECUTION-030",
   "test": "tests/contracts/ci-build-artifact.test.ts::[AC-EXECUTION-030] preserves actual server output when CI startup fails before tests",
   "layer": "unit",
   "status": "assertion-failed",
-  "red_commit": "dcc52f969f4aa4df8c51c28ecee7535d8c72dfc9",
-  "output_sha256": "43ccf77b623f81ed98254a416154596dca471679e6d89daa7fb65d44804af5fc",
+  "red_commit": "919b01d31047333265c80f8ecb9809a61a00da78",
+  "output_sha256": "1c685daee5e6c7633b677a7473a4714fdf7b55cdeebc11fec6808dcf4deafb71",
   "command": [
     "corepack",
     "pnpm",
@@ -22,7 +22,7 @@
     "--reporter=json",
     "--outputFile=<temporary-json-report>"
   ],
-  "started_at": "2026-10-01T17:45:22.596Z",
-  "ended_at": "2026-10-01T17:45:33.038Z",
+  "started_at": "2026-10-01T17:48:14.266Z",
+  "ended_at": "2026-10-01T17:48:23.965Z",
   "executor": "ignite-tdd-runner"
 }

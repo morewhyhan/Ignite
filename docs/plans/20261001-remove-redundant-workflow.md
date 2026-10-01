@@ -123,7 +123,13 @@
     "tests/contracts/execution-reliability.test.ts",
     "tests/contracts/template-runtime.test.ts"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-EXECUTION-040",
+      "test": "tests/contracts/document-ownership.test.ts::[AC-EXECUTION-040] diagnoses and scaffolds a template without a standalone workflow while requiring native Plan rules",
+      "run_id": "tdd-20261001113623-31fa63"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

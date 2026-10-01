@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "ce73fa93ade9512b60e55901d87c2affa2d2239b4c64c839c6309bb969297137",
+  "run_id": "tdd-20261001040619-c7e94b",
+  "plan_id": "IGT-1790826869649125989",
+  "acceptance_id": "AC-EXECUTION-032",
+  "test": "tests/contracts/execution-focus.test.ts::[AC-EXECUTION-032] resumes unfinished work before offering checks and retains gap, blocker and legacy precedence",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "90525b1957dd07d1eb5fa8bb0e657da297032a3b",
+  "output_sha256": "c0d015edc6a9c9c78eb9815a71b7c9bc14421b79fabef9599a06ffeedf37d283",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/execution-focus.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-032",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-01T04:06:19.054Z",
+  "ended_at": "2026-10-01T04:06:26.365Z",
+  "executor": "ignite-tdd-runner"
+}

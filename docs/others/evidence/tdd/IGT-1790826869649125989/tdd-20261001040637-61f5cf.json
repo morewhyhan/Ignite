@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "0a9d2b708020b21d67108b4ade94f0eba7e3ed2915ab74c15beb3551354b22c3",
+  "run_id": "tdd-20261001040637-61f5cf",
+  "plan_id": "IGT-1790826869649125989",
+  "acceptance_id": "AC-EXECUTION-033",
+  "test": "tests/contracts/execution-focus.test.ts::[AC-EXECUTION-033] generates module and change drafts with a whole-task review and no completion evidence",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "90525b1957dd07d1eb5fa8bb0e657da297032a3b",
+  "output_sha256": "cafcdd395fde33ed172523a0f3b3a04bb1178480566591cd1f48a0b4633be273",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/execution-focus.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-033",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-01T04:06:37.493Z",
+  "ended_at": "2026-10-01T04:06:45.121Z",
+  "executor": "ignite-tdd-runner"
+}

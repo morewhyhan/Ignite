@@ -140,7 +140,23 @@
     "tests/contracts/execution-focus.test.ts",
     "docs/others/evidence/tdd/"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-EXECUTION-031",
+      "test": "tests/contracts/execution-focus.test.ts::[AC-EXECUTION-031] preserves goals, constraints and all task states in the compact resume context",
+      "run_id": "tdd-20261001040553-3a27d6"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-032",
+      "test": "tests/contracts/execution-focus.test.ts::[AC-EXECUTION-032] resumes unfinished work before offering checks and retains gap, blocker and legacy precedence",
+      "run_id": "tdd-20261001040619-c7e94b"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-033",
+      "test": "tests/contracts/execution-focus.test.ts::[AC-EXECUTION-033] generates module and change drafts with a whole-task review and no completion evidence",
+      "run_id": "tdd-20261001040637-61f5cf"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

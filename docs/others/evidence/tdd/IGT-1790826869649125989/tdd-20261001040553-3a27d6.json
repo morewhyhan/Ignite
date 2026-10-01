@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "a73ab7cf60a899985da1ff764736ddba54fe2f1056be627d665f9a5c93c29968",
+  "run_id": "tdd-20261001040553-3a27d6",
+  "plan_id": "IGT-1790826869649125989",
+  "acceptance_id": "AC-EXECUTION-031",
+  "test": "tests/contracts/execution-focus.test.ts::[AC-EXECUTION-031] preserves goals, constraints and all task states in the compact resume context",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "90525b1957dd07d1eb5fa8bb0e657da297032a3b",
+  "output_sha256": "fbf80d9f340fe3dcd5f8bdbd2868975f6a9c936b45f4568b757db6e70c4a9ab4",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/execution-focus.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-031",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-01T04:05:53.660Z",
+  "ended_at": "2026-10-01T04:06:08.668Z",
+  "executor": "ignite-tdd-runner"
+}

@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1790833767681868205",
   "release": "execution-prompts-v1",
-  "status": "ready",
+  "status": "active",
   "outcome": "六项结果有可直接执行的提示词、判断示例和维护边界，AI 入口按阶段引用同一真源",
   "contract_version": 2,
   "execution_contract": 1,
@@ -136,6 +136,7 @@
     "docs/plans/_template.md",
     "docs/others/test-cases/_template.md",
     "docs/others/test-cases/execution-focus.md",
+    "docs/others/ignite-status.md",
     "docs/designs/execution.md",
     "scripts/ignite/cli.mjs",
     "scripts/create-module.mjs",
@@ -223,7 +224,7 @@ AC-EXECUTION-034 调用真实 next，检查当前动作路由、摘要与详细�
 
 <!-- ignite-progress -->
 
-状态：`ready`（由元数据生成）
+状态：`active`（由元数据生成）
 
 - [x] T1 · 逐项核对六项必要条件、现有规则与主要缺口，固定验收输入 · done
 - [ ] T2 · 建立真实提示词路由与双脚手架红灯基线 · doing

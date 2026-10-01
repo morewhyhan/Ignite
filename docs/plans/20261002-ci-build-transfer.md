@@ -4,13 +4,13 @@
   "id": "IGT-1790874247320866731",
   "release": "ci-build-transfer-v1",
   "status": "active",
-  "outcome": "GitHub 完整 CI 通过，生产构建跨任务传输保留依赖链接，启动失败时输出真实服务异常",
+  "outcome": "支持完整 CI 的生产构建交接保留依赖链接，启动失败时输出真实服务异常",
   "contract_version": 2,
   "execution_contract": 1,
   "verification_contract": 2,
   "goals": [
     {
-      "text": "推送干净模板并让云端完整 CI 通过，防止构建转移损坏依赖及启动错误被隐藏",
+      "text": "修复完整 CI 的构建交接与启动诊断，防止依赖损坏及启动错误被隐藏",
       "requirements": ["REQ-EXECUTION-041", "REQ-EXECUTION-030"]
     }
   ],
@@ -25,7 +25,7 @@
   "deliverables": [
     "保留相对链接的 CI 构建归档传输",
     "实际验证依赖加载与失败日志的回归测试",
-    "同一最终提交在 GitHub 上完整 CI 通过"
+    "通过工程门禁和完整生产态浏览器验收的 CI 配置"
   ],
   "remaining_work": [],
   "change_type": "存量改动",
@@ -74,12 +74,12 @@
     {
       "id": "T3",
       "title": "保留构建链接并恢复启动诊断输出",
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T4",
-      "title": "完成集成与最终云端验收并发布零记录模板",
-      "status": "todo"
+      "title": "完成集成、Release 生产态验收并回写设计",
+      "status": "doing"
     }
   ],
   "depends_on": [],
@@ -197,7 +197,9 @@ tasks 是唯一任务状态。
 
 ## 准出条件
 
-两项目标行为有真实红灯和匹配的集成证据，Release 生产构建及全量 E2E 通过；推送后同一最终提交的 GitHub 五项 CI 全部通过。模板建设记录提交后从发布快照移除，状态由 CLI 生成。
+两项目标行为有真实红灯和匹配的集成证据，Release 生产构建及全量 E2E 通过。
+
+本轮用户交付还须推送并等待同一最终提交的 GitHub 五项 CI 全部通过；Plan done 只表示本地修复已验收，不代替远端结果。模板建设记录提交后从发布快照移除，状态由 CLI 生成。
 
 <!-- ignite-progress -->
 
@@ -205,8 +207,8 @@ tasks 是唯一任务状态。
 
 - [x] T1 · 复现云端依赖加载失败并确认传输边界 · done
 - [x] T2 · 补齐规格与实际行为回归测试并记录红灯 · done
-- [ ] T3 · 保留构建链接并恢复启动诊断输出 · doing
-- [ ] T4 · 完成集成与最终云端验收并发布零记录模板 · todo
+- [x] T3 · 保留构建链接并恢复启动诊断输出 · done
+- [ ] T4 · 完成集成、Release 生产态验收并回写设计 · doing
 
 验收缺口：未记录；完成仍须实际证据
 证据：尚无

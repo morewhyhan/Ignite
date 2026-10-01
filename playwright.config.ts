@@ -25,7 +25,7 @@ export default defineConfig({
       ]
     : isCI
       ? [
-          ['github'],
+          ['line'],
           ['html', { open: 'never' }],
           ['./scripts/testing/playwright-acceptance-reporter.mjs'],
         ]

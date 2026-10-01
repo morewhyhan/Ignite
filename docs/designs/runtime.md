@@ -43,4 +43,8 @@ Browser → Next.js route page → module screen → module Hook / React Query
 
 ## 执行工具
 
+CI 构建任务先将完整 `.next` 打包为 tar，再上传单个归档；E2E 任务按同一锁文件独立安装依赖，下载并解包后执行生产态浏览器测试。tar 保留 Turbopack 引用 pnpm Prisma 包的相对符号链接和权限；直接上传目录会将链接展开，破坏生成客户端的相邻依赖解析。跨任务运行验收由 E2E 负责，build 成功不能替代它。
+
+CI Playwright 使用 line、HTML 和验收 reporter；line 实际转发服务启动的 stdout/stderr，`pw:webserver` 提供 readiness 诊断。本地仍使用 list reporter。启动失败输出由实际退出的服务器夹具验证，不依靠配置文本断言。
+
 Plan、Release、运行恢复和证据契约统一见 [AI 执行系统](./execution.md)。实际检查策略以 `scripts/ignite/checks.mjs` 为准，运行清单记录所用版本；本文件只维护应用与测试的运行环境。

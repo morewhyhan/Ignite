@@ -62,7 +62,7 @@ Release 证据还记录 package version 与当时指向受测提交的 tag；这
 
 自动化测试的临时 Git 仓库在初始化时写入本地 `user.name` 与 `user.email`，确保提交和 rebase 测试不依赖开发者机器或 CI runner 的全局 Git 身份。
 
-CI 生产态 E2E 显式输出 Next webServer stdout，并启用 `pw:webserver` 诊断；生产服务器 readiness 超时时能看到实际启动命令和轮询结果，本地运行不默认开启调试。
+CI 生产态 E2E 使用 line reporter 实际输出 Next webServer stdout/stderr，并启用 `pw:webserver` 诊断；服务启动失败的真实子进程测试确认输出未被 reporter 丢弃。本地运行不默认开启调试。构建任务用 tar 保留生产产物的相对依赖链接，接收任务独立安装同一锁文件依赖后解包；跨工作区依赖加载回归与完整生产态 E2E 一起守住这条链路。
 
 ## 干净模板与项目历史
 

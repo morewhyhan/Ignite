@@ -93,11 +93,11 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
+      - run: tar -cf "$RUNNER_TEMP/ignite-next-build.tar" .next
       - uses: actions/upload-artifact@v4
         with:
           name: next-build-${{ github.sha }}
-          path: .next/
-          include-hidden-files: true
+          path: ${{ runner.temp }}/ignite-next-build.tar
           if-no-files-found: error
           retention-days: 1
 
@@ -121,7 +121,8 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: next-build-${{ github.sha }}
-          path: .next/
+          path: ${{ runner.temp }}/ignite-build
+      - run: tar -xf "$RUNNER_TEMP/ignite-build/ignite-next-build.tar"
       - run: pnpm test:e2e:production
         env:
           DEBUG: pw:webserver

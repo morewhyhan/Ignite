@@ -166,7 +166,7 @@ describe('Whole-task context and focused execution', () => {
         )!
         const draft = read(fixture.root, `docs/plans/${path}`)
         expect(draft).toContain('## 整体判断与推进顺序')
-        expect(draft).toContain('../standards/execution-focus.md')
+        expect(draft).toContain('../standards/workflow.md')
         const metadata = JSON.parse(draft.match(/<!-- ignite-plan\s*([\s\S]*?)-->/)![1])
         expect(metadata.status).toBe('draft')
         expect(metadata.evidence).toEqual([])

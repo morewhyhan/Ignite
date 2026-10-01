@@ -136,6 +136,8 @@ node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'
 
 本轮模块开发中的缺陷修复、补测试和设计回写留在这份 Plan。已交付后出现的新改动使用下一份 Plan；Feature 和 Design 只更新受本次改动影响的内容。
 
+需求、推进、纠偏、沟通与完成标准直接按 [工作流](./workflow.md) 使用，检查与证据按 [测试标准](./testing.md) 使用，规则维护按 [AI 工作台标准](./ai-agents.md) 使用。采用项目要补自己的行为与边界；模板的工具测试和基线验收不证明新产品已达标，也不证明任何模型已能稳定按规范执行。
+
 ## 第五步：交付前验证
 
 ```text

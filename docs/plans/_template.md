@@ -75,8 +75,6 @@
 
 ## 目标
 
-按阶段执行同一真源中的提示词：接到任务与沟通使用 [P1](../standards/execution-focus.md#P1)/[P5](../standards/execution-focus.md#P5)，整体判断与任务/测试选择使用 [P2](../standards/execution-focus.md#P2)，阶段推进与新证据使用 [P3](../standards/execution-focus.md#P3)，制定验收及报告完成使用 [P4](../standards/execution-focus.md#P4)，修改执行依据时使用 [P6](../standards/execution-focus.md#P6)。本 Plan 只保存适用判断与结果，不复制提示词或增加六份状态。
-
 用一句用户可观察的结果描述本轮成果。先写清原始目标，再将其拆成 `goals`、REQ、AC 和测试。
 
 ## 原始目标与覆盖核对
@@ -89,7 +87,7 @@
 
 ## 整体判断与推进顺序
 
-执行 [P2：把行动选对](../standards/execution-focus.md#P2) 后简明说明下列判断，引用上面的原始目标映射及已有 Design/代码/证据，不再复制目标或任务状态：
+按 [工作流的推进标准](../standards/workflow.md#plan-写到能选择下一步) 说明以下判断，引用原始目标映射及已有 Design/代码/证据，不再复制目标或任务状态：
 
 - 整体链路与事实：本轮目标如何从输入到结果成立？哪些相关环节受影响，哪些事实已确认，哪些重要未知会改变行动？
 - 当前主要问题：哪个必要条件最阻碍承诺成立？证据与推测分别是什么？有竞争方向时按同一目标比较，单一明确问题无需凑候选。
@@ -118,11 +116,13 @@
 
 ## 测试与验收设计
 
+按 [测试标准](../standards/testing.md#检查选择与断言尺度) 说明关键检查要回答什么、断言能发现哪种错误；排查有不同结果时，说明各自的下一步。只列本轮适用项，引用现有测试与证据，不重复维护通过状态。
+
 每个 AC 的 `tests` 与 `checks[].test` 必须引用同一带 `[AC-*]` 标记的可执行用例。`required_layers` 和 `verification_requirements` 表示必须满足的验证层级：纯逻辑用 `unit`；UI 交互补 `browser`；持久化补 `database`；真实第三方依赖补 `external`。`verification_contract: 2` 的 Plan 在 integration 中执行自己映射的所有行为层；Release 再对已完成的 Plan 组合执行生产构建和全量浏览器回归。进入 ready 前，脚手架占位失败测试必须换成真实用户行为断言。
 
 ## 实现任务
 
-分解可交付工作至顶部 `tasks`，每项有稳定 ID、标题和状态。`remaining_work` 仅放尚未能转成明确任务的验收缺口，不重复列任务。
+分解可判断产出的工作至顶部 `tasks`，每项有稳定 ID、标题和状态；分工与依赖需要时再细分，不按工具调用拆任务。`remaining_work` 仅放尚未能转成明确任务的验收缺口，不重复列任务。
 
 ## 验收方式
 
@@ -134,9 +134,13 @@
 
 ## 状态记录
 
+仅记录改变判断的重要结果、原因与未完成影响；接续与纠偏按 [工作流](../standards/workflow.md#执行中按结果纠偏)。修改长期规则时在 [原真源](../standards/ai-agents.md#维护规则) 维护。
+
 <!-- ignite-progress -->
 <!-- /ignite-progress -->
 
 ## 准出条件
+
+回看原始目标核对表，逐条说明实际结果、对应证据、被测版本及缺口。最终报告按 [沟通标准](../standards/workflow.md#沟通和交付报告) 说明人能得到什么、依据是什么和未完成影响。
 
 每条 REQ 被 AC 覆盖，AC 有匹配层级的真实测试；`tasks` 全部完成，`remaining_work` 清空；`integrated_commit` 可追溯，所需证据属于当前输入与环境；Design 已回写。只有这些条件经验证成立，才把 Plan 标记为 `done`。

@@ -427,35 +427,6 @@ function commandRunStatus(positionals, options) {
   )
 }
 
-function executionGuidance(status, actionKind) {
-  let phase
-  if (
-    ['repair-input', 'start-plan'].includes(actionKind) ||
-    (actionKind === 'complete-plan' && status === 'draft')
-  ) {
-    phase = ['P2', 'P4']
-  } else if (['continue-task', 'complete-tasks'].includes(actionKind)) {
-    phase = ['P2', 'P3']
-  } else if (['wait-for-blocker', 'wait-for-run'].includes(actionKind)) {
-    phase = ['P3']
-  } else if (actionKind === 'reintegrate') {
-    phase = ['P3', 'P4']
-  } else if (
-    ['report-result', 'start-verification', 'complete-plan'].includes(actionKind) ||
-    actionKind.startsWith('verify-')
-  ) {
-    phase = ['P4']
-  } else {
-    phase = ['P2', 'P3', 'P4']
-  }
-  return {
-    source: 'docs/standards/execution-focus.md',
-    common: ['P1', 'P5'],
-    phase,
-    on_rule_change: ['P6'],
-  }
-}
-
 function commandNext(options) {
   if (!options.plan) throw new Error('next requires --plan IGT-000')
   const remoteDelivery = options['verify-remote']
@@ -632,7 +603,6 @@ function commandNext(options) {
     dependency_contracts: plan.metadata.dependency_contracts || [],
     handoff: plan.metadata.handoff || null,
     plan_path: plan.relativePath,
-    execution_guidance: executionGuidance(plan.metadata.status, nextAction.kind),
     context: {
       repository_root: repositoryRoot,
       base_commit: plan.metadata.base_commit,
@@ -675,7 +645,6 @@ function commandNext(options) {
         non_goals: fullOutput.non_goals,
         tasks: fullOutput.tasks,
         plan_path: fullOutput.plan_path,
-        execution_guidance: fullOutput.execution_guidance,
         remaining_work: fullOutput.remaining_work,
         evidence_coverage: fullOutput.evidence_coverage,
         latest_run: fullOutput.latest_run,

@@ -9,7 +9,7 @@
       "id": "GOAL-001",
       "text": "接续直接保留原始目标与行动，移除提示词路由",
       "requirements": ["REQ-EXECUTION-036"],
-      "acceptance": ["AC-EXECUTION-036"],
+      "acceptance": ["AC-EXECUTION-036", "AC-EXECUTION-038"],
       "source": "用户已要求直接落实六项改动，本轮纠正为自然融入现有文档体系，拒绝额外提示词约束",
       "plan_ids": ["IGT-1790838314910384474"],
       "disposition": "included",

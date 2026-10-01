@@ -1,20 +1,22 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`e14104372ebd`
-当前 Plan：2；结构化历史：3；未迁移历史：0
+输入指纹：`bd2d90410f39`
+当前 Plan：3；结构化历史：3；未迁移历史：0
 
 ## 当前工作
 
 - `IGT-1790620890185389037` · `blocked` · `landing-value-and-auth-panel-v1`
+- `IGT-1790838314910384474` · `active` · `native-execution-standards-v1`
 - `IGT-1790791844798755166` · `blocked` · `production-sqlite-opt-in-v1`
 
 ## 发布范围
 
-- `execution-prompts-v1` · `done`
+- `execution-prompts-v1` · `verifying`
   - Plan：`IGT-1790833767681868205`
   - 缺少证据：无
-  - 最终版本验收：passed（aebbffd1b1cc）
+  - 最终版本验收：stale
+  - 下一步：pnpm ignite release verify execution-prompts-v1 --plan IGT-1790833767681868205
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `landing-value-and-auth-panel-v1` · `blocked`
   - Plan：`IGT-1790620890185389037`
@@ -22,6 +24,12 @@
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1790620890185389037
   - 未完成原始目标：GOAL-001 访客能理解 Ignite 的核心价值和文档体系，并顺畅使用响应式登录/注册面板
+- `native-execution-standards-v1` · `active`
+  - Plan：`IGT-1790838314910384474`
+  - 缺少证据：`IGT-1790838314910384474:check-integration`（missing：no run is bound to this evidence requirement）
+  - 最终版本验收：missing
+  - 下一步：pnpm ignite next --plan IGT-1790838314910384474
+  - 未完成原始目标：GOAL-001 接续直接保留原始目标与行动，移除提示词路由；GOAL-002 六项标准归入原有文档，生成草稿在对应位置支持实际判断
 - `production-sqlite-opt-in-v1` · `blocked`
   - Plan：`IGT-1790791844798755166`
   - 缺少证据：`IGT-1790791844798755166:check-integration`（missing：no run is bound to this evidence requirement）

@@ -11,11 +11,8 @@
 
 ## 业务规则
 
-- R36（REQ-EXECUTION-036）：next 直接提供目标、任务、缺口与下一步，不增加独立的提示词文件或阶段路由字段；删除提示词路由后，精简与详细输出的既有行动、验证和授权边界保持一致。
+- R36（REQ-EXECUTION-036）：next 直接提供目标、任务、缺口与下一步，不增加独立的提示词文件或阶段路由字段；删除提示词路由后，精简与详细输出的既有行动、验证和授权边界保持一致。当前规格替换旧能力时，已完成 Release 的覆盖按被测版本解释，未完成发布仍核对当前规格；未知目标和遗漏 AC 继续拒绝。
 - R37（REQ-EXECUTION-037）：需求、Plan、测试、验收、沟通与规则维护的执行标准直接归入各自现有文档；实际生成的两种 Plan 草稿保留原始目标核对、整体判断和正常工作流入口，新模块 Feature 提供可观察行为与边界的填写位置，不依赖额外提示词。草稿仍未完成，自动化只验证生成与接续行为，内容是否合理及模型是否改善另行评估。
-
-- R34（REQ-EXECUTION-034）：next 的精简与详细输出都提供同一提示词真源、通用提示词、当前动作所需提示词和规则维护入口；只路由提示词，不改变任务、权限、检查或完成判定，也不自动评价模型判断。
-- R35（REQ-EXECUTION-035）：两种脚手架的 Plan 草稿按六项结果引用同一提示词真源，新模块 Feature 引用任务澄清提示词；引用不复制提示词正文，不新增任务状态或通过证据。提示词内容由人工按六项覆盖、正反例与权限边界复核，生成测试不替代该复核。
 
 - R31（REQ-EXECUTION-031）：日常接续摘要保留全部目标、约束、非目标和任务状态，AI 先回看 Plan 的整体判断，再选择行动；摘要不自动证明分析完整或优先级正确。
 - R32（REQ-EXECUTION-032）：使用 execution_contract 1 的 active Plan 有未完成任务时，优先提示接续任务而不是默认启动检查；验收缺口、输入错误、阻塞和活动运行保持优先处理，快速验证仍可按需执行。
@@ -56,10 +53,8 @@
 ## 验收标准
 
 - AC-EXECUTION-036（REQ-EXECUTION-036）：Given Plan 分别处于实现、输入修复、阻塞、验证或终止后的报告入口 When 查询精简及详细 next Then 不含 execution_guidance，目标与约束仍保留，next_action 在两种输出中一致并保持原有缺口和阻塞优先级。
+- AC-EXECUTION-038（REQ-EXECUTION-036）：Given 完成的 Release 引用真实被测提交且当前规格已替换旧能力 When 检查覆盖 Then 使用被测规格验证，遗漏当时 AC 或添加未知目标仍失败；未完成 Plan、没有被测提交或缺失 Plan 不能沿用历史规格绕过当前校验。
 - AC-EXECUTION-037（REQ-EXECUTION-037）：Given 干净工作区 When 分别创建新增模块和存量改动 Then 两种 Plan 草稿直接含原始目标核对、整体判断与正常工作流和测试入口，新模块 Feature 含用户行为与边界填写位置，所有生成文档不引用独立提示词文件；任务、红灯及验收证据仍未完成。
-
-- AC-EXECUTION-034（REQ-EXECUTION-034）：Given Plan 分别处于继续实现、输入修复、阻塞、验证或终止后的报告入口 When 查询精简及详细 next Then 通用 P1/P5、当前动作提示词和条件 P6 引用一致且指向真源中的实际段落，既有 next_action 和权限不变。
-- AC-EXECUTION-035（REQ-EXECUTION-035）：Given 干净工作区 When 分别创建新增模块和存量改动 Then 两种 Plan 草稿按阶段引用 P1 至 P6，新模块 Feature 引用 P1，提示词正文只在标准中维护，草稿任务、红灯和验收证据保持未完成。
 
 - AC-EXECUTION-031（REQ-EXECUTION-031）：Given Plan 已记录 goals、constraints、non_goals 和 tasks When 不加 verbose 查询 next Then 全部内容保留在精简摘要，详细验收上下文仍只在 verbose 中输出。
 - AC-EXECUTION-032（REQ-EXECUTION-032）：Given active Plan 有未完成任务 When 查询 next Then 优先接续进行中的任务，没有进行中任务时展示全部待办供按 Plan 依据选择，不武断选第一个；真实缺口或阻塞优先，任务完成后仍提供正式检查，历史契约入口保持可用。

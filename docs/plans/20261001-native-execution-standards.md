@@ -11,11 +11,15 @@
   "goals": [
     {
       "text": "接续直接保留原始目标与行动，移除提示词路由",
-      "requirements": ["REQ-EXECUTION-036"]
+      "requirements": [
+        "REQ-EXECUTION-036"
+      ]
     },
     {
       "text": "六项标准归入原有文档，生成草稿在对应位置支持实际判断",
-      "requirements": ["REQ-EXECUTION-037"]
+      "requirements": [
+        "REQ-EXECUTION-037"
+      ]
     }
   ],
   "constraints": [
@@ -42,14 +46,19 @@
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "da4580b29423968ad9d26f60e932bc25cd7a6268",
-  "requirements": ["REQ-EXECUTION-036", "REQ-EXECUTION-037"],
+  "requirements": [
+    "REQ-EXECUTION-036",
+    "REQ-EXECUTION-037"
+  ],
   "acceptance": [
     {
       "id": "AC-EXECUTION-036",
       "tests": [
         "tests/contracts/native-execution.test.ts::[AC-EXECUTION-036] resumes real Plan states without an extra prompt router and preserves decisions and context"
       ],
-      "required_layers": ["unit"],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
           "test": "tests/contracts/native-execution.test.ts::[AC-EXECUTION-036] resumes real Plan states without an extra prompt router and preserves decisions and context",
@@ -62,16 +71,35 @@
       "tests": [
         "tests/contracts/native-execution.test.ts::[AC-EXECUTION-037] generates native requirement and Plan drafts without prompt dependencies or completion evidence"
       ],
-      "required_layers": ["unit"],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
           "test": "tests/contracts/native-execution.test.ts::[AC-EXECUTION-037] generates native requirement and Plan drafts without prompt dependencies or completion evidence",
           "layer": "unit"
         }
       ]
+    },
+    {
+      "id": "AC-EXECUTION-038",
+      "tests": [
+        "tests/contracts/historical-release-scope.test.ts::[AC-EXECUTION-038] validates completed Release coverage at its tested specification and rejects gaps and unfinished snapshots"
+      ],
+      "required_layers": [
+        "unit"
+      ],
+      "checks": [
+        {
+          "test": "tests/contracts/historical-release-scope.test.ts::[AC-EXECUTION-038] validates completed Release coverage at its tested specification and rejects gaps and unfinished snapshots",
+          "layer": "unit"
+        }
+      ]
     }
   ],
-  "verification_requirements": ["unit"],
+  "verification_requirements": [
+    "unit"
+  ],
   "tasks": [
     {
       "id": "T1",
@@ -130,7 +158,9 @@
     "tests/contracts/native-execution.test.ts",
     "tests/contracts/execution-focus.test.ts",
     "tests/contracts/execution-prompts.test.ts",
-    "docs/others/evidence/tdd/"
+    "docs/others/evidence/tdd/",
+    "scripts/ignite/state.mjs",
+    "tests/contracts/historical-release-scope.test.ts"
   ],
   "tdd_evidence": [
     {
@@ -144,7 +174,9 @@
       "run_id": "tdd-20261001071640-0c71a2"
     }
   ],
-  "required_evidence": ["check-integration"],
+  "required_evidence": [
+    "check-integration"
+  ],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
@@ -223,6 +255,8 @@ AC-EXECUTION-036 实际调用 next，覆盖五类状态、两种输出及目标�
 execution Design 记录真实文档归属、草稿行为及直接接续输出。adoption 记录模板采用边界。
 
 ## 状态记录
+
+实际 next 与两种脚手架的五个定向用例通过。六项已归回原有工作流、测试与维护标准，独立提示词及路由删除。复核发现旧 Release 覆盖仍使用当前规格，删除退役 AC 后会产生历史假错误；增加 AC-EXECUTION-038，验证按被测提交解释已完成组合，同时继续拒绝遗漏、未知目标及未完成快照。这是保留原记录所需的兼容修复，不扩大到其他执行器重构。
 
 <!-- ignite-progress -->
 

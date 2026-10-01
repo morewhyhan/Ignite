@@ -190,9 +190,25 @@
 
 Feature: docs/features/execution.md。规则依据：AGENTS.md、workflow.md、testing.md。当前事实：docs/designs/execution.md 与 CLI/scaffold 源码。
 
+## 非目标
+
+范围以顶部 non_goals 为准；本轮不改变业务、数据库或部署，不承诺所有模型判断正确，不新增平行状态体系。
+
+## 变更类型
+
+[存量改动]：完善现有执行规范、模板和接续入口，兼容旧契约；无数据迁移，回退本轮提交可恢复旧行为。既有提交身份漂移按原 Plan 的 reintegrate 处理。
+
 ## 测试与验收设计
 
 三个 AC 分别验证精简摘要、下一步选择、实际脚手架草稿。使用隔离 Git 夹具与真实 CLI 调用；每条 AC 先由 tdd runner 记录断言失败。文本入口测试只证明生成契约，不证明 AI 的推理质量。语义评估另见 docs/others/test-cases/execution-focus.md。
+
+## 实现任务
+
+顶部 tasks 是唯一任务进度。整体判断与任务依据见前文，不在正文复制状态。
+
+## 验收方式
+
+先通过 tdd red 记录每条 AC 的真实断言失败，保持对应活动用例不变；修正夹具后 AC-EXECUTION-032 已重新记录。实现后执行 ignite check 的自动范围，并在当前受测提交上绑定 Plan integration；全部纳入 Plan 完成后，由 Release verify 执行最终生产构建和全局生产态浏览器验收。
 
 ## 设计回写
 

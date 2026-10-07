@@ -12,7 +12,7 @@
    - **Independent workstreams.** Disjoint files, services, or layers parallelize. Shared writes serialize.
    - **Shared mutable state.** Default to splitting the target (the **separate-before-serializing-shared-state** principle skill). Serialize only for real invariants.
    - **Smallest safe decomposition.** If one worker is best, name why.
-4. Name the data shape and organizing structure before logic. Implement directly when one owner is enough. Delegate only useful independent scopes with actual paths, REQ/AC, constraints and available role selection from .ai/pstack/config.json. Use arena when meaningful alternative designs warrant comparison, not for every error handler. Keep shared writes exclusive and review the actual diff.
+4. Name the data shape and organizing structure before logic. Implement directly when one owner is enough. Delegate only useful independent scopes with actual paths, REQ/AC, constraints and available roles["feature, refactoring"] from .ai/pstack/config.json, defaulting to host inheritance. Use arena when meaningful alternative designs warrant comparison, not for every error handler. Keep shared writes exclusive and review the actual diff.
 5. Verify on the matching surface. "Inconclusive" or wrong-surface is not a pass. Flag it.
 6. Rebase into small, ordered commits. Stack follow-ups.
    Use the **sequence-verifiable-units** principle skill, building, verifying, and committing each small unit before the next.

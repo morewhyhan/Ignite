@@ -3,12 +3,14 @@ import { existsSync, readFileSync, readdirSync, mkdirSync, writeFileSync } from 
 import { dirname, join, relative, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parse, stringify } from 'yaml'
+import { format, resolveConfig } from 'prettier'
 
 const platforms = ['.agents/skills', '.claude/skills', '.cursor/skills', '.opencode/skills']
 const marker = 'This file is discovery metadata and a bridge, not a second rules source.'
 
-export function synchronize(root, write = false) {
+export async function synchronize(root, write = false) {
   root = resolve(root)
+  const formatting = (await resolveConfig(join(root, 'package.json'))) || {}
   const methods = join(root, '.ai/pstack')
   const updates = []
   const skills = []
@@ -59,7 +61,10 @@ export function synchronize(root, write = false) {
       const metadata = stringify({ name: skill.name, description: skill.description }).trimEnd()
       schedule(
         path,
-        `---\n${metadata}\n---\n\n# ${skill.name}\n\nRead the [Ignite adapter](${adapter}), then the [canonical skill](${canonical}) and only its task-relevant references. ${marker} Use the current project authorization and host capabilities.\n`,
+        await format(
+          `---\n${metadata}\n---\n\n# ${skill.name}\n\nRead the [Ignite adapter](${adapter}), then the [canonical skill](${canonical}) and only its task-relevant references. ${marker} Use the current project authorization and host capabilities.\n`,
+          { ...formatting, parser: 'markdown' },
+        ),
         true,
       )
     }
@@ -101,7 +106,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     if (args.some((arg) => arg !== '--write'))
       throw new Error('Usage: node scripts/pstack-sync.mjs [--write]')
     const write = args.includes('--write')
-    const paths = synchronize(resolve(import.meta.dirname, '..'), write)
+    const paths = await synchronize(resolve(import.meta.dirname, '..'), write)
     console.log(
       paths.length
         ? `${write ? 'Updated' : 'Out of date'}: ${paths.length} generated files`

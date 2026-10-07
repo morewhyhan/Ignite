@@ -19,7 +19,7 @@ it('synchronizes canonical project skills without overwriting user skills or mut
       [
         '--input-type=module',
         '-e',
-        `import { synchronize } from ${JSON.stringify(script)}; console.log(JSON.stringify(synchronize(process.argv[1], process.argv[2] === 'true')))`,
+        `import { synchronize } from ${JSON.stringify(script)}; console.log(JSON.stringify(await synchronize(process.argv[1], process.argv[2] === 'true')))`,
         root,
         String(write),
       ],

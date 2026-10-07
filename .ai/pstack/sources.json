@@ -510,7 +510,7 @@
     {
       "path": "skills/poteto-mode/playbooks/bug-fix.md",
       "upstream_sha256": "018bbc146ae19145caa6c7e70591fee081b64447dda1c1c4b681c9974d928b13",
-      "local_sha256": "05bfbc20ab8a0a75e83b2ef1a4e3880d5357a69a8826aee8726155afa5af2898",
+      "local_sha256": "27231f147f0ab328c87a6d023f7c19cdf0402b3f60c85eb7342c5556c2f18734",
       "adapted": true,
       "upstream_checkout_sha256": "0aba55d737305bc93019eea13652ec837d195a4b62fc1434467e6fc7ce52e82a"
     },
@@ -524,14 +524,14 @@
     {
       "path": "skills/poteto-mode/playbooks/feature.md",
       "upstream_sha256": "3a62cc4a8cbcf144bb9dd05f05420a15be0d38b784d3b141bb730a5852f50a62",
-      "local_sha256": "3c90e059eab7ad5f73199e61ac7a194d8f6329a963c8ff812b3e5dd7d7e98f80",
+      "local_sha256": "f596c050e3591ac15bba6eb1c2568465bf36fb9af8f04fb4210ca70649061501",
       "adapted": true,
       "upstream_checkout_sha256": "d13f1e6a15e742220ef4536d604f0bd41103b269844ff38f3bb0435e50f68cd1"
     },
     {
       "path": "skills/poteto-mode/playbooks/hillclimb.md",
       "upstream_sha256": "244f289898fe67a458065e90fe8217c916c5acf61cdee8975ade3f9831a12e91",
-      "local_sha256": "ef2a8331254af3fdef2e04d7c759c47dd30c2cff2b79bd4c6a13b07c3d45f49f",
+      "local_sha256": "a22d3c7151cbbd277f24d5ea277914ad9b0bac9d6cf238ad776efb9d93907281",
       "adapted": true,
       "upstream_checkout_sha256": "bcbf22a0296ff45c2ac6bb73234de32ea362d5732916e4e22d06dd560c6ebb36"
     },
@@ -573,7 +573,7 @@
     {
       "path": "skills/poteto-mode/playbooks/perf-issue.md",
       "upstream_sha256": "2b88ad0f880e4d4d755ac19fe52414d6631d6baa816d060f53cf0a7429d7e14a",
-      "local_sha256": "6de772902418666e2a74e5d5966321b8a26be43fbaee2ddb4c9e266ae3305a20",
+      "local_sha256": "c7854131f4b6e838801c8149e8baece2f445232f592c2412547c9a0f3afac8c9",
       "adapted": true,
       "upstream_checkout_sha256": "52f5d05eeb71bce042e8416d9bba22a93de5dc3106ce8d708941c94004159155"
     },
@@ -587,7 +587,7 @@
     {
       "path": "skills/poteto-mode/playbooks/refactoring.md",
       "upstream_sha256": "50f4f7d3d301551f8b8a57c3303c99958c5ca630ae0d0051823b6987c0eb5b96",
-      "local_sha256": "cb57b0e418671117c8a6c3f2712e57b3f18df4ef06e87211ad951927262ab1d7",
+      "local_sha256": "eb95765edea40cbb0f9f5716049dc3ef741eab0678c5d2e33b6a9c15d8ef69af",
       "adapted": true,
       "upstream_checkout_sha256": "1c076f78a4cb05608ae3f38a66c72b79392a87a4fa488a6c850e4d8b9ff4d835"
     },

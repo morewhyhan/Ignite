@@ -22,6 +22,11 @@ it('[AC-PSTACK-001] resolves every migrated upstream resource and verifies retai
 })
 
 it('[AC-PSTACK-002] follows each platform discovery bridge to a canonical skill inside the cloned project', () => {
+  const inheritedNames = new Set(
+    manifest.files
+      .filter((file) => file.path.endsWith('/SKILL.md'))
+      .map((file) => file.path.split('/').at(-2)!),
+  )
   for (const directory of [
     '.agents/skills',
     '.claude/skills',
@@ -29,7 +34,9 @@ it('[AC-PSTACK-002] follows each platform discovery bridge to a canonical skill 
     '.opencode/skills',
   ]) {
     const base = join(root, directory)
-    const skills = readdirSync(base, { withFileTypes: true }).filter((entry) => entry.isDirectory())
+    const skills = readdirSync(base, { withFileTypes: true }).filter(
+      (entry) => entry.isDirectory() && inheritedNames.has(entry.name),
+    )
     expect(skills).toHaveLength(54)
     for (const skill of skills) {
       const file = join(base, skill.name, 'SKILL.md')

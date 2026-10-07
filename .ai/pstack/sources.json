@@ -8,7 +8,7 @@
   "automation_skills": 3,
   "playbooks": 23,
   "upstream_files": 164,
-  "adaptation": "All source files copied; Markdown adapter header, portable name/description frontmatter, one canonical host/project adapter, lightweight discovery bridges. Original workflow bodies and non-Markdown resources retained.",
+  "adaptation": "All 164 source paths and MIT attribution retained. Execution steps, role selection and optional tool safeguards adapted to native Ignite records, canonical skills and actual host capabilities. Per-file adapted flags and original/local hashes identify changes.",
   "files": [
     {
       "path": ".cursor-plugin/plugin.json",

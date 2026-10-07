@@ -11,11 +11,11 @@ description: Sketch types, signatures, and module structure before code, then st
 
 # Architect
 
-Design before implementing. Sketch types, function signatures, class shapes, and module boundaries with `not implemented` bodies and pseudocode. Synthesize across multiple model perspectives, then fill in code against the chosen sketch. If implementation proves the sketch wrong, throw it out and redesign.
+Design before implementing. Sketch types, function signatures, class shapes, and module boundaries with `not implemented` bodies and pseudocode. Compare distinct viable shapes when the problem warrants it, then fill in code against the chosen sketch. If implementation proves the sketch wrong, throw it out and redesign.
 
 ## Start
 
-Open a todolist with one entry per phase before starting.
+Record relevant phases in the existing Ignite Plan.tasks; do not create a second todo list or progress document. Ordinary choices go in its judgment/status record, long-lived architecture tradeoffs in docs/others/adr/, and implemented facts in docs/designs/.
 
 1. Ground
 2. Sketch
@@ -33,17 +33,13 @@ Skip Phase A only when the work is genuinely greenfield with no surrounding syst
 
 ## Phase B: Sketch
 
-Run the **arena** skill with the design-sketch task and the Phase A grounding artifacts. Pass `references/runner-prompt.md` as each runner's prompt. Each candidate produces a design package shaped per `references/rationale-template.md`.
-
-Take the runners from the `architect runners` line in the `pstack-models.mdc` rule, in place of the `arena runners` line. If the rule or that line is missing, use `claude-opus-5-5-xhigh` and `grok-4.7-xhigh-fast`. Alias and rejected entries follow the runner rules in the **arena** skill's Phase A.
-
-Design it twice. Require at least two structurally distinct candidates before synthesis, even when the first looks sufficient. This is the **exhaust-the-design-space** principle skill made concrete. Whole-shape alternatives, not point fixes inside one shape.
+For a consequential unresolved architecture, compare at least two structurally distinct viable candidates, not two versions of the same point fix. Work locally unless delegation is authorized and useful. For a constrained small change, a grounded usage/type sketch is enough. If using authorized arena candidates, pass references/runner-prompt.md and references/rationale-template.md as the design format. Read .ai/pstack/config.json roles["architect runners"] and current host capabilities for optional role preferences. A missing, auto, inherit-parent or unsupported value means omit the model argument and inherit the current host; never try a fixed Grok/Opus fallback. Do not read or generate a second Cursor model-rule file, force a model family, or claim unavailable parallel models were used.
 
 Screen every candidate against [`references/design-red-flags.md`](references/design-red-flags.md) before synthesis. Assume the next contributor is an agent that sees only the files it opened, copies the nearest example, and takes the shortest path that compiles. Prefer the design where a change that looks right from one file is right for the whole repo.
 
 Compare viable candidates on interface depth. Prefer the design that hides more complexity behind a smaller, simpler public surface. A rich interface can keep call chains short by concentrating capability instead of scattering it across layers.
 
-Arena returns one synthesized design package. The synthesis decision populates the rationale's "Synthesis decision" section.
+Compare candidates and record the selected shape and rejected alternatives in the original Plan; only a lasting architecture decision warrants an ADR. The rationale template is a section outline, not a requirement for another permanent proposal document.
 
 ## Phase C: Agree (opt-in)
 
@@ -81,8 +77,8 @@ When you scrap:
 1. Re-run the **how** skill over what's been built.
 2. Redesign as if the new constraints had been day-one assumptions, per redesign-from-first-principles.
 3. Subtract before adding, per the **subtract-before-you-add** principle skill. The new sketch should be smaller than the old one before it grows.
-4. Return to Phase B and re-run arena.
+4. Return to Phase B and compare the newly viable shapes; another arena is optional and requires authorized delegation.
 
 ## Outputs
 
-The caller's usage is written first and the type sketch derived from it. One file with new types and signatures for small changes. Module map plus type definitions for larger work. The rationale ships alongside, shaped per `references/rationale-template.md`, including the usage sketch and the synthesis decision.
+The caller's usage is written first and the type sketch derived from it. One file with new types and signatures for small changes. Module map plus type definitions for larger work. Use references/rationale-template.md for the rationale in the existing Plan or warranted ADR, including the usage sketch and selection reason. Scratch candidates are temporary working artifacts, not another authoritative design history. After implementation, update the relevant Design with current facts. Never commit an incomplete sketch as a completed product; any planned intermediate breakage stays scoped to the original Plan and cannot pass its completion gate.

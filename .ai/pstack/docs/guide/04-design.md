@@ -5,7 +5,7 @@
 
 One attempt at a hard design locks in the first shape the model thought of. `/architect` settles types and boundaries before implementation. `/arena` runs several attempts at the same brief and merges the best parts. `/interrogate` has other models try to break the result. When the job is coverage rather than design synthesis, `/swarm` fans out slices or races and aggregates their results.
 
-The two most common design mistakes are taking the agent's first design and polishing a plan that no code has tested. This page fixes both. You plan through code: prototypes answer the open questions, a README or tutorial sets the target, and the written plan comes last.
+The two most common design mistakes are taking the agent's first design and polishing a plan that no code has tested. This page fixes both. Use prototypes to answer genuine open questions and caller examples to explain proposed behavior. Ignite still updates Feature and Plan before implementation. Prototypes do not replace the specification loop.
 
 ![Three robots draft competing bridge models at their own tables under /architect, /arena, and /interrogate panels, while a judge robot with a clipboard inspects skeptically.](./images/design.jpg)
 
@@ -15,9 +15,9 @@ The two most common design mistakes are taking the agent's first design and poli
 /architect design the import pipeline before writing any code. i care most about how callers use it.
 ```
 
-[`/architect`](../../skills/architect/SKILL.md) grounds itself first, running `/how` over the code the design touches and `/why` when it moves ownership or layers. Then it runs `/arena` to produce competing design sketches, with the caller's usage written first in each, followed by types, signatures, and a module map.
+[`/architect`](../../skills/architect/SKILL.md) grounds itself first, running `/how` over the code the design touches and `/why` when it moves ownership or layers. When independent attempts are useful and authorized, it can use `/arena` to produce competing design sketches, with the caller's usage written first in each, followed by types, signatures, and a module map.
 
-By default it proceeds straight from the synthesized design into implementation. If you want to see the design first, say so:
+Proceed into implementation after the existing Plan has a complete goal, scope, acceptance mapping, and resolved open questions. If you want to see the design first, say so:
 
 ```text
 /architect with checkpoint. stop and show me before implementing.
@@ -75,7 +75,7 @@ Read the dismissals too. The lead is a pragmatic senior engineer, not an oracle,
 
 ## Prototype instead of debating
 
-Never take the first design. Ask for a few, and pick from evidence you can see:
+Compare alternatives when uncertainty or reversal cost justifies it. A settled small change does not require multiple prototypes:
 
 ```text
 /poteto-mode prototype a few options for the new dropdown menu. take screenshots or videos for me to compare.
@@ -103,13 +103,13 @@ Writing the tutorial first forces the caller's view. You describe the API to a h
 
 ## Plan after the design settles
 
-pstack has no planning skill, on purpose. When you do want a written plan, ask for it once the design is settled:
+Ignite uses an existing structured Plan for engineering work. Early sketches and prototype observations feed its scope and acceptance mapping. Ask for a plan when planning itself is the task:
 
 ```text
 /poteto-mode turn this design into a plan. small verifiable PRs, each with its own verification steps.
 ```
 
-The [Multi-phase plan playbook](../../skills/poteto-mode/playbooks/multi-phase-plan.md) settles any remaining open questions by prototype, then writes one section per PR, each ending in proof that the change works. A passing test suite alone doesn't count as that proof. The plan is the deliverable. The playbook doesn't implement it, and it names which execution playbook should run it next.
+The [Multi-phase plan playbook](../../skills/poteto-mode/playbooks/multi-phase-plan.md) records stages as tasks in the matching Ignite Plan. Split Plans only for independently acceptable, integrable, and reversible results. One PR does not automatically mean one Plan. A passing test suite alone doesn't count as that proof. The plan is the deliverable. The playbook doesn't implement it, and it names which execution playbook should run it next.
 
 For a migration, state the bar in the prompt:
 
@@ -117,20 +117,20 @@ For a migration, state the bar in the prompt:
 /poteto-mode plan the migration of our ui library to the new styling system. small verifiable PRs, each with visual regression checks. the result must match the original exactly, bugs included.
 ```
 
-"bugs included" keeps the migration from quietly fixing things on the way, which would make the old and new output impossible to compare. For a project that spans many days, you can commit the plan to the repo for a while so other agents see the work in progress. Delete it when the work lands.
+"bugs included" keeps the migration from quietly fixing things on the way, which would make the old and new output impossible to compare. Keep ordinary design choices and their reasons in the Plan. Durable architectural rationale belongs in ADR; implemented facts belong in Design. Adopted-project records remain after delivery. Template release cleanup follows existing adoption rules, not a blanket deletion instruction.
 
 ## How much design work does a task deserve?
 
 You might be wondering whether every change needs this. No. Most changes need none of it. A rough ladder:
 
 - A small, finished change you're unsure about needs `/interrogate` alone.
-- A change that crosses function boundaries or moves ownership earns `/architect`, which brings `/arena` with it.
+- A change that crosses function boundaries or moves ownership can use `/architect`; competing candidates and delegation are selected only when useful and authorized.
 - A standalone decision where independent attempts would help, like naming, formats, or an algorithm, is `/arena` directly.
 - A coverage matrix, set of parallel checks, or race with declared arms is `/swarm`.
 - An open question you could answer by running something, like a layout, a timing, or an approach, gets a prototype, not a debate.
 - A contested design that's expensive to reverse gets `/architect`, then `/interrogate` before shipping.
 - Work that spans several PRs gets a plan, written after the design settles.
 
-`/poteto-mode` already applies this ladder. Boundary-crossing work triggers `/architect` on its own, so you reach for these directly mainly when you want more or less scrutiny than the default.
+`/poteto-mode` already applies this ladder. Boundary-crossing work can use `/architect` as appropriate, so you reach for these directly mainly when you want more or less scrutiny than the default.
 
 Next: [Build and clean the change](./05-build-and-clean.md).

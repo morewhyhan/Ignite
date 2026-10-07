@@ -28,10 +28,10 @@ First, read recent commits, reverts, review comments, agent instruction files, a
 
 ## Fix and prove
 
-Then fix the most frequent classes now, one commit each. Prove each new check fails on a real past mistake. Run the same command locally and in CI. Exceptions go on the offending line with a reason, an expiry date, and a human's approval.
+Then fix the most frequent classes within the existing Plan covering the authorized outcome. Do not create a Plan for each repair or closure step. Commit grouping follows the project's delivery boundaries. Prove each new check fails on a real past mistake. Use the applicable native behavior checks and existing CI entry points; do not claim a CI run that did not occur. Exceptions follow the owning standard and existing authorization rather than inventing a second approval policy.
 
-## Keep the rule table
+## Update the owning truth
 
-Last, keep a table in the agent instruction file that pairs each rule with what enforces it. When the operator corrects you, fix the mistake and add the rule. If the rule was already there and nothing enforces it, that's a repeat, so fix it at the highest level in the same change. Drop a rule once its mistake can't happen.
+Route the durable rule to its existing professional source: docs/standards/ for engineering standards, the relevant directory README for document contracts, Feature for requirements, and Design for actual architecture. Preserve AGENTS.md as the shared execution entry point; do not mechanically append a rule/enforcement table there on every correction. Prefer the highest reliable structural guard. Explain the correction, evidence and any deferred guard in the current Plan's judgment/status record. Future skill guidance links the rule instead of duplicating it.
 
 **Reply:** each class with its evidence, the level you picked, and why a higher level didn't work.

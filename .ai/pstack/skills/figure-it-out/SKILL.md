@@ -9,51 +9,38 @@ description: 'Design an auditable playbook when no narrower one fits: a large mi
 
 > Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
 
-
 # Figure it out
 
-When the task matches no playbook, design one. The deliverable before any code is the workflow itself: a sequence of phases that scales rigor to the task, runs the scientific method, and leaves a decision trail a human can audit after stepping away.
+When no narrower playbook fits, design a workflow that matches the actual result and risk. Keep its phases and decisions in the existing Ignite Plan, not a second playbook document or task list.
 
 ## Start
 
-Open a todolist whose first item is to read the Principles section of the **poteto-mode** skill. Then add the phases below as todos.
+Read the relevant principles in poteto-mode and the project rules. Reuse the unfinished Plan covering the result. Only a genuinely independent delivery needs another Plan; one API/page/test/fix/verification result stays together. Use the Plan's structured tasks for the phases below and native task commands for status.
 
 ## Phase A: Frame
 
-Ground first, then commit. Don't start the run until you can state:
+Before changing anything, state the observable definition of done, affected scope, constraints and known blockers. Map the original user goals to Feature REQ/AC and Plan acceptance. Choose rigor by consequence: irreversible or broad changes need stronger evidence; a reversible document correction needs proportionate checks. Do not bias every task toward a long experiment.
 
-- The definition of done as a falsifiable predicate (the **prove-it-works** principle skill).
-- Scope, quantified: rough units and effort, plus the blockers grounding surfaced.
-- The rigor level, biased high. One-way doors and high blast radius get more. Reversible low-stakes steps get less. Rigor is gates and artifacts, not "try harder".
-
-Present the framing and tradeoffs before committing to a long run. Reversible work proceeds (the **never-block-on-the-human** principle skill), but a multi-hour run earns one checkpoint.
+Describe major tradeoffs in a concise update. Continue already authorized reversible work. A genuinely missing product or destructive-data decision needs user input; ordinary implementation choices do not.
 
 ## Phase B: Design the workflow
 
-Decompose into atomic, independently-landable units. Sequence riskiest-unknown-first. Scaffold and verification come before features (the **foundational-thinking** principle skill).
+Break the result into small verifiable units and address the riskiest unknown first. Write the sequence, dependencies and handoff boundaries into the original Plan. Use existing contracts, Playwright paths and check commands before inventing a harness. Capture a relevant pre-change observation when comparison is needed.
 
-- Build the verification harness before the work, with the baseline captured from the pre-change state, so the check reads as "old value vs new value".
-- For one-way-door design decisions, run the **architect** skill (it runs **arena**). Skip it for mechanical work whose shape is already concrete. A second arena over a settled design is over-engineering (the **laziness-protocol** principle skill).
-- Decide what fans out. Parallelize only across seams, and give each worker its own worktree or branch (the **separate-before-serializing-shared-state** principle skill). Don't over-fan.
-- Write the designed phase list down. That list is what the human reviews.
+Use architect for a consequential unresolved shape, not mechanical work. Compare distinct designs locally where useful; delegate only when authorized and isolation or explicit file ownership makes concurrent writes safe. A request to use this method alone does not require multiple agents or models.
 
-Then execute the design. Add its steps to the todolist as concrete items, after the Phase C entry and before Phase D. Run each under the Phase C loop discipline, and weave the Phase D log through them, a row as each step lands, rather than saving the whole trail for the end.
+## Phase C: Execute and observe
 
-## Phase C: Run the loop
+For each unit, state what observable result the change should produce, make the smallest useful change, and inspect the real artifact. Keep a successful change; correct or reverse one that does not advance the goal. Follow the project's TDD and verification rules where applicable, without turning subjective method writing into a benchmark.
 
-Each unit is an experiment. State the hypothesis, make the smallest change, measure against the predicate on the real artifact, keep it if it advanced, revert it if it didn't.
-Apply the **sequence-verifiable-units** principle skill, verifying each unit before starting the next instead of batching checks at the end.
+Verify important units before building on them. Reuse an active or passed native check for unchanged inputs instead of repeatedly running it. Judge delegated work from source and evidence, not self-report. A false gate must be corrected under the same delivery's Plan; do not create an extra closure Plan. An inconclusive or skipped result is not a pass.
 
-- Verify by inspecting the artifact, never a self-report. When something passes too easily, suspect the observation method before the system.
-- Pair delegated work with a judge. If a worker games the gate, reset and harden the contract. If the gate itself is wrong, fix the gate in its own change rather than routing around it.
-- A verdict is VERIFIED, NOT VERIFIED, or INCONCLUSIVE. Inconclusive is not a pass. Don't hide a negative.
+## Phase D: Keep the decision trail
 
-## Phase D: Keep the audit trail
-
-Log the run via the **show-me-your-work** skill. figure-it-out's work is usually ambitious enough to commit the trail so the reviewer can read it in the PR. The trail plus the diff is what lets the human come back and trust the work.
+Use show-me-your-work to record consequential choices in the same Plan's judgment/status record. Link native evidence. Long-lived architecture rationale goes to ADR; actual implementation facts go to Design. No default TSV or separate workflow ledger.
 
 ## Phase E: Verify and hand back
 
-Check the whole against the Phase A predicate on the real product, not just the harness. Encode any recurring correction as a gate, a lint rule, a check, or a script (the **encode-lessons-in-structure** principle skill).
+Assess the whole against the original user outcome, the applicable REQ/AC and actual run evidence. A useful structural guard for a repeated error belongs in the owning code or professional rule, not a duplicate checklist. Keep tasks and Plan/Release state consistent with what was really verified.
 
-**Reply:** the playbook you designed, the rigor level and why, the decision-trail path, what's verified against the predicate, and what's still open.
+Reply with the concrete result, why the chosen scope was sufficient, the existing Plan/evidence pointers and what remains. Do not call an unrun check or unresolved dependency complete.

@@ -27,18 +27,18 @@ Infer the need from the message and the conversation. A named situation, such as
 
 Check the state that changes the answer, and mention it only when it does:
 
-- No `~/.cursor/rules/pstack-models.mdc` means `/setup-pstack` hasn't run for this user, so every role uses its default model.
+- An empty .ai/pstack/config.json roles object means all roles inherit the current host model; no setup is required to use skills.
 - No `verify-*` skill or other app harness in the project means agents have no scripted way to drive the app. Mention `/create-verification-skill` when the question is about proving a change works.
 
 When the model rule is missing and it matters, ask whether the user wants to pick a model for each role and a reasoning budget now. It matters when the user is new, the question is about setup or cost, or the answer depends on which models run. Ask at most once per chat. If the need is also unclear, ask both questions together. Offer two choices:
 
 - Now: give them `/setup-pstack` to type, and answer their question too.
-- Later: answer their question, and add one line saying every role keeps its default model until they run `/setup-pstack`.
+- Later: answer their question, and add one line saying every role inherits the current host model until they run `/setup-pstack`.
 
 ## Get set up
 
-1. Install with `/add-plugin pstack` in chat, or from Customize in the sidebar.
-2. Run [`/setup-pstack`](../setup-pstack/SKILL.md). It asks for a reasoning budget, maps a model to each role, and writes a rule. The rule applies to new chats.
+1. Clone/open Ignite. The local .ai/pstack canonical library and four project discovery bridges already exist; no second plugin installation is required.
+2. Run [`/setup-pstack`](../setup-pstack/SKILL.md). Use it only for an optional model change. It detects current host IDs and writes local config without changing global settings.
 3. Start a real task with `/poteto-mode`, a goal, and a check that can pass or fail.
 
 Installing changes nothing until the user invokes a skill. Only `/setup-pstack` loads from the user's words. The [README](../../README.md) and [guide page 1](../../docs/guide/01-setup.md) have the details. Offer to word their first prompt with them, per [`references/prompting.md`](references/prompting.md).
@@ -49,7 +49,7 @@ pstack is built for Cursor. Its skills use the Agent Skills format, so other too
 
 ## Start a task with `/poteto-mode`
 
-`/poteto-mode` matches the task to a playbook, copies the playbook's steps into the todo list, and runs the other skills as the steps need them. A step it skips stays in the list as `skip: <reason>`. A good prompt states the goal and how to tell it's done. It doesn't list skills, because a hand-written sequence tends to drop or reorder steps the playbook would keep. Read [`references/prompting.md`](references/prompting.md) before you help word one. [Guide page 2](../../docs/guide/02-poteto-mode.md) has examples.
+`/poteto-mode` matches the task to a playbook, maps applicable steps to the existing native Plan tasks, and runs the other skills as the steps need them. A step it skips stays in the list as `skip: <reason>`. A good prompt states the goal and how to tell it's done. It doesn't list skills, because a hand-written sequence tends to drop or reorder steps the playbook would keep. Read [`references/prompting.md`](references/prompting.md) before you help word one. [Guide page 2](../../docs/guide/02-poteto-mode.md) has examples.
 
 Whether `/poteto-mode` stays on depends on how the user starts it:
 

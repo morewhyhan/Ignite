@@ -3,9 +3,9 @@
 
 # Reproduce automation prompt
 
-> Source material for the copied setup workflow. Paraphrase this intent into a built-in `automate` draft after `automate` confirms that the copied pack is committed in the repository where the automation will run.
+> Source material for setup. Generate a live prompt only for an explicitly authorized, supported event-provider integration. Do not copy this introduction or its relative adapter header into the generated prompt. Include the canonical repository-relative operational path. A scheduler alone does not supply Slack events.
 
-Read and follow `.cursor/automations/benny/skills/reproduce-and-fix-issues/SKILL.md` for this run.
+Read and follow `.ai/pstack/automations/benny/skills/reproduce-and-fix-issues/SKILL.md` for this run.
 
 Configuration source. Include this repository-relative path only when it is committed in the same target repository. Otherwise paraphrase the configured values. Never use a plugin source or cache path:
 
@@ -18,12 +18,12 @@ Trigger:
 ```json
 {
 	"source_channel_id": "{{SLACK_CHANNEL_ID}}",
-	"message_ts": "{{SLACK_MESSAGE_TS}}",
+	"ts": "{{SLACK_MESSAGE_TS}}",
 	"thread_ts": "{{SLACK_THREAD_TS_OR_EMPTY}}"
 }
 ```
 
-The creation intent should describe this as a new top-level report in the configured source Slack channel. It should include the configured repository, default branch, issue tracker, control adapter, feature map, and draft pull request capability.
+The creation intent should describe the actual supported event provider delivering a new top-level report in the configured source Slack channel. Include the configured repository, default branch, issue tracker, control adapter, operation guidance referencing native Feature AC and test cases, and authorized draft pull request capability. Do not create a scheduled polling substitute for an unavailable event provider.
 
 Treat the source channel and root thread timestamp as immutable. If either is missing or does not match configuration, stop without posting.
 

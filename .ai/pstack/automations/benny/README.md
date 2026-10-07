@@ -1,26 +1,18 @@
 
 > Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
 
-# benny
+# Benny
 
-benny gives you two cursor automations for slack issue reports. one triages each report. the other reproduces confirmed bugs and may prepare a small draft fix.
+Benny provides methods for two cooperating Slack-report automations. Triage reads a report, classifies it, checks duplicates, and may register a confirmed new bug. Reproduction waits for trusted triage, drives the real UI, verifies an existing fix or prepares a bounded draft fix.
 
-the files in this directory are dormant setup and automation sources. they do not appear as slash skills.
+This pack is disabled in Ignite. Its three optional setup and operation entries are discoverable; discovery is not activation. An explicitly configured, authorized automation reads its canonical operational file directly.
 
-## set it up
+## Set it up when requested
 
-1. point cursor at [`FOR_AGENTS.md`](./FOR_AGENTS.md) and name the target repository.
-2. let setup merge this whole directory into the target at `.cursor/automations/benny/`. it must preserve destination-only files and review conflicts instead of overwriting local edits.
-3. let setup enable pstack in the target repository's `.cursor/settings.json` for shared dependencies:
+1. Read [FOR_AGENTS.md](./FOR_AGENTS.md) and [setup-benny](./skills/setup-benny/SKILL.md). Use this pack at `.ai/pstack/automations/benny/`; do not copy it into a second platform directory or enable a plugin.
+2. Generate secret-free user configuration under `.ai/benny/` from [configuration.example.yaml](./templates/configuration.example.yaml). Secrets stay in the host's secret store or environment.
+3. Use [the control-path example](./skills/reproduce-and-fix-issues/references/feature-map.example.md) to reference existing Feature REQ/AC and actual test cases. It is operation guidance, not another specification or pass-status map.
+4. Confirm an actual Slack event provider and the current host's supported automation and connector tools. A scheduling tool does not imply Slack event support. Without it, retain the disabled state; do not create a polling workaround.
+5. Only after explicit activation authorization, configure the supported trigger, channel/tracker/control permissions, and exact canonical prompt paths. Verify thread safety in an authorized harmless check before normal traffic.
 
-```json
-{
-	"plugins": {
-		"pstack": { "enabled": true }
-	}
-}
-```
-
-4. keep user-owned configuration outside the copied pack, for example in `.cursor/benny/`. adapt [`configuration.example.yaml`](./templates/configuration.example.yaml) and [`feature-map.example.md`](./skills/reproduce-and-fix-issues/references/feature-map.example.md).
-5. commit `.cursor/settings.json`, `.cursor/automations/benny/`, and any secret-free configuration before enabling either automation.
-6. review each new automation draft or update existing automations in their editors. then send a harmless test report and verify every source-channel post stays in the original thread.
+The current pack supplies instructions and examples. It does not establish that a connector, event provider, app-control adapter, or live bot is already configured.

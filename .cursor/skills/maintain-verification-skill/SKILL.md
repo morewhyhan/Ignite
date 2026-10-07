@@ -1,9 +1,8 @@
 ---
 name: maintain-verification-skill
-description: 'Periodic pass that keeps a project''s verification skill and feature
-  map honest: parallel source readers per feature, one live session driving every
-  feature, at most one PR of proven corrections. Use for /maintain-verification-skill
-  or "audit the verify skill".'
+description: Keep an Ignite verification skill aligned with affected source and
+  existing Feature AC/test cases. Use for /maintain-verification-skill or audit
+  the verify skill; scale live checks to the requested scope.
 ---
 
 # maintain-verification-skill

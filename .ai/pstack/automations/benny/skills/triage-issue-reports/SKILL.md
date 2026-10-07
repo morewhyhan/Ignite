@@ -13,7 +13,9 @@ description: Optional Benny automation setup/operations when requested. Triage S
 
 Classify one Slack report and post one useful verdict in its source thread. Create a tracker issue only for a clear, new bug. Do not reproduce or fix it here.
 
-Load the external Benny configuration supplied by the automation. If the config is missing, malformed, or incomplete, stop without posting or writing to the tracker.
+This optional operation is discoverable for explanation or manual authorized use, but performs writes only in an explicitly configured and authorized run. Read this canonical file directly from `.ai/pstack/automations/benny/` and load the user configuration under `.ai/benny/` supplied by the actual event provider. Require the event contract `source_channel_id`, `ts`, and optional `thread_ts`; a scheduler is not an event provider. If the config is missing, malformed, or incomplete, stop without posting or writing to the tracker.
+
+Before execution, require an explicitly enabled, authorized event binding and actually available connector actions. The shipped `events.enabled: false` configuration is dormant. Reading or explaining this skill never changes that state.
 
 ## Hard safety rules
 

@@ -3,6 +3,8 @@
 
 # Create a note
 
+This fictional upstream example illustrates control technique only. Its Notes commands, data and sub-feature IDs are not Ignite capabilities or acceptance criteria. For an actual project, link the owning Feature REQ/AC and existing test-case/Playwright path, and keep any control index as links only. Manual screenshots do not constitute a formal check run.
+
 Create note lets a user save a titled note from the browser or CLI, cancel an unfinished draft, and confirm the saved note from a second user-facing view.
 
 ## Sub-features

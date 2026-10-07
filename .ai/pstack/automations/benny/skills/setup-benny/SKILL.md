@@ -7,264 +7,80 @@ description: Optional Benny automation setup/operations when requested. Configur
 
 > Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
 
-
 # Set up Benny
 
-Benny ships as a dormant automation pack inside pstack. The plugin manifest exposes only pstack's normal skill root; this file and the two operational files are not slash skills.
+Benny is dormant. Three optional entry skills are discoverable in Ignite, while an authorized live automation reads the two canonical operational files directly. Setup does not activate bots, install plugins, connect services, or write external messages by itself.
 
-The human enters setup by pointing Cursor at the pack's `FOR_AGENTS.md`. The bootstrap flow copies the whole pack into the target repository, then reads this file directly at `.cursor/automations/benny/skills/setup-benny/SKILL.md`.
+## 1. Confirm target and canonical files
 
-Benny needs external configuration and two live Cursor automations.
+Use the already selected target repository. Ask only when it is genuinely unknown. In Ignite, the pack is already at `.ai/pstack/automations/benny/`; use it in place. Do not copy it to `.cursor/automations/benny/` or modify platform plugin settings.
 
-Do not create or update an automation until the user explicitly asks. Never put a secret value in plugin files, prompts, or committed configuration.
+For a requested installation into another project, carry the adapted library at `.ai/pstack/` with its adapter and shared methods. Preserve destination-only files and inspect conflicting local edits. Check canonical files and project-relative links in the target; do not assume the source checkout or current session is available to a fresh run.
 
-## 1. Copy the pack and enable shared pstack skills
+Confirm that the target can read the shared methods `how`, `why`, `tdd`, `unslop`, and the referenced principles through canonical files or project discovery. Project discovery is convenient, but does not register an event provider or a native agent type.
 
-Do this before asking for Benny configuration and before invoking the built-in `/automate` skill.
+## 2. Generate user configuration
 
-Ask which repository will run the automations. The source pack is the directory containing `FOR_AGENTS.md`. The destination is `<target-repository>/.cursor/automations/benny/`.
+Read these examples:
 
-Merge the entire source pack into the destination:
+- [configuration fields](../../templates/configuration.example.yaml)
+- [control paths](../reproduce-and-fix-issues/references/feature-map.example.md)
+- [routing fields](../triage-issue-reports/references/routing.example.md)
 
-1. Create the destination when it is absent.
-2. Copy every source file to the same relative path.
-3. Preserve destination-only files. Never delete unrelated files during install or refresh.
-4. Keep user-owned configuration, feature maps, and routing maps outside the destination. Never overwrite them.
-5. When an existing source-managed file differs, inspect the diff and merge without discarding local edits. If ownership is ambiguous, stop and ask before replacing it.
-6. Verify that the destination contains `FOR_AGENTS.md`, this setup file, both operational files, their references, and the templates.
+Generate secret-free files under `.ai/benny/`, normally `configuration.yaml`, optional `routing.md`, and `control-paths.md`. Generate the required fields and instructions, not a verbatim copy of an example's introduction or relative adapter header. A source note may name `.ai/pstack/automations/benny/` from repository root. Do not edit source-managed examples to store local user values. Keep secret values in the configured host secret store or environment.
 
-If this file is already being read from the target destination, treat the copy as complete and run the same verification before continuing.
+When creating that user-owned directory, include `.ai/benny/README.md` using the existing `.ai/` registration rules. State each file's purpose, canonical source, disabled or configured state, authorized read/write actions, event provider, secret handling, and verification method. Point to the matching Plan, native Feature REQ/AC, test cases, and evidence locations. The README is an asset-use declaration, not another task or acceptance ledger. Register the directory through the existing AI workbench index rather than adding a parallel registry.
 
-Add pstack to the target repository's `.cursor/settings.json`. If the file or `.cursor` directory does not exist, create it.
+Control paths link to existing Feature REQ/AC and actual test cases, plus launch, operation, reset, selectors, and observation instructions that are not already documented. They do not duplicate acceptance wording, task state, or pass status. Changed behavior updates the native Feature/Plan/tests/Design first.
 
-Merge this entry into the existing JSON or JSONC:
+Prefer secret-free committed project references when an external checkout must read them. Verify those exact files exist on its configured branch. Do not reference a plugin cache or a different local repository in a live prompt.
 
-```json
-{
-	"plugins": {
-		"pstack": { "enabled": true }
-	}
-}
-```
+## 3. Resolve choices and authorization
 
-Preserve every unrelated top-level setting and every other plugin entry. If `plugins.pstack` already exists, change only its `enabled` value. Preserve comments and valid JSONC syntax when the file uses JSONC. Validate the file after editing it.
+Read existing configuration and obtain only missing decisions:
 
-Reload the target project or start a fresh agent rooted there. Verify that these shared pstack skills resolve from project scope:
+- Source channel and triage identity
+- Optional operations channel and allowed writes
+- Repository URL and actual default branch
+- Tracker adapter, team/project/status/labels and compensation capability
+- Optional routing, with owner pings off by default
+- App-control skill and native behavior references
+- Draft PR capability and publication authorization
+- Artifact location and retention, and bounded effort
+- Actual event provider and event-to-run binding
 
-- `how`
-- `why`
-- `tdd`
-- `unslop`
-- `principle-separate-before-serializing-shared-state`
-- `principle-minimize-reader-load`
-- `principle-guard-the-context-window`
-- `principle-sequence-verifiable-units`
-- `principle-fix-root-causes`
-- `principle-prove-it-works`
+Models read `.ai/pstack/config.json`, defaulting to `inherit-current-host`. Role values can be strings or requested panel lists; `auto` and `inherit-parent` are inheritance aliases. Confirm actual IDs and reasoning support with the current host. Configuration alone does not launch or switch agents.
 
-Do not count a skill loaded from the current session or a user-scoped plugin. The check must show that a fresh agent in the target repository receives pstack through project settings.
+Do not treat intent examples as permission for Slack writes, tracker writes, or opening a PR. Reuse direct user authorization already given; do not repeatedly request permission for ordinary reversible configuration within the requested scope.
 
-If project-scoped plugin installation is unavailable or any shared dependency does not resolve, stop and explain the failure.
+## 4. Check real integration capabilities
 
-The Benny files are read directly from `.cursor/automations/benny/`. Do not add that directory to a plugin manifest or expect its `SKILL.md` files to appear in the slash-skill list.
+Triage needs channel/thread reads, relevant attachment access, authorized thread replies, and the tracker search/read/create/update/compensation operations. Reproduction needs repository history, the configured app-control adapter, source-thread reads, authorized replies, optional operations updates, and draft PR capability if publication is authorized.
 
-Tell the user that `.cursor/settings.json`, `.cursor/automations/benny/`, and any referenced secret-free configuration must be committed before either automation is enabled. Do not commit them unless the user asks.
+Use only tools actually exposed by the current host or configured provider. Do not prefer Cursor actions on another host, invent APIs, install integrations, or expose tokens to workers. Missing write actions disable the affected write; missing required reproduction capabilities disable repro.
 
-Once this check passes, live automation prompts may read the committed operational files by their stable repository-relative paths. They must not embed a plugin cache path or copy the file contents.
+## 5. Verify control instructions
 
-## 2. Adapt the configuration
+Read [the control contract](../reproduce-and-fix-issues/references/control-adapter.md) and the configured native behavior references. Confirm app launch, actual UI navigation, appropriate states and safe fixture setup, read-only state inspection, screenshots, recording when required, reset for independent attempts, and cleanup.
 
-Open these copied examples:
+Keep expected results in Feature AC and test cases. A control-path guide cannot redefine them. A missing route or capability is a block, not evidence that the product passed.
 
-- `../../templates/configuration.example.yaml`
-- `../reproduce-and-fix-issues/references/feature-map.example.md`
+## 6. Prepare supported automation only when requested
 
-Create user-owned copies outside `.cursor/automations/benny/`. These are configuration files, not pack files. Example locations:
+Read [FOR_AGENTS.md](../../FOR_AGENTS.md) and the matching [triage](../../templates/triage-automation-prompt.md) or [repro](../../templates/reproduce-automation-prompt.md) source template. Generate a clear prompt referencing the corresponding canonical file under `.ai/pstack/automations/benny/skills/` and the actual configured user files.
 
-- Project config, such as `.cursor/benny/configuration.yaml`
-- Project feature map, such as `.cursor/benny/feature-map.md`
-- Project routing map, such as `.cursor/benny/routing.md`
-- User config, such as `~/.config/benny/configuration.yaml`
-- User feature map, such as `~/.config/benny/feature-map.md`
+Use the current host's real creation/update capability. In Codex, inspect the available `automation_update` schema. Its heartbeat or schedule support is not Slack event support. A separate supported event provider must deliver the configured report with `source_channel_id`, `ts`, and optional `thread_ts`. Without it, leave both workflows disabled. Do not create a polling workaround or pretend a scheduler receives Slack events.
 
-Fill one feature-map section for every user-facing feature the automation may reproduce. Keep it at the user point of view. Do not freeze implementation details or current code paths in the map.
+For an existing automation, inspect and update the matching one through the host's actual tools or editor. Preserve unrelated settings; do not create duplicates. No universal Cursor editor handoff, hidden backend call, or fabricated deep link is required.
 
-Do not edit the copied examples. Pack refreshes may update source-managed files after conflict review, but they must never touch the user-owned copies.
+## 7. Check before normal traffic
 
-Prefer committed, secret-free files in the target repository when a fresh automation checkout must read them. Otherwise paraphrase the required values into the live prompt. Reference a repository file only after the built-in `/automate` skill confirms that the file is committed in the repository where the automation runs.
+Only with authorization for the external test, use a harmless report in a test channel. Verify:
 
-Use stable repository-relative paths for committed pack and configuration files. Never reference the plugin source directory or a plugin cache path from a live automation.
+1. Triage freezes the original root coordinates and posts exactly one thread reply with one marker.
+2. Repro accepts the marker only from the configured identity in that original thread.
+3. No source-channel root post occurs and no worker has Slack write tools or credentials.
+4. Missing coordinates, missing/deleted parent, or failed preflight creates no post or tracker issue.
+5. The actual event provider supplies the agreed `ts` contract and a live run can read its canonical project files.
 
-## 3. Fill the required choices
-
-Ask for or confirm:
-
-- Source Slack channel ID
-- Optional operations or status channel ID
-- Repository URL and default branch
-- Triage identity or Slack user ID
-- Issue tracker type, team, project, labels, and intake status
-- Tracker adapter skill or MCP actions
-- Optional routing map path
-- Required control skill name
-- Required user-facing feature-map path
-- Status emoji strings
-- Pull request URL format
-- Polling and effort budgets
-- Model slug for triage, repro, code work, and media review
-
-Use only model slugs shown as available in the user's Cursor model picker or supported model list. Do not guess a slug and do not carry over a private default.
-
-The source channel, triage identity, repository, tracker adapter, control skill, and feature map must be explicit. Fail setup if any required value stays ambiguous.
-
-Use pstack's `unslop` skill on the final automation names, descriptions, and prompt shims before saving them.
-
-## 4. Check integration capabilities
-
-The triage automation needs:
-
-- Read access to the configured source Slack channel and its threads
-- Thread-reply access in that channel
-- Attachment metadata and file download access when reports include media
-- Search, read, create, and update access through the configured issue-tracker adapter
-
-The repro automation needs:
-
-- Read access to the source thread
-- Thread-reply access in the source channel
-- Optional post and edit access in the configured operations channel
-- Repository read and history access
-- A pull request action that can open a draft pull request
-- The configured control-adapter skill
-
-Prefer configured Cursor Slack actions for reads and posts. The optional `BENNY_SLACK_BOT_TOKEN` may fill a narrow gap such as editing one operations status message or downloading an attachment. Store the value in a secret manager or environment, not in YAML.
-
-Do not use undocumented integration endpoints.
-
-## 5. Prepare the routing map
-
-If the user wants reroutes or owner pings:
-
-1. Copy `../triage-issue-reports/references/routing.example.md` outside `.cursor/automations/benny/`.
-2. Replace every placeholder with public or organization-local values.
-3. Keep owner pings off by default.
-4. Allow a ping only for a configured feature owner or a confirmed likely regression author.
-
-If no routing map is configured, triage may classify a report but must not guess a destination or owner.
-
-## 6. Verify the control adapter
-
-Read `../reproduce-and-fix-issues/references/control-adapter.md` and the user's completed feature map.
-
-Confirm that the named skill can:
-
-- Bring up the target app
-- Navigate every mapped feature through the real UI
-- Exercise mapped states through declared adapter actions
-- Inspect state without forcing the result
-- Capture screenshots
-- Start and stop a recording
-- Clean up its processes and temporary data
-
-If any capability is missing, leave the repro automation disabled. It must fail closed rather than claim a reproduction it did not perform.
-
-## 7. Prepare the live automations
-
-Ask whether this is first-time creation or configuration of existing automations.
-
-Read `../../FOR_AGENTS.md` from the copied pack as the primary user-intent source for either path. Use it to understand the two triggers, tools, instructions, outcomes, and shared rules.
-
-### First-time creation
-
-Create one automation at a time.
-
-For each automation:
-
-1. Read the matching copied prompt template as secondary internal source material.
-2. Turn `FOR_AGENTS.md`, the finished Benny configuration, and the template intent into a complete natural-language request.
-3. Tell the live prompt to read and follow its exact committed operational file under `.cursor/automations/benny/`.
-4. Use the stable repository-relative path, not a plugin source or cache path. Do not copy the operational file contents into the live prompt.
-5. Read and follow the built-in `automate` skill.
-6. Let `automate` discover Slack channels, the repository, and connected integrations.
-7. Let `automate` confirm that the copied pack and any referenced configuration files are committed in the same repository where the automation will run.
-8. Let `automate` show its draft table, obtain approval, ask readiness, and open the Automations editor.
-9. Finish the editor handoff for this automation before starting the next one.
-
-Give `automate` this complete triage intent, filled from configuration:
-
-- Name `benny-triage`.
-- Read and follow `.cursor/automations/benny/skills/triage-issue-reports/SKILL.md` for every run.
-- Trigger on each new top-level report in the configured source Slack channel.
-- Read the triggering thread and reply only inside it.
-- Use the configured issue-tracker integration.
-- Classify, inspect evidence, trace cause, dedupe, and create only clear new bugs.
-- End one thread-only verdict with the configured `[benny:bug]`, `[benny:performance]`, or `[benny:other]` marker and optional tracker URL.
-- Never post a source-channel root message.
-
-After the triage editor handoff is complete, give `automate` this complete repro and fix intent:
-
-- Name `benny-reproduce`.
-- Read and follow `.cursor/automations/benny/skills/reproduce-and-fix-issues/SKILL.md` for every run.
-- Trigger on the same new top-level reports in the configured source Slack channel.
-- Use the configured repository and default branch.
-- Read the source thread and reply only inside it.
-- Include pull request creation and the configured tracker, control-adapter, and feature-map requirements. Paraphrase mapped user paths and states unless `automate` confirms an eligible committed file in the same repository.
-- Wait for a trusted triage marker before acting.
-- Reproduce the exact symptom twice through the mapped real UI and capture evidence.
-- Verify an existing fix without authoring over it.
-- Attempt an optional bounded fix only after confirmed repro, then open a draft pull request when proof and checks pass.
-- Never post a source-channel root message.
-
-Do not duplicate `automate`'s Slack, repository, integration, completeness, authentication, draft-review, approval, readiness, or editor-handoff work.
-
-### Existing automations
-
-The built-in `automate` skill is creation-only. Do not use it to search for, inspect, or update existing automations.
-
-Finish configuration, routing, control-adapter, and feature-map validation. Then give the user this concise editor checklist.
-
-For the existing triage automation, update:
-
-- Name and description
-- Direct instruction to read `.cursor/automations/benny/skills/triage-issue-reports/SKILL.md`
-- New top-level Slack report trigger and source channel
-- Slack thread read and reply capabilities
-- Issue-tracker integration
-- Paraphrased triage instructions, thread-only rule, and Benny verdict markers
-
-For the existing repro automation, update:
-
-- Name and description
-- Direct instruction to read `.cursor/automations/benny/skills/reproduce-and-fix-issues/SKILL.md`
-- Matching Slack trigger and source channel
-- Repository and default branch
-- Slack thread read and reply capabilities
-- Pull request action
-- Tracker, control-adapter, and feature-map requirements
-- Paraphrased marker wait, evidence, verification, and bounded-fix instructions
-
-Ask the user to update each existing automation directly in its Automations editor. Do not create replacements or duplicates.
-
-### Creation boundary
-
-Never call a direct automation backend service or backend automation tool. Never use a browser URL that carries draft fields. Never build or open a Cursor protocol deep link. For new automations, the only finish path is the built-in `automate` skill's reviewed Automations editor handoff.
-
-Do not enable either automation until the thread-safety test passes after the editor save.
-
-## 8. Test thread safety
-
-Use a test channel or a harmless test report.
-
-Before testing, confirm that the target repository's `.cursor/settings.json`, `.cursor/automations/benny/`, and every referenced secret-free configuration file are committed on the branch used by the automation checkout. Confirm that both live prompts point at their exact committed operational files. If any check fails, stop. Tell the user that the automation cannot be enabled yet.
-
-Verify:
-
-1. Triage stores the root `thread_ts` and posts exactly one verdict as a reply.
-2. The verdict contains one configured marker.
-3. Repro accepts the marker only from the configured triage identity.
-4. Repro keeps the same immutable source coordinates.
-5. No source-channel root message appears.
-6. A delegated worker cannot use any Slack write action.
-7. Missing coordinates, a deleted parent, or a failed preflight produces no post and no tracker issue.
-
-Enable normal traffic only after all seven checks pass.
+Until prerequisites and the authorized thread-safety checks succeed, retain disabled status. Native product repair still follows the matching Plan, behavioral red, layered checks, and actual evidence. Do not label bot setup as product acceptance.

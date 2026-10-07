@@ -3,7 +3,7 @@
 
 # Route work through `/poteto-mode`
 
-`/poteto-mode` is the front door. You give it a goal, it matches one of twenty-three playbooks, copies that playbook's steps into the todo list, and calls the other skills as the steps need them. In this page you learn what a good prompt looks like, and how little of one you actually need.
+`/poteto-mode` is the front door. You give it a goal, it matches one of twenty-three playbooks, maps the needed playbook steps into the existing Ignite Plan tasks, and calls the other skills as the steps need them. In this page you learn what a good prompt looks like, and how little of one you actually need.
 
 ![A dispatcher pulls a switch lever to route robots on rail handcars toward lit gates, under a /poteto-mode departure board listing BUG FIX, FEATURE, and INVESTIGATION.](./images/router.jpg)
 
@@ -32,13 +32,13 @@ The diagram shows the common routes. There are also playbooks for hillclimbing a
 
 ## Say the goal, not the ceremony
 
-You don't write a spec. You say what's wrong or what you want, plus anything you already know that saves the agent time:
+Say what is wrong or what you want, plus constraints and useful evidence. The agent updates the existing Feature and matching Plan before implementation:
 
 ```text
 /poteto-mode users get two notifications after a retry. repro first, then fix and verify.
 ```
 
-That's a Bug fix prompt. "repro first" is a real constraint, not politeness, and the playbook honors it. Watch the todo list fill with the Bug fix steps. A skipped step stays visible with `skip: <reason>`.
+That's a Bug fix prompt. "repro first" is a real constraint, not politeness, and the playbook honors it. Follow the current Plan tasks. Record a required step that cannot run as pending or blocked with its reason. A chat skip marker is not acceptance evidence.
 
 ## What goes in a prompt
 
@@ -85,7 +85,7 @@ continue
 keep going until done
 ```
 
-Short works because the playbook holds the structure, and a Custom Mode keeps `/poteto-mode` in context on every turn. [Set up pstack](./01-setup.md#run-your-first-task) shows how to start one. Your words carry the intent, and the skill carries the rigor.
+Short follow-ups work because the conversation and existing Plan retain the goal. Persistent modes depend on the current host. [Set up pstack](./01-setup.md#run-your-first-task) shows how to start one. Your words carry the intent, and the skill carries the rigor.
 
 ## Switch tasks with "new task"
 
@@ -99,7 +99,7 @@ A long chat accumulates context from the last task. When you change subjects, sa
 
 ## Give parallel work its own machine
 
-If you run several agents against one repository on one computer, they will fight over the working tree, the ports, and the build output. The cleanest isolation is a [cloud subagent](https://cursor.com/docs/subagents#cloud-subagents). Each one gets its own VM and branch, so it can install dependencies, run your app, and record video of the result without touching your machine. Type `/in-cloud` before the task, or ask the parent chat to hand work to cloud subagents.
+If you run several agents against one repository on one computer, they will fight over the working tree, the ports, and the build output. Use available, authorized host delegation and isolated worktrees when needed. Cursor cloud subagents are an upstream option, not an Ignite requirement. Do not install cloud services or launch agents just because this guide mentions them.
 
 When the work has to stay local, ask for a worktree up front:
 
@@ -107,7 +107,7 @@ When the work has to stay local, ask for a worktree up front:
 /poteto-mode new task. branch off <base> in a fresh worktree, then port the parser change there.
 ```
 
-Each task in its own branch and worktree means no agent stomps another's files. Worktrees cost disk and machine resources, so a laptop runs only a handful at once. The [Opening a PR playbook](../../skills/poteto-mode/playbooks/opening-a-pr.md) already works from a worktree for code changes, so mostly you only say this when a specific base or location matters.
+Each task in its own branch and worktree means no agent stomps another's files. Worktrees cost disk and machine resources, so a laptop runs only a handful at once. The [Opening a PR playbook](../../skills/poteto-mode/playbooks/opening-a-pr.md) supports isolated work, but does not authorize creating or publishing a PR for every local task.
 
 Worktrees accumulate. When disk gets tight, ask:
 
@@ -115,7 +115,7 @@ Worktrees accumulate. When disk gets tight, ask:
 /poteto-mode what's eating my disk? prune the worktrees that are safe to prune.
 ```
 
-The [Worktree cleanup playbook](../../skills/poteto-mode/playbooks/worktree-cleanup.md) classifies every worktree by merge state, uncommitted work, and which chats still touch it. It deletes only what that evidence clears and pauses for your call on anything holding uncommitted work.
+The [Worktree cleanup playbook](../../skills/poteto-mode/playbooks/worktree-cleanup.md) classifies every worktree by merge state, uncommitted work, and which chats still touch it. Use the host's managed-worktree archive when available; it preserves a snapshot. Untracked files may be user work. Check ownership and resolved paths before cleanup.
 
 ## Leave it running
 
@@ -125,7 +125,7 @@ When you step away, say what done means and go:
 /poteto-mode im stepping away. keep going until the migration check reports zero old callers. log your decisions.
 ```
 
-Work you'll review later routes through [`/figure-it-out`](../../skills/figure-it-out/SKILL.md), which designs the run's phases and keeps a [`/show-me-your-work`](../../skills/show-me-your-work/SKILL.md) decision log. [Run work while you sleep](./07-overnight.md) covers the full overnight contract.
+Work you'll review later routes through [`/figure-it-out`](../../skills/figure-it-out/SKILL.md), which designs the run's phases and uses [`/show-me-your-work`](../../skills/show-me-your-work/SKILL.md) to record decisions, reasons, and evidence in the current Plan. Durable architectural rationale belongs in ADR, not a separate TSV ledger. [Run work while you sleep](./07-overnight.md) covers the full overnight contract.
 
 **Pitfall:** don't enumerate skills in your prompt ("use /how, then /architect, then /arena..."). The playbook already sequences them, and a hand-written sequence usually reorders or drops steps the playbook would have kept. Name a skill only when you want to override a specific choice.
 

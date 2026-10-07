@@ -3,9 +3,11 @@
 
 # pstack
 
+The opening paragraphs retain the upstream author's introduction and attribution. Execution guidance below is adapted to Ignite; the original MIT license and source history remain available.
+
 i'm [poteto](https://x.com/poteto). i'm not a president or ceo, but i've worked with millions of lines of code at Meta, Netflix, and Cursor. i'm also on the react core team where i help build and maintain react compiler.
 
-there's a growing sense that ai writes too much slop code. i agree. i don't want to ship like a team of twenty slop artists. throughput without quality is not a goal i aspire to. if you want to go fast, go deep first. 
+there's a growing sense that ai writes too much slop code. i agree. i don't want to ship like a team of twenty slop artists. throughput without quality is not a goal i aspire to. if you want to go fast, go deep first.
 
 **pstack is my answer.** these are the same skills i use everyday to ship high quality code at Cursor. this turns cursor into a real engineering team. the goal is not to maximize loc, in fact it's the opposite. pstack helps you write less, but higher quality code.
 
@@ -13,24 +15,15 @@ there's a growing sense that ai writes too much slop code. i agree. i don't want
 
 **cursor gives you the best of all worlds.** every frontier model has its strengths and weaknesses. use any model with pstack. in fact, many of my skills use multi-model workflows to take advantage of each model's unique strengths.
 
-fork it. improve it. make it yours. PRs are welcome! 
+fork it. improve it. make it yours. PRs are welcome!
 
-## install
+## use the Ignite project library
 
-```bash
-/add-plugin pstack
-```
+This repository already carries pstack methods and native discovery bridges. Read [the Ignite adapter](./ADAPTER.md), then use [poteto-mode](./skills/poteto-mode/SKILL.md) when a complex task needs a workflow. Small, clear edits proceed directly. No upstream plugin installation is required.
 
-## get started
+Models follow `.ai/pstack/config.json`, defaulting to `inherit-current-host`. [setup-pstack](./skills/setup-pstack/SKILL.md) changes project choices only when requested and supported by the host. This convention is not a scheduler or automatic model switch.
 
-two steps:
-
-1. run [`/setup-pstack`](./skills/setup-pstack/SKILL.md), pick a reasoning budget, and choose which models you want.
-2. use [`/poteto-mode`](./skills/poteto-mode/SKILL.md) whenever you're doing anything that requires rigor.
-
-new here? the [pstack guide](./docs/guide/README.md) walks you through a first real task, from setup and prompting through verification and overnight runs. stuck, or unsure which skill fits? ask [`/poteto-help`](./skills/poteto-help/SKILL.md).
-
-that's it. the other skills are situational; the mode skill uses them for you as needed. out of the box the mode splits work by model strength: code delegates (feature, refactoring, bug fix, perf, hillclimb) go to grok, while the hardest changes, prose, and judgment go to opus 5.5. the default panel is opus 5.5 / grok. [`/setup-pstack`](./skills/setup-pstack/SKILL.md) changes any of it.
+The [guide](./docs/guide/README.md) covers real tasks. [poteto-help](./skills/poteto-help/SKILL.md) helps choose a method. Skills teach tradeoffs and execution; cloning does not prove every host or optional script can run.
 
 ## usage
 
@@ -77,7 +70,7 @@ morning.
 | [pause safely](./skills/poteto-mode/playbooks/pause-safely.md) | suspend in-flight work cleanly so it can be resumed later. |
 | [multi-phase plan](./skills/poteto-mode/playbooks/multi-phase-plan.md) | work that spans phases or stacked PRs. |
 | [worktree cleanup](./skills/poteto-mode/playbooks/worktree-cleanup.md) | reclaim disk by pruning merged or abandoned worktrees and stale ios simulators, safety-gated. |
-| [opening a pr](./skills/poteto-mode/playbooks/opening-a-pr.md) | open a ready pr from small ordered commits with a conventional commits title and a briefing-style body. invoked at the end of every other playbook. |
+| [opening a pr](./skills/poteto-mode/playbooks/opening-a-pr.md) | prepare a reviewable PR with actual evidence when PR publication is authorized. |
 
 </details>
 
@@ -85,15 +78,15 @@ morning.
 
 when invoked it:
 
-1. matches your task to a [playbook](./skills/poteto-mode/playbooks/) and opens a todo list whose first items are its steps, copied in verbatim.
+1. matches your task to a [playbook](./skills/poteto-mode/playbooks/) and maps the applicable steps into the existing Ignite Plan tasks.
 2. routes to the other skills as the steps fire.
 3. writes unslopped replies framed for the consumer and the maintainer.
 
 the full rules and playbooks live in [`skills/poteto-mode/SKILL.md`](./skills/poteto-mode/SKILL.md).
 
-to keep [`/poteto-mode`](./skills/poteto-mode/SKILL.md) on across turns, pick it from the `/` menu and press option+enter (mac) or alt+enter (windows) instead of enter. that makes it a [custom mode](https://cursor.com/docs/skills), which cursor offers in the agents window and the cli. it stays in context every turn, applies itself when a playbook matches or the task needs rigor, and stays out of the way otherwise. plain enter attaches it to one message only. say so to opt out, or exit the mode to turn it off.
+In Cursor, [custom modes](https://cursor.com/docs/skills) are one option for retaining a mode across turns. Other hosts have their own supported mechanisms. Ignite does not require Cursor shortcuts or persistent mode UI; the shared project rules and canonical skill remain the entry.
 
-[`/poteto-mode`](./skills/poteto-mode/SKILL.md) works extremely well with cursor's `/loop` command. you can make cursor work for many hours without sacrificing rigor.
+Cursor's `/loop` is an upstream wake mechanism, not a bundled cross-host command. Use the current host's real authorized continuation or automation capability. Cloning the repository does not start background work.
 
 ## skills
 
@@ -128,14 +121,14 @@ to keep [`/poteto-mode`](./skills/poteto-mode/SKILL.md) on across turns, pick it
 | [`/reflect`](./skills/reflect/SKILL.md) | a long task landed and you want the recipe captured as a skill edit. |
 | [`/correct`](./skills/correct/SKILL.md) | you keep correcting agents for the same mistakes. mines history for mistake classes, fixes each at the highest level that works (architecture, then types, lint, and ci, then tests, with docs last), and keeps a table pairing each rule with what enforces it. |
 | [`/teach`](./skills/teach/SKILL.md) | you want to actually understand a change or subsystem, not just have it summarized. runs how + why and weaves one plain explanation, built up diagram by diagram. |
-| [`/tdd`](./skills/tdd/SKILL.md) | you're fixing a bug and there's a cheap local test path. write the failing test first, then the fix. |
+| [`/tdd`](./skills/tdd/SKILL.md) | explicitly requested failing-test workflow; native Ignite Plan behavioral red requirements still apply independently. |
 | [`/benchmark-checklist`](./skills/benchmark-checklist/SKILL.md) | you ran a benchmark or measured a speedup or regression. vets the number (limiter, tuning, errors, repeat runs, end-to-end relevance) before you report or act on it. |
 | [`/no-comments`](./skills/no-comments/SKILL.md) | strip comments before review; spawns Comment Sicko, fixes accepted findings, offers encodings for claimed constraints. |
 | [`/typescript-best-practices`](./skills/typescript-best-practices/SKILL.md) | you're reading or editing typescript. grounds the type-system-discipline principle in syntax. |
 | [`/figure-it-out`](./skills/figure-it-out/SKILL.md) | no bundled playbook fits. designs a rigorous, auditable playbook for the task. |
-| [`/show-me-your-work`](./skills/show-me-your-work/SKILL.md) | you want a reviewable decision trail. logs decisions to a tsv you can commit. |
-| [`/create-verification-skill`](./skills/create-verification-skill/SKILL.md) | your project has no scripted way to prove app behavior. generates a project-local verify skill with a feature map, for any language or platform. |
-| [`/maintain-verification-skill`](./skills/maintain-verification-skill/SKILL.md) | your verify skill's feature map has drifted from the app. source wave + one live pass, at most one PR of proven corrections. |
+| [`/show-me-your-work`](./skills/show-me-your-work/SKILL.md) | record decisions, reasons, and evidence in the current Plan; durable architecture rationale goes to ADR. |
+| [`/create-verification-skill`](./skills/create-verification-skill/SKILL.md) | add missing app-control instructions while referencing existing Feature AC and tests. |
+| [`/maintain-verification-skill`](./skills/maintain-verification-skill/SKILL.md) | control instructions drifted from the app; update instructions and native Feature/AC/test references together. |
 | [`/unslop`](./skills/unslop/SKILL.md) | you're cleaning up writing. removes AI tells. |
 | [`/bro`](./skills/bro/SKILL.md) | you want the last message restated in plain human language, no jargon. |
 | [`/technical-writing`](./skills/technical-writing/SKILL.md) | layered doc standard (Diátaxis + Google developer style + STE + Global English) for docs, RFCs, readmes, PR descriptions, commit messages. |
@@ -193,11 +186,11 @@ help:              /poteto-help which skill should i use to review this branch?
 
 ## the `poteto-agent` and Comment Sicko subagents
 
-pstack also ships a subagent that runs my style end to end. spawn it from a parent agent via [`subagent_type: "poteto-agent"`](./agents/poteto-agent.md). it reads `poteto-mode` in full, including its inline principles index, before doing any work. substituting `generalPurpose` skips that read and drifts.
+pstack also ships a subagent that runs my style end to end. When delegation is useful and authorized, pass [its role instructions](./agents/poteto-agent.md) to an available host subagent. The role file does not register a native agent type. it reads `poteto-mode` in full, including its inline principles index, before doing any work. A host general-purpose worker can use the role when its brief explicitly includes the relevant canonical instructions.
 
 [`/poteto-mode`](./skills/poteto-mode/SKILL.md) and [`subagent_type: "poteto-agent"`](./agents/poteto-agent.md) route through the same wrapper.
 
-pstack also ships [Comment Sicko](./agents/comment-sicko.md), a read-only comment reviewer available as `subagent_type: "Comment Sicko"`. usually invoke it through [`/no-comments`](./skills/no-comments/SKILL.md), not directly.
+pstack also ships [Comment Sicko](./agents/comment-sicko.md), a read-only comment-review role that can be passed to an available host worker. usually invoke it through [`/no-comments`](./skills/no-comments/SKILL.md), not directly.
 
 ## principles
 
@@ -243,27 +236,23 @@ a few things `poteto-mode` references but doesn't bundle:
 - `control-cli` (for CLIs and TUIs) and `control-ui` (for browser, Electron, web) ship in `cursor-team-kit` too.
 - `/create-skill` is a cursor built-in. cursor also ships a built-in `/babysit`; inside `poteto-mode`, the [babysit playbook](./skills/poteto-mode/playbooks/babysit.md) supersedes it for pr-status requests.
 
-install `cursor-team-kit` alongside pstack if you want the full set.
+Use an authorized available host equivalent for these optional tools, or disclose the missing capability. Do not install an extra plugin automatically.
 
-## why are there no planning skills?
+## planning and project records
 
-cursor already has a great plan mode which works great with pstack. but personally, i don't believe in planning. the best spec is code. if you do want to make a plan, [`/poteto-mode`](./skills/poteto-mode/SKILL.md) covers it, but it's not a default. 
+Ignite retains Feature → Plan → Contract/Test → Implementation → Verify → Design. Reuse the matching unfinished Plan; its `tasks` are the only task status source. Playbooks provide methods, not another plan format, coordination database, or acceptance ledger. Record ordinary decisions in Plan, durable architectural rationale in ADR, and implemented facts in Design.
 
 ## make it yours
 
-`poteto-mode` is my style. you may not want exactly that.
+[automate-me](./skills/automate-me/SKILL.md) can help capture preferences from authorized relevant history. Project-specific method bodies belong in `.ai/skills/<name>/SKILL.md`. Inspect changes with `node scripts/pstack-sync.mjs` and synchronize discovery entries with `--write`. Platform folders contain metadata and canonical links only.
 
-type [`/automate-me`](./skills/automate-me/SKILL.md). it mines your recent transcripts, drafts a `<your-name>-mode` skill from how you've actually worked, and routes through pstack underneath. you keep pstack as the base and end up with your own routing skill alongside `poteto-mode`.
-
-models are configurable too. type [`/setup-pstack`](./skills/setup-pstack/SKILL.md). it detects the models you have access to and writes a small always-applied rule mapping each role (code, judgment, the review panels) to a model. every skill reads it and falls back to sensible defaults when the rule is absent, so you override only what you want.
-
-when a default changes, a rule written before the change still pins the old default. delete those role lines, or delete the file, then run `/setup-pstack` again. a rerun keeps any role whose model differs from the default.
+[setup-pstack](./skills/setup-pstack/SKILL.md) reads the project config. Role values may be a supported model ID or a list for a requested panel. `auto` and `inherit-parent` mean inheritance. The host must confirm actual model IDs and reasoning support; no global Cursor model rule is needed.
 
 ## automations
 
-pstack also ships a dormant [benny automation pack](./automations/benny/). benny triages slack issue reports, then reproduces and fixes confirmed bugs with real ui evidence. its files are not registered as slash skills.
+The [Benny pack](./automations/benny/README.md) is dormant. Three optional setup/operation entries are discoverable, but live authorized automation reads canonical operational files directly under `.ai/pstack/automations/benny/`.
 
-to set it up, point cursor at [`FOR_AGENTS.md`](./automations/benny/FOR_AGENTS.md). setup copies the pack into the target repository at `.cursor/automations/benny/`, enables pstack there for shared skills, and keeps user configuration outside the copied pack.
+Setup uses secret-free user configuration under `.ai/benny/`, references existing Feature AC and test cases, and uses the current host's actual automation capabilities. No second copy in `.cursor/automations/`, automatic plugin enablement, Slack connection, or event-trigger activation happens on clone.
 
 ## license
 

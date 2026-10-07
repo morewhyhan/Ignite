@@ -45,21 +45,21 @@ Sometimes you want the cause before any fix. For a live symptom, such as a leak,
 
 ## Write the failing test first with `/tdd`
 
-When a bug has a cheap local test path, the whole prompt can be two words:
+For a bug, continue the matching Plan and use its behavioral AC. A short explicit TDD prompt can be:
 
 ```text
 /tdd implement
 ```
 
-In context, that's enough. [`/tdd`](../../skills/tdd/SKILL.md) writes the smallest test that fails for the intended reason, then the fix, then reruns the test. If a test would need broad harness setup or brittle mocks, the skill says so and uses the closest executable check instead. Don't force a test where a real command is stronger evidence.
+In context, that's enough. [`/tdd`](../../skills/tdd/SKILL.md) writes the smallest test that fails for the intended reason, then the fix, then reruns the test. Ignite requires a native behavioral red record for a new Plan before implementation. An expensive path or environmental failure does not permit skipping it or inventing evidence. If the user explicitly postpones tests, retain pending verification and do not claim done. UI, database, and external checks supplement the appropriate unit checks.
 
 ## Load the TypeScript rules by name
 
-[`typescript-best-practices`](../../skills/typescript-best-practices/SKILL.md) turns the type-system principles into concrete rules: discriminated unions, `unknown` at boundaries, exhaustive variants, schema-derived types. It doesn't load on its own, so type `/typescript-best-practices` when a task touches `.ts` or `.tsx` files.
+[`typescript-best-practices`](../../skills/typescript-best-practices/SKILL.md) turns the type-system principles into concrete rules: discriminated unions, `unknown` at boundaries, exhaustive variants, schema-derived types. Its description requires use when reading or editing `.ts` or `.tsx` files. It need not be named in every user prompt.
 
 ## Clean before you commit
 
-The [Opening a PR playbook](../../skills/poteto-mode/playbooks/opening-a-pr.md) runs `/deslop` on the diff before each commit and applies [`/unslop`](../../skills/unslop/SKILL.md) to the PR description and commit bodies. `/deslop` ships in the `cursor-team-kit` plugin, not in pstack. If you don't have it, ask for the same outcome in plain words: remove narrating comments, unsupported guards, dead compatibility paths, and unrelated edits.
+The [Opening a PR playbook](../../skills/poteto-mode/playbooks/opening-a-pr.md) reviews unnecessary code before commits and applies [`/unslop`](../../skills/unslop/SKILL.md) to the PR description and commit bodies. `/deslop` ships in the `cursor-team-kit` plugin, not in pstack. If you don't have it, ask for the same outcome in plain words: remove narrating comments, unsupported guards, dead compatibility paths, and unrelated edits.
 
 For prose, `/unslop` takes a target and any extra rules you have:
 
@@ -77,7 +77,7 @@ Comments need their own pass, and not from the agent that wrote them. An author 
 /no-comments the diff
 ```
 
-[`/no-comments`](../../skills/no-comments/SKILL.md) spawns [Comment Sicko](../../agents/comment-sicko.md), a read-only reviewer with a short keep list: license headers, doc comments on a public API, links that explain what code can't, behavior forced by an external dependency you can't reshape. Everything else goes. A surprise in your own code gets no such pass. The comment comes back as a refactor flag, and `/no-comments` fixes the flags it accepts at the root cause. When a comment claims a constraint, "do not remove", the skill offers to encode the claim as a type, test, or lint. Either way, the comment comes out.
+[`/no-comments`](../../skills/no-comments/SKILL.md) spawns [Comment Sicko](../../agents/comment-sicko.md), a read-only reviewer with a short keep list: license headers, doc comments on a public API, links that explain what code can't, behavior forced by an external dependency you can't reshape. Review each finding and preserve comments that explain a real constraint or intent. Do not remove useful information only to satisfy a style preference. A surprise in your own code gets no such pass. The comment comes back as a refactor flag, and `/no-comments` fixes the flags it accepts at the root cause. When a comment claims a constraint, "do not remove", the skill offers to encode the claim as a type, test, or lint. Remove a comment only when the resulting code or retained documentation communicates its necessary information.
 
 The division of labor is worth keeping straight. `/deslop` cleans slop out of the code, `/unslop` cleans it out of prose, and `/no-comments` hands the comments to a reviewer who didn't write them.
 

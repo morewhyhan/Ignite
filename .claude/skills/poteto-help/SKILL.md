@@ -1,7 +1,7 @@
 ---
 name: poteto-help
-description: Guides users through pstack setup, /poteto-mode, and picking the skill,
-  playbook, or principle for a task. Type /poteto-help with a question.
+description: Guides users through pstack setup, /poteto-mode, and picking the
+  skill, playbook, or principle for a task. Type /poteto-help with a question.
 ---
 
 # poteto-help

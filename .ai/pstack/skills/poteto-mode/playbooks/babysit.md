@@ -1,6 +1,8 @@
 
 > Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
 
+For Ignite, PR watch --status-only exit 0 means the observation completed, even when checks are red. READY means forge readiness only. Neither substitutes native Plan/Release acceptance or authorizes merging. Run pnpm ignite check --plan <ID> --level auto and the applicable final Release check under native rules. Patch-id reuse applies only to upstream PR diagnostics, not native execution evidence.
+
 ### Babysit
 
 **You own the merge frontier. Declare a mode, clear one PR at a time, stop where the human's call begins.** This playbook replaces Cursor's built-in babysit skill for these requests, so do not route there even though its description matches the same words. A request to land or ship is `playbooks/shipping.md`, which begins where this playbook ends.

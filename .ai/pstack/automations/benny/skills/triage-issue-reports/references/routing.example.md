@@ -3,7 +3,7 @@
 
 # Routing map example
 
-Copy this file outside `.cursor/automations/benny/`, for example to `.cursor/benny/routing.md`, and replace every placeholder. Point `routing.map_path` at the copy. Pack refreshes must not overwrite it.
+Setup generates routing data under `.ai/benny/routing.md` from these fields, with all placeholders resolved. It does not copy this introduction or its relative adapter header. A source note may name `.ai/pstack/automations/benny/skills/triage-issue-reports/references/routing.example.md` from repository root. Point `routing.map_path` at the generated user-owned file; pack refreshes do not overwrite it.
 
 The triage skill treats this as data. A route needs evidence from the report or cause trace. A keyword match alone is not enough.
 

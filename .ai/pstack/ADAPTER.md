@@ -17,6 +17,8 @@ pstack 的工程原则、51 个主技能、23 个 playbook、Agent 定义及 Ben
 
 ## 工具与模型映射
 
+实际分派前读取本目录 `config.json`：`schema: 1`，`model_policy: "inherit-current-host"`，`roles` 为角色名到模型 ID 或模型 ID 列表的映射。缺失角色、空配置、`auto`、`inherit-parent` 都省略模型覆盖，继承当前宿主。显式 ID 必须在当前宿主可用；不支持时说明限制并继承，不猜 Grok/Opus 名称。推理档位与模型 ID 分开，只有用户指定且宿主支持时才覆盖。该 JSON 是技能读取约定，不是新调度器。
+
 | 继承约定 | Ignite 的执行方式 |
 | --- | --- |
 | Cursor Task、poteto-agent、generalPurpose、run_in_background | 使用当前宿主实际可用的委派能力；没有专属 Agent 类型时，将 agents/poteto-agent.md 的角色和相应技能明确交给可用 Agent。没有委派工具就由当前 Agent 执行必要步骤并披露限制。 |
@@ -42,4 +44,16 @@ Benny 的文档、脚本和3个技能完整携带，作为可选自动化资源�
 
 ## 来源与维护
 
-来源为 Lauren Tan 的 pstack，MIT许可，上游快照 d0ef80d86795816da932a153458c5dbe192d294e。上游版权与 LICENSE 保留；[sources.json](sources.json)逐文件保存上游哈希、本地哈希与适配方式。上游原始模型/工具段落作为继承背景保留，执行以本页映射为准。更新先比较来源差异，再更新真源和桥接元数据。
+| 方法中的产物 | Ignite 中实际维护的位置 |
+| --- | --- |
+| 决定、尝试理由、取舍、恢复点 | 当前 Plan 的整体判断与 handoff；长期架构取舍按需要写 ADR，系统事实写 Design |
+| 多阶段计划、队列、协作与人决策 | 原生 Plan tasks、dependency_contracts、shared_files、handoff、open_questions 和 blocker；组合结果用 Release，不建 TSV/独立状态页 |
+| 用户行为地图与验证技能 | Feature 的 REQ/AC 和原有测试用例为验收真源；技能只提供启动、驱动、取证、清理方法，正式证据由原生检查器记录 |
+| 新建项目技能 | `.ai/skills/<name>/SKILL.md` 为正文，登记用途、权限、验证；四宿主目录只生成发现桥接 |
+| 纠错与规则补全 | 先判断已有规则是否足够；专业标准修原位置，技能修 canonical，不能机械在 AGENTS 添加重复规则 |
+
+修改入口时先跟随 canonical 链接，正文只写真源。修改技能名称或描述后运行 `node scripts/pstack-sync.mjs --write` 同步四入口、目录和本地来源哈希；不带 `--write` 只检查是否同步。该工具拒绝覆盖同名非生成技能，不删除其他资产，不改变上游来源哈希。它不证明方法的模型效果，也不代替 Plan/Release 验收。
+
+可选 Bun 辅助工具有自己的依赖，不属于根应用 pnpm 安装。阅读或调用帮助不得自动安装；显式准备前先检查原生运行时，按工具依赖准备并独立验收。PR 观察脚本的 `--status-only` 结束或 `READY` 仅描述 forge 状态，不代表 Ignite Plan/Release 通过或获准合并。Git patch-id 也不能代替原生证据复用规则。
+
+来源为 Lauren Tan 的 pstack，MIT许可，上游快照 d0ef80d86795816da932a153458c5dbe192d294e。上游版权与 LICENSE 保留；[sources.json](sources.json)逐文件保存上游哈希、本地哈希与适配方式。上游工程方法保留；实际模型、工具与产物步骤已按本页映射修改。更新先比较来源差异，再更新真源和桥接元数据。

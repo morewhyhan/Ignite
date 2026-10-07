@@ -7,6 +7,8 @@ pstack ships 24 principles as individual skills. `/poteto-mode` reads their inde
 
 You don't invoke principles. You use their names to steer. Each name points at a complete rule the agent has already read, so one phrase redirects the work more precisely than a paragraph of instructions.
 
+Apply principles within Ignite's existing rules. Goals and steps stay in Feature and Plan; actual facts stay in Design; evidence stays in native run records. A principle does not require extra agents, a separate decision ledger, or an experiment for every task.
+
 ## Steering in practice
 
 Say the agent is about to bolt a new adapter onto three existing ones:

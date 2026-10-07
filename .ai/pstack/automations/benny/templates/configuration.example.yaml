@@ -1,5 +1,13 @@
 schema_version: 1
 
+# Example fields only. Setup must resolve values and leave disabled until authorized.
+events:
+  enabled: false
+  provider: ""
+  binding: ""
+  message_timestamp_field: "ts"
+  thread_timestamp_field: "thread_ts"
+
 automations:
   triage_name: "benny-triage"
   reproduce_name: "benny-reproduce"
@@ -12,7 +20,7 @@ slack:
   thread_post_action: "configured-slack-thread-post-action"
   file_download_action: "configured-slack-file-download-action"
   operations_edit_action: "configured-slack-edit-action"
-  prefer_cursor_actions: true
+  prefer_host_actions: true
   optional_bot_token_env: "BENNY_SLACK_BOT_TOKEN"
   allow_source_root_posts: false
   allow_worker_slack_writes: false
@@ -39,14 +47,15 @@ tracker:
   require_compensation_action: true
 
 routing:
-  map_path: ".cursor/benny/routing.md"
+  map_path: ".ai/benny/routing.md"
   owner_pings_default: false
   allow_feature_owner_ping: false
   allow_confirmed_regression_author_ping: false
 
 control:
   skill_name: "control-target-app"
-  feature_map_path: ".cursor/benny/feature-map.md"
+  # Operation guidance references existing Feature REQ/AC and test cases.
+  feature_map_path: ".ai/benny/control-paths.md"
   environment: "safe-test-environment-placeholder"
   artifact_directory: "/tmp/benny-artifacts"
   artifact_retention_hours: 24
@@ -68,6 +77,7 @@ status_emoji:
   pull_request_opened: "🔗"
 
 budgets:
+  # In-run bounded follow-up only. This does not schedule polling triggers.
   poll_seconds: 45
   verdict_wait_minutes: 45
   triage_follow_up_minutes: 10
@@ -78,7 +88,9 @@ budgets:
   operations_follow_up_minutes: 45
 
 models:
-  triage: "choose-an-available-public-model-slug"
-  reproduce: "choose-an-available-public-model-slug"
-  code: "choose-an-available-public-model-slug"
-  media_review: "choose-an-available-public-model-slug"
+  triage: "inherit-parent"
+  reproduce: "inherit-parent"
+  code: "inherit-parent"
+  media_review: "inherit-parent"
+
+# Model roles are read alongside .ai/pstack/config.json; actual IDs require host support.

@@ -1,6 +1,8 @@
 
 > Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
 
+For Ignite, PR watch --status-only exit 0 means the observation completed, even when checks are red. READY means forge readiness only. Neither substitutes native Plan/Release acceptance or authorizes merging. Run pnpm ignite check --plan <ID> --level auto and the applicable final Release check under native rules. Patch-id reuse applies only to upstream PR diagnostics, not native execution evidence.
+
 ### Shipping
 
 **You own what lands. Verify each PR independently, land only the verified run from the root, then keep your hands off the queue.**

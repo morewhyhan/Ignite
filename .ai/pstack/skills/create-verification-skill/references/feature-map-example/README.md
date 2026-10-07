@@ -3,7 +3,7 @@
 
 # Notes verification map
 
-This directory is the maintained source for verifying the user-facing behavior of Notes. Read the index before driving the app, then use the matching feature file as the recipe.
+This is an inherited fictional Notes example for launch/drive/evidence technique, not a maintained Ignite requirements or acceptance map. Do not run its commands in Ignite. A real control skill links existing Feature REQ/AC, docs/others/test-cases/ and executable tests instead of copying this directory as another coverage authority.
 
 ## Baseline preconditions
 
@@ -29,13 +29,13 @@ This directory is the maintained source for verifying the user-facing behavior o
 - UI proof includes an ARIA snapshot and a screenshot with the app identity visible.
 - CLI proof includes the command, stdout, stderr, and exit code.
 - Mutation proof includes a read-only second view of the stored value.
-- Record the feature ID and entry point used with every artifact.
+- In an adopted Ignite recipe, reference existing REQ/AC and test-case IDs, the tested version and entry point. These imaginary sub-feature IDs do not replace them.
 - Report an unreachable path with the attempted command and the unmet precondition.
-- Do not report a skipped entry point as verified through a different path.
+- Do not report a skipped entry point as verified through a different path. Manual captures supplement observations; formal acceptance remains the native runner's evidence.
 
 ## Feature entry contract
 
-Each feature file starts with an H1 title and one paragraph describing the user-visible behavior. It then uses exactly four H2 sections in this order.
+The fictional examples use the following sections to illustrate a driving recipe. This format is not an Ignite document contract; existing Feature/test-case directory rules remain authoritative.
 
 1. `Sub-features` lists short IDs with one line for each behavior.
 2. `How to get to it (user POV)` lists every user entry point.

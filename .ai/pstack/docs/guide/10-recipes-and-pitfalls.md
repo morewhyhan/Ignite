@@ -66,10 +66,10 @@ The qualifiers do real work. "don't change anything yet" keeps it read-only, and
 ## Fix a bug through a failing test
 
 ```text
-/poteto-mode repro the duplicate write first. if there's a cheap test path, /tdd it. then fix and rerun.
+/poteto-mode repro the duplicate write first. use the matching Plan AC and record the required behavioral red before implementation. then fix and rerun.
 ```
 
-"if there's a cheap test path" matters. Forcing a test through brittle mocks proves less than running the real command, and the playbook is allowed to say so.
+Use the real behavior and native red evidence required by Ignite. Expensive setup does not permit a fabricated or skipped red. Explicitly postponed tests remain pending and cannot establish done.
 
 ## Repro and fix a report with proof
 
@@ -106,7 +106,7 @@ You get an answer, a prompt to send, and a link to the source. Nothing runs unti
 ## Keep a run honest while you're away
 
 ```text
-im going to bed, keep going autonomously until every fixture passes. do not stop. keep a decision log i can audit in the morning.
+im going to bed, keep going autonomously until every fixture passes. do not stop. record decisions and evidence in the existing Plan so i can review them in the morning.
 ```
 
 The full contract is on the [overnight page](./07-overnight.md). The short form works once the task and finish condition are already in the conversation.
@@ -144,7 +144,7 @@ That's the whole prompt. [`/bro`](../../skills/bro/SKILL.md) restates the last m
 - **Leading with your theory of the cause.** The agent searches wherever you pointed. Ask it to restate the problem first, then share your hunch.
 - **Taking the first design.** One attempt locks in the first shape the model thought of. Ask for prototypes or `/architect` and pick from evidence.
 - **Polishing an abstract plan.** Adversarial review of a plan with no code behind it invents risks that will never happen. Settle the open questions with prototypes, then review what got built.
-- **Parallel agents in one worktree.** They overwrite each other and the diff becomes archaeology. Run them as cloud agents, or say "own worktree per attempt".
+- **Parallel agents in one worktree.** They overwrite each other and the diff becomes archaeology. Use authorized host delegation with exclusive scopes or isolated worktrees. Cloud hosting is optional and is not enabled by cloning Ignite.
 - **Looping before you trust the loop.** A loop that can't verify its own work only makes unchecked work faster. Get the verification skill working first.
 - **Trusting an unvetted number.** A warm cache or a skipped code path can fake a speedup. Run `/benchmark-checklist` before the number goes anywhere.
 - **Correcting the same mistake by hand.** A correction in chat helps one run. `/correct` fixes the repo so no later run repeats it.

@@ -1,9 +1,9 @@
 ---
 name: reproduce-and-fix-issues
-description: Optional Benny automation setup/operations when requested. Reproduce
-  triaged Slack bugs through a configured app-control adapter, verify existing fixes,
-  and open a bounded draft pull request only after before-and-after proof. Use only
-  from the configured Benny repro automation.
+description: Optional Benny automation setup/operations when requested.
+  Reproduce triaged Slack bugs through a configured app-control adapter, verify
+  existing fixes, and open a bounded draft pull request only after
+  before-and-after proof. Use only from the configured Benny repro automation.
 ---
 
 # reproduce-and-fix-issues

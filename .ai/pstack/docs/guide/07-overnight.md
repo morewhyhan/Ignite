@@ -3,7 +3,7 @@
 
 # Run work while you sleep
 
-This is the payoff for everything before it. An agent you can trust to verify its own work is an agent you can leave alone with a hard task. What makes that safe isn't hope. It's a checkable finish condition, an isolated worktree or cloud agent, and a decision log you audit in the morning.
+This is the payoff for everything before it. An agent you can trust to verify its own work is an agent you can leave alone with a hard task. What makes that safe isn't hope. It's a checkable finish condition, an isolated worktree or cloud agent, and decision records in the existing Plan that you can review in the morning.
 
 ![She waves goodnight from the door while robots keep the factory running, one updating a DECISION LOG wall board under a BUILD LOOP ACTIVE sign.](./images/overnight.jpg)
 
@@ -25,22 +25,22 @@ A good handoff has the goal, the finish condition, permissions, and an escape ha
 ```text
 /poteto-mode im going to bed. migrate every caller to the new parser in a fresh worktree off <base>.
 done means zero old callers, all parser fixtures pass, old api deleted.
-keep a decision log. don't ask me before committing.
+record decisions and evidence in the existing Plan. don't ask me before committing.
 /loop until done. if you're truly stuck after a few hours, stop and write up why.
 ```
 
 Walk through what each line buys you:
 
-- "im going to bed" is a session override. The agent stops asking and keeps going.
+- "im going to bed" asks the agent to continue within existing scope and authorization. It does not grant external writes or override verification rules.
 - "done means..." turns the goal into checks every iteration can run.
 - "fresh worktree off `<base>`" keeps the run from colliding with anything else you have open.
 - "don't ask me before committing" pre-answers the permission the agent would otherwise block on.
-- `/loop` is Cursor's built-in wake mechanism, not a pstack skill. The [Autonomous run playbook](../../skills/poteto-mode/playbooks/autonomous-run.md) uses it to re-check the finish condition on events or a heartbeat.
+- `/loop` is a Cursor-specific wake mechanism. In another host use its actual authorized goal or automation facility. Codex scheduling requires the available automation tool; do not invent Slack event support or a workaround polling job.
 - The escape hatch lets it stop at a genuine dead end and write up why, which beats eight hours of creative goal reinterpretation.
 
-Because you'll review this work after stepping away, `/poteto-mode` routes it through [`/figure-it-out`](../../skills/figure-it-out/SKILL.md), which designs the run's phases before any code and wires in the decision log.
+Because you'll review this work after stepping away, `/poteto-mode` routes it through [`/figure-it-out`](../../skills/figure-it-out/SKILL.md), which maps the needed phases into the existing Plan tasks and keeps reasons and evidence in that Plan.
 
-To stop a run on purpose, tell the agent to pause, or that you're about to go offline or restart Cursor. The [Pause safely playbook](../../skills/poteto-mode/playbooks/pause-safely.md) finishes or backs out of the current step, commits a work-in-progress checkpoint, and writes a resume note. A fresh chat picks the work up from that note through the Session pickup playbook. Saying "keep going" never triggers a pause.
+To stop a run on purpose, tell the agent to pause, or that you're about to go offline or restart Cursor. The [Pause safely playbook](../../skills/poteto-mode/playbooks/pause-safely.md) finishes or backs out of the current step, commits a work-in-progress checkpoint, and writes the resume point in the existing Plan. A fresh chat picks the work up from that note through the Session pickup playbook. Saying "keep going" never triggers a pause.
 
 ## What the loop does all night
 
@@ -51,28 +51,24 @@ flowchart TD
     C --> D{Progress?}
     D -->|Yes| E[Commit]
     D -->|No| F[Discard]
-    E --> G[Log one decision row]
+    E --> G[Update existing Plan and evidence]
     F --> G
     G --> A
 ```
 
-One change, one check, one log row, every iteration. Changes that didn't help get discarded, not left to ride. A plateau means pivot, not stop, and the finish condition never quietly relaxes to declare victory.
+For each meaningful change, inspect its actual result and update the existing Plan with the decision and evidence. Reuse passed checks for identical inputs. Changes that didn't help get discarded, not left to ride. A plateau means pivot, not stop, and the finish condition never quietly relaxes to declare victory.
 
 ## The morning audit
 
-[`/show-me-your-work`](../../skills/show-me-your-work/SKILL.md) is what makes the run reviewable. Each row records the time, phase, decision, reason, an evidence pointer, and the result, in a TSV at `decisions.tsv` (or `.audit/<task-slug>.tsv` when several runs share a directory). It stays local by default. Commit it when the work is ambitious enough that a reviewer needs the trail to trust the result.
+[show-me-your-work](../../skills/show-me-your-work/SKILL.md) records a meaningful decision, its reason, evidence, and result in the existing Plan's decision or state record. A durable architectural tradeoff belongs in ADR; actual system facts belong in Design. Raw experiment files may be local evidence attachments, but do not create `decisions.tsv` or `.audit` as another decision or progress ledger.
 
-When you're back, ask for the run in review form:
-
-```text
-/show-me-your-work catch me up on what you did last night
-```
-
-Before the skill hands back its summary, it spawns a reviewer on a different model family to read the trail and the transcript, and the reply ends with an Attention section listing what deserves your scrutiny. Read that section first, then the log rows it points at. You're auditing decisions, not re-reading the whole night.
+When you return, ask for a review of the goal, changes, actual run evidence, and remaining gaps. Read the Plan and evidence it points to. Independent reviewers are optional when useful and authorized; do not require a different model family or a review ceremony for every handoff.
 
 ## When the night holds a queue, not a task
 
 The contract above drives one task to one finish condition. Some nights hold more, a queue of independent changes or a whole program. Three playbooks scale the same trust up.
+
+In Ignite, queue ownership and dependencies stay in existing Plan collaboration fields, task status comes from `tasks`, and Release defines combined acceptance. Native checks and actual versioned evidence are required alongside any independent review. No verifier verdict grants merge permission; the prompt must actually authorize merging. Do not initialize another orchestration ledger or require a fleet of agents merely because a queue exists.
 
 [Autopilot-full](../../skills/poteto-mode/playbooks/autopilot-full.md) runs a queue of independent PRs to merged. Each PR gets one owner agent that carries it from build through merge, and no owner merges on its own verdict. A swarm of fresh verifiers starts a round at the owner's code-ready head and again at every later push that changes the patch. Only a clean verdict on the patch that merges authorizes the merge:
 
@@ -94,7 +90,7 @@ The contract above drives one task to one finish condition. Some nights hold mor
 
 ## Run many projects in parallel
 
-A [Cursor Project](https://cursor.com/blog/projects) gives one coordinator agent a persistent thread. The coordinator doesn't write code. It directs subagents, which run in the cloud by default, so the work continues when your laptop is closed. That's the shape the Orchestrate playbook expects. Start your prompts to the coordinator with `/poteto-mode`, and the subagents it spawns follow the playbooks.
+A [Cursor Project](https://cursor.com/blog/projects) is an upstream hosting option for a persistent coordinator. It is not required or automatically enabled by Ignite. The coordinator uses the current host's actual capabilities. Cloning these files does not make work run in the cloud or continue after the local host stops. That's the shape the Orchestrate playbook expects. Start your prompts to the coordinator with `/poteto-mode`, and the subagents it spawns follow the playbooks.
 
 A few habits help:
 
@@ -116,7 +112,7 @@ Every loop above still waits for you to start it. A scheduled or event-driven au
 - Every stage can stop the line. Triage can decide the report is expected behavior, repro can fail to reproduce it, and the fixer can judge the change too risky. Each of those outcomes is useful, because it keeps bad work from reaching the next stage, where it costs more to undo.
 - Every stage hands over evidence. Repro attaches screenshots and video of the broken state, and the fix attaches before-and-after proof. A human can then check that the agent fixed the right thing before reading a line of code.
 
-pstack ships this as a dormant [automation pack](../../automations/benny/README.md) for Slack issue reports. One automation triages each report. The other reproduces confirmed bugs and may prepare a small draft fix. Point an agent at its [`FOR_AGENTS.md`](../../automations/benny/FOR_AGENTS.md) and name the target repository to set it up.
+pstack ships this as a dormant [automation pack](../../automations/benny/README.md) for Slack issue reports. One automation triages each report. The other reproduces confirmed bugs and may prepare a small draft fix. Its optional setup entry is [`FOR_AGENTS.md`](../../automations/benny/FOR_AGENTS.md). In Ignite it stays at `.ai/pstack/automations/benny/`. Activation needs explicit authorization, real event-provider support, configured external tools, and thread-safety checks. Until then it remains disabled.
 
 **Pitfall:** a duration is not a finish condition. "work on this for 4 hours" gives the agent nothing to check, and you'll wake up to four hours of motion instead of a result. Give `/loop` a predicate that can pass or fail.
 

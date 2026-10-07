@@ -1,8 +1,8 @@
 ---
 name: reflect
-description: Spawn three parallel review subagents over the active transcript, surface
-  learnings, and route each to a concrete edit on an existing skill. Use when the
-  user says reflect.
+description: Reflect on the current authorized conversation, identify durable
+  lessons and update their canonical skill or Ignite document owner. Use when
+  the user says reflect; scale review to the actual scope.
 ---
 
 # reflect

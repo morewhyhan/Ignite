@@ -7,15 +7,15 @@ pstack works best when you stop micromanaging the agent. You describe what you w
 
 Here's what you'll learn:
 
-1. [Set up pstack](./01-setup.md). Install the plugin and pick your models.
+1. [Set up pstack](./01-setup.md). Use the project entries and optionally choose host-supported models.
 2. [Route work through `/poteto-mode`](./02-poteto-mode.md). Give it a goal and watch it pick a playbook.
 3. [Understand the code](./03-understand.md). A read-only investigation, then `/how`, `/why`, `/teach`, and `/recall` before you edit anything.
 4. [Design the change](./04-design.md). `/architect`, `/arena`, `/swarm`, `/interrogate`, prototypes, and plans before code locks in a shape.
 5. [Build and clean the change](./05-build-and-clean.md). The build playbooks, `/tdd`, `/unslop`, and `/no-comments`.
 6. [Verify and ship](./06-verify-and-ship.md). Prove behavior on the real app, vet numbers with `/benchmark-checklist`, then open a focused PR and drive it to merged.
-7. [Run work while you sleep](./07-overnight.md). Trust before loops, an overnight contract, a decision log you can audit, and Projects and automations that scale past one agent.
+7. [Run work while you sleep](./07-overnight.md). Trust before loops, an overnight contract, decisions in the existing Plan, and optional host-supported delegation and automation.
 8. [Steer with principle names](./08-principles.md). The 24 names that redirect an agent mid-task.
-9. [Make it yours](./09-make-it-yours.md). Your own mode, `/correct` for repeated mistakes, and how to test a skill change.
+9. [Make it yours](./09-make-it-yours.md). Your own mode, `/correct` for repeated mistakes, and when a real skill behavior comparison is useful.
 10. [Recipes and pitfalls](./10-recipes-and-pitfalls.md). Prompts to copy and mistakes to skip.
 
 Read the pages in order the first time. After that, each page stands alone.
@@ -36,6 +36,6 @@ Give the agent a goal and a way to check it, in your own words:
 /poteto-mode the export writes duplicate rows when a retry lands mid-run. repro first, then fix and verify.
 ```
 
-You don't need to name a playbook or list skills. "repro first" and a checkable outcome are all the routing signal `/poteto-mode` needs. It matches the Bug fix playbook, copies the steps into a todo list, and calls the right skills as each step fires.
+You don't need to name a playbook or list skills. "repro first" and a checkable outcome are all the routing signal `/poteto-mode` needs. It matches the Bug fix playbook, maps needed steps into the existing Plan tasks, and calls the right skills as each step fires.
 
 Next: [Set up pstack](./01-setup.md).

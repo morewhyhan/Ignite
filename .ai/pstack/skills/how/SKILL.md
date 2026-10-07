@@ -13,7 +13,7 @@ description: Use for "how does X work", code walkthroughs before changing someth
 
 Explore the codebase to answer "how does X work?" questions. Produce architectural explanations at the level of a senior engineer onboarding onto a subsystem, enough to build a working mental model, not so much that it reads like annotated source code.
 
-Each spawn below names a role line in the `pstack-models.mdc` rule and a default. Set `model` to that line's value, or to the default if the rule or the line is missing. Leave `model` unset when the value is `auto` or `inherit-parent`. If the Task tool rejects a slug, use the default and say so. If it rejects the default, use the closest valid slug of the same family from its error message.
+Before each dispatch read .ai/pstack/config.json roles using the role name below. Missing roles, auto and inherit-parent omit model and inherit the current host. Explicit IDs must be available in this host; an unsupported choice is reported and inherits rather than guessing a default model. Use actual host delegation APIs.
 
 ## Step 1. Assess Complexity
 
@@ -29,7 +29,7 @@ When in doubt, take the simple path.
 Decompose the question into 2 to 4 exploration angles, each a distinct slice of the subsystem. Spawn all explorers in a single message:
 
 - `subagent_type`: `generalPurpose`
-- `model`: the `how explorer` line, default `grok-4.7-xhigh-fast`
+- `model`: the `how explorer` role in local config; default inherit-parent
 - `readonly`: `true`
 
 Each explorer gets the prompt in `references/explorer-prompt.md` with its angle filled in. Then go to Step 3.
@@ -39,7 +39,7 @@ Each explorer gets the prompt in `references/explorer-prompt.md` with its angle 
 Spawn one Task subagent that explores and explains in one pass:
 
 - `subagent_type`: `generalPurpose`
-- `model`: the `how explainer` line, default `claude-opus-5-5-xhigh`
+- `model`: the `how explainer` role in local config; default inherit-parent
 - `readonly`: `true`
 
 Build its prompt from `references/explainer-prompt.md` without the explorer-findings section. Go to Step 4.
@@ -49,7 +49,7 @@ Build its prompt from `references/explainer-prompt.md` without the explorer-find
 Once all explorers have returned, spawn one Task subagent to synthesize their findings into one explanation:
 
 - `subagent_type`: `generalPurpose`
-- `model`: the `how explainer` line, default `claude-opus-5-5-xhigh`
+- `model`: the `how explainer` role in local config; default inherit-parent
 - `readonly`: `true`
 
 Build its prompt from `references/explainer-prompt.md` with every explorer's findings filled in.

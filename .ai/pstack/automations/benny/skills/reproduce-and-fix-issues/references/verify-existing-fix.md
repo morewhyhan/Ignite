@@ -30,7 +30,7 @@ Record:
 - Pull request or commit URL
 - Build and environment inputs shared by both runs
 
-Use regular `github.com` pull request links.
+Use the actual repository host and verified pull request URL. Record baseline, patched revision, and evidence in the existing Plan; keep product acceptance in native REQ/AC and run records.
 
 ## Measure the baseline
 
@@ -65,7 +65,7 @@ Do not stop at compilation or tests. The after result must come from a running p
 
 ### Confirmed
 
-The baseline reproduces twice and the patched build resolves it twice.
+The baseline reproduces twice and the patched build resolves it twice. This confirms the observed symptom, not all Plan or Release acceptance; required native checks and actual versioned run evidence remain separate.
 
 - Mark operations status as verified.
 - Link the artifact.

@@ -7,9 +7,11 @@ Benny does not know how to start or drive every app. The user must configure one
 
 Set its skill name in `control.skill_name`.
 
-Set the completed user-facing feature map path in `control.feature_map_path`. Copy and fill [`feature-map.example.md`](./feature-map.example.md) outside `.cursor/automations/benny/` instead of editing the copied example.
+Set `control.feature_map_path` to user-owned operation guidance under `.ai/benny/` that references existing Feature REQ/AC and actual test cases. [The example](./feature-map.example.md) explains missing interaction details; setup generates applicable fields without copying the relative adapter header. Expected behavior and acceptance remain in native records.
 
 If the skill, feature map, or a required capability is absent, ambiguous, or incomplete, repro and fix work must fail closed.
+
+"Feature map" below means the operation guidance identified by the legacy configuration field. It references native Feature AC and test cases; it does not maintain separate expected results, coverage, or pass status.
 
 ## Required capabilities
 
@@ -156,6 +158,8 @@ Use a translated attempt only when it tests the same underlying behavior. Label 
 Hardware prompts, operating-system permission dialogs, device-only APIs, and unavailable account states may be real blocks.
 
 ## Setup check
+
+This external/runtime check needs authorization and an actual configured adapter. Do not run it merely because methods were migrated. Keep its result in the existing Plan/evidence; it does not establish product acceptance.
 
 Before enabling the repro automation, run one harmless adapter check:
 

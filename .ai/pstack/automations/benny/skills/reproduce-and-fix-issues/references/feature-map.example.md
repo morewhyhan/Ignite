@@ -3,15 +3,22 @@
 
 # Feature-map example
 
-Map every user-facing feature Benny may reproduce. Read the relevant section before driving the app. Keep this map at the user point of view. Discover internals and current code paths at runtime instead of freezing them here.
+This example teaches operation paths, selectors, reset, and observations for Benny. Read existing Feature REQ/AC and test cases for expected behavior and required evidence. This operation guide is not another specification, coverage ledger, or pass-status source. Discover changing implementation details at runtime.
 
-Copy this file outside `.cursor/automations/benny/`, for example to `.cursor/benny/feature-map.md`, and set `control.feature_map_path` to the copy. Pack refreshes must not overwrite it.
+Generate user-owned operation guidance at `.ai/benny/control-paths.md`, then set `control.feature_map_path` to that file. The legacy configuration field names operation guidance, not an acceptance map. Generate only relevant fields; do not copy this introduction or relative adapter header. Use repository-root canonical source paths in generated notes. Pack refreshes must not overwrite user configuration.
 
 ## Per-feature template
 
 ### `<feature name>`
 
 `<one-line user-visible purpose>`
+
+- Existing Feature path: `<target-project feature>`
+- Existing REQ/AC: `<actual IDs from that Feature>`
+- Existing test cases: `<actual test paths>`
+- Required layers: `<reference AC.required_layers, do not redefine>`
+
+Expected results and pass status stay in those existing sources.
 
 #### How a user gets there
 
@@ -197,7 +204,7 @@ Lets a user change personal preferences.
 
 ## Completeness checklist
 
-- Every reproducible user-facing feature has a section.
+- Every path in the explicitly configured scope points to existing Feature REQ/AC and actual test cases. Missing native coverage remains a Plan task; do not invent passing coverage here.
 - Every section names a user path, adapter actions, and reset.
 - Selectors use roles, names, ARIA, stable component markers, or purpose-named attributes.
 - No selector uses generated classes or DOM position.

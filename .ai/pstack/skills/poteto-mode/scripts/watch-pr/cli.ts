@@ -85,7 +85,7 @@ export function parseArgs(
 ): CliOptions {
   const program = new Command("watch-pr")
     .description(
-      "Watch one pull request, a connected stack, or an immutable queued stack.\nJSON (NDJSON while polling) is the default; --pretty renders human text."
+      "Watch one pull request, a connected stack, or an immutable queued stack.\nJSON (NDJSON while polling) is the default; --pretty renders human text.\nREADY describes GitHub observations only; it is not Ignite Plan/Release verification or permission to merge."
     )
     .configureOutput({ writeOut: io.stdout, writeErr: io.stderr })
     .exitOverride()
@@ -126,7 +126,7 @@ export function parseArgs(
       positiveInteger,
       5
     )
-    .option("--status-only", "print one status table and exit 0", false)
+    .option("--status-only", "print one observation and exit 0 even for red status; this exit code is not a passing check", false)
     .option("--allow-draft", "do not treat a draft as a merge gate", false)
     .option("--pretty", "render human text instead of JSON", false);
   program.parse(argv, { from: "user" });

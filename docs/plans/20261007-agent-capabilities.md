@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1791362215382691296",
   "release": "agent-optimization-v1",
-  "status": "draft",
+  "status": "active",
   "outcome": "项目完整携带pstack方法与技能，并以同一真源接入各工具、适配Ignite规则和实际宿主",
   "contract_version": 2,
   "execution_contract": 1,
@@ -35,7 +35,7 @@
     "推送、合并、部署或外部消息"
   ],
   "authorization": {
-    "source": "2026-10-08用户要求整套方法论、技能直接搬到当前项目并适配；明确纠正此前技能跑分偏航"
+    "source": "2026-10-08用户要求整套方法论、技能直接搬到当前项目并适配；明确纠正此前技能跑分偏航；2026-10-08用户授权把审计发现全部修正"
   },
   "deliverables": [
     ".ai/pstack/",
@@ -49,7 +49,7 @@
     "docs/designs/execution.md"
   ],
   "remaining_work": [
-    "当前主工作区node_modules为Linux，Windows runtime:check拒绝共用；未执行原生Plan integration或Release，不将静态迁移检查当作这些层级完成"
+    "本轮审计修复与正常工程检查；原迁移AC未建立原生TDD红灯，不补写历史或冒充正式Plan/Release完成"
   ],
   "change_type": "存量改动",
   "base_commit": "542ea1c4dba5a0468230970f8158093a2f97c7dc",
@@ -113,6 +113,21 @@
       "id": "T4",
       "title": "检查迁移文件完整性、入口和引用，回写事实及限制",
       "status": "done"
+    },
+    {
+      "id": "T5",
+      "title": "逐项修正审计发现的记录、规划、技能维护、模型与Benny入口",
+      "status": "done"
+    },
+    {
+      "id": "T6",
+      "title": "修正辅助脚本边界并同步四宿主入口与来源哈希",
+      "status": "done"
+    },
+    {
+      "id": "T7",
+      "title": "检查本轮实际改动并回写Design、采用边界与验收限制",
+      "status": "doing"
     }
   ],
   "depends_on": [],
@@ -122,7 +137,9 @@
     "interfaces": ["项目内pstack技能真源与跨工具桥接"],
     "migrations": [],
     "tests": ["静态完整性、元数据与链接检查；不证明模型效果"],
-    "remaining": ["原生工程验收未执行"]
+    "remaining": [
+      "本轮审计修复与正常工程检查；原迁移AC未建立原生TDD红灯，不补写历史或冒充正式Plan/Release完成"
+    ]
   },
   "owner": "codex",
   "risk": "feature",
@@ -154,7 +171,9 @@
     "package.json",
     "tsconfig.json",
     "eslint.config.mjs",
-    ".prettierignore"
+    ".prettierignore",
+    "scripts/pstack-sync.mjs",
+    "tests/contracts/pstack-sync.test.ts"
   ],
   "tdd_evidence": [],
   "required_evidence": ["check-integration"],
@@ -181,7 +200,7 @@
 
 本轮交付为完整方法资产与实际入口，不是评估研究。先复制全部上游文件，再用单一适配层明确冲突处理，生成各工具发现桥接，检查文件完整、路径可达和许可保留。已有业务代码、依赖与数据库不变；复杂任务才使用poteto-mode，日常明确小改动直接执行。
 
-只检查迁移资产及入口，不运行模型对照，不建设Worker调度器。当前Windows不能使用主工作区Linux依赖；不重装、不伪造原生工程通过。Plan保留draft，未建立或运行原生TDD/integration及Release合同，资产交付与工程正式完成分开报告。没有占位失败测试或虚假验收证据。
+只检查迁移资产及入口，不运行模型对照，不建设Worker调度器。本轮已找到WSL Node 24.19.0，runtime:check通过；使用该环境检查，不重装依赖。本轮通过原生CLI进入active；原迁移缺少TDD红灯，不补写历史，integration按实际运行回填，Release保持未完成，资产交付与工程正式完成分开报告。没有占位失败测试或虚假验收证据。
 
 此前同ID计划在观察分支记录模型试验；历史保留，不把它们搬入模板或宣称证明本次迁移。用户本轮改变了交付范围，本次元数据按此接续，不新增收口Plan。
 
@@ -195,14 +214,17 @@
 
 <!-- ignite-progress -->
 
-状态：`draft`（由元数据生成）
+状态：`active`（由元数据生成）
 
 - [x] T1 · 更新本轮目标与采用边界，停止技能跑分前置要求 · done
 - [x] T2 · 搬入完整pstack及来源许可、配置和适配层 · done
 - [x] T3 · 连接四种项目技能发现目录与通用规则入口 · done
 - [x] T4 · 检查迁移文件完整性、入口和引用，回写事实及限制 · done
+- [x] T5 · 逐项修正审计发现的记录、规划、技能维护、模型与Benny入口 · done
+- [x] T6 · 修正辅助脚本边界并同步四宿主入口与来源哈希 · done
+- [ ] T7 · 检查本轮实际改动并回写Design、采用边界与验收限制 · doing
 
-验收缺口：当前主工作区node_modules为Linux，Windows runtime:check拒绝共用；未执行原生Plan integration或Release，不将静态迁移检查当作这些层级完成
+验收缺口：本轮审计修复与正常工程检查；原迁移AC未建立原生TDD红灯，不补写历史或冒充正式Plan/Release完成
 证据：尚无
 <!-- /ignite-progress -->
 
@@ -245,3 +267,9 @@
 2026-10-08用户明确要求整套搬移，取消技能跑分前置方向。本轮改回文件与入口交付，不从历史对照试验生成收益结论。
 
 2026-10-08静态迁移检查：270个技能元数据合法；文件哈希匹配；三项资产unit检查实际通过（392ms），仅使用隔离Windows工具读取当前项目文件。项目文档检查通过，使用进程内TypeScript/YAML纯JS解析器，不更改主工作区依赖。原生runtime:check因Linux依赖拒绝Windows，原始直接docs检查也因缺失TypeScript失败，均未冒充通过。Benny可选资源从根TypeScript/lint/format中排除，避免主应用承担其独立依赖。
+
+## 2026-10-08审计修复
+
+接续同一结果：把决策、阶段计划、协作和验证地图接回原生真源；新技能维护canonical并同步四入口；模型配置由实际执行入口读取；辅助工具不隐式安装或删除；Benny固定真源、保持未启用。采用边界不扩大到机器人上线、模型效果或四平台实机运行。新增同步脚本只维护生成文件，不覆盖用户技能、不建立任务账本。
+
+本轮检查准备：WSL运行时通过；504个方法本地引用有效；同步脚本的新增/四入口/只读/冲突保护/来源pin保留行为检查通过。第一次文件哈希检查遇并行编辑变动，待全部写入完成后重新同步。原生检查确认本轮应为integration；先提交稳定输入再运行，未提交输入拒绝未产生通过证据。

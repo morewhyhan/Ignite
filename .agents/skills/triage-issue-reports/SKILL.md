@@ -1,9 +1,9 @@
 ---
 name: triage-issue-reports
-description: Optional Benny automation setup/operations when requested. Triage Slack
-  issue reports with one thread-only verdict, evidence review, cause-aware routing,
-  tracker dedupe, and fail-closed ticket creation. Use only from the configured Benny
-  triage automation.
+description: Optional Benny automation setup/operations when requested. Triage
+  Slack issue reports with one thread-only verdict, evidence review, cause-aware
+  routing, tracker dedupe, and fail-closed ticket creation. Use only from the
+  configured Benny triage automation.
 ---
 
 # triage-issue-reports

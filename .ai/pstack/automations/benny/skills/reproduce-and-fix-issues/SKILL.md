@@ -13,7 +13,11 @@ description: Optional Benny automation setup/operations when requested. Reproduc
 
 Wait for a trusted triage marker in the source thread. Reproduce the exact symptom through the target app's real UI. Verify an existing fix when one exists. Attempt a bounded fix only after a confirmed repro.
 
-Load the external Benny configuration supplied by the automation. If the config, required actions, control adapter, or completed feature map is missing, fail closed.
+This optional operation is discoverable for explanation or manual authorized use, but performs writes only in an explicitly configured and authorized run. Read this canonical file directly from `.ai/pstack/automations/benny/` and load the user configuration under `.ai/benny/` supplied by the actual event provider. Require the event contract `source_channel_id`, `ts`, and optional `thread_ts`; a scheduler is not an event provider. If the config, required actions, control adapter, or completed feature map is missing, fail closed.
+
+The legacy `control.feature_map_path` field identifies operation guidance with references to existing Feature REQ/AC and actual test cases. Every use of "feature map" below refers to that guidance. Expected behavior, required layers, and completion remain in the native sources, never in a separate Benny map or status table.
+
+Before execution, require an explicitly enabled, authorized event binding and actually available connector actions. The shipped `events.enabled: false` configuration is dormant. Reading or explaining this skill never changes that state.
 
 ## Hard safety rules
 
@@ -31,7 +35,7 @@ Load the external Benny configuration supplied by the automation. If the config,
 - State inspection may confirm an observation. It must not inject or force the symptom.
 - No confirmed repro means no authored fix.
 - Existing pull requests or commits switch the run to verify mode. Do not author over them.
-- Use `github.com` pull request links.
+- Use the actual configured repository host and verified pull request URL.
 - Keep captures, recordings, logs, and tokens out of source control.
 - Use pstack's `principle-guard-the-context-window` for delegated analysis.
 - Apply pstack's `principle-sequence-verifiable-units`, `principle-fix-root-causes`, and `principle-prove-it-works` through repro, fix, and verification.
@@ -40,7 +44,7 @@ Load the external Benny configuration supplied by the automation. If the config,
 
 Before making a work list or delegating:
 
-1. Require the trigger channel to equal the configured source channel.
+1. Read `trigger.source_channel_id`, require it to equal the configured source channel, and freeze it as `SOURCE_CHANNEL_ID`.
 2. Set `SOURCE_THREAD_TS` to `trigger.thread_ts` when present. Otherwise use `trigger.ts`.
 3. Require a nonempty `SOURCE_THREAD_TS`.
 4. Store `SOURCE_CHANNEL_ID` and `SOURCE_THREAD_TS` as immutable values.
@@ -124,7 +128,7 @@ Use the configured plain Unicode status strings. Keep status text short:
 - Draft pull request opened
 - Fix did not land
 
-Prefer configured Cursor Slack actions. Use `BENNY_SLACK_BOT_TOKEN` only when the user configured it for a narrow missing capability such as editing this one status message. Never expose the token to a worker.
+Use configured, actually available host Slack actions. Use `BENNY_SLACK_BOT_TOKEN` only when the user configured it for a narrow missing capability such as editing this one status message. Never expose the token to a worker.
 
 If no operations channel is configured, keep detailed status in the automation run output. Do not substitute a source-channel root message.
 
@@ -264,8 +268,8 @@ Confirm the mechanism with runtime evidence. Eliminate competing hypotheses befo
 
 Fix the root cause with the smallest justified change.
 
-- Invoke pstack's `tdd` skill when there is a cheap local test target, and write the failing test before the fix.
-- State why TDD was skipped when the path is expensive, unclear, or integration-heavy.
+- Reuse the matching unfinished Ignite Plan and its Feature REQ/AC before editing. Record the required real behavioral red with `pnpm ignite tdd red --plan <IGT-ID> --ac <AC-ID>` before implementation, using the same behavior test after the fix. Expensive setup or environment errors do not permit skipping or inventing red evidence.
+- If the user explicitly postpones tests, retain pending verification and do not claim done or publish a supposedly verified fix. Record decisions in the existing Plan, durable architecture rationale in ADR, and implemented facts in Design.
 - Keep unrelated cleanup out.
 - Stop if the change grows beyond the configured effort or risk budget.
 
@@ -284,11 +288,11 @@ On the patched build:
 
 A compile, unit test, code review, or plausible diff is not after evidence.
 
-Run focused tests, then smoke the blast radius around the changed behavior. Cover nearby states, inputs, permissions, platforms, and failure paths that the change could affect. Stop without a pull request if a regression remains.
+Run `pnpm ignite check --plan <IGT-ID> --level auto` with the required layers and reuse runs for identical inputs. Native Release verification remains separate. Link actual run records and tested revisions to REQ/AC; UI captures supplement those records. Smoke the relevant blast radius around the changed behavior. Cover nearby states, inputs, permissions, platforms, and failure paths that the change could affect. Stop without a pull request if a regression remains.
 
 ## 14. Open a draft pull request
 
-Only after before-and-after proof:
+Only with publication authorization and after before-and-after proof and required native checks:
 
 - Review the final diff for unrelated changes and secrets.
 - Run the repository's required checks.

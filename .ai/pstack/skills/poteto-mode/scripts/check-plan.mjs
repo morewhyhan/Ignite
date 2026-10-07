@@ -34,7 +34,13 @@ if (!file) {
 	process.exit(2);
 }
 
-const raw = fs.readFileSync(file, "utf8").split(/\r?\n/);
+const contents = fs.readFileSync(file, "utf8");
+if (/<!--\s*ignite-plan\b/.test(contents)) {
+	console.error("This optional upstream checker does not validate Ignite structured Plans. It must not impose ten live lanes, perf boxes, or an hourly loop on this project.");
+	console.error("Use pnpm ignite validate for native structure and pnpm ignite check --plan <IGT-ID> --level auto for the Plan's selected behavior checks and evidence.");
+	process.exit(2);
+}
+const raw = contents.split(/\r?\n/);
 const problems = [];
 const fail = (line, message) => problems.push(`${file}:${line}: ${message}`);
 

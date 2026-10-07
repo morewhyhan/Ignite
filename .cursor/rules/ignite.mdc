@@ -17,3 +17,6 @@ alwaysApply: true
 - 与本轮任务相关的 Feature、Plan、Standards、Design 和测试
 
 本文件只做 Cursor 入口，不维护独立规则。长期规则只修改 `AGENTS.md`。
+
+
+项目工程方法入口：[pstack技能目录](../../.ai/pstack/CATALOG.md)。调用尺度、权限和宿主适配遵循根AGENTS及目录链接的适配说明；本文件只做入口。

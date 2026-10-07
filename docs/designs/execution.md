@@ -73,3 +73,11 @@ CI 生产态 E2E 使用 line reporter 实际输出 Next webServer stdout/stderr�
 模板维护记录提交后可以从工作目录清理。CI 仅在 `template-baseline` 下，从本次提交区间最近删除前的快照恢复完成 Plan 及证据，执行原有校验，再对当前改动逐文件比较受测版本；缺证据和未测修改不会放行。已采用项目保留自己的 Plan/Release，不启用此清理分支。
 
 普通合并保留证据提交；squash/rebase 后使用 `plan reintegrate` 重新验证。远端同步仅在 `next --verify-remote` 核对具体提交后报告，应用部署另行验收。
+
+## 项目内pstack方法库
+
+当前项目完整携带 `.ai/pstack/` 的51个主技能、23个playbook、3个可选Benny技能及其全部上游资源。方法正文和参考文件在同一真源维护；[适配说明](../../.ai/pstack/ADAPTER.md)明确项目规则、实际工具模型、权限和调用尺度，[目录](../../.ai/pstack/CATALOG.md)提供逐技能入口。Codex/Claude/Cursor/OpenCode的项目发现目录只有桥接元数据与链接；AGENTS及工具规则指向同一目录。上游MIT许可与逐文件来源哈希随项目保留。
+
+该变化是方法与发现入口的文件交付，不证明真实模型收益、所有平台会话已刷新、Plan integration或Release已通过。固定模型、Cursor Task/loop与外部插件在当前宿主按适配映射，不自动购买模型服务或启用Benny。继承playbook作为方法参考，不能覆盖项目原有Feature/Plan/Design/Evidence真源或创建并行任务状态。
+
+Benny随附代码不属于主应用编译范围；根TypeScript、ESLint与Prettier显式排除`.ai/pstack`，保留上游内容与独立依赖边界。方法和桥接由资产/文档检查核对，不伪称可选自动化运行通过。

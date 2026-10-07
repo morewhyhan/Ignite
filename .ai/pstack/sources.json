@@ -1,0 +1,1168 @@
+{
+  "schema": 1,
+  "upstream": "https://github.com/cursor/plugins/tree/main/pstack",
+  "upstream_commit": "d0ef80d86795816da932a153458c5dbe192d294e",
+  "author": "Lauren Tan",
+  "license": "MIT",
+  "main_skills": 51,
+  "automation_skills": 3,
+  "playbooks": 23,
+  "upstream_files": 164,
+  "adaptation": "All source files copied; Markdown adapter header, portable name/description frontmatter, one canonical host/project adapter, lightweight discovery bridges. Original workflow bodies and non-Markdown resources retained.",
+  "files": [
+    {
+      "path": ".cursor-plugin/plugin.json",
+      "upstream_sha256": "7bc736c60985805f70465e044e5adc7028663f72a73deea7fa3e95e52d70dc8e",
+      "local_sha256": "7bc736c60985805f70465e044e5adc7028663f72a73deea7fa3e95e52d70dc8e",
+      "adapted": false,
+      "upstream_checkout_sha256": "fce379d82480d24b6cd4ae6658eaedee3e05ebeece7e44a8cb082d3e4d007c13"
+    },
+    {
+      "path": ".gitignore",
+      "upstream_sha256": "8ffe9de56bd30c1a95cd945262d6e3ac355ada4111551dde41f67851b9f1fc55",
+      "local_sha256": "8ffe9de56bd30c1a95cd945262d6e3ac355ada4111551dde41f67851b9f1fc55",
+      "adapted": false,
+      "upstream_checkout_sha256": "0830294583061ae7247737c82eb85c808ceed2252b712f0ad431df8bb98f47e7"
+    },
+    {
+      "path": "LICENSE",
+      "upstream_sha256": "bc957ca6bee02792566a1a028d105e02e247c6e77cf057061674273da77b200e",
+      "local_sha256": "bc957ca6bee02792566a1a028d105e02e247c6e77cf057061674273da77b200e",
+      "adapted": false,
+      "upstream_checkout_sha256": "0b179de8c206d95074651dc54810d1278cbe3c7edef85f6d3eb09c7bd2c2f02f"
+    },
+    {
+      "path": "README.md",
+      "upstream_sha256": "7f39feae81103e18b567e1fa5075cba86425cf4697a01be66a7422ef93c2c855",
+      "local_sha256": "a9b411813c0ee11014e986e3987d82ffac5bce459fac0b357d171d2ba578f9d1",
+      "adapted": true,
+      "upstream_checkout_sha256": "d5dd1b963c2ae1268d686f62a1567683019ac3f3119ab62f8ae50a07cbd52109"
+    },
+    {
+      "path": "agents/comment-sicko.md",
+      "upstream_sha256": "c0fd0383008da45fc78cfac17b9007d62c42f87ad1c8d5c2fb658b1fd01f7c82",
+      "local_sha256": "6c87c081126407fdbfc80e6998175907fb8602a63fbbd461a706e668315bc72d",
+      "adapted": true,
+      "upstream_checkout_sha256": "23fa28352047d4062d9f34e5e6e7c472aa6529526a789e707350403a80b3096b"
+    },
+    {
+      "path": "agents/poteto-agent.md",
+      "upstream_sha256": "abe41c169ecbfe65641f1725f4188d568e046c0dec7fd2dc271abb594c299201",
+      "local_sha256": "7467cbde09222cb9c058ff89d5df1de9094aca807b51eca27d3c9210eb098f72",
+      "adapted": true,
+      "upstream_checkout_sha256": "51083ed7b0b3a556db2ea85a712f8699a010ca1d00ca25cd9eafe54059e269e7"
+    },
+    {
+      "path": "assets/logo.png",
+      "upstream_sha256": "672f6791589ef758b0ced2c4c477913fa2758623c438e265639a0d539ce90695",
+      "local_sha256": "672f6791589ef758b0ced2c4c477913fa2758623c438e265639a0d539ce90695",
+      "adapted": false,
+      "upstream_checkout_sha256": "672f6791589ef758b0ced2c4c477913fa2758623c438e265639a0d539ce90695"
+    },
+    {
+      "path": "automations/benny/FOR_AGENTS.md",
+      "upstream_sha256": "a125e317dec1b8731fdc71f404c669f1127a73af932f7a7b8b8744a5542328a7",
+      "local_sha256": "c93ea9ee6d8fe233eb26ca8e0ae692d9feadbe1ba9f50f6a18160008cecaa0f4",
+      "adapted": true,
+      "upstream_checkout_sha256": "e13c91c482baf1b779a79b90d817a3b4d8fb80d7148f784b90c0e63f75abe304"
+    },
+    {
+      "path": "automations/benny/README.md",
+      "upstream_sha256": "ca3c42cbb7f0bf7068f7407eb355815e6c234d5c2786942f3cbe751a3690024b",
+      "local_sha256": "36e90828fa053e1cb9113c0083b4f945f13bb5095510ed2c874126758a1db0d1",
+      "adapted": true,
+      "upstream_checkout_sha256": "592a7a4b428e5bd105cac2e5c7c589866c81f5c4fc7af11da9b7189abca12867"
+    },
+    {
+      "path": "automations/benny/skills/reproduce-and-fix-issues/SKILL.md",
+      "upstream_sha256": "1363cc07343fe86aab42853b1bd4563288cbcbdf12f1c265b3b3b1afa25c09cb",
+      "local_sha256": "8725f8be4486c30f174af2fc90dd9637181e7a635e647c90cb95f352bd85fabb",
+      "adapted": true,
+      "upstream_checkout_sha256": "bd9d688415cabee95247738f9ea927325ba0ead7796d0d18cb57cf82dd35df54"
+    },
+    {
+      "path": "automations/benny/skills/reproduce-and-fix-issues/references/control-adapter.md",
+      "upstream_sha256": "58b0615d2fca895f9a20df83266e280042b0d585b5f2fd324e2094a682fd846b",
+      "local_sha256": "2db5d1017c1e077fb9136c11060dbd8be69004a365bf78d0fd65c55b62a8a118",
+      "adapted": true,
+      "upstream_checkout_sha256": "aee571829c5c04bc469706c505b6536717643a0a63679b84c57798ab71229fc2"
+    },
+    {
+      "path": "automations/benny/skills/reproduce-and-fix-issues/references/feature-map.example.md",
+      "upstream_sha256": "1e5c7c8522daec3e43fcc2e73ceb97289ded65b552949ce65a11cc8eb3d2b6ee",
+      "local_sha256": "fa08a964cd410d031cddeb6c5674bcf96676693ff833c0353afffce719bb2c25",
+      "adapted": true,
+      "upstream_checkout_sha256": "ae0ea1d1adc8ad2f504a2d19962cb2b8cc1e0e40a5a566c866ce658be9420bd6"
+    },
+    {
+      "path": "automations/benny/skills/reproduce-and-fix-issues/references/verify-existing-fix.md",
+      "upstream_sha256": "c90eae00abcdec71a58fa8d60f2c495b082a526ad50b8e8e494837609129bf29",
+      "local_sha256": "a17e5f810e4058c7b19c142963c3a71b3691ba4e0a5615a91895e83b658108df",
+      "adapted": true,
+      "upstream_checkout_sha256": "2af8b56830c0850c7a461c9da835e3e36b7bd7ae5cc0a230d0edd2312831ab0b"
+    },
+    {
+      "path": "automations/benny/skills/setup-benny/SKILL.md",
+      "upstream_sha256": "5a3cbe63360c9f6373b6cb6c79a1eaf7e0eba181bfaa1577e2e6431af3407282",
+      "local_sha256": "0a03acd9e768eeb22ced405a2609792d545a8161f07d0d3b157ada75e1581c55",
+      "adapted": true,
+      "upstream_checkout_sha256": "1b8d0bae5265413a65b03c9b3b883f1d91efc0e7c1cb3a28e66c215b3a2094f7"
+    },
+    {
+      "path": "automations/benny/skills/triage-issue-reports/SKILL.md",
+      "upstream_sha256": "216a758b8711e64d19a55e6032c496527daac6364d010611040f3c04ef1a448f",
+      "local_sha256": "6bd3a28646b61af83ddc046c8853302099c47e2461739b129a937d30a59da373",
+      "adapted": true,
+      "upstream_checkout_sha256": "8122f1c1e65062bf0f1103a587c08ed7d14779c64625643a9f488f262fd21ad8"
+    },
+    {
+      "path": "automations/benny/skills/triage-issue-reports/references/routing.example.md",
+      "upstream_sha256": "e5e53013692568cf69da8e8b302fff929fe2fbc9aec1a4651fd7997e2c7a4025",
+      "local_sha256": "b9e4fbeac9175c542e9f693e510da590050d92157cfd0c6ef6ecd2f3b86726e9",
+      "adapted": true,
+      "upstream_checkout_sha256": "6929472061ffbaf048f43230b9a01610bfd0d9a451d6dffe7aff78c8c400a921"
+    },
+    {
+      "path": "automations/benny/templates/configuration.example.yaml",
+      "upstream_sha256": "13e24b4ce9b9a0913916e85fe3b080b88d45f8e55dccfe8ae38e0751a997b6f5",
+      "local_sha256": "13e24b4ce9b9a0913916e85fe3b080b88d45f8e55dccfe8ae38e0751a997b6f5",
+      "adapted": false,
+      "upstream_checkout_sha256": "c29321b5285d894de22020332279d0876e45b3a3d59a612b77ff9164d58ec004"
+    },
+    {
+      "path": "automations/benny/templates/reproduce-automation-prompt.md",
+      "upstream_sha256": "71ec574f1844e379394ae4ef14c48d7df10afbaa319d395c788d7f856f0e6899",
+      "local_sha256": "af220106c5b1e0586b96577020552d9b0a64617ef0d92a2dd039018bbc225a1b",
+      "adapted": true,
+      "upstream_checkout_sha256": "c8834edc837d4b1cbc71c5f0b503b0a1b40cbb9cab46eb7387de94bc407882d7"
+    },
+    {
+      "path": "automations/benny/templates/triage-automation-prompt.md",
+      "upstream_sha256": "e0bba594547834f013ec805915610eb597e7929efe3ffbe85ae00339ee16d474",
+      "local_sha256": "f6cf8c29d60f8ac5650b4d2f58637bd1ce209c05a87b3dc12502a56d99415c00",
+      "adapted": true,
+      "upstream_checkout_sha256": "4c444204935f52a1c44814dfac524725b45fcf01a6926b95bdafd14749d8d2bd"
+    },
+    {
+      "path": "docs/guide/01-setup.md",
+      "upstream_sha256": "86d0330f245d16254a2069955f993c15d96cf29cd1a73690a0164074b7ac1190",
+      "local_sha256": "2da148f8c46950fc8f24eb89b36df28fba30f919db97825382da492e2b36ae40",
+      "adapted": true,
+      "upstream_checkout_sha256": "6e3dbfbbdf29fa98da9623f15ee98f24f98f80d2a113f629dfee3d1b8c25555e"
+    },
+    {
+      "path": "docs/guide/02-poteto-mode.md",
+      "upstream_sha256": "979f61ca3d44cb8e68affda40327d32797e93fa9cc53ced7444c15e2600897e1",
+      "local_sha256": "f5f592c2bc5b1585da25dc1f8f0905c82e612c3d05fad9e21b89312b4738d910",
+      "adapted": true,
+      "upstream_checkout_sha256": "58ce60995ff13f49fe012837f7536a02a81d5a2a79090856760f0734f9526dc8"
+    },
+    {
+      "path": "docs/guide/03-understand.md",
+      "upstream_sha256": "0090afa9b8670adf175466a2a973ff4349e95ed67d2aa8cebdfc55ff4b7382c9",
+      "local_sha256": "4850f43cd1fc73d0b8fdf6908cd45431604e041ca7dd16504e8dd474cad592a6",
+      "adapted": true,
+      "upstream_checkout_sha256": "1699e9002942854df77cdb59fee01967502113088afc8bdf7b2fa75e9385374d"
+    },
+    {
+      "path": "docs/guide/04-design.md",
+      "upstream_sha256": "31f2abe6e9b29feafd1a9eece8f4fe21992f86b8c19ab2e9b5c11a20f36587e7",
+      "local_sha256": "6813de8576a1314383ed850a68d773bf5a035111047b3f103e533601908205cf",
+      "adapted": true,
+      "upstream_checkout_sha256": "048de18749f985c8ba49ca6018935ff93ab88cab653caa0ee316e2d415d32e71"
+    },
+    {
+      "path": "docs/guide/05-build-and-clean.md",
+      "upstream_sha256": "a93cc7771f7b35c7b54d0120b6f66e8367794ce6791237e889a30e7585c190fa",
+      "local_sha256": "3a57f33f03034d51e68db3db30acd688346c6dc3fc3563d230528afa6d6d9c30",
+      "adapted": true,
+      "upstream_checkout_sha256": "2d05a613595c1d2f57941ffb80978fa3939e9f65a6ce78968a0a703ac42fda43"
+    },
+    {
+      "path": "docs/guide/06-verify-and-ship.md",
+      "upstream_sha256": "3ef0eed5ea084dfbbaf1b1ae9e08d84f2c8a2b536ffb3ef5226710bf105f70e6",
+      "local_sha256": "a41398a931c367bbfeb0e686e48820f94b38903a0df9c5523a5b26bbc72d91b7",
+      "adapted": true,
+      "upstream_checkout_sha256": "9d2d622a710a1375b3197764cd846945a35bd9efa137276c52e77becf864c32e"
+    },
+    {
+      "path": "docs/guide/07-overnight.md",
+      "upstream_sha256": "d7bd33a3d880768688dff4c1c2b5481ca9f0f194f5d97e44b65c9f96624d3ff0",
+      "local_sha256": "53b909625810e768bbadce0babd80913bfe86e5edbacfa0a3886b4da5f18474e",
+      "adapted": true,
+      "upstream_checkout_sha256": "72877e36e0c11d8e581fec9c8e972476c72e716c35bdc751407873c907aa1cfb"
+    },
+    {
+      "path": "docs/guide/08-principles.md",
+      "upstream_sha256": "73c3db659d356d4aa6d7674d30d0db46fab2bdd60152fca717c2d1772a042bdc",
+      "local_sha256": "70aae3fdaad688b401de102d972c9f70c62c1cc749a123897ac5a918a9a50fcd",
+      "adapted": true,
+      "upstream_checkout_sha256": "065fb0863b323934a6d019c418c9b689e292956972ea44ccd0d77617d366ff90"
+    },
+    {
+      "path": "docs/guide/09-make-it-yours.md",
+      "upstream_sha256": "157e0c20ad3c657857c2fbbea3afd26895b71b8f68475bc56f4c382dcdd0e118",
+      "local_sha256": "66312c8f68b480732a36ee9702647ddb1b8b79e8fc553b1a9024d700f97cc193",
+      "adapted": true,
+      "upstream_checkout_sha256": "5f6e669a47b627e5d0d7b233fba0fbe4f41c99c037f513dff5967f460570e801"
+    },
+    {
+      "path": "docs/guide/10-recipes-and-pitfalls.md",
+      "upstream_sha256": "c652474764b08da4a6364d85f5d03cf1fc1cf35e9d7c549348fb66e2d09f7b1f",
+      "local_sha256": "16004582b64f95f956ba571a9bca2e7947d380e421a1a65a13db13243a01efc7",
+      "adapted": true,
+      "upstream_checkout_sha256": "db326427e84738d463af49950db0a658376cfbb5be9ead4928393a686363c852"
+    },
+    {
+      "path": "docs/guide/README.md",
+      "upstream_sha256": "49d92cfe91e01c04bd1150e5b000ee4fd4dfda8ce789b66a9dda98f7e5456e00",
+      "local_sha256": "b36be9aa7a8902aa803cda81c060532ca57803cad7c556982bfa9aac13cbe9d1",
+      "adapted": true,
+      "upstream_checkout_sha256": "b95aa597cbc89e801658999bd8ffe3aab071373b35c9b5f2c1c60b035fce7b85"
+    },
+    {
+      "path": "docs/guide/images/design.jpg",
+      "upstream_sha256": "b8ed07427f6a0c37dd8ba97961fc0eb5071efeee6c4a230648bdb7547f6f2a8f",
+      "local_sha256": "b8ed07427f6a0c37dd8ba97961fc0eb5071efeee6c4a230648bdb7547f6f2a8f",
+      "adapted": false,
+      "upstream_checkout_sha256": "b8ed07427f6a0c37dd8ba97961fc0eb5071efeee6c4a230648bdb7547f6f2a8f"
+    },
+    {
+      "path": "docs/guide/images/overnight.jpg",
+      "upstream_sha256": "4b4405e4df8925c5b3abbe702f681af0f3b1f5f32271b599f95717f578f1a0c8",
+      "local_sha256": "4b4405e4df8925c5b3abbe702f681af0f3b1f5f32271b599f95717f578f1a0c8",
+      "adapted": false,
+      "upstream_checkout_sha256": "4b4405e4df8925c5b3abbe702f681af0f3b1f5f32271b599f95717f578f1a0c8"
+    },
+    {
+      "path": "docs/guide/images/recipes.jpg",
+      "upstream_sha256": "9fa2d51b476635712737795ddef81806efaa0086bb3bfa9f9f45695d9ab0f8e8",
+      "local_sha256": "9fa2d51b476635712737795ddef81806efaa0086bb3bfa9f9f45695d9ab0f8e8",
+      "adapted": false,
+      "upstream_checkout_sha256": "9fa2d51b476635712737795ddef81806efaa0086bb3bfa9f9f45695d9ab0f8e8"
+    },
+    {
+      "path": "docs/guide/images/router.jpg",
+      "upstream_sha256": "525843055a4efd2b10acc50a8652fd02b0834ea733a8a2f895c1eb89036017da",
+      "local_sha256": "525843055a4efd2b10acc50a8652fd02b0834ea733a8a2f895c1eb89036017da",
+      "adapted": false,
+      "upstream_checkout_sha256": "525843055a4efd2b10acc50a8652fd02b0834ea733a8a2f895c1eb89036017da"
+    },
+    {
+      "path": "docs/guide/images/understanding.jpg",
+      "upstream_sha256": "b60587e9a9bbe2550e93be9819cf0cd4acf77d90fac769a0c43d82bd8e34e279",
+      "local_sha256": "b60587e9a9bbe2550e93be9819cf0cd4acf77d90fac769a0c43d82bd8e34e279",
+      "adapted": false,
+      "upstream_checkout_sha256": "b60587e9a9bbe2550e93be9819cf0cd4acf77d90fac769a0c43d82bd8e34e279"
+    },
+    {
+      "path": "docs/guide/images/verification.jpg",
+      "upstream_sha256": "2a76b52007a1cd2866ba67fd47d7d9ef3e1118bb5a09c4665eee8c3f161bd09a",
+      "local_sha256": "2a76b52007a1cd2866ba67fd47d7d9ef3e1118bb5a09c4665eee8c3f161bd09a",
+      "adapted": false,
+      "upstream_checkout_sha256": "2a76b52007a1cd2866ba67fd47d7d9ef3e1118bb5a09c4665eee8c3f161bd09a"
+    },
+    {
+      "path": "skills/architect/SKILL.md",
+      "upstream_sha256": "922238947195f2fb825e90688bb6cfa520b81a35a7bee12223c73a6cf96ae64b",
+      "local_sha256": "d3b050b6dc9fba3b86b9dc41ed9c696fcf2ed019657d653eef62a347e8c26d82",
+      "adapted": true,
+      "upstream_checkout_sha256": "d951ee74543d501b54cd6368959272bce7cb1c5ad4aedd084b0a96b14947539b"
+    },
+    {
+      "path": "skills/architect/references/design-red-flags.md",
+      "upstream_sha256": "d0e639e4cc588ec865f930d3a4111faad60987ae36925917e319d7ceca7c69ce",
+      "local_sha256": "eb9a7533c99b8b770ebe9c14adb2a448dc45f694f4b667af6632d47a2738c2ad",
+      "adapted": true,
+      "upstream_checkout_sha256": "cbe8bbf426a6bd1ce62a7474bdcfd6936ede82be4b82fc6301a26e94068015e1"
+    },
+    {
+      "path": "skills/architect/references/rationale-template.md",
+      "upstream_sha256": "0cedfccdc7b47fc881febd5a8293eecbc542c20f8df825639904a8102d2eb5d3",
+      "local_sha256": "e6de37f1ea62b2d7dc05e5980e1fe69698df0910c2a9320f6534118d792c4e5a",
+      "adapted": true,
+      "upstream_checkout_sha256": "3c4388e98e138b07e835e68011b64ca7cd09537f07aa411cb8640b871a377ff7"
+    },
+    {
+      "path": "skills/architect/references/runner-prompt.md",
+      "upstream_sha256": "21dd5314aab778c5007228027a4591d97693fbec6ab86524037772b63f40948e",
+      "local_sha256": "0417008d6b11c4857ed9c83933d5141204b662580433263204b85d1a2def2e9c",
+      "adapted": true,
+      "upstream_checkout_sha256": "0d9dd7b9af8c69ce6902bb9fd2e5e8f87ae966d9a888afc309d137a83fc19004"
+    },
+    {
+      "path": "skills/arena/SKILL.md",
+      "upstream_sha256": "6e17736b5228b661569c3af054f8302c55cf9bf1649447652d53705cce38bed6",
+      "local_sha256": "eb1a27aefee31645565874531b5315a010a3bc7e4247f219ca0c110b98150d27",
+      "adapted": true,
+      "upstream_checkout_sha256": "0718ece8cbcb5b52c95a25d9f3951d29e7a2e3063076462f0df052a99c02f4f7"
+    },
+    {
+      "path": "skills/automate-me/SKILL.md",
+      "upstream_sha256": "1510979b0b71b54284427a19c09918f8b1fdfc168f9b7f9e30098793a5ec88ef",
+      "local_sha256": "6160af46569f703f551b6a0560e8b8867784a10df3c1234a72f1a49f6e1de652",
+      "adapted": true,
+      "upstream_checkout_sha256": "7e6188266b44a3b27c80b74757d9bb576301ff9556e6e2ef776dcc0ebdd0552b"
+    },
+    {
+      "path": "skills/benchmark-checklist/SKILL.md",
+      "upstream_sha256": "6a767e788a60428fa14e645ee10fe2e49896e514ff654f668b1d824deb9038e8",
+      "local_sha256": "ff85cfa13b280694bf31ce659eb3c7d55673780d37664532b86ba389605d4c13",
+      "adapted": true,
+      "upstream_checkout_sha256": "9dfcf7fe716a078d1e6eb5cf45e2e4237268d28b9566562cb2ffafde062679d1"
+    },
+    {
+      "path": "skills/blast-radius/SKILL.md",
+      "upstream_sha256": "2e10745b97f5862323dcda3b29ca60d56b5c3c98e37020085d26b48efbe0a436",
+      "local_sha256": "c76ff4b4f872245ba65ebba4828e2d5a2fc71312afe229e04003608fb5a4c728",
+      "adapted": true,
+      "upstream_checkout_sha256": "051757390cf26aa9fbfaad4a6958473d0c287cc9201e0e8072b6ae9bcde880c2"
+    },
+    {
+      "path": "skills/bro/SKILL.md",
+      "upstream_sha256": "aa329d0ceeeecb6822a7174ad76bb07a7826a3c52ceb6a588dec4138815084bb",
+      "local_sha256": "12903c81a5b07c325e7b2fb0b49f86d7c7c6d306fc9bc5b2dc6b23309cfc8453",
+      "adapted": true,
+      "upstream_checkout_sha256": "5803b79e1e6c444e3b3c2705f89a9f4ba98c502f9841fce906e61acf52af35ea"
+    },
+    {
+      "path": "skills/correct/SKILL.md",
+      "upstream_sha256": "bf482bacc972b3f124a4af8bf9364b4b3e280cb5845e44c326ea4f4565e5c904",
+      "local_sha256": "f4fdfce698ecf695b65947935051a1dc1f259832be98f2f4c3d4bf70eb99fca0",
+      "adapted": true,
+      "upstream_checkout_sha256": "92f1742b48f38c05e750b7572a04f5614ff8ad6b4f668d8dac80be469f7307e0"
+    },
+    {
+      "path": "skills/create-verification-skill/SKILL.md",
+      "upstream_sha256": "644f2551403c1bca01a2855b34611b6e7be0ce0dc5b204514c376c0f6a6e6ac4",
+      "local_sha256": "f45ce476ebfe15816e76e3ffe74e17cad9eb5ecd5fd66a7197090a236c3031d4",
+      "adapted": true,
+      "upstream_checkout_sha256": "638e0560abfafd0571752930be244eed8cd46750667fe870c99ec6196b9ccebf"
+    },
+    {
+      "path": "skills/create-verification-skill/references/feature-map-example/README.md",
+      "upstream_sha256": "cb7bd782cf89968a4ba3d58a5151db837430db92d19a6f52a906973b77b516ba",
+      "local_sha256": "6e726e0748d5678f2076edd05944dcac816043cb1e52dc59d2bfebd3b2cafd3f",
+      "adapted": true,
+      "upstream_checkout_sha256": "9f75fc7925f811327c9cbc3d4c152117381ea32517dc7acc1f63f6f0879b6f31"
+    },
+    {
+      "path": "skills/create-verification-skill/references/feature-map-example/create-note.md",
+      "upstream_sha256": "644a44c74f35d38c2feb7cd05a0121fdebbb623e8dc376c185b565a581d1ccf7",
+      "local_sha256": "dc03d89853413b404ffa5280455482473a6fdca2e7fe83150a7b1a3877da3442",
+      "adapted": true,
+      "upstream_checkout_sha256": "ca170daf8d458e230534028f38c77162e69bb2cd0d08fbd63650519773a8ca54"
+    },
+    {
+      "path": "skills/create-verification-skill/references/feature-map-example/search.md",
+      "upstream_sha256": "6e87b9e7f2791a7776ba1bb83f371cd285c306c67f19d245cc4dd6ca3015c823",
+      "local_sha256": "7b90a93d1e00ff7a38336510c2fe1c0c3a73a7819490329392260ba44a046aa4",
+      "adapted": true,
+      "upstream_checkout_sha256": "4354bea1d267938804f57febea2e729207981e537699a6df819cb86fbf83fe8f"
+    },
+    {
+      "path": "skills/figure-it-out/SKILL.md",
+      "upstream_sha256": "0eb9485f0e7d84fee56b5d0f0af0faf4635e3ca87c8cba3970c01293b76ecc19",
+      "local_sha256": "22aba8c63a5927d82b45d9e017ce57e416ad5a79d4b9ed237df0978fecd6cd46",
+      "adapted": true,
+      "upstream_checkout_sha256": "4aa7be613b4478b06dcfd7ca80190b249061e21eec4c5f0710de0725551a5c88"
+    },
+    {
+      "path": "skills/how/SKILL.md",
+      "upstream_sha256": "7e0d902484a90eba73dcf518bff478dc5b962b456d23c3d0a188c2ce36b236d8",
+      "local_sha256": "391aa8455e7983475762e735a51059155ed2f29e9cc47c3196728b8b25b500ee",
+      "adapted": true,
+      "upstream_checkout_sha256": "f2c8999139de3a95b074a4b0fb522379faea683977b4d299dcd021b4bd57635c"
+    },
+    {
+      "path": "skills/how/references/explainer-prompt.md",
+      "upstream_sha256": "ddb89cebefc24e2b54517a331aedfe045b6971e101f45c71b8cef4cccff45bff",
+      "local_sha256": "63affc8360b8868e73636fb7fe3538f56edaa7ff0d87126117f9141b891a1cfd",
+      "adapted": true,
+      "upstream_checkout_sha256": "53a53b62b6ce016ca60dc03cb816318dc660b81cb908879baee32b9a94c5de9c"
+    },
+    {
+      "path": "skills/how/references/explorer-prompt.md",
+      "upstream_sha256": "a3b44a6e5bb16a6d4d1cac19db8ed5322ffd5f5f5d45baca4e73990ca096f8be",
+      "local_sha256": "b524b02ddb464c3dccbbab5910b11adce6c4412377d1ed6ff04e011cd7d88467",
+      "adapted": true,
+      "upstream_checkout_sha256": "ac2d4099e531aa52cd1cbc232a58bdc2358a6da4f6c2a52918d29a6ba1e06526"
+    },
+    {
+      "path": "skills/interrogate/SKILL.md",
+      "upstream_sha256": "2f7e570ec23791ed2e485a09c98ed0597c46035e2050b351b84d3dc760ddd71f",
+      "local_sha256": "8ab1b6ebacf831a32622924056ec68f7c665d9126e2d881677cb1b611f97e573",
+      "adapted": true,
+      "upstream_checkout_sha256": "51d7ca8fc0a6db87d3c949786949350a1711da274f5c6678ee3b681614c9cec3"
+    },
+    {
+      "path": "skills/interrogate/references/code-quality-review.md",
+      "upstream_sha256": "79162fda183eafd40d51661fbb5e151c7ba250f89e506ba17f5bd135dcbd50a8",
+      "local_sha256": "c2e61c7c4b9761911356ce25fe441e1c7a692f353cc4deef8c402b52d6b361bc",
+      "adapted": true,
+      "upstream_checkout_sha256": "577306c53cb4467b4fb1728b3f84f14f1d498b56c3d8fc6319dedffa12d4be01"
+    },
+    {
+      "path": "skills/interrogate/references/lead-judgment.md",
+      "upstream_sha256": "6e5bdf5670eb34017692e9b6c546f36ac7552e6bb9f3f2f3429164fcc46a9361",
+      "local_sha256": "eecf16af17fa3aa502fcc74410acc4164a44c43e63f6a65343d62ae8d8d8d234",
+      "adapted": true,
+      "upstream_checkout_sha256": "d4574e2e210e1baf0be862928454d94a32a00d3528b9080efe135ef7abdf7334"
+    },
+    {
+      "path": "skills/interrogate/references/reviewer-prompt.md",
+      "upstream_sha256": "e0598e254792b56de39bb16b1e6db559b03a522fdc54b98f942d254090920ae6",
+      "local_sha256": "8402a80490dedc14fa201ed659149d5e718cda61417aac88a06b749e8ae2cfaa",
+      "adapted": true,
+      "upstream_checkout_sha256": "fae7b46805532bf75be1b8171293cfa9443522413720d818485b9dd07f5c07ed"
+    },
+    {
+      "path": "skills/interrogate/references/rubric.md",
+      "upstream_sha256": "a85aa801abbaf14434f00579440abc0d8e2723227ba8bf57de7cca8d6e7d2f25",
+      "local_sha256": "bd68351bf37b8fdab751b2a39d95201b1d21cdfcbfca5077d43c2cb8aa643a6a",
+      "adapted": true,
+      "upstream_checkout_sha256": "d4b00eab2065dc5437842a69e2d69d413e8991d67dd3455c99b5b6c6baa984e6"
+    },
+    {
+      "path": "skills/maintain-verification-skill/SKILL.md",
+      "upstream_sha256": "515c0eaa054b3f6be1b1fb06f2c2f173c80fddb58bbcac57576f89c479bc68e8",
+      "local_sha256": "edf83c777387d1fe0db26cfb3fcb527338c799e8d4bc66ea66a828e4c22545ef",
+      "adapted": true,
+      "upstream_checkout_sha256": "38553f39e53fdbb1bac7357dd0550e4df1546e819dc9c48387b88d1fbcd5ef5c"
+    },
+    {
+      "path": "skills/make-bot-ui/SKILL.md",
+      "upstream_sha256": "3624c8ef16cf2e48deb2a4049e72c6962a9431c8d6c6af90e7bd7ea0375224ec",
+      "local_sha256": "bec7a3144481f63a1681e3609d06c891bdb8cf27ea8739f7bb05e8dcb0f0fa0d",
+      "adapted": true,
+      "upstream_checkout_sha256": "c69729dedb2e8cafd924afc2be653770dab00f1fec20406414666b16797923fa"
+    },
+    {
+      "path": "skills/no-comments/SKILL.md",
+      "upstream_sha256": "5c5b0882297d704c3a9720c52b7a793c68b013eaf717989f0945624efdfe2b05",
+      "local_sha256": "6853af63b9f5cbec6269e6fd8ba3bd3dec03cf1c5335157fdba04ff31a057636",
+      "adapted": true,
+      "upstream_checkout_sha256": "7e1f72137e38aa3e1dbbf55c1224b928894751d96b2673003c81e4ba28e2cf96"
+    },
+    {
+      "path": "skills/poteto-help/SKILL.md",
+      "upstream_sha256": "ea71bcb15c023a5d9cc70686e4812144687ffe03bf80d85cc480af3e0b181d1e",
+      "local_sha256": "56965b864a528d394fad1c8b46d7f59cd7fd90a38c2bd00da4310d26bb5a4a45",
+      "adapted": true,
+      "upstream_checkout_sha256": "ded34413a4fc2e38e9ca5d5e74716cc0a83d1f32a53048d57eb3a2e719331cdb"
+    },
+    {
+      "path": "skills/poteto-help/references/prompting.md",
+      "upstream_sha256": "463f450c44a60afd001a2f69fdf8a5dea174351f339369b12ec3c41515e564d3",
+      "local_sha256": "fd24a04b05c50e841e952fd49b123a809ab9ff387613219ffc38fb0c6eed7cc3",
+      "adapted": true,
+      "upstream_checkout_sha256": "6cc08d3314461de15d9935a72ea0e2dbbf5d9fa9186bb0f454e5a2ac08e4c8e4"
+    },
+    {
+      "path": "skills/poteto-help/references/recipes.md",
+      "upstream_sha256": "1872323419a3e5c7783b1933f7a180ca26c25a6e1f4ec83bd65e091ebbfb812b",
+      "local_sha256": "eec899d81ec773d33df595ae498397844e4b4b65802a27e38a9a4c1de3bd0a15",
+      "adapted": true,
+      "upstream_checkout_sha256": "e22694f83deb032da8761412eafa94fa77b7e849afe6bd1666c74bf5ea006555"
+    },
+    {
+      "path": "skills/poteto-mode/SKILL.md",
+      "upstream_sha256": "31cd02290360ce63564ef22b74d69fc6d90e62181d05a644cbed8f6c47cc9412",
+      "local_sha256": "cdb7af41249ca6ced5150b28edc8faa51860d5f765381d95cfce1829cd5502cd",
+      "adapted": true,
+      "upstream_checkout_sha256": "4d19bd4e048eb6cdc0367821345d1a26ff0516fe27c407d16e97eaecfaf2b0c8"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/authoring-a-skill.md",
+      "upstream_sha256": "f6a13a445c360b48d6cd72780ac01955f45b82826476efe0e67c7559329407aa",
+      "local_sha256": "72ae1d20f3d97d3fc6eb68d9c5f5c5eb5ba7b8b45579493ac47fd5b1cd7c998e",
+      "adapted": true,
+      "upstream_checkout_sha256": "4ac3baa5fd02e1b7742a5ef96d22c20e3e7667fb12238b984e739f003357545a"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/autonomous-run.md",
+      "upstream_sha256": "15e54ad3ac92565613980772d8708de6e19cc4690bfd4bb3fb8836522407377b",
+      "local_sha256": "d28d12f7d14d3765f04b14fd8be2344628102926413c96c99fb13a2b5652a01e",
+      "adapted": true,
+      "upstream_checkout_sha256": "89862866a8c01f083c515c2ca486f79e925e8328415b3784fa088d7487360be6"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/autopilot-full.md",
+      "upstream_sha256": "05ca30a16242c19d0c78ba1e88cca66f858d75252cb154fd740099fe292de802",
+      "local_sha256": "14f00d17f0711fc87b7a1457499a6c262453921e828f1b9b595dbe98ccad1a4b",
+      "adapted": true,
+      "upstream_checkout_sha256": "f05efa2bb910ecbc9febb79b9a99875e08181863076c52bbf88be5e3207ce397"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/autopilot-stack.md",
+      "upstream_sha256": "007c0a3b12011954a224f54773ef4ad7b75918be0a311914c1b51ad4e794c1e5",
+      "local_sha256": "8804bca5aa098f18a0e7ba63875f2e922ab497a125519c6a7ba8b901a2427520",
+      "adapted": true,
+      "upstream_checkout_sha256": "9b99dd44fc447e6199a34115065e7e1dd0905882979225003c6757a211b158d6"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/babysit.md",
+      "upstream_sha256": "a0346c37c2313f36a863b80f66ee7b98059c2242adf74fc7b3e48abdb9ec6f5a",
+      "local_sha256": "89c5a6109905a8d42878b6f6a6b1b25633c51cbbba88b0b58a0bfe6a45f2393e",
+      "adapted": true,
+      "upstream_checkout_sha256": "df985d061d0c0c4287c443336a434d5a24cf47fd3de4abb8e54672fe84fa42dd"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/bug-fix.md",
+      "upstream_sha256": "018bbc146ae19145caa6c7e70591fee081b64447dda1c1c4b681c9974d928b13",
+      "local_sha256": "05bfbc20ab8a0a75e83b2ef1a4e3880d5357a69a8826aee8726155afa5af2898",
+      "adapted": true,
+      "upstream_checkout_sha256": "0aba55d737305bc93019eea13652ec837d195a4b62fc1434467e6fc7ce52e82a"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/eval.md",
+      "upstream_sha256": "b862bfa2fae2399abf047a8e80d3e3dddb64003af96fb1cebb625216131e36bb",
+      "local_sha256": "2d3e33ea0478f77baf196a1e3700a62fbd2ee264eee7517b525041dc940d6880",
+      "adapted": true,
+      "upstream_checkout_sha256": "e119a69781a77e356b03fb72bd959b18bff9955b3259ba91ccfabed79f1bbdad"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/feature.md",
+      "upstream_sha256": "3a62cc4a8cbcf144bb9dd05f05420a15be0d38b784d3b141bb730a5852f50a62",
+      "local_sha256": "9c1e42165ff932b3e70e35c05b3778e23bfa850349ef6cc7f6686faaed2f281a",
+      "adapted": true,
+      "upstream_checkout_sha256": "d13f1e6a15e742220ef4536d604f0bd41103b269844ff38f3bb0435e50f68cd1"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/hillclimb.md",
+      "upstream_sha256": "244f289898fe67a458065e90fe8217c916c5acf61cdee8975ade3f9831a12e91",
+      "local_sha256": "4951c246ee6236a581b0ed4572f6fca7f4393265bb692712db020f9ba10784d3",
+      "adapted": true,
+      "upstream_checkout_sha256": "bcbf22a0296ff45c2ac6bb73234de32ea362d5732916e4e22d06dd560c6ebb36"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/investigation.md",
+      "upstream_sha256": "dc66bcf6af3a074fc7f67aa5e12b93ef571a4fb4d8e17f2f1af5ae5359f42e46",
+      "local_sha256": "a24c93c94b243caa645b0522eae8397b874ec875438d834a0f602e21c4b39ec2",
+      "adapted": true,
+      "upstream_checkout_sha256": "c6cf882d483d50243e06977fab28d25ccd25b525b39eb45d6af3e89c1b8dcf52"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/multi-phase-plan.md",
+      "upstream_sha256": "27d310e3fc3937a60b8fcbe1318f9d249a7477a722907bf85b3e4eb3dc436b11",
+      "local_sha256": "4cc4104e3eefc4ead716e3458c66721590a8fba150642ae0d1e244618cc3e74b",
+      "adapted": true,
+      "upstream_checkout_sha256": "e1639882bba4f7d80ddd1409c747e9a8bd26f47c492921f71cfb38db15f2d9eb"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/opening-a-pr.md",
+      "upstream_sha256": "ab40de7163c1c6e274f46ee559b2e53ef45673703f601f13f4931c199e6fb90f",
+      "local_sha256": "d4a669cf04e2cd0c822a80b38a505ae5d923a4a117faffd9cdd474e821bac615",
+      "adapted": true,
+      "upstream_checkout_sha256": "ca9afad46b925448d843a05d6fe3af980245da4b610ddfba26284a50bd43e798"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/orchestrate.md",
+      "upstream_sha256": "d42b4375f1bd4ce23da0b575a198571a2117df7eea10c3c9fc6d92ae1053f7be",
+      "local_sha256": "2dfd1458a8dafd93779523c8a2ff2ca755d855c24e506d9c3615094a6ed31bac",
+      "adapted": true,
+      "upstream_checkout_sha256": "2431c107efac623dd57acd3c8b54574d99cdb905ff9357233396ea7710f7f04a"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/pause-safely.md",
+      "upstream_sha256": "77968cfe5f4a71a8cd33e0ae8ffcdbd88dd693a212c240457773e6c40c96c21d",
+      "local_sha256": "c35dcb7d680c141b47d37eba8adab26fd92a92bb35e525f9b107cfb1e062b9da",
+      "adapted": true,
+      "upstream_checkout_sha256": "f2c7c53d90a0becde594a7d6d3c152f6ad8069edd6903fe6c2bbd4e5ff4243b4"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/perf-issue.md",
+      "upstream_sha256": "2b88ad0f880e4d4d755ac19fe52414d6631d6baa816d060f53cf0a7429d7e14a",
+      "local_sha256": "6de772902418666e2a74e5d5966321b8a26be43fbaee2ddb4c9e266ae3305a20",
+      "adapted": true,
+      "upstream_checkout_sha256": "52f5d05eeb71bce042e8416d9bba22a93de5dc3106ce8d708941c94004159155"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/prototype.md",
+      "upstream_sha256": "7aa1f52c691c3d46d5afc527b23f90977fce869ce33573c73c81a4c7f0cde962",
+      "local_sha256": "84745b60c418a53b33b2485d14c3e69ec56de29f517af7b03c855e7c440dcb38",
+      "adapted": true,
+      "upstream_checkout_sha256": "524f466259adff554fec3f60091d80112a530c390a4d37237f0260e877d8fdb5"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/refactoring.md",
+      "upstream_sha256": "50f4f7d3d301551f8b8a57c3303c99958c5ca630ae0d0051823b6987c0eb5b96",
+      "local_sha256": "cb57b0e418671117c8a6c3f2712e57b3f18df4ef06e87211ad951927262ab1d7",
+      "adapted": true,
+      "upstream_checkout_sha256": "1c076f78a4cb05608ae3f38a66c72b79392a87a4fa488a6c850e4d8b9ff4d835"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/runtime-forensics.md",
+      "upstream_sha256": "594f02c40c243a346e1f57b688ecf2ed5e882f21b3d24ed2204d1ac6f1c24a8a",
+      "local_sha256": "780dd63d01cc436b7cc8da53d2f5cf23574969cc89399812bae148bb4f2a8fe5",
+      "adapted": true,
+      "upstream_checkout_sha256": "574b03de2ba1041ac9e49a9a9e977bb978954a1d61fe4970cce57d94a4695102"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/session-pickup.md",
+      "upstream_sha256": "1604fb463f7c7410d43fa024ca76c1c1824c166a01fd69d61f073d06fdca2a47",
+      "local_sha256": "403e988b83a97d6e875a07eb4edccb96d3340e63b5d2553962c57470ad716f40",
+      "adapted": true,
+      "upstream_checkout_sha256": "b8afdfc469a6208cfa4441732a84019040e56546eac33ed2448296b2091642ef"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/shipping.md",
+      "upstream_sha256": "19f3f6803a7bbe9ff04f624b03e3b55f07ac0a05e991aa00d5fe51239b920b2a",
+      "local_sha256": "06547736ae666a6832894855dc1cae2e7bd2195157350a0e547a02982fb51a2e",
+      "adapted": true,
+      "upstream_checkout_sha256": "2a1c21f45dff680b917bbabadcff52145c14051cf51bfb8db45df944cf32e78c"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/trace-forensics.md",
+      "upstream_sha256": "137ce3984fb96e45971fdff4d3c79fa4ccc647c5b30ae4945783b9fb23f8cec7",
+      "local_sha256": "ddbd7936ec34fe0ca240895451a1e0d6f370542c84f52c8079fa04368f76de99",
+      "adapted": true,
+      "upstream_checkout_sha256": "c55277fd6d72db570a28358851a4637da1128509b7343b0677446698dd0631f2"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/visual-parity.md",
+      "upstream_sha256": "950ca51999a6454c98eee6bcbc3d1bbe501a4e3a5d5439b6f6ddc378991b256c",
+      "local_sha256": "98d3765fab922f0aa14acd1a4d99c9b90116922745302f831d04103b23bd864f",
+      "adapted": true,
+      "upstream_checkout_sha256": "95a4e5aea48ac667925918e2e2832b13ee1d4dad2a0923a3f8154d3057029d15"
+    },
+    {
+      "path": "skills/poteto-mode/playbooks/worktree-cleanup.md",
+      "upstream_sha256": "fc464dc4121926df1704f483c5feca83717c0a40b4651d3e11bd3aedd89441b6",
+      "local_sha256": "eca739ff3134fb6b03da3c46b10317fd9b7962609fe64cd4e8b6e02247b533ba",
+      "adapted": true,
+      "upstream_checkout_sha256": "9959666e79547a97d0415b91e251ef43412258dd1ac7f0e8c0109f6494f9e7f1"
+    },
+    {
+      "path": "skills/poteto-mode/references/bugbot-triage.md",
+      "upstream_sha256": "b2d146c770d8d3593e1ef3d77b668039b8e1f78093ea1a86f1d45d7f99614309",
+      "local_sha256": "94539182fcd8f0a76e05946089071a0c8eeabc54687476ecc22ae169c01c1bb7",
+      "adapted": true,
+      "upstream_checkout_sha256": "72224647315707a8795117df98e35a595d6a06f72d508edf293ddccd03148799"
+    },
+    {
+      "path": "skills/poteto-mode/scripts/bootstrap.ts",
+      "upstream_sha256": "ccd2ed08fd9da9d0d942e5f2491cfc74bb92d8a08fa51755e0da1ac8de287361",
+      "local_sha256": "ccd2ed08fd9da9d0d942e5f2491cfc74bb92d8a08fa51755e0da1ac8de287361",
+      "adapted": false,
+      "upstream_checkout_sha256": "c4c6ce466b307464438c85dfb0ca807c838b2358bb514fbb37ac16674cf663e6"
+    },
+    {
+      "path": "skills/poteto-mode/scripts/bun.lock",
+      "upstream_sha256": "667d9cf7222e9aae3fa42a4be383e657784216e9df115da02227fbc5ac7bbe46",
+      "local_sha256": "667d9cf7222e9aae3fa42a4be383e657784216e9df115da02227fbc5ac7bbe46",
+      "adapted": false,
+      "upstream_checkout_sha256": "da12eea0275bc1b7ce4bdb387ef8cf0e6a78ecbc941fbb7289d037653259c2ec"
+    },
+    {
+      "path": "skills/poteto-mode/scripts/check-plan.mjs",
+      "upstream_sha256": "4f9432d9989880b6afc2bdda503d5b12a9d07d357ecf31936b7ab5e83bc80523",
+      "local_sha256": "4f9432d9989880b6afc2bdda503d5b12a9d07d357ecf31936b7ab5e83bc80523",
+      "adapted": false,
+      "upstream_checkout_sha256": "81814e891367939983ba69411c916b044c7c004dbab67babe30ce67dbe85c430"
+    },
+    {
+      "path": "skills/poteto-mode/scripts/orch/orch.test.ts",
+      "upstream_sha256": "773153ac74de6eb15f58d2682f487f5f30672d7efe3ef1d24a131aa9129d279b",
+      "local_sha256": "773153ac74de6eb15f58d2682f487f5f30672d7efe3ef1d24a131aa9129d279b",
+      "adapted": false,
+      "upstream_checkout_sha256": "30a5433b4d7771792aa355a55a2abcac56bddd2ade3394f0d7a58811db3bc278"
+    },
+    {
+      "path": "skills/poteto-mode/scripts/orch/orch.ts",
+      "upstream_sha256": "f091687df627a0b75fabd54af58945a9cd6c7039ef0622012ac9ed60cd8ec434",
+      "local_sha256": "f091687df627a0b75fabd54af58945a9cd6c7039ef0622012ac9ed60cd8ec434",
+      "adapted": false,
+      "upstream_checkout_sha256": "d566281700e8a8173623886b594a4f67c022369a06c610ed686ac1db9b176bd4"
+    },
+    {
+      "path": "skills/poteto-mode/scripts/orch/store.ts",
+      "upstream_sha256": "0eae7cf69282e827b1227166f2e32cee3560f2f3e65b3f1f2faf6fb83d3b4c5b",
+      "local_sha256": "0eae7cf69282e827b1227166f2e32cee3560f2f3e65b3f1f2faf6fb83d3b4c5b",
+      "adapted": false,
+      "upstream_checkout_sha256": "97f5bb5567cf0d97004eeb5fae8fd9ee2e0b743330da2c064b924f528b609aee"
+    },
+    {
+      "path": "skills/poteto-mode/scripts/package.json",
+      "upstream_sha256": "d1f815091209d49763775cc188e8e06ff32d5fec648bffd2272bc25a165e87c3",
+      "local_sha256": "d1f815091209d49763775cc188e8e06ff32d5fec648bffd2272bc25a165e87c3",
+      "adapted": false,
+      "upstream_checkout_sha256": "d38c36b661be31d442359f49fca2167a484b4dfbc883bcccc1d367753e19ccc3"
+    },
+    {
+      "path": "skills/poteto-mode/scripts/watch-pr/cli.test.ts",
+      "upstream_sha256": "a35592b4c6da96caf8d47987e9cd503fab6c7774ab87d11a43f24b4b5df2a9d1",
+      "local_sha256": "a35592b4c6da96caf8d47987e9cd503fab6c7774ab87d11a43f24b4b5df2a9d1",
+      "adapted": false,
+      "upstream_checkout_sha256": "e58e3c386f88e26b3e8a9e8255c97f33fdda05b818321f34be4f72305a54c01c"
+    },
+    {
+      "path": "skills/poteto-mode/scripts/watch-pr/cli.ts",
+      "upstream_sha256": "89c08863089181a232be782c4b2ed90a1552f44aeecb0dcb7aac2c623620e680",
+      "local_sha256": "89c08863089181a232be782c4b2ed90a1552f44aeecb0dcb7aac2c623620e680",
+      "adapted": false,
+      "upstream_checkout_sha256": "2969215cac5e58bb7a847d639fba4890bf83aabfa84d1f6e33c3b704360f140f"
+    },
+    {
+      "path": "skills/poteto-mode/scripts/watch-pr/fakes.test-helper.ts",
+      "upstream_sha256": "e53e31b7f03068063f53a99a3591b052aaed66e4e2b196b3a364980f60324ab1",
+      "local_sha256": "e53e31b7f03068063f53a99a3591b052aaed66e4e2b196b3a364980f60324ab1",
+      "adapted": false,
+      "upstream_checkout_sha256": "5ecf492c14702c58fd72c707cc5750f2131a6a28aed58829353939ccded45fc1"
+    },
+    {
+      "path": "skills/poteto-mode/scripts/watch-pr/github.test.ts",
+      "upstream_sha256": "0cbce011050522938523e36bb42a260e92b812dcd2076930fa681672ad316b24",
+      "local_sha256": "0cbce011050522938523e36bb42a260e92b812dcd2076930fa681672ad316b24",
+      "adapted": false,
+      "upstream_checkout_sha256": "935b85168fe1b3b829efffa7e6dbe5b091d7e4f2b038990010ce21da5b461d53"
+    },
+    {
+      "path": "skills/poteto-mode/scripts/watch-pr/github.ts",
+      "upstream_sha256": "d1bbbafbe8e2c703c84da2029de7f2c4011412512f8cf65a42100f46bcb92c8a",
+      "local_sha256": "d1bbbafbe8e2c703c84da2029de7f2c4011412512f8cf65a42100f46bcb92c8a",
+      "adapted": false,
+      "upstream_checkout_sha256": "f723de9fe8410aefa286ac61c7e3f1db2556207ca1361f820bbf720e85a73b09"
+    },
+    {
+      "path": "skills/poteto-mode/scripts/watch-pr/policy.test.ts",
+      "upstream_sha256": "a9fedb25feefd1f57ef6a662f80c99018690170a3a8070773a08eaf694d1d3d9",
+      "local_sha256": "a9fedb25feefd1f57ef6a662f80c99018690170a3a8070773a08eaf694d1d3d9",
+      "adapted": false,
+      "upstream_checkout_sha256": "76e8a3cc33d2cd76e62adb50c3ed62de30054c8ed0c749d509661d626530cf27"
+    },
+    {
+      "path": "skills/poteto-mode/scripts/watch-pr/policy.ts",
+      "upstream_sha256": "68d240505852cf23c9b2dea463342e9e61243f486b3cc86c735d140f9ee7be49",
+      "local_sha256": "68d240505852cf23c9b2dea463342e9e61243f486b3cc86c735d140f9ee7be49",
+      "adapted": false,
+      "upstream_checkout_sha256": "380c8e4360c21ea6b1056afa178b3e34792250112c8c221e3ea691b4707a3c61"
+    },
+    {
+      "path": "skills/poteto-mode/scripts/watch-pr/render.ts",
+      "upstream_sha256": "2b709e86628d5b8fdb61f860e60ababc342b0626c67576305442cf548283a604",
+      "local_sha256": "2b709e86628d5b8fdb61f860e60ababc342b0626c67576305442cf548283a604",
+      "adapted": false,
+      "upstream_checkout_sha256": "9188819167f637d4e3a53b5cff8881cc040a75fc48b12e679027572a35f178b5"
+    },
+    {
+      "path": "skills/poteto-mode/scripts/watch-pr/tsconfig.json",
+      "upstream_sha256": "1ecccc72320b086c63ce3f73c959896fd747363e63553b3b1136296ea4069e45",
+      "local_sha256": "1ecccc72320b086c63ce3f73c959896fd747363e63553b3b1136296ea4069e45",
+      "adapted": false,
+      "upstream_checkout_sha256": "cba24b7d70d6f4455d0d8f6ab557344b199d3e67a202c269f4222e79e301b465"
+    },
+    {
+      "path": "skills/poteto-mode/scripts/watch-pr/types.compile.ts",
+      "upstream_sha256": "621af4c9a664fbf699a9737efccdc248abb416df8819c9dc5f824beae2b9b1d6",
+      "local_sha256": "621af4c9a664fbf699a9737efccdc248abb416df8819c9dc5f824beae2b9b1d6",
+      "adapted": false,
+      "upstream_checkout_sha256": "6ec48dc1e84935ccba01a7403df5981dd7b32f6f28ccb543f419a73ac5c20e80"
+    },
+    {
+      "path": "skills/poteto-mode/scripts/watch-pr/types.ts",
+      "upstream_sha256": "64ba6221e3bfe61bbb292337d199cdec6309455477280efb060203dba34e0e91",
+      "local_sha256": "64ba6221e3bfe61bbb292337d199cdec6309455477280efb060203dba34e0e91",
+      "adapted": false,
+      "upstream_checkout_sha256": "a28bc69ee8bc2c027ddc1e5083e51ac6bfc2ffef72ab27cbd3fe2456a50798f7"
+    },
+    {
+      "path": "skills/poteto-mode/scripts/watch-pr/watch-pr",
+      "upstream_sha256": "d955603be6cc0e8b8ffcec722f635192b2261410b1f2929abea94480e47eb5d4",
+      "local_sha256": "d955603be6cc0e8b8ffcec722f635192b2261410b1f2929abea94480e47eb5d4",
+      "adapted": false,
+      "upstream_checkout_sha256": "a17825c7862730dd7c897c1ac076971c0f11d2f9ff8fe37c4a74ebc6db92d549"
+    },
+    {
+      "path": "skills/poteto-mode/scripts/worktree-audit.sh",
+      "upstream_sha256": "95b8530f3c0ccada8cabc4b0727c052fbc85c141531375aaace65c427af8aecc",
+      "local_sha256": "95b8530f3c0ccada8cabc4b0727c052fbc85c141531375aaace65c427af8aecc",
+      "adapted": false,
+      "upstream_checkout_sha256": "b8e05b6c9d0424aeed0de67b308c49dd7b79ba48e9a51bb14e9afe45b2e07ad2"
+    },
+    {
+      "path": "skills/principle-attack-the-premise/SKILL.md",
+      "upstream_sha256": "c87bd7536f772f8a403ad8155535ee17a1bbec9a353156693eb3bb1520c87ae3",
+      "local_sha256": "0886b7028292f8fec6b82418c1259f2bae5fa4a59fde3ac2904a86761afe06b8",
+      "adapted": true,
+      "upstream_checkout_sha256": "cb0ea916a7c5c747e3f32780766b069b39d347808b5fc69731bd913db770f335"
+    },
+    {
+      "path": "skills/principle-boundary-discipline/SKILL.md",
+      "upstream_sha256": "62ac2862c2caa22dd14531f51c9c6bb445ceb198ca98a687e25b4d47c1f10a28",
+      "local_sha256": "5f1071ed55c460a50bfd62fa6e218d50d84aeb90485555e739d15278979c89b5",
+      "adapted": true,
+      "upstream_checkout_sha256": "99c74b6676a4ca8e55f17f5db1264244b97b58c953d32bd305744a193a995305"
+    },
+    {
+      "path": "skills/principle-build-the-lever/SKILL.md",
+      "upstream_sha256": "458b269eab8e95a1573276955312f7d2a13ae8599879a9efc748248f6bc34b56",
+      "local_sha256": "1d8186b0e8ede8579f382cc8d9eb9b7ac99e5cd102e57236b2c18c756ae954e8",
+      "adapted": true,
+      "upstream_checkout_sha256": "366f8de7377d1ff991edf4d8f135b16cb0c36f573816d4f70e2e52cae33bf57e"
+    },
+    {
+      "path": "skills/principle-encode-lessons-in-structure/SKILL.md",
+      "upstream_sha256": "77044c83a9ac6df78fc643887ea5f1f11f082adaf14b717c060cdaed03cce863",
+      "local_sha256": "bc485b2e3fd59ae4fc6818822f4580e5f70caff1e252b845250d4a3717be9801",
+      "adapted": true,
+      "upstream_checkout_sha256": "64c2752bfd1eeae654b17b9c87858f9b8503101aa4d0c51279cc182794057605"
+    },
+    {
+      "path": "skills/principle-exhaust-the-design-space/SKILL.md",
+      "upstream_sha256": "8583310d7297b7823d75494faa57b003564d436807febecdecbd8321abe5cf6e",
+      "local_sha256": "761f3c7b554686c55e52e74c0a2762284e53d46e22dc9caf4a57898836bdd9e0",
+      "adapted": true,
+      "upstream_checkout_sha256": "4f971abbaf668014104985177607ab61a1128dc948d8b944f1f9772ec6afe37c"
+    },
+    {
+      "path": "skills/principle-experience-first/SKILL.md",
+      "upstream_sha256": "58903529d733b1c1a7c9ccf127d45ef3c7d0d9f0b81164a4dc6b80efe6f2912b",
+      "local_sha256": "7488ef9c1a28885f1470744c0b85db14b8005e0fb229742e421fd7d48a065a3c",
+      "adapted": true,
+      "upstream_checkout_sha256": "e0ac62b729f0f15d541d4bd3a9b4403b6124d885dd1dd02a0aa4668404c41aad"
+    },
+    {
+      "path": "skills/principle-explain-the-number/SKILL.md",
+      "upstream_sha256": "5aac99e7ce0bb1b37e2579acf4fe88c32a1456d9d46afd4a57cfe1df9092e89c",
+      "local_sha256": "b735ef7737cb941b36caf715f7e0b60868298d7a436b7716714aabd0657795db",
+      "adapted": true,
+      "upstream_checkout_sha256": "d8bb0c91d8685c06de34c0df02eabfc93705b5303b0c0037daa725b647effe5b"
+    },
+    {
+      "path": "skills/principle-fix-root-causes/SKILL.md",
+      "upstream_sha256": "ba4cd38da1dcc8fe5432feb64457cba95594736a9b21b2ebf8f8c52aee068707",
+      "local_sha256": "8f9653665d683cceed98b05c990bf9f9ab8057398d89f1bc583ebb5258a55150",
+      "adapted": true,
+      "upstream_checkout_sha256": "573d363206f66b6a684609125f25543b838e5809debd93df1fc7737383be5a20"
+    },
+    {
+      "path": "skills/principle-foundational-thinking/SKILL.md",
+      "upstream_sha256": "864b827e8199d946ce58beca0f89c4ed4099ed6e426fb698a3aaa45de2a9eea2",
+      "local_sha256": "2912bb314e67c38f5df6006fb10cf63819e71b2c381fc2377afcc0faa6149c5a",
+      "adapted": true,
+      "upstream_checkout_sha256": "db9c5d2cb14e950b52f7b74baaee8e56e548d915ffd22c376f29f39d95e8fa50"
+    },
+    {
+      "path": "skills/principle-guard-the-context-window/SKILL.md",
+      "upstream_sha256": "d2cef147862576e3d709b7afc149d85196245e8338b9c7eef337c95fba412b3e",
+      "local_sha256": "837cb613185134c8ca1646906567d73334d8118f9ae6c4a2881afe0f74e78c11",
+      "adapted": true,
+      "upstream_checkout_sha256": "9d78c0dc559d634d6fc0fb0f9efb30b95258d4b2ddbb0527288be2d258d559d4"
+    },
+    {
+      "path": "skills/principle-laziness-protocol/SKILL.md",
+      "upstream_sha256": "9006579e9e3f33955d17569733db688ae65f22577dc3b21803d219a5a8445aff",
+      "local_sha256": "ce89464051ca6c7605b09fc9741ed219308cab06c07069656d05fdb732ba81e0",
+      "adapted": true,
+      "upstream_checkout_sha256": "16f9bf5ad9ecdfde14a9457a675b117d3846e81face3d1252970dfbf5ce848d4"
+    },
+    {
+      "path": "skills/principle-make-operations-idempotent/SKILL.md",
+      "upstream_sha256": "540738217c3da7bf513b9886924ad6a2bc77e58be867f5bd2e1831c74bf2ce70",
+      "local_sha256": "82755a210082bacfee2b2ff9f4b02fbf340f21bb6f675fe077f976f0341e8460",
+      "adapted": true,
+      "upstream_checkout_sha256": "ed04e0247cfb4baa0d35d2e9d310f3427502477b72790331880701caca120d6f"
+    },
+    {
+      "path": "skills/principle-migrate-callers-then-delete-legacy-apis/SKILL.md",
+      "upstream_sha256": "09978915a4a11990cf0a9a02d9c08cc59e0b7a04c5c24b83aa560fbe4146f75b",
+      "local_sha256": "dfe301d5a1bacd4bc9dd118a17965d5b54b42875bf5825a9dcddb14031115ef5",
+      "adapted": true,
+      "upstream_checkout_sha256": "295ac6b00c3888c596b53001b01749391ff74620c1066a658fea6495b22adf81"
+    },
+    {
+      "path": "skills/principle-minimize-reader-load/SKILL.md",
+      "upstream_sha256": "42551c5dc74cd578163c148da552db3ff67d29b78600ef216bfd311fb828fe69",
+      "local_sha256": "dd8facff6ab73016ab2d2b5d122a77879ac674d81c7f4b7dbc1068f801688e60",
+      "adapted": true,
+      "upstream_checkout_sha256": "2d29d3494ef4fb0c93583d599f31b5bc5542663ad655994a3fb204c23ce3a79a"
+    },
+    {
+      "path": "skills/principle-model-the-domain/SKILL.md",
+      "upstream_sha256": "bbadbb9a723fac3f76e782ae45665eb94058ec10993e4bae36d4dc6b0e4eac07",
+      "local_sha256": "9b7e6ad96e0bd421b163b0f8c8c5d20108188abe3fb4f33c0f90a2b7531f1bfd",
+      "adapted": true,
+      "upstream_checkout_sha256": "7de67c97fe90d9e9551de333ee8a77a29162c551f55c24b256d0cd422933074d"
+    },
+    {
+      "path": "skills/principle-never-block-on-the-human/SKILL.md",
+      "upstream_sha256": "f2764bb9338cbfc788c903cf4b9cd0a5f4042d3a04dd6d59cbd525d9beaadd0a",
+      "local_sha256": "a3deb8fc8e1cdffb46e684ae635dec9b5bc2b7059ad578b21d835136df54cec5",
+      "adapted": true,
+      "upstream_checkout_sha256": "4c70825c3d01b824f3271b90caa53a60e8a43955e750a9adde99ea33f1525e53"
+    },
+    {
+      "path": "skills/principle-outcome-oriented-execution/SKILL.md",
+      "upstream_sha256": "10eb91633aa570355ba4bb37088fcade2b22e498df7a58edc749e65bc5a78e2d",
+      "local_sha256": "32a7d61de404e35c18fc123d933bd317ff3458b6b4f629dc3531a743aef1c700",
+      "adapted": true,
+      "upstream_checkout_sha256": "db7d50f932a368dbb926d954c109288373466fe11dc9f3f61b5a1f152850eb4e"
+    },
+    {
+      "path": "skills/principle-prove-it-works/SKILL.md",
+      "upstream_sha256": "ec79a15025bac8d33d62011c54f3b612733fd2a024e623b531b3637aa75070e2",
+      "local_sha256": "ce6ee0c4dd1795cf0b1df1d8f70bf7b423ac15fd0011c255fbff07f37c969a8e",
+      "adapted": true,
+      "upstream_checkout_sha256": "06c9fc738540384e78fafc43c251e04d053f4e2dc5acef73245396da6cc8c60f"
+    },
+    {
+      "path": "skills/principle-redesign-from-first-principles/SKILL.md",
+      "upstream_sha256": "a1c7fd0a96b40e12a74bceb0e6bb20a9666dd844dcabfb624acb27da23b929fe",
+      "local_sha256": "062376ac29379a1d920c735adea5f8feec5826729edcf4003e0f354e03aae0d3",
+      "adapted": true,
+      "upstream_checkout_sha256": "2f93203f3f7d2c584d316ba1c9cabd3a922bdb6a94ed4ab45ed045bb250e7a73"
+    },
+    {
+      "path": "skills/principle-separate-before-serializing-shared-state/SKILL.md",
+      "upstream_sha256": "05294b40448e927c5da1c7b6f5c6b9fed3744637e3833d2d948b9154a9dd00bb",
+      "local_sha256": "65ef30f48130b8593e85ab567990938b96f5f44609086182028fb3b18813d947",
+      "adapted": true,
+      "upstream_checkout_sha256": "05cbc073c63c1d61cc3032a6d31b781b0d55337be8d51fa7b1259cbebe85957e"
+    },
+    {
+      "path": "skills/principle-sequence-verifiable-units/SKILL.md",
+      "upstream_sha256": "2ccbbacc56ace5afdfb8670cef19d7bd009fb2a0033b9a741cbdf2b6baf72187",
+      "local_sha256": "619fafe139cf2720abafcd71135b0f3cde9f5a75ac39b4444f97f4e576350ad0",
+      "adapted": true,
+      "upstream_checkout_sha256": "0b4407908c81a3368cc481ae835e04a71295810f918b45d16cbd1dbc2ba5734b"
+    },
+    {
+      "path": "skills/principle-subtract-before-you-add/SKILL.md",
+      "upstream_sha256": "a983a50e732c1ed315eba7aaf47a61329e31c4794eb1ab9d25d9945265b31e03",
+      "local_sha256": "323bf71b059a27dc1696ae21a8d9eb0b1866502767da2c32b69bbb1d7360323d",
+      "adapted": true,
+      "upstream_checkout_sha256": "efa99ef0169b40e078c8aafada5f484fee65543cad5cf5feb9cd7c89116aa4cd"
+    },
+    {
+      "path": "skills/principle-test-behavior-not-implementation/SKILL.md",
+      "upstream_sha256": "87e40efe4e486f7ea639d2ed1fc0abe6c93b8fd0e89a81218086909d2470a52e",
+      "local_sha256": "42ba3edaf271ef0280623fcdc3d424aaa3ea5e24674ee73b806aad9117928a21",
+      "adapted": true,
+      "upstream_checkout_sha256": "bd6ecea5b16ce30d79dc5918d80ddf40c681b244e40bdcdf709f821e1ae19c7e"
+    },
+    {
+      "path": "skills/principle-type-system-discipline/SKILL.md",
+      "upstream_sha256": "c83da8031ffb4c86410030d3e261f659598fca2b7d8158fd9dc269d70a3a025e",
+      "local_sha256": "f27f79e330ed06e38a670e4d8e5129dbe8cab13a7eb21223fcb9f5bac1a0ea76",
+      "adapted": true,
+      "upstream_checkout_sha256": "c5a6412532e017a6fbd2625e527711fad57d14a0a57bba3223eb0578036feebe"
+    },
+    {
+      "path": "skills/recall/SKILL.md",
+      "upstream_sha256": "d265b0e5b6dc5b89c0407f3387d24462c988e1990a37d5359735137908128c5a",
+      "local_sha256": "3aa5c3873551166adb032be880f351dbf4592359d408c75046eee3320e1c4350",
+      "adapted": true,
+      "upstream_checkout_sha256": "3787d00d17c197a6e021c331673d29740fb16d7ec83311bfe2d7f64bebc7c1a7"
+    },
+    {
+      "path": "skills/reflect/SKILL.md",
+      "upstream_sha256": "31b8fb866ebe084e7fb7f16dc0ea46ab84ffdc838d54f948edc78556f301a497",
+      "local_sha256": "a08e6fceb283c606749207048610dc9815ed105e55f2fd1d809a5d207396a82f",
+      "adapted": true,
+      "upstream_checkout_sha256": "ee1890ae2a617a7fcbca401c330d8c270435d5e073be3c512650f53986d0ceb9"
+    },
+    {
+      "path": "skills/reflect/references/divergent-reviewer.md",
+      "upstream_sha256": "221dfc0abf7cbcd25e1da3cd87323f5d1050fc3bf652e096d093584e183c98fb",
+      "local_sha256": "f8f9d316947fef36bc0d8826d3802afee1b0dde3a435ad3a0c23b9fba4f23aa8",
+      "adapted": true,
+      "upstream_checkout_sha256": "441c66df630e1cfe787dc30fb6d5303297e81754e91737a22abc9236ec184e82"
+    },
+    {
+      "path": "skills/reflect/references/judgment-reviewer.md",
+      "upstream_sha256": "a40ecb9b28bd2a3491e11a541157fe58efe158e0eda7b61a5006c14590aabe61",
+      "local_sha256": "94262426f4ed4b016cc2db1184bda4453cccff2128a9cf4c0bc6ee4c7215d40c",
+      "adapted": true,
+      "upstream_checkout_sha256": "4a6abb8a5e7649c796371a8e91f219a1bf2de3513d447b6fb648b3f99d9c9915"
+    },
+    {
+      "path": "skills/reflect/references/synthesizer.md",
+      "upstream_sha256": "2f76c847eb45b182dc6fbcbf7d96c8ee7e2986ecfd9e0d640fec44e3cc5a617c",
+      "local_sha256": "6497707025c3911c7f80c51d1a04b413dd8d1255b7ddf7ab814418778f2da9b9",
+      "adapted": true,
+      "upstream_checkout_sha256": "9b14f03bc0a6b17649b4ead4983d20e0763e287f987a4ebb7d508c32ecd3ad02"
+    },
+    {
+      "path": "skills/reflect/references/tooling-reviewer.md",
+      "upstream_sha256": "bc49ced90fa81eaba3083b88aeb430d900a6d8f14ff40c1d6b52263bacfc77b6",
+      "local_sha256": "6168fcc01fb21e092dd6faf17b4e802383ea10ec2a7fa534fc2783029eb85e2b",
+      "adapted": true,
+      "upstream_checkout_sha256": "e8795122c4f8fae6ee18119415ca083b82393e4788ca26d70856c038e12c94a7"
+    },
+    {
+      "path": "skills/setup-pstack/SKILL.md",
+      "upstream_sha256": "d61b47256a18155a81c8e5ef95e3cc6569ce8c18317c35c4dd9c8015cf68cb59",
+      "local_sha256": "2f5b46c647d47177174ea51529f0910eb818b1fb0a3152787f83227b57a6de4e",
+      "adapted": true,
+      "upstream_checkout_sha256": "c2f50fda1d01cc50bb6c53932ad6f627b60d4eaa1e32be2f61397b0c2d24fbb2"
+    },
+    {
+      "path": "skills/show-me-your-work/SKILL.md",
+      "upstream_sha256": "bcff5f7f9fd23f92c12b251f9cd6b947e9485e1055cfacb6fdd9cae0789d7550",
+      "local_sha256": "4cf6656911307625c0513720ee2d9e5e6af48f818cd15ccd4f14b777f7413833",
+      "adapted": true,
+      "upstream_checkout_sha256": "53506f873ecb84c111baab64db3bd26ebae1a2721a3b88d8643097bb06b83813"
+    },
+    {
+      "path": "skills/show-me-your-work/references/decision-log-template.tsv",
+      "upstream_sha256": "6779378006a2f5225e8c06deb84f1d913fb532041ebbb6e50d94600bfe3f4b76",
+      "local_sha256": "6779378006a2f5225e8c06deb84f1d913fb532041ebbb6e50d94600bfe3f4b76",
+      "adapted": false,
+      "upstream_checkout_sha256": "e41f14876ec851a603b03a168c4ce63b46c4cd2588b8e4668a8c988d9b37ffa5"
+    },
+    {
+      "path": "skills/show-me-your-work/scripts/log.sh",
+      "upstream_sha256": "a65a4bc5fb7cdeadbdb7b7ff1ca4682f4d9c42420942b2977cd17b46c4ac338e",
+      "local_sha256": "a65a4bc5fb7cdeadbdb7b7ff1ca4682f4d9c42420942b2977cd17b46c4ac338e",
+      "adapted": false,
+      "upstream_checkout_sha256": "edee4e84f4f8836bb712c5ae4c14c0928b5a3fe6a1cbcff7647c32e575991d8e"
+    },
+    {
+      "path": "skills/swarm/SKILL.md",
+      "upstream_sha256": "bdcee4168e22428036e93d7cdeec3f391dbc4132f927f6db2540328c22db0273",
+      "local_sha256": "bb36dae42f8058cb754fdcc09084bcdda2f40b88fff0c32fcc5eea6b65c13f33",
+      "adapted": true,
+      "upstream_checkout_sha256": "4fdc706b72a57ef115f52b79f010b72410b08937dbaa6dc65be2bb46a98b2e21"
+    },
+    {
+      "path": "skills/tdd/SKILL.md",
+      "upstream_sha256": "eeb868e2dfebee528d730a67d7b17498fac4bb85dec2e38bc5c5176aca4d5d2f",
+      "local_sha256": "f17b27725b0358907e1f149658107612dead8e04c1412b7672f495be6e8774c1",
+      "adapted": true,
+      "upstream_checkout_sha256": "dc438d0d5e59482d88643eaffc2d85547a248aba2987c79ed74b3b2f280a2f11"
+    },
+    {
+      "path": "skills/teach/SKILL.md",
+      "upstream_sha256": "bd286e5a6290673be2cd28aef7af2ec7f1fb138e6bce156ea657368c7e7fc8a4",
+      "local_sha256": "5273b2a4acf754a10bd98fc4bfe799508db0d3bea1f4d6b29e51654a9fb40df5",
+      "adapted": true,
+      "upstream_checkout_sha256": "5849c4cdb9be7a84cddc8524273c53a1e4a1c09ea9e14592b94bc0ee2d3e0d09"
+    },
+    {
+      "path": "skills/technical-writing/SKILL.md",
+      "upstream_sha256": "f5c512ffeec70bc4e0dee50f7bb4c26742e1be77967a6e8b15d1921e1c209ceb",
+      "local_sha256": "288f86c9674e386df74576a7907efd803434d8ccdc08603ed5040bc773cc2518",
+      "adapted": true,
+      "upstream_checkout_sha256": "13a07db41433789c0b615b6601915817dad9ca0505b807f01bd9a696f782fbff"
+    },
+    {
+      "path": "skills/typescript-best-practices/SKILL.md",
+      "upstream_sha256": "28f9e61710e205f6f3c5476f333483cff0e988f6a5b639e2faad536344b40c5e",
+      "local_sha256": "a75545dd336b0e7a0bf957ca30b9c63b59b7ab53154caf7cd17e12508b9aef47",
+      "adapted": true,
+      "upstream_checkout_sha256": "b371e973b788496d4aef5045219b1201909ec0b104a745d42788a80cb1fd2b9c"
+    },
+    {
+      "path": "skills/typescript-best-practices/references/patterns.md",
+      "upstream_sha256": "faa1362055374452efccac1b629677c61acfb0bcc6c4e3311836b5715638ee18",
+      "local_sha256": "10d2b4862018188d1ffde3b5a5bc5e9a7186b7db7d15c8c76858329fa0ef5c97",
+      "adapted": true,
+      "upstream_checkout_sha256": "13af3b136ac4f97e6e7d1dcc9a33953bd38cb81eca4456713e333d36956c22ed"
+    },
+    {
+      "path": "skills/unslop/SKILL.md",
+      "upstream_sha256": "195411d320b5b328f9f642baf59757ed19aaf0931c0838740e0aca273d538dc1",
+      "local_sha256": "25da2aef311b96e6a944a94197fc7f81ff482ea95929650714cf47737145bf08",
+      "adapted": true,
+      "upstream_checkout_sha256": "df32a08e7398e65e4458eab368deaad1da8dfc4e10a1f915571e2f243ab966ad"
+    },
+    {
+      "path": "skills/why/SKILL.md",
+      "upstream_sha256": "442215bf70e491d4d31bd200c197f2ec447445df38e074c40880fc4bf30a1f9e",
+      "local_sha256": "053d992bcdc0b2be9e6157607f7cde2082587f96db005b2b181211c364f40ec2",
+      "adapted": true,
+      "upstream_checkout_sha256": "849f7a21cecf9c9794593ef92ff2fe523995b7eacf6b10aa841a71e46c52a2a6"
+    },
+    {
+      "path": "skills/why/references/epistemics.md",
+      "upstream_sha256": "fcc0f559c072832c869a5ada72434b4849320a637ae63c09e8ee14f7ad787059",
+      "local_sha256": "cfb0bb674acdb377ef2be15a6c0ae4e37effb22072253b2103f1a05b848c29f8",
+      "adapted": true,
+      "upstream_checkout_sha256": "d9493c1629ce0c1d4dede8673e9b45b0bc4d137471b2845ce116209c9d2c23f9"
+    },
+    {
+      "path": "skills/why/references/investigator-prompt.md",
+      "upstream_sha256": "6892956a7ab0b5ee6c4babaf4f793703abe89b350ea7cb9463b4a56eea1c8266",
+      "local_sha256": "dae58def223e69c812144eed9b8f7ef9826ba92b3c8a3ecf0ad3980ad3f2b103",
+      "adapted": true,
+      "upstream_checkout_sha256": "05f2f1f0d3750a729506dbec501e4bd10213c26c0ce7fd3304618f040a984f3a"
+    },
+    {
+      "path": "skills/why/references/source-playbook.md",
+      "upstream_sha256": "9ae9dcb9d09111c9facc68510331c5aba4aed9b1b057314ff1fc0e166ad3993a",
+      "local_sha256": "2532dfe10160a7430b669ac110c36f630d7c3114f8eb84810116c7aff92b9e02",
+      "adapted": true,
+      "upstream_checkout_sha256": "53620c8aedaa7a0acca7279664cd8a24d064a752b232f2268a23ef3d93b7ea26"
+    },
+    {
+      "path": "skills/why/references/sources/code-archaeology.md",
+      "upstream_sha256": "8c14aa382f0de40829b2668d43e3f54814480bb93a486c9282ada4003f6b9dbd",
+      "local_sha256": "248d3d07f083f7cc5f37b1ccffa53f1bdada5ddc2d921ef42617d7701ea521c1",
+      "adapted": true,
+      "upstream_checkout_sha256": "a67d6402c26beb25bd5d2403bf444ae959389633822444aee2a72ac0460f37b0"
+    },
+    {
+      "path": "skills/why/references/sources/databricks.md",
+      "upstream_sha256": "236ede7aab6454662a992db088a5393537a5233a4c26719c93188f9e174488f6",
+      "local_sha256": "f7dc2a0e0f5f018e9e863893f3191039e61245cded6a0a6da3a87a74bf8be2ef",
+      "adapted": true,
+      "upstream_checkout_sha256": "22e190ae0855e9e7a7b8fb5b783fe53c72b5e997497e486e69acaf2835347bda"
+    },
+    {
+      "path": "skills/why/references/sources/datadog.md",
+      "upstream_sha256": "ebe9c07bac28e47757ee7f16fb93b0c01d427a08c501957d047f395a2f37b7e7",
+      "local_sha256": "3a010e3452cd0dbe04daccf07715d8f022a00178b38aca3a05d757db90dafdff",
+      "adapted": true,
+      "upstream_checkout_sha256": "fe14fecfacdb20d2d9ce6e6eedefa426c9c8c667c0cb5e76d7935524ed52b97b"
+    },
+    {
+      "path": "skills/why/references/sources/incident-postmortem.md",
+      "upstream_sha256": "a899470f05f86029630a13a2696491cc708ca7b56a6e822a69ff6e954d6ff8cf",
+      "local_sha256": "a3790f6ec7588f11fd6587fce41b21ae06cc924088b2ebcf639689226a128fbc",
+      "adapted": true,
+      "upstream_checkout_sha256": "b78429403b60ae61ab5728d748ddc0bdc35c5156477a7de18955c474e706ff17"
+    },
+    {
+      "path": "skills/why/references/sources/linear.md",
+      "upstream_sha256": "01304e7f1badfcfb78babbb0edcadeb3cc8dd3f713793420cdff24ba190f907c",
+      "local_sha256": "4ce6266cbbfe44b8be7e450e3755758c7ea341ec926f5ea918062b7d9045e229",
+      "adapted": true,
+      "upstream_checkout_sha256": "e26ad5dc9355d61c372b7c48f364b8192f26c7b8d3b71b4bf17c629ed17e7029"
+    },
+    {
+      "path": "skills/why/references/sources/notion.md",
+      "upstream_sha256": "3bcfa695c49dfad4ac036d5d7181c12585f55ac04f1936198d16ab75a2788997",
+      "local_sha256": "aa14050614e0c083fa1bfbfea5fa718c6efc9d4a5e9c8b2302da1541e28397e7",
+      "adapted": true,
+      "upstream_checkout_sha256": "3b1e4feb5192443980f85b0cc1a5a30f4c894d6de37183dad84e3475daf6a7df"
+    },
+    {
+      "path": "skills/why/references/sources/sentry.md",
+      "upstream_sha256": "6f292bc4fb1548e956f95e1900b9481abf5134254419f1cd9edec95428c82d73",
+      "local_sha256": "7a0371aded107c1c81fde5125620a40f26a738ff3982ca57dbddaef5c7fd1984",
+      "adapted": true,
+      "upstream_checkout_sha256": "58b3b3031d2389d9b7114c599974959b12078b4d9a57a3f801477df31277f026"
+    },
+    {
+      "path": "skills/why/references/sources/slack.md",
+      "upstream_sha256": "58fee61d024b3700b407e7acbed367944720ff05adfddb6954d36c88368f3ba7",
+      "local_sha256": "822975f46fa93b2d8f9ea4ff9285b38204ea21e52d1033ad4c8a87bf2d139dd1",
+      "adapted": true,
+      "upstream_checkout_sha256": "662a65769793a7119d00a474cf1a1e7f6d980e1268e0484862e7bf9b9d25f635"
+    },
+    {
+      "path": "skills/why/references/synthesizer-prompt.md",
+      "upstream_sha256": "733a3e9cf897b1aca56aaddeae01a3832e4bfed024c2f602db2d1bf807d7a73b",
+      "local_sha256": "8c50e37a26be70a8e4a7f55cecd8d22374db909603b94e749239b91d423efd46",
+      "adapted": true,
+      "upstream_checkout_sha256": "536866f82701a1bbcd0f61377075814bf0139022e3b6867ba2caecf7d8e22f69"
+    }
+  ],
+  "specific_adaptations": [
+    "All inherited Markdown points to ADAPTER before execution",
+    "Skill names/frontmatter normalized for portable project discovery; upstream explicit-only Cursor fields replaced by project routing",
+    "Illustrative dangling PR url in why synthesizer reference changed to plain placeholder text"
+  ],
+  "hash_basis": "upstream_sha256 is exact Git blob from the pinned commit; upstream_checkout_sha256 retains the Windows checkout observation. Text assets use LF for portable cloned hashes."
+}

@@ -1,10 +1,5 @@
 # 项目级 Skills
 
-这里登记与 Ignite 项目绑定的可复用技能。当前没有项目专属 Skill；通用技能由各 AI 工具的用户级工作台提供。
+项目携带完整 [pstack 技能目录](../pstack/CATALOG.md)及[Ignite适配](../pstack/ADAPTER.md)。技能、参考文件、playbook与许可真源在 `.ai/pstack/`；各工具发现目录仅桥接。新项目克隆时一并携带，无需全局安装。
 
-新增项目 Skill 时：
-
-1. 在本目录建立独立的 `<skill-name>/SKILL.md`；
-2. 在文件中说明触发方式、输入、输出和验证方法；
-3. 让各工具的 bridge 指向这个真源，不复制正文；
-4. 在 `AGENTS.md` 或对应的 `docs/standards/` 中登记它的用途和维护边界。
+新增项目技能应写明用途、输入输出、权限和验证方式，在项目规则登记；不要复制长期规则。

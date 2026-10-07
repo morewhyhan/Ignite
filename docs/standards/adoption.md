@@ -157,3 +157,7 @@ pnpm ignite release verify <release-id> --plan <done-plan-id>
 新契约中，`done` 完成单个 Plan；最后一条命令完成整个 Release。它会记录被测 commit、package version 和指向该 commit 的 Git tag 名称（如果已有），但不会替采用者创建 Git tag、推送或部署。旧 `verification_contract: 1` Plan 仍使用原 `check --level release` 命令。
 
 `pnpm build` 只证明当前配置可以完成生产编译。真实生产部署必须把 `APP_ENV` 设为 `production`，并满足 HTTPS、持久数据存储和独立 secret。SQLite 默认拒绝；只有低流量单机展示场景经明确选择后，才可设置 `ALLOW_PRODUCTION_SQLITE=true`，并使用版本目录外的持久化绝对文件路径、安排备份。这不是通用生产或多实例部署方案。邮箱所有权验证如有需要，另行作为增量模块接入。
+
+## 项目方法库采用边界
+
+模板携带完整pstack方法、来源许可及各工具发现桥接；普通克隆保留这些可复用资产。采用者按实际宿主加载项目技能，必要时刷新会话；全局安装不是默认步骤。Cursor模型配置、外部插件/MCP、Benny自动化和云服务不因克隆而启用，需要具体项目按实际授权配置。方法使用不自动授予外部写入，不以技能跑分或提速证明为前置条件；项目代码和业务行为仍按原生工程规则验收。

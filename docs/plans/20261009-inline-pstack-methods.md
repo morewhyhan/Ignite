@@ -113,13 +113,19 @@
     "docs/plans/releases/inline-pstack-methods-v1.json",
     "docs/others/evidence/"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-PSTACK-003",
+      "test": "tests/contracts/pstack-assets.test.ts::[AC-PSTACK-003] reads inherited methods and discovery bridges without an adapter prerequisite",
+      "run_id": "tdd-20261008221303-5b8f70"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
-  "updated_at": "2026-10-09"
+  "updated_at": "2026-10-08"
 }
 -->
 

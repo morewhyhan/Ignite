@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "94fe4556af26296eedc076980af896807396253f51fe4ef26ce4499c2afce57b",
+  "run_id": "tdd-20261008221303-5b8f70",
+  "plan_id": "IGT-1791497468917571676",
+  "acceptance_id": "AC-PSTACK-003",
+  "test": "tests/contracts/pstack-assets.test.ts::[AC-PSTACK-003] reads inherited methods and discovery bridges without an adapter prerequisite",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "c821a8bc9dbbcebf2223418cba4c03f5445b83f4",
+  "output_sha256": "a4001a9c5d9369e3d179620f140ae1c638dd836cae16e1dd4809f93381b15647",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/pstack-assets.test.ts",
+    "--testNamePattern",
+    "AC-PSTACK-003",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-08T22:13:03.625Z",
+  "ended_at": "2026-10-08T22:13:04.655Z",
+  "executor": "ignite-tdd-runner"
+}

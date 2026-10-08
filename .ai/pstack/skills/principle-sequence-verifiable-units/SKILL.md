@@ -6,9 +6,6 @@ description: Apply to multi-step work (sweeps, migrations, runs of similar edits
   proves itself to a reviewer.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # Sequence work into verifiable units
 
 Order work as a sequence of small units, each ending in a state you can check, and don't advance until the current one is green.

@@ -5,9 +5,6 @@ description: Apply when two or more fixes that share one premise have failed the
   question the premise instead of writing another fix that assumes it.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # Attack the Premise
 
 When two or more fixes that share one premise have failed the same gate, suspect the premise, not the fixes.

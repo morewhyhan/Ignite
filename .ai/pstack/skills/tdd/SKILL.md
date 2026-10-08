@@ -5,14 +5,13 @@ description: Use only when the user explicitly asks for TDD, a failing test, or 
   the test path is unclear, expensive, integration-heavy, or not requested.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # TDD Bug Fix
 
 When fixing a bug with a clear, cheap test path, make the broken behavior executable before changing production code. The goal is a focused regression test that fails before the fix and passes after it.
 
-Do not force a test when it would be impractical. If the available test would require broad harness setup, brittle mocks, slow end-to-end infrastructure, production-only state, vague reproduction steps, or large unrelated fixture churn, skip adding a new test and use the closest useful verification instead.
+For an Ignite Plan, use `pnpm ignite tdd red --plan <IGT-ID> --ac <AC-ID>` to record the required behavior red before implementation, and keep the same test path for the passing check. An environment error is not a behavior red. This skill's optional bug-test advice does not waive the Plan contract. If the user says not to run tests yet, leave verification pending and do not mark the Plan done.
+
+Outside a Plan requirement, do not force a test when it would be impractical. If the available test would require broad harness setup, brittle mocks, slow end-to-end infrastructure, production-only state, vague reproduction steps, or large unrelated fixture churn, skip adding a new test and use the closest useful verification instead.
 
 ## Workflow
 

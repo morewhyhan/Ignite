@@ -1,6 +1,6 @@
 # pstack 技能目录
 
-按任务读取，正文只维护在真源。先读 [适配说明](ADAPTER.md)。非简单工程任务入口为 [poteto-mode](skills/poteto-mode/SKILL.md)。
+按任务读取，正文只维护在真源。需要完整工程流程时，用户启用 [poteto-mode](skills/poteto-mode/SKILL.md)，由 AI 选择流程与技能。项目文档位置和工具使用要求直接写在对应方法中。
 
 | 技能 | 用途 / 调用条件 |
 | --- | --- |

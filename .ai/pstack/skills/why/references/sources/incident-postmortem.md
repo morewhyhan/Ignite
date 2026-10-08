@@ -1,6 +1,4 @@
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 # Incident & Postmortem Context
 
 Not a separate source, a **cross-cutting angle**. Incidents often motivate defensive code ("we added this check after the X outage"), so if the target looks defensive (null checks, retry logic, timeout handling, rate limiting, feature flags), specifically hunt for incident history across every available source:

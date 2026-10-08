@@ -1,6 +1,4 @@
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 # Notes verification map
 
 This is an inherited fictional Notes example for launch/drive/evidence technique, not a maintained Ignite requirements or acceptance map. Do not run its commands in Ignite. A real control skill links existing Feature REQ/AC, docs/others/test-cases/ and executable tests instead of copying this directory as another coverage authority.

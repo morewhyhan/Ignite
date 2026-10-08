@@ -5,9 +5,6 @@ description: Apply when integrating a new requirement into an existing design. R
   bolting it on.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # Redesign From First Principles
 
 When integrating a change, don't bolt it onto the existing design. Redesign as if the requirement had been there from the start.

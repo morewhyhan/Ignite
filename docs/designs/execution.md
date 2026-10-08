@@ -76,9 +76,9 @@ CI 生产态 E2E 使用 line reporter 实际输出 Next webServer stdout/stderr�
 
 ## 项目内pstack方法库
 
-模板携带 `.ai/pstack/` 的51个主技能、23个playbook及配套资源，共152份上游文件，不包含问题报告机器人。方法正文和参考文件在同一真源维护；[适配说明](../../.ai/pstack/ADAPTER.md)明确项目规则、实际工具模型、权限和调用尺度，[目录](../../.ai/pstack/CATALOG.md)提供逐技能入口。Codex 通过 `.agents/skills/` 发现技能，Claude Code 通过 `.claude/skills/` 发现技能；Cursor 和 OpenCode 复用这两个已支持的目录，不再生成各自的技能副本。两个目录只保存元数据与正文链接，方法正文仍只维护一份。AGENTS及工具规则指向同一目录。上游MIT许可与逐文件来源哈希随项目保留。
+模板携带 `.ai/pstack/` 的51个主技能、23个playbook及配套资源，共152份上游文件，不包含问题报告机器人。方法正文和参考文件在同一真源维护；项目文档位置、实际工具模型及具体步骤直接维护在对应技能与流程中，不另设适配层；用户启用poteto-mode后，由AI按目标选择方法。[目录](../../.ai/pstack/CATALOG.md)提供逐技能入口。Codex 通过 `.agents/skills/` 发现技能，Claude Code 通过 `.claude/skills/` 发现技能；Cursor 和 OpenCode 复用这两个已支持的目录，不再生成各自的技能副本。两个目录只保存元数据与正文链接，方法正文仍只维护一份。AGENTS及工具规则指向同一目录。上游MIT许可与逐文件来源哈希随项目保留。
 
-该变化是方法与发现入口的文件交付，不证明真实模型收益、所有平台会话已刷新、Plan integration或Release已通过。固定模型、Cursor Task/loop与外部插件在当前宿主按适配映射，不自动购买模型服务。继承playbook作为方法参考，不能覆盖项目原有Feature/Plan/Design/Evidence真源或创建并行任务状态。
+该变化是方法与发现入口的文件交付，不证明真实模型收益、所有平台会话已刷新、Plan integration或Release已通过。角色模型读取项目config.json并默认继承当前宿主；委派、持续执行和外部插件使用实际可用能力，不自动购买模型服务。继承playbook作为方法参考，不能覆盖项目原有Feature/Plan/Design/Evidence真源或创建并行任务状态。
 
 上游辅助工具不属于主应用编译范围；根TypeScript、ESLint与Prettier显式排除`.ai/pstack`，保留方法内容与辅助工具独立依赖边界。方法和桥接由资产/文档检查核对，不伪称可选自动化运行通过。
 

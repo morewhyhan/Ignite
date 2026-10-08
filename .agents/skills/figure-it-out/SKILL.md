@@ -9,4 +9,4 @@ description: "Design an auditable playbook when no narrower one fits: a large
 
 # figure-it-out
 
-Read the [Ignite adapter](../../../.ai/pstack/ADAPTER.md), then the [canonical skill](../../../.ai/pstack/skills/figure-it-out/SKILL.md) and only its task-relevant references. This file is discovery metadata and a bridge, not a second rules source. Use the current project authorization and host capabilities.
+Read the [canonical skill](../../../.ai/pstack/skills/figure-it-out/SKILL.md) and only its task-relevant references. This file is discovery metadata and a bridge, not a second rules source. Use the current project authorization and host capabilities.

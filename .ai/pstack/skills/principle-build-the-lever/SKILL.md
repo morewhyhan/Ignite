@@ -6,8 +6,6 @@ description: 'Apply to any non-trivial work, not just bulk work: edits, migratio
   a reviewer can rerun.'
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 # Build the Lever
 
 When the work isn't trivial, build the tool that does it instead of doing it by hand.

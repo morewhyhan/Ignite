@@ -39,7 +39,7 @@ Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定�
 - `AGENTS.md` 是所有 AI 工具共用的唯一项目规则真源。
 - `CLAUDE.md`、`.cursor/rules/`、`.opencode/` 和 `.github/copilot-instructions.md` 只负责入口桥接，不复制长期规则。
 - `.ai/` 登记项目专属 Skills、MCP 和真源关系；新增资产必须写清用途、权限边界和验证方式。
-- 项目携带完整 [pstack 方法库](.ai/pstack/CATALOG.md)。先读取 [Ignite适配](.ai/pstack/ADAPTER.md)；复杂工程任务由 [poteto-mode](.ai/pstack/skills/poteto-mode/SKILL.md)按实际目标选择流程，明确小改动直接执行，不默认展开实验或多Agent。技能不扩大授权、不替代现有真源与工程验收；技能复用不要求先证明提速。
+- 项目携带完整 [pstack 方法库](.ai/pstack/CATALOG.md)。用户启用 [poteto-mode](.ai/pstack/skills/poteto-mode/SKILL.md)后，由 AI 按实际目标选择流程与技能；明确小改动直接执行。项目文档位置和宿主工具用法直接维护在对应技能与流程中，不另设适配文件。技能不扩大授权、不替代现有真源与工程验收；技能复用不要求先证明提速。
 - `.agents/skills/` 与 `.claude/skills/`仅保存必要技能发现元数据和真源链接，不复制方法正文；Cursor/OpenCode复用兼容目录，不额外生成`.cursor/skills/`或`.opencode/skills/`副本。原项目入口在不支持自动发现的工具中仍负责引导按需读取。
 - 当前系统事实以 `docs/designs/` 为准；需求、计划、标准和验收资料分别位于 `docs/features/`、`docs/plans/`、`docs/standards/` 和 `docs/others/`。
 

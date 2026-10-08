@@ -6,9 +6,6 @@ description: Sketch types, signatures, and module structure before code, then st
   shape.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # Architect
 
 Design before implementing. Sketch types, function signatures, class shapes, and module boundaries with `not implemented` bodies and pseudocode. Compare distinct viable shapes when the problem warrants it, then fill in code against the chosen sketch. If implementation proves the sketch wrong, throw it out and redesign.

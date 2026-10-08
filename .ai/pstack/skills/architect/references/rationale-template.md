@@ -1,6 +1,4 @@
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 # Rationale template
 
 Use this outline within the existing Plan's design/judgment sections. A lasting architecture tradeoff may use an ADR under docs/others/adr/; routine sketches do not require one. Final implemented facts go in docs/designs/. This is not a separate mandatory long-lived rationale file. Keep only sections that help the reader.

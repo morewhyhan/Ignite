@@ -5,9 +5,6 @@ description: Apply when introducing a new internal API while old callers still e
   layers.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # Migrate Callers Then Delete Legacy APIs
 
 When we decide a new API is the right design, migrate callers and remove the old API in the same refactor wave instead of preserving compatibility layers.

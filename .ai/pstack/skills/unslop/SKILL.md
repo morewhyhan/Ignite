@@ -3,9 +3,6 @@ name: unslop
 description: Cut AI tells from any writing. Must always apply.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # Unslop
 
 Edit text to remove AI patterns.

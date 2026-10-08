@@ -7,8 +7,6 @@ description: 'Design an auditable playbook when no narrower one fits: a large mi
   playbook applies.'
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 # Figure it out
 
 When no narrower playbook fits, design a workflow that matches the actual result and risk. Keep its phases and decisions in the existing Ignite Plan, not a second playbook document or task list.

@@ -5,9 +5,6 @@ description: Apply when reviewing or shaping code that's hard to trace. Count la
   wrappers and shrink mutable scope.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # Minimize Reader Load
 
 Maintainability is the work a reader must do to understand code. Track two axes:

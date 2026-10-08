@@ -6,8 +6,6 @@ description: Generate a project-local verification skill that drives your app th
   UI/CLI/service behavior.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 # Create a verification skill
 
 Teach the next agent how to launch, inspect, drive and clean up the real Ignite application. A control skill explains execution; it does not create another requirements or acceptance system.

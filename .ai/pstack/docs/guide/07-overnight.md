@@ -1,6 +1,4 @@
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 # Run work while you sleep
 
 This is the payoff for everything before it. An agent you can trust to verify its own work is an agent you can leave alone with a hard task. What makes that safe isn't hope. It's a checkable finish condition, an isolated worktree or cloud agent, and decision records in the existing Plan that you can review in the morning.
@@ -70,7 +68,7 @@ The contract above drives one task to one finish condition. Some nights hold mor
 
 In Ignite, queue ownership and dependencies stay in existing Plan collaboration fields, task status comes from `tasks`, and Release defines combined acceptance. Native checks and actual versioned evidence are required alongside any independent review. No verifier verdict grants merge permission; the prompt must actually authorize merging. Do not initialize another orchestration ledger or require a fleet of agents merely because a queue exists.
 
-[Autopilot-full](../../skills/poteto-mode/playbooks/autopilot-full.md) runs a queue of independent PRs to merged. Each PR gets one owner agent that carries it from build through merge, and no owner merges on its own verdict. A swarm of fresh verifiers starts a round at the owner's code-ready head and again at every later push that changes the patch. Only a clean verdict on the patch that merges authorizes the merge:
+[Autopilot-full](../../skills/poteto-mode/playbooks/autopilot-full.md) runs a queue of independent PRs to merged. Each PR gets one owner agent that carries it from build through merge, and no owner merges on its own verdict. A swarm of fresh verifiers starts a round at the owner's code-ready head and again at every later push that changes the patch. Within explicit merge authorization, only a clean verdict on the patch that merges permits landing:
 
 ```text
 /poteto-mode full autopilot on this queue. each item is independent. i want them merged by morning.

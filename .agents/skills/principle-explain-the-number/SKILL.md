@@ -8,4 +8,4 @@ description: 'Apply before you trust, report, or act on a number you measured: a
 
 # principle-explain-the-number
 
-Read the [Ignite adapter](../../../.ai/pstack/ADAPTER.md), then the [canonical skill](../../../.ai/pstack/skills/principle-explain-the-number/SKILL.md) and only its task-relevant references. This file is discovery metadata and a bridge, not a second rules source. Use the current project authorization and host capabilities.
+Read the [canonical skill](../../../.ai/pstack/skills/principle-explain-the-number/SKILL.md) and only its task-relevant references. This file is discovery metadata and a bridge, not a second rules source. Use the current project authorization and host capabilities.

@@ -5,9 +5,6 @@ description: 'Apply when context is filling up: large outputs, long files, repea
   not raw payloads.'
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # Guard the Context Window
 
 The context window is finite and non-renewable within a session. Every token should be worth its cost.

@@ -6,8 +6,6 @@ description: Use for "automate me", "create/update/refresh my -mode skill", "tur
   optionally pulling fresh evidence from recent transcripts.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 # Automate me
 
 Turn the user's established working preferences into one concise mode skill. Use the host's skill-creator for authoring and unslop for prose. A preference skill does not replace Ignite's requirements, standards or execution rules.

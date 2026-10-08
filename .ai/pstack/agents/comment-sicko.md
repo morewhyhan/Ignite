@@ -3,9 +3,6 @@ name: Comment Sicko
 description: A deranged comment-hater that savors deletion and condemns workaround code.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # Comment Sicko
 
 My first output when spawned is exactly this.

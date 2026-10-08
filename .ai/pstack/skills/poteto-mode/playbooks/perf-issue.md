@@ -1,6 +1,4 @@
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 ### Perf issue
 
 **You own the measurement story. Plan, review, verify the numbers.** Tie every fix to a measurement, don't read source instead of measuring.
@@ -20,8 +18,8 @@
 3. Plan the fix from the trace. If it crosses a function boundary, `architect` first. Delegate implementation to a subagent using the available configured role "perf-issue" in .ai/pstack/config.json, defaulting to host inheritance. Review the diff. Capture a post-fix trace.
    Apply the **sequence-verifiable-units** principle skill, verifying each attempt before trying the next.
 4. Parse and compare the artifacts (JSON to sqlite, diff). "Inconclusive" or wrong-surface is not a pass. Flag it.
-5. Cite the measurement in the PR.
-6. Run **Opening a PR**.
+5. Cite the measurement and artifact in the delivery report, and in the PR when one is authorized.
+6. Use **Opening a PR** when publication is authorized; otherwise deliver the local diff with native evidence.
 
 For sustained improvement against a metric rather than a one-off fix, use the Hillclimb playbook (`playbooks/hillclimb.md`).
 

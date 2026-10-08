@@ -1,6 +1,4 @@
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 ### Trace forensics
 
 **You own the diagnosis from the artifact. Load it, shape it, narrow to the cause, attribute to source.**

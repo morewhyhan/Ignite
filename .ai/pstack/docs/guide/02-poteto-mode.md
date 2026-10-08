@@ -1,6 +1,4 @@
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 # Route work through `/poteto-mode`
 
 `/poteto-mode` is the front door. You give it a goal, it matches one of twenty-three playbooks, maps the needed playbook steps into the existing Ignite Plan tasks, and calls the other skills as the steps need them. In this page you learn what a good prompt looks like, and how little of one you actually need.

@@ -5,9 +5,6 @@ description: Use for "interrogate", "adversarial review", "multi-model review", 
   LLM reviewers challenge changes from independent angles.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # Interrogate
 
 Spawn one reviewer per configured model to adversarially review code changes. Each model gets the same prompt and rubric. The adversarial signal comes from model diversity, not assigned personas.
@@ -45,9 +42,11 @@ Read .ai/pstack/config.json roles["interrogate reviewers"] before launching a us
 | Reviewer B | inherit-parent |
 
 For each reviewer:
-- `subagent_type`: `generalPurpose`
+- Role: general-purpose reviewer through the available host API
 - `model`: the configured `interrogate reviewers` entry, or inherit-parent with no configured role. For an `auto` or `inherit-parent` entry, omit `model` so that reviewer runs on the parent model.
-- `readonly`: `true`
+- Permission: read the scoped diff and context; do not edit files or external state
+
+If delegation is unavailable, perform one direct adversarial review and report that independent reviewers did not run. Same-model seats can provide separate readings but do not prove model diversity.
 
 If the current host rejects a configured ID, report it and omit the override. Do not try invented IDs, alter global config or open a separate fix PR merely to change this local role choice.
 

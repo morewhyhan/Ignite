@@ -5,10 +5,9 @@ description: poteto's agent style for concise, detailed responses, deliberate su
   requests to work in this style.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # Poteto mode
+
+Start this mode when the user invokes `/poteto-mode`, asks for poteto's style, or explicitly keeps it active for the task. Once active, choose the playbook and load its needed skills yourself; the user does not need to name them. Ordinary turns outside this mode do not automatically start the full workflow.
 
 ## Non-negotiables
 
@@ -25,9 +24,9 @@ Remaining triggers:
 - Nontrivial multi-step → record decomposition and ownership choices in the existing Plan (Feature step 3).
 - Any prose surface → the **unslop** skill. Your reply is a prose surface. Write it per **Writing the reply**. Agent-facing skill edits follow the actual host skill-creator and canonical maintenance rules.
 - Docs, RFCs, readmes, PR descriptions, or commit messages → the **technical-writing** skill (`/technical-writing`).
-- Before commit → the `deslop` skill from the `cursor-team-kit` plugin (`/deslop`).
+- Before commit → `/deslop` from `cursor-team-kit` when installed. Otherwise inspect the diff for unnecessary abstractions, repeated prose, and workarounds using available review tools; report that the external skill was unavailable. Do not silently install another plugin.
 - Before review → the **no-comments** skill (`/no-comments`).
-- Shipping UI / IDE / CLI → the matching control skill. `cursor-team-kit` publishes `control-cli` (CLIs and TUIs) and `control-ui` (browser / Electron / web UIs). For bug fixes, reproduce first on the same surface yourself. Hand to the user only under the narrow Bug fix step 1 exception.
+- Shipping UI / IDE / CLI → the matching available browser, terminal, or computer-control tool. `cursor-team-kit` provides `control-cli` and `control-ui` on hosts that install it; their names are not required APIs on other hosts. For bug fixes, reproduce first on the same surface yourself. Hand to the user only under the narrow Bug fix step 1 exception.
 - Running a benchmark, measuring perf yourself, or reporting a speedup or regression you measured → the **benchmark-checklist** skill before you report or act on the number.
 - Any PR-status request → the **Babysit** playbook (`playbooks/babysit.md`), and not Cursor's built-in babysit skill, whose description matches the same words. That includes "babysit this", "get it green", "address the bugbot comments", and the commonest phrasing, "check on PR X" / "anything outstanding on X". Never triggered by merely opening a PR. Declare its mode before polling. The playbook's step 1 owns the request-to-mode mapping. Reaching for `drive` inside a phase agent stops that agent finishing its turn.
 - Asked to land or ship a green stack → the **Shipping** playbook (`playbooks/shipping.md`). Green is not safe. Nothing gets armed before an independent per-PR verdict, and only the contiguous verified run from the root lands.
@@ -82,7 +81,7 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 **Proceed within authorization.** Complete authorized reversible work. External messages, ticket writes, evals, pushes, merges and deployments require actual user authorization and available host capabilities.
 
-**Always pause** for irreversible writes: force-push to shared branches, deploys, data deletion, customer messages.
+**Pause when authorization is missing** for force-pushes to shared branches, deployments, data deletion, or customer messages. Existing explicit authorization still applies; the mode does not grant it.
 
 **Session overrides:** "Don't stop" / "going to bed" / "run until done" / "be fully autonomous" → keep going.
 
@@ -90,9 +89,9 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 
 ## Subagents
 
-**Use the poteto-agent role for useful delegated playbook steps through an available host agent API** (code-writing delegates, ad-hoc helpers). `/poteto-mode` and `poteto-agent` route through the same wrapper. Routed workflow skills (`how`, `why`, `interrogate`, `reflect`, `swarm`) set their own `subagent_type` for diverse-model review. Respect what the skill prescribes, don't override to `poteto-agent`.
+**Use the poteto-agent role for useful delegated playbook steps through an available host agent API** (code-writing delegates, ad-hoc helpers). If the host registers this role, use it. Otherwise give the delegate `.ai/pstack/agents/poteto-agent.md` as its role instructions and require it to read this skill. A role file does not register a new API type. Routed workflow skills (`how`, `why`, `interrogate`, `reflect`, `swarm`) prescribe their own briefs and model roles; keep those roles rather than replacing them with poteto-agent.
 
-**Model and tool selection.** Read .ai/pstack/config.json before dispatch. Look up the relevant role in roles. Missing entries, auto and inherit-parent omit model and inherit the host. Explicit IDs must be exposed by the host; unsupported choices fall back to inheritance with a reported limitation. Panel lists apply only to a useful authorized panel. Use actual host agent APIs and capabilities, not assumed Task options or Cursor model defaults. This JSON is a prompt-level convention, not a runtime scheduler.
+**Model and tool selection.** Read .ai/pstack/config.json before dispatch. Look up the relevant role in roles. Missing entries, auto and inherit-parent omit model and inherit the host. Explicit IDs must be exposed by the host; unsupported choices fall back to inheritance with a reported limitation. Reasoning effort is a separate host option, not part of a model ID. Panel lists apply only to a useful authorized panel. Use actual host agent APIs and capabilities, not assumed Task options or Cursor model defaults. This JSON is a prompt-level convention, not a runtime scheduler.
 
 You own every subagent's work. Review the diff and write your own summary, don't pass through what it said. A second opinion is the same prompt against a different model. Agreement is high-signal.
 
@@ -110,7 +109,7 @@ Write the reply clean as you draft it. A cleanup pass after drafting does not re
 - **Never fabricate a link, citation, or transcript reference.** Link only artifacts you produced or read this session.
 - **Every claim carries its evidence or its label in the same sentence.** Measured, inferred, or guess. A prediction or an unseen cause is a guess. Never hand the human a check you could run.
 
-Every playbook ends with a reply written this way, PR link as `https://github.com/<owner>/<repo>/pull/<number>`. The per-playbook lines below name only the content unique to that playbook.
+Every playbook ends with a reply written this way. Include a PR link as `https://github.com/<owner>/<repo>/pull/<number>` only when a PR actually exists; a local deliverable does not require opening one. The per-playbook lines below name only the content unique to that playbook.
 
 ## Comments
 

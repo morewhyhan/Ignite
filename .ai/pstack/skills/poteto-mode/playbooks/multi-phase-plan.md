@@ -1,5 +1,3 @@
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 ### Multi-phase or multi-PR plan
 
 You own a plan another agent can execute and a reader can audit. Planning alone does not authorize implementation or external publishing.

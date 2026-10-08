@@ -76,13 +76,12 @@ export async function synchronize(root, write = false) {
   for (const skill of skills) {
     for (const platform of platforms) {
       const path = join(root, platform, skill.name, 'SKILL.md')
-      const adapter = slash(relative(dirname(path), join(methods, 'ADAPTER.md')))
       const canonical = slash(relative(dirname(path), skill.path))
       const metadata = stringify({ name: skill.name, description: skill.description }).trimEnd()
       schedule(
         path,
         await format(
-          `---\n${metadata}\n---\n\n# ${skill.name}\n\nRead the [Ignite adapter](${adapter}), then the [canonical skill](${canonical}) and only its task-relevant references. ${marker} Use the current project authorization and host capabilities.\n`,
+          `---\n${metadata}\n---\n\n# ${skill.name}\n\nRead the [canonical skill](${canonical}) and only its task-relevant references. ${marker} Use the current project authorization and host capabilities.\n`,
           { ...formatting, parser: 'markdown' },
         ),
         true,
@@ -95,7 +94,7 @@ export async function synchronize(root, write = false) {
   )
   schedule(
     join(methods, 'CATALOG.md'),
-    '# pstack 技能目录\n\n按任务读取，正文只维护在真源。先读 [适配说明](ADAPTER.md)。非简单工程任务入口为 [poteto-mode](skills/poteto-mode/SKILL.md)。\n\n| 技能 | 用途 / 调用条件 |\n| --- | --- |\n' +
+    '# pstack 技能目录\n\n按任务读取，正文只维护在真源。需要完整工程流程时，用户启用 [poteto-mode](skills/poteto-mode/SKILL.md)，由 AI 选择流程与技能。项目文档位置和工具使用要求直接写在对应方法中。\n\n| 技能 | 用途 / 调用条件 |\n| --- | --- |\n' +
       rows.join('\n') +
       '\n',
   )

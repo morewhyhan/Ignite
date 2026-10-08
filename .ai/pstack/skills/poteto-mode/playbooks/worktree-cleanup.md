@@ -1,5 +1,3 @@
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 ### Worktree cleanup
 
 Reclaim space while preserving the user's work. A merged branch, old commit, or untracked file does not prove a checkout is disposable.

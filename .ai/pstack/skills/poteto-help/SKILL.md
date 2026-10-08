@@ -4,16 +4,13 @@ description: Guides users through pstack setup, /poteto-mode, and picking the sk
   playbook, or principle for a task. Type /poteto-help with a question.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # Poteto help
 
 Answer the user's question about pstack, hand them a prompt they can send, and link the file the answer came from. For a help question, don't start the work. The user asked how, and a pstack run spends real tokens, so let them send the prompt.
 
-A message that asks for work, such as "use pstack to fix this bug", is not a help question. Read [`poteto-mode`](../poteto-mode/SKILL.md), do the work under it, and mention once that a Custom Mode keeps it on.
+A message that asks for work, such as "use pstack to fix this bug", is not a help question. Read [`poteto-mode`](../poteto-mode/SKILL.md) and do the work under it. Mention a persistent mode only when the current host supports one.
 
-This file maps questions to the skills and guide pages that hold the answers. Those files own the details. Read the file you route to before you quote it, and trust it when it disagrees with this map. The links here point into the installed plugin, which the user may not be able to open, so give the user the file's public copy: `https://github.com/cursor/plugins/blob/main/pstack/` followed by its path.
+This file maps questions to the skills and guide pages that hold the answers. Those files own the details. Read the file you route to before you quote it, and trust it when it disagrees with this map. Link the actual local file in Ignite. Use the pinned upstream source in `.ai/pstack/sources.json` only when discussing the original version; its public copy may differ from the local instructions.
 
 ## Find out what they need
 
@@ -41,11 +38,11 @@ When the model rule is missing and it matters, ask whether the user wants to pic
 2. Run [`/setup-pstack`](../setup-pstack/SKILL.md). Use it only for an optional model change. It detects current host IDs and writes local config without changing global settings.
 3. Start a real task with `/poteto-mode`, a goal, and a check that can pass or fail.
 
-Installing changes nothing until the user invokes a skill. Only `/setup-pstack` loads from the user's words. The [README](../../README.md) and [guide page 1](../../docs/guide/01-setup.md) have the details. Offer to word their first prompt with them, per [`references/prompting.md`](references/prompting.md).
+Opening the project makes its discovery entries available on compatible hosts. Full poteto-mode starts when the user asks for it; once active, AI selects needed skills. Individual skills can also be selected by the host from their descriptions or invoked explicitly. Discovery and conversation refresh depend on the host. The [README](../../README.md) and [guide page 1](../../docs/guide/01-setup.md) have the details. Offer to word their first prompt with them, per [`references/prompting.md`](references/prompting.md).
 
 If cost is the worry, say where the tokens go and how to spend fewer. pstack spends extra tokens on subagents and review panels. Rerun `/setup-pstack` and pick a smaller budget or cheaper models. A role set to `auto` or `inherit-parent` runs on the chat's model, which saves tokens when the chat runs on Auto or a cheaper model. A shorter panel list runs fewer subagents, one for each entry. Save `/poteto-mode` for work that needs rigor.
 
-pstack is built for Cursor. Its skills use the Agent Skills format, so other tools can read them. But most workflow skills, including `/poteto-mode`, `/how`, `/why`, and `/teach`, spawn Cursor subagents with per-role models, and Custom Modes and `/loop` are Cursor features, so those parts may not work there.
+pstack originated in Cursor. This project uses the current host's agent API and available models for delegation; role files provide instructions even when no named agent type is registered. Cursor Custom Modes and `/loop` remain platform features. On a host without delegation or scheduling, report the limitation and carry out supported work directly.
 
 ## Start a task with `/poteto-mode`
 
@@ -53,11 +50,11 @@ pstack is built for Cursor. Its skills use the Agent Skills format, so other too
 
 Whether `/poteto-mode` stays on depends on how the user starts it:
 
-- Enter on `/poteto-mode` attaches the skill to one message. It fades as the chat moves on.
-- Option+Enter on Mac or Alt+Enter on Windows, or Use as Mode from the skill entry, makes it a Custom Mode. It stays in context every turn until the user exits the mode, and it stays out of casual turns.
+- In Cursor, Enter on `/poteto-mode` attaches the skill to one message. It fades as the chat moves on.
+- In Cursor, Option+Enter on Mac or Alt+Enter on Windows, or Use as Mode from the skill entry, makes it a Custom Mode. It stays in context every turn until the user exits the mode, and it stays out of casual turns.
 - Cursor's docs list Custom Modes in the Agents Window and the CLI. Elsewhere, start each new task with `/poteto-mode`.
 
-Link [Cursor's skills docs](https://cursor.com/docs/skills) when this comes up. Mid-chat, "new task" makes the mode match a fresh playbook. `/poteto-mode` already uses `poteto-agent` for the subagents its playbook steps spawn. To get the same style from a subagent of your own, spawn it with `subagent_type: "poteto-agent"`.
+Link [Cursor's skills docs](https://cursor.com/docs/skills) for its platform features. Mid-chat, "new task" makes the mode match a fresh playbook. To give a delegate the same style, use the actual host agent API and pass `.ai/pstack/agents/poteto-agent.md` as its role instructions. Use a named agent type only if the host registers it.
 
 ## Pick a skill
 
@@ -108,6 +105,7 @@ Not in pstack:
 
 - `/deslop`, `control-cli`, and `control-ui` ship in the `cursor-team-kit` plugin.
 - `/loop` and `/create-skill` are Cursor built-ins.
+- These external tools are optional. Use the current host's available review, control, scheduling, or skill-creator facility for the corresponding job; do not assume an uninstalled plugin exists.
 - pstack has no `/orchestrate` skill. Orchestrate is a `/poteto-mode` playbook. If the slash menu shows `/orchestrate`, another plugin provides it.
 
 ## Playbooks and principles
@@ -131,11 +129,11 @@ Principles are one-rule skills that `/poteto-mode` reads and cites in its replie
 
 | Symptom | Fix |
 |---|---|
-| The mode stopped applying after a few turns | It was started with Enter. Start it as a Custom Mode, or start each task with `/poteto-mode`. |
+| The mode stopped applying after a few turns | Check how the host keeps skills active. In Cursor, start it as a Custom Mode; elsewhere, explicitly start each task with `/poteto-mode`. |
 | A question got treated as the next step of the last task | Say "new task", or say the turn doesn't need the mode. |
-| A new model choice had no effect | The rule from `/setup-pstack` applies to new chats. Start one. |
+| A new model choice had no effect | Check whether the role is configured and the host exposes its model ID. Local role config is read at dispatch; existing delegates keep their running model. |
 | Runs cost more than expected | See the cost paragraph under Get set up. |
-| A skill didn't load on its own | Only `/setup-pstack` loads from the user's words. The others load when the user types them or when `/poteto-mode` runs them, and it doesn't run every skill. |
+| A skill didn't load on its own | Check the host's project skill discovery. Invoke the skill explicitly or start `/poteto-mode`; it selects needed methods rather than loading every skill. |
 | Parallel agents overwrote each other | Give each agent its own worktree, or run them as cloud agents, which each get their own machine. |
 | An overnight run moved but finished nothing | `/loop` needs a check that can pass or fail, not a duration. See [guide page 7](../../docs/guide/07-overnight.md). |
 | The reply claims success from a green build | Ask for the real command, flow, stored value, or profile. That's the prove-it-works principle. |
@@ -147,7 +145,7 @@ For a run that drifts, [`references/prompting.md`](references/prompting.md) has 
 - [`/automate-me`](../automate-me/SKILL.md) drafts a personal mode skill from the user's own history, to use alongside `/poteto-mode`.
 - [`/reflect`](../reflect/SKILL.md) after a session turns its lessons into skill edits the user approves.
 - `/poteto-mode write a skill for <workflow>` runs the authoring playbook. The eval playbook tests a skill change blind.
-- Fix a misbehaving skill in its own PR, not inside the feature work where it went wrong.
+- Fix an accepted method defect in the current outcome Plan when it blocks that same result. Create a separate Plan only for a new independent delivery; a PR requires the applicable authorization.
 
 [Guide page 9](../../docs/guide/09-make-it-yours.md) covers each of these.
 

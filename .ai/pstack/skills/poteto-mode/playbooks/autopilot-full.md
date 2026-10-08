@@ -1,5 +1,3 @@
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 ### Autopilot-full
 
 Run independently acceptable changes through their full authorized lifecycle. Full autonomy is bounded by the user's actual scope and host permissions.

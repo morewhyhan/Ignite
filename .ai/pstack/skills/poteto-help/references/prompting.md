@@ -1,6 +1,4 @@
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 # Word the prompt
 
 A prompt states the intent and the check for done. The playbook supplies the steps, so a few plain sentences beat a spec.

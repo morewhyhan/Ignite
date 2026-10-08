@@ -5,9 +5,6 @@ description: 'Layered technical-writing standard: Diátaxis structure, Google de
   or when writing or reviewing docs, RFCs, readmes, PR descriptions, or commit messages.'
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # Technical writing
 
 The goal is writing a tired engineer understands on the first read. Four layers get you there, one question each: what kind of document is this, how do sentences address the reader, how much does each sentence carry, and can any sentence be read two ways. Apply all four.

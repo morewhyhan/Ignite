@@ -7,4 +7,4 @@ description: 'Apply when context is filling up: large outputs, long files,
 
 # principle-guard-the-context-window
 
-Read the [Ignite adapter](../../../.ai/pstack/ADAPTER.md), then the [canonical skill](../../../.ai/pstack/skills/principle-guard-the-context-window/SKILL.md) and only its task-relevant references. This file is discovery metadata and a bridge, not a second rules source. Use the current project authorization and host capabilities.
+Read the [canonical skill](../../../.ai/pstack/skills/principle-guard-the-context-window/SKILL.md) and only its task-relevant references. This file is discovery metadata and a bridge, not a second rules source. Use the current project authorization and host capabilities.

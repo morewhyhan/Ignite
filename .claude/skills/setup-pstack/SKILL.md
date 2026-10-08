@@ -7,4 +7,4 @@ description: Configure optional project-local pstack role models using the
 
 # setup-pstack
 
-Read the [Ignite adapter](../../../.ai/pstack/ADAPTER.md), then the [canonical skill](../../../.ai/pstack/skills/setup-pstack/SKILL.md) and only its task-relevant references. This file is discovery metadata and a bridge, not a second rules source. Use the current project authorization and host capabilities.
+Read the [canonical skill](../../../.ai/pstack/skills/setup-pstack/SKILL.md) and only its task-relevant references. This file is discovery metadata and a bridge, not a second rules source. Use the current project authorization and host capabilities.

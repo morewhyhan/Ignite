@@ -1,5 +1,3 @@
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 ### Orchestrate
 
 Own a standing program through clear briefs, bounded delegation, continuous integration and auditable decisions. A task one agent can finish uses Autonomous run or figure-it-out instead. Keep these methods: size units by an independently acceptable outcome, pilot novel work once, refill ready work as workers finish, relay upstream context, and reconcile every child.

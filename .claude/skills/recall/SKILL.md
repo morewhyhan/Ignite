@@ -9,4 +9,4 @@ description: Reconstruct your recent working context from your own chat history,
 
 # recall
 
-Read the [Ignite adapter](../../../.ai/pstack/ADAPTER.md), then the [canonical skill](../../../.ai/pstack/skills/recall/SKILL.md) and only its task-relevant references. This file is discovery metadata and a bridge, not a second rules source. Use the current project authorization and host capabilities.
+Read the [canonical skill](../../../.ai/pstack/skills/recall/SKILL.md) and only its task-relevant references. This file is discovery metadata and a bridge, not a second rules source. Use the current project authorization and host capabilities.

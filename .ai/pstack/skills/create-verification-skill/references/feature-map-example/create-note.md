@@ -1,6 +1,4 @@
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 # Create a note
 
 This fictional upstream example illustrates control technique only. Its Notes commands, data and sub-feature IDs are not Ignite capabilities or acceptance criteria. For an actual project, link the owning Feature REQ/AC and existing test-case/Playwright path, and keep any control index as links only. Manual screenshots do not constitute a formal check run.

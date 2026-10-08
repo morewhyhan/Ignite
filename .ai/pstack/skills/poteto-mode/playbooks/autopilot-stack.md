@@ -1,5 +1,3 @@
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 ### Autopilot-stack
 
 Build a sequence of dependent changes and deliver a reviewable stack within the user's publication boundary. The operator landing the stack does not remove engineering acceptance requirements.

@@ -1,6 +1,4 @@
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 # pstack
 
 The opening paragraphs retain the upstream author's introduction and attribution. Execution guidance below is adapted to Ignite; the original MIT license and source history remain available.
@@ -19,7 +17,7 @@ fork it. improve it. make it yours. PRs are welcome!
 
 ## use the Ignite project library
 
-This repository already carries pstack methods and native discovery bridges. Read [the Ignite adapter](./ADAPTER.md), then use [poteto-mode](./skills/poteto-mode/SKILL.md) when a complex task needs a workflow. Small, clear edits proceed directly. No upstream plugin installation is required.
+This repository already carries pstack methods and native discovery bridges. Invoke [poteto-mode](./skills/poteto-mode/SKILL.md) when you want its engineering workflow; the agent then chooses the playbook and skills. Project document paths and host-specific steps are written directly in the methods that use them. Small, clear edits proceed directly. No upstream plugin installation is required.
 
 Models follow `.ai/pstack/config.json`, defaulting to `inherit-current-host`. [setup-pstack](./skills/setup-pstack/SKILL.md) changes project choices only when requested and supported by the host. This convention is not a scheduler or automatic model switch.
 
@@ -188,7 +186,7 @@ help:              /poteto-help which skill should i use to review this branch?
 
 pstack also ships a subagent that runs my style end to end. When delegation is useful and authorized, pass [its role instructions](./agents/poteto-agent.md) to an available host subagent. The role file does not register a native agent type. it reads `poteto-mode` in full, including its inline principles index, before doing any work. A host general-purpose worker can use the role when its brief explicitly includes the relevant canonical instructions.
 
-[`/poteto-mode`](./skills/poteto-mode/SKILL.md) and [`subagent_type: "poteto-agent"`](./agents/poteto-agent.md) route through the same wrapper.
+Invoking [`poteto-mode`](./skills/poteto-mode/SKILL.md) and giving a worker [the poteto-agent role](./agents/poteto-agent.md) use the same method. Dispatch with the actual host API; the role name is not a portable `subagent_type` parameter.
 
 pstack also ships [Comment Sicko](./agents/comment-sicko.md), a read-only comment-review role that can be passed to an available host worker. usually invoke it through [`/no-comments`](./skills/no-comments/SKILL.md), not directly.
 

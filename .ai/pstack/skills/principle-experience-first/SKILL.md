@@ -5,9 +5,6 @@ description: Apply when product, UX, or feature-scope tradeoffs come up. Choose 
   rough ones.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # Experience First
 
 When implementation convenience conflicts with user delight, choose delight.

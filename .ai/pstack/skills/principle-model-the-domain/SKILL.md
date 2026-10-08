@@ -5,9 +5,6 @@ description: Apply when writing stateful logic, or when code branches a lot or r
   conditionals.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # Model the Domain
 
 Encode the real domain in a data structure instead of scattering it across conditionals.

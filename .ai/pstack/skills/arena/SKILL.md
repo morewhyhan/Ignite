@@ -6,16 +6,13 @@ description: Spawn N parallel candidates at the same task, pick a base, graft th
   shape.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # Arena
 
 Fan out N parallel attempts at the same task. Read every candidate end to end. Pick the strongest as the base. Graft the best ideas from the others into it. Verify the synthesized result.
 
 ## Start
 
-Open a todolist with one entry per phase before launching anything.
+For implementation work, map these phases into the owning Ignite Plan tasks before launching. A read-only comparison can track them in the chat; do not create a second project task ledger.
 
 1. Frame
 2. Fan out
@@ -35,7 +32,7 @@ The N candidates will receive the same prompt, so the prompt is the contract.
 
 ## Phase B: Fan out
 
-Spawn all N subagents in one message with `run_in_background: true`, each with the task, the path to the shared grounding, its own output path, and instructions to produce both the artifact and a short rationale.
+Launch all N candidates through the host's supported concurrent delegation API, each with the task, the path to the shared grounding, its own output path, and instructions to produce both the artifact and a short rationale. Await every result before judging them. If delegation is unavailable, compare separate candidate artifacts directly and report that no independent workers ran.
 
 Each rationale names the alternatives the candidate considered and what it rejected.
 
@@ -53,7 +50,7 @@ Score each candidate against the rubric criterion by criterion, not on holistic 
 
 Pick the base on which candidate a future maintainer can extend most easily without breaking invariants. Prefer the cleaner boundary or smaller API when two feel tied, per the Laziness Protocol.
 
-Record the pick and the reason in a short synthesis note alongside the base artifact, including the cross-judge's verdict.
+Record the pick, reason, and cross-judge's verdict in the owning Plan judgment or handoff for implementation work. A read-only comparison can keep that synthesis in its report.
 
 ## Phase E: Graft
 

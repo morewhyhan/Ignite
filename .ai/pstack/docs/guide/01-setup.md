@@ -1,6 +1,4 @@
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 # Set up pstack in Ignite
 
 Ignite already carries the methods in `.ai/pstack/` and discovery entries for Codex, Claude Code, Cursor, and OpenCode. Cloning carries these files. Do not install the upstream Cursor plugin or change global settings to use them.
@@ -9,7 +7,7 @@ Ignite already carries the methods in `.ai/pstack/` and discovery entries for Co
 
 Open the repository in your host and check project skill discovery. Codex uses `.agents/skills/`; the other hosts use their project entries. A host without automatic discovery can follow the project rules to the canonical skill. Discovery does not prove every optional helper can run.
 
-Use [poteto-help](../../skills/poteto-help/SKILL.md) to choose a method. Use [poteto-mode](../../skills/poteto-mode/SKILL.md) for a task needing a multi-step workflow. Small, clear changes can proceed directly.
+Use [poteto-help](../../skills/poteto-help/SKILL.md) to choose a method. Start a task with `/poteto-mode` when you want that workflow; the AI then chooses the relevant playbook and skills. You do not need to name every skill yourself. Cloning makes the methods available, but does not enable this mode for every task. Small, clear changes can proceed directly.
 
 ## Choose models only when needed
 

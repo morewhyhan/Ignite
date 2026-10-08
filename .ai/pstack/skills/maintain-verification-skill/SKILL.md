@@ -3,8 +3,6 @@ name: maintain-verification-skill
 description: Keep an Ignite verification skill aligned with affected source and existing Feature AC/test cases. Use for /maintain-verification-skill or audit the verify skill; scale live checks to the requested scope.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 # Maintain a verification skill
 
 Keep execution instructions aligned with affected application behavior. Requirements and acceptance remain in Feature and test-case documents; the control skill owns only Launch/Doctor/Drive/Evidence/Cleanup instructions and any justified helper.

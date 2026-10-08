@@ -5,9 +5,6 @@ description: Apply when refactoring, evaluating diff size, or tempted to add abs
   the problem.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # Laziness Protocol
 
 Aim for the most result with the least code and complexity.

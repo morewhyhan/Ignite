@@ -4,16 +4,13 @@ description: Fan out N parallel workers, drain them, and return one report. Use 
   /swarm, 'swarm this', or parallel coverage, races, gauntlets, and exploration.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # Swarm
 
-Fan out N parallel cloud workers. They may cover separate slices, race the same brief, or mix both. The parent waits, aggregates, and returns one report.
+Fan out N parallel workers through the current host. They may cover separate slices, race the same brief, or mix both. The parent waits, aggregates, and returns one report.
 
 ## Start
 
-Open a todolist with one entry per phase before launching anything.
+For implementation work, map these phases into the owning Ignite Plan tasks before launching. A read-only report can track them in the chat; do not create a second project task ledger.
 
 1. Frame
 2. Fan out
@@ -32,7 +29,7 @@ Open a todolist with one entry per phase before launching anything.
 
 Spawn useful independent workers through the actual host API with scoped writes and the step 4 selection. Use an available local/cloud environment according to required resources; do not force a Cursor-specific environment.
 
-When a worker must start from a non-default pushed branch, pass `cloud_base_branch`.
+When a worker must start from a particular branch or commit, select it using the actual host checkout or worktree facility and include the exact revision in the brief. Do not pass unsupported Cursor-specific parameters. If delegation is unavailable, complete the slices directly and report that no parallel workers ran.
 
 Every brief stands alone. Include the goal, scope, exact slice or race arm, how to verify, and what to report. Reports use `PASS`, `ISSUES`, or `BLOCKED` with evidence. A worker that can prove a defect reports `ISSUES` and lists every issue it can prove, not only the first.
 

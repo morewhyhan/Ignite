@@ -3,8 +3,6 @@ name: reflect
 description: Reflect on the current authorized conversation, identify durable lessons and update their canonical skill or Ignite document owner. Use when the user says reflect; scale review to the actual scope.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 # Reflect
 
 When the user asks to reflect, find durable lessons in the current work and route each to its existing owner. One-offs and already-followed guidance do not need another skill.

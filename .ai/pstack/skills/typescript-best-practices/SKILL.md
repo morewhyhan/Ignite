@@ -4,9 +4,6 @@ description: TypeScript best practices. Use when reading or editing any .ts or .
   file.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # TypeScript best practices
 
 Apply the **type-system-discipline** principle skill first.

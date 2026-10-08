@@ -3,8 +3,6 @@ name: show-me-your-work
 description: Keep a reviewable decision trail in the existing Ignite Plan, with rationale and evidence; lasting architecture choices belong in ADR. Use for /show-me-your-work or long-running work reviewed after a handoff.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
 # Show me your work
 
 Keep a reviewable account of decisions: what changed, why, the evidence, and the actual result. In Ignite the existing Plan is that account; do not create a parallel decision or progress ledger.

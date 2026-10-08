@@ -3,9 +3,6 @@ name: setup-pstack
 description: Configure optional project-local pstack role models using the current host capabilities. Use for setup-pstack or a requested change to role model choices; defaults inherit the current host.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # Setup pstack
 
 Configure this project's optional role choices in .ai/pstack/config.json. Do not write a Cursor global rule or modify account/model settings.

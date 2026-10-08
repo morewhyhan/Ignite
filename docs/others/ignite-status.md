@@ -1,16 +1,16 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`04eb4950feca`
+输入指纹：`3016ef68420d`
 当前 Plan：1；结构化历史：0；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-1791497468917571676` · `ready` · `inline-pstack-methods-v1`
+- `IGT-1791497468917571676` · `active` · `inline-pstack-methods-v1`
 
 ## 发布范围
 
-- `inline-pstack-methods-v1` · `ready`
+- `inline-pstack-methods-v1` · `active`
   - Plan：`IGT-1791497468917571676`
   - 缺少证据：`IGT-1791497468917571676:check-integration`（missing：no run is bound to this evidence requirement）
   - 最终版本验收：missing

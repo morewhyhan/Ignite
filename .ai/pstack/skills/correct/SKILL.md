@@ -6,9 +6,6 @@ description: Find the mistakes agents keep repeating in this repo and make each 
   Repeat this each time the operator corrects you. Use for /correct.
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # Correct
 
 The operator keeps correcting agents in this repo for the same mistakes. Change the repo so the next agent can't make them.

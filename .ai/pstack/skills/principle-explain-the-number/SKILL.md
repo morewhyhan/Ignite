@@ -5,9 +5,6 @@ description: 'Apply before you trust, report, or act on a number you measured: a
   rule out that it measured something other than the work you think.'
 ---
 
-> Ignite adaptation: Before following this inherited method, read [ADAPTER.md](../../ADAPTER.md). Its project, scope, permission, tool and model mappings take precedence over incompatible upstream execution instructions.
-
-
 # Explain the Number
 
 A measured number is a claim about a system. Before you trust it, report it, or act on it, find what limits it and rule out that it measured something else.

@@ -39,7 +39,7 @@
       "authorization": "用户直接要求实施"
     }
   ],
-  "must_pass": ["check-release"],
+  "must_pass": ["check-integration", "check-release"],
   "evidence": [],
   "integrated_commit": null,
   "excluded": [],

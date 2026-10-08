@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1791497468917571676",
   "release": "inline-pstack-methods-v1",
-  "status": "active",
+  "status": "verifying",
   "outcome": "技能和流程直接使用本项目文档与宿主能力，无需额外适配文件",
   "contract_version": 2,
   "execution_contract": 1,
@@ -72,7 +72,7 @@
     {
       "id": "T4",
       "title": "验证兼容性并回写设计",
-      "status": "doing"
+      "status": "done"
     }
   ],
   "depends_on": [],
@@ -124,12 +124,12 @@
   "evidence": [
     {
       "id": "check-integration",
-      "run_id": "run-20261008222452-30afa4"
+      "run_id": "run-20261008222703-119334"
     }
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "6b5d219a330d78ac1a31b88b06b94d2d238fb907",
   "updated_at": "2026-10-08"
 }
 -->
@@ -189,15 +189,15 @@ AC-PSTACK-003先记录真实断言红灯，再执行原生Plan integration；所
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`verifying`（由元数据生成）
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
 - [x] T2 · 补充需求和目标行为测试 · done
 - [x] T3 · 实施最小存量修改 · done
-- [ ] T4 · 验证兼容性并回写设计 · doing
+- [x] T4 · 验证兼容性并回写设计 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：check-integration / run-20261008222452-30afa4
+证据：check-integration / run-20261008222703-119334
 <!-- /ignite-progress -->
 
 ## 准出条件

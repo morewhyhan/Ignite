@@ -1,0 +1,109 @@
+{
+  "schema": 2,
+  "run_id": "run-20261008222703-119334",
+  "check_policy_version": 6,
+  "plan_id": "IGT-1791497468917571676",
+  "evidence_id": "check-integration",
+  "level": "integration",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-10-08T22:27:04.216Z",
+  "ended_at": "2026-10-08T22:28:48.662Z",
+  "commit": "6b5d219a330d78ac1a31b88b06b94d2d238fb907",
+  "input_fingerprint": "ff459cf5c7124381625ff57c5206d72ee12f734702d47b75f9ef7cb8a1d0e218",
+  "environment_fingerprint": "a9a342b68b20ef1291357098ab140bd321ffbd348aecc3a91a312972942e8441",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "9c15cc6351d89ec84712466fda3087b65e7e6e287014cac03e37bc022bc42ef7",
+  "acceptance_results": [
+    {
+      "plan_id": "IGT-1791497468917571676",
+      "criterion": "AC-PSTACK-003",
+      "test": "tests/contracts/pstack-assets.test.ts::[AC-PSTACK-003] reads inherited methods and discovery bridges without an adapter prerequisite",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791497468917571676",
+      "criterion": "AC-PSTACK-003",
+      "test": "tests/contracts/pstack-sync.test.ts::[AC-PSTACK-003] synchronizes canonical project skills without overwriting user skills or mutating read-only checks",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    }
+  ],
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "6d022dbedc1d00fcca7dddfbd1cb5eadb0ff0bdc"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 1028
+    },
+    {
+      "label": "template-doctor",
+      "command": ["corepack", "pnpm", "template:doctor"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 548
+    },
+    {
+      "label": "governance",
+      "command": ["corepack", "pnpm", "ignite", "validate"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 4230
+    },
+    {
+      "label": "docs",
+      "command": ["corepack", "pnpm", "docs:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 4510
+    },
+    {
+      "label": "typecheck",
+      "command": ["corepack", "pnpm", "typecheck"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 4129
+    },
+    {
+      "label": "lint",
+      "command": ["corepack", "pnpm", "lint"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 5929
+    },
+    {
+      "label": "format",
+      "command": ["corepack", "pnpm", "format:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 5529
+    },
+    {
+      "label": "tests",
+      "command": ["corepack", "pnpm", "test"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 71508
+    }
+  ],
+  "log_sha256": "02030c7bb4f609bb168900e8b67206cc1000ec375caeccd8e8f050e67c671d78",
+  "execution_source": "ignite-runner-local"
+}

@@ -1,16 +1,16 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`8ddea2c4ea03`
+输入指纹：`dfdb6f892db6`
 当前 Plan：1；结构化历史：0；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-1791497468917571676` · `active` · `inline-pstack-methods-v1`
+- `IGT-1791497468917571676` · `verifying` · `inline-pstack-methods-v1`
 
 ## 发布范围
 
-- `inline-pstack-methods-v1` · `active`
+- `inline-pstack-methods-v1` · `verifying`
   - Plan：`IGT-1791497468917571676`
   - 缺少证据：无
   - 最终版本验收：missing

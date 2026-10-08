@@ -18,8 +18,8 @@
     },
     {
       "id": "GOAL-PSTACK-002",
-      "text": "项目内技能发现与调用入口指向同一真源",
-      "source": "2026-10-08用户要求整套搬移并做Ignite适配，停止技能跑分前置要求",
+      "text": "两处必要技能发现目录指向同一真源，Cursor/OpenCode复用兼容目录",
+      "source": "2026-10-08用户要求整套搬移并做Ignite适配，停止技能跑分前置要求；2026-10-08用户要求去除重复技能入口及类似问题",
       "requirements": ["REQ-PSTACK-002"],
       "acceptance": ["AC-PSTACK-002"],
       "plan_ids": ["IGT-1791362215382691296"],

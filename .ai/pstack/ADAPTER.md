@@ -36,7 +36,7 @@ pstack 的工程原则、51 个主技能、23 个 playbook 及 Agent 定义保�
 
 ## 发现与调用
 
-真源是本目录，入口为 [技能目录](CATALOG.md)。Codex 的 .agents/skills、Claude Code 的 .claude/skills、Cursor 的 .cursor/skills、OpenCode 的 .opencode/skills 保存轻量 SKILL.md 桥接，仅有元数据和真源链接。根 AGENTS.md 同时登记任务路由，供不支持这些发现目录的工具按路径读取。Copilot 通过已有项目规则入口读取同一目录。
+真源是本目录，入口为 [技能目录](CATALOG.md)。Codex 通过 `.agents/skills/` 发现技能，Claude Code 通过 `.claude/skills/` 发现技能；Cursor 和 OpenCode 复用这两个已支持的目录，不再生成各自的技能副本。两个目录只保存元数据与正文链接，方法正文仍只维护一份。根 AGENTS.md 同时登记任务路由，供不支持这些发现目录的工具按路径读取。Copilot 通过已有项目规则入口读取同一目录。
 
 支持项目技能发现的宿主加载仓库后可按描述选择技能；需要显式调用时使用宿主支持的技能菜单/名称。已有会话是否刷新目录由宿主决定，必要时重新打开项目会话；不需要将这些方法安装到每个人的全局技能目录。
 
@@ -47,10 +47,10 @@ pstack 的工程原则、51 个主技能、23 个 playbook 及 Agent 定义保�
 | 决定、尝试理由、取舍、恢复点 | 当前 Plan 的整体判断与 handoff；长期架构取舍按需要写 ADR，系统事实写 Design |
 | 多阶段计划、队列、协作与人决策 | 原生 Plan tasks、dependency_contracts、shared_files、handoff、open_questions 和 blocker；组合结果用 Release，不建 TSV/独立状态页 |
 | 用户行为地图与验证技能 | Feature 的 REQ/AC 和原有测试用例为验收真源；技能只提供启动、驱动、取证、清理方法，正式证据由原生检查器记录 |
-| 新建项目技能 | `.ai/skills/<name>/SKILL.md` 为正文，登记用途、权限、验证；四宿主目录只生成发现桥接 |
+| 新建项目技能 | `.ai/skills/<name>/SKILL.md` 为正文，登记用途、权限、验证；仅 `.agents/skills` 与 `.claude/skills` 生成必要发现桥接 |
 | 纠错与规则补全 | 先判断已有规则是否足够；专业标准修原位置，技能修 canonical，不能机械在 AGENTS 添加重复规则 |
 
-修改入口时先跟随 canonical 链接，正文只写真源。修改技能名称或描述后运行 `node scripts/pstack-sync.mjs --write` 同步四入口、目录和本地来源哈希；不带 `--write` 只检查是否同步。该工具拒绝覆盖同名非生成技能，不删除其他资产，不改变上游来源哈希。它不证明方法的模型效果，也不代替 Plan/Release 验收。
+修改入口时先跟随 canonical 链接，正文只写真源。修改技能名称或描述后运行 `node scripts/pstack-sync.mjs --write` 同步两个入口目录、目录和本地来源哈希；不带 `--write` 只检查是否同步。该工具拒绝覆盖同名非生成技能，只清理带有本工具生成标记的过期入口和旧 Cursor/OpenCode 副本，保留用户文件，不改变上游来源哈希。它不证明方法的模型效果，也不代替 Plan/Release 验收。
 
 可选 Bun 辅助工具有自己的依赖，不属于根应用 pnpm 安装。阅读或调用帮助不得自动安装；显式准备前先检查原生运行时，按工具依赖准备并独立验收。PR 观察脚本的 `--status-only` 结束或 `READY` 仅描述 forge 状态，不代表 Ignite Plan/Release 通过或获准合并。Git patch-id 也不能代替原生证据复用规则。
 

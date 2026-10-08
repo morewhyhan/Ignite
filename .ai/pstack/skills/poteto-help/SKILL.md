@@ -37,7 +37,7 @@ When the model rule is missing and it matters, ask whether the user wants to pic
 
 ## Get set up
 
-1. Clone/open Ignite. The local .ai/pstack canonical library and four project discovery bridges already exist; no second plugin installation is required.
+1. Clone/open Ignite. The local .ai/pstack canonical library and two necessary project discovery directories already exist; no second plugin installation is required.
 2. Run [`/setup-pstack`](../setup-pstack/SKILL.md). Use it only for an optional model change. It detects current host IDs and writes local config without changing global settings.
 3. Start a real task with `/poteto-mode`, a goal, and a check that can pass or fail.
 

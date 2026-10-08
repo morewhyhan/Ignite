@@ -27,12 +27,7 @@ it('[AC-PSTACK-002] follows each platform discovery bridge to a canonical skill 
       .filter((file) => file.path.endsWith('/SKILL.md'))
       .map((file) => file.path.split('/').at(-2)!),
   )
-  for (const directory of [
-    '.agents/skills',
-    '.claude/skills',
-    '.cursor/skills',
-    '.opencode/skills',
-  ]) {
+  for (const directory of ['.agents/skills', '.claude/skills']) {
     const base = join(root, directory)
     const skills = readdirSync(base, { withFileTypes: true }).filter(
       (entry) => entry.isDirectory() && inheritedNames.has(entry.name),
@@ -47,6 +42,11 @@ it('[AC-PSTACK-002] follows each platform discovery bridge to a canonical skill 
       expect(relative(methods, target).startsWith('..'), file).toBe(false)
       expect(existsSync(target), file).toBe(true)
       expect(content).not.toMatch(/[A-Z]:[\\/]|TEMP[\\/]/)
+    }
+  }
+  for (const directory of ['.cursor/skills', '.opencode/skills']) {
+    for (const name of inheritedNames) {
+      expect(existsSync(join(root, directory, name, 'SKILL.md'))).toBe(false)
     }
   }
 })

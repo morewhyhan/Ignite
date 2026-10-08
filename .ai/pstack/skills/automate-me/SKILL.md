@@ -34,7 +34,7 @@ Keep personal working conventions in the mode skill. Requirements belong in Feat
 
 Use skill-creator with portable lowercase name and a description scoped to the chosen handle, mode command and intent to work in that style. Avoid generic triggers such as every request to write code. Preserve existing sections the user has not contradicted. Keep only specific, useful conventions; the user does not need to repeat standard defaults.
 
-Do not use platform-specific frontmatter such as disable-model-invocation as a portable activation guarantee. Explicit universal activation is a separate project-rule decision. After canonical content or description changes, run `node scripts/pstack-sync.mjs --write` to regenerate the four discovery bridges, catalog and local hashes. The command without --write only checks; it does not install, enable services or activate a mode on every turn.
+Do not use platform-specific frontmatter such as disable-model-invocation as a portable activation guarantee. Explicit universal activation is a separate project-rule decision. After canonical content or description changes, run `node scripts/pstack-sync.mjs --write` to regenerate the two necessary discovery directories, catalog and local hashes. The command without --write only checks; it does not install, enable services or activate a mode on every turn.
 
 ## 5. Review and finish
 

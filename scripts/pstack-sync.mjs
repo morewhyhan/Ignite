@@ -1,11 +1,20 @@
 import { createHash } from 'node:crypto'
-import { existsSync, readFileSync, readdirSync, mkdirSync, writeFileSync } from 'node:fs'
+import {
+  existsSync,
+  readFileSync,
+  readdirSync,
+  mkdirSync,
+  writeFileSync,
+  unlinkSync,
+  rmdirSync,
+} from 'node:fs'
 import { dirname, join, relative, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parse, stringify } from 'yaml'
 import { format, resolveConfig } from 'prettier'
 
-const platforms = ['.agents/skills', '.claude/skills', '.cursor/skills', '.opencode/skills']
+const platforms = ['.agents/skills', '.claude/skills']
+const retiredPlatforms = ['.cursor/skills', '.opencode/skills']
 const marker = 'This file is discovery metadata and a bridge, not a second rules source.'
 
 export async function synchronize(root, write = false) {
@@ -13,6 +22,7 @@ export async function synchronize(root, write = false) {
   const formatting = (await resolveConfig(join(root, 'package.json'))) || {}
   const methods = join(root, '.ai/pstack')
   const updates = []
+  const removals = []
   const skills = []
   const names = new Set()
   function collect(base) {
@@ -43,6 +53,17 @@ export async function synchronize(root, write = false) {
   collect(join(methods, 'skills'))
   collect(join(root, '.ai/skills'))
   skills.sort((a, b) => a.name.localeCompare(b.name, 'en'))
+  for (const platform of [...platforms, ...retiredPlatforms]) {
+    const base = join(root, platform)
+    if (!existsSync(base)) continue
+    for (const entry of readdirSync(base, { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue
+      const path = join(base, entry.name, 'SKILL.md')
+      if (!existsSync(path)) continue
+      if (platforms.includes(platform) && names.has(entry.name)) continue
+      if (readFileSync(path, 'utf8').includes(marker)) removals.push(path)
+    }
+  }
   function schedule(path, content, protectedBridge = false) {
     const existing = existsSync(path) ? readFileSync(path, 'utf8').replace(/\r\n/g, '\n') : null
     if (existing === content) return
@@ -95,8 +116,18 @@ export async function synchronize(root, write = false) {
       mkdirSync(dirname(update.path), { recursive: true })
       writeFileSync(update.path, update.content)
     }
+    for (const path of removals) {
+      unlinkSync(path)
+      if (readdirSync(dirname(path)).length === 0) rmdirSync(dirname(path))
+    }
+    for (const platform of retiredPlatforms) {
+      const base = join(root, platform)
+      if (existsSync(base) && readdirSync(base).length === 0) rmdirSync(base)
+    }
   }
-  return updates.map((update) => slash(relative(root, update.path)))
+  return [...updates.map((update) => update.path), ...removals].map((path) =>
+    slash(relative(root, path)),
+  )
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

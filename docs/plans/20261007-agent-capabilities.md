@@ -11,21 +11,15 @@
   "goals": [
     {
       "text": "搬入工程方法、51个主技能及配套资源并保留来源许可；按用户后续要求删除未使用的机器人",
-      "requirements": [
-        "REQ-PSTACK-001"
-      ]
+      "requirements": ["REQ-PSTACK-001"]
     },
     {
       "text": "项目内技能发现与调用入口指向同一真源",
-      "requirements": [
-        "REQ-PSTACK-002"
-      ]
+      "requirements": ["REQ-PSTACK-002"]
     },
     {
       "text": "适配项目真源、宿主工具模型与授权，按任务规模调用",
-      "requirements": [
-        "REQ-PSTACK-003"
-      ]
+      "requirements": ["REQ-PSTACK-003"]
     }
   ],
   "constraints": [
@@ -41,7 +35,7 @@
     "推送、合并、部署或外部消息"
   ],
   "authorization": {
-    "source": "2026-10-08用户要求整套方法论、技能直接搬到当前项目并适配；明确纠正此前技能跑分偏航；2026-10-08用户授权把审计发现全部修正；2026-10-08用户要求删除无用的Benny机器人"
+    "source": "2026-10-08用户要求整套方法论、技能直接搬到当前项目并适配；明确纠正此前技能跑分偏航；2026-10-08用户授权把审计发现全部修正；2026-10-08用户要求删除无用的Benny机器人；2026-10-08用户要求解释并修复多平台Skill重复及类似问题"
   },
   "deliverables": [
     ".ai/pstack/",
@@ -60,23 +54,13 @@
   ],
   "change_type": "存量改动",
   "base_commit": "542ea1c4dba5a0468230970f8158093a2f97c7dc",
-  "requirements": [
-    "REQ-PSTACK-001",
-    "REQ-PSTACK-002",
-    "REQ-PSTACK-003"
-  ],
+  "requirements": ["REQ-PSTACK-001", "REQ-PSTACK-002", "REQ-PSTACK-003"],
   "acceptance": [
     {
       "id": "AC-PSTACK-001",
-      "requirements": [
-        "REQ-PSTACK-001"
-      ],
-      "tests": [
-        "tests/contracts/pstack-assets.test.ts::[AC-PSTACK-001]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "requirements": ["REQ-PSTACK-001"],
+      "tests": ["tests/contracts/pstack-assets.test.ts::[AC-PSTACK-001]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/pstack-assets.test.ts::[AC-PSTACK-001]",
@@ -86,15 +70,9 @@
     },
     {
       "id": "AC-PSTACK-002",
-      "requirements": [
-        "REQ-PSTACK-002"
-      ],
-      "tests": [
-        "tests/contracts/pstack-assets.test.ts::[AC-PSTACK-002]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "requirements": ["REQ-PSTACK-002"],
+      "tests": ["tests/contracts/pstack-assets.test.ts::[AC-PSTACK-002]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/pstack-assets.test.ts::[AC-PSTACK-002]",
@@ -104,15 +82,9 @@
     },
     {
       "id": "AC-PSTACK-003",
-      "requirements": [
-        "REQ-PSTACK-003"
-      ],
-      "tests": [
-        "tests/contracts/pstack-assets.test.ts::[AC-PSTACK-003]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "requirements": ["REQ-PSTACK-003"],
+      "tests": ["tests/contracts/pstack-assets.test.ts::[AC-PSTACK-003]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/pstack-assets.test.ts::[AC-PSTACK-003]",
@@ -121,9 +93,7 @@
       ]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
@@ -164,19 +134,20 @@
       "id": "T8",
       "title": "按用户要求移除Benny文件、四端入口、配置及当前文档引用",
       "status": "done"
+    },
+    {
+      "id": "T9",
+      "title": "去除可共享的平台技能副本，清理失效入口和重复登记",
+      "status": "done"
     }
   ],
   "depends_on": [],
   "dependency_contracts": [],
   "shared_files": [],
   "handoff": {
-    "interfaces": [
-      "项目内pstack技能真源与跨工具桥接"
-    ],
+    "interfaces": ["项目内pstack技能真源与跨工具桥接"],
     "migrations": [],
-    "tests": [
-      "静态完整性、元数据与链接检查；不证明模型效果"
-    ],
+    "tests": ["静态完整性、元数据与链接检查；不证明模型效果"],
     "remaining": [
       "原生integration run-20261007224919-ba4dba：AC-PSTACK-001/002/003及176项回归通过，旧AC-PRODUCT-013变异测试的子进程25秒超时；单独复现同样结果，未宣称完整通过，需定位后再验收",
       "原迁移未建立TDD红灯，不能补写历史或标记Plan done；Release尚未验收"
@@ -214,12 +185,12 @@
     "eslint.config.mjs",
     ".prettierignore",
     "scripts/pstack-sync.mjs",
-    "tests/contracts/pstack-sync.test.ts"
+    "tests/contracts/pstack-sync.test.ts",
+    ".claude/README.md",
+    ".opencode/README.md"
   ],
   "tdd_evidence": [],
-  "required_evidence": [
-    "check-integration"
-  ],
+  "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
@@ -267,6 +238,7 @@
 - [x] T6 · 修正辅助脚本边界并同步四宿主入口与来源哈希 · done
 - [x] T7 · 检查本轮实际改动并回写Design、采用边界与验收限制 · done
 - [x] T8 · 按用户要求移除Benny文件、四端入口、配置及当前文档引用 · done
+- [x] T9 · 去除可共享的平台技能副本，清理失效入口和重复登记 · done
 
 验收缺口：原生integration run-20261007224919-ba4dba：AC-PSTACK-001/002/003及176项回归通过，旧AC-PRODUCT-013变异测试的子进程25秒超时；单独复现同样结果，未宣称完整通过，需定位后再验收；原迁移未建立TDD红灯，不能补写历史或标记Plan done；Release尚未验收
 证据：尚无
@@ -333,3 +305,9 @@
 2026-10-08用户认为自动接收Slack问题的机器人没有当前用途，明确要求删除。接续同一Plan，REQ-PSTACK-001的现行范围改为152份保留文件，REQ-PSTACK-002改为51个技能、204个入口。删除12份机器人正文/模板和四平台12个专属入口，移除专属配置及同步收集路径；保留日常方法、辅助工具和MIT来源。先前164份/54技能的交付与验证记录是历史范围，不改写历史结果。当前Feature、Design及Release scope同步新范围。
 
 本次删除后的定向验证：REQ-PSTACK-001/002/003对应的AC-PSTACK-001/002/003全部通过，技能同步脚本的实际文件操作测试通过（2026-10-08 09:25，4项）。检查对象为本次删除工作区；不生成原生integration通过记录，也不改写旧运行。此前完整检查的权限变异子进程超时仍未解决，不重复无新信息的失败路径，Plan/Release保持未完成。
+
+## 共享技能入口去重
+
+2026-10-08用户指出多个平台目录中出现重复Skill，要求检查并修复类似问题。发现四平台各生成一份入口虽未复制正文，但Cursor/OpenCode支持现有兼容目录，额外102份入口没有必要。现行REQ-PSTACK-002/AC-PSTACK-002改为两个必要目录102个入口，继续服务四平台，不改写之前四目录范围的历史验证。同步工具只保留Codex和Claude必要入口，并清理带生成标记的退役目录副本及已删除canonical的失效入口，保留用户文件。还修正AI登记页遗留的机器人技能数量、Cursor入口要求读取整套目录的重复指令和OpenCode README重复工作流。工作台Markdown正文规范化哈希检查未发现独立重复正文。
+
+入口去重定向验证：2026-10-08 09:42，本次工作区的AC-PSTACK-001/002/003与同步工具实文件测试共4项通过。覆盖两个必要入口目录、旧平台副本清理、删除canonical后的失效入口清理、只读检查、重复执行及用户文件保护。未声称实际运行四个平台；兼容路径依据各工具官方文档。原生完整检查的既有超时和历史红灯缺口仍保留，不生成虚假通过记录。

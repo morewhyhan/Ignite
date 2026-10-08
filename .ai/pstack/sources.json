@@ -216,7 +216,7 @@
     {
       "path": "skills/automate-me/SKILL.md",
       "upstream_sha256": "1510979b0b71b54284427a19c09918f8b1fdfc168f9b7f9e30098793a5ec88ef",
-      "local_sha256": "8f803245eeb083e20c45e6a7edd96752ba850d1fc3d2a9a5c6c6571190868055",
+      "local_sha256": "ee209b6a01ee010e3618b5ccfe59086429fa4ee6b0b1fbe49e5bbe8e04e13e18",
       "adapted": true,
       "upstream_checkout_sha256": "7e6188266b44a3b27c80b74757d9bb576301ff9556e6e2ef776dcc0ebdd0552b"
     },
@@ -363,7 +363,7 @@
     {
       "path": "skills/poteto-help/SKILL.md",
       "upstream_sha256": "ea71bcb15c023a5d9cc70686e4812144687ffe03bf80d85cc480af3e0b181d1e",
-      "local_sha256": "c58d2a1c2d2081f8820b0a531719f7b603e5099d7734bc6a3366af1be1c30803",
+      "local_sha256": "494b8d7af146c426070f8c76fc168a0ea739c99b936b040b63a3d66f70b61d8a",
       "adapted": true,
       "upstream_checkout_sha256": "ded34413a4fc2e38e9ca5d5e74716cc0a83d1f32a53048d57eb3a2e719331cdb"
     },
@@ -874,7 +874,7 @@
     {
       "path": "skills/reflect/SKILL.md",
       "upstream_sha256": "31b8fb866ebe084e7fb7f16dc0ea46ab84ffdc838d54f948edc78556f301a497",
-      "local_sha256": "df12aeb1690c13e3a1831f0900046f80b366601235db79d07235885082ffedde",
+      "local_sha256": "f3fd3342ac756afd97ea40bff48e44905c21b8aa4654023933c442969195e2fb",
       "adapted": true,
       "upstream_checkout_sha256": "ee1890ae2a617a7fcbca401c330d8c270435d5e073be3c512650f53986d0ceb9"
     },

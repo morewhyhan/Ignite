@@ -33,7 +33,7 @@ Route work precisely:
 - New project method with no existing owner: `.ai/skills/<kebab-name>/SKILL.md` via the host's skill-creator.
 - Deferred engineering work: a task/remaining item in the relevant existing Plan, not an automatically created external ticket or separate backlog ledger.
 
-If a finding names .agents/skills/, .claude/skills/, .cursor/skills/ or .opencode/skills/, open that discovery entry and resolve its canonical link before editing. Never apply a method change only to a bridge. Read the actual target before concluding the guidance is missing.
+If a finding names an entry under .agents/skills/ or .claude/skills/, open that discovery entry and resolve its canonical link before editing. Never apply a method change only to a bridge. Read the actual target before concluding the guidance is missing.
 
 ## 4. Apply within authorization
 

@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
@@ -35,7 +35,7 @@ it('synchronizes canonical project skills without overwriting user skills or mut
     const written = run(true)
     expect(written.stderr).toBe('')
     expect(written.status).toBe(0)
-    for (const platform of ['.agents', '.claude', '.cursor', '.opencode']) {
+    for (const platform of ['.agents', '.claude']) {
       const bridge = readFileSync(join(root, platform, 'skills/example/SKILL.md'), 'utf8')
       expect(bridge).toContain('description: First description')
       expect(bridge).toContain('[canonical skill](../../../.ai/skills/example/SKILL.md)')
@@ -47,16 +47,36 @@ it('synchronizes canonical project skills without overwriting user skills or mut
       '.ai/skills/example/SKILL.md',
       '---\nname: example\ndescription: Updated description\n---\n',
     )
-    expect(JSON.parse(run(false).stdout)).toHaveLength(5)
+    expect(JSON.parse(run(false).stdout)).toHaveLength(3)
     expect(readFileSync(join(root, '.agents/skills/example/SKILL.md'), 'utf8')).toBe(before)
-    put('.cursor/skills/example/SKILL.md', 'User-owned skill.\n')
+    put('.claude/skills/example/SKILL.md', 'User-owned skill.\n')
     const conflict = run(true)
     expect(conflict.status).toBe(1)
     expect(conflict.stderr).toContain('Refusing to overwrite a non-generated skill')
     expect(readFileSync(join(root, '.agents/skills/example/SKILL.md'), 'utf8')).toBe(before)
-    expect(readFileSync(join(root, '.cursor/skills/example/SKILL.md'), 'utf8')).toBe(
+    expect(readFileSync(join(root, '.claude/skills/example/SKILL.md'), 'utf8')).toBe(
       'User-owned skill.\n',
     )
+    put('.claude/skills/example/SKILL.md', before)
+    put('.cursor/skills/example/SKILL.md', before)
+    put('.opencode/skills/example/SKILL.md', before)
+    put('.agents/skills/removed/SKILL.md', before)
+    put('.cursor/skills/personal/SKILL.md', 'User-owned skill.\n')
+    const pending = run(false)
+    expect(pending.status).toBe(0)
+    expect(JSON.parse(pending.stdout)).toContain('.cursor/skills/example/SKILL.md')
+    expect(existsSync(join(root, '.cursor/skills/example/SKILL.md'))).toBe(true)
+    expect(run(true).status).toBe(0)
+    for (const path of [
+      '.cursor/skills/example/SKILL.md',
+      '.opencode/skills/example/SKILL.md',
+      '.agents/skills/removed/SKILL.md',
+    ])
+      expect(existsSync(join(root, path))).toBe(false)
+    expect(readFileSync(join(root, '.cursor/skills/personal/SKILL.md'), 'utf8')).toBe(
+      'User-owned skill.\n',
+    )
+    expect(JSON.parse(run(false).stdout)).toEqual([])
     expect(
       JSON.parse(readFileSync(join(root, '.ai/pstack/sources.json'), 'utf8')).upstream_commit,
     ).toBe('retained-pin')

@@ -139,7 +139,7 @@
     {
       "id": "T10",
       "title": "完成真实工程与生产浏览器验收，保留历史例外后发布精简模板",
-      "status": "doing"
+      "status": "done"
     }
   ],
   "depends_on": [],
@@ -189,7 +189,12 @@
   ],
   "tdd_evidence": [],
   "required_evidence": ["check-integration", "check-release"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261008075158-fd8647"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
@@ -237,10 +242,10 @@
 - [x] T7 · 检查本轮实际改动并回写Design、采用边界与验收限制 · done
 - [x] T8 · 按用户要求移除Benny文件、四端入口、配置及当前文档引用 · done
 - [x] T9 · 去除可共享的平台技能副本，清理失效入口和重复登记 · done
-- [ ] T10 · 完成真实工程与生产浏览器验收，保留历史例外后发布精简模板 · doing
+- [x] T10 · 完成真实工程与生产浏览器验收，保留历史例外后发布精简模板 · done
 
 验收缺口：运行原生integration和release并保存真实证据
-证据：尚无
+证据：check-integration / run-20261008075158-fd8647
 <!-- /ignite-progress -->
 
 ## 状态

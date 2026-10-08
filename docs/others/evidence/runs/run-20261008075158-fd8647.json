@@ -1,0 +1,124 @@
+{
+  "schema": 2,
+  "run_id": "run-20261008075158-fd8647",
+  "check_policy_version": 6,
+  "plan_id": "IGT-1791362215382691296",
+  "evidence_id": "check-integration",
+  "level": "integration",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-10-08T07:51:58.869Z",
+  "ended_at": "2026-10-08T07:53:48.948Z",
+  "commit": "bf61d6e6483be3363ac7b373eff936a974335372",
+  "input_fingerprint": "b7ecb7d40aaf140b94e0d2a7fa70e7fdee6052406fac56e825c1f5ea09a5ab76",
+  "environment_fingerprint": "a9a342b68b20ef1291357098ab140bd321ffbd348aecc3a91a312972942e8441",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "ee86b72cd8b8c20a63bdb77e8561f099fa60572490be236e34f8cd3b923eb56a",
+  "acceptance_results": [
+    {
+      "plan_id": "IGT-1791362215382691296",
+      "criterion": "AC-PSTACK-001",
+      "test": "tests/contracts/pstack-assets.test.ts::[AC-PSTACK-001]",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791362215382691296",
+      "criterion": "AC-PSTACK-002",
+      "test": "tests/contracts/pstack-assets.test.ts::[AC-PSTACK-002]",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791362215382691296",
+      "criterion": "AC-PSTACK-003",
+      "test": "tests/contracts/pstack-assets.test.ts::[AC-PSTACK-003]",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    }
+  ],
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "542ea1c4dba5a0468230970f8158093a2f97c7dc"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 487
+    },
+    {
+      "label": "template-doctor",
+      "command": ["corepack", "pnpm", "template:doctor"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 729
+    },
+    {
+      "label": "governance",
+      "command": ["corepack", "pnpm", "ignite", "validate"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 917
+    },
+    {
+      "label": "docs",
+      "command": ["corepack", "pnpm", "docs:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 921
+    },
+    {
+      "label": "typecheck",
+      "command": ["corepack", "pnpm", "typecheck"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 7789
+    },
+    {
+      "label": "lint",
+      "command": ["corepack", "pnpm", "lint"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 7516
+    },
+    {
+      "label": "format",
+      "command": ["corepack", "pnpm", "format:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 4456
+    },
+    {
+      "label": "tests",
+      "command": ["corepack", "pnpm", "test"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 72684
+    },
+    {
+      "label": "migrations",
+      "command": ["corepack", "pnpm", "test:migrations"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 6447
+    }
+  ],
+  "log_sha256": "89f761fb4279a2a94539b81eb6d33abc66b231f4ddbd4bdad55c012e3e761daf",
+  "execution_source": "ignite-runner-local"
+}

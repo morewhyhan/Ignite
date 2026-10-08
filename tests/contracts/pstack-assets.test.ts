@@ -51,12 +51,24 @@ it('[AC-PSTACK-002] follows each platform discovery bridge to a canonical skill 
   }
 })
 
-it('[AC-PSTACK-003] resolves the project adapter from every inherited Markdown entrypoint', () => {
+it('[AC-PSTACK-003] reads inherited methods and discovery bridges without an adapter prerequisite', () => {
+  expect(existsSync(join(methods, 'ADAPTER.md'))).toBe(false)
   for (const file of manifest.files.filter((entry) => entry.path.endsWith('.md'))) {
-    const path = join(methods, file.path)
-    const content = readFileSync(path, 'utf8')
-    const link = content.match(/\[ADAPTER\.md\]\(([^)]+)\)/)?.[1]
-    expect(link, file.path).toBeDefined()
-    expect(resolve(dirname(path), link!), file.path).toBe(join(methods, 'ADAPTER.md'))
+    expect(readFileSync(join(methods, file.path), 'utf8'), file.path).not.toContain('ADAPTER.md')
+  }
+  for (const directory of ['.agents/skills', '.claude/skills']) {
+    for (const entry of readdirSync(join(root, directory), { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue
+      const path = join(root, directory, entry.name, 'SKILL.md')
+      expect(readFileSync(path, 'utf8'), path).not.toContain('ADAPTER.md')
+    }
+  }
+  for (const path of [
+    'AGENTS.md',
+    '.ai/README.md',
+    '.ai/skills/README.md',
+    '.ai/pstack/CATALOG.md',
+  ]) {
+    expect(readFileSync(join(root, path), 'utf8'), path).not.toContain('ADAPTER.md')
   }
 })

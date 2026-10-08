@@ -1,0 +1,25 @@
+{
+  "schema": 2,
+  "id": "inline-pstack-methods-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1791497468917571676"],
+  "scope": [
+    {
+      "id": "GOAL-001",
+      "text": "删除独立适配文件，将必要内容直接写回所属技能与流程",
+      "source": "用户2026-10-09要求不单列适配文件，直接删改对应内容",
+      "requirements": ["REQ-PSTACK-003"],
+      "acceptance": ["AC-PSTACK-003"],
+      "plan_ids": ["IGT-1791497468917571676"],
+      "disposition": "included",
+      "reason": "覆盖当前请求的唯一存量结果",
+      "authorization": "用户2026-10-09要求不单列适配文件，直接删改对应内容"
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-10-09"
+}

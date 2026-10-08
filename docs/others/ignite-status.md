@@ -1,16 +1,21 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`2f540e32bf4a`
-当前 Plan：0；结构化历史：0；未迁移历史：0
+输入指纹：`04eb4950feca`
+当前 Plan：1；结构化历史：0；未迁移历史：0
 
 ## 当前工作
 
-- 无。
+- `IGT-1791497468917571676` · `ready` · `inline-pstack-methods-v1`
 
 ## 发布范围
 
-- 无。
+- `inline-pstack-methods-v1` · `ready`
+  - Plan：`IGT-1791497468917571676`
+  - 缺少证据：`IGT-1791497468917571676:check-integration`（missing：no run is bound to this evidence requirement）
+  - 最终版本验收：missing
+  - 下一步：pnpm ignite next --plan IGT-1791497468917571676
+  - 未完成原始目标：GOAL-001 删除独立适配文件，将必要内容直接写回所属技能与流程
 
 ## 结构问题
 

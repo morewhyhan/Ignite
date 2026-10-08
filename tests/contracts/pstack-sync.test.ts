@@ -7,7 +7,7 @@ import { expect, it } from 'vitest'
 
 const script = pathToFileURL(resolve(import.meta.dirname, '../../scripts/pstack-sync.mjs')).href
 
-it('synchronizes canonical project skills without overwriting user skills or mutating read-only checks', () => {
+it('[AC-PSTACK-003] synchronizes canonical project skills without overwriting user skills or mutating read-only checks', () => {
   const root = mkdtempSync(join(tmpdir(), 'ignite-skills-'))
   const put = (path: string, content: string) => {
     mkdirSync(join(root, path, '..'), { recursive: true })
@@ -40,6 +40,7 @@ it('synchronizes canonical project skills without overwriting user skills or mut
       expect(bridge).toContain('description: First description')
       expect(bridge).toContain('[canonical skill](../../../.ai/skills/example/SKILL.md)')
       expect(bridge).not.toContain('Do the work.')
+      expect(bridge).not.toContain('ADAPTER.md')
     }
     expect(JSON.parse(run(false).stdout)).toEqual([])
     const before = readFileSync(join(root, '.agents/skills/example/SKILL.md'), 'utf8')

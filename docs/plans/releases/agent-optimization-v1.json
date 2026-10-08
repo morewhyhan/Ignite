@@ -7,14 +7,14 @@
   "scope": [
     {
       "id": "GOAL-PSTACK-001",
-      "text": "完整搬入全部方法、技能、资源并保留来源许可",
-      "source": "2026-10-08用户要求整套搬移并做Ignite适配，停止技能跑分前置要求",
+      "text": "搬入工程方法、51个主技能和配套资源并保留来源许可，按后续用户要求删除未使用的机器人",
+      "source": "2026-10-08用户要求整套搬移并做Ignite适配，停止技能跑分前置要求；2026-10-08用户明确要求删除无用机器人",
       "requirements": ["REQ-PSTACK-001"],
       "acceptance": ["AC-PSTACK-001"],
       "plan_ids": ["IGT-1791362215382691296"],
       "disposition": "included",
       "reason": "本轮明确的文件与入口交付",
-      "authorization": "用户直接要求实施"
+      "authorization": "用户直接要求实施；用户直接授权删除机器人及专属入口"
     },
     {
       "id": "GOAL-PSTACK-002",

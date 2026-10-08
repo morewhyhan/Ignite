@@ -248,12 +248,6 @@ Ignite retains Feature → Plan → Contract/Test → Implementation → Verify 
 
 [setup-pstack](./skills/setup-pstack/SKILL.md) reads the project config. Role values may be a supported model ID or a list for a requested panel. `auto` and `inherit-parent` mean inheritance. The host must confirm actual model IDs and reasoning support; no global Cursor model rule is needed.
 
-## automations
-
-The [Benny pack](./automations/benny/README.md) is dormant. Three optional setup/operation entries are discoverable, but live authorized automation reads canonical operational files directly under `.ai/pstack/automations/benny/`.
-
-Setup uses secret-free user configuration under `.ai/benny/`, references existing Feature AC and test cases, and uses the current host's actual automation capabilities. No second copy in `.cursor/automations/`, automatic plugin enablement, Slack connection, or event-trigger activation happens on clone.
-
 ## license
 
 MIT

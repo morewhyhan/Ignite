@@ -1,6 +1,5 @@
 {
   "schema": 1,
   "model_policy": "inherit-current-host",
-  "roles": {},
-  "optional_automations_enabled": false
+  "roles": {}
 }

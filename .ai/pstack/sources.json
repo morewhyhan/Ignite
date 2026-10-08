@@ -5,10 +5,10 @@
   "author": "Lauren Tan",
   "license": "MIT",
   "main_skills": 51,
-  "automation_skills": 3,
+  "automation_skills": 0,
   "playbooks": 23,
   "upstream_files": 164,
-  "adaptation": "All 164 source paths and MIT attribution retained. Execution steps, role selection and optional tool safeguards adapted to native Ignite records, canonical skills and actual host capabilities. Per-file adapted flags and original/local hashes identify changes.",
+  "adaptation": "152 of 164 upstream paths retained with MIT attribution. The 12 Benny files are excluded at user request; original hashes remain in excluded_files. Methods and helpers are adapted to native Ignite records and actual host capabilities.",
   "files": [
     {
       "path": ".cursor-plugin/plugin.json",
@@ -34,7 +34,7 @@
     {
       "path": "README.md",
       "upstream_sha256": "7f39feae81103e18b567e1fa5075cba86425cf4697a01be66a7422ef93c2c855",
-      "local_sha256": "3dc48b80820596b2081a7505b84c2b4308519e0c15793184f6df041531d85468",
+      "local_sha256": "af7dc9530069a2aaa5b14bbe2c1e0c79572d04f01fc0c552b00aa8c88863213e",
       "adapted": true,
       "upstream_checkout_sha256": "d5dd1b963c2ae1268d686f62a1567683019ac3f3119ab62f8ae50a07cbd52109"
     },
@@ -58,90 +58,6 @@
       "local_sha256": "672f6791589ef758b0ced2c4c477913fa2758623c438e265639a0d539ce90695",
       "adapted": false,
       "upstream_checkout_sha256": "672f6791589ef758b0ced2c4c477913fa2758623c438e265639a0d539ce90695"
-    },
-    {
-      "path": "automations/benny/FOR_AGENTS.md",
-      "upstream_sha256": "a125e317dec1b8731fdc71f404c669f1127a73af932f7a7b8b8744a5542328a7",
-      "local_sha256": "ecfd42b4fac0e44e84eeb4cf745d385e800cf9d11d6520d129021bcf029b964f",
-      "adapted": true,
-      "upstream_checkout_sha256": "e13c91c482baf1b779a79b90d817a3b4d8fb80d7148f784b90c0e63f75abe304"
-    },
-    {
-      "path": "automations/benny/README.md",
-      "upstream_sha256": "ca3c42cbb7f0bf7068f7407eb355815e6c234d5c2786942f3cbe751a3690024b",
-      "local_sha256": "426a040b59cad346fc45fe9f29eec688dcca83ca4ac90df4a6d56a3a644809ef",
-      "adapted": true,
-      "upstream_checkout_sha256": "592a7a4b428e5bd105cac2e5c7c589866c81f5c4fc7af11da9b7189abca12867"
-    },
-    {
-      "path": "automations/benny/skills/reproduce-and-fix-issues/SKILL.md",
-      "upstream_sha256": "1363cc07343fe86aab42853b1bd4563288cbcbdf12f1c265b3b3b1afa25c09cb",
-      "local_sha256": "70711e66b5d23d20e6cb6935e543d5d7a51c923f8a6b4e59bdf77fe51b805118",
-      "adapted": true,
-      "upstream_checkout_sha256": "bd9d688415cabee95247738f9ea927325ba0ead7796d0d18cb57cf82dd35df54"
-    },
-    {
-      "path": "automations/benny/skills/reproduce-and-fix-issues/references/control-adapter.md",
-      "upstream_sha256": "58b0615d2fca895f9a20df83266e280042b0d585b5f2fd324e2094a682fd846b",
-      "local_sha256": "96951382e314d8a6d11b2ad912ff76e4c2546a1060f3af71d5eaf19d9dbeff61",
-      "adapted": true,
-      "upstream_checkout_sha256": "aee571829c5c04bc469706c505b6536717643a0a63679b84c57798ab71229fc2"
-    },
-    {
-      "path": "automations/benny/skills/reproduce-and-fix-issues/references/feature-map.example.md",
-      "upstream_sha256": "1e5c7c8522daec3e43fcc2e73ceb97289ded65b552949ce65a11cc8eb3d2b6ee",
-      "local_sha256": "507fbb9349af2526d0a51a56f8eaff15e90a98e5e27e7c95bdab1645848e8197",
-      "adapted": true,
-      "upstream_checkout_sha256": "ae0ea1d1adc8ad2f504a2d19962cb2b8cc1e0e40a5a566c866ce658be9420bd6"
-    },
-    {
-      "path": "automations/benny/skills/reproduce-and-fix-issues/references/verify-existing-fix.md",
-      "upstream_sha256": "c90eae00abcdec71a58fa8d60f2c495b082a526ad50b8e8e494837609129bf29",
-      "local_sha256": "181a4d22b59159635f9fd576461ec863df2ec4fe1acc991c1185bd21a2d19d48",
-      "adapted": true,
-      "upstream_checkout_sha256": "2af8b56830c0850c7a461c9da835e3e36b7bd7ae5cc0a230d0edd2312831ab0b"
-    },
-    {
-      "path": "automations/benny/skills/setup-benny/SKILL.md",
-      "upstream_sha256": "5a3cbe63360c9f6373b6cb6c79a1eaf7e0eba181bfaa1577e2e6431af3407282",
-      "local_sha256": "67738aa3c56e3a1ddbfe6dc61a364b3e646d24c58130d8223b63ba55b0475366",
-      "adapted": true,
-      "upstream_checkout_sha256": "1b8d0bae5265413a65b03c9b3b883f1d91efc0e7c1cb3a28e66c215b3a2094f7"
-    },
-    {
-      "path": "automations/benny/skills/triage-issue-reports/SKILL.md",
-      "upstream_sha256": "216a758b8711e64d19a55e6032c496527daac6364d010611040f3c04ef1a448f",
-      "local_sha256": "7580a17c9c4df1f704075c5a698065229347b0b0a62e04b5d00d2aeb4a578dc0",
-      "adapted": true,
-      "upstream_checkout_sha256": "8122f1c1e65062bf0f1103a587c08ed7d14779c64625643a9f488f262fd21ad8"
-    },
-    {
-      "path": "automations/benny/skills/triage-issue-reports/references/routing.example.md",
-      "upstream_sha256": "e5e53013692568cf69da8e8b302fff929fe2fbc9aec1a4651fd7997e2c7a4025",
-      "local_sha256": "1038967e11fc77747e8551334641a161abaa7d6d36ad3c0cc950d8b006bfd30e",
-      "adapted": true,
-      "upstream_checkout_sha256": "6929472061ffbaf048f43230b9a01610bfd0d9a451d6dffe7aff78c8c400a921"
-    },
-    {
-      "path": "automations/benny/templates/configuration.example.yaml",
-      "upstream_sha256": "13e24b4ce9b9a0913916e85fe3b080b88d45f8e55dccfe8ae38e0751a997b6f5",
-      "local_sha256": "560b5a0b4fa01eaaa6b08b3778c81ee4e427308a1e51b91d5bda5f9d5f5f55bd",
-      "adapted": true,
-      "upstream_checkout_sha256": "c29321b5285d894de22020332279d0876e45b3a3d59a612b77ff9164d58ec004"
-    },
-    {
-      "path": "automations/benny/templates/reproduce-automation-prompt.md",
-      "upstream_sha256": "71ec574f1844e379394ae4ef14c48d7df10afbaa319d395c788d7f856f0e6899",
-      "local_sha256": "6953274d461b3f1e80e8484ce23f7bb6d9d5c44b7e8d0729f1aed31b68555011",
-      "adapted": true,
-      "upstream_checkout_sha256": "c8834edc837d4b1cbc71c5f0b503b0a1b40cbb9cab46eb7387de94bc407882d7"
-    },
-    {
-      "path": "automations/benny/templates/triage-automation-prompt.md",
-      "upstream_sha256": "e0bba594547834f013ec805915610eb597e7929efe3ffbe85ae00339ee16d474",
-      "local_sha256": "20997b38211275de04a961ca6d9b25649d1b8b56df81757d1dffc65ad4177e94",
-      "adapted": true,
-      "upstream_checkout_sha256": "4c444204935f52a1c44814dfac524725b45fcf01a6926b95bdafd14749d8d2bd"
     },
     {
       "path": "docs/guide/01-setup.md",
@@ -188,7 +104,7 @@
     {
       "path": "docs/guide/07-overnight.md",
       "upstream_sha256": "d7bd33a3d880768688dff4c1c2b5481ca9f0f194f5d97e44b65c9f96624d3ff0",
-      "local_sha256": "a5ec15feddd90560f00c9eb307690c0eba6a5476ade9e78c913d637e727fa685",
+      "local_sha256": "1545adf9fd60d8a2d6036d372ab371d69b929f1f2bf3de4f65309f2a78e8dc47",
       "adapted": true,
       "upstream_checkout_sha256": "72877e36e0c11d8e581fec9c8e972476c72e716c35bdc751407873c907aa1cfb"
     },
@@ -993,7 +909,7 @@
     {
       "path": "skills/setup-pstack/SKILL.md",
       "upstream_sha256": "d61b47256a18155a81c8e5ef95e3cc6569ce8c18317c35c4dd9c8015cf68cb59",
-      "local_sha256": "b26a3b9a71600f10da0c7e9a0ffce9e8018812ba5fd18a5a9a8071684b0a30e0",
+      "local_sha256": "12c940cacb0711a6f6c4b84a528442cf9e08abd4b54e9fd2afce28ef3ade66c2",
       "adapted": true,
       "upstream_checkout_sha256": "c2f50fda1d01cc50bb6c53932ad6f627b60d4eaa1e32be2f61397b0c2d24fbb2"
     },
@@ -1164,5 +1080,68 @@
     "Skill names/frontmatter normalized for portable project discovery; upstream explicit-only Cursor fields replaced by project routing",
     "Illustrative dangling PR url in why synthesizer reference changed to plain placeholder text"
   ],
-  "hash_basis": "upstream_sha256 is exact Git blob from the pinned commit; upstream_checkout_sha256 retains the Windows checkout observation. Text assets use LF for portable cloned hashes."
+  "hash_basis": "upstream_sha256 is exact Git blob from the pinned commit; upstream_checkout_sha256 retains the Windows checkout observation. Text assets use LF for portable cloned hashes.",
+  "retained_files": 152,
+  "excluded_files": [
+    {
+      "path": "automations/benny/FOR_AGENTS.md",
+      "upstream_sha256": "a125e317dec1b8731fdc71f404c669f1127a73af932f7a7b8b8744a5542328a7",
+      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+    },
+    {
+      "path": "automations/benny/README.md",
+      "upstream_sha256": "ca3c42cbb7f0bf7068f7407eb355815e6c234d5c2786942f3cbe751a3690024b",
+      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+    },
+    {
+      "path": "automations/benny/skills/reproduce-and-fix-issues/SKILL.md",
+      "upstream_sha256": "1363cc07343fe86aab42853b1bd4563288cbcbdf12f1c265b3b3b1afa25c09cb",
+      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+    },
+    {
+      "path": "automations/benny/skills/reproduce-and-fix-issues/references/control-adapter.md",
+      "upstream_sha256": "58b0615d2fca895f9a20df83266e280042b0d585b5f2fd324e2094a682fd846b",
+      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+    },
+    {
+      "path": "automations/benny/skills/reproduce-and-fix-issues/references/feature-map.example.md",
+      "upstream_sha256": "1e5c7c8522daec3e43fcc2e73ceb97289ded65b552949ce65a11cc8eb3d2b6ee",
+      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+    },
+    {
+      "path": "automations/benny/skills/reproduce-and-fix-issues/references/verify-existing-fix.md",
+      "upstream_sha256": "c90eae00abcdec71a58fa8d60f2c495b082a526ad50b8e8e494837609129bf29",
+      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+    },
+    {
+      "path": "automations/benny/skills/setup-benny/SKILL.md",
+      "upstream_sha256": "5a3cbe63360c9f6373b6cb6c79a1eaf7e0eba181bfaa1577e2e6431af3407282",
+      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+    },
+    {
+      "path": "automations/benny/skills/triage-issue-reports/SKILL.md",
+      "upstream_sha256": "216a758b8711e64d19a55e6032c496527daac6364d010611040f3c04ef1a448f",
+      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+    },
+    {
+      "path": "automations/benny/skills/triage-issue-reports/references/routing.example.md",
+      "upstream_sha256": "e5e53013692568cf69da8e8b302fff929fe2fbc9aec1a4651fd7997e2c7a4025",
+      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+    },
+    {
+      "path": "automations/benny/templates/configuration.example.yaml",
+      "upstream_sha256": "13e24b4ce9b9a0913916e85fe3b080b88d45f8e55dccfe8ae38e0751a997b6f5",
+      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+    },
+    {
+      "path": "automations/benny/templates/reproduce-automation-prompt.md",
+      "upstream_sha256": "71ec574f1844e379394ae4ef14c48d7df10afbaa319d395c788d7f856f0e6899",
+      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+    },
+    {
+      "path": "automations/benny/templates/triage-automation-prompt.md",
+      "upstream_sha256": "e0bba594547834f013ec805915610eb597e7929efe3ffbe85ae00339ee16d474",
+      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+    }
+  ]
 }

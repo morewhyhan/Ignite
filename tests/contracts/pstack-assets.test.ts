@@ -10,7 +10,7 @@ const manifest = JSON.parse(readFileSync(join(methods, 'sources.json'), 'utf8'))
 }
 
 it('[AC-PSTACK-001] resolves every migrated upstream resource and verifies retained file bytes', () => {
-  expect(manifest.files).toHaveLength(164)
+  expect(manifest.files).toHaveLength(152)
   for (const file of manifest.files) {
     const actual = createHash('sha256')
       .update(readFileSync(join(methods, file.path)))
@@ -37,7 +37,7 @@ it('[AC-PSTACK-002] follows each platform discovery bridge to a canonical skill 
     const skills = readdirSync(base, { withFileTypes: true }).filter(
       (entry) => entry.isDirectory() && inheritedNames.has(entry.name),
     )
-    expect(skills).toHaveLength(54)
+    expect(skills).toHaveLength(51)
     for (const skill of skills) {
       const file = join(base, skill.name, 'SKILL.md')
       const content = readFileSync(file, 'utf8')

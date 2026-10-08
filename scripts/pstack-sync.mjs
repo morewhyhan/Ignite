@@ -41,7 +41,6 @@ export async function synchronize(root, write = false) {
     }
   }
   collect(join(methods, 'skills'))
-  collect(join(methods, 'automations/benny/skills'))
   collect(join(root, '.ai/skills'))
   skills.sort((a, b) => a.name.localeCompare(b.name, 'en'))
   function schedule(path, content, protectedBridge = false) {

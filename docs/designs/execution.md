@@ -76,12 +76,12 @@ CI 生产态 E2E 使用 line reporter 实际输出 Next webServer stdout/stderr�
 
 ## 项目内pstack方法库
 
-当前项目完整携带 `.ai/pstack/` 的51个主技能、23个playbook、3个可选Benny技能及其全部上游资源。方法正文和参考文件在同一真源维护；[适配说明](../../.ai/pstack/ADAPTER.md)明确项目规则、实际工具模型、权限和调用尺度，[目录](../../.ai/pstack/CATALOG.md)提供逐技能入口。Codex/Claude/Cursor/OpenCode的项目发现目录只有桥接元数据与链接；AGENTS及工具规则指向同一目录。上游MIT许可与逐文件来源哈希随项目保留。
+当前项目携带 `.ai/pstack/` 的51个主技能、23个playbook及配套上游资源；按用户2026-10-08要求删除12份机器人文件和四平台共12个专属技能入口，保留152份上游文件。方法正文和参考文件在同一真源维护；[适配说明](../../.ai/pstack/ADAPTER.md)明确项目规则、实际工具模型、权限和调用尺度，[目录](../../.ai/pstack/CATALOG.md)提供逐技能入口。Codex/Claude/Cursor/OpenCode的项目发现目录只有桥接元数据与链接；AGENTS及工具规则指向同一目录。上游MIT许可与逐文件来源哈希随项目保留。
 
-该变化是方法与发现入口的文件交付，不证明真实模型收益、所有平台会话已刷新、Plan integration或Release已通过。固定模型、Cursor Task/loop与外部插件在当前宿主按适配映射，不自动购买模型服务或启用Benny。继承playbook作为方法参考，不能覆盖项目原有Feature/Plan/Design/Evidence真源或创建并行任务状态。
+该变化是方法与发现入口的文件交付，不证明真实模型收益、所有平台会话已刷新、Plan integration或Release已通过。固定模型、Cursor Task/loop与外部插件在当前宿主按适配映射，不自动购买模型服务。继承playbook作为方法参考，不能覆盖项目原有Feature/Plan/Design/Evidence真源或创建并行任务状态。
 
-Benny随附代码不属于主应用编译范围；根TypeScript、ESLint与Prettier显式排除`.ai/pstack`，保留上游内容与独立依赖边界。方法和桥接由资产/文档检查核对，不伪称可选自动化运行通过。
+上游辅助工具不属于主应用编译范围；根TypeScript、ESLint与Prettier显式排除`.ai/pstack`，保留方法内容与辅助工具独立依赖边界。方法和桥接由资产/文档检查核对，不伪称可选自动化运行通过。
 
 具体方法入口已改为使用原生 Plan 决策、tasks、依赖与 handoff；验证技能引用 Feature REQ/AC 和原有测试，不再生成维护中的另一份验收地图。`.ai/skills` 保存新增项目技能，`scripts/pstack-sync.mjs` 统一维护四宿主桥接、目录和来源本地哈希，默认只检查，写入前拒绝同名非生成文件。角色入口读取本地 JSON，未配置则继承宿主；不安装模型引擎。
 
-可选辅助脚本不再隐式安装 Bun 依赖；工作区审计默认只读本地 Git 状态，空格路径和未跟踪文件被保留。原生 Plan 不接受上游固定十路/性能栏目检查。PR watch 结束和 READY 不代表原生验收；Benny 仍未启用。
+可选辅助脚本不再隐式安装 Bun 依赖；工作区审计默认只读本地 Git 状态，空格路径和未跟踪文件被保留。原生 Plan 不接受上游固定十路/性能栏目检查。PR watch 结束和 READY 不代表原生验收；未使用的机器人已删除。

@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1791497468917571676",
   "release": "inline-pstack-methods-v1",
-  "status": "verifying",
+  "status": "done",
   "outcome": "技能和流程直接使用本项目文档与宿主能力，无需额外适配文件",
   "contract_version": 2,
   "execution_contract": 1,
@@ -189,7 +189,7 @@ AC-PSTACK-003先记录真实断言红灯，再执行原生Plan integration；所
 
 <!-- ignite-progress -->
 
-状态：`verifying`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
 - [x] T2 · 补充需求和目标行为测试 · done

@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1791362215382691296",
   "release": "agent-optimization-v1",
-  "status": "active",
+  "status": "verifying",
   "outcome": "项目完整携带pstack方法与技能，并以同一真源接入各工具、适配Ignite规则和实际宿主",
   "contract_version": 2,
   "execution_contract": 1,
@@ -197,7 +197,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "bf61d6e6483be3363ac7b373eff936a974335372",
   "updated_at": "2026-10-08"
 }
 -->
@@ -231,7 +231,7 @@
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`verifying`（由元数据生成）
 
 - [x] T1 · 更新本轮目标与采用边界，停止技能跑分前置要求 · done
 - [x] T2 · 搬入完整pstack及来源许可、配置和适配层 · done

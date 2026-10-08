@@ -12,7 +12,7 @@
 
 - `inline-pstack-methods-v1` · `active`
   - Plan：`IGT-1791497468917571676`
-  - 缺少证据：`IGT-1791497468917571676:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1791497468917571676
   - 未完成原始目标：GOAL-001 删除独立适配文件，将必要内容直接写回所属技能与流程

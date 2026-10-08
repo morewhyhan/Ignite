@@ -121,7 +121,12 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261008222452-30afa4"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
@@ -192,7 +197,7 @@ AC-PSTACK-003先记录真实断言红灯，再执行原生Plan integration；所
 - [ ] T4 · 验证兼容性并回写设计 · doing
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20261008222452-30afa4
 <!-- /ignite-progress -->
 
 ## 准出条件

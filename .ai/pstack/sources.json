@@ -363,7 +363,7 @@
     {
       "path": "skills/poteto-help/SKILL.md",
       "upstream_sha256": "ea71bcb15c023a5d9cc70686e4812144687ffe03bf80d85cc480af3e0b181d1e",
-      "local_sha256": "6dd416e1e3cbf6a7a00e82bc0826ea2dedf1dfb22f2e7574c354f04488d85b0b",
+      "local_sha256": "ffd29dee7ddaa2f9e082cdd28c25dd29bbd15ad49b7726f0406d085c7452c1d7",
       "adapted": true,
       "upstream_checkout_sha256": "ded34413a4fc2e38e9ca5d5e74716cc0a83d1f32a53048d57eb3a2e719331cdb"
     },

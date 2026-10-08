@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1791497468917571676",
   "release": "inline-pstack-methods-v1",
-  "status": "ready",
+  "status": "active",
   "outcome": "技能和流程直接使用本项目文档与宿主能力，无需额外适配文件",
   "contract_version": 2,
   "execution_contract": 1,
@@ -150,7 +150,7 @@ AC-PSTACK-003在真实仓库检查入口和方法没有额外适配依赖，在�
 
 <!-- ignite-progress -->
 
-状态：`ready`（由元数据生成）
+状态：`active`（由元数据生成）
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
 - [x] T2 · 补充需求和目标行为测试 · done

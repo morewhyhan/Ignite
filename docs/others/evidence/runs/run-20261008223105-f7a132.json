@@ -1,0 +1,63 @@
+{
+  "schema": 2,
+  "run_id": "run-20261008223105-f7a132",
+  "check_policy_version": 6,
+  "plan_id": "IGT-1791497468917571676",
+  "evidence_id": "check-release",
+  "level": "release",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-10-08T22:31:33.431Z",
+  "ended_at": "2026-10-08T22:33:23.010Z",
+  "commit": "0c8f7a0599bb1b8c28fec48bb95a11a332a26556",
+  "input_fingerprint": "ff459cf5c7124381625ff57c5206d72ee12f734702d47b75f9ef7cb8a1d0e218",
+  "environment_fingerprint": "a9a342b68b20ef1291357098ab140bd321ffbd348aecc3a91a312972942e8441",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "9c15cc6351d89ec84712466fda3087b65e7e6e287014cac03e37bc022bc42ef7",
+  "acceptance_results": [],
+  "release_id": "inline-pstack-methods-v1",
+  "release_fingerprint": "86629d274eb57bdce235a8a81ef81997dda0ec30cbd178a81568a572e11d2c70",
+  "release_identity": {
+    "package_version": "0.1.0",
+    "tags": []
+  },
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "6d022dbedc1d00fcca7dddfbd1cb5eadb0ff0bdc"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 1031
+    },
+    {
+      "label": "build",
+      "command": ["corepack", "pnpm", "build"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 16190
+    },
+    {
+      "label": "e2e-production",
+      "command": ["corepack", "pnpm", "test:e2e:production"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 22310
+    }
+  ],
+  "log_sha256": "a14e1ffb2b931fdf14722d4b3942cbc08926ad9b896f4198725820d5b6f3a1fd",
+  "execution_source": "ignite-runner-local"
+}

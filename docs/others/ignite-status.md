@@ -10,11 +10,10 @@
 
 ## 发布范围
 
-- `inline-pstack-methods-v1` · `verifying`
+- `inline-pstack-methods-v1` · `done`
   - Plan：`IGT-1791497468917571676`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite release verify inline-pstack-methods-v1 --plan IGT-1791497468917571676
+  - 最终版本验收：passed（0c8f7a0599bb）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题

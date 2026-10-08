@@ -54,4 +54,4 @@ pstack 的工程原则、51 个主技能、23 个 playbook 及 Agent 定义保�
 
 可选 Bun 辅助工具有自己的依赖，不属于根应用 pnpm 安装。阅读或调用帮助不得自动安装；显式准备前先检查原生运行时，按工具依赖准备并独立验收。PR 观察脚本的 `--status-only` 结束或 `READY` 仅描述 forge 状态，不代表 Ignite Plan/Release 通过或获准合并。Git patch-id 也不能代替原生证据复用规则。
 
-来源为 Lauren Tan 的 pstack，MIT许可，上游快照 d0ef80d86795816da932a153458c5dbe192d294e。上游版权与 LICENSE 保留；[sources.json](sources.json)逐文件保存上游哈希、本地哈希与适配方式。上游工程方法保留；按用户要求移除未使用的机器人，来源排除记录保存在 sources.json；实际模型、工具与产物步骤已按本页映射修改。更新先比较来源差异，再更新真源和桥接元数据。
+来源为 Lauren Tan 的 pstack，MIT许可，上游快照 d0ef80d86795816da932a153458c5dbe192d294e。上游版权与 LICENSE 保留；[sources.json](sources.json)逐文件保存上游哈希、本地哈希与适配方式。上游工程方法保留；模板不包含问题报告机器人，来源排除范围保存在 sources.json；实际模型、工具与产物步骤已按本页映射修改。更新先比较来源差异，再更新真源和桥接元数据。

@@ -8,7 +8,7 @@
   "automation_skills": 0,
   "playbooks": 23,
   "upstream_files": 164,
-  "adaptation": "152 of 164 upstream paths retained with MIT attribution. The 12 Benny files are excluded at user request; original hashes remain in excluded_files. Methods and helpers are adapted to native Ignite records and actual host capabilities.",
+  "adaptation": "152 of 164 upstream paths retained with MIT attribution. The optional 12-file Slack issue-report automation is not included in this template; original hashes remain in excluded_files. Methods and helpers are adapted to native Ignite records and actual host capabilities.",
   "files": [
     {
       "path": ".cursor-plugin/plugin.json",
@@ -1086,62 +1086,62 @@
     {
       "path": "automations/benny/FOR_AGENTS.md",
       "upstream_sha256": "a125e317dec1b8731fdc71f404c669f1127a73af932f7a7b8b8744a5542328a7",
-      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+      "reason": "Optional Slack issue-report automation not included in this template."
     },
     {
       "path": "automations/benny/README.md",
       "upstream_sha256": "ca3c42cbb7f0bf7068f7407eb355815e6c234d5c2786942f3cbe751a3690024b",
-      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+      "reason": "Optional Slack issue-report automation not included in this template."
     },
     {
       "path": "automations/benny/skills/reproduce-and-fix-issues/SKILL.md",
       "upstream_sha256": "1363cc07343fe86aab42853b1bd4563288cbcbdf12f1c265b3b3b1afa25c09cb",
-      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+      "reason": "Optional Slack issue-report automation not included in this template."
     },
     {
       "path": "automations/benny/skills/reproduce-and-fix-issues/references/control-adapter.md",
       "upstream_sha256": "58b0615d2fca895f9a20df83266e280042b0d585b5f2fd324e2094a682fd846b",
-      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+      "reason": "Optional Slack issue-report automation not included in this template."
     },
     {
       "path": "automations/benny/skills/reproduce-and-fix-issues/references/feature-map.example.md",
       "upstream_sha256": "1e5c7c8522daec3e43fcc2e73ceb97289ded65b552949ce65a11cc8eb3d2b6ee",
-      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+      "reason": "Optional Slack issue-report automation not included in this template."
     },
     {
       "path": "automations/benny/skills/reproduce-and-fix-issues/references/verify-existing-fix.md",
       "upstream_sha256": "c90eae00abcdec71a58fa8d60f2c495b082a526ad50b8e8e494837609129bf29",
-      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+      "reason": "Optional Slack issue-report automation not included in this template."
     },
     {
       "path": "automations/benny/skills/setup-benny/SKILL.md",
       "upstream_sha256": "5a3cbe63360c9f6373b6cb6c79a1eaf7e0eba181bfaa1577e2e6431af3407282",
-      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+      "reason": "Optional Slack issue-report automation not included in this template."
     },
     {
       "path": "automations/benny/skills/triage-issue-reports/SKILL.md",
       "upstream_sha256": "216a758b8711e64d19a55e6032c496527daac6364d010611040f3c04ef1a448f",
-      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+      "reason": "Optional Slack issue-report automation not included in this template."
     },
     {
       "path": "automations/benny/skills/triage-issue-reports/references/routing.example.md",
       "upstream_sha256": "e5e53013692568cf69da8e8b302fff929fe2fbc9aec1a4651fd7997e2c7a4025",
-      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+      "reason": "Optional Slack issue-report automation not included in this template."
     },
     {
       "path": "automations/benny/templates/configuration.example.yaml",
       "upstream_sha256": "13e24b4ce9b9a0913916e85fe3b080b88d45f8e55dccfe8ae38e0751a997b6f5",
-      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+      "reason": "Optional Slack issue-report automation not included in this template."
     },
     {
       "path": "automations/benny/templates/reproduce-automation-prompt.md",
       "upstream_sha256": "71ec574f1844e379394ae4ef14c48d7df10afbaa319d395c788d7f856f0e6899",
-      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+      "reason": "Optional Slack issue-report automation not included in this template."
     },
     {
       "path": "automations/benny/templates/triage-automation-prompt.md",
       "upstream_sha256": "e0bba594547834f013ec805915610eb597e7929efe3ffbe85ae00339ee16d474",
-      "reason": "Removed at user request on 2026-10-08: unused Slack issue-report automation."
+      "reason": "Optional Slack issue-report automation not included in this template."
     }
   ]
 }

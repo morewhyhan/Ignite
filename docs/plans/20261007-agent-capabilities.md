@@ -47,7 +47,7 @@
     "docs/features/pstack-methods.md",
     "docs/designs/execution.md"
   ],
-  "remaining_work": ["运行原生integration和release并保存真实证据"],
+  "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "542ea1c4dba5a0468230970f8158093a2f97c7dc",
   "requirements": ["REQ-PSTACK-001", "REQ-PSTACK-002", "REQ-PSTACK-003"],
@@ -149,7 +149,7 @@
     "interfaces": ["项目内pstack技能真源与跨工具桥接"],
     "migrations": [],
     "tests": ["静态完整性、元数据与链接检查；不证明模型效果"],
-    "remaining": ["运行原生integration和release并保存真实证据"]
+    "remaining": []
   },
   "owner": "codex",
   "risk": "feature",
@@ -193,6 +193,10 @@
     {
       "id": "check-integration",
       "run_id": "run-20261008075158-fd8647"
+    },
+    {
+      "id": "check-release",
+      "run_id": "run-20261008075959-a481cb"
     }
   ],
   "blocker": null,
@@ -244,8 +248,8 @@
 - [x] T9 · 去除可共享的平台技能副本，清理失效入口和重复登记 · done
 - [x] T10 · 完成真实工程与生产浏览器验收，保留历史例外后发布精简模板 · done
 
-验收缺口：运行原生integration和release并保存真实证据
-证据：check-integration / run-20261008075158-fd8647
+验收缺口：未记录；完成仍须实际证据
+证据：check-integration / run-20261008075158-fd8647；check-release / run-20261008075959-a481cb
 <!-- /ignite-progress -->
 
 ## 状态
@@ -323,3 +327,7 @@
 ## 本次历史TDD例外与CI修复
 
 原迁移未产生实现前红灯，事实保留，不补造历史。用户于2026-10-08明确同意仅对此既有实现豁免历史红灯。本Plan使用现有verification_contract: 1兼容路径，要求真实check-integration和check-release；不修改未来Plan的contract: 2规则，也不减少类型、lint、格式、文档、全量单元、生产构建或浏览器验收。此前超时定位为WSL读取Windows挂载依赖；源文件与依赖放到Linux本地后，同一25秒断言无需修改即通过，全量177项通过。正式状态以后续原生运行记录为准。验收记录提交到历史后从模板快照移除，保留零Plan起点。
+
+## 本次真实验收结果
+
+REQ-PSTACK-001/002/003与AC-PSTACK-001/002/003由integration运行run-20261008075158-fd8647通过，完整177项测试和迁移检查通过，被测版本bf61d6e。release运行run-20261008075959-a481cb通过，生产构建及桌面/移动端12项浏览器行为通过，被测版本04c12ed。历史红灯缺失仅按上述用户授权处理，不声明曾运行红灯或验证所有AI宿主模型效果。后续精简快照保留相同业务与方法资产，只移除维护记录。

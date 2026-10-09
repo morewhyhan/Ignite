@@ -12,27 +12,39 @@
   "goals": [
     {
       "text": "原生 Plan 校验、状态转换和完整文档门禁共用实际标题与关联 Release 检查，不能用子串或代码示例冒充必需栏目",
-      "requirements": ["REQ-METHOD-007"]
+      "requirements": [
+        "REQ-METHOD-007"
+      ]
     },
     {
       "text": "开发前准备检查覆盖当前 Feature、Plan、Release 的完整结构和范围，明确区分未写测试、开工条件和实际验收",
-      "requirements": ["REQ-METHOD-008"]
+      "requirements": [
+        "REQ-METHOD-008"
+      ]
     },
     {
       "text": "读取所属方法同时保留未编号必需条款，条件分支仍需符合触发条件",
-      "requirements": ["REQ-METHOD-009"]
+      "requirements": [
+        "REQ-METHOD-009"
+      ]
     },
     {
       "text": "CLI 在加载业务依赖前检查 Node 真源，技能读取在无依赖克隆中可用",
-      "requirements": ["REQ-METHOD-010"]
+      "requirements": [
+        "REQ-METHOD-010"
+      ]
     },
     {
       "text": "只准备时用原模板生成 Feature、数字 ID Plan 和 Release，不生成业务源码或测试",
-      "requirements": ["REQ-METHOD-011"]
+      "requirements": [
+        "REQ-METHOD-011"
+      ]
     },
     {
       "text": "原始目标与验收逐项对应，不能借其他目标验收凑齐整体覆盖",
-      "requirements": ["REQ-METHOD-012"]
+      "requirements": [
+        "REQ-METHOD-012"
+      ]
     }
   ],
   "constraints": [
@@ -40,7 +52,11 @@
     "方法评价为正确取舍与真实结果，不以提速证明技能",
     "运行与验收使用 WSL/NVM；模型继续既有最便宜 GPT-5.6-luna low"
   ],
-  "non_goals": ["学生产品实现", "保证所有模型一遍无误", "重写历史任务或改变业务架构"],
+  "non_goals": [
+    "学生产品实现",
+    "保证所有模型一遍无误",
+    "重写历史任务或改变业务架构"
+  ],
   "authorization": {
     "source": "用户：围绕这件事情的本质，把实际导致效果不好的 bug 找到并解决。"
   },
@@ -63,8 +79,12 @@
   "acceptance": [
     {
       "id": "AC-METHOD-007",
-      "tests": ["tests/contracts/preparation-contract.test.ts::[AC-METHOD-007]"],
-      "required_layers": ["unit"],
+      "tests": [
+        "tests/contracts/preparation-contract.test.ts::[AC-METHOD-007]"
+      ],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
           "test": "tests/contracts/preparation-contract.test.ts::[AC-METHOD-007]",
@@ -74,8 +94,12 @@
     },
     {
       "id": "AC-METHOD-008",
-      "tests": ["tests/contracts/preparation-contract.test.ts::[AC-METHOD-008]"],
-      "required_layers": ["unit"],
+      "tests": [
+        "tests/contracts/preparation-contract.test.ts::[AC-METHOD-008]"
+      ],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
           "test": "tests/contracts/preparation-contract.test.ts::[AC-METHOD-008]",
@@ -85,8 +109,12 @@
     },
     {
       "id": "AC-METHOD-009",
-      "tests": ["tests/contracts/preparation-contract.test.ts::[AC-METHOD-009]"],
-      "required_layers": ["unit"],
+      "tests": [
+        "tests/contracts/preparation-contract.test.ts::[AC-METHOD-009]"
+      ],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
           "test": "tests/contracts/preparation-contract.test.ts::[AC-METHOD-009]",
@@ -96,8 +124,12 @@
     },
     {
       "id": "AC-METHOD-010",
-      "tests": ["tests/contracts/preparation-contract.test.ts::[AC-METHOD-010]"],
-      "required_layers": ["unit"],
+      "tests": [
+        "tests/contracts/preparation-contract.test.ts::[AC-METHOD-010]"
+      ],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
           "test": "tests/contracts/preparation-contract.test.ts::[AC-METHOD-010]",
@@ -107,8 +139,12 @@
     },
     {
       "id": "AC-METHOD-011",
-      "tests": ["tests/contracts/preparation-contract.test.ts::[AC-METHOD-011]"],
-      "required_layers": ["unit"],
+      "tests": [
+        "tests/contracts/preparation-contract.test.ts::[AC-METHOD-011]"
+      ],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
           "test": "tests/contracts/preparation-contract.test.ts::[AC-METHOD-011]",
@@ -118,8 +154,12 @@
     },
     {
       "id": "AC-METHOD-012",
-      "tests": ["tests/contracts/preparation-scope.test.ts::[AC-METHOD-012]"],
-      "required_layers": ["unit"],
+      "tests": [
+        "tests/contracts/preparation-scope.test.ts::[AC-METHOD-012]"
+      ],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
           "test": "tests/contracts/preparation-scope.test.ts::[AC-METHOD-012]",
@@ -128,7 +168,9 @@
       ]
     }
   ],
-  "verification_requirements": ["unit"],
+  "verification_requirements": [
+    "unit"
+  ],
   "tasks": [
     {
       "id": "T1",
@@ -207,7 +249,8 @@
     "docs/plans/20261009-preparation-contract.md",
     "docs/plans/releases/preparation-contract-v1.json",
     "docs/others/evidence/",
-    "docs/others/ignite-status.md"
+    "docs/others/ignite-status.md",
+    "tests/contracts/preparation-scope.test.ts"
   ],
   "tdd_evidence": [
     {
@@ -241,7 +284,9 @@
       "run_id": "tdd-20261009171343-ac0c6a"
     }
   ],
-  "required_evidence": ["check-integration"],
+  "required_evidence": [
+    "check-integration"
+  ],
   "evidence": [
     {
       "id": "check-integration",

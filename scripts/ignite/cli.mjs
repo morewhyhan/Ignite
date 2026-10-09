@@ -195,9 +195,12 @@ function commandPlanValidate(positionals, options) {
     const release = listReleases().find(({ value }) => value.id === plan.metadata?.release)?.value
     const errors = [
       ...validatePlan(plan, { allowLegacy: false }),
-      ...validatePlanReleaseContract(plan, release),
+      ...(plan.metadata?.status === 'draft' && !explicit
+        ? []
+        : validatePlanReleaseContract(plan, release)),
     ]
-    if (release) errors.push(...validateRelease(release))
+    if (release && (plan.metadata?.status !== 'draft' || explicit))
+      errors.push(...validateRelease(release))
     for (const error of errors) {
       failures.push(`${plan.relativePath}: ${error}`)
     }

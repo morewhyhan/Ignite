@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1791503770196694819",
   "release": "doc-maintenance-methods-v1",
-  "status": "verifying",
+  "status": "done",
   "outcome": "克隆后的AI按固定文档职责使用pstack核心方法，保持一套原生状态与准确验收范围",
   "contract_version": 2,
   "execution_contract": 1,
@@ -80,7 +80,7 @@
     {
       "id": "T3",
       "title": "同步入口、回写事实并完成原生验收",
-      "status": "doing"
+      "status": "done"
     }
   ],
   "depends_on": [],
@@ -127,10 +127,15 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261009002234-11d9ce"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "53733b1e8e7ea9b75775494942f843d9e4afed7c",
+  "integrated_commit": "9ef540702c8bff841eb91869c739d0b77beae354",
   "updated_at": "2026-10-09"
 }
 -->
@@ -191,14 +196,14 @@ tasks 是唯一任务状态：T1 保存原始目标与真实红灯，T2 实施�
 
 <!-- ignite-progress -->
 
-状态：`verifying`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 落实原始目标与真实合同红灯 · done
 - [x] T2 · 固定所属文档方法并修正技能和验收冲突 · done
-- [ ] T3 · 同步入口、回写事实并完成原生验收 · doing
+- [x] T3 · 同步入口、回写事实并完成原生验收 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20261009002234-11d9ce
 <!-- /ignite-progress -->
 
 ## 准出条件

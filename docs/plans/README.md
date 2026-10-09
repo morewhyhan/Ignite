@@ -2,6 +2,24 @@
 
 本页负责一轮工作怎样立项、选择行动、接续、纠偏和判断完成。每份具体 Plan 组织本轮目标与各专业产出；模板仅提供填写位置。
 
+## 固定维护方法
+
+本类文档先读齐本节必需技能正文。已有依赖时，在当前项目运行 `pnpm ignite skill read --for docs/plans/README.md`；未准备依赖时直接跟随下面的正文链接。
+
+新 Plan 声明 `task_contract: 1`。tasks 的 `phase` 只能为 prepare、red、implement、verify；red 与 implement 列出负责的 `acceptance` AC。每个实施任务前先列覆盖同一 AC 的 red 任务，原生校验会拒绝逆序或缺失阶段。开始或完成 implement、完成 red 时，原生任务命令核对有效红灯记录；只有任务标题写了“先测试”不算满足条件。旧 Plan 未声明此契约时保留兼容，不能据此推断它已遵守方法。
+
+写计划时先安排规格与真实断言、记录红灯、实现、验证和 Design 回写，再对照正文与 tasks 检查顺序一致。本轮仅写草稿或用户暂不运行测试时保留待办，不把未来红灯挪到实现之后。开始实现前使用 `pnpm ignite task set-status <ID> <task> doing` 检查前置条件；直接编辑文件仍须遵守同一规则，CLI 无法拦截宿主的任意文件写入。
+
+草稿回查时，每条 `required_layers` 都须在该 AC 的 `checks` 中有对应层级；真实数据库和浏览器检查分开映射。尚未编写的测试路径是后续设计，不是已通过证据。缺少对应检查时保留缺口，不能因为任务顺序正确就进入 ready。
+
+涉及本类文档时，先读取以下必需方法：[figure-it-out](../../.ai/pstack/skills/figure-it-out/SKILL.md)、[show-me-your-work](../../.ai/pstack/skills/show-me-your-work/SKILL.md)、[principle-sequence-verifiable-units](../../.ai/pstack/skills/principle-sequence-verifiable-units/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
+
+1. 接续覆盖本轮结果的未完成 Plan；确定原始目标、基线、写入范围、验收和回退，逐项映射 Feature REQ/AC。
+2. 按可验证结果安排 tasks，记录关键取舍及其依据；先解决阻止正确实现的事实缺口，不为了使用技能额外建立工作流或状态表。
+3. 按原生契约记录真实红灯、实现与验收，依据实际证据更新任务、状态与 Design；检查失败和完善仍留在同一 Plan。
+
+可独立产出的任务且宿主支持委派时，才按 [swarm](../../.ai/pstack/skills/swarm/SKILL.md) 拆分，并读取 [principle-separate-before-serializing-shared-state](../../.ai/pstack/skills/principle-separate-before-serializing-shared-state/SKILL.md)，明确写入范围、依赖与交接；共享文件先分工，再集成。存在真实竞争方案或高风险分歧时才采用 [arena](../../.ai/pstack/skills/arena/SKILL.md)、[interrogate](../../.ai/pstack/skills/interrogate/SKILL.md)。明确的小改动可以压缩分析，但不能省略必要记录与完成证据。
+
 ## 交付单位与状态
 
 先接续覆盖当前目标的未完成 Plan。新的独立交付结果才创建 Plan；已交付后的新改动建立存量 Plan 并保留原记录。API、页面、测试、失败修复、格式和设计回写是同一交付的子任务，不另建“收口”计划。
@@ -96,17 +114,3 @@ next 默认保留全部 goals、constraints、non_goals 与 tasks，是接续建
 具体产品保留自己的 Plan 与证据。Ignite 模板发布仅带说明和空白模板；建设记录提交后由 Git 保存，清理边界见 [采用规范](../standards/adoption.md)。零 Plan 是正常起点，不能创建虚假过程记录。
 
 重点选择参考 [NASA 决策分析](https://www.nasa.gov/reference/6-8-decision-analysis/) 的必要条件、竞争因素、不确定性和相称成本；阶段反馈借鉴 [目标进度监测研究](https://pubmed.ncbi.nlm.nih.gov/26479070/)。后者研究人，对 AI 的适用性仍需验证；作者判断、生成检查及结构校验不证明实际模型效果。
-
-## 固定维护方法
-
-新 Plan 声明 `task_contract: 1`。tasks 的 `phase` 只能为 prepare、red、implement、verify；red 与 implement 列出负责的 `acceptance` AC。每个实施任务前先列覆盖同一 AC 的 red 任务，原生校验会拒绝逆序或缺失阶段。开始或完成 implement、完成 red 时，原生任务命令核对有效红灯记录；只有任务标题写了“先测试”不算满足条件。旧 Plan 未声明此契约时保留兼容，不能据此推断它已遵守方法。
-
-写计划时先安排规格与真实断言、记录红灯、实现、验证和 Design 回写，再对照正文与 tasks 检查顺序一致。本轮仅写草稿或用户暂不运行测试时保留待办，不把未来红灯挪到实现之后。开始实现前使用 `pnpm ignite task set-status <ID> <task> doing` 检查前置条件；直接编辑文件仍须遵守同一规则，CLI 无法拦截宿主的任意文件写入。
-
-涉及本类文档时，先读取以下必需方法：[figure-it-out](../../.ai/pstack/skills/figure-it-out/SKILL.md)、[show-me-your-work](../../.ai/pstack/skills/show-me-your-work/SKILL.md)、[principle-sequence-verifiable-units](../../.ai/pstack/skills/principle-sequence-verifiable-units/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
-
-1. 接续覆盖本轮结果的未完成 Plan；确定原始目标、基线、写入范围、验收和回退，逐项映射 Feature REQ/AC。
-2. 按可验证结果安排 tasks，记录关键取舍及其依据；先解决阻止正确实现的事实缺口，不为了使用技能额外建立工作流或状态表。
-3. 按原生契约记录真实红灯、实现与验收，依据实际证据更新任务、状态与 Design；检查失败和完善仍留在同一 Plan。
-
-可独立产出的任务且宿主支持委派时，才按 [swarm](../../.ai/pstack/skills/swarm/SKILL.md) 拆分，并读取 [principle-separate-before-serializing-shared-state](../../.ai/pstack/skills/principle-separate-before-serializing-shared-state/SKILL.md)，明确写入范围、依赖与交接；共享文件先分工，再集成。存在真实竞争方案或高风险分歧时才采用 [arena](../../.ai/pstack/skills/arena/SKILL.md)、[interrogate](../../.ai/pstack/skills/interrogate/SKILL.md)。明确的小改动可以压缩分析，但不能省略必要记录与完成证据。

@@ -1,5 +1,21 @@
 # AI 工作台与真源标准
 
+## 固定维护方法
+
+本类文档先读齐本节必需技能正文。已有依赖时，在当前项目运行 `pnpm ignite skill read --for docs/standards/ai-agents.md`；未准备依赖时直接跟随下面的正文链接。
+
+必需技能优先读取所属规则的相对正文链接，或从当前仓库运行 `pnpm ignite skill read <name>`。宿主给出的 r0、r9 等短路径必须先按其目录表展开，不能把代号当文件夹或猜测个人技能前缀。发现路径失败后按技能名使用项目命令恢复；命令返回正文全文，错误地址可通过 `--path <地址>` 附带诊断。命令只读取当前仓库的 `.ai/skills/` 或 `.ai/pstack/skills/` 真源，不改文件、不安装依赖；缺少必需技能时报告缺口并停止依赖该方法的步骤。依赖尚未准备时直接读取上述实际正文链接，不为读技能安装另一套运行环境。
+
+必需方法只有成功读取正文并落实到产物才算完成。复查必须核对原规则与产物的矛盾，不能用技能名称清单替代核对；尤其核对 Plan 正文、tasks 的阶段和 AC 前置条件是否一致。
+
+涉及本类文档时，先读取以下必需方法：[correct](../../.ai/pstack/skills/correct/SKILL.md)、[principle-encode-lessons-in-structure](../../.ai/pstack/skills/principle-encode-lessons-in-structure/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
+
+1. 先用已有事实定位失败：缺上下文、入口错误、规则歧义、产品决定未定，还是未遵守已有规则；在对应 Plan 保留依据。
+2. 在原有职责位置修正条款，明确触发条件、必需动作、足够结果和边界；能由结构或工具可靠保证的约束优先编码，不能只加“更认真”。
+3. 对照受影响的规则、模板、方法与桥接消除矛盾；核查入口、链接和生成结果，回写 Feature、Design 与必要案例。
+
+用户要求反思或重大重复失误需要提炼长期教训时采用 [reflect](../../.ai/pstack/skills/reflect/SKILL.md)；不要求每次新增规则、ADR 或专门适配文件。涉及文档写作时，必须读取 [technical-writing](../../.ai/pstack/skills/technical-writing/SKILL.md) 与 [unslop](../../.ai/pstack/skills/unslop/SKILL.md)，使用原文档职责组织内容，保留事实、推测和未完成的区别。这两项写作方法适用于各类文档维护，不新增平行写作流程。
+
 ## 唯一规则真源
 
 项目级 AI 执行规则统一维护在根目录 [`AGENTS.md`](../../AGENTS.md)。工程专业标准维护在本目录，各类文档的编写、维护与验收标准维护在所属 README，沟通归 AGENTS。`CLAUDE.md`、`.cursor/rules/`、`.opencode/` 和 `.github/copilot-instructions.md` 都是入口桥接，不得复制长期规则。
@@ -51,17 +67,3 @@
 工具测试证明实际接续或生成行为，作者内容复核证明本次检查过哪些条款；它们不能证明真实模型已经减少偏移。模型效果按 [行为评估案例](../others/test-cases/execution-focus.md) 另行验证：运行前固定任务输入、事实、人的边界、模型版本、工具权限、预算、重复次数和判定；保留全部输出与失败，用独立任务检查泛化，由人复核关键判断。
 
 依据具体失败观察目标遗漏、错误重点、无关深挖、无信息重复、越权、错误完成与人工纠正。目标遗漏、越权与虚假完成不能被速度抵消；兼顾原本正常的案例，不能用一个成功说明所有模型有效。方法参考 [任务相关评估与人工校准](https://developers.openai.com/api/docs/guides/evaluation-best-practices)，属于工程实践依据。没有实际数据时只报告文档和工具交付及未验证范围。
-
-## 固定维护方法
-
-必需技能优先读取所属规则的相对正文链接，或从当前仓库运行 `pnpm ignite skill read <name>`。宿主给出的 r0、r9 等短路径必须先按其目录表展开，不能把代号当文件夹或猜测个人技能前缀。发现路径失败后按技能名使用项目命令恢复；命令返回正文全文，错误地址可通过 `--path <地址>` 附带诊断。命令只读取当前仓库的 `.ai/skills/` 或 `.ai/pstack/skills/` 真源，不改文件、不安装依赖；缺少必需技能时报告缺口并停止依赖该方法的步骤。依赖尚未准备时直接读取上述实际正文链接，不为读技能安装另一套运行环境。
-
-必需方法只有成功读取正文并落实到产物才算完成。复查必须核对原规则与产物的矛盾，不能用技能名称清单替代核对；尤其核对 Plan 正文、tasks 的阶段和 AC 前置条件是否一致。
-
-涉及本类文档时，先读取以下必需方法：[correct](../../.ai/pstack/skills/correct/SKILL.md)、[principle-encode-lessons-in-structure](../../.ai/pstack/skills/principle-encode-lessons-in-structure/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
-
-1. 先用已有事实定位失败：缺上下文、入口错误、规则歧义、产品决定未定，还是未遵守已有规则；在对应 Plan 保留依据。
-2. 在原有职责位置修正条款，明确触发条件、必需动作、足够结果和边界；能由结构或工具可靠保证的约束优先编码，不能只加“更认真”。
-3. 对照受影响的规则、模板、方法与桥接消除矛盾；核查入口、链接和生成结果，回写 Feature、Design 与必要案例。
-
-用户要求反思或重大重复失误需要提炼长期教训时采用 [reflect](../../.ai/pstack/skills/reflect/SKILL.md)；不要求每次新增规则、ADR 或专门适配文件。涉及文档写作时，必须读取 [technical-writing](../../.ai/pstack/skills/technical-writing/SKILL.md) 与 [unslop](../../.ai/pstack/skills/unslop/SKILL.md)，使用原文档职责组织内容，保留事实、推测和未完成的区别。这两项写作方法适用于各类文档维护，不新增平行写作流程。

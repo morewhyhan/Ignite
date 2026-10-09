@@ -148,7 +148,7 @@
         "AC-METHOD-011",
         "AC-METHOD-012"
       ],
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T3",
@@ -234,6 +234,11 @@
       "acceptance_id": "AC-METHOD-011",
       "test": "tests/contracts/preparation-contract.test.ts::[AC-METHOD-011]",
       "run_id": "tdd-20261009153520-372f83"
+    },
+    {
+      "acceptance_id": "AC-METHOD-012",
+      "test": "tests/contracts/preparation-scope.test.ts::[AC-METHOD-012]",
+      "run_id": "tdd-20261009171343-ac0c6a"
     }
   ],
   "required_evidence": ["check-integration"],
@@ -325,7 +330,7 @@
 状态：`active`（由元数据生成）
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
-- [ ] T2 · 提交真实行为测试并记录红灯 · doing
+- [x] T2 · 提交真实行为测试并记录红灯 · done
 - [ ] T3 · 实施最小存量修改 · todo
 - [ ] T4 · 验证兼容性并回写设计 · doing
 

@@ -104,7 +104,13 @@
     "docs/others/",
     "tests/contracts/document-method-entry.test.ts"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-METHOD-004",
+      "test": "tests/contracts/document-method-entry.test.ts::[AC-METHOD-004]",
+      "run_id": "tdd-20261009102933-b83d2b"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

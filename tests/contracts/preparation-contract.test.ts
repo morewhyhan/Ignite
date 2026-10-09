@@ -13,7 +13,9 @@ import {
 } from './ignite-fixture'
 
 const template = readFileSync(join(repositoryRoot, 'docs/plans/_template.md'), 'utf8')
-const body = template.slice(template.indexOf('-->') + 3).replaceAll('<change-name>', 'fixture')
+const body = [...template.matchAll(/^## .+$/gm)]
+  .map(([heading]) => `${heading}\n\nConcrete preparation details.\n`)
+  .join('\n')
 const ref = 'tests/api/future.test.ts::[AC-TEST-001]'
 const contract = {
   status: 'draft',
@@ -133,6 +135,7 @@ it('[AC-METHOD-008] validates preparation and complete scope without claiming fu
     const before = read(fixture.root, 'docs/plans/fixture.md')
     const result = runCli(fixture.root, 'plan', 'validate', 'IGT-900', '--prepare')
     expect(result.status, result.stderr).toBe(0)
+    expect(result.stdout).toMatch(/^\s*\{/)
     const value = JSON.parse(result.stdout)
     expect(value.status).toBe('prepared')
     expect(value.ready).toBe(false)

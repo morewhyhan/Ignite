@@ -191,7 +191,13 @@
     "docs/others/evidence/",
     "docs/others/ignite-status.md"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-METHOD-007",
+      "test": "tests/contracts/preparation-contract.test.ts::[AC-METHOD-007]",
+      "run_id": "tdd-20261009151721-02ddbe"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

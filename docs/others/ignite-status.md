@@ -1,21 +1,21 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`96122f78977a`
-当前 Plan：1；结构化历史：0；未迁移历史：0
+输入指纹：`9fa487ab4a37`
+当前 Plan：0；结构化历史：1；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-1791541445161140320` · `active` · `document-method-entry-v1`
+- 无。
 
 ## 发布范围
 
-- `document-method-entry-v1` · `active`
+- `document-method-entry-v1` · `verifying`
   - Plan：`IGT-1791541445161140320`
-  - 缺少证据：`IGT-1791541445161140320:check-integration`（stale：repository or Plan inputs changed after this run）
+  - 缺少证据：无
   - 最终版本验收：missing
-  - 下一步：pnpm ignite next --plan IGT-1791541445161140320
-  - 未完成原始目标：GOAL-001 文档维护入口能一次读取所属必需方法与共用写作方法，AI 按固定方法准备需求和计划
+  - 下一步：pnpm ignite release verify document-method-entry-v1 --plan IGT-1791541445161140320
+  - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题
 

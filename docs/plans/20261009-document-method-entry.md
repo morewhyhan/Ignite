@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1791541445161140320",
   "release": "document-method-entry-v1",
-  "status": "active",
+  "status": "done",
   "outcome": "文档维护入口能一次读取所属必需方法与共用写作方法，AI 按固定方法准备需求和计划",
   "contract_version": 2,
   "execution_contract": 1,
@@ -93,14 +93,14 @@
     {
       "id": "T6",
       "title": "消除结构化 Plan 正文重复类型要求",
-      "status": "doing",
+      "status": "done",
       "acceptance": ["AC-METHOD-005"],
       "phase": "implement"
     },
     {
       "id": "T4",
       "title": "验证兼容性并回写设计",
-      "status": "todo",
+      "status": "done",
       "phase": "verify"
     }
   ],
@@ -151,12 +151,12 @@
   "evidence": [
     {
       "id": "check-integration",
-      "run_id": "run-20261009105205-0a764f"
+      "run_id": "run-20261009110634-7c0bb9"
     }
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "c6c7e18116d3900dd3053576fa9da4b7c7930ddd",
   "updated_at": "2026-10-09"
 }
 -->
@@ -229,17 +229,19 @@ AC-METHOD-004 实际调用 CLI，要求所属必需方法与共用写作正文�
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
 - [x] T2 · 提交真实行为测试并记录红灯 · done
 - [x] T3 · 实施最小存量修改 · done
 - [x] T5 · 取得单一变更类型记录的真实红灯 · done
-- [ ] T6 · 消除结构化 Plan 正文重复类型要求 · doing
-- [ ] T4 · 验证兼容性并回写设计 · todo
+- [x] T6 · 消除结构化 Plan 正文重复类型要求 · done
+- [x] T4 · 验证兼容性并回写设计 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：check-integration / run-20261009105205-0a764f
+证据：check-integration / run-20261009110634-7c0bb9
 <!-- /ignite-progress -->
 
 2026-10-09：第二轮新会话自动读齐七份正文并安排先红灯后实现，草稿原生结构有效，但正文类型仍被文档检查器要求重复。当前 README 和模板都以顶部类型为准，检查器与真源矛盾。本 Plan 追加 AC-METHOD-005 修正门禁，不另建收口 Plan。读齐步骤发生在读取维护记录之前；试验只证明准备阶段，未实现学生系统。
+
+2026-10-09：最终 Plan integration run-20261009110634-7c0bb9 在 c6c7e18 通过，41 项回归及工程门禁通过，AC-METHOD-004/005 均有匹配红绿证据。第二轮模型工具事件确认七份全文均读取，无上层路径和漏读，tasks 阶段与 AC 正确、层级都有对应检查。学生副本的原生 Plan 结构验证通过；它仍是禁止写测试的准备草稿，未生成 Release、真实断言或应用实现。使用新检查器复核该副本，正文类型重复要求已消除，但业务规则语法未采用模板 R/REQ 形式，且没有关联 Release 或自动化用例，因此文档门禁仍拒绝。不能宣称学生草稿已 ready 或学生系统已交付。这些准备与后续实施的缺口保留在观察记录中，不以方法调用成功掩盖。原始观察在 TEMP/自动使用复验.md，两轮失败/成功均保留。

@@ -1092,7 +1092,6 @@ export function validateRelease(
     }
     if ((release.evidence || []).filter((item) => item?.id === 'check-release').length > 1)
       failures.push('Release may bind only one current check-release run')
-    failures.push(...validateReleaseAcceptanceCoverage(release, plansById))
   } else {
     const declaredEvidence = new Set(
       (release.plan_ids || []).flatMap(
@@ -1106,6 +1105,7 @@ export function validateRelease(
       if (!release.must_pass?.includes(id)) failures.push(`release omits required evidence ${id}`)
     }
   }
+  failures.push(...validateReleaseAcceptanceCoverage(release, plansById))
   if (!Array.isArray(release.excluded)) failures.push('release excluded must be an array')
   else {
     if (release.excluded.some((item) => typeof item !== 'string' || !item.trim())) {

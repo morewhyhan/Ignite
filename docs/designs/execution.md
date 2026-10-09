@@ -101,3 +101,5 @@ Release scope 的纳入项必须关联负责 Plan 的 REQ/AC；延期、授权�
 方法入口同时返回固定维护节中的编号与未编号必需条款，条件方法有独立边界；技能命令通过只含 Node 标准库的入口执行，未安装依赖的新克隆也可读取。Node 契约在重依赖加载前核对，错误版本先提示修复环境。新模块的 --docs-only 入口使用原模板，仅生成 Feature、Plan、Release，未来业务代码和测试保留待办。
 
 准备检查同时验证每个 Release 目标内部的 REQ/AC 对应，整体齐全不能掩盖单个目标挂错验收。prepared 只说明文档结构，ready 字段决定是否具备正式开工条件，行为和 Release 验收仍另行运行。
+
+Release 范围覆盖由 coverage_version 决定，旧验收契约不能绕过其已声明的 coverage_version 2 对应关系检查。

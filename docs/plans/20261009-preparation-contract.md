@@ -250,7 +250,9 @@
     "docs/plans/releases/preparation-contract-v1.json",
     "docs/others/evidence/",
     "docs/others/ignite-status.md",
-    "tests/contracts/preparation-scope.test.ts"
+    "tests/contracts/preparation-scope.test.ts",
+    "AGENTS.md",
+    "docs/standards/adoption.md"
   ],
   "tdd_evidence": [
     {

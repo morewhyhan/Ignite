@@ -17,6 +17,7 @@
     "ignite:status": "node scripts/ignite.mjs status --write",
     "ignite:plan": "node scripts/ignite.mjs plan validate",
     "ignite:check": "node scripts/ignite.mjs check",
+    "delivery:check": "node scripts/ignite.mjs validate --delivery",
     "runtime:check": "node scripts/runtime-doctor.mjs",
     "preflight": "node scripts/runtime-doctor.mjs --preflight",
     "typecheck": "next typegen && prisma generate && tsc --noEmit",

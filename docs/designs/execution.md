@@ -26,6 +26,10 @@
 - Plan：一项交付的目标、真实测试与当前集成证据完整，才可置为 done。
 - Release：全部纳入 Plan 完成后，在同一最终提交运行生产构建和全量生产态 E2E；不借用不同提交的零散绿色结果。
 
+`pnpm delivery:check --plan <ID>` 调用 `validate --delivery`，从完成 Plan 的 `base_commit` 取得本轮范围；也可显式给 `--base <40位commit>`。入口要求真实祖先基线，复用 CI 的完成 Plan 和受测内容覆盖检查，并包含工作区、暂存和未跟踪文件。HEAD、工作区和暂存内容分别与受测文件比较，恢复工作区不能掩盖暂存漂移，未跟踪业务文件不由旧记录覆盖。任意非完成 Plan 或不一致的受测内容都不能覆盖业务修改。
+
+该只读入口不生成运行回执、不修改 Plan，不代替工程、Plan、Release 的真实运行。普通 `check` 和构建不承担交付覆盖含义。CI 仍使用事件提供的 DIFF_BASE 和原有历史模板恢复分支；本地基线不从最近提交或远端分支猜测。宿主任意写入和文本完成报告仍无法由仓库 CLI 拦截。
+
 新 Plan 使用 `execution_contract: 1`、`verification_contract: 2`；新 Release 使用 `coverage_version: 2`、`verification_contract: 2`。历史契约按原版本解释。检查策略版本由 `checks.mjs` 的 `CHECK_POLICY_VERSION` 定义，运行清单固定当时策略，不在文档复制版本号。
 
 Release scope 逐条连接原始目标、来源、REQ、AC 和负责 Plan。延期保持未完成；排除需要明确授权。结构校验只能证明映射完整，AI 仍需核对自然语言目标。数据归属、访问依据、迁移与回退由 Plan 的 `data_contract` 声明。

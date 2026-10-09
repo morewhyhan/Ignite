@@ -4,6 +4,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import {
   changedFilesSince,
+  changedFilesInWorkspace,
   gitCommitExists,
   gitLines,
   isAncestor,
@@ -365,10 +366,19 @@ function retiredTemplatePlans(base, failures) {
   return candidates
 }
 
-export function validateCiCompletion() {
+export function validateCiCompletion({
+  baseCommit = process.env.DIFF_BASE,
+  includeWorkingTree = false,
+} = {}) {
   const failures = []
   const currentPlans = listPlans().filter((plan) => plan.metadata?.schema === 2)
-  const diffBase = process.env.DIFF_BASE
+  const diffBase = baseCommit
+  if (includeWorkingTree && !diffBase) return ['Delivery requires a real baseline commit']
+  if (includeWorkingTree && !gitCommitExists(diffBase))
+    return [`Delivery baseline is not a real commit: ${diffBase}`]
+  if (includeWorkingTree && !isAncestor(diffBase))
+    return [`Delivery baseline must be an ancestor of HEAD: ${diffBase}`]
+  const label = includeWorkingTree ? 'Delivery' : 'CI'
   const firstPush = /^0{40}$/.test(diffBase || '')
   const effectiveBase = firstPush
     ? runGit(['rev-list', '--max-parents=0', 'HEAD']).stdout.split(/\r?\n/)[0]
@@ -387,7 +397,7 @@ export function validateCiCompletion() {
   for (const plan of selectedPlans) {
     if (!['done', 'cancelled', 'superseded'].includes(plan.metadata.status)) {
       failures.push(
-        `CI requires ${plan.metadata.id} to be terminal; current status is ${plan.metadata.status}`,
+        `${label} requires ${plan.metadata.id} to be terminal; current status is ${plan.metadata.status}`,
       )
     }
   }
@@ -410,25 +420,37 @@ export function validateCiCompletion() {
           isAncestor(effectiveBase, plan.metadata.integrated_commit) &&
           isAncestor(plan.metadata.integrated_commit, 'HEAD'),
       )
-      for (const path of changedFilesSince(effectiveBase)) {
+      const workspaceChanges = includeWorkingTree ? changedFilesInWorkspace() : []
+      const untracked = new Set(
+        includeWorkingTree ? gitLines(['ls-files', '--others', '--exclude-standard']) : [],
+      )
+      for (const path of new Set([...changedFilesSince(effectiveBase), ...workspaceChanges])) {
         // Small prose/asset edits remain protected by CI docs and format checks;
         // they do not need a fabricated business Plan or receipt.
         if (minimumLevel([path]) === 'dev') continue
         if (
           !coveringPlans.some(({ plan, manifests }) => {
             if (validateWriteScope(plan, [path]).length !== 0) return false
+            if (untracked.has(path)) return false
             return plan.metadata.evidence.some((binding) => {
               const testedCommit = manifests.get(binding.run_id)?.commit
               return (
                 gitCommitExists(testedCommit) &&
                 runGit(['diff', '--quiet', testedCommit, 'HEAD', '--', path], {
                   allowFailure: true,
-                }).exitCode === 0
+                }).exitCode === 0 &&
+                (!includeWorkingTree ||
+                  (runGit(['diff', '--quiet', testedCommit, '--', path], {
+                    allowFailure: true,
+                  }).exitCode === 0 &&
+                    runGit(['diff', '--cached', '--quiet', testedCommit, '--', path], {
+                      allowFailure: true,
+                    }).exitCode === 0))
               )
             })
           })
         ) {
-          failures.push(`CI change is not covered by a completed Plan write_scope: ${path}`)
+          failures.push(`${label} change is not covered by a completed Plan write_scope: ${path}`)
         }
       }
     }

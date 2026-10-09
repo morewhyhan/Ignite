@@ -45,6 +45,12 @@
 
 - R22（REQ-METHOD-006）：按所属文档读取方法时，一并返回该真源的编号必需步骤。Feature 的 REQ 语法与 Plan 关联 Release 草稿关系在原所属步骤写清，不另建适配规则。
 
+- R23（REQ-METHOD-007）：原生 Plan 校验、状态转换和完整文档门禁共用实际标题与关联 Release 检查，不能用子串或代码示例冒充必需栏目。
+- R24（REQ-METHOD-008）：开发前准备检查覆盖当前 Feature、Plan、Release 的完整结构和范围，明确区分未写测试、开工条件和实际验收。
+- R25（REQ-METHOD-009）：读取所属方法同时保留未编号必需条款，条件分支仍需符合触发条件。
+- R26（REQ-METHOD-010）：CLI 在加载业务依赖前检查 Node 真源，技能读取在无依赖克隆中可用。
+- R27（REQ-METHOD-011）：只准备时用原模板生成 Feature、数字 ID Plan 和 Release，不生成业务源码或测试。
+
 ## 权限、错误与缓存
 
 - 不允许因缺少 `userId` 字段就推断数据模型错误；由 Feature 明确用户、角色、组织或共享数据边界。
@@ -86,3 +92,9 @@
 - AC-METHOD-005（REQ-METHOD-005）：Given 结构化 Plan 只在顶部记录有效变更类型 When 执行真实文档门禁 Then 不因正文没有重复字段而失败；顶部类型非法时仍拒绝。
 
 - AC-METHOD-006（REQ-METHOD-006）：Given 所属文档有编号必需步骤与条件方法 When 按所属文档读取方法 Then 原编号步骤和完整必需正文一起返回，条件技能正文不自动加载。模型是否正确写出配套文档另以实际观察判定。
+
+- AC-METHOD-007（REQ-METHOD-007）：Given 当前项目相应规则与准备稿 When 调用原生工具 Then 原生 Plan 校验、状态转换和完整文档门禁共用实际标题与关联 Release 检查，不能用子串或代码示例冒充必需栏目，真实行为断言验证结果；不冒充模型或产品交付。
+- AC-METHOD-008（REQ-METHOD-008）：Given 当前项目相应规则与准备稿 When 调用原生工具 Then 开发前准备检查覆盖当前 Feature、Plan、Release 的完整结构和范围，明确区分未写测试、开工条件和实际验收，真实行为断言验证结果；不冒充模型或产品交付。
+- AC-METHOD-009（REQ-METHOD-009）：Given 当前项目相应规则与准备稿 When 调用原生工具 Then 读取所属方法同时保留未编号必需条款，条件分支仍需符合触发条件，真实行为断言验证结果；不冒充模型或产品交付。
+- AC-METHOD-010（REQ-METHOD-010）：Given 当前项目相应规则与准备稿 When 调用原生工具 Then CLI 在加载业务依赖前检查 Node 真源，技能读取在无依赖克隆中可用，真实行为断言验证结果；不冒充模型或产品交付。
+- AC-METHOD-011（REQ-METHOD-011）：Given 当前项目相应规则与准备稿 When 调用原生工具 Then 只准备时用原模板生成 Feature、数字 ID Plan 和 Release，不生成业务源码或测试，真实行为断言验证结果；不冒充模型或产品交付。

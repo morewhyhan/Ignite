@@ -59,6 +59,17 @@
       "disposition": "included",
       "reason": "纳入当前交付",
       "authorization": ""
+    },
+    {
+      "id": "GOAL-METHOD-012",
+      "text": "原始目标与验收逐项对应，不能借其他目标验收凑齐整体覆盖",
+      "source": "用户要求找出修复实际 bug；新冷会话观察到对应关系漏检",
+      "requirements": ["REQ-METHOD-012"],
+      "acceptance": ["AC-METHOD-012"],
+      "plan_ids": ["IGT-1791557113512648376"],
+      "disposition": "included",
+      "reason": "同一交付的准备完整性修复",
+      "authorization": ""
     }
   ],
   "must_pass": ["check-release"],

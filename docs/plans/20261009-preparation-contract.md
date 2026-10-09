@@ -29,6 +29,10 @@
     {
       "text": "只准备时用原模板生成 Feature、数字 ID Plan 和 Release，不生成业务源码或测试",
       "requirements": ["REQ-METHOD-011"]
+    },
+    {
+      "text": "原始目标与验收逐项对应，不能借其他目标验收凑齐整体覆盖",
+      "requirements": ["REQ-METHOD-012"]
     }
   ],
   "constraints": [
@@ -53,7 +57,8 @@
     "REQ-METHOD-008",
     "REQ-METHOD-009",
     "REQ-METHOD-010",
-    "REQ-METHOD-011"
+    "REQ-METHOD-011",
+    "REQ-METHOD-012"
   ],
   "acceptance": [
     {
@@ -110,6 +115,17 @@
           "layer": "unit"
         }
       ]
+    },
+    {
+      "id": "AC-METHOD-012",
+      "tests": ["tests/contracts/preparation-scope.test.ts::[AC-METHOD-012]"],
+      "required_layers": ["unit"],
+      "checks": [
+        {
+          "test": "tests/contracts/preparation-scope.test.ts::[AC-METHOD-012]",
+          "layer": "unit"
+        }
+      ]
     }
   ],
   "verification_requirements": ["unit"],
@@ -129,9 +145,10 @@
         "AC-METHOD-008",
         "AC-METHOD-009",
         "AC-METHOD-010",
-        "AC-METHOD-011"
+        "AC-METHOD-011",
+        "AC-METHOD-012"
       ],
-      "status": "done"
+      "status": "doing"
     },
     {
       "id": "T3",
@@ -142,9 +159,10 @@
         "AC-METHOD-008",
         "AC-METHOD-009",
         "AC-METHOD-010",
-        "AC-METHOD-011"
+        "AC-METHOD-011",
+        "AC-METHOD-012"
       ],
-      "status": "done"
+      "status": "todo"
     },
     {
       "id": "T4",
@@ -219,7 +237,12 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261009163237-0abc02"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
@@ -291,6 +314,8 @@
 
 2026-10-10：首次 integration 的工程门禁与五条新增 AC 通过；全量契约发现无关草稿被强制关联 Release，以及旧红灯文件未从活动证据退休。修复批量草稿校验兼容性，保留显式准备检查与状态晋级严格性；旧红灯由 Git 历史保留，活动记录只保留最终冻结测试的五条真实红灯。
 
+2026-10-10：新冷会话自读七份方法并自动运行 prepare，按反馈自行修正，但原始目标的刷新 REQ 仍借其他目标 AC 被整体覆盖检查放过，且最后误称可开工。增加同目标 REQ/AC 对应断言；准备状态不冒充 ready，并在原 Plan 所属条款明确状态报告与已完成准备任务更新。初次 Windows/错误 NVM 调用及最终准备稿的缺口保留。
+
 ## 准出条件
 
 所有 AC 实际红绿，原工具兼容与正式Plan/Release证据有效；模型观察如实保留初稿、纠正和缺口，不把草稿当已实现学生功能。
@@ -300,10 +325,10 @@
 状态：`active`（由元数据生成）
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
-- [x] T2 · 提交真实行为测试并记录红灯 · done
-- [x] T3 · 实施最小存量修改 · done
+- [ ] T2 · 提交真实行为测试并记录红灯 · doing
+- [ ] T3 · 实施最小存量修改 · todo
 - [ ] T4 · 验证兼容性并回写设计 · doing
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20261009163237-0abc02
 <!-- /ignite-progress -->

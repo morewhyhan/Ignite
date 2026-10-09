@@ -1,0 +1,133 @@
+{
+  "schema": 2,
+  "run_id": "run-20261009163237-0abc02",
+  "check_policy_version": 6,
+  "plan_id": "IGT-1791557113512648376",
+  "evidence_id": "check-integration",
+  "level": "integration",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-10-09T16:32:38.342Z",
+  "ended_at": "2026-10-09T16:34:19.654Z",
+  "commit": "569522806ee449197027da312ef25f1f44688d62",
+  "input_fingerprint": "2d798e00b47bce7fb497531954b36f67a761df39ef28301551367c8c98dbe19c",
+  "environment_fingerprint": "a9a342b68b20ef1291357098ab140bd321ffbd348aecc3a91a312972942e8441",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "cb507ef10e2d2a2d0bfc43bfa56b392405bab9cce8d1bd1a15fcd7313e41d48c",
+  "acceptance_results": [
+    {
+      "plan_id": "IGT-1791557113512648376",
+      "criterion": "AC-METHOD-007",
+      "test": "tests/contracts/preparation-contract.test.ts::[AC-METHOD-007]",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791557113512648376",
+      "criterion": "AC-METHOD-008",
+      "test": "tests/contracts/preparation-contract.test.ts::[AC-METHOD-008]",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791557113512648376",
+      "criterion": "AC-METHOD-009",
+      "test": "tests/contracts/preparation-contract.test.ts::[AC-METHOD-009]",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791557113512648376",
+      "criterion": "AC-METHOD-010",
+      "test": "tests/contracts/preparation-contract.test.ts::[AC-METHOD-010]",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791557113512648376",
+      "criterion": "AC-METHOD-011",
+      "test": "tests/contracts/preparation-contract.test.ts::[AC-METHOD-011]",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    }
+  ],
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "4d93b7300a937e5b903be1ea936be0ba1a065c88"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 355
+    },
+    {
+      "label": "template-doctor",
+      "command": ["corepack", "pnpm", "template:doctor"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 495
+    },
+    {
+      "label": "governance",
+      "command": ["corepack", "pnpm", "ignite", "validate"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 1721
+    },
+    {
+      "label": "docs",
+      "command": ["corepack", "pnpm", "docs:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 1529
+    },
+    {
+      "label": "typecheck",
+      "command": ["corepack", "pnpm", "typecheck"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 3901
+    },
+    {
+      "label": "lint",
+      "command": ["corepack", "pnpm", "lint"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 5320
+    },
+    {
+      "label": "format",
+      "command": ["corepack", "pnpm", "format:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 4187
+    },
+    {
+      "label": "tests",
+      "command": ["corepack", "pnpm", "test"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 79548
+    }
+  ],
+  "log_sha256": "ae827bf3449758bad98c9b1255982cc9d257acbf2c2a0f3e406bb606f77f09f7",
+  "execution_source": "ignite-runner-local"
+}

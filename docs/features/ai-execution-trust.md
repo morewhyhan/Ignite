@@ -51,6 +51,8 @@
 - R26（REQ-METHOD-010）：CLI 在加载业务依赖前检查 Node 真源，技能读取在无依赖克隆中可用。
 - R27（REQ-METHOD-011）：只准备时用原模板生成 Feature、数字 ID Plan 和 Release，不生成业务源码或测试。
 
+- R28（REQ-METHOD-012）：每个原始目标列入的 REQ 必须在该目标中有对应 AC；其他目标的验收不能掩盖本目标的错误对应。
+
 ## 权限、错误与缓存
 
 - 不允许因缺少 `userId` 字段就推断数据模型错误；由 Feature 明确用户、角色、组织或共享数据边界。
@@ -98,3 +100,5 @@
 - AC-METHOD-009（REQ-METHOD-009）：Given 当前项目相应规则与准备稿 When 调用原生工具 Then 读取所属方法同时保留未编号必需条款，条件分支仍需符合触发条件，真实行为断言验证结果；不冒充模型或产品交付。
 - AC-METHOD-010（REQ-METHOD-010）：Given 当前项目相应规则与准备稿 When 调用原生工具 Then CLI 在加载业务依赖前检查 Node 真源，技能读取在无依赖克隆中可用，真实行为断言验证结果；不冒充模型或产品交付。
 - AC-METHOD-011（REQ-METHOD-011）：Given 当前项目相应规则与准备稿 When 调用原生工具 Then 只准备时用原模板生成 Feature、数字 ID Plan 和 Release，不生成业务源码或测试，真实行为断言验证结果；不冒充模型或产品交付。
+
+- AC-METHOD-012（REQ-METHOD-012）：Given Release 总体 REQ/AC 齐全但某目标列出的一个 REQ 只在其他目标有对应 AC When 执行准备检查 Then 拒绝并指出目标及 REQ；修正同一目标的对应关系后才允许结构合格。

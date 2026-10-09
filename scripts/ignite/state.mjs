@@ -45,6 +45,7 @@ import {
   renderPlanProgressContent,
   validateDataContract,
   validateExecutionContract,
+  validateTaskOrder,
   validateReleaseScope,
 } from './execution-contract.mjs'
 export { acceptanceTestTitles } from './source-analysis.mjs'
@@ -548,6 +549,19 @@ export function validatePlan(
           else validTdd.add(item.acceptance_id)
         } catch {
           failures.push(`${item.acceptance_id}: TDD runner record is not valid JSON`)
+        }
+      }
+      if (value.task_contract === 1) {
+        for (const task of value.tasks || []) {
+          if (
+            (task.phase === 'implement' && ['doing', 'done'].includes(task.status)) ||
+            (task.phase === 'red' && task.status === 'done')
+          ) {
+            for (const id of task.acceptance || []) {
+              if (!validTdd.has(id))
+                failures.push(`${task.id}: ${id} requires valid red evidence before implementation`)
+            }
+          }
         }
       }
       if (value.status === 'done') {
@@ -1628,6 +1642,25 @@ export function updatePlanTask(planId, taskId, status) {
     throw new Error('tasks can only be changed on an unfinished execution_contract 1 Plan')
   if (!plan.metadata.tasks.some((task) => task.id === taskId))
     throw new Error(`unknown task ${taskId}`)
+  if (plan.metadata.task_contract === 1) {
+    const candidate = structuredClone(plan)
+    const task = candidate.metadata.tasks.find((item) => item.id === taskId)
+    task.status = status
+    const errors = validateTaskOrder(candidate.metadata)
+    if (
+      (task.phase === 'implement' && status !== 'todo') ||
+      (task.phase === 'red' && status === 'done')
+    ) {
+      if (candidate.metadata.status !== 'active')
+        errors.push('Start an active Plan before recording red or implementation progress')
+      errors.push(
+        ...validatePlan(candidate).filter((error) =>
+          /TDD|tdd_evidence|requires valid red evidence/i.test(error),
+        ),
+      )
+    }
+    if (errors.length) throw new Error(errors.join('\n'))
+  }
   const updated = updatePlanMetadata(plan, (metadata) => {
     metadata.tasks.find((task) => task.id === taskId).status = status
     metadata.updated_at = new Date().toISOString().slice(0, 10)

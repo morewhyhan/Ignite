@@ -7,6 +7,7 @@
   "outcome": "完成后谁能多做哪件事",
   "contract_version": 2,
   "execution_contract": 1,
+  "task_contract": 1,
   "verification_contract": 2,
   "goals": [{ "text": "用户可验证的目标", "requirements": ["REQ-FEATURE-001"] }],
   "constraints": ["必须保留的能力或数据"],
@@ -26,7 +27,12 @@
     }
   ],
   "verification_requirements": ["unit"],
-  "tasks": [{ "id": "T1", "title": "确认规格与验收", "status": "todo" }],
+  "tasks": [
+    { "id": "T1", "title": "确认规格与验收", "phase": "prepare", "status": "todo" },
+    { "id": "T2", "title": "提交行为断言并记录真实红灯", "phase": "red", "acceptance": ["AC-FEATURE-001"], "status": "todo" },
+    { "id": "T3", "title": "根据已有红灯实施", "phase": "implement", "acceptance": ["AC-FEATURE-001"], "status": "todo" },
+    { "id": "T4", "title": "验证同一行为并回写设计", "phase": "verify", "status": "todo" }
+  ],
   "depends_on": [],
   "dependency_contracts": [],
   "shared_files": [],

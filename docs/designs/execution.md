@@ -18,6 +18,10 @@
 
 ## 三层完成条件
 
+项目技能由 `pnpm ignite skill read <name>` 从当前仓库的 `.ai/skills/` 或 `.ai/pstack/skills/` 真源读取；错误发现地址可附带 `--path`，命令按名字恢复并说明恢复位置，真源缺失明确失败。实现入口是 `scripts/ignite/skill-reader.mjs`，不安装依赖、不写文件、不从上层项目借用技能。
+
+新模板与脚手架声明 `task_contract: 1`，tasks 用 phase 区分 prepare、red、implement、verify，red 与 implement 关联实际 AC。`execution-contract.mjs` 校验同 AC 红灯任务先于实施；`state.mjs` 在开始或完成实施任务、完成红灯任务时复用原生红灯证明校验。阶段和 AC 映射纳入输入契约，任务状态更新不改变契约。旧 Plan 不自动迁移；宿主任意文件写入无法由 CLI 拦截，方法是否自发读取仍须在实际宿主中观察。
+
 - 工程门禁：结构、类型、Lint、格式和适用的迁移检查通过。
 - Plan：一项交付的目标、真实测试与当前集成证据完整，才可置为 done。
 - Release：全部纳入 Plan 完成后，在同一最终提交运行生产构建和全量生产态 E2E；不借用不同提交的零散绿色结果。

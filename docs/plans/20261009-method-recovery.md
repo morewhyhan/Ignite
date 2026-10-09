@@ -64,22 +64,28 @@
     {
       "status": "done",
       "title": "确认规则与真实行为测试",
-      "id": "T1"
+      "id": "T1",
+      "phase": "prepare"
     },
     {
       "status": "done",
       "title": "记录三个 AC 的真实红灯",
-      "id": "T2"
+      "id": "T2",
+      "phase": "red",
+      "acceptance": ["AC-METHOD-001", "AC-METHOD-002", "AC-METHOD-003"]
     },
     {
-      "status": "todo",
+      "status": "done",
       "title": "实施路径恢复与任务前置约束",
-      "id": "T3"
+      "id": "T3",
+      "phase": "implement",
+      "acceptance": ["AC-METHOD-001", "AC-METHOD-002", "AC-METHOD-003"]
     },
     {
-      "status": "todo",
+      "status": "doing",
       "title": "验证、回写事实设计和采用边界",
-      "id": "T4"
+      "id": "T4",
+      "phase": "verify"
     }
   ],
   "depends_on": [],
@@ -109,7 +115,8 @@
     "docs/plans/",
     "docs/standards/",
     "docs/designs/",
-    "docs/others/evidence/tdd/"
+    "docs/others/evidence/tdd/",
+    "docs/others/ignite-status.md"
   ],
   "tdd_evidence": [
     {
@@ -133,7 +140,8 @@
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
-  "updated_at": "2026-10-09"
+  "updated_at": "2026-10-09",
+  "task_contract": 1
 }
 -->
 
@@ -153,7 +161,7 @@
 
 ## 设计回写
 
-docs/designs/architecture.md 记录当前技能命令与任务契约；docs/standards/adoption.md 记录模板自动触发和宿主执行的采用边界。
+docs/designs/execution.md 记录当前技能命令与任务契约；docs/standards/adoption.md 记录模板自动触发和宿主执行的采用边界。
 
 ## 状态记录
 
@@ -165,8 +173,8 @@ docs/designs/architecture.md 记录当前技能命令与任务契约；docs/stan
 
 - [x] T1 · 确认规则与真实行为测试 · done
 - [x] T2 · 记录三个 AC 的真实红灯 · done
-- [ ] T3 · 实施路径恢复与任务前置约束 · todo
-- [ ] T4 · 验证、回写事实设计和采用边界 · todo
+- [x] T3 · 实施路径恢复与任务前置约束 · done
+- [ ] T4 · 验证、回写事实设计和采用边界 · doing
 
 验收缺口：未记录；完成仍须实际证据
 证据：尚无

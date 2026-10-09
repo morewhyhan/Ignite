@@ -31,6 +31,8 @@ Use architect for a consequential unresolved shape, not mechanical work. Compare
 
 ## Phase C: Execute and observe
 
+New native Plans use `task_contract: 1` with prepare, red, implement and verify phases. Link red and implement tasks to their actual acceptance IDs, with red before the implementation it covers. Before implementation, use the native task status command to check valid red proof. Compare the Plan prose with its structured task sequence before handing it back. The owning Plan rules define this contract; do not move red after implementation when the current turn only prepares a draft.
+
 For each unit, state what observable result the change should produce, make the smallest useful change, and inspect the real artifact. Keep a successful change; correct or reverse one that does not advance the goal. Follow the project's TDD and verification rules where applicable, without turning subjective method writing into a benchmark.
 
 Verify important units before building on them. Reuse an active or passed native check for unchanged inputs instead of repeatedly running it. Judge delegated work from source and evidence, not self-report. A false gate must be corrected under the same delivery's Plan; do not create an extra closure Plan. An inconclusive or skipped result is not a pass.

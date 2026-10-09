@@ -94,7 +94,7 @@ export async function synchronize(root, write = false) {
   )
   schedule(
     join(methods, 'CATALOG.md'),
-    '# pstack 技能目录\n\n按任务读取，正文只维护在真源。需要完整工程流程时，用户启用 [poteto-mode](skills/poteto-mode/SKILL.md)，由 AI 选择流程与技能。项目文档位置和工具使用要求直接写在对应方法中。\n\n| 技能 | 用途 / 调用条件 |\n| --- | --- |\n' +
+    '# pstack 技能目录\n\n按任务读取，正文只维护在真源。涉及项目修改或文档维护时，默认执行所属文档规则的固定方法，无需用户启用 [poteto-mode](skills/poteto-mode/SKILL.md)。从当前仓库运行 `pnpm ignite skill read <name>` 读取正文；发现地址错误时按技能名恢复，不把路径代号当文件夹。必需技能缺失时明确报告，不静默跳过。额外方法按原规则的条件使用。\n\n| 技能 | 用途 / 调用条件 |\n| --- | --- |\n' +
       rows.join('\n') +
       '\n',
   )
@@ -104,7 +104,12 @@ export async function synchronize(root, write = false) {
     const target = resolve(methods, file.path)
     if (relative(methods, target).startsWith('..') || target === methods)
       throw new Error(`Invalid source path: ${file.path}`)
-    const bytes = readFileSync(target)
+    const originalBytes = readFileSync(target)
+    const textFile = /\.(?:md|ts|sh|mjs|json|tsv)$/.test(file.path) || file.path === 'LICENSE'
+    const bytes = textFile
+      ? Buffer.from(originalBytes.toString('utf8').replace(/\r\n/g, '\n'))
+      : originalBytes
+    if (write && !bytes.equals(originalBytes)) writeFileSync(target, bytes)
     const hash = createHash('sha256').update(bytes).digest('hex')
     file.local_sha256 = hash
     file.adapted = hash !== file.upstream_sha256

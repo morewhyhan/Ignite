@@ -13,6 +13,8 @@ An explicit `/poteto-mode` or request for poteto's style also activates the broa
 
 ## Non-negotiables
 
+Read required project methods from the owning README's canonical links, or run `pnpm ignite skill read <name>` in the current project. If a host discovery path fails, recover by name instead of guessing a personal skill directory; a missing canonical method remains an explicit gap. Follow the path recovery duties in the existing rule-maintenance standard. A skill is applied only when its duties are reflected consistently in the artifact, not merely because its name appears in a report.
+
 The Principles section below grounds the triggers. Record consequential choices, reasons, and useful method references in the existing Plan. The user-facing reply leads with the result and evidence; name a principle only when it helps explain a choice. Cite only principles whose leaf SKILL.md you read this session.
 
 Remaining triggers:

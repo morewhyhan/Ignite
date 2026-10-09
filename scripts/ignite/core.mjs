@@ -300,7 +300,14 @@ export function stablePlanContract(metadata) {
           execution_contract: 1,
           owner: metadata.owner,
           verification_requirements: metadata.verification_requirements || [],
-          tasks: (metadata.tasks || []).map(({ id, title }) => ({ id, title })),
+          ...(metadata.task_contract !== undefined
+            ? { task_contract: metadata.task_contract }
+            : {}),
+          tasks: (metadata.tasks || []).map(({ id, title, phase, acceptance }) => ({
+            id,
+            title,
+            ...(metadata.task_contract === 1 ? { phase, acceptance: acceptance || [] } : {}),
+          })),
           dependency_contracts: metadata.dependency_contracts || [],
           shared_files: metadata.shared_files || [],
         }

@@ -38,6 +38,7 @@ import {
 } from './governance.mjs'
 import { executeCheckPlan, requestRunCancellation, runStatus } from './runs.mjs'
 import { runTddRed } from './tdd.mjs'
+import { readProjectSkill } from './skill-reader.mjs'
 import { summarizeVerification } from './verification-summary.mjs'
 
 function parseArgs(argv) {
@@ -73,6 +74,7 @@ Commands:
   plan reintegrate <id>
   plan refresh <id>
   task set-status <plan-id> <task-id> <todo|doing|done>
+  skill read <name> [--path <failed-discovery-path>]
   run status [run-id] [--verbose]
   run cancel <run-id>
   release status [release-id] [--verbose]
@@ -664,11 +666,25 @@ export async function main(argv = process.argv.slice(2)) {
     return
   }
   const command = argv[0]
-  const hasSubcommand = ['plan', 'run', 'release', 'task', 'example', 'tdd'].includes(command)
+  const hasSubcommand = ['plan', 'run', 'release', 'task', 'example', 'tdd', 'skill'].includes(
+    command,
+  )
   const subcommand = hasSubcommand ? argv[1] : null
   const { options, positionals } = parseArgs(argv.slice(hasSubcommand ? 2 : 1))
 
   if (command === 'validate') return commandValidate(options)
+  if (command === 'skill' && subcommand === 'read') {
+    if (
+      positionals.length !== 1 ||
+      (options.path !== undefined && typeof options.path !== 'string')
+    )
+      throw new Error('skill read <name> [--path <failed-discovery-path>]')
+    const skill = readProjectSkill(repositoryRoot, positionals[0], options.path ?? null)
+    if (skill.recovered)
+      console.error(`Recovered skill discovery path using current project: ${skill.path}`)
+    process.stdout.write(skill.content)
+    return
+  }
   if (command === 'task' && subcommand === 'set-status') {
     if (positionals.length !== 3)
       throw new Error('task set-status <plan-id> <task-id> <todo|doing|done>')

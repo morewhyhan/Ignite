@@ -99,6 +99,10 @@ next 默认保留全部 goals、constraints、non_goals 与 tasks，是接续建
 
 ## 固定维护方法
 
+新 Plan 声明 `task_contract: 1`。tasks 的 `phase` 只能为 prepare、red、implement、verify；red 与 implement 列出负责的 `acceptance` AC。每个实施任务前先列覆盖同一 AC 的 red 任务，原生校验会拒绝逆序或缺失阶段。开始或完成 implement、完成 red 时，原生任务命令核对有效红灯记录；只有任务标题写了“先测试”不算满足条件。旧 Plan 未声明此契约时保留兼容，不能据此推断它已遵守方法。
+
+写计划时先安排规格与真实断言、记录红灯、实现、验证和 Design 回写，再对照正文与 tasks 检查顺序一致。本轮仅写草稿或用户暂不运行测试时保留待办，不把未来红灯挪到实现之后。开始实现前使用 `pnpm ignite task set-status <ID> <task> doing` 检查前置条件；直接编辑文件仍须遵守同一规则，CLI 无法拦截宿主的任意文件写入。
+
 涉及本类文档时，先读取以下必需方法：[figure-it-out](../../.ai/pstack/skills/figure-it-out/SKILL.md)、[show-me-your-work](../../.ai/pstack/skills/show-me-your-work/SKILL.md)、[principle-sequence-verifiable-units](../../.ai/pstack/skills/principle-sequence-verifiable-units/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
 
 1. 接续覆盖本轮结果的未完成 Plan；确定原始目标、基线、写入范围、验收和回退，逐项映射 Feature REQ/AC。

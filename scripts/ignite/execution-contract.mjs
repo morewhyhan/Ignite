@@ -50,10 +50,53 @@ export function validateDataContract(plan) {
   return errors
 }
 
+export function validateTaskOrder(value) {
+  if (value.task_contract === undefined) return []
+  if (value.task_contract !== 1) return ['task_contract must be 1']
+  const errors = []
+  const phases = new Set(['prepare', 'red', 'implement', 'verify'])
+  if (value.verification_contract !== 2)
+    errors.push('task_contract 1 requires verification_contract 2')
+  const known = new Set(
+    (Array.isArray(value.acceptance) ? value.acceptance : []).map((item) => item.id),
+  )
+  const redBefore = new Set()
+  const implemented = new Set()
+  const strict = !['draft', 'cancelled', 'superseded'].includes(value.status)
+  for (const task of Array.isArray(value.tasks) ? value.tasks : []) {
+    if (!phases.has(task.phase)) {
+      errors.push(`${task.id}: task_contract 1 requires phase prepare|red|implement|verify`)
+      continue
+    }
+    if (!['red', 'implement'].includes(task.phase)) continue
+    if (!Array.isArray(task.acceptance) || (strict && task.acceptance.length === 0)) {
+      errors.push(`${task.id}: ${task.phase} task requires acceptance IDs`)
+      continue
+    }
+    for (const id of task.acceptance) {
+      if (!known.has(id)) errors.push(`${task.id}: unknown acceptance ${id}`)
+      if (task.phase === 'red') redBefore.add(id)
+      else {
+        if (!redBefore.has(id))
+          errors.push(`${task.id}: place a red task covering ${id} before implementation`)
+        implemented.add(id)
+      }
+    }
+  }
+  if (strict)
+    for (const id of known) {
+      if (!redBefore.has(id) || !implemented.has(id))
+        errors.push(`${id}: declare red and implement tasks`)
+    }
+  return errors
+}
+
 export function validateExecutionContract(plan, readText) {
   const value = plan.metadata
-  if (value.execution_contract === undefined) return []
+  if (value.execution_contract === undefined)
+    return value.task_contract === undefined ? [] : ['task_contract requires execution_contract 1']
   const errors = []
+  errors.push(...validateTaskOrder(value))
   if (value.execution_contract !== 1) errors.push('execution_contract must be 1')
   const strict = !['draft', 'cancelled', 'superseded'].includes(value.status)
   for (const key of [

@@ -1,0 +1,141 @@
+{
+  "schema": 2,
+  "run_id": "run-20261009173802-141806",
+  "check_policy_version": 6,
+  "plan_id": "IGT-1791557113512648376",
+  "evidence_id": "check-integration",
+  "level": "integration",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-10-09T17:38:03.023Z",
+  "ended_at": "2026-10-09T17:39:54.575Z",
+  "commit": "33ffbf13a31fbd7c7f95c2108ce61924f9133407",
+  "input_fingerprint": "698f67d7a283633ba6306fe7fcdeef563b1f66ff155d3204cdd24be6c705ded9",
+  "environment_fingerprint": "a9a342b68b20ef1291357098ab140bd321ffbd348aecc3a91a312972942e8441",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "d1b76bd1f67f0020ad511a6b065d997208a97d05b096cb7d35f4ef0e5cd52514",
+  "acceptance_results": [
+    {
+      "plan_id": "IGT-1791557113512648376",
+      "criterion": "AC-METHOD-007",
+      "test": "tests/contracts/preparation-contract.test.ts::[AC-METHOD-007]",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791557113512648376",
+      "criterion": "AC-METHOD-008",
+      "test": "tests/contracts/preparation-contract.test.ts::[AC-METHOD-008]",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791557113512648376",
+      "criterion": "AC-METHOD-009",
+      "test": "tests/contracts/preparation-contract.test.ts::[AC-METHOD-009]",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791557113512648376",
+      "criterion": "AC-METHOD-010",
+      "test": "tests/contracts/preparation-contract.test.ts::[AC-METHOD-010]",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791557113512648376",
+      "criterion": "AC-METHOD-011",
+      "test": "tests/contracts/preparation-contract.test.ts::[AC-METHOD-011]",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791557113512648376",
+      "criterion": "AC-METHOD-012",
+      "test": "tests/contracts/preparation-scope.test.ts::[AC-METHOD-012]",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    }
+  ],
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "4d93b7300a937e5b903be1ea936be0ba1a065c88"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 728
+    },
+    {
+      "label": "template-doctor",
+      "command": ["corepack", "pnpm", "template:doctor"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 658
+    },
+    {
+      "label": "governance",
+      "command": ["corepack", "pnpm", "ignite", "validate"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 6403
+    },
+    {
+      "label": "docs",
+      "command": ["corepack", "pnpm", "docs:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 3652
+    },
+    {
+      "label": "typecheck",
+      "command": ["corepack", "pnpm", "typecheck"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 4510
+    },
+    {
+      "label": "lint",
+      "command": ["corepack", "pnpm", "lint"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 6756
+    },
+    {
+      "label": "format",
+      "command": ["corepack", "pnpm", "format:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 3816
+    },
+    {
+      "label": "tests",
+      "command": ["corepack", "pnpm", "test"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 79421
+    }
+  ],
+  "log_sha256": "a71c24fc01c8be4367cce513177d459f802dff1e30dd9ae6eb7a4f0c4764898a",
+  "execution_source": "ignite-runner-local"
+}

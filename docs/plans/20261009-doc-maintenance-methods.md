@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1791503770196694819",
   "release": "doc-maintenance-methods-v1",
-  "status": "ready",
+  "status": "active",
   "outcome": "克隆后的AI按固定文档职责使用pstack核心方法，保持一套原生状态与准确验收范围",
   "contract_version": 2,
   "execution_contract": 1,
@@ -114,7 +114,18 @@
     "tests/contracts/document-methods.test.ts",
     "tests/contracts/release-disposition.test.ts"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-PSTACK-004",
+      "test": "tests/contracts/document-methods.test.ts::[AC-PSTACK-004]",
+      "run_id": "tdd-20261009000504-b148a0"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-001",
+      "test": "tests/contracts/release-disposition.test.ts::[AC-EXECUTION-001]",
+      "run_id": "tdd-20261009000509-78e805"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
@@ -160,7 +171,7 @@
 
 <!-- ignite-progress -->
 
-状态：`ready`（由元数据生成）
+状态：`active`（由元数据生成）
 
 - [ ] T1 · 落实原始目标与真实合同红灯 · doing
 - [ ] T2 · 固定所属文档方法并修正技能和验收冲突 · todo

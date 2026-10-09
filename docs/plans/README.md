@@ -16,7 +16,7 @@
 
 1. 接续覆盖本轮结果的未完成 Plan。需要新交付时，新增模块用 `pnpm create:module <name>`，存量改动用 `pnpm create:change <name>`。仅准备文档的新模块使用 `pnpm create:module <name> --docs-only`，只生成 Feature、Plan 和 Release。无法运行脚手架时复制原模板并保留全部栏目，Plan ID 只使用 `IGT-数字`，不要凭印象另写格式。
 2. 确定原始目标、基线、写入范围、验收和回退，逐项映射 Feature REQ/AC。Plan 必须同时有其 release 引用的 Release 草稿，scope 写清原始目标、REQ/AC、负责 Plan 和处理方式，未运行的证据留空。本轮暂不实现写入执行约束，后续仍要交付的功能不能同时被写成永久 non_goals。明确任务不重复塞入 remaining_work。
-3. 准备结束前运行 `node scripts/ignite.mjs plan validate <ID> --prepare`。按 failures 修正原文件，再运行同一检查，不能以 JSON 可解析、空白检查或自评代替。prepared 只表示文档准备结构有效；pending_tests 表示尚未写完的真实断言。用户仅让准备或暂不测试时保留 draft 和待办，不能把准备结果当作 ready、功能通过或完成。另逐条回查用户原始要求，机器结构检查不能证明语义无遗漏。
+3. 准备结束前运行 `node scripts/ignite.mjs plan validate <ID> --prepare`。按 failures 修正原文件，再运行同一检查，不能以 JSON 可解析、空白检查或自评代替。prepared 只表示文档准备结构有效；pending_tests 表示尚未写完的真实断言。用户仅让准备或暂不测试时保留 draft 和待办，不能把准备结果当作 ready、功能通过或完成。报告开工条件以 ready 字段为准，ready=false 时明确写“尚不具备正式开工条件”。已经完成的 prepare 任务用 `pnpm ignite task set-status <ID> <task> done` 回写，不把对应未来任务再抄进 remaining_work。另逐条回查用户原始要求，机器结构检查不能证明语义无遗漏。
 4. 开工后按原生契约记录真实红灯、实现与验收，依据实际证据更新任务、状态与 Design；检查失败和完善仍留在同一 Plan。
 
 ### 条件方法

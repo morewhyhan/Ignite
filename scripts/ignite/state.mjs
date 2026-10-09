@@ -1148,6 +1148,16 @@ export function validateReleaseAcceptanceCoverage(release, plansById) {
     if (!Array.isArray(goal.acceptance)) continue
     if (new Set(goal.acceptance).size !== goal.acceptance.length)
       failures.push(`${goal.id}: acceptance IDs must be unique`)
+    for (const requirement of goal.requirements || []) {
+      const specified = [...registry.acceptance.values()].some((spec) =>
+        spec.requirements.includes(requirement),
+      )
+      const matched = goal.acceptance.some((id) =>
+        registry.acceptance.get(id)?.requirements.includes(requirement),
+      )
+      if (specified && !matched)
+        failures.push(`${goal.id}: ${requirement} has no matching acceptance in this goal`)
+    }
     for (const acceptanceId of goal.acceptance) {
       const spec = registry.acceptance.get(acceptanceId)
       if (!spec) {

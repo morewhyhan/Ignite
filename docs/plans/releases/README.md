@@ -18,7 +18,7 @@
 
 当前发布机器源位于本目录，格式见 [_template.json](./_template.json)。Release 不保存 status，状态由 Plan 与有效证据推导；摘要由 ignite status --write 生成，不手工维护派生副本。
 
-新 Release 使用 coverage_version 2、verification_contract 2。scope 逐条连接原始目标、来源、REQ、全部相关 AC、负责 Plan 和 included/deferred/excluded；每个列入 REQ 的 AC 都必须有去向。语义完整性仍需回看用户原始请求，不能只从已拆出的 Plan 判断无遗漏。
+新 Release 使用 coverage_version 2、verification_contract 2。scope 逐条连接原始目标、来源、REQ、全部相关 AC、负责 Plan 和 included/deferred/excluded；每个列入 REQ 的 AC 都必须有去向。每个目标写入的 REQ 也必须在该目标内有对应 AC，其他目标的验收不能替代这个对应关系。语义完整性仍需回看用户原始请求，不能只从已拆出的 Plan 判断无遗漏。
 
 缺账号、未实现或等待外部条件是 deferred，保持未完成；excluded 需要用户明确授权来源与理由，不能为了全绿把延期改成排除。真正获授权排除的内容不作本轮阻塞。当前未纳入的独立新目标不悄悄塞入旧 Release，也不批量重写历史 Plan。
 

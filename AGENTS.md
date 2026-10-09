@@ -1,5 +1,9 @@
 # Ignite AI 开发规则
 
+收到项目修改要求，先按[需求方法](docs/features/README.md#固定维护方法)和[Plan 方法](docs/plans/README.md#固定维护方法)完成正文读取与开工准备，再写业务实现。已有 Plan 接续原目标；没有 Plan 时先起草对应文档。用户只需说明需求，不负责点名技能或替 AI 补开发步骤。
+
+报告交付前按[完成规则](docs/plans/README.md#完成与证据)核对原始目标、原生证据和本地交付覆盖。构建通过、工作者自报完成或检查文件存在均不能替代这个结果；失败或未执行时保留未完成项。仓库规则和 CLI 不拦截宿主的任意写入，不宣称所有模型都自动遵守。
+
 ## 模板定位
 
 Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定产品。功能与工程规则改动都要判断是 `[新增模块]` 还是 `[存量改动]`，并在对应 Plan 中同步受影响的 Feature、Design 和测试证据。默认优先做小步、可回滚的增量修改。
@@ -103,6 +107,6 @@ Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定�
 
 1. 在安装依赖前执行 `node scripts/runtime-doctor.mjs --preflight`；按采用规范准备 `.env` 并安装依赖后，运行 `pnpm runtime:check` 和 `pnpm template:doctor`。若诊断提示新 Git 历史仍含继承记录，先运行 `pnpm ignite adopt-history` 预览，核对后再运行 `pnpm ignite adopt-history --apply` 并提交归档；之后运行 `pnpm ignite status`。不要逐条修复旧提交缺失造成的模板证据错误。确认采用历史完整后，再用精简状态摘要识别当前 Plan 与结构问题。只有需要程序化解析完整机器上下文时才运行 `pnpm ignite status --json`。
 2. 只读取本轮相关的 Feature、Plan、Standards、Design 和测试；用 `pnpm ignite next --plan <IGT-ID>` 接续匹配的现有 Plan。需要新 Plan 时，新模块用 `pnpm create:module <plural-kebab-name>`，存量改动用 `pnpm create:change <kebab-name>` 起草。
-3. 明确增量/存量、基线 commit、写入范围和验收标准；关闭开放问题后再进入实现。
+3. 明确增量/存量、基线 commit、写入范围和验收标准；先读取所属固定方法，完成 Feature、Plan、Release 草稿和原生准备检查，关闭开放问题后再进入实现。
 4. 先写或更新契约测试，再实现最小代码；页面只消费 module screen，业务请求只走 Hook 与 RPC。
-5. 提交 Feature/Plan/行为测试后先按 AC 运行红灯并提交红灯记录；实现后运行 Plan integration。所有纳入的 Plan 完成后运行一次 Release 最终检查；回写 Design 并根据实际证据更新状态。
+5. 提交 Feature/Plan/行为测试后先按 AC 运行红灯并提交红灯记录；实现后运行 Plan integration。所有纳入的 Plan 完成后运行一次 Release 最终检查；回写 Design 并根据实际证据更新状态。报告交付前运行 `pnpm delivery:check --plan <IGT-ID>` 核对完整本地改动，不能只运行构建或普通工程检查。

@@ -37,6 +37,9 @@
 - R14（REQ-TRUST-014）：运行时版本不匹配时说明所需版本、当前版本和修复方法；检查只诊断，不自动切换开发环境。
 - R15（REQ-TRUST-015）：TDD 定向红灯只校验当前目标 AC；同一测试文件中的其他 AC 被筛选跳过时，不能被误报为失败。
 - R16（REQ-TRUST-016）：多条 TDD 红灯记录是执行状态；记录一条证据不应污染源工作区，也不应要求每条 AC 单独提交一次。
+- R17（REQ-METHOD-001）：项目技能从当前仓库的真源读取；发现路径错误时按技能名恢复，缺少真源时明确失败，不静默跳过必需技能。
+- R18（REQ-METHOD-002）：新 Plan 的任务声明阶段与负责 AC，实施任务之前必须有覆盖同一 AC 的红灯任务，不凭任务标题猜测阶段。
+- R19（REQ-METHOD-003）：开始或完成实施任务前必须有匹配 AC 的有效原生红灯证据；伪造、缺失证据不得更新任务状态。历史未声明任务契约的 Plan 保持兼容。
 
 ## 权限、错误与缓存
 
@@ -72,3 +75,6 @@
 - AC-TRUST-014（REQ-TRUST-014）：Given 当前 Node 与仓库固定版本不一致 When 执行 runtime preflight Then 错误信息同时包含期望/当前版本、推荐切换命令和重试检查命令，且不修改 shell 或运行时。
 - AC-TRUST-015（REQ-TRUST-015）：Given 一个 TDD 红灯运行只选择单条 AC、同文件还有其他映射 AC When Vitest acceptance reporter 收到目标失败与非目标跳过 Then 只判定目标 AC，不把被筛选的其它 AC 误报为本次运行失败。
 - AC-TRUST-016（REQ-TRUST-016）：Given 同一 Plan 有多条行为验收 When AI 逐条记录真实红灯结果 Then TDD 证据文件和证据元数据不使源工作区变脏，且可连续记录多条而不要求中间为每条证据提交一次。
+- AC-METHOD-001（REQ-METHOD-001）：Given 宿主给出的发现路径错误 When 按名字读取当前项目技能 Then 返回本仓库真源全文和恢复提示；真源缺失时明确失败，不修改文件。
+- AC-METHOD-002（REQ-METHOD-002）：Given Plan 声明 task_contract 1 When 实施任务排在同 AC 红灯任务之前或缺少阶段 Then 原生校验拒绝，并指出需要修复的任务和顺序。
+- AC-METHOD-003（REQ-METHOD-003）：Given 有顺序正确的实施任务 When 尝试开始或完成 Then 缺失或无效红灯被拒绝且 Plan 不变，匹配原生证据才允许更新状态。

@@ -10,11 +10,10 @@
 
 ## 发布范围
 
-- `method-recovery-v1` · `verifying`
+- `method-recovery-v1` · `done`
   - Plan：`IGT-1791535498797266205`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite release verify method-recovery-v1 --plan IGT-1791535498797266205
+  - 最终版本验收：passed（04fe2405db3c）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题

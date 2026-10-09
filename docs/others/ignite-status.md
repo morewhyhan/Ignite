@@ -10,11 +10,10 @@
 
 ## 发布范围
 
-- `preparation-contract-v1` · `verifying`
+- `preparation-contract-v1` · `done`
   - Plan：`IGT-1791557113512648376`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite release verify preparation-contract-v1 --plan IGT-1791557113512648376
+  - 最终版本验收：passed（49f1dc9dc347）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题

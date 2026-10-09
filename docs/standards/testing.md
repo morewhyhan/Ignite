@@ -62,13 +62,15 @@ CI 是合并门槛，本次改动的 schema 2 Plan 必须达到终态；整个 R
 
 ## 固定维护方法
 
-本类文档先读齐本节必需技能正文。已有依赖时，在当前项目运行 `pnpm ignite skill read --for docs/standards/testing.md`；未准备依赖时直接跟随下面的正文链接。
+先读本节必需条款与技能正文。在项目使用契约指定的 WSL/Linux Node，运行 `node scripts/ignite.mjs skill read --for docs/standards/testing.md`；这个读取入口无需安装依赖。也可直接跟随下面的正文链接，输出截断时分批补读。
 
 涉及本类文档时，先读取以下必需方法：[tdd](../../.ai/pstack/skills/tdd/SKILL.md)、[principle-test-behavior-not-implementation](../../.ai/pstack/skills/principle-test-behavior-not-implementation/SKILL.md)、[principle-prove-it-works](../../.ai/pstack/skills/principle-prove-it-works/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
 
 1. 从对应 Feature AC 确认需要证明的实际行为和层级；选择能区分错误原因的断言，不能以测试数、结构检查或模拟数据库冒充真实行为。
 2. 新 Plan 按原生 tdd red 契约保存真实行为失败，再在同一测试文件上实现并验证；环境失败、占位失败或事后补写不算红灯。
 3. 按 Plan 检查选择执行必要验收，复用相同输入的有效运行；全局生产构建和 E2E 由最终 Release 承担。结果进入原生证据，不另建技能跑分表。
+
+### 条件方法
 
 已有验证技能需要同步时使用 [maintain-verification-skill](../../.ai/pstack/skills/maintain-verification-skill/SKILL.md)；确实缺少项目行为入口时才使用 [create-verification-skill](../../.ai/pstack/skills/create-verification-skill/SKILL.md)。纯重构的既有绿灯可保护行为，却不豁免新 Plan 的真实红灯；找不到真实待改行为时保留契约缺口，不能制造失败。用户暂不测试时保留待验证状态。
 

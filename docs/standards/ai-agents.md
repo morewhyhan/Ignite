@@ -2,7 +2,7 @@
 
 ## 固定维护方法
 
-本类文档先读齐本节必需技能正文。已有依赖时，在当前项目运行 `pnpm ignite skill read --for docs/standards/ai-agents.md`；未准备依赖时直接跟随下面的正文链接。
+先读本节必需条款与技能正文。在项目使用契约指定的 WSL/Linux Node，运行 `node scripts/ignite.mjs skill read --for docs/standards/ai-agents.md`；这个读取入口无需安装依赖。也可直接跟随下面的正文链接，输出截断时分批补读。
 
 必需技能优先读取所属规则的相对正文链接，或从当前仓库运行 `pnpm ignite skill read <name>`。宿主给出的 r0、r9 等短路径必须先按其目录表展开，不能把代号当文件夹或猜测个人技能前缀。发现路径失败后按技能名使用项目命令恢复；命令返回正文全文，错误地址可通过 `--path <地址>` 附带诊断。命令只读取当前仓库的 `.ai/skills/` 或 `.ai/pstack/skills/` 真源，不改文件、不安装依赖；缺少必需技能时报告缺口并停止依赖该方法的步骤。依赖尚未准备时直接读取上述实际正文链接，不为读技能安装另一套运行环境。
 
@@ -14,7 +14,11 @@
 2. 在原有职责位置修正条款，明确触发条件、必需动作、足够结果和边界；能由结构或工具可靠保证的约束优先编码，不能只加“更认真”。
 3. 对照受影响的规则、模板、方法与桥接消除矛盾；核查入口、链接和生成结果，回写 Feature、Design 与必要案例。
 
-用户要求反思或重大重复失误需要提炼长期教训时采用 [reflect](../../.ai/pstack/skills/reflect/SKILL.md)；不要求每次新增规则、ADR 或专门适配文件。涉及文档写作时，必须读取 [technical-writing](../../.ai/pstack/skills/technical-writing/SKILL.md) 与 [unslop](../../.ai/pstack/skills/unslop/SKILL.md)，使用原文档职责组织内容，保留事实、推测和未完成的区别。这两项写作方法适用于各类文档维护，不新增平行写作流程。
+涉及文档写作时，必须读取 [technical-writing](../../.ai/pstack/skills/technical-writing/SKILL.md) 与 [unslop](../../.ai/pstack/skills/unslop/SKILL.md)，使用原文档职责组织内容，保留事实、推测和未完成的区别。这两项写作方法适用于各类文档维护，不新增平行写作流程。
+
+### 条件方法
+
+用户要求反思或重大重复失误需要提炼长期教训时采用 [reflect](../../.ai/pstack/skills/reflect/SKILL.md)；不要求每次新增规则、ADR 或专门适配文件。
 
 ## 唯一规则真源
 

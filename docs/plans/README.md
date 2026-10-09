@@ -4,7 +4,7 @@
 
 ## 固定维护方法
 
-本类文档先读齐本节必需技能正文。已有依赖时，在当前项目运行 `pnpm ignite skill read --for docs/plans/README.md`；未准备依赖时直接跟随下面的正文链接。
+先读本节必需条款与技能正文。在项目使用契约指定的 WSL/Linux Node，运行 `node scripts/ignite.mjs skill read --for docs/plans/README.md`；这个读取入口无需安装依赖。也可直接跟随下面的正文链接，输出截断时分批补读。
 
 新 Plan 声明 `task_contract: 1`。tasks 的 `phase` 只能为 prepare、red、implement、verify；red 与 implement 列出负责的 `acceptance` AC。每个实施任务前先列覆盖同一 AC 的 red 任务，原生校验会拒绝逆序或缺失阶段。开始或完成 implement、完成 red 时，原生任务命令核对有效红灯记录；只有任务标题写了“先测试”不算满足条件。旧 Plan 未声明此契约时保留兼容，不能据此推断它已遵守方法。
 
@@ -14,9 +14,12 @@
 
 涉及本类文档时，先读取以下必需方法：[figure-it-out](../../.ai/pstack/skills/figure-it-out/SKILL.md)、[show-me-your-work](../../.ai/pstack/skills/show-me-your-work/SKILL.md)、[principle-sequence-verifiable-units](../../.ai/pstack/skills/principle-sequence-verifiable-units/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
 
-1. 接续覆盖本轮结果的未完成 Plan；确定原始目标、基线、写入范围、验收和回退，逐项映射 Feature REQ/AC。新建 Plan 草稿时同时创建其 `release` 所引用的 `docs/plans/releases/<release-id>.json`，按 Release 模板把原始目标、REQ/AC、负责 Plan 和处理方式写入 scope；草稿的 evidence 留空，不能把未运行测试写成已通过。
-2. 按可验证结果安排 tasks，记录关键取舍及其依据；先解决阻止正确实现的事实缺口，不为了使用技能额外建立工作流或状态表。
-3. 按原生契约记录真实红灯、实现与验收，依据实际证据更新任务、状态与 Design；检查失败和完善仍留在同一 Plan。
+1. 接续覆盖本轮结果的未完成 Plan。需要新交付时，新增模块用 `pnpm create:module <name>`，存量改动用 `pnpm create:change <name>`。仅准备文档的新模块使用 `pnpm create:module <name> --docs-only`，只生成 Feature、Plan 和 Release。无法运行脚手架时复制原模板并保留全部栏目，Plan ID 只使用 `IGT-数字`，不要凭印象另写格式。
+2. 确定原始目标、基线、写入范围、验收和回退，逐项映射 Feature REQ/AC。Plan 必须同时有其 release 引用的 Release 草稿，scope 写清原始目标、REQ/AC、负责 Plan 和处理方式，未运行的证据留空。本轮暂不实现写入执行约束，后续仍要交付的功能不能同时被写成永久 non_goals。明确任务不重复塞入 remaining_work。
+3. 准备结束前运行 `node scripts/ignite.mjs plan validate <ID> --prepare`。按 failures 修正原文件，再运行同一检查，不能以 JSON 可解析、空白检查或自评代替。prepared 只表示文档准备结构有效；pending_tests 表示尚未写完的真实断言。用户仅让准备或暂不测试时保留 draft 和待办，不能把准备结果当作 ready、功能通过或完成。另逐条回查用户原始要求，机器结构检查不能证明语义无遗漏。
+4. 开工后按原生契约记录真实红灯、实现与验收，依据实际证据更新任务、状态与 Design；检查失败和完善仍留在同一 Plan。
+
+### 条件方法
 
 可独立产出的任务且宿主支持委派时，才按 [swarm](../../.ai/pstack/skills/swarm/SKILL.md) 拆分，并读取 [principle-separate-before-serializing-shared-state](../../.ai/pstack/skills/principle-separate-before-serializing-shared-state/SKILL.md)，明确写入范围、依赖与交接；共享文件先分工，再集成。存在真实竞争方案或高风险分歧时才采用 [arena](../../.ai/pstack/skills/arena/SKILL.md)、[interrogate](../../.ai/pstack/skills/interrogate/SKILL.md)。明确的小改动可以压缩分析，但不能省略必要记录与完成证据。
 

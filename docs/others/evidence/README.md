@@ -14,7 +14,7 @@ pnpm ignite release status
 
 ## 固定维护方法
 
-本类文档先读齐本节必需技能正文。已有依赖时，在当前项目运行 `pnpm ignite skill read --for docs/others/evidence/README.md`；未准备依赖时直接跟随下面的正文链接。
+先读本节必需条款与技能正文。在项目使用契约指定的 WSL/Linux Node，运行 `node scripts/ignite.mjs skill read --for docs/others/evidence/README.md`；这个读取入口无需安装依赖。也可直接跟随下面的正文链接，输出截断时分批补读。
 
 涉及本类文档时，先读取以下必需方法：[principle-prove-it-works](../../../.ai/pstack/skills/principle-prove-it-works/SKILL.md)、[principle-make-operations-idempotent](../../../.ai/pstack/skills/principle-make-operations-idempotent/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
 

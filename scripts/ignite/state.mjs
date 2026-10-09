@@ -1,3 +1,4 @@
+import { validatePlanDocument } from './document-contract.mjs'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { extname, join, resolve } from 'node:path'
 import {
@@ -294,6 +295,12 @@ export function validatePlan(
     value.status === 'done' && gitCommitExists(value.integrated_commit)
       ? value.integrated_commit
       : null
+  failures.push(
+    ...validatePlanDocument(
+      plan.content,
+      readRepositoryText('docs/plans/_template.md', historicalCommit),
+    ),
+  )
   const registry = specificationRegistry(historicalCommit)
   const manifests = new Map(
     listDurableRuns(evidenceCommit).map((item) => [item.value.run_id, item.value]),
@@ -1753,6 +1760,7 @@ export function setPlanStatus(planId, nextStatus, { blocker = null, commit = nul
   ]
   if (['ready', 'active', 'verifying', 'done'].includes(nextStatus)) {
     const release = listReleases().find(({ value }) => value.id === nextMetadata.release)?.value
+    errors.push(...validatePlanReleaseContract(candidate, release))
     if (release) {
       const plansById = new Map(listPlans().map((item) => [item.metadata?.id, item]))
       plansById.set(nextMetadata.id, candidate)

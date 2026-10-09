@@ -1,3 +1,5 @@
+import { parseArgs } from './arguments.mjs'
+import { preparationReport } from './preparation.mjs'
 import { spawnSync } from 'node:child_process'
 import { adoptHistory } from './adoption.mjs'
 import { planCheck } from './checks.mjs'
@@ -38,24 +40,8 @@ import {
 } from './governance.mjs'
 import { executeCheckPlan, requestRunCancellation, runStatus } from './runs.mjs'
 import { runTddRed } from './tdd.mjs'
-import { readDocumentMethods, readDocumentMethodSteps, readProjectSkill } from './skill-reader.mjs'
+import { commandSkillRead } from './skill-reader.mjs'
 import { summarizeVerification } from './verification-summary.mjs'
-
-function parseArgs(argv) {
-  const options = {}
-  const positionals = []
-  for (let index = 0; index < argv.length; index += 1) {
-    const token = argv[index]
-    if (token === '--') continue
-    if (token.startsWith('--')) {
-      const [key, inlineValue] = token.slice(2).split('=', 2)
-      if (inlineValue !== undefined) options[key] = inlineValue
-      else if (argv[index + 1] && !argv[index + 1].startsWith('--')) options[key] = argv[++index]
-      else options[key] = true
-    } else positionals.push(token)
-  }
-  return { options, positionals }
-}
 
 function fail(message, code = 1) {
   console.error(`Ignite: ${message}`)
@@ -69,7 +55,7 @@ Commands:
   status [--write|--json]
   next --plan <id> [--verify-remote] [--verbose]
   check --plan <id> [--level auto|dev|integration|release]
-  plan validate [id]
+  plan validate [id] [--prepare]
   plan set-status <id> <status>
   plan reintegrate <id>
   plan refresh <id>
@@ -110,7 +96,7 @@ const commandHelp = new Map([
   ],
   [
     'plan validate',
-    'Usage: pnpm ignite plan validate [id]\nValidate all structured Plans or one selected Plan.\n',
+    'Usage: pnpm ignite plan validate [id] [--prepare]\nValidate structure; --prepare checks a complete draft and reports future tests without claiming behavior verification.\n',
   ],
   [
     'plan set-status',
@@ -179,7 +165,19 @@ async function commandValidate(options) {
   console.log('Ignite governance validation passed.')
 }
 
-function commandPlanValidate(positionals) {
+function commandPlanValidate(positionals, options) {
+  if (
+    Object.keys(options).some((key) => key !== 'prepare') ||
+    (options.prepare !== undefined && options.prepare !== true)
+  )
+    throw new Error('plan validate [id] [--prepare]')
+  if (options.prepare) {
+    if (positionals.length !== 1) throw new Error('plan validate --prepare requires one Plan id')
+    const report = preparationReport(findPlan(positionals[0]))
+    console.log(JSON.stringify(report, null, 2))
+    if (report.failures.length) process.exitCode = 1
+    return
+  }
   const explicit = positionals.length > 0
   const targets = explicit
     ? positionals.map((identifier) => findPlan(identifier).path)
@@ -194,7 +192,13 @@ function commandPlanValidate(positionals) {
       continue
     }
     if (plan.metadata) structuredCount += 1
-    for (const error of validatePlan(plan, { allowLegacy: false })) {
+    const release = listReleases().find(({ value }) => value.id === plan.metadata?.release)?.value
+    const errors = [
+      ...validatePlan(plan, { allowLegacy: false }),
+      ...validatePlanReleaseContract(plan, release),
+    ]
+    if (release) errors.push(...validateRelease(release))
+    for (const error of errors) {
       failures.push(`${plan.relativePath}: ${error}`)
     }
   }
@@ -517,11 +521,19 @@ function commandNext(options) {
       command: `pnpm ignite run status ${latestRun.run_id} --verbose`,
     }
   } else if (plan.metadata.status === 'draft') {
-    nextAction = {
-      kind: 'complete-plan',
-      reason: 'close open questions and complete the execution contract',
-      command: `pnpm ignite plan set-status ${plan.metadata.id} ready`,
-    }
+    const preparation = preparationReport(plan)
+    nextAction =
+      preparation.failures.length || !preparation.ready
+        ? {
+            kind: 'prepare-documents',
+            reason: preparation,
+            command: `node scripts/ignite.mjs plan validate ${plan.metadata.id} --prepare`,
+          }
+        : {
+            kind: 'complete-plan',
+            reason: 'close open questions and complete the execution contract',
+            command: `pnpm ignite plan set-status ${plan.metadata.id} ready`,
+          }
   } else if (plan.metadata.status === 'ready') {
     nextAction = {
       kind: 'start-plan',
@@ -674,30 +686,8 @@ export async function main(argv = process.argv.slice(2)) {
   const { options, positionals } = parseArgs(argv.slice(hasSubcommand ? 2 : 1))
 
   if (command === 'validate') return commandValidate(options)
-  if (command === 'skill' && subcommand === 'read') {
-    if (options.for !== undefined) {
-      if (positionals.length || typeof options.for !== 'string' || options.path !== undefined)
-        throw new Error('skill read --for <owning-document.md>')
-      const methods = readDocumentMethods(repositoryRoot, options.for)
-      const steps = readDocumentMethodSteps(repositoryRoot, options.for)
-      process.stdout.write(
-        (steps ? [steps, ...methods] : methods)
-          .map((method) => `\n<!-- ${method.path} -->\n${method.content}`)
-          .join('\n'),
-      )
-      return
-    }
-    if (
-      positionals.length !== 1 ||
-      (options.path !== undefined && typeof options.path !== 'string')
-    )
-      throw new Error('skill read <name> [--path <failed-discovery-path>]')
-    const skill = readProjectSkill(repositoryRoot, positionals[0], options.path ?? null)
-    if (skill.recovered)
-      console.error(`Recovered skill discovery path using current project: ${skill.path}`)
-    process.stdout.write(skill.content)
-    return
-  }
+  if (command === 'skill' && subcommand === 'read')
+    return commandSkillRead(repositoryRoot, options, positionals)
   if (command === 'task' && subcommand === 'set-status') {
     if (positionals.length !== 3)
       throw new Error('task set-status <plan-id> <task-id> <todo|doing|done>')
@@ -721,7 +711,8 @@ export async function main(argv = process.argv.slice(2)) {
   if (command === 'status') return commandStatus(options)
   if (command === 'next') return commandNext(options)
   if (command === 'check') return commandCheck(options)
-  if (command === 'plan' && subcommand === 'validate') return commandPlanValidate(positionals)
+  if (command === 'plan' && subcommand === 'validate')
+    return commandPlanValidate(positionals, options)
   if (command === 'plan' && subcommand === 'set-status')
     return commandPlanSetStatus(positionals, options)
   if (command === 'plan' && subcommand === 'reintegrate') {

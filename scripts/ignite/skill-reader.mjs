@@ -54,10 +54,18 @@ export function readDocumentMethodSteps(root, owner) {
   root = realpathSync(root)
   const source = readLocalSource(root, resolve(root, owner))
   const section = source.content.split(/^## 固定维护方法\s*$/m)[1]?.split(/^## /m)[0]
-  const steps = section
+  const declared = new Set(
+    readDocumentMethods(root, owner).map((method) => resolve(root, method.path)),
+  )
+  const core = section?.split(/^### 条件方法\s*$/m)[0]
+  const steps = core
     ?.trim()
     .split(/\n\s*\n/)
-    .filter((paragraph) => /^\d+\.\s/.test(paragraph))
+    .filter((paragraph) =>
+      [...paragraph.matchAll(/\[[^\]]+\]\(([^)]+\/SKILL\.md)\)/g)].every((match) =>
+        declared.has(resolve(root, dirname(source.path), match[1])),
+      ),
+    )
     .join('\n\n')
   if (!steps) return null
   return { path: source.path, content: steps }
@@ -85,4 +93,27 @@ export function readProjectSkill(root, name, requestedPath = null) {
     content: readFileSync(path, 'utf8'),
     recovered: requestedPath !== null && resolve(root, requestedPath) !== path,
   }
+}
+
+export function commandSkillRead(root, options, positionals) {
+  if (Object.keys(options).some((key) => !['for', 'path'].includes(key)))
+    throw new Error('Unknown skill read option')
+  if (options.for !== undefined) {
+    if (positionals.length || typeof options.for !== 'string' || options.path !== undefined)
+      throw new Error('skill read --for <owning-document.md>')
+    const methods = readDocumentMethods(root, options.for)
+    const steps = readDocumentMethodSteps(root, options.for)
+    process.stdout.write(
+      (steps ? [steps, ...methods] : methods)
+        .map((method) => `\n<!-- ${method.path} -->\n${method.content}`)
+        .join('\n'),
+    )
+    return
+  }
+  if (positionals.length !== 1 || (options.path !== undefined && typeof options.path !== 'string'))
+    throw new Error('skill read <name> [--path <failed-discovery-path>]')
+  const skill = readProjectSkill(root, positionals[0], options.path ?? null)
+  if (skill.recovered)
+    console.error(`Recovered skill discovery path using current project: ${skill.path}`)
+  process.stdout.write(skill.content)
 }

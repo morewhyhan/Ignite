@@ -4,13 +4,15 @@
 
 ## 固定维护方法
 
-本类文档先读齐本节必需技能正文。已有依赖时，在当前项目运行 `pnpm ignite skill read --for docs/others/test-cases/README.md`；未准备依赖时直接跟随下面的正文链接。
+先读本节必需条款与技能正文。在项目使用契约指定的 WSL/Linux Node，运行 `node scripts/ignite.mjs skill read --for docs/others/test-cases/README.md`；这个读取入口无需安装依赖。也可直接跟随下面的正文链接，输出截断时分批补读。
 
 涉及本类文档时，先读取以下必需方法：[tdd](../../../.ai/pstack/skills/tdd/SKILL.md)、[principle-test-behavior-not-implementation](../../../.ai/pstack/skills/principle-test-behavior-not-implementation/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
 
 1. 从用户行为和 Feature AC 写明要证明的结果、前提、失败边界与必要层级；测试意图与实际可执行检查建立对应关系。
 2. 维护受影响的案例，区分程序行为、规则内容复核和真实模型效果；不把技能链接可用当成 AI 已正确调用。
 3. 运行结果写入原生证据，案例只保存验收意图与尺度，不复制 Plan tasks、Release scope 或运行状态。
+
+### 条件方法
 
 新增实际应用验收入口时才使用 [create-verification-skill](../../../.ai/pstack/skills/create-verification-skill/SKILL.md)；修改现有入口时使用 [maintain-verification-skill](../../../.ai/pstack/skills/maintain-verification-skill/SKILL.md)。技能方法移植本身不启动模型评估；明确评估模型效果时才按既定案例固定输入和判定。
 

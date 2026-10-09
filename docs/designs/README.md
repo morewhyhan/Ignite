@@ -5,13 +5,15 @@
 
 ## 固定维护方法
 
-本类文档先读齐本节必需技能正文。已有依赖时，在当前项目运行 `pnpm ignite skill read --for docs/designs/README.md`；未准备依赖时直接跟随下面的正文链接。
+先读本节必需条款与技能正文。在项目使用契约指定的 WSL/Linux Node，运行 `node scripts/ignite.mjs skill read --for docs/designs/README.md`；这个读取入口无需安装依赖。也可直接跟随下面的正文链接，输出截断时分批补读。
 
 涉及本类文档时，先读取以下必需方法：[how](../../.ai/pstack/skills/how/SKILL.md)、[principle-prove-it-works](../../.ai/pstack/skills/principle-prove-it-works/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
 
 1. 从已实施的代码、配置和验收证据还原当前事实，先辨别计划中的内容与已经存在的行为。
 2. 在原有设计位置更新本次受影响的边界、数据流、限制和入口；未来方案留在 Feature/Plan，不写成当前能力。
 3. 核对与可执行事实、Feature 和完成证据一致，引用必要依据，不复制任务进度或整份运行日志。
+
+### 条件方法
 
 只有长期架构理由需要保存时，读取 [why](../../.ai/pstack/skills/why/SKILL.md) 并按 ADR 规则处理。未验收能力写清限制；写完 Design 本身不能证明功能完成。
 

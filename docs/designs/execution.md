@@ -95,3 +95,7 @@ CI 生产态 E2E 使用 line reporter 实际输出 Next webServer stdout/stderr�
 可选辅助脚本不隐式安装 Bun 依赖；工作区审计默认只读本地 Git 状态，空格路径和未跟踪文件被保留。原生 Plan 不接受上游固定十路/性能栏目检查。PR watch 结束和 READY 不代表原生验收。
 
 Release scope 的纳入项必须关联负责 Plan 的 REQ/AC；延期、授权排除保留真实 Feature REQ/AC 和原因（排除还需授权），不关联伪完成 Plan。原生 scope 校验与全 AC 覆盖校验采用同一处理尺度。
+
+原生 Plan 结构检查和文档门禁按实际模板的完整二级标题核对，代码块、注释与标题前缀不能冒充栏目。状态进入 ready 等执行阶段前必须有关联 Release。`plan validate <ID> --prepare` 只读核对当前 Feature、Plan、Release 的开工结构、完整 scope 和数据契约，输出文档失败项及未来测试待办，保持真实状态，不产生验收证据。next 在草稿缺条件时先指向准备检查，不再建议必然被拒绝的 ready。
+
+方法入口同时返回固定维护节中的编号与未编号必需条款，条件方法有独立边界；技能命令通过只含 Node 标准库的入口执行，未安装依赖的新克隆也可读取。Node 契约在重依赖加载前核对，错误版本先提示修复环境。新模块的 --docs-only 入口使用原模板，仅生成 Feature、Plan、Release，未来业务代码和测试保留待办。

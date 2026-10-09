@@ -9,6 +9,7 @@ import { writeFileSetAtomically } from './ignite/scaffold-writer.mjs'
 
 const arguments_ = process.argv.slice(2)
 const dryRun = arguments_.includes('--dry-run')
+const docsOnly = arguments_.includes('--docs-only')
 const releaseIndex = arguments_.indexOf('--release')
 const releaseArgument = releaseIndex >= 0 ? arguments_[releaseIndex + 1] : null
 const positionalArguments = arguments_.filter(
@@ -21,13 +22,14 @@ if (
   positionalArguments.length !== 1 ||
   !/^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/.test(moduleName || '') ||
   arguments_.some(
-    (argument) => argument.startsWith('--') && !['--dry-run', '--release'].includes(argument),
+    (argument) =>
+      argument.startsWith('--') && !['--dry-run', '--release', '--docs-only'].includes(argument),
   ) ||
   arguments_.filter((argument) => argument === '--release').length > 1 ||
   (releaseIndex >= 0 && (!releaseArgument || releaseArgument.startsWith('--')))
 ) {
   console.error(
-    'Usage: pnpm create:module <plural-kebab-name> [--release <release-id>] [--dry-run]',
+    'Usage: pnpm create:module <plural-kebab-name> [--release <release-id>] [--dry-run] [--docs-only]',
   )
   process.exit(1)
 }
@@ -371,6 +373,9 @@ if (existsSync(absoluteReleasePath)) {
   }
 }
 
+if (docsOnly)
+  for (const path of files.keys()) if (!/^docs\/(?:features|plans)\//.test(path)) files.delete(path)
+
 const collisions = [...files.keys()].filter((path) => existsSync(join(repositoryRoot, path)))
 if (collisions.length > 0) {
   console.error('Refusing to overwrite existing files:')
@@ -399,7 +404,9 @@ if (dryRun) {
 } else {
   console.log(`Created draft ${planId}; Release ${releaseId} includes this Plan.`)
   console.log(
-    'Next: define the Feature, route and user journey, then replace both red acceptance tests.',
+    docsOnly
+      ? 'Document draft only; complete the original goals and run the native preparation check. Future behavior tests remain pending.'
+      : 'Next: define the Feature, route and user journey, then replace both red acceptance tests.',
   )
   console.log('Refresh the generated overview: pnpm ignite status --write')
   console.log(`Continue: pnpm ignite next --plan ${planId}`)

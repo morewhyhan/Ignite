@@ -4,13 +4,15 @@
 
 ## 固定维护方法
 
-本类文档先读齐本节必需技能正文。已有依赖时，在当前项目运行 `pnpm ignite skill read --for docs/features/README.md`；未准备依赖时直接跟随下面的正文链接。
+先读本节必需条款与技能正文。在项目使用契约指定的 WSL/Linux Node，运行 `node scripts/ignite.mjs skill read --for docs/features/README.md`；这个读取入口无需安装依赖。也可直接跟随下面的正文链接，输出截断时分批补读。
 
 涉及本类文档时，先读取以下必需方法：[how](../../.ai/pstack/skills/how/SKILL.md)、[principle-experience-first](../../.ai/pstack/skills/principle-experience-first/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
 
 1. 先还原用户已确定的目标、实际使用过程和约束，区分新增模块与存量改动；已有 Feature 能承载时在原处更新。
 2. 按模板格式把业务规则写成 `- R1（REQ-MODULE-001）：具体行为`，验收写成 `- AC-MODULE-001（REQ-MODULE-001）：Given ... When ... Then ...`；替换编号和内容，保留 R 与 REQ 的关联格式，供原生检查识别。说明采用边界、失败情况、必要验收层级及真实检查路径；不由 AI 猜测尚未决定的产品取舍。
-3. 对照原始目标逐条检查遗漏，再交给对应 Plan。未明确的关键决定保留为问题，不用空的问题列表冒充完整。
+3. 对照原始目标逐条检查遗漏，再交给对应 Plan，按 Plan 的准备检查核对 Feature、Plan、Release 是否完整对应。未明确的关键决定保留为问题，不用空的问题列表冒充完整。
+
+### 条件方法
 
 历史理由影响本次取舍时读取 [why](../../.ai/pstack/skills/why/SKILL.md)；改变架构边界时读取 [architect](../../.ai/pstack/skills/architect/SKILL.md)；只有真实使用问题需要实验区分时才采用 [prototype](../../.ai/pstack/skills/poteto-mode/playbooks/prototype.md)。普通文案修改不强制原型或额外代理。产出仍在 Feature，执行与决策过程写入对应 Plan。
 

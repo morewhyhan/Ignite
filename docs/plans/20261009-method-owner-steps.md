@@ -59,7 +59,7 @@
       "title": "提交真实行为测试并记录红灯",
       "phase": "red",
       "acceptance": ["AC-METHOD-006"],
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T3",
@@ -106,7 +106,13 @@
     "docs/others/evidence/",
     "docs/others/ignite-status.md"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-METHOD-006",
+      "test": "tests/contracts/method-owner-steps.test.ts::[AC-METHOD-006]",
+      "run_id": "tdd-20261009114937-ecd657"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
@@ -185,7 +191,7 @@ AC-METHOD-006 真实调用现有 CLI，核对 owner 原编号步骤与完整必�
 状态：`active`（由元数据生成）
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
-- [ ] T2 · 提交真实行为测试并记录红灯 · doing
+- [x] T2 · 提交真实行为测试并记录红灯 · done
 - [ ] T3 · 实施最小存量修改 · todo
 - [ ] T4 · 验证兼容性并回写设计 · todo
 

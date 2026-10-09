@@ -160,6 +160,7 @@ describe('Ignite Plan and Release contracts', () => {
       const overrides = {
         write_scope: [
           'src/',
+          'tests/',
           'docs/',
           '.ai/',
           '.node-version',

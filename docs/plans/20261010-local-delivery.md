@@ -12,7 +12,10 @@
   "goals": [
     {
       "text": "从本轮真实基线完整核对本地交付改动",
-      "requirements": ["REQ-DELIVERY-001", "REQ-DELIVERY-002"]
+      "requirements": [
+        "REQ-DELIVERY-001",
+        "REQ-DELIVERY-002"
+      ]
     }
   ],
   "constraints": [
@@ -35,11 +38,16 @@
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "7eb1f554d01098fb2e7a16a91d1d8a65f181ff21",
-  "requirements": ["REQ-DELIVERY-001", "REQ-DELIVERY-002"],
+  "requirements": [
+    "REQ-DELIVERY-001",
+    "REQ-DELIVERY-002"
+  ],
   "acceptance": [
     {
       "id": "AC-DELIVERY-001",
-      "required_layers": ["unit"],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
           "layer": "unit",
@@ -52,7 +60,9 @@
     },
     {
       "id": "AC-DELIVERY-002",
-      "required_layers": ["unit"],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
           "layer": "unit",
@@ -64,7 +74,9 @@
       ]
     }
   ],
-  "verification_requirements": ["unit"],
+  "verification_requirements": [
+    "unit"
+  ],
   "tasks": [
     {
       "id": "T1",
@@ -76,15 +88,21 @@
       "id": "T2",
       "title": "提交真实行为测试并记录红灯",
       "phase": "red",
-      "acceptance": ["AC-DELIVERY-001", "AC-DELIVERY-002"],
-      "status": "done"
+      "acceptance": [
+        "AC-DELIVERY-001",
+        "AC-DELIVERY-002"
+      ],
+      "status": "todo"
     },
     {
       "id": "T3",
       "title": "实施最小存量修改",
       "phase": "implement",
-      "acceptance": ["AC-DELIVERY-001", "AC-DELIVERY-002"],
-      "status": "doing"
+      "acceptance": [
+        "AC-DELIVERY-001",
+        "AC-DELIVERY-002"
+      ],
+      "status": "todo"
     },
     {
       "id": "T4",
@@ -131,14 +149,11 @@
       "acceptance_id": "AC-DELIVERY-001",
       "test": "tests/contracts/ignite-cli.test.ts::[AC-DELIVERY-001] rejects unplanned committed and working changes with an explicit baseline",
       "run_id": "tdd-20261009233949-2e64a4"
-    },
-    {
-      "acceptance_id": "AC-DELIVERY-002",
-      "test": "tests/contracts/ignite-cli.test.ts::[AC-DELIVERY-002] refuses working and staged drift from a completed Plan while accepting unchanged delivery",
-      "run_id": "tdd-20261009234029-4c9b57"
     }
   ],
-  "required_evidence": ["check-integration"],
+  "required_evidence": [
+    "check-integration"
+  ],
   "evidence": [],
   "blocker": null,
   "open_questions": [],

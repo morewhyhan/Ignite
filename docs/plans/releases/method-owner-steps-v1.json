@@ -1,0 +1,25 @@
+{
+  "schema": 2,
+  "id": "method-owner-steps-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1791546105773634465"],
+  "scope": [
+    {
+      "id": "GOAL-001",
+      "text": "方法入口保留所属必需步骤，文档准备明确原生 REQ 格式和关联 Release 草稿",
+      "source": "用户：那你就你试啊，你把它完全优化好啊。",
+      "requirements": ["REQ-METHOD-006"],
+      "acceptance": ["AC-METHOD-006"],
+      "plan_ids": ["IGT-1791546105773634465"],
+      "disposition": "included",
+      "reason": "纳入当前独立交付",
+      "authorization": "用户：那你就你试啊，你把它完全优化好啊。"
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-10-09"
+}

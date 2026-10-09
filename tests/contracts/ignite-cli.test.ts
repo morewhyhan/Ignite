@@ -103,6 +103,117 @@ function makePassedEvidence(root: string, baseCommit: string, policyVersion = 2,
 }
 
 describe('Ignite Plan and Release contracts', () => {
+  it('[AC-DELIVERY-001] rejects unplanned committed and working changes with an explicit baseline', () => {
+    const fixture = makeFixture()
+    try {
+      rmSync(join(fixture.root, 'docs/plans/fixture.md'))
+      const baseline = commitAll(fixture.root, 'Clean baseline')
+      const governance = pathToFileURL(join(repositoryRoot, 'scripts/ignite/governance.mjs')).href
+      const check = (base: string | null = baseline) => {
+        const result = spawnSync(
+          process.execPath,
+          [
+            '--input-type=module',
+            '--eval',
+            `const { validateCiCompletion } = await import(${JSON.stringify(governance)}); console.log(JSON.stringify(validateCiCompletion({baseCommit:${JSON.stringify(base)},includeWorkingTree:true})))`,
+          ],
+          {
+            cwd: fixture.root,
+            encoding: 'utf8',
+            env: { ...process.env, DIFF_BASE: '', IGNITE_ROOT: fixture.root },
+            windowsHide: true,
+          },
+        )
+        expect(result.status, result.stderr).toBe(0)
+        return JSON.parse(result.stdout)
+      }
+      expect(check()).toEqual([])
+      write(fixture.root, 'src/committed.ts', 'export const student = true\n')
+      commitAll(fixture.root, 'Business code without Plan')
+      write(fixture.root, 'src/committed.ts', 'export const student = false\n')
+      write(fixture.root, 'src/staged.ts', 'export const staged = true\n')
+      git(fixture.root, 'add', 'src/staged.ts')
+      write(fixture.root, 'src/untracked.ts', 'export const untracked = true\n')
+      expect(check()).toEqual(
+        expect.arrayContaining([
+          expect.stringContaining('src/committed.ts'),
+          expect.stringContaining('src/staged.ts'),
+          expect.stringContaining('src/untracked.ts'),
+        ]),
+      )
+      expect(check(null).join('\n')).toContain('requires a real baseline')
+      expect(check('not-a-commit').join('\n')).toContain('not a real commit')
+      const delivery = runCli(fixture.root, 'validate', '--delivery')
+      expect(delivery.status).not.toBe(0)
+      expect(delivery.stderr).toContain('--plan <id> or --base <commit>')
+      const active = runCli(fixture.root, 'validate', '--delivery', '--plan', 'IGT-900')
+      expect(active.status).not.toBe(0)
+      expect(active.stderr).toContain('structured plan not found')
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
+  it('[AC-DELIVERY-002] refuses working and staged drift from a completed Plan while accepting unchanged delivery', () => {
+    const fixture = makeFixture()
+    try {
+      const overrides = {
+        write_scope: [
+          'src/',
+          'docs/',
+          '.ai/',
+          '.node-version',
+          '.gitattributes',
+          '.editorconfig',
+          'package.json',
+        ],
+      }
+      write(fixture.root, 'docs/plans/fixture.md', planContent(fixture.baseCommit, overrides))
+      write(fixture.root, 'src/title.ts', 'export const title = "tested"\n')
+      commitAll(fixture.root, 'Implement scoped title')
+      makePassedEvidence(fixture.root, fixture.baseCommit, 2, overrides)
+      commitAll(fixture.root, 'Record completed Plan')
+      const governance = pathToFileURL(join(repositoryRoot, 'scripts/ignite/governance.mjs')).href
+      const check = () => {
+        const result = spawnSync(
+          process.execPath,
+          [
+            '--input-type=module',
+            '--eval',
+            `const { validateCiCompletion } = await import(${JSON.stringify(governance)}); console.log(JSON.stringify(validateCiCompletion({baseCommit:${JSON.stringify(fixture.baseCommit)},includeWorkingTree:true})))`,
+          ],
+          {
+            cwd: fixture.root,
+            encoding: 'utf8',
+            env: { ...process.env, DIFF_BASE: '', IGNITE_ROOT: fixture.root },
+            windowsHide: true,
+          },
+        )
+        expect(result.status, result.stderr).toBe(0)
+        return JSON.parse(result.stdout)
+      }
+      expect(check()).toEqual([])
+      write(fixture.root, 'README.md', '# Updated prose\n')
+      expect(check()).toEqual([])
+      write(fixture.root, 'src/title.ts', 'export const title = "untested"\n')
+      expect(check().join('\n')).toContain('src/title.ts')
+      git(fixture.root, 'add', 'src/title.ts')
+      write(fixture.root, 'src/title.ts', 'export const title = "tested"\n')
+      expect(check().join('\n')).toContain('src/title.ts')
+      git(fixture.root, 'reset', '--', 'src/title.ts')
+      expect(check()).toEqual([])
+      write(fixture.root, 'src/new.ts', 'export const newValue = true\n')
+      expect(check().join('\n')).toContain('src/new.ts')
+      const future = commitAll(fixture.root, 'Future branch')
+      git(fixture.root, 'checkout', '--detach', 'HEAD^')
+      const notAncestor = runCli(fixture.root, 'validate', '--delivery', '--base', future)
+      expect(notAncestor.status).not.toBe(0)
+      expect(notAncestor.stderr).toContain('ancestor')
+    } finally {
+      fixture.cleanup()
+    }
+  })
+
   it('[AC-EXECUTION-028] verifies retired template Plans from Git without accepting untested changes', () => {
     const fixture = makeFixture()
     try {

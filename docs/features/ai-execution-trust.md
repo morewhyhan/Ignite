@@ -52,6 +52,8 @@
 - R27（REQ-METHOD-011）：只准备时用原模板生成 Feature、数字 ID Plan 和 Release，不生成业务源码或测试。
 
 - R28（REQ-METHOD-012）：每个原始目标列入的 REQ 必须在该目标中有对应 AC；其他目标的验收不能掩盖本目标的错误对应。
+- R29（REQ-DELIVERY-001）：本地交付覆盖检查复用 CI 的完成 Plan 与证据校验，必须使用本轮 Plan 基线或显式真实基线，检查已提交、暂存、未暂存和未跟踪改动；不靠 HEAD 的前一个提交猜测范围。
+- R30（REQ-DELIVERY-002）：完成 Plan 只能覆盖与受测文件一致的当前内容。之后的工作区或暂存改动不能借用旧证据；干净基线、小范围免 Plan 文案和有效完成记录保持可用。此检查不证明模型已经正确采用技能或 Release 已完成。
 
 ## 权限、错误与缓存
 
@@ -102,3 +104,5 @@
 - AC-METHOD-011（REQ-METHOD-011）：Given 当前项目相应规则与准备稿 When 调用原生工具 Then 只准备时用原模板生成 Feature、数字 ID Plan 和 Release，不生成业务源码或测试，真实行为断言验证结果；不冒充模型或产品交付。
 
 - AC-METHOD-012（REQ-METHOD-012）：Given Release 总体 REQ/AC 齐全但某目标列出的一个 REQ 只在其他目标有对应 AC When 执行准备检查 Then 拒绝并指出目标及 REQ；修正同一目标的对应关系后才允许结构合格。
+- AC-DELIVERY-001（REQ-DELIVERY-001）：Given 一个真实 Git 基线与没有完成 Plan 的业务改动 When 执行本地交付覆盖检查 Then 已提交、暂存、未暂存和未跟踪改动均被指出；缺基线、无效或非祖先基线被拒绝，CLI 可从指定 Plan 取得基线且不修改文件。
+- AC-DELIVERY-002（REQ-DELIVERY-002）：Given 已有完成 Plan 与对应受测版本 When 检查当前交付 Then 一致内容与干净基线、免 Plan 文案被接受，后续工作区、暂存或未跟踪的业务变化被拒绝，旧 CI 的历史模板证据继续按原契约解释。

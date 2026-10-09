@@ -1,0 +1,25 @@
+{
+  "schema": 2,
+  "id": "local-delivery-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1791588953510062310"],
+  "scope": [
+    {
+      "source": "本会话用户明确要求 poteto-mode 直接解决自动维护流程问题",
+      "disposition": "included",
+      "plan_ids": ["IGT-1791588953510062310"],
+      "acceptance": ["AC-DELIVERY-001", "AC-DELIVERY-002"],
+      "authorization": "",
+      "requirements": ["REQ-DELIVERY-001", "REQ-DELIVERY-002"],
+      "text": "本地交付拒绝缺少完成 Plan 或与受测版本不一致的改动，并接回现有开工与完成流程",
+      "id": "GOAL-001",
+      "reason": ""
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-10-10"
+}

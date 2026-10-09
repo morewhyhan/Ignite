@@ -1,0 +1,36 @@
+{
+  "schema": 2,
+  "id": "doc-maintenance-methods-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1791503770196694819"],
+  "scope": [
+    {
+      "id": "GOAL-001",
+      "text": "固定默认文档维护步骤与核心技能、原则、条件分支和写回位置",
+      "source": "2026-10-09当前会话：用户要求开始落实，并固定文档维护的核心方法与条件，不完全交由AI自由选择",
+      "requirements": ["REQ-PSTACK-004"],
+      "acceptance": ["AC-PSTACK-004"],
+      "plan_ids": ["IGT-1791503770196694819"],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    },
+    {
+      "id": "GOAL-002",
+      "text": "延期与授权排除可如实登记且不能伪称完成",
+      "source": "2026-10-09当前会话：用户要求开始落实，并固定文档维护的核心方法与条件，不完全交由AI自由选择",
+      "requirements": ["REQ-EXECUTION-001"],
+      "acceptance": ["AC-EXECUTION-001"],
+      "plan_ids": ["IGT-1791503770196694819"],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-10-09"
+}

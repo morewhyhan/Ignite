@@ -2,20 +2,20 @@
 
 模板状态：`template-baseline`
 输入指纹：`1d3ad333196c`
-当前 Plan：1；结构化历史：0；未迁移历史：0
+当前 Plan：0；结构化历史：1；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-1791535498797266205` · `active` · `method-recovery-v1`
+- 无。
 
 ## 发布范围
 
-- `method-recovery-v1` · `active`
+- `method-recovery-v1` · `verifying`
   - Plan：`IGT-1791535498797266205`
-  - 缺少证据：`IGT-1791535498797266205:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
-  - 下一步：pnpm ignite next --plan IGT-1791535498797266205
-  - 未完成原始目标：GOAL-001 修复技能路径恢复与方法执行前置条件
+  - 下一步：pnpm ignite release verify method-recovery-v1 --plan IGT-1791535498797266205
+  - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题
 

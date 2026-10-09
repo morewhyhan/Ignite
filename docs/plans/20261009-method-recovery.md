@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1791535498797266205",
   "release": "method-recovery-v1",
-  "status": "active",
+  "status": "done",
   "outcome": "错误技能路径自动恢复，并在实施任务开始前检查对应真实红灯",
   "contract_version": 2,
   "execution_contract": 1,
@@ -82,7 +82,7 @@
       "acceptance": ["AC-METHOD-001", "AC-METHOD-002", "AC-METHOD-003"]
     },
     {
-      "status": "doing",
+      "status": "done",
       "title": "验证、回写事实设计和采用边界",
       "id": "T4",
       "phase": "verify"
@@ -136,10 +136,15 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261009095010-9034fe"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "423588a0391528f0339507b5ed8b37166b721d0b",
   "updated_at": "2026-10-09",
   "task_contract": 1
 }
@@ -199,13 +204,13 @@ docs/designs/execution.md 记录当前技能命令与任务契约；docs/standar
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 确认规则与真实行为测试 · done
 - [x] T2 · 记录三个 AC 的真实红灯 · done
 - [x] T3 · 实施路径恢复与任务前置约束 · done
-- [ ] T4 · 验证、回写事实设计和采用边界 · doing
+- [x] T4 · 验证、回写事实设计和采用边界 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20261009095010-9034fe
 <!-- /ignite-progress -->

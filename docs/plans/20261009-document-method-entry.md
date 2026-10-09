@@ -11,8 +11,16 @@
   "verification_contract": 2,
   "goals": [
     {
-      "requirements": ["REQ-METHOD-004"],
+      "requirements": [
+        "REQ-METHOD-004"
+      ],
       "text": "文档维护入口能一次读取所属必需方法与共用写作方法，AI 按固定方法准备需求和计划"
+    },
+    {
+      "requirements": [
+        "REQ-METHOD-005"
+      ],
+      "text": "结构化 Plan 的变更类型只在元数据记录，文档门禁一致执行"
     }
   ],
   "constraints": [
@@ -20,7 +28,11 @@
     "不另建适配文件、技能副本或工作流",
     "只用便宜模型做学生准备试验，不开发整个业务系统"
   ],
-  "non_goals": ["保证每种模型及宿主都自发遵守", "拦截宿主任意直接文件写入", "推送或部署学生系统"],
+  "non_goals": [
+    "保证每种模型及宿主都自发遵守",
+    "拦截宿主任意直接文件写入",
+    "推送或部署学生系统"
+  ],
   "authorization": {
     "source": "用户要求继续实际试验并优化自动方法使用：那你就你试啊，你把它完全优化好啊。"
   },
@@ -32,10 +44,15 @@
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "1fa791a58e56dff4d7e55c793885dfc143eebe91",
-  "requirements": ["REQ-METHOD-004"],
+  "requirements": [
+    "REQ-METHOD-004",
+    "REQ-METHOD-005"
+  ],
   "acceptance": [
     {
-      "tests": ["tests/contracts/document-method-entry.test.ts::[AC-METHOD-004]"],
+      "tests": [
+        "tests/contracts/document-method-entry.test.ts::[AC-METHOD-004]"
+      ],
       "id": "AC-METHOD-004",
       "checks": [
         {
@@ -43,10 +60,29 @@
           "test": "tests/contracts/document-method-entry.test.ts::[AC-METHOD-004]"
         }
       ],
-      "required_layers": ["unit"]
+      "required_layers": [
+        "unit"
+      ]
+    },
+    {
+      "id": "AC-METHOD-005",
+      "checks": [
+        {
+          "test": "tests/contracts/plan-change-type.test.ts::[AC-METHOD-005]",
+          "layer": "unit"
+        }
+      ],
+      "tests": [
+        "tests/contracts/plan-change-type.test.ts::[AC-METHOD-005]"
+      ],
+      "required_layers": [
+        "unit"
+      ]
     }
   ],
-  "verification_requirements": ["unit"],
+  "verification_requirements": [
+    "unit"
+  ],
   "tasks": [
     {
       "id": "T1",
@@ -58,21 +94,43 @@
       "id": "T2",
       "title": "提交真实行为测试并记录红灯",
       "phase": "red",
-      "acceptance": ["AC-METHOD-004"],
+      "acceptance": [
+        "AC-METHOD-004"
+      ],
       "status": "done"
     },
     {
       "id": "T3",
       "title": "实施最小存量修改",
       "phase": "implement",
-      "acceptance": ["AC-METHOD-004"],
-      "status": "doing"
+      "acceptance": [
+        "AC-METHOD-004"
+      ],
+      "status": "done"
+    },
+    {
+      "id": "T5",
+      "title": "取得单一变更类型记录的真实红灯",
+      "status": "todo",
+      "acceptance": [
+        "AC-METHOD-005"
+      ],
+      "phase": "red"
+    },
+    {
+      "id": "T6",
+      "title": "消除结构化 Plan 正文重复类型要求",
+      "status": "todo",
+      "acceptance": [
+        "AC-METHOD-005"
+      ],
+      "phase": "implement"
     },
     {
       "id": "T4",
       "title": "验证兼容性并回写设计",
-      "phase": "verify",
-      "status": "todo"
+      "status": "todo",
+      "phase": "verify"
     }
   ],
   "depends_on": [],
@@ -102,7 +160,9 @@
     "docs/standards/",
     "docs/designs/",
     "docs/others/",
-    "tests/contracts/document-method-entry.test.ts"
+    "tests/contracts/document-method-entry.test.ts",
+    "scripts/check-docs.mjs",
+    "tests/contracts/plan-change-type.test.ts"
   ],
   "tdd_evidence": [
     {
@@ -111,8 +171,15 @@
       "run_id": "tdd-20261009102933-b83d2b"
     }
   ],
-  "required_evidence": ["check-integration"],
-  "evidence": [],
+  "required_evidence": [
+    "check-integration"
+  ],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261009105205-0a764f"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
@@ -192,9 +259,11 @@ AC-METHOD-004 实际调用 CLI，要求所属必需方法与共用写作正文�
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
 - [x] T2 · 提交真实行为测试并记录红灯 · done
-- [ ] T3 · 实施最小存量修改 · doing
-- [ ] T4 · 验证兼容性并回写设计 · todo
+- [x] T3 · 实施最小存量修改 · done
+- [ ] T4 · 验证兼容性并回写设计 · doing
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20261009105205-0a764f
 <!-- /ignite-progress -->
+
+2026-10-09：第二轮新会话自动读齐七份正文并安排先红灯后实现，草稿原生结构有效，但正文类型仍被文档检查器要求重复。当前 README 和模板都以顶部类型为准，检查器与真源矛盾。本 Plan 追加 AC-METHOD-005 修正门禁，不另建收口 Plan。读齐步骤发生在读取维护记录之前；试验只证明准备阶段，未实现学生系统。

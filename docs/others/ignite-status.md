@@ -1,7 +1,7 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`f3a85fd830a2`
+输入指纹：`d482967a8b12`
 当前 Plan：1；结构化历史：0；未迁移历史：0
 
 ## 当前工作
@@ -12,7 +12,7 @@
 
 - `document-method-entry-v1` · `active`
   - Plan：`IGT-1791541445161140320`
-  - 缺少证据：`IGT-1791541445161140320:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1791541445161140320
   - 未完成原始目标：GOAL-001 文档维护入口能一次读取所属必需方法与共用写作方法，AI 按固定方法准备需求和计划

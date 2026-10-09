@@ -144,7 +144,7 @@
     {
       "acceptance_id": "AC-METHOD-005",
       "test": "tests/contracts/plan-change-type.test.ts::[AC-METHOD-005]",
-      "run_id": "tdd-20261009110028-7066d5"
+      "run_id": "tdd-20261009110232-ea0078"
     }
   ],
   "required_evidence": ["check-integration"],

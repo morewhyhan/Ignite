@@ -86,14 +86,14 @@
     {
       "id": "T5",
       "title": "取得单一变更类型记录的真实红灯",
-      "status": "todo",
+      "status": "done",
       "acceptance": ["AC-METHOD-005"],
       "phase": "red"
     },
     {
       "id": "T6",
       "title": "消除结构化 Plan 正文重复类型要求",
-      "status": "todo",
+      "status": "doing",
       "acceptance": ["AC-METHOD-005"],
       "phase": "implement"
     },
@@ -234,8 +234,8 @@ AC-METHOD-004 实际调用 CLI，要求所属必需方法与共用写作正文�
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
 - [x] T2 · 提交真实行为测试并记录红灯 · done
 - [x] T3 · 实施最小存量修改 · done
-- [ ] T5 · 取得单一变更类型记录的真实红灯 · todo
-- [ ] T6 · 消除结构化 Plan 正文重复类型要求 · todo
+- [x] T5 · 取得单一变更类型记录的真实红灯 · done
+- [ ] T6 · 消除结构化 Plan 正文重复类型要求 · doing
 - [ ] T4 · 验证兼容性并回写设计 · todo
 
 验收缺口：未记录；完成仍须实际证据

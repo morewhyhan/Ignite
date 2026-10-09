@@ -111,12 +111,11 @@ for (const planFile of planFiles) {
   ]) {
     if (!plan.content.includes(heading)) fail(`${plan.relativePath}: missing heading "${heading}"`)
   }
-  const selectedTypes = [
-    ...plan.content.matchAll(/^- 类型：`(\[(?:新增模块|存量改动|基础设施变更)\])`$/gm),
-  ]
-  if (selectedTypes.length !== 1) fail(`${plan.relativePath}: select exactly one change type`)
-  if (plan.metadata?.schema === 2 && selectedTypes[0]?.[1] !== `[${plan.metadata.change_type}]`) {
-    fail(`${plan.relativePath}: body change type differs from metadata`)
+  if (plan.metadata?.schema !== 2) {
+    const selectedTypes = [
+      ...plan.content.matchAll(/^- 类型：`(\[(?:新增模块|存量改动|基础设施变更)\])`$/gm),
+    ]
+    if (selectedTypes.length !== 1) fail(`${plan.relativePath}: select exactly one change type`)
   }
   if (plan.metadata) {
     for (const heading of ['## 非目标', '## 测试与验收设计', '## 设计回写']) {

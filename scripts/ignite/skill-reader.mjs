@@ -50,6 +50,19 @@ export function readDocumentMethods(root, owner) {
   })
 }
 
+export function readDocumentMethodSteps(root, owner) {
+  root = realpathSync(root)
+  const source = readLocalSource(root, resolve(root, owner))
+  const section = source.content.split(/^## 固定维护方法\s*$/m)[1]?.split(/^## /m)[0]
+  const steps = section
+    ?.trim()
+    .split(/\n\s*\n/)
+    .filter((paragraph) => /^\d+\.\s/.test(paragraph))
+    .join('\n\n')
+  if (!steps) return null
+  return { path: source.path, content: steps }
+}
+
 export function readProjectSkill(root, name, requestedPath = null) {
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(name || ''))
     throw new Error('skill read requires a lowercase kebab-case skill name')

@@ -38,7 +38,7 @@ import {
 } from './governance.mjs'
 import { executeCheckPlan, requestRunCancellation, runStatus } from './runs.mjs'
 import { runTddRed } from './tdd.mjs'
-import { readDocumentMethods, readProjectSkill } from './skill-reader.mjs'
+import { readDocumentMethods, readDocumentMethodSteps, readProjectSkill } from './skill-reader.mjs'
 import { summarizeVerification } from './verification-summary.mjs'
 
 function parseArgs(argv) {
@@ -679,8 +679,11 @@ export async function main(argv = process.argv.slice(2)) {
       if (positionals.length || typeof options.for !== 'string' || options.path !== undefined)
         throw new Error('skill read --for <owning-document.md>')
       const methods = readDocumentMethods(repositoryRoot, options.for)
+      const steps = readDocumentMethodSteps(repositoryRoot, options.for)
       process.stdout.write(
-        methods.map((method) => `\n<!-- ${method.path} -->\n${method.content}`).join('\n'),
+        (steps ? [steps, ...methods] : methods)
+          .map((method) => `\n<!-- ${method.path} -->\n${method.content}`)
+          .join('\n'),
       )
       return
     }

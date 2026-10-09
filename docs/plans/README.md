@@ -14,7 +14,7 @@
 
 涉及本类文档时，先读取以下必需方法：[figure-it-out](../../.ai/pstack/skills/figure-it-out/SKILL.md)、[show-me-your-work](../../.ai/pstack/skills/show-me-your-work/SKILL.md)、[principle-sequence-verifiable-units](../../.ai/pstack/skills/principle-sequence-verifiable-units/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
 
-1. 接续覆盖本轮结果的未完成 Plan；确定原始目标、基线、写入范围、验收和回退，逐项映射 Feature REQ/AC。
+1. 接续覆盖本轮结果的未完成 Plan；确定原始目标、基线、写入范围、验收和回退，逐项映射 Feature REQ/AC。新建 Plan 草稿时同时创建其 `release` 所引用的 `docs/plans/releases/<release-id>.json`，按 Release 模板把原始目标、REQ/AC、负责 Plan 和处理方式写入 scope；草稿的 evidence 留空，不能把未运行测试写成已通过。
 2. 按可验证结果安排 tasks，记录关键取舍及其依据；先解决阻止正确实现的事实缺口，不为了使用技能额外建立工作流或状态表。
 3. 按原生契约记录真实红灯、实现与验收，依据实际证据更新任务、状态与 Design；检查失败和完善仍留在同一 Plan。
 

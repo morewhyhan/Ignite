@@ -9,7 +9,7 @@
 涉及本类文档时，先读取以下必需方法：[how](../../.ai/pstack/skills/how/SKILL.md)、[principle-experience-first](../../.ai/pstack/skills/principle-experience-first/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
 
 1. 先还原用户已确定的目标、实际使用过程和约束，区分新增模块与存量改动；已有 Feature 能承载时在原处更新。
-2. 把用户行为写成 REQ 与可观察的 AC，说明采用边界、失败情况、必要验收层级及真实检查路径；不由 AI 猜测尚未决定的产品取舍。
+2. 按模板格式把业务规则写成 `- R1（REQ-MODULE-001）：具体行为`，验收写成 `- AC-MODULE-001（REQ-MODULE-001）：Given ... When ... Then ...`；替换编号和内容，保留 R 与 REQ 的关联格式，供原生检查识别。说明采用边界、失败情况、必要验收层级及真实检查路径；不由 AI 猜测尚未决定的产品取舍。
 3. 对照原始目标逐条检查遗漏，再交给对应 Plan。未明确的关键决定保留为问题，不用空的问题列表冒充完整。
 
 历史理由影响本次取舍时读取 [why](../../.ai/pstack/skills/why/SKILL.md)；改变架构边界时读取 [architect](../../.ai/pstack/skills/architect/SKILL.md)；只有真实使用问题需要实验区分时才采用 [prototype](../../.ai/pstack/skills/poteto-mode/playbooks/prototype.md)。普通文案修改不强制原型或额外代理。产出仍在 Feature，执行与决策过程写入对应 Plan。

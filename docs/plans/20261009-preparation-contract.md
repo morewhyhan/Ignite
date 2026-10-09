@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1791557113512648376",
   "release": "preparation-contract-v1",
-  "status": "active",
+  "status": "done",
   "outcome": "默认文档准备经过原生完整校验、纠错与清晰的未完成判定，减少自由填写、错误环境与局部绿灯误报",
   "contract_version": 2,
   "execution_contract": 1,
@@ -253,7 +253,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "33ffbf13a31fbd7c7f95c2108ce61924f9133407",
   "updated_at": "2026-10-09"
 }
 -->
@@ -330,7 +330,7 @@
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
 - [x] T2 · 提交真实行为测试并记录红灯 · done

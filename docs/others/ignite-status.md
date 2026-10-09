@@ -10,11 +10,10 @@
 
 ## 发布范围
 
-- `local-delivery-v1` · `verifying`
+- `local-delivery-v1` · `done`
   - Plan：`IGT-1791588953510062310`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite release verify local-delivery-v1 --plan IGT-1791588953510062310
+  - 最终版本验收：passed（a30965b468a6）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题

@@ -1,0 +1,25 @@
+{
+  "schema": 2,
+  "id": "document-method-entry-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1791541445161140320"],
+  "scope": [
+    {
+      "id": "GOAL-001",
+      "text": "文档维护入口能一次读取所属必需方法与共用写作方法，AI 按固定方法准备需求和计划",
+      "source": "用户要求继续实际试验并优化自动方法使用：那你就你试啊，你把它完全优化好啊。",
+      "requirements": ["REQ-METHOD-004"],
+      "acceptance": ["AC-METHOD-004"],
+      "plan_ids": ["IGT-1791541445161140320"],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-10-09"
+}

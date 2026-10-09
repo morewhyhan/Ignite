@@ -1,8 +1,8 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`7a60c66b0031`
-当前 Plan：0；结构化历史：0；未迁移历史：0
+输入指纹：`ec021d22e14a`
+当前 Plan：0；结构化历史：1；未迁移历史：0
 
 ## 当前工作
 
@@ -10,7 +10,12 @@
 
 ## 发布范围
 
-- 无。
+- `local-delivery-v1` · `verifying`
+  - Plan：`IGT-1791588953510062310`
+  - 缺少证据：无
+  - 最终版本验收：missing
+  - 下一步：pnpm ignite release verify local-delivery-v1 --plan IGT-1791588953510062310
+  - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题
 

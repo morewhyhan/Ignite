@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1791588953510062310",
   "release": "local-delivery-v1",
-  "status": "active",
+  "status": "done",
   "outcome": "本地交付拒绝缺少完成 Plan 或与受测版本不一致的改动，并接回现有开工与完成流程",
   "contract_version": 2,
   "execution_contract": 1,
@@ -84,13 +84,13 @@
       "title": "实施最小存量修改",
       "phase": "implement",
       "acceptance": ["AC-DELIVERY-001", "AC-DELIVERY-002"],
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T4",
       "title": "验证兼容性并回写设计",
       "phase": "verify",
-      "status": "todo"
+      "status": "done"
     }
   ],
   "depends_on": [],
@@ -139,10 +139,15 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261009234852-f3fbde"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "ce4ee32051509a7dbf81c94901f2b9f3733d9223",
   "updated_at": "2026-10-09"
 }
 -->
@@ -212,13 +217,17 @@ AC-DELIVERY-001 检查真实临时 Git 中无 Plan 的提交、工作区、暂�
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
 - [x] T2 · 提交真实行为测试并记录红灯 · done
-- [ ] T3 · 实施最小存量修改 · doing
-- [ ] T4 · 验证兼容性并回写设计 · todo
+- [x] T3 · 实施最小存量修改 · done
+- [x] T4 · 验证兼容性并回写设计 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20261009234852-f3fbde
 <!-- /ignite-progress -->
+
+本轮集成首次 run-20261009234433-702f71 因完成记录夹具遗漏 tests/ 范围被正确拒绝。没有放宽实现：临时回退修复，补齐夹具范围，在旧实现记录 AC-DELIVERY-002 的新红灯 tdd-20261009234733-feaf7e 后恢复修复。原失败与旧红灯仍保留历史。
+
+实现版本 ce4ee32051509a7dbf81c94901f2b9f3733d9223 的原生 integration run-20261009234852-f3fbde 已通过，两条 AC 与 41 项所选回归通过，工程和迁移门禁通过。旧学生版本的本地交付检查拒绝全部 11 个未覆盖文件，观察另存本地 TEMP，不冒充新的 Plan 证据。外部 cursor-team-kit/deslop 未提供，已按实际差异和 no-comments 方法直接复核；没有独立模型评审，也没有重新运行开发模型。模型自动遵守仍不作已通过声明。

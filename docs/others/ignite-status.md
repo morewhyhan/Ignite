@@ -10,11 +10,10 @@
 
 ## 发布范围
 
-- `document-method-entry-v1` · `verifying`
+- `document-method-entry-v1` · `done`
   - Plan：`IGT-1791541445161140320`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite release verify document-method-entry-v1 --plan IGT-1791541445161140320
+  - 最终版本验收：passed（41bcf1524467）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题

@@ -10,88 +10,56 @@
   "verification_contract": 2,
   "goals": [
     {
-      "requirements": [
-        "REQ-METHOD-001",
-        "REQ-METHOD-002",
-        "REQ-METHOD-003"
-      ],
+      "requirements": ["REQ-METHOD-001", "REQ-METHOD-002", "REQ-METHOD-003"],
       "text": "优化已观察到的技能路径错误和执行顺序错误"
     }
   ],
-  "constraints": [
-    "沿用原文档与原生检查器",
-    "WSL Ubuntu/NVM Node 24.19.0",
-    "不改业务产品功能"
-  ],
-  "non_goals": [
-    "完整学生系统开发",
-    "保证所有模型一定遵守说明"
-  ],
+  "constraints": ["沿用原文档与原生检查器", "WSL Ubuntu/NVM Node 24.19.0", "不改业务产品功能"],
+  "non_goals": ["完整学生系统开发", "保证所有模型一定遵守说明"],
   "authorization": {
     "source": "用户：对着这个问题，把它实际优化下来"
   },
-  "deliverables": [
-    "项目技能读取命令",
-    "带阶段的任务契约与实施前置检查"
-  ],
+  "deliverables": ["项目技能读取命令", "带阶段的任务契约与实施前置检查"],
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "153b8ad131cd214760ef9b8948e16755004560af",
-  "requirements": [
-    "REQ-METHOD-001",
-    "REQ-METHOD-002",
-    "REQ-METHOD-003"
-  ],
+  "requirements": ["REQ-METHOD-001", "REQ-METHOD-002", "REQ-METHOD-003"],
   "acceptance": [
     {
-      "required_layers": [
-        "unit"
-      ],
+      "required_layers": ["unit"],
       "checks": [
         {
           "layer": "unit",
           "test": "tests/contracts/method-recovery.test.ts::[AC-METHOD-001]"
         }
       ],
-      "tests": [
-        "tests/contracts/method-recovery.test.ts::[AC-METHOD-001]"
-      ],
+      "tests": ["tests/contracts/method-recovery.test.ts::[AC-METHOD-001]"],
       "id": "AC-METHOD-001"
     },
     {
-      "required_layers": [
-        "unit"
-      ],
+      "required_layers": ["unit"],
       "checks": [
         {
           "layer": "unit",
           "test": "tests/contracts/method-recovery.test.ts::[AC-METHOD-002]"
         }
       ],
-      "tests": [
-        "tests/contracts/method-recovery.test.ts::[AC-METHOD-002]"
-      ],
+      "tests": ["tests/contracts/method-recovery.test.ts::[AC-METHOD-002]"],
       "id": "AC-METHOD-002"
     },
     {
-      "required_layers": [
-        "unit"
-      ],
+      "required_layers": ["unit"],
       "checks": [
         {
           "layer": "unit",
           "test": "tests/contracts/method-recovery.test.ts::[AC-METHOD-003]"
         }
       ],
-      "tests": [
-        "tests/contracts/method-recovery.test.ts::[AC-METHOD-003]"
-      ],
+      "tests": ["tests/contracts/method-recovery.test.ts::[AC-METHOD-003]"],
       "id": "AC-METHOD-003"
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "status": "done",
@@ -99,7 +67,7 @@
       "id": "T1"
     },
     {
-      "status": "doing",
+      "status": "done",
       "title": "记录三个 AC 的真实红灯",
       "id": "T2"
     },
@@ -143,10 +111,24 @@
     "docs/designs/",
     "docs/others/evidence/tdd/"
   ],
-  "tdd_evidence": [],
-  "required_evidence": [
-    "check-integration"
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-METHOD-001",
+      "test": "tests/contracts/method-recovery.test.ts::[AC-METHOD-001]",
+      "run_id": "tdd-20261009084846-a81fbe"
+    },
+    {
+      "acceptance_id": "AC-METHOD-002",
+      "test": "tests/contracts/method-recovery.test.ts::[AC-METHOD-002]",
+      "run_id": "tdd-20261009084909-8e6fdd"
+    },
+    {
+      "acceptance_id": "AC-METHOD-003",
+      "test": "tests/contracts/method-recovery.test.ts::[AC-METHOD-003]",
+      "run_id": "tdd-20261009084919-b6abc2"
+    }
   ],
+  "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
@@ -176,3 +158,16 @@ docs/designs/architecture.md 记录当前技能命令与任务契约；docs/stan
 ## 状态记录
 
 2026-10-09：依据实际试验建立存量 Plan，未实施前提交行为断言，保持实现和验证任务待办。
+
+<!-- ignite-progress -->
+
+状态：`active`（由元数据生成）
+
+- [x] T1 · 确认规则与真实行为测试 · done
+- [x] T2 · 记录三个 AC 的真实红灯 · done
+- [ ] T3 · 实施路径恢复与任务前置约束 · todo
+- [ ] T4 · 验证、回写事实设计和采用边界 · todo
+
+验收缺口：未记录；完成仍须实际证据
+证据：尚无
+<!-- /ignite-progress -->

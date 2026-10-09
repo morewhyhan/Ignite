@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "e2d5612a58bd5882772bbd64f497d0c190b16ec7490533fedd13f1eab79997ae",
+  "run_id": "tdd-20261009234733-feaf7e",
+  "plan_id": "IGT-1791588953510062310",
+  "acceptance_id": "AC-DELIVERY-002",
+  "test": "tests/contracts/ignite-cli.test.ts::[AC-DELIVERY-002] refuses working and staged drift from a completed Plan while accepting unchanged delivery",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "48fb37d553c1f10f8a48d1e765eb5de9dad0f923",
+  "output_sha256": "b0762c29a5dd27ecccd9f67784083cfd98f93f0f806aae192ae61364a6d6bb61",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/ignite-cli.test.ts",
+    "--testNamePattern",
+    "AC-DELIVERY-002",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-09T23:47:33.663Z",
+  "ended_at": "2026-10-09T23:47:35.646Z",
+  "executor": "ignite-tdd-runner"
+}

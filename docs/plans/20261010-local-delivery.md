@@ -12,10 +12,7 @@
   "goals": [
     {
       "text": "从本轮真实基线完整核对本地交付改动",
-      "requirements": [
-        "REQ-DELIVERY-001",
-        "REQ-DELIVERY-002"
-      ]
+      "requirements": ["REQ-DELIVERY-001", "REQ-DELIVERY-002"]
     }
   ],
   "constraints": [
@@ -38,16 +35,11 @@
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "7eb1f554d01098fb2e7a16a91d1d8a65f181ff21",
-  "requirements": [
-    "REQ-DELIVERY-001",
-    "REQ-DELIVERY-002"
-  ],
+  "requirements": ["REQ-DELIVERY-001", "REQ-DELIVERY-002"],
   "acceptance": [
     {
       "id": "AC-DELIVERY-001",
-      "required_layers": [
-        "unit"
-      ],
+      "required_layers": ["unit"],
       "checks": [
         {
           "layer": "unit",
@@ -60,9 +52,7 @@
     },
     {
       "id": "AC-DELIVERY-002",
-      "required_layers": [
-        "unit"
-      ],
+      "required_layers": ["unit"],
       "checks": [
         {
           "layer": "unit",
@@ -74,9 +64,7 @@
       ]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
@@ -88,20 +76,14 @@
       "id": "T2",
       "title": "提交真实行为测试并记录红灯",
       "phase": "red",
-      "acceptance": [
-        "AC-DELIVERY-001",
-        "AC-DELIVERY-002"
-      ],
-      "status": "todo"
+      "acceptance": ["AC-DELIVERY-001", "AC-DELIVERY-002"],
+      "status": "done"
     },
     {
       "id": "T3",
       "title": "实施最小存量修改",
       "phase": "implement",
-      "acceptance": [
-        "AC-DELIVERY-001",
-        "AC-DELIVERY-002"
-      ],
+      "acceptance": ["AC-DELIVERY-001", "AC-DELIVERY-002"],
       "status": "todo"
     },
     {
@@ -149,11 +131,14 @@
       "acceptance_id": "AC-DELIVERY-001",
       "test": "tests/contracts/ignite-cli.test.ts::[AC-DELIVERY-001] rejects unplanned committed and working changes with an explicit baseline",
       "run_id": "tdd-20261009233949-2e64a4"
+    },
+    {
+      "acceptance_id": "AC-DELIVERY-002",
+      "test": "tests/contracts/ignite-cli.test.ts::[AC-DELIVERY-002] refuses working and staged drift from a completed Plan while accepting unchanged delivery",
+      "run_id": "tdd-20261009234733-feaf7e"
     }
   ],
-  "required_evidence": [
-    "check-integration"
-  ],
+  "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
@@ -231,7 +216,7 @@ AC-DELIVERY-001 检查真实临时 Git 中无 Plan 的提交、工作区、暂�
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
 - [x] T2 · 提交真实行为测试并记录红灯 · done
-- [ ] T3 · 实施最小存量修改 · doing
+- [ ] T3 · 实施最小存量修改 · todo
 - [ ] T4 · 验证兼容性并回写设计 · todo
 
 验收缺口：未记录；完成仍须实际证据

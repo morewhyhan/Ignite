@@ -11,8 +11,14 @@ it('[AC-METHOD-005] accepts a structured Plan with one change-type source and st
     git(fixture.root, 'clone', '--no-hardlinks', repositoryRoot, target)
     symlinkSync(join(repositoryRoot, 'node_modules'), join(target, 'node_modules'), 'dir')
     appendFileSync(join(target, '.git/info/exclude'), '\n/node_modules\n')
+    const generated = spawnSync(
+      process.execPath,
+      [join(target, 'scripts/create-change.mjs'), 'type-example'],
+      { cwd: target, env: { ...process.env, IGNITE_ROOT: target }, encoding: 'utf8' },
+    )
+    expect(generated.status, generated.stderr).toBe(0)
     const planFile = readdirSync(join(target, 'docs/plans')).find((name) =>
-      /^\d{8}-document-method-entry\.md$/.test(name),
+      /^\d{8}-type-example\.md$/.test(name),
     )
     expect(planFile).toBeDefined()
     const planPath = `docs/plans/${planFile}`

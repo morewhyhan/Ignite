@@ -77,7 +77,7 @@
       "title": "提交真实行为测试并记录红灯",
       "phase": "red",
       "acceptance": ["AC-DELIVERY-001", "AC-DELIVERY-002"],
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T3",
@@ -126,7 +126,18 @@
     "docs/designs/execution.md",
     "docs/standards/adoption.md"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-DELIVERY-001",
+      "test": "tests/contracts/ignite-cli.test.ts::[AC-DELIVERY-001] rejects unplanned committed and working changes with an explicit baseline",
+      "run_id": "tdd-20261009233949-2e64a4"
+    },
+    {
+      "acceptance_id": "AC-DELIVERY-002",
+      "test": "tests/contracts/ignite-cli.test.ts::[AC-DELIVERY-002] refuses working and staged drift from a completed Plan while accepting unchanged delivery",
+      "run_id": "tdd-20261009234029-4c9b57"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
@@ -204,7 +215,7 @@ AC-DELIVERY-001 检查真实临时 Git 中无 Plan 的提交、工作区、暂�
 状态：`active`（由元数据生成）
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
-- [ ] T2 · 提交真实行为测试并记录红灯 · todo
+- [x] T2 · 提交真实行为测试并记录红灯 · done
 - [ ] T3 · 实施最小存量修改 · todo
 - [ ] T4 · 验证兼容性并回写设计 · todo
 

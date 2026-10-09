@@ -286,7 +286,10 @@ export function validateReleaseScope(release, plansById) {
     for (const id of goal.plan_ids)
       if (!release.plan_ids.includes(id)) errors.push(`${goal.id}: Plan ${id} is outside release`)
     for (const req of goal.requirements)
-      if (!goal.plan_ids.some((id) => plansById.get(id)?.metadata.requirements?.includes(req)))
+      if (
+        goal.disposition === 'included' &&
+        !goal.plan_ids.some((id) => plansById.get(id)?.metadata.requirements?.includes(req))
+      )
         errors.push(`${goal.id}: ${req} has no assigned Plan`)
     if (release.coverage_version >= 2) {
       for (const acceptance of goal.acceptance) {
@@ -295,6 +298,7 @@ export function validateReleaseScope(release, plansById) {
           continue
         }
         if (
+          goal.disposition === 'included' &&
           !goal.plan_ids.some((id) =>
             plansById.get(id)?.metadata.acceptance?.some((item) => item.id === acceptance),
           )

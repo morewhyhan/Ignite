@@ -2,7 +2,8 @@
 name: reflect
 description: Reflect on the current authorized conversation, identify durable
   lessons and update their canonical skill or Ignite document owner. Use when
-  the user says reflect; scale review to the actual scope.
+  the user asks to reflect or a major correction warrants lesson review; scale
+  review to the actual scope.
 ---
 
 # reflect

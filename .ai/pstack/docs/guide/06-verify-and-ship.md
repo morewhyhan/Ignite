@@ -63,7 +63,7 @@ It writes project-specific control instructions under `.ai/skills/verify-<app>/`
 
 Reuse existing Playwright tests and native checks rather than rebuilding them. A control skill can help an agent exercise an unfamiliar surface, but screenshots and a self-reported verified result cannot replace native AC evidence.
 
-For actual engineering work use `pnpm ignite check --plan <IGT-ID> --level auto`. Reuse an active or passed run for the same inputs. After included Plans are complete, Release verification runs on the same final version under the existing rules. State which layers actually passed; unit checks against a mock database do not prove real persistence or browser behavior.
+For actual engineering work use `pnpm ignite check --plan <IGT-ID> --level auto`. Reuse an active or passed run for the same inputs. After included Plans are complete, follow the [Release README](../../../../docs/plans/releases/README.md), using prove-it-works and sequence-verifiable-units to recheck all original goals on the same final version. Independent Plan checks or reviewer verdicts cannot establish combined acceptance. State which layers actually passed; unit checks against a mock database do not prove real persistence or browser behavior.
 
 ## Keep the verification instructions current
 

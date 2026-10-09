@@ -38,7 +38,7 @@ git show <hash>
 git log <old>..<new> -p -- <file>
 ```
 
-For each substantive commit, pull the PR context:
+For a relevant commit whose rationale needs PR discussion, read the available PR context. gh is optional; missing access remains a stated gap:
 
 ```bash
 # Find the PR number from the merge commit or branch

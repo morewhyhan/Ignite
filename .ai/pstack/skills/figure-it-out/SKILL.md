@@ -11,6 +11,8 @@ description: 'Design an auditable playbook when no narrower one fits: a large mi
 
 When no narrower playbook fits, design a workflow that matches the actual result and risk. Keep its phases and decisions in the existing Ignite Plan, not a second playbook document or task list.
 
+For default [Plan maintenance](../../../../docs/plans/README.md), use the native framing, sequence and decision duties below within the existing fixed workflow. Do not design another workflow or require an otherwise missing playbook. The broader custom workflow branch applies only when no narrower existing path fits the actual outcome.
+
 ## Start
 
 Read the relevant principles in poteto-mode and the project rules. Reuse the unfinished Plan covering the result. Only a genuinely independent delivery needs another Plan; one API/page/test/fix/verification result stays together. Use the Plan's structured tasks for the phases below and native task commands for status.

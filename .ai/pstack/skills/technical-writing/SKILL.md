@@ -30,7 +30,7 @@ The layers decide what a document says and how much each sentence carries. A doc
 
 ## Pick the mode first (Diátaxis)
 
-One document, one mode. Two questions pick it: does the content inform action (doing) or understanding (thinking), and does it serve learning or work?
+Follow the owning directory README's required document structure first. Apply the mode to the relevant section when an established Feature, Plan or other record combines purposes. Do not split required records into new documents merely to enforce one mode. Two questions identify the useful mode: does the content inform action (doing) or understanding (thinking), and does it serve learning or work?
 
 - Action + learning: **tutorial**.
 - Action + work: **how-to**.
@@ -47,7 +47,7 @@ Use the compass on a whole document or on one sentence.
 
 **Explanation: understanding and why.** One bounded topic, readable away from the product. Each title should tolerate an implicit "About..." in front. Anchor on a real why question. Give context: design decisions, history, constraints, alternatives. Opinion is allowed here and nowhere else.
 
-Don't mix modes: no reference tables inside a tutorial, no tutorial hand-holding inside reference, no arguing inside a how-to. Split and link instead.
+Keep each section's purpose clear. Separate unrelated tutorial, lookup and rationale material only when the existing document rules allow it; link the existing owner rather than creating duplicate authority.
 
 ## Write sentences to the reader (Google developer style)
 
@@ -91,7 +91,7 @@ Don't mix modes: no reference tables inside a tutorial, no tutorial hand-holding
 
 ## Voice and repo specifics
 
-- Apply the **unslop** skill to every doc this skill touches. That skill owns the slop-pattern catalog: AI vocabulary, filler, hedging, formatting tells.
+- Apply technical-writing and the **unslop** skill by default to maintained documentation, including the simplest path. Start from the existing [document owners](../../../../docs/README.md). Keep their required records and method branches. Apply the **unslop** skill to every doc this skill touches. That skill owns the slop-pattern catalog: AI vocabulary, filler, hedging, formatting tells.
 - PR descriptions and commit messages are writing too. Every layer except Diátaxis applies to them. A PR body is a briefing that a reviewer can read in under a minute. Do not paste swarm logs, SHA lists, or metric tables. Link them.
 - Product UI strings are not documentation. Use your product's copy guidelines for those.
 - Indent code snippets with tabs. Write real paths and real symbols. Make every count or tree claim true at the commit that lands it, and include the command that regenerates it.

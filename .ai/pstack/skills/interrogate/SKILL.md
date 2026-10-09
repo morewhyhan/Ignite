@@ -1,112 +1,32 @@
 ---
 name: interrogate
-description: Use for "interrogate", "adversarial review", "multi-model review", "challenge
-  this", "stress test this code", "find blind spots", or "tear this apart". Multiple
-  LLM reviewers challenge changes from independent angles.
+description: Adversarially review a concrete change against its original intent and evidence. Use for interrogate, challenge this, blind-spot or explicit independent review requests. Multiple reviewers are conditional on requested or useful authorized delegation.
 ---
 
 # Interrogate
 
-Spawn one reviewer per configured model to adversarially review code changes. Each model gets the same prompt and rubric. The adversarial signal comes from model diversity, not assigned personas.
+Return a grounded verdict on a concrete diff or artifact. Review is read-only and does not automatically apply changes.
 
-The deliverable is a synthesized verdict. Do NOT auto-apply changes.
+## Establish scope and intent
 
-## Step 1, Determine Scope
+Use the caller's files or diff, otherwise the verified branch base and relevant working-tree changes. Read the original user goal, relevant Feature promise, Plan scope and current Design before deriving intent from code. A commit or implementation cannot silently narrow the original promise.
 
-Identify what to review from context:
+Follow [Plan rules](../../../../docs/plans/README.md) for accepted follow-up work and [testing standards](../../../../docs/standards/testing.md) for required evidence layers. Name a genuine unresolved product decision, but continue independent read-only investigation when the record already establishes intent.
 
-- If the user points at specific files or a diff, use that
-- If on a feature branch, run `git diff main...HEAD` (or the appropriate base branch) for the full changeset
-- If the user's message references recent work, gather the relevant files
+## Review the concrete path
 
-Package the diff (or file contents) plus any surrounding context files the reviewers need to understand the code.
+Use [rubric.md](references/rubric.md) and [code-quality-review.md](references/code-quality-review.md) for relevant lenses. Trace the caller or real path needed to prove each finding. Check missing promises and evidence as well as defects in changed code. Do not invent theoretical callers or convert a style preference into a correctness issue.
 
-## Step 2, State the Intent
+Review directly for a narrow change. A requested independent or multi-model review, or a substantial change with useful independent reading, can use authorized delegates with [reviewer-prompt.md](references/reviewer-prompt.md). All reviewers receive the same original intent, concrete artifacts and relevant evidence obligations.
 
-Before spawning reviewers, state the intent explicitly. Derive this from:
+Before authorized delegation, read .ai/pstack/config.json roles["interrogate reviewers"] and actual host capabilities. Missing, auto, inherit-parent or unsupported choices inherit the host model. A configured panel does not launch itself. Do not claim model diversity from same-model reviewers or independent review from a direct pass.
 
-- The user's message
-- Commit messages
-- PR description if one exists
-- The code itself
+## Judge the evidence
 
-Write one clear paragraph. If you're unsure about the intent, ask the user before proceeding.
+Read [lead-judgment.md](references/lead-judgment.md). Deduplicate findings and verify the actual path. Reviewer agreement is a lead, not proof; a lone finding with a real reproduction can be stronger.
 
-## Step 3, Spawn Reviewers
+Classify useful findings as act on, consider, noted or dismissed. Explain the consequence and evidence, and give a short reason for consequential dismissals. Record reviewer provenance only for reviewers that actually ran. Accepted work stays with the owning Plan; new scope needs the appropriate authorization.
 
-Read .ai/pstack/config.json roles["interrogate reviewers"] before launching a useful panel through the actual host API. Missing/auto/inherit-parent inherits the host; unavailable IDs inherit with a stated limitation. A configured list supplies seats when the task warrants a panel. Model diversity is conditional on actual available configured models.
+## Return the verdict
 
-| Subagent | Local default |
-|----------|---------------|
-| Reviewer A | inherit-parent |
-| Reviewer B | inherit-parent |
-
-For each reviewer:
-- Role: general-purpose reviewer through the available host API
-- `model`: the configured `interrogate reviewers` entry, or inherit-parent with no configured role. For an `auto` or `inherit-parent` entry, omit `model` so that reviewer runs on the parent model.
-- Permission: read the scoped diff and context; do not edit files or external state
-
-If delegation is unavailable, perform one direct adversarial review and report that independent reviewers did not run. Same-model seats can provide separate readings but do not prove model diversity.
-
-If the current host rejects a configured ID, report it and omit the override. Do not try invented IDs, alter global config or open a separate fix PR merely to change this local role choice.
-
-Read `references/reviewer-prompt.md` and fill in the template with:
-1. The stated intent
-2. The diff or file contents
-3. The review rubric from `references/rubric.md`
-4. The code-quality lens from `references/code-quality-review.md`
-
-The same filled template goes to all reviewers, so every model applies the code-quality lens.
-
-## Step 4, Synthesize
-
-As results come back, build a unified picture:
-
-1. **Parse all findings** from the reviewers
-2. **Identify consensus**. Findings raised by 2+ models independently are highest signal.
-3. **Identify lone-model findings**. Still worth reading, but weight accordingly.
-4. **Deduplicate**. Different models may describe the same issue differently. Merge these and note which models raised it.
-5. **Note disagreements**. If one model flags something and another explicitly says the opposite, that's useful context for the verdict.
-
-## Step 5, Lead Judgment
-
-You are the lead reviewer, a pragmatic senior engineer, not a neutral aggregator.
-
-Read `references/lead-judgment.md` for the full framework.
-
-Categorize every finding using these buckets:
-
-- **Act on**. Real issues affecting correctness, security, or maintainability given the actual goals. These would block a real PR.
-- **Consider**. Legitimate points, but you're not sure they outweigh the cost of addressing them right now. Worth the user's attention.
-- **Noted**. Technically valid but not actionable. Context-dependent, premature optimization, or low-impact given the current stage.
-- **Dismissed**. Wrong, nitpicky, or missing context. Brief explanation why.
-
-For each finding, include:
-- Which model(s) raised it
-- The category (act on / consider / noted / dismissed)
-- A one-line rationale for the categorization
-
-## Output Format
-
-Present the verdict in this structure:
-
-### Intent
-> [The stated intent paragraph from Step 2]
-
-### Reviewers
-- Reviewer [label]: [model name], [N findings] (one bullet per reviewer)
-
-### Act On
-[Findings that should be addressed. For each: description, which models raised it, why it matters.]
-
-### Consider
-[Findings worth thinking about. For each: description, which models raised it, tradeoff involved.]
-
-### Noted
-[Valid but low-priority. Brief list.]
-
-### Dismissed
-[Rejected findings with brief rationale.]
-
-### Agreement Map
-[Where did models agree, where did they diverge, and what does the pattern of agreement/disagreement tell us?]
+Lead with the result, then actionable findings, actual review scope and remaining uncertainty. Include reviewer provenance or disagreements when they help assessment. Omit empty buckets and fixed agreement maps. State missing native evidence without claiming review establishes acceptance. Apply technical-writing and unslop.

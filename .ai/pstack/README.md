@@ -17,7 +17,7 @@ fork it. improve it. make it yours. PRs are welcome!
 
 ## use the Ignite project library
 
-This repository already carries pstack methods and native discovery bridges. Invoke [poteto-mode](./skills/poteto-mode/SKILL.md) when you want its engineering workflow; the agent then chooses the playbook and skills. Project document paths and host-specific steps are written directly in the methods that use them. Small, clear edits proceed directly. No upstream plugin installation is required.
+This repository already carries pstack methods and native discovery bridges. Invoke [poteto-mode](./skills/poteto-mode/SKILL.md) when you want its engineering workflow; the agent then chooses the playbook and skills. Project document paths and host-specific steps are written directly in the methods that use them. Document maintenance starts from its owning README and required core methods, independently of a poteto-mode invocation. Small, clear edits use those methods' shortest relevant steps and retain required records. No upstream plugin installation is required.
 
 Models follow `.ai/pstack/config.json`, defaulting to `inherit-current-host`. [setup-pstack](./skills/setup-pstack/SKILL.md) changes project choices only when requested and supported by the host. This convention is not a scheduler or automatic model switch.
 
@@ -106,7 +106,7 @@ Cursor's `/loop` is an upstream wake mechanism, not a bundled cross-host command
 | [`/poteto-mode`](./skills/poteto-mode/SKILL.md) | default entry point for any non-trivial task. |
 | [`/poteto-help`](./skills/poteto-help/SKILL.md) | you're new to pstack, or unsure which skill, playbook, or principle fits. finds out what you're trying to do, answers that part, and hands you a prompt to type. runs only when you type `/poteto-help`. |
 | [`/how`](./skills/how/SKILL.md) | you want a walkthrough of how a subsystem works. |
-| [`/why`](./skills/why/SKILL.md) | you want to know why something was built this way. discovers available MCPs at run time and queries each evidence category in parallel (source control, issue tracker, long-form docs, real-time chat, infra observability, error tracking, analytics warehouse). |
+| [`/why`](./skills/why/SKILL.md) | you want to know why something was built this way. starts with native decisions and relevant history, then follows consequential gaps into authorized sources. |
 | [`/recall`](./skills/recall/SKILL.md) | you're starting or resuming work and want your recent context on a topic rebuilt from your own chat history and the shared record, handed back as a tight current-state brief. |
 | [`/blast-radius`](./skills/blast-radius/SKILL.md) | you have a small-looking change and want to know what else it could break, with the one fact it's safe because of proven by running code, not asserted. |
 | [`/architect`](./skills/architect/SKILL.md) | you're about to write code that crosses a function boundary and want the caller's usage, types, and module shape settled first. |
@@ -116,12 +116,12 @@ Cursor's `/loop` is an upstream wake mechanism, not a bundled cross-host command
 | [`/automate-me`](./skills/automate-me/SKILL.md) | you want your own `-mode` skill, drafted from how you've actually worked. |
 | [`/make-bot-ui`](./skills/make-bot-ui/SKILL.md) | you want a page or dashboard whose buttons wake a Grok Bot over a webhook, including the sender-key handoff and Tailscale. |
 | [`/setup-pstack`](./skills/setup-pstack/SKILL.md) | you want to pick which models pstack uses per role. detects your models and writes a config rule. |
-| [`/reflect`](./skills/reflect/SKILL.md) | a long task landed and you want the recipe captured as a skill edit. |
-| [`/correct`](./skills/correct/SKILL.md) | you keep correcting agents for the same mistakes. mines history for mistake classes, fixes each at the highest level that works (architecture, then types, lint, and ci, then tests, with docs last), and keeps a table pairing each rule with what enforces it. |
-| [`/teach`](./skills/teach/SKILL.md) | you want to actually understand a change or subsystem, not just have it summarized. runs how + why and weaves one plain explanation, built up diagram by diagram. |
+| [`/reflect`](./skills/reflect/SKILL.md) | you request lesson review or a major correction warrants it; lessons return to their existing document or method owner. |
+| [`/correct`](./skills/correct/SKILL.md) | you keep correcting agents for the same mistakes. mines history for mistake classes, fixes each at the highest level that works (architecture, then types, lint, and ci, then tests, with docs last), and records the fix and proof in the existing Plan and owning rule. |
+| [`/teach`](./skills/teach/SKILL.md) | you want to actually understand a change or subsystem, not just have it summarized. traces mechanics with how and adds why when reasons matter; uses a diagram only when it helps. |
 | [`/tdd`](./skills/tdd/SKILL.md) | explicitly requested failing-test workflow; native Ignite Plan behavioral red requirements still apply independently. |
 | [`/benchmark-checklist`](./skills/benchmark-checklist/SKILL.md) | you ran a benchmark or measured a speedup or regression. vets the number (limiter, tuning, errors, repeat runs, end-to-end relevance) before you report or act on it. |
-| [`/no-comments`](./skills/no-comments/SKILL.md) | strip comments before review; spawns Comment Sicko, fixes accepted findings, offers encodings for claimed constraints. |
+| [`/no-comments`](./skills/no-comments/SKILL.md) | review comments, fix accepted problems and preserve necessary constraints; independent Comment Sicko review is conditional. |
 | [`/typescript-best-practices`](./skills/typescript-best-practices/SKILL.md) | you're reading or editing typescript. grounds the type-system-discipline principle in syntax. |
 | [`/figure-it-out`](./skills/figure-it-out/SKILL.md) | no bundled playbook fits. designs a rigorous, auditable playbook for the task. |
 | [`/show-me-your-work`](./skills/show-me-your-work/SKILL.md) | record decisions, reasons, and evidence in the current Plan; durable architecture rationale goes to ADR. |
@@ -239,6 +239,8 @@ Use an authorized available host equivalent for these optional tools, or disclos
 ## planning and project records
 
 Ignite retains Feature → Plan → Contract/Test → Implementation → Verify → Design. Reuse the matching unfinished Plan; its `tasks` are the only task status source. Playbooks provide methods, not another plan format, coordination database, or acceptance ledger. Record ordinary decisions in Plan, durable architectural rationale in ADR, and implemented facts in Design.
+
+Document maintenance enters through the existing owner: [Feature](../../docs/features/README.md), [Plan](../../docs/plans/README.md), [Design](../../docs/designs/README.md), [Standards](../../docs/standards/README.md), [ADR](../../docs/others/adr/README.md), [test cases](../../docs/others/test-cases/README.md), [evidence](../../docs/others/evidence/README.md), and [Release](../../docs/plans/releases/README.md). Their required core methods apply by default. The AI chooses only branches whose stated conditions hold. A simple path shortens execution, not the required promise, record or evidence. Skills support those owners and do not create another routing file or acceptance ledger.
 
 ## make it yours
 

@@ -7,7 +7,7 @@ Ignite already carries the methods in `.ai/pstack/` and discovery entries for Co
 
 Open the repository in your host and check project skill discovery. Codex uses `.agents/skills/`; the other hosts use their project entries. A host without automatic discovery can follow the project rules to the canonical skill. Discovery does not prove every optional helper can run.
 
-Use [poteto-help](../../skills/poteto-help/SKILL.md) to choose a method. Start a task with `/poteto-mode` when you want that workflow; the AI then chooses the relevant playbook and skills. You do not need to name every skill yourself. Cloning makes the methods available, but does not enable this mode for every task. Small, clear changes can proceed directly.
+Use [poteto-help](../../skills/poteto-help/SKILL.md) to choose a method. Start a task with `/poteto-mode` when you want that workflow; the AI then chooses the relevant playbook and skills. You do not need to name every skill yourself. Cloning makes the methods available, but does not enable this mode for every task. Small, clear changes use the relevant method's shortest path. Maintaining a document still enters its [owning README](../../../../docs/README.md) and required core methods; making poteto-mode optional does not make those methods optional.
 
 ## Choose models only when needed
 

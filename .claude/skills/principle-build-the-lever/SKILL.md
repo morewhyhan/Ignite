@@ -1,9 +1,9 @@
 ---
 name: principle-build-the-lever
-description: 'Apply to any non-trivial work, not just bulk work: edits,
-  migrations, analyses, checks. Build the tool that does it or proves it
-  (codemod, script, generator, or a skill your subagents follow) instead of
-  working by hand. The tool is the artifact a reviewer can rerun.'
+description: Apply to non-trivial work that benefits from a repeatable tool.
+  Reuse an existing command or helper that does or proves the work; build a
+  small helper only for an uncovered need. Keep the tool and its actual result
+  reviewable.
 ---
 
 # principle-build-the-lever

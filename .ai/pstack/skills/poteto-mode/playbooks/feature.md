@@ -12,11 +12,10 @@
    - **Smallest safe decomposition.** If one worker is best, name why.
 4. Name the data shape and organizing structure before logic. Implement directly when one owner is enough. Delegate only useful independent scopes with actual paths, REQ/AC, constraints and available roles["feature, refactoring"] from .ai/pstack/config.json, defaulting to host inheritance. Use arena when meaningful alternative designs warrant comparison, not for every error handler. Keep shared writes exclusive and review the actual diff.
 5. Verify on the matching surface. "Inconclusive" or wrong-surface is not a pass. Flag it.
-6. Rebase into small, ordered commits. Stack follow-ups.
-   Use the **sequence-verifiable-units** principle skill, building, verifying, and committing each small unit before the next.
+6. Order small reviewable units with **sequence-verifiable-units**, verifying changed inputs and reusing valid matching runs. Rebase only when integration needs it and authorization covers the branch. Preserve other contributors' work; stack follow-ups only when the authorized delivery needs a stack.
 7. If the design is contested, `interrogate` before shipping.
 8. Use Opening a PR when a PR is within the authorized delivery; otherwise deliver the local change with native evidence.
 
-Code-coupled work (one feature, one migration) goes to a single owner with the checkpoint inline. That owner fans out internally after the blocking phase. Parent-level fan-out is for slices that produce independent artifacts (audits, cross-subsystem investigations, competing experiments). Rewrite the checkpoint at phase boundaries. Spawn a fresh owner rather than chaining interrupts.
+Code-coupled work goes to a single owner with the execution choice in the existing Plan. After the blocking phase, that owner delegates only useful independent scopes. Parent-level fan-out is for independent artifacts such as audits, cross-subsystem investigations, or competing experiments. Update consequential choices at phase boundaries. When a new owner is needed, give it the consolidated brief rather than chaining interrupts.
 
-**Reply:** what you built, what you chose and why, the throughput checkpoint, open decisions. Tables for design alternatives.
+**Reply:** what you built, what you chose and why, consequential execution choices, evidence and open decisions. Use a table when real design alternatives need comparison.

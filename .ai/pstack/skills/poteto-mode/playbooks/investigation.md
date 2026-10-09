@@ -6,7 +6,7 @@
 Investigation requests are read-only. They produce a cited explanation or a recommendation, not a code change.
 
 1. Route through the **how** skill. For motivation questions, also route through the **why** skill.
-2. Throughput checkpoint stays one line: `throughput checkpoint: n/a, read-only investigation`.
+2. Resolve the question from existing facts and the smallest sufficient read-only check. Record a consequential execution choice only when it explains the answer or its limits.
 3. Produce the `how`-shaped output (Overview / Key Concepts / How It Works / Where Things Live / Gotchas), or a recommendation with a tradeoffs table if the request is a decision between alternatives.
 4. Apply the **unslop** skill to the reply.
 

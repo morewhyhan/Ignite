@@ -23,7 +23,7 @@ Update mode mines only the history since the skill last changed. It keeps rules 
 
 ## Capture a session's lessons with `/reflect`
 
-Right after a task that taught you something, run:
+Use reflect when you request a lesson review or a major correction warrants it:
 
 ```text
 /reflect that took way too long. capture what we learned so the next run doesn't repeat it.
@@ -46,9 +46,9 @@ Human review isn't on the list. A reviewer who must catch the same mistake on ev
 /correct agents keep calling the database client directly instead of going through the repository layer
 ```
 
-It reads recent commits, reverts, review comments, and comments that explain workarounds, then groups the mistakes into classes. A class counts once it has happened twice. It fixes the most frequent classes one commit each, at the highest level that works, and proves each new check fails on a real past mistake. Record evidence and enforcement changes in the matching Plan. Put lasting rules in their owning professional standard or directory README and facts in Design; keep AGENTS as the shared entry instead of adding a second rule table. The reply lists each class with its evidence, the level chosen, and why a higher level didn't work.
+It reads recent commits, reverts, review comments, and comments that explain workarounds, then groups the mistakes into classes. A class counts once it has happened twice. It fixes the scoped repeated classes within the matching delivery, at the highest level that works, and proves each new check fails on a real past mistake. Record evidence and enforcement changes in the matching Plan. Put lasting rules in their owning professional standard or directory README and facts in Design; keep AGENTS as the shared entry instead of adding a second rule table. The reply lists each class with its evidence, the level chosen, and why a higher level didn't work.
 
-Run it with no argument and it finds the classes from history on its own. `/reflect` and `/correct` split the work. `/reflect` improves skills from one session. `/correct` changes the repo so a mistake class can't come back. Pair it with `/architect` when the fix is a new boundary. [Run many projects in parallel](./07-overnight.md#run-many-projects-in-parallel) has a prompt that does both across a whole repo.
+Run it with no argument and it finds the classes from history on its own. `/reflect` and `/correct` split the work. Standards and README maintenance follow the [Standards README](../../../../docs/standards/README.md) and relevant directory owner, using correct and encode-lessons-in-structure by default. Reflect is the conditional broader lesson review; its findings may belong to documents as well as skills. Pair it with `/architect` when the fix is a new boundary. [Run many projects in parallel](./07-overnight.md#run-many-projects-in-parallel) has a prompt that does both across a whole repo.
 
 ## Author a focused skill
 
@@ -70,7 +70,7 @@ Skills aren't the only prose you ship. For docs, RFCs, readmes, PR descriptions,
 /technical-writing review the readme changes
 ```
 
-[`/technical-writing`](../../skills/technical-writing/SKILL.md) applies a layered standard with one goal, prose a tired engineer understands on the first read. It picks the document's mode first (tutorial, how-to, reference, or explanation), then works sentence by sentence: who does what, one thought per sentence, nothing readable two ways. Use it to review what you or an agent just wrote, or name it up front when you ask for a doc.
+[`/technical-writing`](../../skills/technical-writing/SKILL.md) applies a layered standard with one goal, prose a tired engineer understands on the first read. It picks the document's mode first (tutorial, how-to, reference, or explanation), then works sentence by sentence: who does what, one thought per sentence, nothing readable two ways. Technical-writing and unslop apply by default to maintained prose. Follow the owning README's structure, then choose the useful writing mode by section; do not create extra documents merely to separate modes.
 
 ## Evaluate behavior only when it answers a real question
 

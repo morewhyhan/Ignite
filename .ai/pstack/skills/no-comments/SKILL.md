@@ -1,24 +1,32 @@
 ---
 name: no-comments
-description: Spawn Comment Sicko, fix accepted findings, and offer encodings for claimed
-  constraints.
+description: Review scoped comments and fix accepted code problems while preserving necessary constraints and intent. Use for explicit comment cleanup; independent Comment Sicko review is conditional on useful authorized delegation.
 ---
 
 # No comments
 
-Spawn Comment Sicko. Act on accepted findings.
+Remove comments that merely narrate code or preserve an obsolete workaround. Preserve information needed to understand a real constraint or intent until code or retained documentation communicates it.
 
-Defer to Comment Sicko's fresh perspective.
+## Review the actual scope
 
-## Scope
+Use the caller's files or diff. Otherwise inspect the current diff against the verified base branch, including relevant working-tree changes. Read [.ai/pstack/agents/comment-sicko.md](../../agents/comment-sicko.md) as a review lens, subject to the preservation and authorization rules here.
 
-Use the caller's files or diff. Otherwise use the current diff against the base branch, default `main`, including the working tree.
+Review directly for a small scope. When fresh independent scrutiny is useful and delegation is authorized, assign the scoped files and role to a read-only delegate through the actual host API. A registered Comment Sicko type is optional. Disclose when no independent reviewer ran. A review role cannot enlarge the write scope or authorize deletion.
 
-## Steps
+## Decide each finding from evidence
 
-1. Spawn a delegate through the available host API with `.ai/pstack/agents/comment-sicko.md` as its role instructions and the scoped files or diff. Use a registered Comment Sicko type only if the host actually provides it. If delegation is unavailable, read that role and perform the scoped review directly, reporting that it was not an independent review.
-2. Inspect its report and diff. Reject application-code edits, scope escapes, exception-protected deletions, misstated `MUST KILL` reasons, and flags that treat kept intentional code as guilty. Reshape flags on our-code surprises stay actionable. Do not restore those comments. A keep survives only with proof it is about something we cannot change. Audit missed scoped lint and TypeScript suppressions. Correctness or safety suppressions stay actionable `MUST KILL`s. Restore deletions only with exact exceptions and scoped proof. Before accepting thin `IMPORTANT` or `do not remove` kills or keeps, run `/how` or `/why` on their symbol. If a kill is ambiguous, do not restore. If a keep is refuted or still ambiguous, delete it. Revert and rerun one rejected report with the failure named. Reject a second, report it open, and fail `/no-comments`.
-3. Fix trivial accepted flags directly by deleting a dead path, dropping a parameter, or using the real API. If any fix needs a shape, run `/architect` once for the accepted set and surrounding code. Stop at the sketch. Architect shapes. Step 4 implements.
-4. Implement the smallest root-cause fix in scope. Remove every named workaround. If the root cause is out of scope, land the smallest in-scope fix and report the rest open. The **principle-fix-root-causes** and **principle-redesign-from-first-principles** skills guide intent only. Neither authorizes widening the fence nor fixing instances outside it. Never bolt on symptom guards.
-5. Constraint comments say `do not remove`, `do not change wording`, or `talk to X before changing`. Leave keeps about things we cannot change. Offer the cheapest in-scope type, runtime, test, or CI lint. Implement an encoding already covered by the user's authorized scope; ask only when it would change a product constraint or exceed that scope. If authorized, encode then delete. Otherwise delete, report the constraint open, and sketch out-of-scope work.
-6. Report the deletion count, restored comments, reruns, architect sketch, fixes, encoding offers, encodings, unenforced constraints, and other open work.
+Check accepted findings against the actual code, caller, external dependency and relevant Feature or Design. Reject scope escapes, ungrounded claims and deletions that discard needed information.
+
+For an ambiguous IMPORTANT, do not remove or constraint comment, trace the symbol with how. Use why only if the historical reason is disputed and affects the decision. Unknown or out-of-scope constraints stay visible in the comment or an appropriate existing document, with the gap recorded in the matching Plan. Ambiguity is not permission to delete.
+
+Fix trivial accepted code issues within authorization. If the fix needs a changed shape, use architect for the scoped design. Remove obsolete workaround comments after the root cause is corrected and the information is no longer needed. Unresolved root causes remain open; do not manufacture a guard merely to remove a comment.
+
+## Encode a confirmed constraint
+
+Prefer an in-scope type, runtime check, behavior test or lint rule that makes the confirmed constraint hold. Follow [engineering standards](../../../../docs/standards/README.md) and record consequential choices under [Plan rules](../../../../docs/plans/README.md). A structural encoding does not replace required behavior evidence.
+
+Implement encodings already covered by authorization. For a product decision or work outside the scope, retain the necessary information and present the concrete remaining decision. Remove the comment only after the code or retained documentation carries its meaning.
+
+## Report the result
+
+State accepted fixes, important retained constraints, actual verification and remaining work. Counts and reviewer provenance are useful only when they help assess the result. Do not require an architect sketch, rerun report or empty encoding list when that branch did not occur. Apply technical-writing and unslop.

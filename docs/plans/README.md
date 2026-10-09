@@ -96,3 +96,13 @@ next 默认保留全部 goals、constraints、non_goals 与 tasks，是接续建
 具体产品保留自己的 Plan 与证据。Ignite 模板发布仅带说明和空白模板；建设记录提交后由 Git 保存，清理边界见 [采用规范](../standards/adoption.md)。零 Plan 是正常起点，不能创建虚假过程记录。
 
 重点选择参考 [NASA 决策分析](https://www.nasa.gov/reference/6-8-decision-analysis/) 的必要条件、竞争因素、不确定性和相称成本；阶段反馈借鉴 [目标进度监测研究](https://pubmed.ncbi.nlm.nih.gov/26479070/)。后者研究人，对 AI 的适用性仍需验证；作者判断、生成检查及结构校验不证明实际模型效果。
+
+## 固定维护方法
+
+涉及本类文档时，先读取以下必需方法：[figure-it-out](../../.ai/pstack/skills/figure-it-out/SKILL.md)、[show-me-your-work](../../.ai/pstack/skills/show-me-your-work/SKILL.md)、[principle-sequence-verifiable-units](../../.ai/pstack/skills/principle-sequence-verifiable-units/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
+
+1. 接续覆盖本轮结果的未完成 Plan；确定原始目标、基线、写入范围、验收和回退，逐项映射 Feature REQ/AC。
+2. 按可验证结果安排 tasks，记录关键取舍及其依据；先解决阻止正确实现的事实缺口，不为了使用技能额外建立工作流或状态表。
+3. 按原生契约记录真实红灯、实现与验收，依据实际证据更新任务、状态与 Design；检查失败和完善仍留在同一 Plan。
+
+可独立产出的任务且宿主支持委派时，才按 [swarm](../../.ai/pstack/skills/swarm/SKILL.md) 拆分，并读取 [principle-separate-before-serializing-shared-state](../../.ai/pstack/skills/principle-separate-before-serializing-shared-state/SKILL.md)，明确写入范围、依赖与交接；共享文件先分工，再集成。存在真实竞争方案或高风险分歧时才采用 [arena](../../.ai/pstack/skills/arena/SKILL.md)、[interrogate](../../.ai/pstack/skills/interrogate/SKILL.md)。明确的小改动可以压缩分析，但不能省略必要记录与完成证据。

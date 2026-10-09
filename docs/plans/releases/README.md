@@ -34,3 +34,13 @@ CI 只要求本次差异的独立 Plan 完成并覆盖写入；其他未来草�
 有真实集成提交且全部纳入 Plan 已完成时，历史覆盖按被测 Feature 快照解释，后续替换旧能力不把旧记录报成未知需求。这不代替发布证据；当前输入变化后旧组合仍可 stale。
 
 本地完成不自动表示已经推送、部署或用户可访问。远端、平台与实际入口有独立交付目标时按该项目目标验证，授权边界以 AGENTS 和用户决定为准。模板维护记录清理见 [采用规范](../../standards/adoption.md#模板维护记录与发布快照)；采用项目保留自己的历史。
+
+## 固定维护方法
+
+涉及本类文档时，先读取以下必需方法：[principle-prove-it-works](../../../.ai/pstack/skills/principle-prove-it-works/SKILL.md)、[principle-sequence-verifiable-units](../../../.ai/pstack/skills/principle-sequence-verifiable-units/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
+
+1. 对照原始交付目标和每个 REQ 下全部 AC，逐项纳入、延期或经用户授权排除；延期写原因并保留未完成，排除保存授权来源。
+2. 仅纳入的项关联负责 Plan；延期、排除项不能伪装成已完成 Plan。先确认所有纳入 Plan 的验收和组合依赖，再对同一最终版本执行原生 Release 验收。
+3. 区分工程门禁、Plan 行为验收、Release 组合验收、远端检查与部署。报告实际版本与证据，任何一层绿灯不能替代其它层。
+
+需要开 PR 或交付时使用 [opening-a-pr](../../../.ai/pstack/skills/poteto-mode/playbooks/opening-a-pr.md)、[shipping](../../../.ai/pstack/skills/poteto-mode/playbooks/shipping.md) 的相关流程，并遵守当前授权；这些流程的 READY 不等于 Release 通过。squash/rebase 改写历史时按原生 reintegrate 规则重新确认集成证据。模板维护记录提交后才按模板清理规则处理；采用项目保留自己的记录。

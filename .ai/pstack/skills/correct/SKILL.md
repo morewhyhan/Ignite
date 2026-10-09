@@ -12,6 +12,10 @@ The operator keeps correcting agents in this repo for the same mistakes. Change 
 
 Assume every contributor is an agent that sees only the files it opened, copies the nearest example, and takes the shortest path that compiles. Design the repo so a change that looks right from one file is right for the whole repo.
 
+## Default rule maintenance
+
+When invoked by [rule-maintenance duties](../../../../docs/standards/ai-agents.md), classify the supplied defect or rule gap using the matching Plan and affected source. A single ambiguity, entry-point defect, or new rule does not require a history census or two past failures. Follow the owning fixed steps: fix the actual source, prefer a reliable structural guard where possible, and verify affected entries and behavior. Do not alter application architecture solely to edit guidance. The repeated-mistake investigation below applies only when repeated failures are the authorized problem; its class report is unnecessary for a scoped rule edit.
+
 ## Find the mistake classes
 
 First, read recent commits, reverts, review comments, agent instruction files, and comments that explain workarounds. Group the mistakes into classes. A class counts once it has happened twice.

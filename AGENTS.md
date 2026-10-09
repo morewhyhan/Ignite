@@ -39,9 +39,12 @@ Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定�
 - `AGENTS.md` 是所有 AI 工具共用的唯一项目规则真源。
 - `CLAUDE.md`、`.cursor/rules/`、`.opencode/` 和 `.github/copilot-instructions.md` 只负责入口桥接，不复制长期规则。
 - `.ai/` 登记项目专属 Skills、MCP 和真源关系；新增资产必须写清用途、权限边界和验证方式。
-- 项目携带完整 [pstack 方法库](.ai/pstack/CATALOG.md)。用户启用 [poteto-mode](.ai/pstack/skills/poteto-mode/SKILL.md)后，由 AI 按实际目标选择流程与技能；明确小改动直接执行。项目文档位置和宿主工具用法直接维护在对应技能与流程中，不另设适配文件。技能不扩大授权、不替代现有真源与工程验收；技能复用不要求先证明提速。
+- 项目携带完整 [pstack 方法库](.ai/pstack/CATALOG.md)。涉及项目修改或文档维护时，默认执行所属文档规则中的固定方法，不以用户启用 [poteto-mode](.ai/pstack/skills/poteto-mode/SKILL.md)为前提。先读所属规则及其必需技能、原则，再按规定步骤处理；不能把核心步骤全部交给 AI 自选。需求、计划、事实、规则、测试、证据、决策和组合交付分别遵守对应目录 README 或专业标准中的“固定维护方法”。只有明确列出的条件分支才选择额外技能；未触及的文档不用逐项处理。
+- 用户明确要求简单任务直接执行时，压缩调查、讨论和输出，仍保留本次修改必要的记录与验收。方法服务于稳定维护、正确取舍和真实完成，不以提速或调用次数作为使用前提；不要求每次调用全部技能或多个智能体。项目位置和宿主用法直接维护在对应技能与流程中，不另设适配文件。技能不扩大授权，不替代工程验收。
 - `.agents/skills/` 与 `.claude/skills/`仅保存必要技能发现元数据和真源链接，不复制方法正文；Cursor/OpenCode复用兼容目录，不额外生成`.cursor/skills/`或`.opencode/skills/`副本。原项目入口在不支持自动发现的工具中仍负责引导按需读取。
 - 当前系统事实以 `docs/designs/` 为准；需求、计划、标准和验收资料分别位于 `docs/features/`、`docs/plans/`、`docs/standards/` 和 `docs/others/`。
+
+所有文档写作都遵守[共用写作方法](docs/standards/ai-agents.md#固定维护方法)，读取 technical-writing 和 unslop；文档类别的专业步骤仍由所属规则负责。
 
 ## 规格驱动 Loop
 

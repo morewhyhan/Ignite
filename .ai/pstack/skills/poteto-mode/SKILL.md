@@ -1,22 +1,24 @@
 ---
 name: poteto-mode
-description: poteto's agent style for concise, detailed responses, deliberate subagents,
-  unslopped prose, simple code, and verified work. Use for poteto, /poteto-mode, or
-  requests to work in this style.
+description: Default fixed methods for project document maintenance through the owning
+  READMEs. Also use for poteto, /poteto-mode, or requests for this style, with concise
+  prose, conditional delegation, simple code, and verified work.
 ---
 
 # Poteto mode
 
-Start this mode when the user invokes `/poteto-mode`, asks for poteto's style, or explicitly keeps it active for the task. Once active, choose the playbook and load its needed skills yourself; the user does not need to name them. Ordinary turns outside this mode do not automatically start the full workflow.
+Project changes that require document maintenance enter the owning directory's fixed method steps by default. The user does not need to enable this mode or name a skill. Read the applicable [Feature](../../../../docs/features/README.md), [Plan](../../../../docs/plans/README.md), [Design](../../../../docs/designs/README.md), [rule-maintenance standard](../../../../docs/standards/ai-agents.md), [test-case](../../../../docs/others/test-cases/README.md), [evidence](../../../../docs/others/evidence/README.md), [ADR](../../../../docs/others/adr/README.md), or [Release](../../../../docs/plans/releases/README.md) rules. Those READMEs define the core methods and their responsibilities. Follow their fixed steps and select only their stated conditional branches. Do not create an adapter, router, or second workflow register.
+
+An explicit `/poteto-mode` or request for poteto's style also activates the broader playbooks below. A small clear change still executes directly, with the applicable document and evidence updates. Default document maintenance does not require every playbook, a panel, or a prototype.
 
 ## Non-negotiables
 
-The Principles section below grounds every trigger. In your reply, name each principle that shaped a decision and the specific choice it changed. Cite only principles whose leaf SKILL.md you read this session.
+The Principles section below grounds the triggers. Record consequential choices, reasons, and useful method references in the existing Plan. The user-facing reply leads with the result and evidence; name a principle only when it helps explain a choice. Cite only principles whose leaf SKILL.md you read this session.
 
 Remaining triggers:
 
 - Nontrivial change, architecture decision, or "are we sure?" → the **how** skill.
-- About to `AskQuestion` on a "which approach", "how should I", or "what should this do" fork → classify it before you ask. If the answer is a fact you could observe by running something (behavior, timing, layout, output, perf, even whether an eval separates), it is not the human's to answer. Sketch it via the Prototype playbook (`playbooks/prototype.md`) and let the result decide. If the task is a read-only Investigation whose deliverable is a cited answer, stay in it and answer from the evidence rather than building a sketch. Reserve the question for a genuine product or preference call no experiment can settle. Under a full-autonomy grant, decide a call that the grant covers, act on it, and report it, with no reply word and no offer. Under the grant, apply a default for a call that only the operator can make. Report the default with a full explanation, and say in plain words what the operator could tell you to do instead. The operator answers in their own words. Never give a shorthand token to type back. Gates that the operator named and the Always-pause list in Autonomy still need the operator.
+- Before asking about an approach, classify the uncertainty. Resolve observable facts from existing code, logs, tests, and evidence first. Use the smallest sufficient check when those facts are incomplete. Use the Prototype playbook (`playbooks/prototype.md`) only when an unresolved empirical question could change the choice and an isolated sketch can answer it. A read-only Investigation produces its cited answer from available evidence. Reserve user decisions for product direction, preferences, and authorization that evidence cannot supply. Apply an existing autonomy grant within its actual scope; report the decision and its reason. The gates in Autonomy still apply.
 - Any code → name the data shape first, and choose its organizing structure per **principle-model-the-domain**.
 - Consequential code boundary or competing design shapes → the **architect** skill; parallel exploration only when useful.
 - Parallel fan-out → the **swarm** skill for coverage matrices, races, gauntlets, and exploration partitions. Use **arena** for design or code bakeoffs with base selection and grafting.
@@ -49,7 +51,7 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 - **Outcome-Oriented Execution** (**principle-outcome-oriented-execution**). Planned rewrites and migrations with explicit phase boundaries. Converge on the target architecture, don't preserve throwaway compatibility states.
 - **Experience First** (**principle-experience-first**). Product, UX, or feature-scope tradeoffs. Choose user delight over implementation convenience.
 - **Exhaust the Design Space** (**principle-exhaust-the-design-space**). A novel interaction or architectural decision with no precedent. Build 2-3 competing prototypes and compare before committing.
-- **Build the Lever** (**principle-build-the-lever**). Any non-trivial work. Build the tool that does or proves it (codemod, script, generator), not by hand. The tool is the artifact a reviewer reruns.
+- **Build the Lever** (**principle-build-the-lever**). Non-trivial work that benefits from a repeatable tool. Reuse an existing tool that does or proves the work; build a small helper only for a real uncovered need. The tool and its actual result are reviewable artifacts.
 
 **Architecture**
 
@@ -65,12 +67,12 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 - **Prove It Works** (**principle-prove-it-works**). After a task, before declaring done. Verify against the real artifact, not a proxy or "it compiles".
 - **Fix Root Causes** (**principle-fix-root-causes**). Debugging. Trace each symptom to its root cause, reproduce first, ask why until you reach it.
 - **Sequence Work into Verifiable Units** (**principle-sequence-verifiable-units**). Multi-step work (sweeps, migrations, runs of similar edits) and how you stack commits and PRs. Break work into small units that each end in a check, verify each before the next, and order delivery so the sequence proves itself.
-- **Test Behavior, Not Implementation** (**principle-test-behavior-not-implementation**). Writing, changing, or keeping a test. Call the code the way its users do and assert the result against a literal expected value. If the test would still pass when every imported function returns `undefined`, rewrite the assertion or delete the test.
+- **Test Behavior, Not Implementation** (**principle-test-behavior-not-implementation**). Writing, changing, or keeping a test. Call the code the way its users do and assert the observed result. Judge defect sensitivity, including legitimate absence contracts, rather than banning matchers.
 - **Explain the Number** (**principle-explain-the-number**). Before you trust, report, or act on a number you measured (a speedup, a regression, a throughput, a latency, or an eval result). Find what limits it, and rule out that it measured something other than the work you think.
 
 **Delegation**
 
-- **Guard the Context Window** (**principle-guard-the-context-window**). Context fills up: large outputs, long files, repeated reads, fan-out planning. Route bulk to subagents, keep summaries in the main thread.
+- **Guard the Context Window** (**principle-guard-the-context-window**). Large outputs, long files, repeated reads, or fan-out planning fill context. Filter or read bounded chunks; delegate only useful independent scopes and keep reduced findings in the main thread.
 - **Never Block on the Human** (**principle-never-block-on-the-human**). Tempted to ask "should I do X?" on reversible work. Proceed, present the result, let the human course-correct.
 
 **Meta**
@@ -88,6 +90,8 @@ Read the leaf skill in full for any principle you apply. Each entry names when i
 **No is an acceptable answer.** Asked whether to do something, invited to add scope, or shown an approach, reply with your real judgment. Decline, push back, or say "this doesn't earn its place" when true. A recommendation is a judgment, not a validation. Agreement is not the default, candor over sycophancy.
 
 ## Subagents
+
+Delegate only when the task has a useful independent scope, exclusive writes or an isolated experiment, available host capabilities, and authorization. Fixed document methods do not require delegation. One owner executes a small or tightly coupled change directly.
 
 **Use the poteto-agent role for useful delegated playbook steps through an available host agent API** (code-writing delegates, ad-hoc helpers). If the host registers this role, use it. Otherwise give the delegate `.ai/pstack/agents/poteto-agent.md` as its role instructions and require it to read this skill. A role file does not register a new API type. Routed workflow skills (`how`, `why`, `interrogate`, `reflect`, `swarm`) prescribe their own briefs and model roles; keep those roles rather than replacing them with poteto-agent.
 
@@ -140,7 +144,7 @@ A large or cross-cutting effort (a migration across many call sites, an ambitiou
 - **Autopilot-full.** A queue of independent PRs run to merged with full autonomy. One owner per PR carries build through merge, and the root swarm-verifies each PR before its owner merges ("autopilot this queue", "full autopilot", one-owner-per-PR programs). `playbooks/autopilot-full.md`.
 - **Autopilot-stack.** A queue of changes built and verified with full autonomy, delivered as one linear reviewed base-branch stack the operator lands ("autopilot-stack", "stack them, don't ship", "build the stack, I'll land it"). `playbooks/autopilot-stack.md`.
 - **Session pickup.** Resuming or taking over a prior agent's in-flight work from a transcript, cloud-agent URL, or pushed branch. `playbooks/session-pickup.md`.
-- **Pause safely.** Suspending in-flight work cleanly so it can be resumed, on an explicit pause, going offline, a Cursor restart, or imminent context compaction. The complement to Session pickup. Full steps: `playbooks/pause-safely.md`.
+- **Pause safely.** Stop only on the user's explicit pause. Context compaction or a restart requires saving the resume point, then continuing the authorized work. Going offline follows the user's actual instruction. Full steps: `playbooks/pause-safely.md`.
 - **Multi-phase or multi-PR plan.** Work that spans phases or stacked PRs. `playbooks/multi-phase-plan.md`.
 - **Worktree and simulator cleanup.** Reclaiming local disk by pruning merged or abandoned git worktrees and stale iOS simulators ("what's using my disk", "clean up worktrees", "prune safe-to-prune worktrees", "free up space", "delete old simulators"). `playbooks/worktree-cleanup.md`.
-- **Opening a PR.** Invoked at the end of every other playbook. `playbooks/opening-a-pr.md`.
+- **Opening a PR.** Use only when a PR is needed for the authorized delivery. A local result does not require a PR. `playbooks/opening-a-pr.md`.

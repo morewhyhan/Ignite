@@ -1,7 +1,7 @@
 
 # Source playbooks
 
-The why skill spawns one investigator per available evidence category, each reading a single source-specific playbook below. The playbooks are concrete examples for common MCPs. Adapt them for a different MCP in the same category.
+Choose a playbook only when a concrete unanswered rationale question requires that authorized source. Investigate directly or use useful authorized read-only delegation; neither all categories nor one agent per connector is required. The playbooks are concrete examples for common MCPs. Adapt them for a different MCP in the same category.
 
 | Category | Playbook | Example MCP it documents |
 |---|---|---|

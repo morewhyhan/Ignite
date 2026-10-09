@@ -76,7 +76,7 @@ CI 生产态 E2E 使用 line reporter 实际输出 Next webServer stdout/stderr�
 
 ## 项目内pstack方法库
 
-模板携带 `.ai/pstack/` 的51个主技能、23个playbook及配套资源，共152份上游文件，不包含问题报告机器人。方法正文和参考文件在同一真源维护；项目文档位置、实际工具模型及具体步骤直接维护在对应技能与流程中，不另设适配层；用户启用poteto-mode后，由AI按目标选择方法。[目录](../../.ai/pstack/CATALOG.md)提供逐技能入口。Codex 通过 `.agents/skills/` 发现技能，Claude Code 通过 `.claude/skills/` 发现技能；Cursor 和 OpenCode 复用这两个已支持的目录，不再生成各自的技能副本。两个目录只保存元数据与正文链接，方法正文仍只维护一份。AGENTS及工具规则指向同一目录。上游MIT许可与逐文件来源哈希随项目保留。
+模板携带 `.ai/pstack/` 的51个主技能、23个playbook及配套资源，共152份上游文件，不包含问题报告机器人。方法正文和参考文件在同一真源维护；项目文档位置、实际工具模型及具体步骤直接维护在对应技能与流程中，不另设适配层；项目修改或文档维护默认进入所属README及专业标准的固定维护方法，读取必需技能、原则并按步骤执行，仅在写明条件下使用额外方法；无需用户先启用poteto-mode。[目录](../../.ai/pstack/CATALOG.md)提供逐技能入口。Codex 通过 `.agents/skills/` 发现技能，Claude Code 通过 `.claude/skills/` 发现技能；Cursor 和 OpenCode 复用这两个已支持的目录，不再生成各自的技能副本。两个目录只保存元数据与正文链接，方法正文仍只维护一份。AGENTS及工具规则指向同一目录。上游MIT许可与逐文件来源哈希随项目保留。
 
 该变化是方法与发现入口的文件交付，不证明真实模型收益、所有平台会话已刷新、Plan integration或Release已通过。角色模型读取项目config.json并默认继承当前宿主；委派、持续执行和外部插件使用实际可用能力，不自动购买模型服务。继承playbook作为方法参考，不能覆盖项目原有Feature/Plan/Design/Evidence真源或创建并行任务状态。
 
@@ -85,3 +85,5 @@ CI 生产态 E2E 使用 line reporter 实际输出 Next webServer stdout/stderr�
 方法使用原生 Plan 决策、tasks、依赖与 handoff；验证技能引用 Feature REQ/AC 和原有测试，不再生成维护中的另一份验收地图。`.ai/skills` 保存新增项目技能，`scripts/pstack-sync.mjs` 统一维护两个必要发现目录、技能索引和来源本地哈希，默认只检查，写入前拒绝同名非生成文件；只清理带生成标记的过期入口和旧平台副本。角色入口读取本地 JSON，未配置则继承宿主；不安装模型引擎。
 
 可选辅助脚本不隐式安装 Bun 依赖；工作区审计默认只读本地 Git 状态，空格路径和未跟踪文件被保留。原生 Plan 不接受上游固定十路/性能栏目检查。PR watch 结束和 READY 不代表原生验收。
+
+Release scope 的纳入项必须关联负责 Plan 的 REQ/AC；延期、授权排除保留真实 Feature REQ/AC 和原因（排除还需授权），不关联伪完成 Plan。原生 scope 校验与全 AC 覆盖校验采用同一处理尺度。

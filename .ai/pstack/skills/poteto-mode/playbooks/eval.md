@@ -3,6 +3,8 @@
 
 **You own the experiment design. Plan, blind, run, synthesize.**
 
+Use this playbook only for an explicit model-effect evaluation goal. Ordinary method maintenance checks resources, links, metadata, native compatibility, and meaningful helper behavior; it does not automatically launch model experiments. For an actual evaluation, follow [AI-agent standards](../../../../../docs/standards/ai-agents.md). Freeze the task and variant versions, permissions, budget, repetition count, rubric, and independent generalization tasks before running. Record key human review and evaluation limits in the existing Plan.
+
 **Non-negotiables for blinding:**
 
 - No `eval`, `test`, `judge`, `experiment`, `rubric`, `score`, `compare`, `benchmark`, `candidate`, or `arena` in any directory, file, or prompt the candidate sees.

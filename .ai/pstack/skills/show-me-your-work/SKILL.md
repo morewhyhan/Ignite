@@ -5,19 +5,19 @@ description: Keep a reviewable decision trail in the existing Ignite Plan, with 
 
 # Show me your work
 
-Keep a reviewable account of decisions: what changed, why, the evidence, and the actual result. In Ignite the existing Plan is that account; do not create a parallel decision or progress ledger.
+Keep a reviewable account of decisions: what changed, why, the evidence, and the actual result. In Ignite the existing Plan is that account. Follow [Plan rules](../../../../docs/plans/README.md) and pair this method with figure-it-out by default during Plan maintenance. Record the original goal, current priority, tasks and handoff there; do not create a parallel decision or progress ledger.
 
 ## Where the record belongs
 
 - Ordinary choices, scope changes, reversals and blockers go in the current docs/plans/ Plan's overall judgment and status record, under its existing directory rules.
 - Task state belongs only to the Plan's structured tasks. Update it through `pnpm ignite task set-status <ID> <task> <todo|doing|done>`; generated progress is not hand-maintained.
-- A lasting architecture tradeoff belongs in docs/others/adr/ when future maintainers need its rationale. Link it from the Plan. Do not require an ADR for routine implementation choices.
+- A lasting architecture tradeoff follows [ADR rules](../../../../docs/others/adr/README.md) when future maintainers need its rationale. Link it from the Plan. Do not require an ADR for routine implementation choices.
 - The implemented system's current facts belong in docs/designs/. Do not describe an unimplemented proposal there as current behavior.
 - Actual check results belong to existing execution evidence. Cite their run, tested version and REQ/AC from the Plan; do not write a second pass/fail table.
 
 ## What to record
 
-At a meaningful decision or checkpoint, write a short entry in plain language:
+For a simple Plan change, keep the shortest entry that preserves the original goal, priority, affected task and needed handoff. At a meaningful decision or checkpoint, write a short entry in plain language:
 
 1. What was chosen, completed, reversed or blocked.
 2. Why, including the observation that changed the choice.

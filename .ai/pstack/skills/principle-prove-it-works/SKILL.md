@@ -18,6 +18,6 @@ Check the real thing, not a proxy:
 
 ## Script the check when you can
 
-The strongest proof is a deterministic script that re-runs the same comparison, not a one-time eyeball. Write the script, run it, and keep its output as an artifact a reviewer can re-run instead of trusting your word.
+Prefer a deterministic rerunnable check. Reuse an existing native runner or helper that proves the required behavior and keep its actual evidence. Write a small check only when the existing tools leave a real gap. Reuse valid matching runs under native evidence rules; a new script file or duplicate run is not required.
 
 Keep the artifact visible for the human. Commit it only for large or complex work where the trail has to be auditable later, like a big port or migration (the **show-me-your-work** skill).

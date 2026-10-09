@@ -49,7 +49,7 @@ For a bug, continue the matching Plan and use its behavioral AC. A short explici
 /tdd implement
 ```
 
-In context, that's enough. [`/tdd`](../../skills/tdd/SKILL.md) writes the smallest test that fails for the intended reason, then the fix, then reruns the test. Ignite requires a native behavioral red record for a new Plan before implementation. An expensive path or environmental failure does not permit skipping it or inventing evidence. If the user explicitly postpones tests, retain pending verification and do not claim done. UI, database, and external checks supplement the appropriate unit checks.
+In context, that is enough. Test and evidence maintenance enters through the [test-case README](../../../../docs/others/test-cases/README.md) and [evidence README](../../../../docs/others/evidence/README.md), using tdd, test-behavior-not-implementation and prove-it-works by default. [`/tdd`](../../skills/tdd/SKILL.md) writes the smallest test that fails for the intended reason, then the fix, then reruns the test. Ignite requires a native behavioral red record for a new Plan before implementation. An expensive path or environmental failure does not permit skipping it or inventing evidence. If the user explicitly postpones tests, retain pending verification and do not claim done. UI, database, and external checks supplement the appropriate unit checks.
 
 ## Load the TypeScript rules by name
 
@@ -69,15 +69,15 @@ You'll develop your own shorthand. The skill reads intent fine from terse prompt
 
 ## Strip the comments with `/no-comments`
 
-Comments need their own pass, and not from the agent that wrote them. An author defends its comments the way you'd defend yours. So before review, hand them to fresh eyes:
+A scoped comment pass can reveal obsolete workarounds or missing intent. Review directly for a small change. Use fresh independent eyes when useful and authorized:
 
 ```text
 /no-comments the diff
 ```
 
-[`/no-comments`](../../skills/no-comments/SKILL.md) spawns [Comment Sicko](../../agents/comment-sicko.md), a read-only reviewer with a short keep list: license headers, doc comments on a public API, links that explain what code can't, behavior forced by an external dependency you can't reshape. Review each finding and preserve comments that explain a real constraint or intent. Do not remove useful information only to satisfy a style preference. A surprise in your own code gets no such pass. The comment comes back as a refactor flag, and `/no-comments` fixes the flags it accepts at the root cause. When a comment claims a constraint, "do not remove", the skill offers to encode the claim as a type, test, or lint. Remove a comment only when the resulting code or retained documentation communicates its necessary information.
+[`/no-comments`](../../skills/no-comments/SKILL.md) uses [Comment Sicko](../../agents/comment-sicko.md) as a scoped review lens, optionally through an authorized read-only reviewer with a short keep list: license headers, doc comments on a public API, links that explain what code can't, behavior forced by an external dependency you can't reshape. Review each finding and preserve comments that explain a real constraint or intent. Do not remove useful information only to satisfy a style preference. An unresolved constraint remains visible until code or retained documentation communicates its meaning. The comment comes back as a refactor flag, and `/no-comments` fixes the flags it accepts at the root cause. When a comment claims a constraint, "do not remove", the skill offers to encode the claim as a type, test, or lint. Remove a comment only when the resulting code or retained documentation communicates its necessary information.
 
-The division of labor is worth keeping straight. `/deslop` cleans slop out of the code, `/unslop` cleans it out of prose, and `/no-comments` hands the comments to a reviewer who didn't write them.
+The division of labor is worth keeping straight. `/deslop` cleans slop out of the code, `/unslop` cleans it out of prose, and no-comments reviews comment information and accepted code problems, with independent review when useful and authorized.
 
 **Pitfall:** cleanup is not optional polish. A diff with narrating comments and defensive dead weight reads as unfinished to reviewers, and the extra code is where the next bug hides. If the diff feels padded, say `deslop it` before you commit, not after review calls it out.
 

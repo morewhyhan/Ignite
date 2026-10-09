@@ -20,4 +20,6 @@ When we decide a new API is the right design, migrate callers and remove the old
 - The project can absorb coordinated breaking changes
 - The new API is part of a simplification or refactor initiative
 
+Applied database migrations are immutable history, not legacy APIs to delete. Preserve them and generate a named new migration for schema changes under the project's migration rules.
+
 Keeping both old and new APIs creates dual-path complexity, slows cleanup, and makes the codebase feel append-only.

@@ -1,9 +1,9 @@
 ---
 name: tdd
-description: Use only when the user explicitly asks for TDD, a failing test, or
-  a regression test, OR when the bug has an obvious cheap local test target.
-  Skip when the test path is unclear, expensive, integration-heavy, or not
-  requested.
+description: Establish a real failing behavior assertion before implementation,
+  then verify the same test after the change. Required for new Ignite Plan red
+  evidence and test or evidence maintenance under the owning README; also use
+  for explicit TDD or focused regression work.
 ---
 
 # tdd

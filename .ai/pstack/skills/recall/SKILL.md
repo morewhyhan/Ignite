@@ -1,37 +1,28 @@
 ---
 name: recall
-description: Reconstruct your recent working context from your own chat history, live
-  state, and the shared record (user reports, prior fixes, incidents), then hand back
-  a tight current-state brief. Use for 'recall my work on X', 'catch me up', 'what
-  have I been working on', 'where did I leave off', before starting or resuming work.
+description: Recover relevant prior decisions and the live resume point from authorized history and native project records. Use for recall, catch-up or missing working context. A supplied state capsule can be enough.
 ---
 
 # Recall
 
-**Before you start or resume work, you rebuild the user's recent working context and hand back a tight capsule of where things stand now and what to do next.**
+Recover the context needed to continue the user's actual goal. Start with the supplied capsule and native records rather than rebuilding everything from every conversation.
 
-Keep it tight and on-topic. Read only what the in-scope threads need, then stop.
+## Recover only the missing context
 
-Your context lives in two records. Your own chat history holds what you did and decided. The shared record holds everything that happened around the same code under other names: the symptoms users keep reporting, the fixes that shipped and got reverted, the errors still firing in prod. That second record is what the **why** skill searches, across source control, the issue tracker, chat and issue channels, long-form docs, and error tracking. A feature with a long bug tail keeps most of its story there, so don't reconstruct it from your transcripts alone.
+1. Identify the topic, workspace and requested time range. For unspecified recent history, use the last seven days. Do not quietly narrow an explicit all-history request.
+2. Read the matching unfinished Plan, its tasks, decisions, handoff and evidence under [Plan rules](../../../../docs/plans/README.md). Check relevant Feature promises and current Design.
+3. Use the current conversation, a user-referenced chat, an authorized host history tool or supplied transcript path only for context still missing. Search the topic first, then read relevant regions ordered by recorded time.
+4. Recheck inherited claims against live files, branch state and actual runs. A previous agent's report does not prove completion.
+5. If cited history contradicts the live record or a prior fix still matters, apply [why](../why/SKILL.md) to that concrete uncertainty. A named subsystem does not require a broad connector sweep.
 
-Use the current host's conversation history tool, a user-referenced conversation, or an explicitly supplied transcript path. Discover the available source before searching. Cursor may expose workspace transcript files; other hosts need not use the same layout. If no history source is available, use the supplied capsule and live project state, and name the missing history.
+A full supplied state capsule permits skipping history mining after checking the consequential live facts. Missing history access is a stated limit, not a reason to search global private transcript folders. A single-chat pickup follows the existing session-pickup playbook. Capturing personal habits belongs to automate-me.
 
-1. Classify, then route. One specific prior chat to resume is the `session-pickup` playbook, not this. Turning habits into a durable skill is `automate-me`. A human-readable summary of your work is a different task. Recall loads working context across recent chats before you act. If the user already gave you a full state capsule (paths, branch, the change), use it and skip the mining.
-2. Lock the scope before searching. Pin the window ("recent" is a real range, default the last 7 days), the topic if named, and the workspace (default the active one. Never read another project's transcripts without being asked). State the scope back. Never quietly turn "all" into "recent N".
-3. Fan out across your chat history. Spawn parallel subagents through the available host API, each taking a slice of the authorized corpus. Read `.ai/pstack/config.json` for the relevant configured role; use a supported model ID or inherit the host, reporting unavailable choices. Do not assume a fast or cheap model exists. Tell every subagent to order candidates by recorded conversation time (or modification time for local files), never by UUID name, search the topic first and then read only matching chats and their relevant regions, and skip the current chat plus obvious noise (subagent, eval, and test chats). Each returns the same schema, one block per chat: topic, the user's goal, decisions, open threads, struggles and corrections, and artifacts (PRs, tickets, branches), each citing the chat UUID. For one or two chats, skip the fan-out and search directly. If delegation is unavailable, search directly and report that limitation. Do not export private transcript contents to unrelated chats or services. The raw transcripts stay in the assigned workers. The main thread gets only their findings.
-4. Sweep the shared record whenever the topic names a feature, file, subsystem, area, or bug. This is the default, not a judgment call, and "my work on X" does not exempt it. Hand it to the **why** skill's source investigators, but steer their question from "why was this built this way" to "what's the current state, what's been tried and didn't hold, and what are users still reporting". Reuse its per-source playbooks, run the investigators in parallel with the chat-history mining, and inherit its posture: one investigator per source, null results are findings, skip an unavailable MCP and say so. Fold what comes back into the brief. Skip this step only for pure activity recall with no named target ("what did I do this week"), where your own history and live state are the entire answer.
-5. Verify against live state. Take the PRs, branches, and tickets that the mining and the sweep surfaced and check them with `git` and `gh`. When the answer hinges on what an agent actually did (the tools it ran, files it read, errors it hit), read the full transcript, not just a trimmed local copy.
-6. Write the brief to the contract below. Group by thread. Stay on the named topic.
+## Optional bounded delegation
 
-## Output contract
+Search directly for small corpora. Authorized delegates can read separate relevant slices when the volume warrants it. Use actual host capabilities and .ai/pstack/config.json role choices; unsupported choices inherit the host. Each brief includes the topic, time range, allowed sources, read-only scope and requested findings. Do not export raw private transcripts to unrelated chats or services. Do not claim independent readers when none ran.
 
-Lead with the capsule, then the thread status, then the problems, then the next move. Deeper detail goes below or gets cut.
+## Return the resume point
 
-- **Capsule.** At most 5 bullets. What this work is and where it stands overall.
-- **Threads.** One line each, prefixed with exactly one status tag: `[merged #N]`, `[open PR #N]`, `[in flight <branch>]`, `[verified, uncommitted]`, `[reverted #N]`, or `[planned, not started]`. A thread with no tag is not done yet, so tag it.
-- **Problems.** At most 5, the recurring ones. Include the symptoms users keep reporting and any fix that shipped and was reverted, so the next attempt starts where the last one failed.
-- **Next move.** The single most useful next action, concrete.
+Explain the original goal, what is actually complete, material decisions, remaining gaps and the next concrete action. Cite relevant native records, runs and authorized history. State actual branch or PR status when it matters; no fixed tag vocabulary or empty sections are required.
 
-An adjacent feature or ticket stays out unless it blocks this one. When the capsule and thread lines outgrow a screen, cut detail before you cut threads. Write the brief through the **unslop** skill, cite chat findings by UUID and shared-record findings by their source (PR #, ticket ID, chat permalink, error-tracker issue), and sanitize private context before any public output.
-
-**Reply:** the brief, to the contract above.
+Keep task state in the existing Plan, and retain consequential corrections there using show-me-your-work. Apply technical-writing and unslop. Recall supplies context and does not create another plan, progress ledger or acceptance record.

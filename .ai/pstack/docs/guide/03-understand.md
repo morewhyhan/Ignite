@@ -17,6 +17,8 @@ When the cause is unclear, ask for findings, not a fix:
 
 "don't change any code yet" routes this to the [Investigation playbook](../../skills/poteto-mode/playbooks/investigation.md). It runs `/how`, adds `/why` for questions about motivation, and returns a cited explanation. For a choice between options, it returns a recommendation with a trade-offs table. Asking "what data you used" makes the agent separate its evidence from its guesses. When findings point at a fix, continue the matching unfinished Plan if the result remains the same. Create a new Plan only for a distinct independently deliverable result.
 
+Feature maintenance follows the [Feature README](../../../../docs/features/README.md): use how and experience-first to check the original promise. Historical why investigation applies only when a disputed reason affects it. Design maintenance follows the [Design README](../../../../docs/designs/README.md): use how and prove-it-works to recheck actual facts.
+
 ## Trace behavior with `/how`
 
 ```text
@@ -31,7 +33,7 @@ Ask the question you actually have. [`/how`](../../skills/how/SKILL.md) reads th
 /why was the retry limit set to five? does the reason still hold?
 ```
 
-[`/why`](../../skills/why/SKILL.md) works like a detective on a cold case. It starts from source control, then queries whatever evidence categories your MCPs expose, such as the issue tracker, long-form docs, team chat, observability, error tracking, and analytics, all in parallel. The report cites everything, separates direct evidence from inference, and says "appears to" when the record is thin. A null result gets reported too, because "nobody wrote down why" is itself an answer.
+[`/why`](../../skills/why/SKILL.md) works like a detective on a cold case. It starts from the original question, native decisions and relevant history. It expands into an authorized source only when a consequential unanswered question or contradiction requires it; available MCP categories do not require a full sweep. The report cites everything, separates direct evidence from inference, and says "appears to" when the record is thin. Report an actual search that returned nothing without claiming that no rationale exists elsewhere.
 
 The two compose naturally. `do why first then how` is a perfectly good prompt when you suspect the history explains the mess.
 
@@ -41,7 +43,7 @@ The two compose naturally. `do why first then how` is a perfectly good prompt wh
 /teach me how this PR changes retries. convince me it fixes the cause and not the symptom.
 ```
 
-[`/teach`](../../skills/teach/SKILL.md) is for when a summary isn't enough. It runs `/how` and `/why`, for a small change maybe just one of them, and weaves the findings into a plain explanation that builds up diagram by diagram. The "convince me" framing is worth stealing. It turns the explanation into an argument you can poke at instead of a tour.
+[`/teach`](../../skills/teach/SKILL.md) is for when a summary isn't enough. It traces mechanics with how, adds why when reasons matter, and combines the findings into a plain explanation. Diagrams help when they make a connection clearer; a fixed diagram series is not required. The "convince me" framing is worth stealing. It turns the explanation into an argument you can poke at instead of a tour.
 
 It works on the agent's own choices too:
 
@@ -57,7 +59,7 @@ Teaching helps the agent as much as you. An agent that has to explain its work m
 /recall catch me up on the export work from last week
 ```
 
-[`/recall`](../../skills/recall/SKILL.md) reads only authorized relevant chats plus the shared record (issues, prior fixes, errors still firing) and hands back a brief on where things stand and what's next. Your old chats hold context that a fresh agent lacks, so start new work on an old topic by loading it first, then hand over the new input:
+[`/recall`](../../skills/recall/SKILL.md) starts with the supplied capsule, existing Plan, Feature, Design and actual evidence, then reads authorized relevant history only for missing context and hands back a brief on where things stand and what's next. Your old chats hold context that a fresh agent lacks, so start new work on an old topic by loading it first, then hand over the new input:
 
 ```text
 /recall my work on the virtualized list from yesterday, then read this bug report.

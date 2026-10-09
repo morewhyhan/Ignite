@@ -44,3 +44,13 @@
 业务起点：[产品定位](./product.md)、[认证](./auth.md)、[Tasks](./tasks.md)。模板见 [_template.md](./_template.md)。
 
 [执行工具](./execution.md) 与 [执行可信性](./ai-execution-trust.md) 是已有工具的回归契约，普通业务任务不必全文读取，也不把它们当成新项目待执行整改清单。
+
+## 固定维护方法
+
+涉及本类文档时，先读取以下必需方法：[how](../../.ai/pstack/skills/how/SKILL.md)、[principle-experience-first](../../.ai/pstack/skills/principle-experience-first/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
+
+1. 先还原用户已确定的目标、实际使用过程和约束，区分新增模块与存量改动；已有 Feature 能承载时在原处更新。
+2. 把用户行为写成 REQ 与可观察的 AC，说明采用边界、失败情况、必要验收层级及真实检查路径；不由 AI 猜测尚未决定的产品取舍。
+3. 对照原始目标逐条检查遗漏，再交给对应 Plan。未明确的关键决定保留为问题，不用空的问题列表冒充完整。
+
+历史理由影响本次取舍时读取 [why](../../.ai/pstack/skills/why/SKILL.md)；改变架构边界时读取 [architect](../../.ai/pstack/skills/architect/SKILL.md)；只有真实使用问题需要实验区分时才采用 [prototype](../../.ai/pstack/skills/poteto-mode/playbooks/prototype.md)。普通文案修改不强制原型或额外代理。产出仍在 Feature，执行与决策过程写入对应 Plan。

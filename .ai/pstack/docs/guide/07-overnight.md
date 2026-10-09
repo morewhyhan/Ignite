@@ -94,7 +94,7 @@ A few habits help:
 
 - Give each body of work its own Project, such as a feature, a migration, a perf push, or a tech-debt cleanup. Several can run side by side.
 - Drag related chats into the Project, finished ones included. They become context for every agent in it.
-- Give each PR a verification swarm before it merges, and let Autopilot-stack or Autopilot-full carry the queue.
+- Use useful authorized independent review alongside native Plan and Release evidence. A queue does not require a verifier fleet; Autopilot-stack or Autopilot-full is selected only for its stated task conditions.
 - Ask the coordinator for a plan backed by data, and have it answer open questions with prototypes before it asks you.
 
 One prompt can carry a whole Project, from research through execution:

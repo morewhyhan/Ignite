@@ -1,7 +1,9 @@
 ---
 name: no-comments
-description: Spawn Comment Sicko, fix accepted findings, and offer encodings for
-  claimed constraints.
+description: Review scoped comments and fix accepted code problems while
+  preserving necessary constraints and intent. Use for explicit comment cleanup;
+  independent Comment Sicko review is conditional on useful authorized
+  delegation.
 ---
 
 # no-comments

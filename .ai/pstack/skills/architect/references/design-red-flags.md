@@ -19,7 +19,7 @@ Look for these signs:
 
 Information leakage makes multiple modules depend on the same internal decision. A representation, policy, or protocol detail appears in more than one place, so changing it requires coordinated edits.
 
-Public re-exports of transport or wire types are leakage. Parse external data into domain types behind the interface. Keep storage schemas, framework objects, and protocol details private.
+Duplicated transport schemas and leaked storage internals couple unrelated callers. Preserve the project's established interface: Ignite business types use AppType and typed RPC. Validate unknown external data at the boundary, keep server-only storage/configuration private, and do not replace this contract with hand-maintained client types.
 
 ## Temporal decomposition
 

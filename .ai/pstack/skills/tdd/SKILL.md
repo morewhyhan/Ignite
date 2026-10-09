@@ -1,45 +1,37 @@
 ---
 name: tdd
-description: Use only when the user explicitly asks for TDD, a failing test, or a
-  regression test, OR when the bug has an obvious cheap local test target. Skip when
-  the test path is unclear, expensive, integration-heavy, or not requested.
+description: Establish a real failing behavior assertion before implementation, then verify the same test after the change. Required for new Ignite Plan red evidence and test or evidence maintenance under the owning README; also use for explicit TDD or focused regression work.
 ---
 
-# TDD Bug Fix
+# TDD
 
-When fixing a bug with a clear, cheap test path, make the broken behavior executable before changing production code. The goal is a focused regression test that fails before the fix and passes after it.
+Make the intended behavior executable before changing the implementation. The test must fail because the promised behavior is absent or wrong, then pass against the resulting implementation.
 
-For an Ignite Plan, use `pnpm ignite tdd red --plan <IGT-ID> --ac <AC-ID>` to record the required behavior red before implementation, and keep the same test path for the passing check. An environment error is not a behavior red. This skill's optional bug-test advice does not waive the Plan contract. If the user says not to run tests yet, leave verification pending and do not mark the Plan done.
+## Follow the evidence owner
 
-Outside a Plan requirement, do not force a test when it would be impractical. If the available test would require broad harness setup, brittle mocks, slow end-to-end infrastructure, production-only state, vague reproduction steps, or large unrelated fixture churn, skip adding a new test and use the closest useful verification instead.
+Use [test-case rules](../../../../docs/others/test-cases/README.md), [evidence rules](../../../../docs/others/evidence/README.md) and [testing standards](../../../../docs/standards/testing.md). Pair this method with [test-behavior-not-implementation](../principle-test-behavior-not-implementation/SKILL.md) and [prove-it-works](../principle-prove-it-works/SKILL.md) by default when maintaining tests or evidence.
 
-## Workflow
+For a new Ignite Plan, record the required red with `pnpm ignite tdd red --plan <IGT-ID> --ac <AC-ID>` before implementation. Keep the concrete test path consistent from red to green. Expensive setup, unclear reproduction and integration requirements do not waive this contract. Environment errors, placeholder failures and assertions written after implementation are not behavioral red evidence.
 
-1. **Understand the bug.** Identify the intended behavior, current behavior, affected path, and smallest observable reproduction.
-2. **Choose the narrowest executable check.** Prefer the closest unit, component, integration, or regression test already used for that codepath. If no practical test path is obvious, do not create one from scratch just to satisfy the workflow.
-3. **Write the failing test first.** Add the smallest focused test that would have caught the bug. The test should encode intended behavior, not mirror the current implementation.
-4. **Run the new test before fixing.** Confirm it fails for the intended reason. If it passes or fails for an unrelated reason, correct the test or reproduction before editing the implementation.
-5. **Fix the bug.** Make the smallest production change that satisfies the intended behavior while preserving nearby contracts.
-6. **Rerun the regression test.** Confirm the test now passes.
+If the user explicitly postpones testing, keep verification pending, do not run checks or claim red/green evidence, and do not mark the Plan done.
 
-## If a Failing Test Is Impractical
+## Use the smallest real behavior path
 
-Use the closest executable regression check instead: a targeted script, manual reproduction command, browser automation, snapshot comparison, log assertion, or focused integration check.
+1. Derive the expected result from the original promise and relevant AC, including required layers.
+2. Choose the closest existing executable path that can observe that result. Call it as its users do and assert a concrete expected value or state.
+3. Add or update the focused assertion before implementation.
+4. Run it through the required native red route. Confirm the actual failure proves the missing behavior. Correct unrelated failures before claiming red.
+5. Implement the scoped fix without weakening the promise or assertions.
+6. Run the same behavior check through the Plan's native verification route and inspect the actual evidence.
 
-Prefer no new test over a bad test. A bad test is one that mostly tests mocks, encodes current implementation details, depends on timing or unrelated global state, needs expensive infrastructure for a small fix, or would be deleted immediately after proving the fix.
+A narrow path is enough for a simple change if it proves the required result. Mock database tests prove the unit layer, not persistence. Browser and external obligations remain required when declared.
 
-## Guardrails
+Outside a native Plan obligation, impractical new harness setup can use a targeted existing reproduction or verification instead. State when no failing-before assertion was demonstrated. This conditional fallback cannot bypass Ignite's required red or layers.
 
-- Do not change tests merely to match a wrong implementation.
-- Do not weaken existing assertions unless the expected behavior has genuinely changed and the reason is clear.
-- Keep the regression test focused on the bug. Avoid broad fixture churn or unrelated coverage expansion.
-- If the bug is flaky, make the test deterministic where possible and document the signal being locked down.
-- If the bug exposes a broader class of failures, first land the focused regression path, then consider additional sibling coverage.
+## Preserve evidence and intent
 
-## Final Response
+Do not rewrite tests to bless wrong behavior or reduce assertions merely to turn green. Changed expected behavior needs the user's authorized promise and corresponding Feature/Plan update. Prefer deterministic behavior checks over timing, broad mocks or fixture churn.
 
-Report the evidence, not just the outcome:
+Reuse active or passed runs with the same inputs. Read actual run records and distinguish assertion failure, environment error, stale version, skipped checks and passing results. Manual captures supplement native evidence.
 
-- Name the failing-before test or executable check and the failure it produced.
-- Name the passing-after test run and any nearby validation performed.
-- If failing-before evidence could not be demonstrated, state why and describe the closest regression check used instead.
+Report the REQ/AC, failing-before and passing-after runs, tested version and consequential gaps. Apply technical-writing and unslop; do not create a second pass table.

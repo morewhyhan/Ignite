@@ -1,11 +1,11 @@
 ---
 name: reflect
-description: Reflect on the current authorized conversation, identify durable lessons and update their canonical skill or Ignite document owner. Use when the user says reflect; scale review to the actual scope.
+description: Reflect on the current authorized conversation, identify durable lessons and update their canonical skill or Ignite document owner. Use when the user asks to reflect or a major correction warrants lesson review; scale review to the actual scope.
 ---
 
 # Reflect
 
-When the user asks to reflect, find durable lessons in the current work and route each to its existing owner. One-offs and already-followed guidance do not need another skill.
+When the user asks to reflect or a major correction warrants it, find durable lessons in the current work and route each to its existing owner. Ordinary Standards or README maintenance follows [standards ownership](../../../../docs/standards/README.md), correct and encode-lessons-in-structure by default. Reflect is the conditional lesson-review branch, not a replacement for those core methods. One-offs and already-followed guidance do not need another skill.
 
 ## 1. Locate authorized context
 

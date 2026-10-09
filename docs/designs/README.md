@@ -25,3 +25,13 @@
 - [`sequence.puml`](./sequence.puml)：任务查询请求时序图
 - [视觉设计系统](./design.md)
 - [AI 执行系统](./execution.md)：Plan 契约、验收分层、证据与并行交接
+
+## 固定维护方法
+
+涉及本类文档时，先读取以下必需方法：[how](../../.ai/pstack/skills/how/SKILL.md)、[principle-prove-it-works](../../.ai/pstack/skills/principle-prove-it-works/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
+
+1. 从已实施的代码、配置和验收证据还原当前事实，先辨别计划中的内容与已经存在的行为。
+2. 在原有设计位置更新本次受影响的边界、数据流、限制和入口；未来方案留在 Feature/Plan，不写成当前能力。
+3. 核对与可执行事实、Feature 和完成证据一致，引用必要依据，不复制任务进度或整份运行日志。
+
+只有长期架构理由需要保存时，读取 [why](../../.ai/pstack/skills/why/SKILL.md) 并按 ADR 规则处理。未验收能力写清限制；写完 Design 本身不能证明功能完成。

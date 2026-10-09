@@ -1,7 +1,7 @@
 
 # The pstack guide
 
-pstack works best when you stop micromanaging the agent. You describe what you want and how you'll know it's done. `/poteto-mode` picks the playbook, runs the other skills as the steps need them, and shows you the evidence. This guide teaches that habit with realistic prompts.
+pstack works best when you stop micromanaging the agent. You describe what you want and how you'll know it's done. `/poteto-mode` picks the playbook, runs the other skills as the steps need them, and shows you the evidence. This guide teaches that habit with realistic prompts. Document maintenance starts at its [existing owner](../../../../docs/README.md) and required core methods, even without invoking poteto-mode. Simple work uses the shortest relevant steps while retaining required records; the AI chooses only branches whose stated conditions hold.
 
 Here's what you'll learn:
 

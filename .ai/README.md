@@ -25,7 +25,7 @@ Feature、Plan 和测试文档分别保存需求、推进依据与验收意图�
 
 ## 工程方法入口
 
-移植的 [pstack](pstack/CATALOG.md) 包含51个主技能、23个playbook。需要完整工程流程时，用户启用 [poteto-mode](pstack/skills/poteto-mode/SKILL.md)，由 AI 选择流程与技能。项目文档位置、工具和模型要求直接写在对应方法中；明确小改动直接执行。方法不扩张权限、不替换项目验收，也不强制技能跑分。
+移植的 [pstack](pstack/CATALOG.md) 包含51个主技能、23个playbook。涉及项目修改或文档维护时，AI 默认按所属文档规则的“固定维护方法”读取必需技能与原则，并按规定顺序处理；无需用户先启用 [poteto-mode](pstack/skills/poteto-mode/SKILL.md)。额外方法只按写明的条件使用，明确小改动压缩分析和输出，保留必要记录及验收。项目文档位置、工具和模型要求直接写在对应方法中。方法不扩张权限、不替换项目验收，也不强制技能跑分。
 
 Codex 通过 `.agents/skills/` 发现技能，Claude Code 通过 `.claude/skills/` 发现技能；Cursor 和 OpenCode 复用这两个已支持的目录，不再生成各自的技能副本。两个目录只保存元数据与正文链接，方法正文仍只维护一份。不支持技能目录的工具通过AGENTS入口读取同一真源。支持程度与会话目录刷新取决于实际宿主，不宣称所有平台已运行验证。来源、MIT许可与逐文件适配清单随仓库保留。
 

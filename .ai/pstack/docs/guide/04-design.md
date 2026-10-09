@@ -13,7 +13,7 @@ The two most common design mistakes are taking the agent's first design and poli
 /architect design the import pipeline before writing any code. i care most about how callers use it.
 ```
 
-[`/architect`](../../skills/architect/SKILL.md) grounds itself first, running `/how` over the code the design touches and `/why` when it moves ownership or layers. When independent attempts are useful and authorized, it can use `/arena` to produce competing design sketches, with the caller's usage written first in each, followed by types, signatures, and a module map.
+[`/architect`](../../skills/architect/SKILL.md) grounds itself first, tracing the affected promise and code with how, and adding why when disputed history or a lasting ADR needs reasons. When independent attempts are useful and authorized, it can use `/arena` to produce competing design sketches, with the caller's usage written first in each, followed by types, signatures, and a module map.
 
 Proceed into implementation after the existing Plan has a complete goal, scope, acceptance mapping, and resolved open questions. If you want to see the design first, say so:
 
@@ -67,7 +67,7 @@ Reach for it when parallelism buys coverage or lets independent checks race. `/a
 /interrogate the whole branch, but skeptically. no nitpicks unless it's an actual bug or regression.
 ```
 
-[`/interrogate`](../../skills/interrogate/SKILL.md) sends the same diff, intent, and rubric to reviewers on different model families. Model diversity is the point. Different models have different blind spots, so a finding two models raise independently is high-confidence signal. The lead sorts everything into `Act on`, `Consider`, `Noted`, and `Dismissed`, with a reason for each dismissal, and applies nothing automatically.
+[`/interrogate`](../../skills/interrogate/SKILL.md) reviews the concrete diff against the original intent and required evidence. A small review can run directly. Requested or useful authorized independent reviewers receive the same intent, artifact and rubric; model diversity depends on actual host capability. Agreement is a lead to verify, not proof. The lead sorts everything into `Act on`, `Consider`, `Noted`, and `Dismissed`, with a reason for each dismissal, and applies nothing automatically.
 
 Read the dismissals too. The lead is a pragmatic senior engineer, not an oracle, and you can override it.
 
@@ -115,11 +115,11 @@ For a migration, state the bar in the prompt:
 /poteto-mode plan the migration of our ui library to the new styling system. small verifiable PRs, each with visual regression checks. the result must match the original exactly, bugs included.
 ```
 
-"bugs included" keeps the migration from quietly fixing things on the way, which would make the old and new output impossible to compare. Keep ordinary design choices and their reasons in the Plan. Durable architectural rationale belongs in ADR; implemented facts belong in Design. Adopted-project records remain after delivery. Template release cleanup follows existing adoption rules, not a blanket deletion instruction.
+"bugs included" keeps the migration from quietly fixing things on the way, which would make the old and new output impossible to compare. Keep ordinary choices and their reasons under [Plan rules](../../../../docs/plans/README.md), using figure-it-out and show-me-your-work for its goal, priorities, tasks and handoff. Lasting rationale follows [ADR rules](../../../../docs/others/adr/README.md) with why and architect. Implemented facts follow [Design rules](../../../../docs/designs/README.md) with how and prove-it-works. Adopted-project records remain after delivery. Template release cleanup follows existing adoption rules, not a blanket deletion instruction.
 
 ## How much design work does a task deserve?
 
-You might be wondering whether every change needs this. No. Most changes need none of it. A rough ladder:
+You might be wondering whether every change needs this. No. A small change uses a short grounded sketch when needed. Document maintenance still follows its owning README's required core methods. A rough ladder:
 
 - A small, finished change you're unsure about needs `/interrogate` alone.
 - A change that crosses function boundaries or moves ownership can use `/architect`; competing candidates and delegation are selected only when useful and authorized.

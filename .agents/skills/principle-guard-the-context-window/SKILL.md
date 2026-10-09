@@ -1,8 +1,9 @@
 ---
 name: principle-guard-the-context-window
 description: 'Apply when context is filling up: large outputs, long files,
-  repeated reads, fan-out planning. Route bulk to subagents; keep summaries in
-  the main thread, not raw payloads.'
+  repeated reads, fan-out planning. Filter or read bounded chunks; delegate only
+  useful independent scopes. Keep reduced findings and relevant evidence in the
+  main thread.'
 ---
 
 # principle-guard-the-context-window

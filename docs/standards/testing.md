@@ -85,3 +85,13 @@ CI 是合并门槛，本次改动的 schema 2 Plan 必须达到终态；整个 R
 - 视觉、动画或 Canvas 等无法可靠通过 DOM 断言的场景使用截图或人工验证，并在 Plan 记录。
 
 测试路径的编写与维护见 [验收用例规则](../others/test-cases/README.md)，运行记录的恢复、复用与有效性见 [验收证据](../others/evidence/README.md)。目标反馈与正式门禁分别承担排查和交付职责，不为重复收口另建检查或 Plan。
+
+## 固定维护方法
+
+涉及本类文档时，先读取以下必需方法：[tdd](../../.ai/pstack/skills/tdd/SKILL.md)、[principle-test-behavior-not-implementation](../../.ai/pstack/skills/principle-test-behavior-not-implementation/SKILL.md)、[principle-prove-it-works](../../.ai/pstack/skills/principle-prove-it-works/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
+
+1. 从对应 Feature AC 确认需要证明的实际行为和层级；选择能区分错误原因的断言，不能以测试数、结构检查或模拟数据库冒充真实行为。
+2. 新 Plan 按原生 tdd red 契约保存真实行为失败，再在同一测试文件上实现并验证；环境失败、占位失败或事后补写不算红灯。
+3. 按 Plan 检查选择执行必要验收，复用相同输入的有效运行；全局生产构建和 E2E 由最终 Release 承担。结果进入原生证据，不另建技能跑分表。
+
+已有验证技能需要同步时使用 [maintain-verification-skill](../../.ai/pstack/skills/maintain-verification-skill/SKILL.md)；确实缺少项目行为入口时才使用 [create-verification-skill](../../.ai/pstack/skills/create-verification-skill/SKILL.md)。纯重构的既有绿灯可保护行为，却不豁免新 Plan 的真实红灯；找不到真实待改行为时保留契约缺口，不能制造失败。用户暂不测试时保留待验证状态。

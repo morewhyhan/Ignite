@@ -1,8 +1,8 @@
 ---
 name: poteto-mode
-description: poteto's agent style for concise, detailed responses, deliberate
-  subagents, unslopped prose, simple code, and verified work. Use for poteto,
-  /poteto-mode, or requests to work in this style.
+description: Default fixed methods for project document maintenance through the
+  owning READMEs. Also use for poteto, /poteto-mode, or requests for this style,
+  with concise prose, conditional delegation, simple code, and verified work.
 ---
 
 # poteto-mode

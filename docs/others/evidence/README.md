@@ -28,3 +28,13 @@ pnpm ignite release status
 发布摘要前核对 runner 的本地运行记录与完整日志；不能手写 receipt 冒充执行。独立 CI 在指定提交执行自己的验收，不把仓库中的清单当成不可伪造证明。日志留在本机，仓库只保存真实脱敏摘要；缺证据、跳过、未执行和过期都如实记录。
 
 模板发布快照不预装建设期运行清单，`runs/` 和 `tdd/` 由首次运行按需创建。模板维护记录保存在 Git 历史；具体产品保留自己产生的运行证据，不能套用模板的绿色结果。
+
+## 固定维护方法
+
+涉及本类文档时，先读取以下必需方法：[principle-prove-it-works](../../../.ai/pstack/skills/principle-prove-it-works/SKILL.md)、[principle-make-operations-idempotent](../../../.ai/pstack/skills/principle-make-operations-idempotent/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
+
+1. 先检查原生运行记录、输入和被测版本，区分活动、已通过、失败、失效与未执行；相同有效输入复用运行。
+2. 只由实际执行生成证据，保留对应 Plan、REQ/AC、层级、结果和版本。观察到的事实与人工内容复核分别记录，不能互相代替。
+3. 恢复中断时按原生运行恢复规则继续；输入变化使旧证据失效时再启动必要检查。缺账号、外部条件或未运行检查保持未完成。
+
+需要定位运行故障时才采用 [runtime-forensics](../../../.ai/pstack/skills/poteto-mode/playbooks/runtime-forensics.md)；实验另选隔离环境并遵守授权。报告只引用实际结果，不根据日志中的 READY、PR 状态或文件存在宣称原生验收通过。

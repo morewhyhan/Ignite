@@ -10,9 +10,11 @@ description: Sketch types, signatures, and module structure before code, then st
 
 Design before implementing. Sketch types, function signatures, class shapes, and module boundaries with `not implemented` bodies and pseudocode. Compare distinct viable shapes when the problem warrants it, then fill in code against the chosen sketch. If implementation proves the sketch wrong, throw it out and redesign.
 
+For ADR-only maintenance, ground the actual decision and explain its viable options with why under [ADR rules](../../../../docs/others/adr/README.md). Editing an accepted rationale does not enter sketch/implementation phases or authorize code changes. Use how only on a relevant fact gap; do not redesign settled architecture to refresh documentation. The phases below apply when a new or changed code shape is authorized.
+
 ## Start
 
-Record relevant phases in the existing Ignite Plan.tasks; do not create a second todo list or progress document. Ordinary choices go in its judgment/status record, long-lived architecture tradeoffs in docs/others/adr/, and implemented facts in docs/designs/.
+Follow [Plan rules](../../../../docs/plans/README.md) for the existing Plan.tasks and judgments. For a lasting rationale, follow [ADR rules](../../../../docs/others/adr/README.md) and pair architect with why by default. Implemented facts follow [Design rules](../../../../docs/designs/README.md). Do not create a second task or rationale ledger. A constrained choice uses the shortest grounded sketch while retaining the required reasoning.
 
 1. Ground
 2. Sketch
@@ -24,7 +26,7 @@ Record relevant phases in the existing Ignite Plan.tasks; do not create a second
 
 Build a real mental model of every system the new code touches. Run the **how** skill over the relevant subsystems.
 
-Naming a file isn't grounding. Produce the traced model `how` prescribes. If the design redefines ownership or layering, also run the **why** skill on the existing shape so the rationale becomes a constraint, not a guess.
+Naming a file is not grounding. Trace the affected promise, actual callers and current ownership with how. Use why when historical reasons are disputed or a lasting ADR needs them. Do not require history investigation merely because an ordinary implementation boundary changes.
 
 Skip Phase A only when the work is genuinely greenfield with no surrounding system to integrate.
 
@@ -78,4 +80,4 @@ When you scrap:
 
 ## Outputs
 
-The caller's usage is written first and the type sketch derived from it. One file with new types and signatures for small changes. Module map plus type definitions for larger work. Use references/rationale-template.md for the rationale in the existing Plan or warranted ADR, including the usage sketch and selection reason. Scratch candidates are temporary working artifacts, not another authoritative design history. After implementation, update the relevant Design with current facts. Never commit an incomplete sketch as a completed product; any planned intermediate breakage stays scoped to the original Plan and cannot pass its completion gate.
+Derive caller usage from the authorized Feature promise first, then derive the type sketch. Preserve Ignite's module Hook → Hono Typed RPC → route → Prisma boundary and AppType as the business type source. Avoid duplicate transport schemas; an established typed RPC interface is not accidental leakage. One file with new types and signatures for small changes. Module map plus type definitions for larger work. Use references/rationale-template.md for the rationale in the existing Plan or warranted ADR, including the usage sketch and selection reason. Scratch candidates are temporary working artifacts, not another authoritative design history. After implementation, update the relevant Design with current facts. Never commit an incomplete sketch as a completed product; any planned intermediate breakage stays scoped to the original Plan and cannot pass its completion gate.

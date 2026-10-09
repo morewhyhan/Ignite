@@ -51,3 +51,13 @@
 工具测试证明实际接续或生成行为，作者内容复核证明本次检查过哪些条款；它们不能证明真实模型已经减少偏移。模型效果按 [行为评估案例](../others/test-cases/execution-focus.md) 另行验证：运行前固定任务输入、事实、人的边界、模型版本、工具权限、预算、重复次数和判定；保留全部输出与失败，用独立任务检查泛化，由人复核关键判断。
 
 依据具体失败观察目标遗漏、错误重点、无关深挖、无信息重复、越权、错误完成与人工纠正。目标遗漏、越权与虚假完成不能被速度抵消；兼顾原本正常的案例，不能用一个成功说明所有模型有效。方法参考 [任务相关评估与人工校准](https://developers.openai.com/api/docs/guides/evaluation-best-practices)，属于工程实践依据。没有实际数据时只报告文档和工具交付及未验证范围。
+
+## 固定维护方法
+
+涉及本类文档时，先读取以下必需方法：[correct](../../.ai/pstack/skills/correct/SKILL.md)、[principle-encode-lessons-in-structure](../../.ai/pstack/skills/principle-encode-lessons-in-structure/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
+
+1. 先用已有事实定位失败：缺上下文、入口错误、规则歧义、产品决定未定，还是未遵守已有规则；在对应 Plan 保留依据。
+2. 在原有职责位置修正条款，明确触发条件、必需动作、足够结果和边界；能由结构或工具可靠保证的约束优先编码，不能只加“更认真”。
+3. 对照受影响的规则、模板、方法与桥接消除矛盾；核查入口、链接和生成结果，回写 Feature、Design 与必要案例。
+
+用户要求反思或重大重复失误需要提炼长期教训时采用 [reflect](../../.ai/pstack/skills/reflect/SKILL.md)；不要求每次新增规则、ADR 或专门适配文件。涉及文档写作时，必须读取 [technical-writing](../../.ai/pstack/skills/technical-writing/SKILL.md) 与 [unslop](../../.ai/pstack/skills/unslop/SKILL.md)，使用原文档职责组织内容，保留事实、推测和未完成的区别。这两项写作方法适用于各类文档维护，不新增平行写作流程。

@@ -7,7 +7,7 @@ Code doesn't carry its own motivation. You can read what code does. You can't re
 
 ## Confidence Tiers
 
-Every claim in the final output must sit in one of these tiers. The tier determines which output section the claim goes in and how it's phrased.
+Every claim in the final output must sit in one of these tiers. The tier determines how the claim is phrased and separated from other claims. Section headings are optional for a small answer.
 
 ### 1. Direct
 
@@ -142,4 +142,4 @@ Before delivering the output, the synthesizer should review every claim in "What
 1. Does this claim have a citation? If not, either add one or move it to "Inferred" / "Hypotheses".
 2. Is the phrasing calibrated to the tier? (A Direct claim can use "because". An Inferred claim cannot.)
 3. Am I treating the code itself as evidence for its own intent? If so, that's not evidence. Remove or reclassify.
-4. Does the output include a "What We Don't Know" section? If no gaps are mentioned, that's suspicious. Either the evidence was unusually complete or something is being swept under the rug.
+4. Are consequential unanswered questions, unavailable sources and actual null searches explicit? A complete narrow rationale does not require an empty unknowns section.

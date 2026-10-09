@@ -51,7 +51,7 @@ function fail(message, code = 1) {
 const generalHelp = `Usage: pnpm ignite <command> [options]
 
 Commands:
-  validate [--ci] | validate --delivery <--plan id|--base commit>
+  validate [--ci]
   status [--write|--json]
   next --plan <id> [--verify-remote] [--verbose]
   check --plan <id> [--level auto|dev|integration|release]
@@ -76,7 +76,7 @@ Use pnpm ignite <command> --help for command details.
 const commandHelp = new Map([
   [
     'validate',
-    'Usage: pnpm ignite validate [--ci]\n       pnpm ignite validate --delivery <--plan id|--base commit>\nValidate governance. Delivery also covers committed, staged, working and untracked changes from the declared baseline.\n',
+    'Usage: pnpm ignite validate [--ci]\nValidate Plans, Releases, traceability, Design, AI bridges and runtime.\n',
   ],
   [
     'status',
@@ -150,32 +150,6 @@ function checkRuntime() {
 }
 
 async function commandValidate(options) {
-  if (
-    Object.keys(options).some((key) => !['ci', 'delivery', 'plan', 'base'].includes(key)) ||
-    (options.delivery !== undefined && options.delivery !== true) ||
-    (options.ci && options.delivery) ||
-    (!options.delivery && (options.plan !== undefined || options.base !== undefined))
-  )
-    throw new Error('validate [--ci] or validate --delivery <--plan id|--base commit>')
-  let deliveryFailures = []
-  if (options.delivery) {
-    if (
-      Boolean(options.plan) === Boolean(options.base) ||
-      (options.plan !== undefined && typeof options.plan !== 'string') ||
-      (options.base !== undefined && typeof options.base !== 'string')
-    )
-      throw new Error('Delivery requires --plan <id> or --base <commit>')
-    const plan = options.plan ? findPlan(options.plan) : null
-    if (plan && plan.metadata.status !== 'done')
-      throw new Error(
-        `Delivery requires ${plan.metadata.id} to be done; finish its native checks first`,
-      )
-    deliveryFailures = validateCiCompletion({
-      baseCommit: plan?.metadata.base_commit || options.base,
-      includeWorkingTree: true,
-    })
-    if (deliveryFailures.length) return fail(deliveryFailures.join('\n- '))
-  }
   const plans = listPlans()
   const releases = listReleases()
   const failures = [
@@ -188,11 +162,7 @@ async function commandValidate(options) {
   ]
   if (options.ci) failures.push(...validateGeneratedStatus(), ...validateCiCompletion())
   if (failures.length) return fail(failures.join('\n- '))
-  console.log(
-    options.delivery
-      ? 'Ignite delivery coverage and governance validation passed. Release, remote and deployment acceptance remain separate.'
-      : 'Ignite governance validation passed.',
-  )
+  console.log('Ignite governance validation passed.')
 }
 
 function commandPlanValidate(positionals, options) {

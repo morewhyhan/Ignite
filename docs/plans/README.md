@@ -86,10 +86,6 @@ tasks 按可判断产出拆分，不同责任、依赖、风险或验收需要�
 
 Plan done 只证明此交付，不表示整个 Release 完成；组合版本由 [Release 完成条件](./releases/README.md#完成与证据) 判断，也不自动表示推送、部署或用户可访问。最终报告遵循 [沟通规则](../../AGENTS.md#沟通)。
 
-报告本地交付前运行 `pnpm delivery:check --plan <IGT-ID>`，从该完成 Plan 的真实基线核对整个提交区间、暂存、未暂存和未跟踪改动。只有当前内容仍由有效完成记录覆盖才通过；其它 Plan 或后续改动不能靠一项完成记录掩盖。没有具体 Plan 的干净模板基线检查可用 `pnpm delivery:check --base <初始快照的40位commit>`，只证明声明范围没有未覆盖改动，不证明存在产品交付。不能把 HEAD 或最近一个提交当作本轮基线来缩小范围。
-
-普通 `check` 和 `build` 保持工程检查含义。交付覆盖不代替原始目标的语义核对、Release 最终验收、远端或部署验证。这个只读入口不创建通过回执、不改任务状态，也不能阻止宿主绕过命令直接写文件或给出文本报告。用户明确暂不测试时不执行交付检查，按原约束保留待验证。
-
 ## 命令
 
 模板见 [_template.md](./_template.md)。需要新交付时用 create:module 或 create:change；脚手架要求工作区干净，dry-run 只读预览。免业务 Plan 仅限检查器认定的根 README、docs/README、docs/others/README 和 docs/assets 静态展示资产，仍须文档、格式和差异检查；执行规则、专业规格、设计、测试和代码不能使用该豁免。

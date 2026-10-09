@@ -405,13 +405,6 @@ export function changedFilesSince(baseCommit) {
     .sort()
 }
 
-export function changedFilesInWorkspace() {
-  return [...changedPathSet(null)]
-    .map(normalizePath)
-    .filter((path) => !isExecutionStatePath(path))
-    .sort()
-}
-
 function pathWithinScope(path, scope) {
   const normalizedPath = normalizePath(path)
   const normalizedScope = normalizePath(scope)

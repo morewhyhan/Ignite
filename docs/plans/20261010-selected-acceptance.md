@@ -97,7 +97,13 @@
     "docs/standards/",
     "docs/others/"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-METHOD-016",
+      "test": "tests/contracts/acceptance-runtime.test.ts::[AC-METHOD-016]",
+      "run_id": "tdd-20261010074622-eb095b"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

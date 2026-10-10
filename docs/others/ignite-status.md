@@ -2,7 +2,7 @@
 
 模板状态：`template-baseline`
 输入指纹：`735dc7e5626f`
-当前 Plan：0；结构化历史：1；未迁移历史：0
+当前 Plan：0；结构化历史：0；未迁移历史：0
 
 ## 当前工作
 
@@ -10,12 +10,7 @@
 
 ## 发布范围
 
-- `method-reading-v1` · `verifying`
-  - Plan：`IGT-1791599676554164539`
-  - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite release verify method-reading-v1 --plan IGT-1791599676554164539
-  - 未完成原始目标：无已登记缺口（仍需语义核对）
+- 无。
 
 ## 结构问题
 

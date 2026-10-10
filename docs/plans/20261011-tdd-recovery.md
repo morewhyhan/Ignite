@@ -112,7 +112,13 @@
     "docs/others/evidence/runs/",
     "docs/others/ignite-status.md"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-METHOD-021",
+      "test": "tests/contracts/method-recovery.test.ts::[AC-METHOD-021] reopens a changed acceptance without forging red proof or losing history",
+      "run_id": "tdd-20261010212833-cc2e96"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

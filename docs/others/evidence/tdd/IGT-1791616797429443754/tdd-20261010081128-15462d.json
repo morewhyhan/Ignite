@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "1464a1d5b22ae9b7009a4b0a102551016174f2015341f417b39fed1df6d84ac6",
+  "run_id": "tdd-20261010081128-15462d",
+  "plan_id": "IGT-1791616797429443754",
+  "acceptance_id": "AC-METHOD-016",
+  "test": "tests/contracts/acceptance-runtime.test.ts::[AC-METHOD-016]",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "b6254080cc51d13fa840c90bb1a6684881a4d5d1",
+  "output_sha256": "6f7a2dca4e337aedc9d1796670fe82f3154a0899dcf47f806128a92947ca7a72",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/acceptance-runtime.test.ts",
+    "--testNamePattern",
+    "AC-METHOD-016",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-10T08:11:28.864Z",
+  "ended_at": "2026-10-10T08:11:30.872Z",
+  "executor": "ignite-tdd-runner"
+}

@@ -11,9 +11,7 @@
   "verification_contract": 2,
   "goals": [
     {
-      "requirements": [
-        "REQ-METHOD-016"
-      ],
+      "requirements": ["REQ-METHOD-016"],
       "text": "修正手动选择单项测试时报告器对未选择验收的误报，保持绑定运行严格校验"
     }
   ],
@@ -21,21 +19,15 @@
     "只处理局部运行的范围识别；不放松绑定 Plan、CI 或验收结果文件的要求",
     "学生副本保持冻结版本，不提示方法步骤"
   ],
-  "non_goals": [
-    "手动单项通过不能代替 Plan 或 Release 验收"
-  ],
+  "non_goals": ["手动单项通过不能代替 Plan 或 Release 验收"],
   "authorization": {
     "source": "用户要求修复独立学生系统试跑发现的问题；本轮公开输出已复现单项运行误报"
   },
-  "deliverables": [
-    "局部 Vitest 选择准确识别与真实运行回归"
-  ],
+  "deliverables": ["局部 Vitest 选择准确识别与真实运行回归"],
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "8be680d88def80c40207804e19541c5ef9e5c00b",
-  "requirements": [
-    "REQ-METHOD-016"
-  ],
+  "requirements": ["REQ-METHOD-016"],
   "acceptance": [
     {
       "checks": [
@@ -44,18 +36,12 @@
           "test": "tests/contracts/acceptance-runtime.test.ts::[AC-METHOD-016]"
         }
       ],
-      "required_layers": [
-        "unit"
-      ],
+      "required_layers": ["unit"],
       "id": "AC-METHOD-016",
-      "tests": [
-        "tests/contracts/acceptance-runtime.test.ts::[AC-METHOD-016]"
-      ]
+      "tests": ["tests/contracts/acceptance-runtime.test.ts::[AC-METHOD-016]"]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "phase": "prepare",
@@ -64,18 +50,14 @@
       "status": "done"
     },
     {
-      "acceptance": [
-        "AC-METHOD-016"
-      ],
+      "acceptance": ["AC-METHOD-016"],
       "phase": "red",
       "title": "用真实 Vitest 子进程复现选择误报",
       "id": "T2",
       "status": "doing"
     },
     {
-      "acceptance": [
-        "AC-METHOD-016"
-      ],
+      "acceptance": ["AC-METHOD-016"],
       "phase": "implement",
       "title": "准确识别手动选择范围",
       "id": "T3",
@@ -115,10 +97,14 @@
     "docs/standards/",
     "docs/others/"
   ],
-  "tdd_evidence": [],
-  "required_evidence": [
-    "check-integration"
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-METHOD-016",
+      "test": "tests/contracts/acceptance-runtime.test.ts::[AC-METHOD-016]",
+      "run_id": "tdd-20261010081128-15462d"
+    }
   ],
+  "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
@@ -192,8 +178,8 @@
 状态：`active`（由元数据生成）
 
 - [x] T1 · 还原局部运行误报及绑定验收边界 · done
-- [x] T2 · 用真实 Vitest 子进程复现选择误报 · done
-- [ ] T3 · 准确识别手动选择范围 · doing
+- [ ] T2 · 用真实 Vitest 子进程复现选择误报 · doing
+- [ ] T3 · 准确识别手动选择范围 · todo
 - [ ] T4 · 验证严格验收兼容并回写设计 · todo
 
 验收缺口：未记录；完成仍须实际证据

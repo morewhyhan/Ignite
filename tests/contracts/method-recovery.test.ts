@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto'
 import { describe, expect, it } from 'vitest'
 import { validateExecutionContract } from '../../scripts/ignite/execution-contract.mjs'
 import { acceptanceTestSource } from '../../scripts/ignite/source-analysis.mjs'
-import { commitAll, makeFixture, planContent, read, runCli, write } from './ignite-fixture'
+import { commitAll, git, makeFixture, planContent, read, runCli, write } from './ignite-fixture'
 
 const acceptanceId = 'AC-TEST-001'
 const testReference = 'tests/contracts/sample.test.ts::[AC-TEST-001]'
@@ -61,7 +61,7 @@ describe('method recovery', () => {
     const fixture = makeFixture()
     try {
       const source = read(fixture.root, 'tests/contracts/sample.test.ts')
-      const redCommit = commitAll(fixture.root, 'Keep original behavior contract')
+      const redCommit = git(fixture.root, 'rev-parse', 'HEAD')
       const runId = 'tdd-20261011000000-112233'
       write(
         fixture.root,

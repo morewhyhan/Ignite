@@ -7,7 +7,7 @@
   "outcome": "完成后谁能多做哪件事",
   "contract_version": 2,
   "execution_contract": 1,
-  "task_contract": 1,
+  "task_contract": 2,
   "verification_contract": 2,
   "goals": [{ "text": "用户可验证的目标", "requirements": ["REQ-FEATURE-001"] }],
   "constraints": ["必须保留的能力或数据"],

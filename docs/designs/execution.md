@@ -20,7 +20,9 @@
 
 项目技能由 `pnpm ignite skill read <name>` 从当前仓库的 `.ai/skills/` 或 `.ai/pstack/skills/` 真源读取；错误发现地址可附带 `--path`，命令按名字恢复并说明恢复位置，真源缺失明确失败。实现入口是 `scripts/ignite/skill-reader.mjs`，不安装依赖、不写文件、不从上层项目借用技能。
 
-新模板与脚手架声明 `task_contract: 1`，tasks 用 phase 区分 prepare、red、implement、verify，red 与 implement 关联实际 AC。`execution-contract.mjs` 校验同 AC 红灯任务先于实施；`state.mjs` 在开始或完成实施任务、完成红灯任务时复用原生红灯证明校验。阶段和 AC 映射纳入输入契约，任务状态更新不改变契约。旧 Plan 不自动迁移；宿主任意文件写入无法由 CLI 拦截，方法是否自发读取仍须在实际宿主中观察。
+新模板与脚手架声明 `task_contract: 2`，tasks 用 phase 区分 prepare、red、implement、verify，red 与 implement 关联实际 AC。新契约要求先完成 prepare；原生 prepare 任务完成命令检查准备结果，红灯入口要求对应 red 任务已启动。`state.mjs` 在首个有效红灯前比较当前代码和基线，包括暂存区，拒绝提前实现；已有有效红灯后按 AC 的原生证明控制实施任务。阶段和 AC 映射纳入输入契约，任务状态更新不改变契约。历史契约 1 保留兼容，不自动迁移。CLI 无法阻止宿主任意写文件，实际 Agent 执行仍须观察。
+
+新模块脚手架只生成规格、计划、测试资料和失败测试，不生成业务页面外壳。浏览器草稿通过 `E2E_DATABASE_URL` 访问原生运行器的隔离数据库，不能退回开发数据库；占位测试仍不算准备完成或红灯。Release 允许同一 AC 覆盖多个原始目标，但各引用的处理方式与实际负责 Plan 必须一致，遗漏目标检查保持有效。
 
 - 工程门禁：结构、类型、Lint、格式和适用的迁移检查通过。
 - Plan：一项交付的目标、真实测试与当前集成证据完整，才可置为 done。

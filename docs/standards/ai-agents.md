@@ -35,6 +35,8 @@
 
 当前系统事实以 `docs/designs/` 为准；需求、计划、标准和验收资料分别位于 `docs/features/`、`docs/plans/`、`docs/standards/` 和 `docs/others/`。
 
+宿主执行命令时保留退出码和会话 ID。命令返回仍在运行时，等待该会话完成后再启动依赖它的命令；只打印 stdout 不能证明安装已完成。读取输出截断时按文件或区间补读，不把被截掉的正文算作已读取。
+
 ## 扩展资产
 
 - 项目专属 Skills：`.ai/skills/`

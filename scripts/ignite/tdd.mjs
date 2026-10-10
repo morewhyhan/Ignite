@@ -12,6 +12,7 @@ import {
 } from './core.mjs'
 import {
   findPlan,
+  validatePlan,
   planContractAtCommit,
   updatePlanMetadata,
   writeGeneratedStatus,
@@ -101,6 +102,24 @@ export function runTddRed(planId, acceptanceId) {
     throw new Error(
       'Write the real acceptance test first, then run tdd red while the Plan is active',
     )
+  if (plan.metadata.task_contract === 2) {
+    const tasks = plan.metadata.tasks || []
+    if (
+      !tasks.some(
+        (task) =>
+          task.phase === 'red' &&
+          task.status === 'doing' &&
+          task.acceptance?.includes(acceptanceId),
+      )
+    )
+      throw new Error(
+        'Start the matching red task with ignite task set-status before recording red',
+      )
+    const failures = validatePlan(plan).filter((error) =>
+      /before the first valid red|Complete preparation|requires a prepare task/.test(error),
+    )
+    if (failures.length) throw new Error(failures.join('\n'))
+  }
   if (!executionWorkspaceIsClean())
     throw new Error('Commit the specification and test before recording the red result')
   const commit = currentCommit()

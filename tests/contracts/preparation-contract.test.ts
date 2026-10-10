@@ -122,7 +122,7 @@ function preparedFixture() {
         },
       ],
       verification_requirements: ['unit'],
-      write_scope: ['src/', 'docs/', 'tests/'],
+      write_scope: ['src/config/site.ts', 'docs/', 'tests/'],
     }) + body,
   )
   return fixture

@@ -306,7 +306,9 @@ export function stablePlanContract(metadata) {
           tasks: (metadata.tasks || []).map(({ id, title, phase, acceptance }) => ({
             id,
             title,
-            ...(metadata.task_contract === 1 ? { phase, acceptance: acceptance || [] } : {}),
+            ...([1, 2].includes(metadata.task_contract)
+              ? { phase, acceptance: acceptance || [] }
+              : {}),
           })),
           dependency_contracts: metadata.dependency_contracts || [],
           shared_files: metadata.shared_files || [],

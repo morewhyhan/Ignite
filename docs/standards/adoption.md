@@ -135,7 +135,7 @@ node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'
 
 ## 第四步：开发第一个真实模块
 
-可以先执行 `pnpm create:module <plural-kebab-name> --dry-run` 查看将创建的文件，确认后去掉 `--dry-run`。脚手架会创建 Screen、公开入口、Feature、测试路径文档、`verification_contract: 2` Plan 和失败的测试草稿，并把它加入 Release；它不猜测数据模型或 API。实际写入前会要求 Git 工作区干净，避免把已有工作混入新 Plan；`--dry-run` 不写任何文件。
+可以先执行 `pnpm create:module <plural-kebab-name> --dry-run` 查看将创建的文件，确认后去掉 `--dry-run`。脚手架会创建 Feature、测试路径文档、`verification_contract: 2` Plan 和失败的测试草稿，并把它加入 Release。Screen、公开入口、数据模型和 API 在真实红灯之后实现。实际写入前会要求 Git 工作区干净，避免把已有工作混入新 Plan；`--dry-run` 不写任何文件。
 
 1. 从脚手架或 `docs/features/_template.md` 创建需求规格。
 2. 标明是增量模块还是存量修改，补齐字段、原型映射和正交业务规则。

@@ -52,7 +52,7 @@ export function validateDataContract(plan) {
 
 export function validateTaskOrder(value) {
   if (value.task_contract === undefined) return []
-  if (value.task_contract !== 1) return ['task_contract must be 1']
+  if (![1, 2].includes(value.task_contract)) return ['task_contract must be 1 or 2']
   const errors = []
   const phases = new Set(['prepare', 'red', 'implement', 'verify'])
   if (value.verification_contract !== 2)
@@ -63,6 +63,16 @@ export function validateTaskOrder(value) {
   const redBefore = new Set()
   const implemented = new Set()
   const strict = !['draft', 'cancelled', 'superseded'].includes(value.status)
+  if (value.task_contract === 2) {
+    const tasks = Array.isArray(value.tasks) ? value.tasks : []
+    const preparation = tasks.filter((task) => task.phase === 'prepare')
+    if (!preparation.length) errors.push('task_contract 2 requires a prepare task')
+    if (
+      tasks.some((task) => task.phase !== 'prepare' && task.status !== 'todo') &&
+      preparation.some((task) => task.status !== 'done')
+    )
+      errors.push('Complete preparation before starting red, implementation or verification')
+  }
   for (const task of Array.isArray(value.tasks) ? value.tasks : []) {
     if (!phases.has(task.phase)) {
       errors.push(`${task.id}: task_contract 1 requires phase prepare|red|implement|verify`)

@@ -2,6 +2,8 @@
 
 本页负责发布组合的目标覆盖、版本衔接与完成条件。具体 Release 汇集已纳入的 Plan；单个 Plan 的方法与状态仍由 [Plan 规则](../README.md) 负责。
 
+同一 AC 可以同时证明多个原始目标，例如保存后刷新仍可见。重复引用时处理方式与真正承接该 AC 的 Plan 必须一致；不能把同一 AC 一处纳入、另一处延期或排除，也不能交给不同 Plan。每个目标仍须列全对应的 REQ 和 AC，不能用重复引用掩盖遗漏。
+
 ## 固定维护方法
 
 先读本节必需条款与技能正文。在项目使用契约指定的 WSL/Linux Node，运行 `node scripts/ignite.mjs skill read --for docs/plans/releases/README.md`；这个读取入口无需安装依赖。也可直接跟随下面的正文链接，输出截断时分批补读。

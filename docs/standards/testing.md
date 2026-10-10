@@ -90,6 +90,10 @@ CI 是合并门槛，本次改动的 schema 2 Plan 必须达到终态；整个 R
 
 ## 测试先行
 
+新增持久化模块可直接完善脚手架的浏览器测试。它使用 `E2E_DATABASE_URL` 创建 PrismaClient；该地址由 `pnpm test:e2e` 的原生启动器生成，只指向本次隔离数据库。不要退回开发数据库，不把模拟 API 当成真实保存。
+
+通过页面完成保存，再用 `database.<model>.findFirst(...)` 读取同一隔离数据库，刷新页面检查内容仍存在。将这条测试同时映射到适用 AC 的 database 和 browser 检查。失败提示可用真实字段校验或 `page.context().setOffline(true)` 观察，并在恢复联网后检查已填内容。持久化验收文件不能用 `page.route()` 替换业务 API。
+
 - 新 Plan 先提交真实行为测试，再运行 `pnpm ignite tdd red --plan <ID> --ac <AC-ID>`。只有目标行为断言失败才记录红灯；模块加载失败、浏览器未启动、配置错误和脚手架的 `expect.fail` / `throw` 不能作为 TDD 证据。
 - 红灯记录提交后保持同一测试内容，完成实现；Plan integration 运行映射的各层验收并验证同一测试已通过。
 - 实现后先跑最小目标测试，再跑 Plan integration 与适用的 Release 最终验收。

@@ -48,10 +48,6 @@ if (reservedModules.has(moduleName)) {
 
 const repositoryRoot = resolve(process.env.IGNITE_ROOT || process.cwd())
 const dirtyEntries = checkScaffoldWorktree(repositoryRoot, { dryRun })
-const pascalName = moduleName
-  .split('-')
-  .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-  .join('')
 const upperName = moduleName.toUpperCase()
 const dateValue = new Intl.DateTimeFormat('en-CA', {
   timeZone: 'Asia/Shanghai',
@@ -116,25 +112,6 @@ const testCaseDocument = readFileSync(
   .replace('- Plan：', `- Plan：\`docs/plans/${compactDate}-${moduleName}.md\``)
 
 const files = new Map([
-  [
-    `src/modules/${moduleName}/components/${moduleName}-screen.tsx`,
-    `export function ${pascalName}Screen() {
-  return (
-    <section className="container py-12">
-      <h1 className="text-3xl font-semibold">${pascalName}</h1>
-      <p className="mt-2 text-muted-foreground">
-        Complete the feature specification before implementing this module.
-      </p>
-    </section>
-  )
-}
-`,
-  ],
-  [
-    `src/modules/${moduleName}/index.ts`,
-    `export { ${pascalName}Screen } from './components/${moduleName}-screen'
-`,
-  ],
   [
     `docs/features/${moduleName}.md`,
     `# Ignite 功能规格：${moduleName}
@@ -202,6 +179,12 @@ describe('${moduleName} acceptance', () => {
   [
     browserTestPath,
     `import { test } from '@playwright/test'
+import { PrismaClient } from '@prisma/client'
+
+const databaseUrl = process.env.E2E_DATABASE_URL
+if (!databaseUrl) throw new Error('Run pnpm test:e2e to use its isolated database')
+const database = new PrismaClient({ datasources: { db: { url: databaseUrl } } })
+test.afterAll(async () => { await database.$disconnect() })
 
 test('[${acceptanceId}] completes the specified user journey in a real browser', async () => {
   throw new Error('Define the ${moduleName} route and implement its real browser journey before moving the Plan to verifying')
@@ -219,7 +202,7 @@ test('[${acceptanceId}] completes the specified user journey in a real browser',
       outcome: `完成 ${moduleName} 的一个可验收纵向切片`,
       contract_version: 2,
       execution_contract: 1,
-      task_contract: 1,
+      task_contract: 2,
       verification_contract: 2,
       goals: [{ text: `完成 ${moduleName} 的可验收能力`, requirements: [requirementId] }],
       constraints: [],

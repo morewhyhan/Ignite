@@ -6,7 +6,11 @@
 
 先读本节必需条款与技能正文。在项目使用契约指定的 WSL/Linux Node，运行 `node scripts/ignite.mjs skill read --for docs/plans/README.md`；这个读取入口无需安装依赖。也可直接跟随下面的正文链接，输出截断时分批补读。
 
-新 Plan 声明 `task_contract: 1`。tasks 的 `phase` 只能为 prepare、red、implement、verify；red 与 implement 列出负责的 `acceptance` AC。每个实施任务前先列覆盖同一 AC 的 red 任务，原生校验会拒绝逆序或缺失阶段。开始或完成 implement、完成 red 时，原生任务命令核对有效红灯记录；只有任务标题写了“先测试”不算满足条件。旧 Plan 未声明此契约时保留兼容，不能据此推断它已遵守方法。
+新 Plan 声明 `task_contract: 2`。tasks 的 `phase` 只能为 prepare、red、implement、verify；red 与 implement 列出负责的 `acceptance` AC。每个实施任务前先列覆盖同一 AC 的 red 任务，原生校验会拒绝逆序或缺失阶段。开始或完成 implement、完成 red 时，原生任务命令核对有效红灯记录；只有任务标题写了“先测试”不算满足条件。历史 `task_contract: 1` 和未声明此契约的 Plan 保留兼容，不能据此推断它已遵守新约束。
+
+准备阶段只写规格、计划和真实测试，安装依赖及创建安全本地环境配置。品牌代码、产品配置、package 元数据和业务代码都属于实现，不能在准备阶段顺手修改。新契约的准备检查和首个红灯入口会检查基线以来的代码变化，包括暂存区；发现提前实现时先还原这些改动，不能伪造红灯或修改基线绕过。
+
+准备检查 `ready=true` 后，把 prepare 任务设为 done，并将 Plan 转为 ready、active。用 `pnpm ignite task set-status <ID> <red-task> doing` 启动对应红灯任务，提交规格和测试，再运行原生 red。记录有效红灯后，将对应 red 任务设为 done，启动其实施任务。按可验收单元循环，不要求所有 AC 一次性先做完红灯。
 
 写计划时先安排规格与真实断言、记录红灯、实现、验证和 Design 回写，再对照正文与 tasks 检查顺序一致。本轮仅写草稿或用户暂不运行测试时保留待办，不把未来红灯挪到实现之后。开始实现前使用 `pnpm ignite task set-status <ID> <task> doing` 检查前置条件；直接编辑文件仍须遵守同一规则，CLI 无法拦截宿主的任意文件写入。
 

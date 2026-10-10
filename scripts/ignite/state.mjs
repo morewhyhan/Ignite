@@ -28,6 +28,7 @@ import {
   walkFiles,
   writeJson,
   writeTextIfChanged,
+  workingPathBlobIdentity,
 } from './core.mjs'
 import {
   CHECK_POLICY_VERSION,
@@ -558,7 +559,39 @@ export function validatePlan(
           failures.push(`${item.acceptance_id}: TDD runner record is not valid JSON`)
         }
       }
-      if (value.task_contract === 1) {
+      if (
+        value.task_contract === 2 &&
+        !historicalCommit &&
+        validTdd.size === 0 &&
+        !['draft', 'done', 'cancelled', 'superseded'].includes(value.status) &&
+        gitCommitExists(value.base_commit)
+      ) {
+        const claimsPath = (metadata, path) =>
+          (metadata.write_scope || []).some((scope) =>
+            scope.endsWith('/') ? path.startsWith(scope) : path === scope,
+          )
+        const peers = listPlans().filter(
+          (other) =>
+            other.metadata.id !== value.id &&
+            !['done', 'cancelled', 'superseded'].includes(other.metadata.status),
+        )
+        for (const path of changedFilesForPlan(plan)) {
+          if (/^(?:docs\/|tests\/)/.test(path) || path === 'README.md') continue
+          if (!claimsPath(value, path) && peers.some((other) => claimsPath(other.metadata, path)))
+            continue
+          const baseResult = runGit(['rev-parse', `${value.base_commit}:${path}`], {
+            allowFailure: true,
+          })
+          const stagedResult = runGit(['rev-parse', `:${path}`], { allowFailure: true })
+          const base = baseResult.exitCode === 0 ? baseResult.stdout.trim() : null
+          const staged = stagedResult.exitCode === 0 ? stagedResult.stdout.trim() : null
+          if (workingPathBlobIdentity(path) !== base || staged !== base)
+            failures.push(
+              `${path}: implementation changed before the first valid red; restore it, complete preparation and record a real red first`,
+            )
+        }
+      }
+      if ([1, 2].includes(value.task_contract)) {
         for (const task of value.tasks || []) {
           if (
             (task.phase === 'implement' && ['doing', 'done'].includes(task.status)) ||
@@ -1198,8 +1231,24 @@ export function validateReleaseAcceptanceCoverage(release, plansById) {
         failures.push(
           `${requirement}: ${acceptanceId} is not included, deferred or explicitly excluded`,
         )
-      else if (owners.length > 1)
-        failures.push(`${acceptanceId} is mapped more than once in Release scope`)
+      else if (owners.length > 1) {
+        const assignments = owners.map((goal) =>
+          JSON.stringify({
+            disposition: goal.disposition,
+            plans: goal.plan_ids
+              .filter((id) =>
+                plansById
+                  .get(id)
+                  ?.metadata.acceptance?.some((criterion) => criterion.id === acceptanceId),
+              )
+              .sort(),
+          }),
+        )
+        if (new Set(assignments).size > 1)
+          failures.push(
+            `${acceptanceId} has conflicting Release scope dispositions or responsible Plans`,
+          )
+      }
     }
   }
   return [...new Set(failures)]
@@ -1659,11 +1708,15 @@ export function updatePlanTask(planId, taskId, status) {
     throw new Error('tasks can only be changed on an unfinished execution_contract 1 Plan')
   if (!plan.metadata.tasks.some((task) => task.id === taskId))
     throw new Error(`unknown task ${taskId}`)
-  if (plan.metadata.task_contract === 1) {
+  if ([1, 2].includes(plan.metadata.task_contract)) {
     const candidate = structuredClone(plan)
     const task = candidate.metadata.tasks.find((item) => item.id === taskId)
     task.status = status
     const errors = validateTaskOrder(candidate.metadata)
+    if (candidate.metadata.task_contract === 2 && status !== 'todo')
+      errors.push(
+        ...validatePlan(candidate).filter((error) => /before the first valid red/.test(error)),
+      )
     if (
       (task.phase === 'implement' && status !== 'todo') ||
       (task.phase === 'red' && status === 'done')

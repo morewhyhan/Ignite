@@ -279,7 +279,7 @@
     {
       "path": "skills/figure-it-out/SKILL.md",
       "upstream_sha256": "0eb9485f0e7d84fee56b5d0f0af0faf4635e3ca87c8cba3970c01293b76ecc19",
-      "local_sha256": "601f0f38f506c195f0ed68f02e6c5a97514e683d627e8dd7e3a97f804003323a",
+      "local_sha256": "c2fae48e2be1f562137dc4ab6e09d24e23c1b50b2f5819954e236c1a436648f4",
       "adapted": true,
       "upstream_checkout_sha256": "4aa7be613b4478b06dcfd7ca80190b249061e21eec4c5f0710de0725551a5c88"
     },

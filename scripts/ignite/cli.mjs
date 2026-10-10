@@ -724,6 +724,19 @@ export async function main(argv = process.argv.slice(2)) {
   if (command === 'task' && subcommand === 'set-status') {
     if (positionals.length !== 3)
       throw new Error('task set-status <plan-id> <task-id> <todo|doing|done>')
+    const plan = findPlan(positionals[0])
+    const task = plan.metadata.tasks?.find((item) => item.id === positionals[1])
+    if (
+      plan.metadata.task_contract === 2 &&
+      task?.phase === 'prepare' &&
+      positionals[2] === 'done'
+    ) {
+      const report = preparationReport(plan)
+      if (!report.ready)
+        throw new Error(
+          `Complete preparation before recording prepare done:\n${JSON.stringify(report, null, 2)}`,
+        )
+    }
     console.log(JSON.stringify(updatePlanTask(...positionals).metadata.tasks, null, 2))
     return
   }

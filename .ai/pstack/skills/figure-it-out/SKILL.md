@@ -31,7 +31,7 @@ Use architect for a consequential unresolved shape, not mechanical work. Compare
 
 ## Phase C: Execute and observe
 
-New native Plans use `task_contract: 1` with prepare, red, implement and verify phases. Link red and implement tasks to their actual acceptance IDs, with red before the implementation it covers. Before implementation, use the native task status command to check valid red proof. Compare the Plan prose with its structured task sequence before handing it back. The owning Plan rules define this contract; do not move red after implementation when the current turn only prepares a draft.
+New native Plans use the task contract defined by the [owning Plan rules](../../../../docs/plans/README.md), with prepare, red, implement and verify phases. Link red and implement tasks to their actual acceptance IDs, with red before the implementation it covers. Before implementation, use the native task status command to check valid red proof. Compare the Plan prose with its structured task sequence before handing it back. Do not move red after implementation when the current turn only prepares a draft.
 
 For each unit, state what observable result the change should produce, make the smallest useful change, and inspect the real artifact. Keep a successful change; correct or reverse one that does not advance the goal. Follow the project's TDD and verification rules where applicable, without turning subjective method writing into a benchmark.
 

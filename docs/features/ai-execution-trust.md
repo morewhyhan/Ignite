@@ -69,6 +69,8 @@
 
 - R38（REQ-METHOD-017）：模板固定当前项目为 Next 根目录，嵌套克隆不能借用父仓库依赖。
 - R39（REQ-METHOD-018）：真实测试中的条件错误防护不视为占位失败；无条件 throw 和 expect.fail 继续拒绝。
+- R40（REQ-METHOD-019）：未完成 Plan 的红灯核对读取当前用例，当前断言变化必须在继续实施或校验时拒绝；完成记录继续核对其真实被测 commit。
+- R41（REQ-METHOD-020）：显式 E2E 开发或生产模式贯穿安全环境与运行器，并进入证据身份；不同模式不能复用同一环境指纹。生产模式要求调用者已有本地构建，不代表真实部署。
 
 ## 权限、错误与缓存
 
@@ -136,3 +138,5 @@
 
 - AC-METHOD-017（REQ-METHOD-017）：Given 副本上层也有锁文件 When Next 加载当前项目配置 Then 根目录保持为副本自身，不猜父项目。
 - AC-METHOD-018（REQ-METHOD-018）：Given 真实测试含条件错误防护 When 准备检查解析案例 Then 接受防护，继续拒绝无条件失败占位。
+- AC-METHOD-019（REQ-METHOD-019）：Given 有效红灯用例 When 修改当前断言并尝试完成实施任务 Then 拒绝且不写入完成状态；原始和还原的用例保持可用。
+- AC-METHOD-020（REQ-METHOD-020）：Given 显式开发或生产 E2E 选择 When 生成安全测试环境、指纹并启动浏览器运行器 Then 模式被传递且指纹不同；默认选择等同 development。

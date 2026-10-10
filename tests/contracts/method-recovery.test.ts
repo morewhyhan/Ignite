@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto'
 import { describe, expect, it } from 'vitest'
 import { validateExecutionContract } from '../../scripts/ignite/execution-contract.mjs'
+import { acceptanceTestSource } from '../../scripts/ignite/source-analysis.mjs'
 import { commitAll, makeFixture, planContent, read, runCli, write } from './ignite-fixture'
 
 const acceptanceId = 'AC-TEST-001'
@@ -56,6 +57,58 @@ function contract(baseCommit: string) {
 }
 
 describe('method recovery', () => {
+  it('[AC-METHOD-019] rejects changed live red assertions before implementation', () => {
+    const fixture = makeFixture()
+    try {
+      const source = read(fixture.root, 'tests/contracts/sample.test.ts')
+      const redCommit = commitAll(fixture.root, 'Keep original behavior contract')
+      const runId = 'tdd-20261011000000-112233'
+      write(
+        fixture.root,
+        `docs/others/evidence/tdd/IGT-900/${runId}.json`,
+        JSON.stringify({
+          schema: 2,
+          test_scope: 'acceptance-case',
+          run_id: runId,
+          plan_id: 'IGT-900',
+          acceptance_id: acceptanceId,
+          test: testReference,
+          red_commit: redCommit,
+          status: 'assertion-failed',
+          executor: 'ignite-tdd-runner',
+          test_sha256: createHash('sha256')
+            .update(acceptanceTestSource(source, acceptanceId, '[AC-TEST-001]'))
+            .digest('hex'),
+          output_sha256: 'a'.repeat(64),
+        }),
+      )
+      write(
+        fixture.root,
+        'docs/plans/fixture.md',
+        planContent(fixture.baseCommit, {
+          ...contract(fixture.baseCommit),
+          tdd_evidence: [{ acceptance_id: acceptanceId, test: testReference, run_id: runId }],
+        }),
+      )
+      const allowed = runCli(fixture.root, 'task', 'set-status', 'IGT-900', 'implement', 'doing')
+      expect(allowed.status, allowed.stderr).toBe(0)
+      write(
+        fixture.root,
+        'tests/contracts/sample.test.ts',
+        source.replace('expect(true)', 'expect(false)'),
+      )
+      const before = read(fixture.root, 'docs/plans/fixture.md')
+      const denied = runCli(fixture.root, 'task', 'set-status', 'IGT-900', 'implement', 'done')
+      expect(denied.status, denied.stderr).not.toBe(0)
+      expect(denied.stderr).toContain('test changed before green')
+      expect(read(fixture.root, 'docs/plans/fixture.md')).toBe(before)
+      write(fixture.root, 'tests/contracts/sample.test.ts', source)
+      const restored = runCli(fixture.root, 'task', 'set-status', 'IGT-900', 'implement', 'done')
+      expect(restored.status, restored.stderr).toBe(0)
+    } finally {
+      fixture.cleanup()
+    }
+  })
   it('[AC-METHOD-001] reads the current project skill after a wrong discovery path and reports a genuinely missing skill', () => {
     const fixture = makeFixture()
     try {

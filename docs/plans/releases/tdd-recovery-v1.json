@@ -1,0 +1,25 @@
+{
+  "schema": 2,
+  "id": "tdd-recovery-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1791666534466332637"],
+  "scope": [
+    {
+      "text": "消除红灯失配后的状态恢复死路，不伪造证据或改完成历史",
+      "authorization": "",
+      "plan_ids": ["IGT-1791666534466332637"],
+      "requirements": ["REQ-METHOD-021"],
+      "disposition": "included",
+      "reason": "",
+      "source": "用户继续修复试跑问题；28599e3 学生副本公开执行结果",
+      "acceptance": ["AC-METHOD-021"],
+      "id": "GOAL-001"
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-10-11"
+}

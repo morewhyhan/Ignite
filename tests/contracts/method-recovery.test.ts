@@ -62,6 +62,108 @@ function contract(baseCommit: string) {
 }
 
 describe('method recovery', () => {
+  it('[AC-METHOD-021] reopens a changed acceptance without forging red proof or losing history', () => {
+    const fixture = makeFixture()
+    try {
+      const source = read(fixture.root, 'tests/contracts/sample.test.ts')
+      const runId = 'tdd-20261011000000-445566'
+      const recordPath = `docs/others/evidence/tdd/IGT-900/${runId}.json`
+      const receipt = JSON.stringify({
+        schema: 2,
+        test_scope: 'acceptance-case',
+        run_id: runId,
+        plan_id: 'IGT-900',
+        acceptance_id: acceptanceId,
+        test: testReference,
+        red_commit: git(fixture.root, 'rev-parse', 'HEAD'),
+        status: 'assertion-failed',
+        executor: 'ignite-tdd-runner',
+        test_sha256: createHash('sha256')
+          .update(acceptanceTestSource(source, acceptanceId, '[AC-TEST-001]'))
+          .digest('hex'),
+        output_sha256: 'b'.repeat(64),
+      })
+      write(fixture.root, recordPath, receipt)
+      write(
+        fixture.root,
+        'docs/plans/fixture.md',
+        planContent(fixture.baseCommit, {
+          ...contract(fixture.baseCommit),
+          status: 'verifying',
+          tasks: orderedTasks.map((task) => ({ ...task, status: 'done' })),
+          tdd_evidence: [{ acceptance_id: acceptanceId, test: testReference, run_id: runId }],
+        }),
+      )
+      write(
+        fixture.root,
+        'tests/contracts/sample.test.ts',
+        source.replace('expect(true)', 'expect(false)'),
+      )
+      const trapped = runCli(fixture.root, 'plan', 'set-status', 'IGT-900', 'active')
+      expect(trapped.status).not.toBe(0)
+      expect(trapped.stderr).toContain('test changed before green')
+      const restart = () =>
+        runCli(
+          fixture.root,
+          'tdd',
+          'restart',
+          '--plan',
+          'IGT-900',
+          '--ac',
+          acceptanceId,
+          '--reason',
+          'Correct the test setup and repeat real red',
+        )
+      const result = restart()
+      expect(result.status, result.stderr).toBe(0)
+      const content = read(fixture.root, 'docs/plans/fixture.md')
+      const metadata = JSON.parse(content.match(/<!-- ignite-plan\s*([\s\S]*?)\s*-->/)![1])
+      expect(metadata.status).toBe('active')
+      expect(metadata.tdd_evidence).toEqual([])
+      expect(metadata.evidence).toEqual([])
+      expect(metadata.integrated_commit).toBeNull()
+      expect(metadata.tasks.find((task: { id: string }) => task.id === 'red').status).toBe('doing')
+      expect(metadata.tasks.find((task: { id: string }) => task.id === 'implement').status).toBe(
+        'todo',
+      )
+      expect(metadata.tasks.find((task: { id: string }) => task.id === 'verify').status).toBe(
+        'todo',
+      )
+      expect(content).toContain('Correct the test setup and repeat real red')
+      expect(read(fixture.root, recordPath)).toBe(receipt)
+      expect(read(fixture.root, 'tests/contracts/sample.test.ts')).toContain('expect(false)')
+      expect(
+        runCli(fixture.root, 'task', 'set-status', 'IGT-900', 'implement', 'doing').status,
+      ).not.toBe(0)
+      expect(restart().status).toBe(0)
+      expect(read(fixture.root, 'docs/plans/fixture.md')).toBe(content)
+      const beforeUnknown = read(fixture.root, 'docs/plans/fixture.md')
+      expect(
+        runCli(
+          fixture.root,
+          'tdd',
+          'restart',
+          '--plan',
+          'IGT-900',
+          '--ac',
+          'AC-MISSING',
+          '--reason',
+          'Correct setup',
+        ).status,
+      ).not.toBe(0)
+      expect(read(fixture.root, 'docs/plans/fixture.md')).toBe(beforeUnknown)
+      write(
+        fixture.root,
+        'docs/plans/fixture.md',
+        planContent(fixture.baseCommit, { ...metadata, status: 'done' }),
+      )
+      const completed = read(fixture.root, 'docs/plans/fixture.md')
+      expect(restart().status).not.toBe(0)
+      expect(read(fixture.root, 'docs/plans/fixture.md')).toBe(completed)
+    } finally {
+      fixture.cleanup()
+    }
+  })
   it('[AC-METHOD-019] rejects changed live red assertions before implementation', () => {
     const fixture = makeFixture()
     try {

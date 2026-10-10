@@ -1,6 +1,39 @@
 import { expect, it } from 'vitest'
 import { makeFixture, read, runCli, write } from './ignite-fixture'
 
+it('[AC-METHOD-014] provides a safe tool output budget for every canonical body and the index itself', () => {
+  const fixture = makeFixture()
+  try {
+    write(
+      fixture.root,
+      'docs/plans/README.md',
+      '# Plan\n\n## 固定维护方法\n\n涉及本类文档时，先读取以下必需方法：[large-method](../../.ai/pstack/skills/large-method/SKILL.md)。\n',
+    )
+    write(
+      fixture.root,
+      'docs/standards/ai-agents.md',
+      '# Rules\n\n## 固定维护方法\n\n涉及文档写作时，必须读取 [unslop](../../.ai/pstack/skills/unslop/SKILL.md)。\n',
+    )
+    const content = '# Large\n' + '完整正文 must not be cut.\n'.repeat(400)
+    write(fixture.root, '.ai/pstack/skills/large-method/SKILL.md', content)
+    write(fixture.root, '.ai/pstack/skills/unslop/SKILL.md', '# Unslop\nRead me.\n')
+    const result = runCli(fixture.root, 'skill', 'read', '--for', 'docs/plans/README.md', '--list')
+    expect(result.status, result.stderr).toBe(0)
+    const index = JSON.parse(result.stdout)
+    expect(index.required[0].tool_options.max_output_tokens).toBeGreaterThan(
+      Buffer.byteLength(content, 'utf8'),
+    )
+    expect(index.tool_options.max_output_tokens).toBeGreaterThan(
+      Buffer.byteLength(result.stdout, 'utf8'),
+    )
+    expect(index.required[1].tool_options.max_output_tokens).toBeGreaterThanOrEqual(4096)
+    expect(index.required[0].read_command).toBe('node scripts/ignite.mjs skill read large-method')
+    expect(result.stdout).not.toContain('完整正文 must not be cut.')
+  } finally {
+    fixture.cleanup()
+  }
+})
+
 it('[AC-METHOD-013] lists large required resources without expanding them and reads each canonical body separately', () => {
   const fixture = makeFixture()
   try {

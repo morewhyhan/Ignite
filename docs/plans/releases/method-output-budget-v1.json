@@ -1,0 +1,23 @@
+{
+  "schema": 2,
+  "id": "method-output-budget-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1791607787848178856"],
+  "scope": [
+    {
+      "requirements": ["REQ-METHOD-014"],
+      "source": "本轮用户要求和独立候选公开输出",
+      "id": "GOAL-1",
+      "text": "原生方法清单提供足够的单份读取输出容量，明确截断补读与异步命令证据",
+      "acceptance": ["AC-METHOD-014"],
+      "plan_ids": ["IGT-1791607787848178856"],
+      "disposition": "included"
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-10-10"
+}

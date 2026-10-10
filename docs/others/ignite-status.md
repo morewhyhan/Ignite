@@ -10,11 +10,10 @@
 
 ## 发布范围
 
-- `selected-acceptance-v1` · `verifying`
+- `selected-acceptance-v1` · `done`
   - Plan：`IGT-1791616797429443754`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite release verify selected-acceptance-v1 --plan IGT-1791616797429443754
+  - 最终版本验收：passed（59c95f41d7ea）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题

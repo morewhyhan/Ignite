@@ -3,6 +3,29 @@ import { acceptanceTestHasScaffoldFailure } from '../../scripts/ignite/source-an
 import { tddTestFingerprint } from '../../scripts/ignite/tdd.mjs'
 
 describe('source-aware acceptance validation', () => {
+  it('[AC-METHOD-018] accepts conditional test guards while rejecting unconditional scaffold failures', () => {
+    const guarded = `import { test, expect } from '@playwright/test'
+test('[AC-TEST-001] checks the user workflow', async ({ page }) => {
+  const browser = page.context().browser()
+  if (!browser) throw new Error('Browser unavailable')
+  await expect(page.getByRole('heading')).toBeVisible()
+})`
+    expect(acceptanceTestHasScaffoldFailure(guarded, 'AC-TEST-001')).toBe(false)
+    expect(
+      acceptanceTestHasScaffoldFailure(
+        `import { it } from 'vitest'
+it('[AC-TEST-001] unfinished', () => { throw new Error('unfinished behavior') })`,
+        'AC-TEST-001',
+      ),
+    ).toBe(true)
+    expect(
+      acceptanceTestHasScaffoldFailure(
+        `import { it, expect } from 'vitest'
+it('[AC-TEST-001] unfinished', () => { expect.fail('unfinished behavior') })`,
+        'AC-TEST-001',
+      ),
+    ).toBe(true)
+  })
   it('[AC-EXECUTION-018] scopes scaffold detection to the matching active test', () => {
     const failureExample = `${['throw', 'new Error'].join(' ')}('unfinished behavior')`
     const incidentalText = `import { expect, it } from 'vitest'

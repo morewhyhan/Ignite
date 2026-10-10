@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1791599676554164539",
   "release": "method-reading-v1",
-  "status": "active",
+  "status": "done",
   "outcome": "通过精简方法索引与单独正文读取消除批量输出导致的漏读",
   "contract_version": 2,
   "execution_contract": 1,
@@ -67,7 +67,7 @@
       "id": "T4",
       "title": "验证兼容性并回写设计",
       "phase": "verify",
-      "status": "doing"
+      "status": "done"
     }
   ],
   "depends_on": [],
@@ -105,10 +105,15 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261010025253-34f424"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "3f6fe3327b052b0760b75d2b86226457d8aeccce",
   "updated_at": "2026-10-10"
 }
 -->
@@ -177,13 +182,13 @@ docs/designs/execution.md 说明实际接口和默认操作。
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
 - [x] T2 · 提交真实行为测试并记录红灯 · done
 - [x] T3 · 实施最小存量修改 · done
-- [ ] T4 · 验证兼容性并回写设计 · doing
+- [x] T4 · 验证兼容性并回写设计 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20261010025253-34f424
 <!-- /ignite-progress -->

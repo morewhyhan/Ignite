@@ -192,6 +192,8 @@ Feature ai-execution-trust，Plan README、testing 和 execution Design；原生
 
 基线 a746233。独立试跑已结束，准确保留其完成前缺口；本轮尚未实现。
 
+恢复入口已实现。修正夹具继承的旧 required_evidence 后，在 cb31a93 上重新取得真实红灯 tdd-20261010213755-7e91e1；先前记录保留但不作为当前绑定。原生集成 run-20261010215431-962529 通过 47 项相关测试；Release run-20261010221458-b465e8 在 5d6c2b0 上通过生产构建与 12 项真实桌面、手机浏览器测试。独立学生试跑以 28599e3 结束，未完成的凭证与 Release 缺口保留，不能用本轮模板结果代替。
+
 ## 准出条件
 
 AC-METHOD-021 真实失败及对应绿灯、Plan integration 和 Release 通过，原生交付覆盖有效；再以干净模板开展独立试跑，不把工具测试当作模型效果。
@@ -208,3 +210,4 @@ AC-METHOD-021 真实失败及对应绿灯、Plan integration 和 Release 通过�
 验收缺口：未记录；完成仍须实际证据
 证据：check-integration / run-20261010215431-962529
 <!-- /ignite-progress -->
+

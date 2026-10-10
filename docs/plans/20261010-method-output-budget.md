@@ -12,33 +12,22 @@
   "goals": [
     {
       "text": "原生方法清单提供足够的单份读取输出容量，明确截断补读与异步命令证据",
-      "requirements": [
-        "REQ-METHOD-014",
-        "REQ-METHOD-015"
-      ]
+      "requirements": ["REQ-METHOD-014", "REQ-METHOD-015"]
     }
   ],
   "constraints": [
     "保持原有全文读取兼容，不新增适配文件或技能副本",
     "当前学生副本继续冻结版本，父任务不帮助其执行"
   ],
-  "non_goals": [
-    "索引成功不能充当技能正文读取证明",
-    "一次模型运行不能证明普遍可靠性"
-  ],
+  "non_goals": ["索引成功不能充当技能正文读取证明", "一次模型运行不能证明普遍可靠性"],
   "authorization": {
     "source": "同一用户任务要求修复观察到的全部执行问题；第二轮公开输出已显示正文截断及未补读"
   },
-  "deliverables": [
-    "精简原生方法清单入口与既有规则引导"
-  ],
+  "deliverables": ["精简原生方法清单入口与既有规则引导"],
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "d59800312fc7171c89b7e091401a35080d8ea64d",
-  "requirements": [
-    "REQ-METHOD-014",
-    "REQ-METHOD-015"
-  ],
+  "requirements": ["REQ-METHOD-014", "REQ-METHOD-015"],
   "acceptance": [
     {
       "checks": [
@@ -47,12 +36,8 @@
           "layer": "unit"
         }
       ],
-      "required_layers": [
-        "unit"
-      ],
-      "tests": [
-        "tests/contracts/document-method-entry.test.ts::[AC-METHOD-014]"
-      ],
+      "required_layers": ["unit"],
+      "tests": ["tests/contracts/document-method-entry.test.ts::[AC-METHOD-014]"],
       "id": "AC-METHOD-014"
     },
     {
@@ -62,18 +47,12 @@
           "test": "tests/contracts/ignite-runs.test.ts::[AC-METHOD-015]"
         }
       ],
-      "required_layers": [
-        "unit"
-      ],
+      "required_layers": ["unit"],
       "id": "AC-METHOD-015",
-      "tests": [
-        "tests/contracts/ignite-runs.test.ts::[AC-METHOD-015]"
-      ]
+      "tests": ["tests/contracts/ignite-runs.test.ts::[AC-METHOD-015]"]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
@@ -85,35 +64,27 @@
       "id": "T2",
       "title": "提交真实行为测试并记录红灯",
       "phase": "red",
-      "acceptance": [
-        "AC-METHOD-014"
-      ],
+      "acceptance": ["AC-METHOD-014"],
       "status": "done"
     },
     {
       "id": "T3",
       "title": "实施最小存量修改",
       "phase": "implement",
-      "acceptance": [
-        "AC-METHOD-014"
-      ],
+      "acceptance": ["AC-METHOD-014"],
       "status": "done"
     },
     {
       "title": "复现验收期间系统时钟回拨",
-      "status": "doing",
-      "acceptance": [
-        "AC-METHOD-015"
-      ],
+      "status": "done",
+      "acceptance": ["AC-METHOD-015"],
       "id": "T5",
       "phase": "red"
     },
     {
       "title": "用单调时钟记录命令耗时",
-      "status": "todo",
-      "acceptance": [
-        "AC-METHOD-015"
-      ],
+      "status": "done",
+      "acceptance": ["AC-METHOD-015"],
       "id": "T6",
       "phase": "implement"
     },
@@ -121,7 +92,7 @@
       "id": "T4",
       "title": "验证兼容性并回写设计",
       "phase": "verify",
-      "status": "todo"
+      "status": "doing"
     }
   ],
   "depends_on": [],
@@ -158,11 +129,14 @@
       "acceptance_id": "AC-METHOD-014",
       "test": "tests/contracts/document-method-entry.test.ts::[AC-METHOD-014]",
       "run_id": "tdd-20261010050716-43e1b1"
+    },
+    {
+      "acceptance_id": "AC-METHOD-015",
+      "test": "tests/contracts/ignite-runs.test.ts::[AC-METHOD-015]",
+      "run_id": "tdd-20261010052455-d9b2c4"
     }
   ],
-  "required_evidence": [
-    "check-integration"
-  ],
+  "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
@@ -240,6 +214,8 @@ docs/designs/execution.md 说明实际接口和默认操作。
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
 - [x] T2 · 提交真实行为测试并记录红灯 · done
 - [x] T3 · 实施最小存量修改 · done
+- [x] T5 · 复现验收期间系统时钟回拨 · done
+- [x] T6 · 用单调时钟记录命令耗时 · done
 - [ ] T4 · 验证兼容性并回写设计 · doing
 
 验收缺口：未记录；完成仍须实际证据

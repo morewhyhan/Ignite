@@ -257,6 +257,7 @@ function appendTail(current, chunk, limit = 8_000) {
 function runChild(spec, environment, record, logStream, persist) {
   return new Promise((resolveResult) => {
     const startedAt = now()
+    const startedMonotonic = performance.now()
     const result = {
       label: spec.label,
       command: [spec.command, ...spec.args],
@@ -331,7 +332,7 @@ function runChild(spec, environment, record, logStream, persist) {
       clearTimeout(timeout)
       clearInterval(cancellation)
       result.ended_at = now()
-      result.duration_ms = Date.parse(result.ended_at) - Date.parse(startedAt)
+      result.duration_ms = Math.round(performance.now() - startedMonotonic)
       result.exit_code = result.cancelled ? 130 : exitCode
       result.signal = signal
       result.status = result.cancelled ? 'cancelled' : exitCode === 0 ? 'passed' : 'failed'

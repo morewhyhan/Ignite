@@ -20,13 +20,13 @@ it('[AC-METHOD-014] provides a safe tool output budget for every canonical body 
     const result = runCli(fixture.root, 'skill', 'read', '--for', 'docs/plans/README.md', '--list')
     expect(result.status, result.stderr).toBe(0)
     const index = JSON.parse(result.stdout)
-    expect(index.required[0].tool_options.max_output_tokens).toBeGreaterThan(
+    expect(index.required[0].tool_options?.max_output_tokens ?? 0).toBeGreaterThan(
       Buffer.byteLength(content, 'utf8'),
     )
-    expect(index.tool_options.max_output_tokens).toBeGreaterThan(
+    expect(index.tool_options?.max_output_tokens ?? 0).toBeGreaterThan(
       Buffer.byteLength(result.stdout, 'utf8'),
     )
-    expect(index.required[1].tool_options.max_output_tokens).toBeGreaterThanOrEqual(4096)
+    expect(index.required[1].tool_options?.max_output_tokens ?? 0).toBeGreaterThanOrEqual(4096)
     expect(index.required[0].read_command).toBe('node scripts/ignite.mjs skill read large-method')
     expect(result.stdout).not.toContain('完整正文 must not be cut.')
   } finally {

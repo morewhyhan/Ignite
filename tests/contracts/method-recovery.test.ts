@@ -46,6 +46,7 @@ function contract(baseCommit: string) {
     open_questions: [],
     tasks: orderedTasks,
     verification_requirements: ['unit'],
+    required_evidence: ['check-integration'],
     dependency_contracts: [],
     shared_files: [],
     handoff: { interfaces: [], migrations: [], tests: [], remaining: [] },

@@ -14,7 +14,7 @@ describe('runtime acceptance evidence', () => {
       write(
         fixture.root,
         'runner.config.mjs',
-        `export default ${JSON.stringify({ test: { include: ['tests/contracts/**/*.test.ts'], reporters: [reporter] } })}\n`,
+        `export default ${JSON.stringify({ test: { include: [testFile], reporters: [reporter] } })}\n`,
       )
       write(
         fixture.root,

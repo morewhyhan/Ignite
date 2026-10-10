@@ -54,14 +54,14 @@
       "phase": "red",
       "title": "用真实 Vitest 子进程复现选择误报",
       "id": "T2",
-      "status": "doing"
+      "status": "done"
     },
     {
       "acceptance": ["AC-METHOD-016"],
       "phase": "implement",
       "title": "准确识别手动选择范围",
       "id": "T3",
-      "status": "todo"
+      "status": "doing"
     },
     {
       "phase": "verify",
@@ -178,8 +178,8 @@
 状态：`active`（由元数据生成）
 
 - [x] T1 · 还原局部运行误报及绑定验收边界 · done
-- [ ] T2 · 用真实 Vitest 子进程复现选择误报 · doing
-- [ ] T3 · 准确识别手动选择范围 · todo
+- [x] T2 · 用真实 Vitest 子进程复现选择误报 · done
+- [ ] T3 · 准确识别手动选择范围 · doing
 - [ ] T4 · 验证严格验收兼容并回写设计 · todo
 
 验收缺口：未记录；完成仍须实际证据

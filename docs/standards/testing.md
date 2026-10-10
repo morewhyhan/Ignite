@@ -103,3 +103,5 @@ CI 是合并门槛，本次改动的 schema 2 Plan 必须达到终态；整个 R
 - 视觉、动画或 Canvas 等无法可靠通过 DOM 断言的场景使用截图或人工验证，并在 Plan 记录。
 
 测试路径的编写与维护见 [验收用例规则](../others/test-cases/README.md)，运行记录的恢复、复用与有效性见 [验收证据](../others/evidence/README.md)。目标反馈与正式门禁分别承担排查和交付职责，不为重复收口另建检查或 Plan。
+
+手动使用 Vitest 的 testNamePattern 时，未绑定 Plan、CI 或验收结果文件的运行只判断被选择的案例。被选择但跳过的案例仍失败。绑定运行保持完整验收范围；局部通过不能代替 Plan 或 Release 证据。

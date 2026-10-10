@@ -55,7 +55,7 @@ pnpm dev
 
 Windows 与 WSL 不应共享 `node_modules`；切换环境时，按对应平台重新安装依赖。
 
-在 Windows 的受限 AI 宿主中，`Bash/Service/CreateInstance/E_ACCESSDENIED` 表示这次 WSL 启动被拒绝，不能仅凭它判定 WSL 或 NVM 不可用。宿主支持权限重试时，使用它的授权入口重试相同的 WSL 命令。Codex 的 `exec_command` 可使用 `sandbox_permissions: "require_escalated"`；它由宿主审查，不是传给项目脚本的参数。明确拒绝或重试仍失败时再报告环境阻塞，不改用 Windows Node，也不扩大文件写入范围。
+WSL 启动被宿主拒绝时，按[采用规范的权限恢复步骤](docs/standards/adoption.md#第一步准备环境并验证基线)重试后再判断是否阻塞。
 
 状态摘要由上面的命令按当前仓库生成，初始为零 Plan、零 Release。若复制源码后重新建立 Git 历史，也需生成自己的摘要。创建第一个模块前，提交需要保留的初始化变更，保持 Git 工作区干净。
 

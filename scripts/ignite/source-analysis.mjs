@@ -195,26 +195,28 @@ export function acceptanceTestHasScaffoldFailure(content, acceptanceId) {
   function inspectTestBody(body) {
     function inspect(node) {
       if (found) return
+      if (ts.isBlock(node)) {
+        node.statements.forEach(inspect)
+        return
+      }
+      if (ts.isExpressionStatement(node)) {
+        inspect(node.expression)
+        return
+      }
+      const expression = unwrap(node)
       if (ts.isThrowStatement(node) && ts.isNewExpression(node.expression)) {
         const errorConstructor = unwrap(node.expression.expression)
         if (ts.isIdentifier(errorConstructor) && errorConstructor.text === 'Error') found = true
       }
       if (
-        ts.isCallExpression(node) &&
-        ts.isPropertyAccessExpression(node.expression) &&
-        ts.isIdentifier(node.expression.expression) &&
-        expectBindings.has(node.expression.expression.text) &&
-        node.expression.name.text === 'fail'
+        ts.isCallExpression(expression) &&
+        ts.isPropertyAccessExpression(expression.expression) &&
+        ts.isIdentifier(expression.expression.expression) &&
+        expectBindings.has(expression.expression.expression.text) &&
+        expression.expression.name.text === 'fail'
       ) {
         found = true
       }
-      if (
-        ts.isArrowFunction(node) ||
-        ts.isFunctionExpression(node) ||
-        ts.isFunctionDeclaration(node)
-      )
-        return
-      ts.forEachChild(node, inspect)
     }
 
     inspect(body)

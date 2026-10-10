@@ -49,6 +49,8 @@
 wsl.exe -e bash -lc 'cd /mnt/c/your/project && source ~/.nvm/nvm.sh && nvm use $(cat .node-version) && node scripts/runtime-doctor.mjs --preflight'
 ```
 
+受限宿主返回 E_ACCESSDENIED 时，包含 Wsl/Service 或 Bash/Service 前缀，都只说明本次调用被拒绝。先使用宿主的授权入口重试相同命令。Codex 的 xec_command 可设置 sandbox_permissions: "require_escalated"；这是宿主参数，不传给项目脚本。沿用本地开发授权，不绕过明确拒绝；授权被拒绝或重试仍失败才报告环境阻塞。已结束的命令会话不能再次读取，接续时先查已保存输出或原生运行记录，再按实际失败重试，不把 Unknown process id 当成 WSL 损坏。
+
 后续原生 CLI 也在相同 WSL 项目目录和 NVM 环境执行。技能读取 `node scripts/ignite.mjs skill read --for <所属规则.md> --list` 不需要安装项目依赖；其余诊断、准备检查与历史命令仍按下面的依赖步骤处理。
 
 首次采用前，先在新副本提交初始源码，再准备可运行本地命令的环境。Ignite 的诊断与历史归档 CLI 依赖项目包（包括 TypeScript）；在依赖安装前运行 `template:doctor` 或 `adopt-history` 会因缺少包而失败。
@@ -177,3 +179,5 @@ pnpm ignite release verify <release-id> --plan <done-plan-id>
 宿主读取项目 AGENTS 后，文档维护默认遵守各类文档的固定方法，不需要采用者逐次点名技能或先启用 poteto-mode。首次确认宿主能读取项目规则和正文入口；资产随克隆携带、发现目录已生成与真实会话正确执行是不同事实，不能仅凭文件存在宣称所有平台自动调用已经验收。未支持自动发现的宿主仍由项目规则按需读取正文。
 
 方法产生的决定、计划、协作和验收使用原生文档真源；新增项目技能正文与发现桥接分开维护。可选 Bun 工具需显式准备自己的依赖，不能因阅读或帮助命令安装。工作区审计只提供候选，管理工作区采用宿主快照归档；未跟踪文件不能自动当作可丢弃资料。辅助工具观察结果不等于 Plan/Release 通过。
+
+模板用 next.config.mjs 固定当前项目根目录。嵌套副本有自己的锁文件和依赖；如果旧配置已生成错误开发缓存，先停掉本项目开发服务，移开本项目 .next/dev 后复跑，不修改父项目锁文件或借用它的 node_modules。

@@ -65,14 +65,14 @@
       "title": "记录真实框架加载和校验器红灯",
       "phase": "red",
       "acceptance": ["AC-METHOD-017", "AC-METHOD-018"],
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T3",
       "title": "固定当前项目根与准确识别占位失败",
       "phase": "implement",
       "acceptance": ["AC-METHOD-017", "AC-METHOD-018"],
-      "status": "todo"
+      "status": "doing"
     },
     {
       "id": "T4",
@@ -192,8 +192,8 @@ T1 还原问题和边界。T2 为两项 AC 留下红灯。T3 固定项目根并�
 状态：`active`（由元数据生成）
 
 - [x] T1 · 还原嵌套副本和防护误判 · done
-- [ ] T2 · 记录真实框架加载和校验器红灯 · doing
-- [ ] T3 · 固定当前项目根与准确识别占位失败 · todo
+- [x] T2 · 记录真实框架加载和校验器红灯 · done
+- [ ] T3 · 固定当前项目根与准确识别占位失败 · doing
 - [ ] T4 · 检查模板并更新采用与设计说明 · todo
 
 验收缺口：未记录；完成仍须实际证据

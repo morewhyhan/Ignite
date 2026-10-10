@@ -4,6 +4,7 @@ import { spawnSync } from 'node:child_process'
 import { expect, it } from 'vitest'
 import {
   commitAll,
+  git,
   makeFixture,
   planContent,
   read,
@@ -100,6 +101,72 @@ function seed() {
   )
   return fixture
 }
+
+function preparedFixture() {
+  const fixture = seed()
+  write(fixture.root, 'src/config/site.ts', "export const name = 'Ignite'\n")
+  const base = commitAll(fixture.root, 'preparation baseline')
+  const test = 'tests/contracts/sample.test.ts::[AC-TEST-001]'
+  write(
+    fixture.root,
+    'docs/plans/fixture.md',
+    planContent(base, {
+      ...contract,
+      task_contract: 2,
+      acceptance: [
+        {
+          id: 'AC-TEST-001',
+          tests: [test],
+          required_layers: ['unit'],
+          checks: [{ test, layer: 'unit' }],
+        },
+      ],
+      verification_requirements: ['unit'],
+      write_scope: ['src/', 'docs/', 'tests/'],
+    }) + body,
+  )
+  return fixture
+}
+
+it('[AC-PREP-001] rejects premature branding changes including staged changes without mutating preparation documents', () => {
+  const fixture = preparedFixture()
+  try {
+    const valid = runCli(fixture.root, 'plan', 'validate', 'IGT-900', '--prepare')
+    expect(valid.status, valid.stdout + valid.stderr).toBe(0)
+    expect(JSON.parse(valid.stdout).ready).toBe(true)
+    const before = read(fixture.root, 'docs/plans/fixture.md')
+    write(fixture.root, 'src/config/site.ts', "export const name = 'Students'\n")
+    git(fixture.root, 'add', 'src/config/site.ts')
+    write(fixture.root, 'src/config/site.ts', "export const name = 'Ignite'\n")
+    const invalid = runCli(fixture.root, 'plan', 'validate', 'IGT-900', '--prepare')
+    expect(invalid.status).not.toBe(0)
+    expect(invalid.stdout + invalid.stderr).toContain('src/config/site.ts')
+    expect(invalid.stdout + invalid.stderr).toContain('before the first valid red')
+    expect(read(fixture.root, 'docs/plans/fixture.md')).toBe(before)
+  } finally {
+    fixture.cleanup()
+  }
+})
+
+it('[AC-PREP-002] accepts one behavior covering two goals while rejecting contradictory dispositions', () => {
+  const fixture = seed()
+  try {
+    const release = JSON.parse(read(fixture.root, 'docs/plans/releases/fixture-v1.json'))
+    release.scope.push({ ...release.scope[0], id: 'GOAL-2', text: 'Preserve data after refresh' })
+    write(fixture.root, 'docs/plans/releases/fixture-v1.json', JSON.stringify(release))
+    const valid = runCli(fixture.root, 'plan', 'validate', 'IGT-900', '--prepare')
+    expect(valid.status, valid.stdout + valid.stderr).toBe(0)
+    release.scope[1].disposition = 'deferred'
+    release.scope[1].plan_ids = []
+    release.scope[1].reason = 'External condition not available'
+    write(fixture.root, 'docs/plans/releases/fixture-v1.json', JSON.stringify(release))
+    const invalid = runCli(fixture.root, 'plan', 'validate', 'IGT-900', '--prepare')
+    expect(invalid.status).not.toBe(0)
+    expect(invalid.stdout + invalid.stderr).toContain('conflicting Release scope')
+  } finally {
+    fixture.cleanup()
+  }
+})
 
 it('[AC-METHOD-007] rejects missing exact Plan sections and missing Release before a state transition without mutating the draft', () => {
   const fixture = seed()

@@ -259,7 +259,7 @@ describe('template and runtime contracts', () => {
   })
 
   it.each([null, 'fixture-v1'])(
-    '[AC-PRODUCT-003] [AC-EXECUTION-009] scaffolds a complete red slice with release %s',
+    '[AC-PRODUCT-003] [AC-EXECUTION-009] [AC-PREP-003] scaffolds preparation without implementation with release %s',
     (releaseId) => {
       const fixture = makeFixture()
       try {
@@ -295,14 +295,15 @@ describe('template and runtime contracts', () => {
         )
         expect(result.status, result.stderr).toBe(0)
         for (const path of [
-          'src/modules/invoices/components/invoices-screen.tsx',
-          'src/modules/invoices/index.ts',
           'docs/features/invoices.md',
           'tests/contracts/invoices.test.ts',
           'tests/e2e/invoices.spec.ts',
         ]) {
           expect(existsSync(join(fixture.root, path)), path).toBe(true)
         }
+        expect(existsSync(join(fixture.root, 'src/modules/invoices'))).toBe(false)
+        expect(read(fixture.root, 'tests/e2e/invoices.spec.ts')).toContain('E2E_DATABASE_URL')
+        expect(read(fixture.root, 'tests/e2e/invoices.spec.ts')).toContain('PrismaClient')
         expect(
           readdirSync(join(fixture.root, 'docs/plans')).some((name) =>
             name.endsWith('-invoices.md'),
@@ -325,6 +326,7 @@ describe('template and runtime contracts', () => {
         const planContent = read(fixture.root, `docs/plans/${generatedPlan}`)
         const metadata = JSON.parse(planContent.match(/<!-- ignite-plan\s*([\s\S]*?)\s*-->/)![1])
         const generatedId = metadata.id
+        expect(metadata.task_contract).toBe(2)
         expect(generatedId).toMatch(/^IGT-\d{3,}$/)
         expect(planContent).toContain('## 原始目标与覆盖核对')
         expect(planContent).toContain('T1 · 确认目标、输入输出和验收场景 · todo')

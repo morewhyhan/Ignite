@@ -1,16 +1,21 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`b77c77456ce3`
-当前 Plan：0；结构化历史：0；未迁移历史：0
+输入指纹：`25086aa46f9b`
+当前 Plan：1；结构化历史：0；未迁移历史：0
 
 ## 当前工作
 
-- 无。
+- `IGT-1791616797429443754` · `active` · `selected-acceptance-v1`
 
 ## 发布范围
 
-- 无。
+- `selected-acceptance-v1` · `active`
+  - Plan：`IGT-1791616797429443754`
+  - 缺少证据：`IGT-1791616797429443754:check-integration`（missing：no run is bound to this evidence requirement）
+  - 最终版本验收：missing
+  - 下一步：pnpm ignite next --plan IGT-1791616797429443754
+  - 未完成原始目标：GOAL-1 修正手动选择单项测试时报告器对未选择验收的误报，保持绑定运行严格校验
 
 ## 结构问题
 

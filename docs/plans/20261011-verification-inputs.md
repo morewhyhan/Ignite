@@ -117,6 +117,7 @@
     "access_rationale": "只改工程验证工具，不读写业务数据"
   },
   "write_scope": [
+    "scripts/ignite/source-analysis.mjs",
     "scripts/ignite/state.mjs",
     "scripts/ignite/core.mjs",
     "scripts/run-e2e.mjs",

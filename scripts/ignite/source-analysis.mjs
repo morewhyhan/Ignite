@@ -147,7 +147,12 @@ export function acceptanceTestTitles(content) {
   return ids
 }
 
-/** Return the active test declaration carrying this AC, excluding sibling cases. */
+/**
+ * @param {string} content
+ * @param {string} acceptanceId
+ * @param {string | null} [expectedTitle]
+ * @returns {string | null}
+ */
 export function acceptanceTestSource(content, acceptanceId, expectedTitle = null) {
   const { file, bindings } = parseTestSource(content)
   let selected = null

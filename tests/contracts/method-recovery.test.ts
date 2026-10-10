@@ -7,12 +7,7 @@ import { commitAll, git, makeFixture, planContent, read, runCli, write } from '.
 const acceptanceId = 'AC-TEST-001'
 const testReference = 'tests/contracts/sample.test.ts::[AC-TEST-001]'
 function acceptanceTestSource(source: string, id: string, title: string): string {
-  const parse = parseAcceptanceTestSource as (
-    source: string,
-    id: string,
-    title: string,
-  ) => string | null
-  const selected = parse(source, id, title)
+  const selected = parseAcceptanceTestSource(source, id, title)
   if (selected === null) throw new Error('Fixture acceptance case is missing')
   return selected
 }

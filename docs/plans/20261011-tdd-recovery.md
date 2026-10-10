@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1791666534466332637",
   "release": "tdd-recovery-v1",
-  "status": "active",
+  "status": "done",
   "outcome": "让测试修正后的未完成 Plan 能合法重启真实红灯，保留历史并完成后续验证。",
   "contract_version": 2,
   "execution_contract": 1,
@@ -71,13 +71,13 @@
       "title": "实施最小存量修改",
       "phase": "implement",
       "acceptance": ["AC-METHOD-021"],
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T4",
       "title": "验证兼容性并回写设计",
       "phase": "verify",
-      "status": "todo"
+      "status": "done"
     }
   ],
   "depends_on": [],
@@ -120,10 +120,15 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261010215431-962529"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "5ba10d4973cab03c58183f2a6084a791a62a80ed",
   "updated_at": "2026-10-10"
 }
 -->
@@ -193,13 +198,13 @@ AC-METHOD-021 真实失败及对应绿灯、Plan integration 和 Release 通过�
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
 - [x] T2 · 提交真实行为测试并记录红灯 · done
-- [ ] T3 · 实施最小存量修改 · doing
-- [ ] T4 · 验证兼容性并回写设计 · todo
+- [x] T3 · 实施最小存量修改 · done
+- [x] T4 · 验证兼容性并回写设计 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20261010215431-962529
 <!-- /ignite-progress -->

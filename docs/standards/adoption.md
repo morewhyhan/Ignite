@@ -49,7 +49,7 @@
 wsl.exe -e bash -lc 'cd /mnt/c/your/project && source ~/.nvm/nvm.sh && nvm use $(cat .node-version) && node scripts/runtime-doctor.mjs --preflight'
 ```
 
-受限宿主返回 E_ACCESSDENIED 时，包含 Wsl/Service 或 Bash/Service 前缀，都只说明本次调用被拒绝。先使用宿主的授权入口重试相同命令。Codex 的 xec_command 可设置 sandbox_permissions: "require_escalated"；这是宿主参数，不传给项目脚本。沿用本地开发授权，不绕过明确拒绝；授权被拒绝或重试仍失败才报告环境阻塞。已结束的命令会话不能再次读取，接续时先查已保存输出或原生运行记录，再按实际失败重试，不把 Unknown process id 当成 WSL 损坏。
+受限宿主返回 E_ACCESSDENIED 时，包含 Wsl/Service 或 Bash/Service 前缀，都只说明本次调用被拒绝。先使用宿主的授权入口重试相同命令。Codex 的 `exec_command` 可设置 `sandbox_permissions: "require_escalated"`；这是宿主参数，不传给项目脚本。沿用本地开发授权，不绕过明确拒绝；授权被拒绝或重试仍失败才报告环境阻塞。已结束的命令会话不能再次读取，接续时先查已保存输出或原生运行记录，再按实际失败重试，不把 Unknown process id 当成 WSL 损坏。
 
 后续原生 CLI 也在相同 WSL 项目目录和 NVM 环境执行。技能读取 `node scripts/ignite.mjs skill read --for <所属规则.md> --list` 不需要安装项目依赖；其余诊断、准备检查与历史命令仍按下面的依赖步骤处理。
 

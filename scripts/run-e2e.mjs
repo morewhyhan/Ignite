@@ -15,7 +15,8 @@ const playwrightCli = resolve(repositoryRoot, 'node_modules', '@playwright', 'te
 const databasePath = join(workspace, 'e2e.db')
 databaseTestAdapter.assertSchema(schemaPath)
 const databaseUrl = databaseTestAdapter.isolatedUrl(databasePath)
-const production = process.argv.includes('--production')
+const production =
+  process.argv.includes('--production') || process.env.E2E_SERVER_MODE === 'production'
 const playwrightArguments = process.argv
   .slice(2)
   .filter((argument) => argument !== '--production' && argument !== '--')

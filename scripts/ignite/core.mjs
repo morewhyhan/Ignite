@@ -464,6 +464,7 @@ export function environmentIdentity(environment = process.env) {
     node: process.versions.node,
     pnpm: currentPnpmVersion(environment),
     app_env: environment.APP_ENV || 'unset',
+    e2e_server_mode: environment.E2E_SERVER_MODE === 'production' ? 'production' : 'development',
     database_provider: databaseUrl.startsWith('file:')
       ? 'sqlite'
       : databaseUrl
@@ -519,6 +520,7 @@ export function makeSafeTestEnvironment() {
     'XDG_CACHE_HOME',
     'PLAYWRIGHT_BROWSERS_PATH',
     'PLAYWRIGHT_EXECUTABLE_PATH',
+    'E2E_SERVER_MODE',
   ])
   const inherited = Object.fromEntries(
     Object.entries(process.env).filter(

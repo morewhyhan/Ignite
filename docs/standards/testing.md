@@ -95,7 +95,7 @@ CI 是合并门槛，本次改动的 schema 2 Plan 必须达到终态；整个 R
 通过页面完成保存，再用 `database.<model>.findFirst(...)` 读取同一隔离数据库，刷新页面检查内容仍存在。将这条测试同时映射到适用 AC 的 database 和 browser 检查。失败提示可用真实字段校验或 `page.context().setOffline(true)` 观察，并在恢复联网后检查已填内容。持久化验收文件不能用 `page.route()` 替换业务 API。
 
 - 新 Plan 先提交真实行为测试，再运行 `pnpm ignite tdd red --plan <ID> --ac <AC-ID>`。只有目标行为断言失败才记录红灯；模块加载失败、浏览器未启动、配置错误和脚手架的 `expect.fail` / `throw` 不能作为 TDD 证据。
-- 红灯记录提交后保持同一测试内容，完成实现；Plan integration 运行映射的各层验收并验证同一测试已通过。
+- 红灯记录提交后保持同一测试内容，完成实现；实施任务与当前 Plan 校验会比较工作区中的对应断言，发生变化时立即拒绝推进。完成后的历史 Plan 仍按其已验证提交追溯。Plan integration 运行映射的各层验收并验证同一测试已通过。
 - 实现后先跑最小目标测试，再跑 Plan integration 与适用的 Release 最终验收。
 - 测试不能只断言成功路径；按风险覆盖未登录、非法输入、无权/不存在和缓存更新。
 - UI 需求先在 `docs/others/test-cases/` 写用户路径，再把稳定路径固化为 E2E。
@@ -105,3 +105,5 @@ CI 是合并门槛，本次改动的 schema 2 Plan 必须达到终态；整个 R
 测试路径的编写与维护见 [验收用例规则](../others/test-cases/README.md)，运行记录的恢复、复用与有效性见 [验收证据](../others/evidence/README.md)。目标反馈与正式门禁分别承担排查和交付职责，不为重复收口另建检查或 Plan。
 
 手动使用 Vitest 的 testNamePattern 时，未绑定 Plan、CI 或验收结果文件的运行只判断被选择的案例。被选择但跳过的案例仍失败。绑定运行保持完整验收范围；局部通过不能代替 Plan 或 Release 证据。
+
+浏览器启动器默认使用开发服务器。已完成构建的本地副本可通过 `E2E_SERVER_MODE=production` 选择生产服务器，或对 `pnpm test:e2e` 添加 `--production`。原生检查保留显式模式，开发与生产模式使用不同环境指纹，不能互相复用通过记录。生产服务器测试仍是本地验收，不代表部署完成，也不证明开发服务器故障已解决。

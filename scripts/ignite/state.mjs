@@ -518,9 +518,7 @@ export function validatePlan(
           const [testPath] = item.test.split('::', 1)
           const testTitle = item.test.slice(item.test.indexOf('::') + 2)
           const redSource = readRepositoryText(testPath, record.red_commit)
-          const finalSource = historicalCommit
-            ? readRepositoryText(testPath, historicalCommit)
-            : redSource
+          const finalSource = readRepositoryText(testPath, historicalCommit)
           const redCase =
             redSource && acceptanceTestSource(redSource, item.acceptance_id, testTitle)
           const finalCase =

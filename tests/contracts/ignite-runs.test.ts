@@ -9,6 +9,46 @@ import { runnerIdentity } from '../../scripts/ignite/core.mjs'
 import { makeFixture, repositoryRoot } from './ignite-fixture'
 
 describe('Ignite recoverable runs', () => {
+  it('[AC-METHOD-015] records nonnegative elapsed command time when the system clock moves backwards', () => {
+    const fixture = makeFixture()
+    try {
+      const stateUrl = pathToFileURL(join(repositoryRoot, 'scripts/ignite/state.mjs')).href
+      const runsUrl = pathToFileURL(join(repositoryRoot, 'scripts/ignite/runs.mjs')).href
+      const script = `
+        const state = await import(${JSON.stringify(stateUrl)})
+        const runs = await import(${JSON.stringify(runsUrl)})
+        const OriginalDate = Date
+        let offset = 0
+        globalThis.Date = class extends OriginalDate {
+          constructor(...args) {
+            if (args.length) super(...args)
+            else super(OriginalDate.now() - (offset += 60000))
+          }
+        }
+        const result = await runs.executeCheckPlan({
+          plan: state.findPlan('IGT-900'),
+          checkPlan: { level: 'integration', changedFiles: [], commands: [{
+            command: process.execPath, args: ['--eval', 'process.exit(0)'], label: 'clock-fixture',
+          }] },
+        })
+        process.stdout.write(JSON.stringify(result.record.commands[0]))
+      `
+      const result = spawnSync(process.execPath, ['--input-type=module', '--eval', script], {
+        cwd: fixture.root,
+        encoding: 'utf8',
+        env: { ...process.env, IGNITE_ROOT: fixture.root },
+        windowsHide: true,
+        timeout: 25000,
+      })
+      expect(result.status, result.stderr || result.error?.message).toBe(0)
+      const command = JSON.parse(result.stdout)
+      expect(command.status).toBe('passed')
+      expect(Date.parse(command.ended_at)).toBeLessThan(Date.parse(command.started_at))
+      expect(command.duration_ms).toBeGreaterThanOrEqual(0)
+    } finally {
+      fixture.cleanup()
+    }
+  })
   it('[AC-PRODUCT-007] gives simultaneous independent processes exactly one lock owner', () => {
     const directory = mkdtempSync(join(tmpdir(), 'ignite-process-race-'))
     try {

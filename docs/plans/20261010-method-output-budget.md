@@ -12,22 +12,33 @@
   "goals": [
     {
       "text": "原生方法清单提供足够的单份读取输出容量，明确截断补读与异步命令证据",
-      "requirements": ["REQ-METHOD-014"]
+      "requirements": [
+        "REQ-METHOD-014",
+        "REQ-METHOD-015"
+      ]
     }
   ],
   "constraints": [
     "保持原有全文读取兼容，不新增适配文件或技能副本",
     "当前学生副本继续冻结版本，父任务不帮助其执行"
   ],
-  "non_goals": ["索引成功不能充当技能正文读取证明", "一次模型运行不能证明普遍可靠性"],
+  "non_goals": [
+    "索引成功不能充当技能正文读取证明",
+    "一次模型运行不能证明普遍可靠性"
+  ],
   "authorization": {
     "source": "同一用户任务要求修复观察到的全部执行问题；第二轮公开输出已显示正文截断及未补读"
   },
-  "deliverables": ["精简原生方法清单入口与既有规则引导"],
+  "deliverables": [
+    "精简原生方法清单入口与既有规则引导"
+  ],
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "d59800312fc7171c89b7e091401a35080d8ea64d",
-  "requirements": ["REQ-METHOD-014"],
+  "requirements": [
+    "REQ-METHOD-014",
+    "REQ-METHOD-015"
+  ],
   "acceptance": [
     {
       "checks": [
@@ -36,12 +47,33 @@
           "layer": "unit"
         }
       ],
-      "required_layers": ["unit"],
-      "tests": ["tests/contracts/document-method-entry.test.ts::[AC-METHOD-014]"],
+      "required_layers": [
+        "unit"
+      ],
+      "tests": [
+        "tests/contracts/document-method-entry.test.ts::[AC-METHOD-014]"
+      ],
       "id": "AC-METHOD-014"
+    },
+    {
+      "checks": [
+        {
+          "layer": "unit",
+          "test": "tests/contracts/ignite-runs.test.ts::[AC-METHOD-015]"
+        }
+      ],
+      "required_layers": [
+        "unit"
+      ],
+      "id": "AC-METHOD-015",
+      "tests": [
+        "tests/contracts/ignite-runs.test.ts::[AC-METHOD-015]"
+      ]
     }
   ],
-  "verification_requirements": ["unit"],
+  "verification_requirements": [
+    "unit"
+  ],
   "tasks": [
     {
       "id": "T1",
@@ -53,21 +85,43 @@
       "id": "T2",
       "title": "提交真实行为测试并记录红灯",
       "phase": "red",
-      "acceptance": ["AC-METHOD-014"],
+      "acceptance": [
+        "AC-METHOD-014"
+      ],
       "status": "done"
     },
     {
       "id": "T3",
       "title": "实施最小存量修改",
       "phase": "implement",
-      "acceptance": ["AC-METHOD-014"],
+      "acceptance": [
+        "AC-METHOD-014"
+      ],
       "status": "done"
+    },
+    {
+      "title": "复现验收期间系统时钟回拨",
+      "status": "doing",
+      "acceptance": [
+        "AC-METHOD-015"
+      ],
+      "id": "T5",
+      "phase": "red"
+    },
+    {
+      "title": "用单调时钟记录命令耗时",
+      "status": "todo",
+      "acceptance": [
+        "AC-METHOD-015"
+      ],
+      "id": "T6",
+      "phase": "implement"
     },
     {
       "id": "T4",
       "title": "验证兼容性并回写设计",
       "phase": "verify",
-      "status": "doing"
+      "status": "todo"
     }
   ],
   "depends_on": [],
@@ -95,7 +149,9 @@
     "docs/plans/",
     "docs/designs/",
     "docs/standards/",
-    "docs/others/"
+    "docs/others/",
+    "scripts/ignite/runs.mjs",
+    "tests/contracts/ignite-runs.test.ts"
   ],
   "tdd_evidence": [
     {
@@ -104,7 +160,9 @@
       "run_id": "tdd-20261010050716-43e1b1"
     }
   ],
-  "required_evidence": ["check-integration"],
+  "required_evidence": [
+    "check-integration"
+  ],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
@@ -191,3 +249,5 @@ docs/designs/execution.md 说明实际接口和默认操作。
 ## 本轮观察与取舍
 
 前提：命令成功并不意味着宿主已传回完整正文。d598003 候选按单份读取，但 figure-it-out 1148 tokens 配1000、show-me-your-work 924配900、technical-writing 2578配700、unslop1496配700。多个方法均被截断，不是单一技能路径错误。公开输出覆盖脚本在 TEMP/observe.ps1，父任务仅复核，不提示或代改。根据正文 UTF-8 字节给保守工具上限，索引自己也标注输出上限；保持完整正文 API 不变，不做读取凭证或用命令成功冒充理解。宿主裁剪在项目程序之外，项目只能提供明确容量及补读要求，不能宣称拦截任意模型失误。
+
+本轮 integration 的所有检查通过，但 WSL 时钟回拨使治理命令 duration_ms=-810，证据绑定因此拒绝。该失败属于本 Plan 验收修复：以真实子进程复现回拨，保留 UTC 时间戳，耗时改用单调时钟；不篡改失败记录或放松证据有效性要求。

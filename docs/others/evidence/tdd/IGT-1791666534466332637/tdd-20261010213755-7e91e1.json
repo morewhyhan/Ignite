@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "fe2e1aeee27a8fcbff9b65d1b940fcf43c4d3987e45bafa0f090d2d4d86cac11",
+  "run_id": "tdd-20261010213755-7e91e1",
+  "plan_id": "IGT-1791666534466332637",
+  "acceptance_id": "AC-METHOD-021",
+  "test": "tests/contracts/method-recovery.test.ts::[AC-METHOD-021] reopens a changed acceptance without forging red proof or losing history",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "cb31a9321b6fd069dccc17eb6323a9e84f9e440e",
+  "output_sha256": "52bb64e0b0b091691e28e4eb6909ca8eebd259a41344f3d5c7bf08707c62bc22",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/method-recovery.test.ts",
+    "--testNamePattern",
+    "AC-METHOD-021",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-10T21:37:55.659Z",
+  "ended_at": "2026-10-10T21:37:57.305Z",
+  "executor": "ignite-tdd-runner"
+}

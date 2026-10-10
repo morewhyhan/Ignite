@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "307d925c8e661810af4cd36f215691a1f4ceb27b6641a5496b82216542932f90",
+  "run_id": "tdd-20261010192804-a33e9c",
+  "plan_id": "IGT-1791658072893651720",
+  "acceptance_id": "AC-METHOD-020",
+  "test": "tests/contracts/verification-inputs.test.ts::[AC-METHOD-020] preserves E2E server selection and invalidates evidence across modes",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "90ae9ee457090e387fef4b44f35c4d2e813b3879",
+  "output_sha256": "4fff9b3ab61475c3d4e97e5618e3b988849399b17c275898a78d67ad74d3ccfa",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/verification-inputs.test.ts",
+    "--testNamePattern",
+    "AC-METHOD-020",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-10T19:28:04.542Z",
+  "ended_at": "2026-10-10T19:28:12.998Z",
+  "executor": "ignite-tdd-runner"
+}

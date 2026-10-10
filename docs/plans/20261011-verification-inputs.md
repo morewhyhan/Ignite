@@ -131,7 +131,18 @@
     "docs/others/evidence/runs/",
     "docs/others/ignite-status.md"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-METHOD-019",
+      "test": "tests/contracts/method-recovery.test.ts::[AC-METHOD-019] rejects changed live red assertions before implementation",
+      "run_id": "tdd-20261010192753-c16774"
+    },
+    {
+      "acceptance_id": "AC-METHOD-020",
+      "test": "tests/contracts/verification-inputs.test.ts::[AC-METHOD-020] preserves E2E server selection and invalidates evidence across modes",
+      "run_id": "tdd-20261010192804-a33e9c"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

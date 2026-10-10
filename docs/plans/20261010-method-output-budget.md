@@ -54,20 +54,20 @@
       "title": "提交真实行为测试并记录红灯",
       "phase": "red",
       "acceptance": ["AC-METHOD-014"],
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T3",
       "title": "实施最小存量修改",
       "phase": "implement",
       "acceptance": ["AC-METHOD-014"],
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T4",
       "title": "验证兼容性并回写设计",
       "phase": "verify",
-      "status": "todo"
+      "status": "doing"
     }
   ],
   "depends_on": [],
@@ -97,7 +97,13 @@
     "docs/standards/",
     "docs/others/"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-METHOD-014",
+      "test": "tests/contracts/document-method-entry.test.ts::[AC-METHOD-014]",
+      "run_id": "tdd-20261010050716-43e1b1"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
@@ -174,9 +180,9 @@ docs/designs/execution.md 说明实际接口和默认操作。
 状态：`active`（由元数据生成）
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
-- [ ] T2 · 提交真实行为测试并记录红灯 · doing
-- [ ] T3 · 实施最小存量修改 · todo
-- [ ] T4 · 验证兼容性并回写设计 · todo
+- [x] T2 · 提交真实行为测试并记录红灯 · done
+- [x] T3 · 实施最小存量修改 · done
+- [ ] T4 · 验证兼容性并回写设计 · doing
 
 验收缺口：未记录；完成仍须实际证据
 证据：尚无

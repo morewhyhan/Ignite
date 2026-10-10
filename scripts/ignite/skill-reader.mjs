@@ -106,27 +106,30 @@ export function commandSkillRead(root, options, positionals) {
     const methods = readDocumentMethods(root, options.for)
     const steps = readDocumentMethodSteps(root, options.for)
     if (options.list) {
-      process.stdout.write(
-        JSON.stringify(
-          {
-            scope: 'document-method-index',
-            owner: options.for,
-            instructions: steps?.content || '',
-            required: methods.map((method) => {
-              const name = method.path.split('/').at(-2)
-              return {
-                name,
-                path: method.path,
-                read_command: `node scripts/ignite.mjs skill read ${name}`,
-              }
-            }),
-            next_action:
-              'Read each required body in a separate tool invocation. This index is not reading evidence.',
-          },
-          null,
-          2,
-        ) + '\n',
+      const index = {
+        scope: 'document-method-index',
+        owner: options.for,
+        instructions: steps?.content || '',
+        tool_options: { max_output_tokens: 0 },
+        required: methods.map((method) => {
+          const name = method.path.split('/').at(-2)
+          return {
+            name,
+            path: method.path,
+            read_command: `node scripts/ignite.mjs skill read ${name}`,
+            tool_options: {
+              max_output_tokens: Math.max(4096, Buffer.byteLength(method.content, 'utf8') + 1024),
+            },
+          }
+        }),
+        next_action:
+          'Use the stated tool output budget. Read each body in a separate invocation; recover any truncated output before continuing. This index is not reading evidence.',
+      }
+      index.tool_options.max_output_tokens = Math.max(
+        8192,
+        Buffer.byteLength(JSON.stringify(index, null, 2), 'utf8') + 1024,
       )
+      process.stdout.write(JSON.stringify(index, null, 2) + '\n')
       return
     }
     process.stdout.write(

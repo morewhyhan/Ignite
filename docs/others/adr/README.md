@@ -1,6 +1,6 @@
 ## 固定维护方法
 
-先读本节必需条款与技能正文。在项目使用契约指定的 WSL/Linux Node，运行 `node scripts/ignite.mjs skill read --for docs/others/adr/README.md --list`；这个入口无需安装依赖，只返回固定职责及必需方法清单，不代表正文已经读取。按清单逐份运行 `node scripts/ignite.mjs skill read <name>`，每次工具调用只读取一份正文；也可逐份读取真源文件，截断时分段补齐。
+先读本节必需条款与技能正文。在项目使用契约指定的 WSL/Linux Node，运行 `node scripts/ignite.mjs skill read --for docs/others/adr/README.md --list`；这个入口无需安装依赖；每次调用只读一个目录的清单，首次清单输出容量至少 8192 tokens。清单只返回固定职责和必需方法，不代表正文已经读取。按各项 `tool_options.max_output_tokens` 设置宿主及外层封装的输出上限，再逐份运行 `node scripts/ignite.mjs skill read <name>`，每次工具调用只读取一份正文；也可逐份读取真源文件，截断时分段补齐。
 
 涉及本类文档时，先读取以下必需方法：[why](../../../.ai/pstack/skills/why/SKILL.md)、[architect](../../../.ai/pstack/skills/architect/SKILL.md)、[principle-foundational-thinking](../../../.ai/pstack/skills/principle-foundational-thinking/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
 

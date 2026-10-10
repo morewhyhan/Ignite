@@ -109,3 +109,5 @@ Release scope 的纳入项必须关联负责 Plan 的 REQ/AC；延期、授权�
 准备检查同时验证每个 Release 目标内部的 REQ/AC 对应，整体齐全不能掩盖单个目标挂错验收。prepared 只说明文档结构，ready 字段决定是否具备正式开工条件，行为和 Release 验收仍另行运行。
 
 Release 范围覆盖由 coverage_version 决定，旧验收契约不能绕过其已声明的 coverage_version 2 对应关系检查。
+
+方法清单的 `tool_options.max_output_tokens` 根据真源 UTF-8 字节数加保守余量生成，正文最低容量为 4096，清单最低容量为 8192。首次按一个所属规则读取清单，再使用每份容量读取正文；这个数字是宿主可容纳上限，不是方法提速 KPI 或实际 token 消耗。宿主及外层工具裁剪不受项目 CLI 控制，发生截断仍须补读；命令成功不能证明模型完整阅读或恰当应用。

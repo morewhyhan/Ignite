@@ -1,6 +1,50 @@
 import { expect, it } from 'vitest'
 import { makeFixture, read, runCli, write } from './ignite-fixture'
 
+it('[AC-METHOD-013] lists large required resources without expanding them and reads each canonical body separately', () => {
+  const fixture = makeFixture()
+  try {
+    write(
+      fixture.root,
+      'docs/plans/README.md',
+      '# Plan\n\n## 固定维护方法\n\nKeep the original goal before implementation.\n\n涉及本类文档时，先读取以下必需方法：[plan-method](../../.ai/pstack/skills/plan-method/SKILL.md)。\n',
+    )
+    write(
+      fixture.root,
+      'docs/standards/ai-agents.md',
+      '# Rules\n\n## 固定维护方法\n\n涉及文档写作时，必须读取 [technical-writing](../../.ai/pstack/skills/technical-writing/SKILL.md) 与 [unslop](../../.ai/pstack/skills/unslop/SKILL.md)。\n',
+    )
+    const names = ['plan-method', 'technical-writing', 'unslop']
+    for (const name of names)
+      write(
+        fixture.root,
+        `.ai/pstack/skills/${name}/SKILL.md`,
+        `# ${name}\n${'A complete method paragraph.\n'.repeat(800)}`,
+      )
+    const result = runCli(fixture.root, 'skill', 'read', '--for', 'docs/plans/README.md', '--list')
+    expect(result.status, result.stderr).toBe(0)
+    const index = JSON.parse(result.stdout)
+    expect(index.instructions).toContain('Keep the original goal before implementation.')
+    expect(index.required.map((item: { name: string }) => item.name)).toEqual(names)
+    expect(result.stdout.length).toBeLessThan(4000)
+    for (const name of names) {
+      const body = runCli(fixture.root, 'skill', 'read', name)
+      expect(body.status, body.stderr).toBe(0)
+      expect(body.stdout).toBe(read(fixture.root, `.ai/pstack/skills/${name}/SKILL.md`))
+    }
+    write(
+      fixture.root,
+      'docs/plans/README.md',
+      read(fixture.root, 'docs/plans/README.md').replace('skills/plan-method/', 'skills/missing/'),
+    )
+    const missing = runCli(fixture.root, 'skill', 'read', '--for', 'docs/plans/README.md', '--list')
+    expect(missing.status).not.toBe(0)
+    expect(missing.stdout).toBe('')
+  } finally {
+    fixture.cleanup()
+  }
+})
+
 it('[AC-METHOD-004] reads all owner-required methods and writing methods without optional branches or partial success', () => {
   const fixture = makeFixture()
   try {

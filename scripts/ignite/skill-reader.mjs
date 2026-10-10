@@ -96,13 +96,39 @@ export function readProjectSkill(root, name, requestedPath = null) {
 }
 
 export function commandSkillRead(root, options, positionals) {
-  if (Object.keys(options).some((key) => !['for', 'path'].includes(key)))
+  if (Object.keys(options).some((key) => !['for', 'path', 'list'].includes(key)))
     throw new Error('Unknown skill read option')
+  if (options.list !== undefined && (options.list !== true || options.for === undefined))
+    throw new Error('skill read --for <owning-document.md> --list')
   if (options.for !== undefined) {
     if (positionals.length || typeof options.for !== 'string' || options.path !== undefined)
       throw new Error('skill read --for <owning-document.md>')
     const methods = readDocumentMethods(root, options.for)
     const steps = readDocumentMethodSteps(root, options.for)
+    if (options.list) {
+      process.stdout.write(
+        JSON.stringify(
+          {
+            scope: 'document-method-index',
+            owner: options.for,
+            instructions: steps?.content || '',
+            required: methods.map((method) => {
+              const name = method.path.split('/').at(-2)
+              return {
+                name,
+                path: method.path,
+                read_command: `node scripts/ignite.mjs skill read ${name}`,
+              }
+            }),
+            next_action:
+              'Read each required body in a separate tool invocation. This index is not reading evidence.',
+          },
+          null,
+          2,
+        ) + '\n',
+      )
+      return
+    }
     process.stdout.write(
       (steps ? [steps, ...methods] : methods)
         .map((method) => `\n<!-- ${method.path} -->\n${method.content}`)

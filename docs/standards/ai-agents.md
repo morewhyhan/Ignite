@@ -2,7 +2,7 @@
 
 ## 固定维护方法
 
-先读本节必需条款与技能正文。在项目使用契约指定的 WSL/Linux Node，运行 `node scripts/ignite.mjs skill read --for docs/standards/ai-agents.md`；这个读取入口无需安装依赖。也可直接跟随下面的正文链接，输出截断时分批补读。
+先读本节必需条款与技能正文。在项目使用契约指定的 WSL/Linux Node，运行 `node scripts/ignite.mjs skill read --for docs/standards/ai-agents.md --list`；这个入口无需安装依赖，只返回固定职责及必需方法清单，不代表正文已经读取。按清单逐份运行 `node scripts/ignite.mjs skill read <name>`，每次工具调用只读取一份正文；也可逐份读取真源文件，截断时分段补齐。
 
 必需技能优先读取所属规则的相对正文链接，或从当前仓库运行 `pnpm ignite skill read <name>`。宿主给出的 r0、r9 等短路径必须先按其目录表展开，不能把代号当文件夹或猜测个人技能前缀。发现路径失败后按技能名使用项目命令恢复；命令返回正文全文，错误地址可通过 `--path <地址>` 附带诊断。命令只读取当前仓库的 `.ai/skills/` 或 `.ai/pstack/skills/` 真源，不改文件、不安装依赖；缺少必需技能时报告缺口并停止依赖该方法的步骤。依赖尚未准备时直接读取上述实际正文链接，不为读技能安装另一套运行环境。
 

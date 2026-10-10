@@ -54,20 +54,20 @@
       "title": "提交真实行为测试并记录红灯",
       "phase": "red",
       "acceptance": ["AC-METHOD-013"],
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T3",
       "title": "实施最小存量修改",
       "phase": "implement",
       "acceptance": ["AC-METHOD-013"],
-      "status": "todo"
+      "status": "done"
     },
     {
       "id": "T4",
       "title": "验证兼容性并回写设计",
       "phase": "verify",
-      "status": "todo"
+      "status": "doing"
     }
   ],
   "depends_on": [],
@@ -97,7 +97,13 @@
     "docs/standards/",
     "docs/others/"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-METHOD-013",
+      "test": "tests/contracts/document-method-entry.test.ts::[AC-METHOD-013]",
+      "run_id": "tdd-20261010024013-60a152"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
@@ -109,63 +115,63 @@
 
 # Ignite 实施计划：method-reading
 
-> 复制本文件到 `docs/plans/YYYYMMDD-method-reading.md`。计划只记录一次任务的过程；完成后保留，最终事实回写 `docs/designs/`。
+> 本轮修复文档方法资源读取入口，维护记录在提交后由 Git 保存。
 
 ## 状态
 
-由本 Plan 元数据记录唯一目标、任务与证据。
+任务状态由顶部 tasks 维护。
 
 ## 目标
 
-由本 Plan 元数据记录唯一目标、任务与证据。
+消除批量方法正文输出被截断后继续执行的入口诱因。
 
 ## 原始目标与覆盖核对
 
-由本 Plan 元数据记录唯一目标、任务与证据。
+用户要求修复观察到的流程问题，再从零验证。REQ-METHOD-013 / AC-METHOD-013 覆盖精简索引、完整单份读取和缺失失败。独立模型应用效果另由学生系统运行观察。
 
 ## 整体判断与推进顺序
 
-由本 Plan 元数据记录唯一目标、任务与证据。
+保留原全文接口；默认先读索引，再逐份读真源。无需新增文件或重复正文。
 
 ## 非目标
 
-由本 Plan 元数据记录唯一目标、任务与证据。
+不测试技能提速，不把一次运行当作所有模型的保证。
 
 ## 变更类型
 
-由本 Plan 元数据记录唯一目标、任务与证据。
+存量改动；基线和写入范围见元数据。
 
 ## 输入规格
 
-由本 Plan 元数据记录唯一目标、任务与证据。
+docs/features/ai-execution-trust.md 的 REQ-METHOD-013。
 
 ## 已关闭问题
 
-由本 Plan 元数据记录唯一目标、任务与证据。
+旧全文读取保持兼容；新索引不充当已读证据。
 
 ## 测试与验收设计
 
-由本 Plan 元数据记录唯一目标、任务与证据。
+真实 CLI 测试查询大型方法清单，再逐份核对完整正文，验证缺失资源整体失败。
 
 ## 实现任务
 
-由本 Plan 元数据记录唯一目标、任务与证据。
+按 tasks 顺序记录红灯、实现和验收。
 
 ## 验收方式
 
-由本 Plan 元数据记录唯一目标、任务与证据。
+Plan integration 和最终 Release 分层验证；另观察独立学生副本，不向其提供流程提示。
 
 ## 设计回写
 
-由本 Plan 元数据记录唯一目标、任务与证据。
+docs/designs/execution.md 说明实际接口和默认操作。
 
 ## 状态记录
 
-由本 Plan 元数据记录唯一目标、任务与证据。
+第二轮候选已进入红灯，但批量读取的多数正文被截断。父任务在独立主仓修复，保持候选版本不变。
 
 ## 准出条件
 
-由本 Plan 元数据记录唯一目标、任务与证据。
+原生检查实际通过、证据落盘、设计回写后完成；模板发布时清理建设记录。
 
 第二轮原生 --for 多目录输出中，仅 how、experience-first、unslop 的完整正文被观察到，剩余必需方法被截断且未补读，已进入规格和红灯。因此不能把读取命令成功当作全文读取。保留旧全文 API，新 --list 返回 owner 固定职责及必需方法命令；实际正文一次一个方法读取。按 how、figure-it-out、show-me-your-work 和原生 TDD 修复此资源入口，不测技能提速，不用正文词句匹配充当模型效果验证。完成后回写执行事实；学生副本保持独立，最后重新克隆当前源开展正常需求运行。
 
@@ -174,9 +180,9 @@
 状态：`active`（由元数据生成）
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
-- [ ] T2 · 提交真实行为测试并记录红灯 · doing
-- [ ] T3 · 实施最小存量修改 · todo
-- [ ] T4 · 验证兼容性并回写设计 · todo
+- [x] T2 · 提交真实行为测试并记录红灯 · done
+- [x] T3 · 实施最小存量修改 · done
+- [ ] T4 · 验证兼容性并回写设计 · doing
 
 验收缺口：未记录；完成仍须实际证据
 证据：尚无

@@ -49,7 +49,7 @@
 wsl.exe -e bash -lc 'cd /mnt/c/your/project && source ~/.nvm/nvm.sh && nvm use $(cat .node-version) && node scripts/runtime-doctor.mjs --preflight'
 ```
 
-后续原生 CLI 也在相同 WSL 项目目录和 NVM 环境执行。技能读取 `node scripts/ignite.mjs skill read --for <所属规则.md>` 不需要安装项目依赖；其余诊断、准备检查与历史命令仍按下面的依赖步骤处理。
+后续原生 CLI 也在相同 WSL 项目目录和 NVM 环境执行。技能读取 `node scripts/ignite.mjs skill read --for <所属规则.md> --list` 不需要安装项目依赖；其余诊断、准备检查与历史命令仍按下面的依赖步骤处理。
 
 首次采用前，先在新副本提交初始源码，再准备可运行本地命令的环境。Ignite 的诊断与历史归档 CLI 依赖项目包（包括 TypeScript）；在依赖安装前运行 `template:doctor` 或 `adopt-history` 会因缺少包而失败。
 

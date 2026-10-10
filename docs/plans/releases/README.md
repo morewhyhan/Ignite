@@ -6,7 +6,7 @@
 
 ## 固定维护方法
 
-先读本节必需条款与技能正文。在项目使用契约指定的 WSL/Linux Node，运行 `node scripts/ignite.mjs skill read --for docs/plans/releases/README.md`；这个读取入口无需安装依赖。也可直接跟随下面的正文链接，输出截断时分批补读。
+先读本节必需条款与技能正文。在项目使用契约指定的 WSL/Linux Node，运行 `node scripts/ignite.mjs skill read --for docs/plans/releases/README.md --list`；这个入口无需安装依赖，只返回固定职责及必需方法清单，不代表正文已经读取。按清单逐份运行 `node scripts/ignite.mjs skill read <name>`，每次工具调用只读取一份正文；也可逐份读取真源文件，截断时分段补齐。
 
 涉及本类文档时，先读取以下必需方法：[principle-prove-it-works](../../../.ai/pstack/skills/principle-prove-it-works/SKILL.md)、[principle-sequence-verifiable-units](../../../.ai/pstack/skills/principle-sequence-verifiable-units/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
 

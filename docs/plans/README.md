@@ -4,7 +4,7 @@
 
 ## 固定维护方法
 
-先读本节必需条款与技能正文。在项目使用契约指定的 WSL/Linux Node，运行 `node scripts/ignite.mjs skill read --for docs/plans/README.md`；这个读取入口无需安装依赖。也可直接跟随下面的正文链接，输出截断时分批补读。
+先读本节必需条款与技能正文。在项目使用契约指定的 WSL/Linux Node，运行 `node scripts/ignite.mjs skill read --for docs/plans/README.md --list`；这个入口无需安装依赖，只返回固定职责及必需方法清单，不代表正文已经读取。按清单逐份运行 `node scripts/ignite.mjs skill read <name>`，每次工具调用只读取一份正文；也可逐份读取真源文件，截断时分段补齐。
 
 新 Plan 声明 `task_contract: 2`。tasks 的 `phase` 只能为 prepare、red、implement、verify；red 与 implement 列出负责的 `acceptance` AC。每个实施任务前先列覆盖同一 AC 的 red 任务，原生校验会拒绝逆序或缺失阶段。开始或完成 implement、完成 red 时，原生任务命令核对有效红灯记录；只有任务标题写了“先测试”不算满足条件。历史 `task_contract: 1` 和未声明此契约的 Plan 保留兼容，不能据此推断它已遵守新约束。
 

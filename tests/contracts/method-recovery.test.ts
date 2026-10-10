@@ -1,11 +1,21 @@
 import { createHash } from 'node:crypto'
 import { describe, expect, it } from 'vitest'
 import { validateExecutionContract } from '../../scripts/ignite/execution-contract.mjs'
-import { acceptanceTestSource } from '../../scripts/ignite/source-analysis.mjs'
+import { acceptanceTestSource as parseAcceptanceTestSource } from '../../scripts/ignite/source-analysis.mjs'
 import { commitAll, git, makeFixture, planContent, read, runCli, write } from './ignite-fixture'
 
 const acceptanceId = 'AC-TEST-001'
 const testReference = 'tests/contracts/sample.test.ts::[AC-TEST-001]'
+function acceptanceTestSource(source: string, id: string, title: string): string {
+  const parse = parseAcceptanceTestSource as (
+    source: string,
+    id: string,
+    title: string,
+  ) => string | null
+  const selected = parse(source, id, title)
+  if (selected === null) throw new Error('Fixture acceptance case is missing')
+  return selected
+}
 const orderedTasks = [
   { id: 'prepare', title: 'Confirm scope', phase: 'prepare', status: 'done' },
   {

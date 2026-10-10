@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1791622845430819256",
   "release": "fresh-clone-runtime-v1",
-  "status": "active",
+  "status": "done",
   "outcome": "新副本独立加载项目依赖，并正确接受真实测试中的条件防护",
   "contract_version": 2,
   "execution_contract": 1,
@@ -72,13 +72,13 @@
       "title": "固定当前项目根与准确识别占位失败",
       "phase": "implement",
       "acceptance": ["AC-METHOD-017", "AC-METHOD-018"],
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T4",
       "title": "检查模板并更新采用与设计说明",
       "phase": "verify",
-      "status": "todo"
+      "status": "done"
     }
   ],
   "depends_on": [],
@@ -121,10 +121,15 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261010091302-ea4de5"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "9605020314e1bbbf9ee81e69c324fef8ba9932e2",
   "updated_at": "2026-10-10"
 }
 -->
@@ -189,13 +194,13 @@ T1 还原问题和边界。T2 为两项 AC 留下红灯。T3 固定项目根并�
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 还原嵌套副本和防护误判 · done
 - [x] T2 · 记录真实框架加载和校验器红灯 · done
-- [ ] T3 · 固定当前项目根与准确识别占位失败 · doing
-- [ ] T4 · 检查模板并更新采用与设计说明 · todo
+- [x] T3 · 固定当前项目根与准确识别占位失败 · done
+- [x] T4 · 检查模板并更新采用与设计说明 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20261010091302-ea4de5
 <!-- /ignite-progress -->

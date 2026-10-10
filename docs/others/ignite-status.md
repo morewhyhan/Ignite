@@ -1,21 +1,21 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`23828c58d5e1`
-当前 Plan：1；结构化历史：0；未迁移历史：0
+输入指纹：`3ae100e84704`
+当前 Plan：0；结构化历史：1；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-1791622845430819256` · `active` · `fresh-clone-runtime-v1`
+- 无。
 
 ## 发布范围
 
-- `fresh-clone-runtime-v1` · `active`
+- `fresh-clone-runtime-v1` · `verifying`
   - Plan：`IGT-1791622845430819256`
-  - 缺少证据：`IGT-1791622845430819256:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
-  - 下一步：pnpm ignite next --plan IGT-1791622845430819256
-  - 未完成原始目标：GOAL-001 新副本独立加载项目依赖，并正确接受真实测试中的条件防护
+  - 下一步：pnpm ignite release verify fresh-clone-runtime-v1 --plan IGT-1791622845430819256
+  - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题
 

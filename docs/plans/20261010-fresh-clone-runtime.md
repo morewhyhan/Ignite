@@ -108,7 +108,18 @@
     "README.md",
     "docs/"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-METHOD-017",
+      "test": "tests/contracts/fresh-clone-runtime.test.ts::[AC-METHOD-017]",
+      "run_id": "tdd-20261010090522-c17c21"
+    },
+    {
+      "acceptance_id": "AC-METHOD-018",
+      "test": "tests/contracts/source-analysis.test.ts::[AC-METHOD-018]",
+      "run_id": "tdd-20261010090526-e9e79e"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
@@ -175,3 +186,16 @@ T1 还原问题和边界。T2 为两项 AC 留下红灯。T3 固定项目根并�
 ## 准出条件
 
 两项 AC 与工程门禁通过，生产构建和全局浏览器验收通过。新副本继续按原始请求独立执行，未闭环不得报告成功。
+
+<!-- ignite-progress -->
+
+状态：`active`（由元数据生成）
+
+- [x] T1 · 还原嵌套副本和防护误判 · done
+- [ ] T2 · 记录真实框架加载和校验器红灯 · doing
+- [ ] T3 · 固定当前项目根与准确识别占位失败 · todo
+- [ ] T4 · 检查模板并更新采用与设计说明 · todo
+
+验收缺口：未记录；完成仍须实际证据
+证据：尚无
+<!-- /ignite-progress -->

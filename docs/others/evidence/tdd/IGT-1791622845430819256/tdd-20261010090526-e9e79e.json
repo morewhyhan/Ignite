@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "1bb5bf9299a9830912cc51e0cb19a2953d3dcb1942f403096d9f90926261a70a",
+  "run_id": "tdd-20261010090526-e9e79e",
+  "plan_id": "IGT-1791622845430819256",
+  "acceptance_id": "AC-METHOD-018",
+  "test": "tests/contracts/source-analysis.test.ts::[AC-METHOD-018]",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "2a9b1f375c520ebfaa13f05aaecfabbf9b9f9286",
+  "output_sha256": "b1d56a8526b7275ace0c27f2a3ebe322dd4147c51db486a8856ec48a5125b7de",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/source-analysis.test.ts",
+    "--testNamePattern",
+    "AC-METHOD-018",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-10T09:05:26.456Z",
+  "ended_at": "2026-10-10T09:05:27.473Z",
+  "executor": "ignite-tdd-runner"
+}

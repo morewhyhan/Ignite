@@ -550,7 +550,10 @@ export function validatePlan(
             testDigestMatches
           if (!recordMatches)
             failures.push(
-              `${item.acceptance_id}: TDD red proof is invalid or its test changed before green`,
+              `${item.acceptance_id}: TDD red proof is invalid or its test changed before green` +
+                (value.status === 'done'
+                  ? ''
+                  : `; for an intentional test correction use ignite tdd restart --plan ${value.id} --ac ${item.acceptance_id} --reason "<correction reason>", then repeat real red before implementation`),
             )
           else validTdd.add(item.acceptance_id)
         } catch {
@@ -1693,6 +1696,69 @@ export function updatePlanMetadata(plan, updater) {
     ),
   )
   return findPlan(next.id)
+}
+
+export function restartPlanTdd(planId, acceptanceId, reason) {
+  const explanation = typeof reason === 'string' ? reason.trim().replace(/\s+/g, ' ') : ''
+  if (!explanation) throw new Error('TDD restart requires a correction reason')
+  const plan = findPlan(planId)
+  const value = plan.metadata
+  if (
+    value.execution_contract !== 1 ||
+    value.verification_contract < 2 ||
+    !['active', 'verifying', 'blocked'].includes(value.status)
+  )
+    throw new Error('TDD restart only supports an unfinished active, verifying or blocked Plan')
+  if (!value.acceptance.some((item) => item.id === acceptanceId))
+    throw new Error(`unknown acceptance criterion ${acceptanceId}`)
+  const related = (phase) =>
+    value.tasks.filter((task) => task.phase === phase && task.acceptance?.includes(acceptanceId))
+  const redTasks = related('red')
+  const implementationTasks = related('implement')
+  if (!redTasks.length || !implementationTasks.length)
+    throw new Error('TDD restart requires mapped red and implementation tasks')
+  const previous = (value.tdd_evidence || []).filter((item) => item.acceptance_id === acceptanceId)
+  if (!previous.length) {
+    if (
+      value.status === 'active' &&
+      redTasks.some((task) => task.status === 'doing') &&
+      implementationTasks.every((task) => task.status === 'todo')
+    )
+      return { plan, restarted: false, preserved_runs: [] }
+    throw new Error('No prior TDD binding to restart; follow the normal red task')
+  }
+  const next = structuredClone(value)
+  next.status = 'active'
+  next.blocker = null
+  next.integrated_commit = null
+  next.evidence = []
+  next.tdd_evidence = next.tdd_evidence.filter((item) => item.acceptance_id !== acceptanceId)
+  for (const task of next.tasks) {
+    if (task.phase === 'verify') task.status = 'todo'
+    else if (task.acceptance?.includes(acceptanceId)) {
+      if (task.phase === 'red') task.status = 'doing'
+      if (task.phase === 'implement') task.status = 'todo'
+    }
+  }
+  next.updated_at = new Date().toISOString().slice(0, 10)
+  const candidate = {
+    ...plan,
+    metadata: next,
+    content: renderPlanProgressContent(plan.content, next),
+  }
+  const errors = [
+    ...validatePlan(candidate).filter((error) => !/before the first valid red/.test(error)),
+    ...validatePlanDependencies(candidate),
+  ]
+  if (errors.length) throw new Error(`Cannot restart TDD:\n- ${errors.join('\n- ')}`)
+  const runs = previous.map((item) => item.run_id)
+  const recorded = {
+    ...plan,
+    content: `${plan.content}\n\n## TDD 恢复记录\n\n${next.updated_at}，${acceptanceId}：${explanation}。保留原回执 ${runs.join('、')}；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。\n`,
+  }
+  const updated = updatePlanMetadata(recorded, () => next)
+  writeGeneratedStatus()
+  return { plan: updated, restarted: true, preserved_runs: runs }
 }
 
 export function updatePlanTask(planId, taskId, status) {

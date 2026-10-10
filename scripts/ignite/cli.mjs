@@ -13,6 +13,7 @@ import {
   listReleases,
   readPlan,
   reintegratePlan,
+  restartPlanTdd,
   renderStatus,
   setPlanStatus,
   specificationRegistry,
@@ -68,6 +69,7 @@ Commands:
   release verify <release-id> --plan <done-plan-id>
   adopt-history [--apply]
   tdd red --plan <id> --ac <AC-id>
+  tdd restart --plan <id> --ac <AC-id> --reason <correction>
   example removal-plan tasks
 
 Use pnpm ignite <command> --help for command details.
@@ -125,7 +127,7 @@ const commandHelp = new Map([
   ],
   [
     'tdd',
-    'Usage: pnpm ignite tdd red --plan <id> --ac <AC-id>\nRun the selected acceptance test and record a real behavior-assertion red result.\n',
+    'Usage: pnpm ignite tdd red --plan <id> --ac <AC-id>\n       pnpm ignite tdd restart --plan <id> --ac <AC-id> --reason <correction>\nRed records a real behavior failure. Restart reopens an unfinished AC and preserves history; it grants no proof.\n',
   ],
   [
     'example',
@@ -396,6 +398,28 @@ function commandTddRed(options) {
         red_commit: record.red_commit,
         evidence_path: record.evidence_path,
         next: 'Commit the red record before implementing; do not modify the acceptance test before its green verification.',
+      },
+      null,
+      2,
+    ),
+  )
+}
+
+function commandTddRestart(options) {
+  if (!options.plan || !options.ac || !options.reason)
+    throw new Error('tdd restart --plan <id> --ac <AC-id> --reason <correction>')
+  checkRuntime()
+  const result = restartPlanTdd(options.plan, options.ac, options.reason)
+  console.log(
+    JSON.stringify(
+      {
+        plan_id: result.plan.metadata.id,
+        acceptance_id: options.ac,
+        restarted: result.restarted,
+        preserved_runs: result.preserved_runs,
+        next_action:
+          'Restore the affected implementation to its real pre-implementation behavior, commit the corrected test and Plan, then run native tdd red. Preserve all old records; restart grants no red or green proof.',
+        command: `pnpm ignite tdd red --plan ${options.plan} --ac ${options.ac}`,
       },
       null,
       2,
@@ -778,6 +802,7 @@ export async function main(argv = process.argv.slice(2)) {
   if (command === 'release' && subcommand === 'verify')
     return commandReleaseVerify(positionals, options)
   if (command === 'tdd' && subcommand === 'red') return commandTddRed(options)
+  if (command === 'tdd' && subcommand === 'restart') return commandTddRestart(options)
   throw new Error('Unknown command. Run pnpm ignite --help to see valid commands.')
 }
 

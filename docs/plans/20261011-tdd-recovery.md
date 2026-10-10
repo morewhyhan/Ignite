@@ -64,14 +64,14 @@
       "title": "提交真实行为测试并记录红灯",
       "phase": "red",
       "acceptance": ["AC-METHOD-021"],
-      "status": "doing"
+      "status": "done"
     },
     {
       "id": "T3",
       "title": "实施最小存量修改",
       "phase": "implement",
       "acceptance": ["AC-METHOD-021"],
-      "status": "todo"
+      "status": "doing"
     },
     {
       "id": "T4",
@@ -196,8 +196,8 @@ AC-METHOD-021 真实失败及对应绿灯、Plan integration 和 Release 通过�
 状态：`active`（由元数据生成）
 
 - [x] T1 · 识别现有行为、写入边界和原始目标 · done
-- [ ] T2 · 提交真实行为测试并记录红灯 · doing
-- [ ] T3 · 实施最小存量修改 · todo
+- [x] T2 · 提交真实行为测试并记录红灯 · done
+- [ ] T3 · 实施最小存量修改 · doing
 - [ ] T4 · 验证兼容性并回写设计 · todo
 
 验收缺口：未记录；完成仍须实际证据

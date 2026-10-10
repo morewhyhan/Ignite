@@ -1,0 +1,63 @@
+{
+  "schema": 2,
+  "run_id": "run-20261010013424-6f6748",
+  "check_policy_version": 6,
+  "plan_id": "IGT-1791594029506382263",
+  "evidence_id": "check-release",
+  "level": "release",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-10-10T01:34:42.223Z",
+  "ended_at": "2026-10-10T01:36:25.529Z",
+  "commit": "22892d3a035a72d79d8275cebd555584ba918c98",
+  "input_fingerprint": "8b88dea8602573a92c64c791b95f4e3aad994c5e89a69d4b4e4c48a8faacaf02",
+  "environment_fingerprint": "a9a342b68b20ef1291357098ab140bd321ffbd348aecc3a91a312972942e8441",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "a747aa5aa6a0306d83187f53ff3df01b58d942a84f460480e1fbf78966f6cc0d",
+  "acceptance_results": [],
+  "release_id": "agent-preparation-v1",
+  "release_fingerprint": "ce8cf76d5abe2a92ae249ddb27f9a0904ceed3ded6bc7cf0c56832baf0d86175",
+  "release_identity": {
+    "package_version": "0.1.0",
+    "tags": []
+  },
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "37bfdb04f186fc2a473cf22da3ce36c5b620786b"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 597
+    },
+    {
+      "label": "build",
+      "command": ["corepack", "pnpm", "build"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 14892
+    },
+    {
+      "label": "e2e-production",
+      "command": ["corepack", "pnpm", "test:e2e:production"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 20272
+    }
+  ],
+  "log_sha256": "6811a5c7ba39ee52fa9cad33a4ca5438da03fd4b2aaa5e00f06909efee9f9e7b",
+  "execution_source": "ignite-runner-local"
+}

@@ -1,0 +1,101 @@
+{
+  "schema": 2,
+  "run_id": "run-20261010081811-fa2d9e",
+  "check_policy_version": 6,
+  "plan_id": "IGT-1791616797429443754",
+  "evidence_id": "check-integration",
+  "level": "integration",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-10-10T08:18:12.991Z",
+  "ended_at": "2026-10-10T08:19:52.489Z",
+  "commit": "9ce8f263bd13e21ee5387aeb9e47620517fdcb5b",
+  "input_fingerprint": "53229a5d1ce0ae41c294379b5d4586f05613f608d1d3a984b864b7853b87fa45",
+  "environment_fingerprint": "a9a342b68b20ef1291357098ab140bd321ffbd348aecc3a91a312972942e8441",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "5419fdf0291a7250517736eb5c85cfdf6782ecb49e3d3107b3182fd55cd95da5",
+  "acceptance_results": [
+    {
+      "plan_id": "IGT-1791616797429443754",
+      "criterion": "AC-METHOD-016",
+      "test": "tests/contracts/acceptance-runtime.test.ts::[AC-METHOD-016]",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    }
+  ],
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "8be680d88def80c40207804e19541c5ef9e5c00b"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 1240
+    },
+    {
+      "label": "template-doctor",
+      "command": ["corepack", "pnpm", "template:doctor"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 619
+    },
+    {
+      "label": "governance",
+      "command": ["corepack", "pnpm", "ignite", "validate"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 1194
+    },
+    {
+      "label": "docs",
+      "command": ["corepack", "pnpm", "docs:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 1182
+    },
+    {
+      "label": "typecheck",
+      "command": ["corepack", "pnpm", "typecheck"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 4187
+    },
+    {
+      "label": "lint",
+      "command": ["corepack", "pnpm", "lint"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 5666
+    },
+    {
+      "label": "format",
+      "command": ["corepack", "pnpm", "format:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 3134
+    },
+    {
+      "label": "tests",
+      "command": ["corepack", "pnpm", "test"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 70778
+    }
+  ],
+  "log_sha256": "8657c891aa158415830a37f7b082eda5f771d4c5a5402a2668c2cbb75d891f4b",
+  "execution_source": "ignite-runner-local"
+}

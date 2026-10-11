@@ -107,9 +107,23 @@ export function assertTemplateBaselineEvidence(root: string) {
     (plan) => plan?.metadata.tdd_evidence?.map((item: { run_id: string }) => item.run_id) || [],
   )
   const tddDirectory = join(root, 'docs', 'others', 'evidence', 'tdd')
-  const tddRuns = collectFiles(tddDirectory)
-    .filter((path) => path.endsWith('.json'))
-    .map((path) => basename(path).replace(/\.json$/, ''))
-    .sort()
-  expect(tddRuns).toEqual(tddEvidence.sort())
+  const tddPaths = collectFiles(tddDirectory).filter((path) => path.endsWith('.json'))
+  const tddRuns = tddPaths.map((path) => basename(path).replace(/\.json$/, '')).sort()
+  expect(tddRuns).toEqual(expect.arrayContaining(tddEvidence))
+  for (const path of tddPaths) {
+    const receipt = JSON.parse(readFileSync(path, 'utf8'))
+    expect(receipt.run_id).toBe(basename(path).replace(/\.json$/, ''))
+    const owner = baselinePlans.find((plan) => plan?.metadata.id === receipt.plan_id)
+    expect(owner, `TDD receipt ${receipt.run_id} requires its owning Plan`).toBeDefined()
+    expect(receipt.status).toBe('assertion-failed')
+    if (!tddEvidence.includes(receipt.run_id)) {
+      const preserved = [...owner!.content.matchAll(/保留原回执 ([^；\n]+)；/g)].flatMap((match) =>
+        match[1].split('、'),
+      )
+      expect(
+        preserved,
+        `Historical receipt ${receipt.run_id} requires a recovery reference`,
+      ).toContain(receipt.run_id)
+    }
+  }
 }

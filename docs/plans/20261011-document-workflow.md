@@ -233,7 +233,10 @@
         "tsconfig.json",
         "eslint.config.mjs",
         ".prettierignore",
-        ".gitignore"
+        ".gitignore",
+        "tests/contracts/execution-reliability.test.ts",
+        "tests/contracts/template-runtime.test.ts",
+        "tests/contracts/template-history-baseline.ts"
       ],
       "depends_on": ["T3A", "T3B", "T3C", "T4", "T5"],
       "owner": "/root"
@@ -387,6 +390,24 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-10-11T17:49:07.313Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "/root/workflow_independent_audit",
+      "executor": "/root",
+      "source": "本会话独立子智能体 /root/workflow_independent_audit 对当前 .ignite/draft-context.json、原目标、Plan、Feature、Release、AGE 对标和方法文档的真实审查回报",
+      "subject_fingerprint": "5c472211d5ad5478eee7bec496a5480072e304948693aa51d4764fe4d7fb696e",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "NB-T7-001",
+          "severity": "nonblocking",
+          "summary": "准出正文的最终组合验收可追溯措辞较宽；T7已明确为Release scope和版本交接，真实最终验收由Release完成。",
+          "resolved": false
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-10-11T19:06:26.982Z"
     }
   ]
 }
@@ -483,6 +504,8 @@ AC-DOCFLOW-004 的逐项内容判定如下，由 T6 的真实独立审查读取�
 docs/designs/execution.md 记录已实现新契约和限制；domain.md 只写当前业务事实。
 
 ## 状态记录
+
+2026-10-12：poteto-mode 所引用的外部 /deslop 工具在当前宿主不可用；已使用现有 no-comments 与 unslop 方法检查实际差异。没有将缺失工具记为已执行。
 
 2026-10-11：独立角色 /root/workflow_document_writer 已读取原始目标、Plan、Feature与Release，确认无阻断结构缺口；指出旧契约 prepare/next 兼容断言需补，已交工具负责人在红灯前补入同一 AC002。此结论不是行为通过。
 

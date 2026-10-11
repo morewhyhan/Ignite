@@ -223,7 +223,9 @@ describe('execution reliability', () => {
       expect(plan).toContain('"change_type": "存量改动"')
       expect(plan).toContain('"status": "draft"')
       expect(plan).toContain('## 原始目标与覆盖核对')
-      expect(plan).toContain('T1 · 识别现有行为、写入边界和原始目标 · todo')
+      const metadata = JSON.parse(plan.match(/<!-- ignite-plan\s*([\s\S]*?)\s*-->/)![1])
+      expect(metadata.tasks[0]).toMatchObject({ id: 'T1', phase: 'prepare', status: 'todo' })
+      expect(plan).toContain(`T1 · ${metadata.tasks[0].title} · todo`)
       expect(created.stdout).toContain('pnpm ignite status --write')
       expect(read(fixture.root, 'docs/plans/releases/rename-existing-screen-v1.json')).toContain(
         '"plan_ids"',

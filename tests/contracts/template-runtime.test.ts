@@ -329,7 +329,8 @@ describe('template and runtime contracts', () => {
         expect(metadata.task_contract).toBe(2)
         expect(generatedId).toMatch(/^IGT-\d{3,}$/)
         expect(planContent).toContain('## 原始目标与覆盖核对')
-        expect(planContent).toContain('T1 · 确认目标、输入输出和验收场景 · todo')
+        expect(metadata.tasks[0]).toMatchObject({ id: 'T1', phase: 'prepare', status: 'todo' })
+        expect(planContent).toContain(`T1 · ${metadata.tasks[0].title} · todo`)
         expect(metadata).toMatchObject({
           status: 'draft',
           verification_requirements: ['unit', 'browser'],

@@ -307,6 +307,11 @@
       "acceptance_id": "AC-DOCFLOW-003",
       "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-003] requires current independent review records",
       "run_id": "tdd-20261011142910-b0f23c"
+    },
+    {
+      "acceptance_id": "AC-DOCFLOW-001",
+      "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-001] scaffolds executable task detail",
+      "run_id": "tdd-20261011175159-98add8"
     }
   ],
   "required_evidence": ["check-integration"],

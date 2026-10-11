@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "2063e2c0bb98aa34e910935f45fc73544870265f6a881c7a79dcd1548fa06231",
+  "run_id": "tdd-20261011142815-287daf",
+  "plan_id": "IGT-1791708512635291997",
+  "acceptance_id": "AC-DOCFLOW-001",
+  "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-001] scaffolds executable task detail",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "6ba08eabcd4d09de8e14aad28ccb1926c8938e45",
+  "output_sha256": "d77c4c9704d3bd4e2b156a4302de2255c49568c6d32c3e5fb208432da44efdf3",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/document-workflow.test.ts",
+    "--testNamePattern",
+    "AC-DOCFLOW-001",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-11T14:28:15.125Z",
+  "ended_at": "2026-10-11T14:28:29.712Z",
+  "executor": "ignite-tdd-runner"
+}

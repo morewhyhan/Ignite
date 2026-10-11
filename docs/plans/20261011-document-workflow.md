@@ -134,7 +134,7 @@
       "title": "提交规格和断言并取得真实红灯",
       "phase": "red",
       "acceptance": ["AC-DOCFLOW-001", "AC-DOCFLOW-002", "AC-DOCFLOW-003", "AC-DOCFLOW-004"],
-      "status": "doing",
+      "status": "done",
       "result": "四条原生红灯均因承诺行为尚未实现而失败",
       "scope": ["tests/contracts/document-workflow.test.ts", "docs/others/evidence/tdd/"],
       "depends_on": ["T1"],
@@ -288,6 +288,21 @@
       "acceptance_id": "AC-DOCFLOW-004",
       "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-004] loads project review methods from canonical sources",
       "run_id": "tdd-20261011111441-bfaa75"
+    },
+    {
+      "acceptance_id": "AC-DOCFLOW-001",
+      "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-001] scaffolds executable task detail",
+      "run_id": "tdd-20261011142815-287daf"
+    },
+    {
+      "acceptance_id": "AC-DOCFLOW-002",
+      "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-002] rejects incomplete task contracts",
+      "run_id": "tdd-20261011142840-bda6e9"
+    },
+    {
+      "acceptance_id": "AC-DOCFLOW-003",
+      "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-003] requires current independent review records",
+      "run_id": "tdd-20261011142910-b0f23c"
     }
   ],
   "required_evidence": ["check-integration"],
@@ -400,7 +415,7 @@ docs/designs/execution.md 记录已实现新契约和限制；domain.md 只写�
 状态：`active`（由元数据生成）
 
 - [x] T1 · 独立审查原目标、任务和真实断言 · done
-- [ ] T2 · 提交规格和断言并取得真实红灯 · doing
+- [x] T2 · 提交规格和断言并取得真实红灯 · done
 - [ ] T3A · 生成精细任务脚手架 · todo
 - [ ] T3B · 约束任务完整性与依赖推进 · todo
 - [ ] T3C · 实现两个审查对象与正式准入 · todo

@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1791708512635291997",
   "release": "document-workflow-v1",
-  "status": "draft",
+  "status": "active",
   "outcome": "克隆后的 AI 能按精细任务与固定双审查维护唯一文档真源，官方准入识别缺失与过期结果",
   "contract_version": 2,
   "execution_contract": 1,
@@ -118,7 +118,7 @@
       "id": "T1",
       "title": "独立审查原目标、任务和真实断言",
       "phase": "prepare",
-      "status": "todo",
+      "status": "done",
       "result": "真实独立角色/root/docflow_plan_review及/root/workflow_docs读取本Plan、原目标、Feature与Release；五类发现逐项修正留原Plan，复核无阻断后提交真实断言",
       "scope": [
         "docs/features/document-workflow.md",
@@ -134,7 +134,7 @@
       "title": "提交规格和断言并取得真实红灯",
       "phase": "red",
       "acceptance": ["AC-DOCFLOW-001", "AC-DOCFLOW-002", "AC-DOCFLOW-003", "AC-DOCFLOW-004"],
-      "status": "todo",
+      "status": "doing",
       "result": "四条原生红灯均因承诺行为尚未实现而失败",
       "scope": ["tests/contracts/document-workflow.test.ts", "docs/others/evidence/tdd/"],
       "depends_on": ["T1"],
@@ -283,7 +283,28 @@
     ".opencode/",
     ".github/copilot-instructions.md"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-DOCFLOW-001",
+      "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-001] scaffolds executable task detail",
+      "run_id": "tdd-20261011111340-a4cfd8"
+    },
+    {
+      "acceptance_id": "AC-DOCFLOW-002",
+      "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-002] rejects incomplete task contracts",
+      "run_id": "tdd-20261011111359-9dad1c"
+    },
+    {
+      "acceptance_id": "AC-DOCFLOW-003",
+      "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-003] requires current independent review records",
+      "run_id": "tdd-20261011111423-5daa5b"
+    },
+    {
+      "acceptance_id": "AC-DOCFLOW-004",
+      "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-004] loads project review methods from canonical sources",
+      "run_id": "tdd-20261011111441-bfaa75"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
@@ -378,10 +399,10 @@ docs/designs/execution.md 记录已实现新契约和限制；domain.md 只写�
 
 <!-- ignite-progress -->
 
-状态：`draft`（由元数据生成）
+状态：`active`（由元数据生成）
 
-- [ ] T1 · 独立审查原目标、任务和真实断言 · todo
-- [ ] T2 · 提交规格和断言并取得真实红灯 · todo
+- [x] T1 · 独立审查原目标、任务和真实断言 · done
+- [ ] T2 · 提交规格和断言并取得真实红灯 · doing
 - [ ] T3A · 生成精细任务脚手架 · todo
 - [ ] T3B · 约束任务完整性与依赖推进 · todo
 - [ ] T3C · 实现两个审查对象与正式准入 · todo

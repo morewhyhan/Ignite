@@ -6,11 +6,11 @@
 
 ## 当前工作
 
-- `IGT-1791708512635291997` · `draft` · `document-workflow-v1`
+- `IGT-1791708512635291997` · `active` · `document-workflow-v1`
 
 ## 发布范围
 
-- `document-workflow-v1` · `draft`
+- `document-workflow-v1` · `active`
   - Plan：`IGT-1791708512635291997`
   - 缺少证据：`IGT-1791708512635291997:check-integration`（missing：no run is bound to this evidence requirement）
   - 最终版本验收：missing

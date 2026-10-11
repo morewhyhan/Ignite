@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "98a8514afc31dee835a1969ebf51115e192533f4150b0fa944059b2467680c59",
+  "run_id": "tdd-20261011111441-bfaa75",
+  "plan_id": "IGT-1791708512635291997",
+  "acceptance_id": "AC-DOCFLOW-004",
+  "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-004] loads project review methods from canonical sources",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "cf8f9f7330846524dd1e47cbf41f05f92e67317c",
+  "output_sha256": "4f52acc2db1edf0f09c969e7ec3d2173a8a4692fcc8fc1aa7ab7a8ce1aea0d0a",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/document-workflow.test.ts",
+    "--testNamePattern",
+    "AC-DOCFLOW-004",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-11T11:14:41.175Z",
+  "ended_at": "2026-10-11T11:14:49.924Z",
+  "executor": "ignite-tdd-runner"
+}

@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "51e4687a62cdcf8ff834d6de26dc9d0e71f83747d2957cd5d173746bb427683b",
+  "run_id": "tdd-20261011111359-9dad1c",
+  "plan_id": "IGT-1791708512635291997",
+  "acceptance_id": "AC-DOCFLOW-002",
+  "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-002] rejects incomplete task contracts",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "cf8f9f7330846524dd1e47cbf41f05f92e67317c",
+  "output_sha256": "c6fc25893adaeeea3590fbcc2130a4975e1c7b420e5b2ba903e53560cb09ce9a",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/document-workflow.test.ts",
+    "--testNamePattern",
+    "AC-DOCFLOW-002",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-11T11:13:59.912Z",
+  "ended_at": "2026-10-11T11:14:12.463Z",
+  "executor": "ignite-tdd-runner"
+}

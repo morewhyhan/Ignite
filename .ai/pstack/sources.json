@@ -384,7 +384,7 @@
     {
       "path": "skills/poteto-mode/SKILL.md",
       "upstream_sha256": "31cd02290360ce63564ef22b74d69fc6d90e62181d05a644cbed8f6c47cc9412",
-      "local_sha256": "8258c69d12a7cff6c0b282f0ba3abaf427bf93e479358990a60e685cf035f458",
+      "local_sha256": "d4b05d3896dc48648e48f61acd958300b121e07c4185d66f9312e4d6b2f1ea08",
       "adapted": true,
       "upstream_checkout_sha256": "4d19bd4e048eb6cdc0367821345d1a26ff0516fe27c407d16e97eaecfaf2b0c8"
     },

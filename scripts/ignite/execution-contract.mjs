@@ -101,12 +101,86 @@ export function validateTaskOrder(value) {
   return errors
 }
 
+export function validatePlanningContract(value) {
+  if (value.planning_contract === undefined) return []
+  if (value.planning_contract !== 1) return ['planning_contract must be 1']
+  if (value.execution_contract !== 1) return ['planning_contract requires execution_contract 1']
+
+  const errors = []
+  const tasks = Array.isArray(value.tasks) ? value.tasks : []
+  const ids = new Map(tasks.map((task) => [task.id, task]))
+  const writeScope = Array.isArray(value.write_scope) ? value.write_scope : []
+  const strict = !['draft', 'cancelled', 'superseded'].includes(value.status)
+  const ownerPlaceholder = /^(?:assigned-worker|unassigned|todo|tbd|待填写|待确认)$/i
+  const contains = (scope, path) =>
+    scope.endsWith('/') ? path === scope || path.startsWith(scope) : path === scope
+  const dependencyGraph = new Map()
+
+  for (const task of tasks) {
+    const label = nonempty(task.id) ? task.id : '<unknown task>'
+    if (!nonempty(task.result) || PLACEHOLDER.test(task.result || ''))
+      errors.push(`${label}: result must describe an observable task outcome`)
+    if (!Array.isArray(task.scope) || task.scope.length === 0) {
+      errors.push(`${label}: scope must list at least one write_scope path`)
+    } else {
+      if (new Set(task.scope).size !== task.scope.length)
+        errors.push(`${label}: scope paths must be unique`)
+      for (const path of task.scope) {
+        if (!safePath(path)) {
+          errors.push(`${label}: invalid scope path ${path}`)
+          continue
+        }
+        if (strict && PLACEHOLDER.test(path))
+          errors.push(`${label}: scope path ${path} must be replaced with a real path before ready`)
+        if (!writeScope.some((root) => typeof root === 'string' && contains(root, path)))
+          errors.push(`${label}: scope path ${path} is outside write_scope`)
+      }
+    }
+    if (!Array.isArray(task.depends_on)) {
+      errors.push(`${label}: depends_on must be an array`)
+      dependencyGraph.set(task.id, [])
+    } else {
+      if (new Set(task.depends_on).size !== task.depends_on.length)
+        errors.push(`${label}: depends_on must contain unique task IDs`)
+      dependencyGraph.set(task.id, task.depends_on)
+      for (const dependency of task.depends_on) {
+        if (dependency === task.id) errors.push(`${label}: a task cannot depend on itself`)
+        else if (!ids.has(dependency)) errors.push(`${label}: unknown dependency ${dependency}`)
+        else if (task.status !== 'todo' && ids.get(dependency).status !== 'done')
+          errors.push(`${label}: dependency ${dependency} must be done before this task starts`)
+      }
+    }
+    if (!nonempty(task.owner) || (strict && ownerPlaceholder.test(task.owner.trim())))
+      errors.push(`${label}: owner must name the responsible person or agent before ready`)
+  }
+
+  const visiting = new Set()
+  const visited = new Set()
+  function visit(id) {
+    if (visiting.has(id)) {
+      errors.push(`task dependency cycle includes ${id}`)
+      return
+    }
+    if (visited.has(id)) return
+    visiting.add(id)
+    for (const dependency of dependencyGraph.get(id) || [])
+      if (ids.has(dependency)) visit(dependency)
+    visiting.delete(id)
+    visited.add(id)
+  }
+  for (const id of ids.keys()) visit(id)
+  return [...new Set(errors)]
+}
+
 export function validateExecutionContract(plan, readText) {
   const value = plan.metadata
   if (value.execution_contract === undefined)
-    return value.task_contract === undefined ? [] : ['task_contract requires execution_contract 1']
+    return value.task_contract === undefined && value.planning_contract === undefined
+      ? []
+      : ['task_contract and planning_contract require execution_contract 1']
   const errors = []
   errors.push(...validateTaskOrder(value))
+  errors.push(...validatePlanningContract(value))
   if (value.execution_contract !== 1) errors.push('execution_contract must be 1')
   const strict = !['draft', 'cancelled', 'superseded'].includes(value.status)
   for (const key of [

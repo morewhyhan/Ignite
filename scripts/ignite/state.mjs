@@ -1,4 +1,5 @@
 import { validatePlanDocument } from './document-contract.mjs'
+import { buildReviewContext, validateReviewGate, validateReviewRecord } from './review-contract.mjs'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { extname, join, resolve } from 'node:path'
 import {
@@ -47,6 +48,7 @@ import {
   renderPlanProgressContent,
   validateDataContract,
   validateExecutionContract,
+  validatePlanningContract,
   validateTaskOrder,
   validateReleaseScope,
 } from './execution-contract.mjs'
@@ -303,6 +305,17 @@ export function validatePlan(
     ),
   )
   const registry = specificationRegistry(historicalCommit)
+  if (value.review_contract !== undefined) {
+    if (value.review_contract !== 1) failures.push('review_contract must be 1')
+    else if (!Array.isArray(value.reviews)) failures.push('reviews must be an array')
+    else if (!draft && !retired) {
+      failures.push(...validateReviewGate(plan, planReviewContext(plan, 'draft', historicalCommit)))
+      if (value.status === 'done')
+        failures.push(
+          ...validateReviewGate(plan, planReviewContext(plan, 'delivery', historicalCommit)),
+        )
+    }
+  }
   const manifests = new Map(
     listDurableRuns(evidenceCommit).map((item) => [item.value.run_id, item.value]),
   )
@@ -1682,6 +1695,30 @@ export function writeGeneratedStatus() {
   return writeTextIfChanged(generatedStatusPath, renderStatus())
 }
 
+export function planReviewContext(plan, stage, commit = null) {
+  const registry = specificationRegistry(commit)
+  const featurePaths = [
+    ...new Set(
+      (plan.metadata.requirements || []).map((id) => registry.requirements.get(id)).filter(Boolean),
+    ),
+  ]
+  return buildReviewContext(plan, stage, { featurePaths, readText: readRepositoryText, commit })
+}
+
+export function recordPlanReview(id, stage, record) {
+  const plan = findPlan(id)
+  if (plan.metadata.review_contract !== 1) throw new Error('Plan must declare review_contract 1')
+  const errors = validateReviewRecord(record, planReviewContext(plan, stage))
+  if (errors.length) throw new Error(errors.join('\n'))
+  const saved = { ...record, identity_assurance: 'declared', recorded_at: new Date().toISOString() }
+  updatePlanMetadata(plan, (metadata) => ({
+    ...metadata,
+    reviews: [...(metadata.reviews || []), saved],
+  }))
+  writeGeneratedStatus()
+  return saved
+}
+
 export function updatePlanMetadata(plan, updater) {
   if (!plan.metadataRange) throw new Error(`${plan.relativePath} has no structured metadata`)
   const next = updater(structuredClone(plan.metadata))
@@ -1733,11 +1770,32 @@ export function restartPlanTdd(planId, acceptanceId, reason) {
   next.integrated_commit = null
   next.evidence = []
   next.tdd_evidence = next.tdd_evidence.filter((item) => item.acceptance_id !== acceptanceId)
+  const resetTaskIds = new Set()
   for (const task of next.tasks) {
     if (task.phase === 'verify') task.status = 'todo'
     else if (task.acceptance?.includes(acceptanceId)) {
-      if (task.phase === 'red') task.status = 'doing'
-      if (task.phase === 'implement') task.status = 'todo'
+      if (task.phase === 'red') {
+        task.status = 'doing'
+        resetTaskIds.add(task.id)
+      }
+      if (task.phase === 'implement') {
+        task.status = 'todo'
+        resetTaskIds.add(task.id)
+      }
+    }
+  }
+  let changed = true
+  while (changed) {
+    changed = false
+    for (const task of next.tasks) {
+      if (
+        task.status !== 'todo' &&
+        (task.depends_on || []).some((dependency) => resetTaskIds.has(dependency))
+      ) {
+        task.status = 'todo'
+        resetTaskIds.add(task.id)
+        changed = true
+      }
     }
   }
   next.updated_at = new Date().toISOString().slice(0, 10)
@@ -1772,11 +1830,13 @@ export function updatePlanTask(planId, taskId, status) {
     throw new Error('tasks can only be changed on an unfinished execution_contract 1 Plan')
   if (!plan.metadata.tasks.some((task) => task.id === taskId))
     throw new Error(`unknown task ${taskId}`)
-  if ([1, 2].includes(plan.metadata.task_contract)) {
+  if ([1, 2].includes(plan.metadata.task_contract) || plan.metadata.planning_contract === 1) {
     const candidate = structuredClone(plan)
     const task = candidate.metadata.tasks.find((item) => item.id === taskId)
     task.status = status
     const errors = validateTaskOrder(candidate.metadata)
+    if (candidate.metadata.planning_contract === 1)
+      errors.push(...validatePlanningContract(candidate.metadata))
     if (candidate.metadata.task_contract === 2 && status !== 'todo')
       errors.push(
         ...validatePlan(candidate).filter((error) => /before the first valid red/.test(error)),

@@ -8,6 +8,9 @@
   "contract_version": 2,
   "execution_contract": 1,
   "task_contract": 2,
+  "planning_contract": 1,
+  "review_contract": 1,
+  "reviews": [],
   "verification_contract": 2,
   "goals": [{ "text": "用户可验证的目标", "requirements": ["REQ-FEATURE-001"] }],
   "constraints": ["必须保留的能力或数据"],
@@ -28,10 +31,10 @@
   ],
   "verification_requirements": ["unit"],
   "tasks": [
-    { "id": "T1", "title": "确认规格与验收", "phase": "prepare", "status": "todo" },
-    { "id": "T2", "title": "提交行为断言并记录真实红灯", "phase": "red", "acceptance": ["AC-FEATURE-001"], "status": "todo" },
-    { "id": "T3", "title": "根据已有红灯实施", "phase": "implement", "acceptance": ["AC-FEATURE-001"], "status": "todo" },
-    { "id": "T4", "title": "验证同一行为并回写设计", "phase": "verify", "status": "todo" }
+    { "id": "T1", "title": "确认目标、范围和真实验收路径", "phase": "prepare", "status": "todo", "result": "原始目标、Feature、Release、验收场景和写入边界均已对应，独立审查者已核对 draft。", "scope": ["docs/features/<feature-name>.md", "docs/plans/YYYYMMDD-<change-name>.md", "docs/plans/releases/<release-id>.json"], "depends_on": [], "owner": "assigned-worker" },
+    { "id": "T2", "title": "编写行为断言并记录真实红灯", "phase": "red", "acceptance": ["AC-FEATURE-001"], "status": "todo", "result": "每个纳入的 AC 有真实行为断言，原生红灯已记录。", "scope": ["tests/", "docs/others/evidence/tdd/"], "depends_on": ["T1"], "owner": "assigned-worker" },
+    { "id": "T3", "title": "实现红灯所指向的最小行为切片", "phase": "implement", "acceptance": ["AC-FEATURE-001"], "status": "todo", "result": "同一 AC 断言通过，实现保持在已声明的局部范围内。", "scope": ["src/modules/<feature-name>/", "src/server/api/routes/<feature-name>/", "src/app/"], "depends_on": ["T2"], "owner": "assigned-worker" },
+    { "id": "T4", "title": "完成 Plan 验收并回写当前事实", "phase": "verify", "status": "todo", "result": "Plan integration 和独立 delivery 审查均通过，Design 与真实实现一致，剩余缺口有记录。", "scope": ["docs/designs/", "docs/others/evidence/"], "depends_on": ["T3"], "owner": "assigned-worker" }
   ],
   "depends_on": [],
   "dependency_contracts": [],
@@ -59,6 +62,7 @@
     "docs/plans/releases/<release-id>.json",
     "docs/designs/",
     "docs/others/test-cases/",
+    "docs/others/evidence/",
     "docs/others/evidence/tdd/"
   ],
   "tdd_evidence": [],

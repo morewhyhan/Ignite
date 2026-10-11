@@ -145,7 +145,7 @@
       "title": "生成精细任务脚手架",
       "phase": "implement",
       "acceptance": ["AC-DOCFLOW-001"],
-      "status": "todo",
+      "status": "done",
       "result": "模块和存量脚手架一致生成result、scope、depends_on、owner与新契约，保持唯一状态",
       "scope": [
         "scripts/create-change.mjs",
@@ -160,7 +160,7 @@
       "title": "约束任务完整性与依赖推进",
       "phase": "implement",
       "acceptance": ["AC-DOCFLOW-002"],
-      "status": "todo",
+      "status": "done",
       "result": "prepare、task与next拒绝缺结果、越界、未知或循环依赖；依赖未完成不能启动；旧格式保持旧语义",
       "scope": ["scripts/ignite/"],
       "depends_on": ["T2"],
@@ -171,18 +171,18 @@
       "title": "实现两个审查对象与正式准入",
       "phase": "implement",
       "acceptance": ["AC-DOCFLOW-003"],
-      "status": "todo",
+      "status": "done",
       "result": "context/record保存真实来源及对象；draft准入与delivery准出拒绝自查、过期和未解决阻断；状态回填不误失效",
       "scope": ["scripts/ignite/"],
       "depends_on": ["T3A", "T3B"],
-      "owner": "/root/workflow_tooling"
+      "owner": "/root"
     },
     {
       "id": "T4",
       "title": "重构稳定业务入口、需求来源和事实冲突处理",
       "phase": "implement",
       "acceptance": ["AC-DOCFLOW-004"],
-      "status": "todo",
+      "status": "done",
       "result": "新会话可从现有入口找到真实业务与代码；原始材料有唯一职责；冲突分类和技能步骤无平行真源",
       "scope": [
         "docs/README.md",
@@ -201,7 +201,7 @@
       "title": "迁入两份审查方法并统一 Plan 规则与生成入口",
       "phase": "implement",
       "acceptance": ["AC-DOCFLOW-004"],
-      "status": "todo",
+      "status": "done",
       "result": "计划和交付审查可在克隆内按名读取，正文只有一份且附来源许可",
       "scope": [
         ".ai/skills/",
@@ -221,24 +221,25 @@
       "id": "T6",
       "title": "集成并独立审查真实结果与文档一致性",
       "phase": "verify",
-      "status": "todo",
+      "status": "doing",
       "result": "四项AC与兼容回归通过；另行派发独立角色读取真实diff、方法与证据，发现回到原Plan修复；Design已回写",
       "scope": [
         "docs/designs/execution.md",
         "docs/features/document-workflow.md",
         "docs/plans/",
         "docs/others/evidence/",
-        "docs/others/test-cases/"
+        "docs/others/test-cases/",
+        "docs/standards/adoption.md"
       ],
       "depends_on": ["T3A", "T3B", "T3C", "T4", "T5"],
       "owner": "/root"
     },
     {
       "id": "T7",
-      "title": "完成 Plan 与最终 Release 验收",
+      "title": "核对 Plan 准出与 Release 最终验收交接",
       "phase": "verify",
       "status": "todo",
-      "result": "原生 Plan 和同版本 Release 验收通过，报告只引用实际证据",
+      "result": "Plan 目标、当前证据和独立交付审查完整，Release scope 与被测版本一致；最终构建和生产 E2E 由 Release 自身验收，不提前填写通过。",
       "scope": ["docs/plans/", "docs/others/evidence/"],
       "depends_on": ["T6"],
       "owner": "/root"
@@ -310,7 +311,40 @@
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
-  "updated_at": "2026-10-11"
+  "updated_at": "2026-10-11",
+  "planning_contract": 1,
+  "review_contract": 1,
+  "reviews": [
+    {
+      "stage": "draft",
+      "reviewer": "/root/workflow_independent_audit",
+      "executor": "/root",
+      "source": "本会话独立子智能体 /root/workflow_independent_audit 对当前 .ignite/draft-context.json、原目标、Plan、Feature、Release、AGE 对标和方法文档的真实审查回报",
+      "subject_fingerprint": "dd62cc2df94c39ef69841971b502e674551cd748721069465fed78ada72f6ba8",
+      "verdict": "approved",
+      "findings": [],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-10-11T15:15:21.161Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "/root/workflow_independent_audit",
+      "executor": "/root",
+      "source": "本会话独立子智能体 /root/workflow_independent_audit 对当前 .ignite/draft-context.json、原目标、Plan、Feature、Release、AGE 对标和方法文档的真实审查回报",
+      "subject_fingerprint": "11207d807c8d55911bc12af5ab8c2047b0ced3ec9bef7fe7175ba061c1177243",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "NB-T7-001",
+          "severity": "nonblocking",
+          "summary": "准出正文的最终组合验收可追溯措辞较宽；T7已明确为Release scope和版本交接，真实最终验收由Release完成。",
+          "resolved": false
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-10-11T15:39:31.574Z"
+    }
+  ]
 }
 -->
 
@@ -416,13 +450,13 @@ docs/designs/execution.md 记录已实现新契约和限制；domain.md 只写�
 
 - [x] T1 · 独立审查原目标、任务和真实断言 · done
 - [x] T2 · 提交规格和断言并取得真实红灯 · done
-- [ ] T3A · 生成精细任务脚手架 · todo
-- [ ] T3B · 约束任务完整性与依赖推进 · todo
-- [ ] T3C · 实现两个审查对象与正式准入 · todo
-- [ ] T4 · 重构稳定业务入口、需求来源和事实冲突处理 · todo
-- [ ] T5 · 迁入两份审查方法并统一 Plan 规则与生成入口 · todo
-- [ ] T6 · 集成并独立审查真实结果与文档一致性 · todo
-- [ ] T7 · 完成 Plan 与最终 Release 验收 · todo
+- [x] T3A · 生成精细任务脚手架 · done
+- [x] T3B · 约束任务完整性与依赖推进 · done
+- [x] T3C · 实现两个审查对象与正式准入 · done
+- [x] T4 · 重构稳定业务入口、需求来源和事实冲突处理 · done
+- [x] T5 · 迁入两份审查方法并统一 Plan 规则与生成入口 · done
+- [ ] T6 · 集成并独立审查真实结果与文档一致性 · doing
+- [ ] T7 · 核对 Plan 准出与 Release 最终验收交接 · todo
 
 验收缺口：未记录；完成仍须实际证据
 证据：尚无

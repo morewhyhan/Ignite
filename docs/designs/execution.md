@@ -4,15 +4,16 @@
 
 ## 实现分工
 
-| 实现入口                              | 职责                                  |
-| ------------------------------------- | ------------------------------------- |
-| `scripts/ignite/cli.mjs`              | 命令入口、帮助与下一步摘要            |
-| `state.mjs`、`execution-contract.mjs` | Plan/Release 契约、状态迁移与覆盖校验 |
-| `checks.mjs`                          | 根据真实差异和风险选择检查范围        |
-| `runs.mjs`、`check-worker.mjs`        | 运行锁、心跳、恢复、取消与证据写入    |
-| `tdd.mjs`、`source-analysis.mjs`      | 真实红灯、活动测试识别与 AC 对应      |
-| `governance.mjs`                      | 规格追踪、设计快照、AI 入口和 CI 覆盖 |
-| `adoption.mjs`、`scaffold-writer.mjs` | 旧副本历史归档与脚手架原子写入        |
+| 实现入口                              | 职责                                   |
+| ------------------------------------- | -------------------------------------- |
+| `scripts/ignite/cli.mjs`              | 命令入口、帮助与下一步摘要             |
+| `state.mjs`、`execution-contract.mjs` | Plan/Release 契约、状态迁移与覆盖校验  |
+| `review-contract.mjs`                 | 两次独立审查的对象、身份声明与过期校验 |
+| `checks.mjs`                          | 根据真实差异和风险选择检查范围         |
+| `runs.mjs`、`check-worker.mjs`        | 运行锁、心跳、恢复、取消与证据写入     |
+| `tdd.mjs`、`source-analysis.mjs`      | 真实红灯、活动测试识别与 AC 对应       |
+| `governance.mjs`                      | 规格追踪、设计快照、AI 入口和 CI 覆盖  |
+| `adoption.mjs`、`scaffold-writer.mjs` | 旧副本历史归档与脚手架原子写入         |
 
 表中简称均位于 `scripts/ignite/`；测试结果采集器位于 `scripts/testing/`。
 
@@ -64,7 +65,11 @@ Release 证据还记录 package version 与当时指向受测提交的 tag；这
 
 `tasks` 是唯一任务状态；正文进度和总览由 CLI 派生。`next` 先核对 Plan 与 Release，再给允许的下一步；`remaining_work` 非空时不能完成。默认输出精简摘要，完整上下文通过 `--verbose` 或 `status --json` 请求。
 
-`next` 精简摘要包含全部 goals、constraints、non_goals、tasks。execution_contract 1 的 active Plan 存在未完成任务时返回 `continue-task`，优先提供所有进行中任务；没有进行中任务时提供全部待办，不自动按首项判断重要性。输入错误、阻塞、活动运行、当前失败和验收缺口优先级保持；快速检查仍可主动调用，任务完成后仍提供正式验收入口。旧 Plan 的无任务接续保持原行为。
+`next` 精简摘要保留全部 goals、constraints、non_goals、tasks。启用 planning_contract 1 的 active Plan 只推荐前置任务已完成的任务，优先进行中任务；完整输出用 blocked_by 说明其余任务卡在哪里。没有可启动任务时明确报告依赖阻塞。没有新契约的历史 Plan 保持原接续规则。
+
+新模板和脚手架同时声明 planning_contract 1、review_contract 1。任务除阶段和 AC 外，还保存可观察成果 result、局部写入 scope、前置 depends_on 和负责 owner；任务范围须包含在 Plan 写入范围中，未知依赖、循环、占位负责人和提前启动被拒绝。TDD 重开同时复位依赖已失效的下游任务，保留旧回执而不借用它完成当前任务。
+
+AI 按 Plan 规则主动发起开工和交付的独立审查。`review context` 提供当前对象摘要，`review record` 把真实审查结果写回同一个 Plan 的 reviews。开工对象包含规格、任务契约及计划正文；交付额外包含 Plan 范围内实际差异的文件内容身份。任务进度、审查记录和状态日志不改变对象；目标、规格或交付内容变化使相应审查过期。ready 要求当前开工审查通过，done 另要求当前交付审查通过；通过审查不替代测试。身份可信度是 declared：工具检查所声明的审查者不同于负责人及实施者，不能认证宿主身份或替 AI 真实发起角色。宿主无法提供独立角色时保留缺口，不伪造通过。历史 Plan 不自动迁移或倒填审查。
 
 精简与详细 next 直接给出同一 `next_action`；接续先回看 Plan 原始目标映射及当前判断，再按实际缺口行动。工具不评价模型是否理解正确，不授予产品决定或操作权限。
 

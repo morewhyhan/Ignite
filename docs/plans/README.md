@@ -18,12 +18,12 @@
 
 草稿回查时，每条 `required_layers` 都须在该 AC 的 `checks` 中有对应层级；真实数据库和浏览器检查分开映射。尚未编写的测试路径是后续设计，不是已通过证据。缺少对应检查时保留缺口，不能因为任务顺序正确就进入 ready。
 
-涉及本类文档时，先读取以下必需方法：[figure-it-out](../../.ai/pstack/skills/figure-it-out/SKILL.md)、[show-me-your-work](../../.ai/pstack/skills/show-me-your-work/SKILL.md)、[principle-sequence-verifiable-units](../../.ai/pstack/skills/principle-sequence-verifiable-units/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
+涉及本类文档时，先读取以下必需方法：[figure-it-out](../../.ai/pstack/skills/figure-it-out/SKILL.md)、[show-me-your-work](../../.ai/pstack/skills/show-me-your-work/SKILL.md)、[principle-sequence-verifiable-units](../../.ai/pstack/skills/principle-sequence-verifiable-units/SKILL.md)、[review-plan](../../.ai/skills/review-plan/SKILL.md)、[review-delivery](../../.ai/skills/review-delivery/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
 
 1. 接续覆盖本轮结果的未完成 Plan。需要新交付时，新增模块用 `pnpm create:module <name>`，存量改动用 `pnpm create:change <name>`。仅准备文档的新模块使用 `pnpm create:module <name> --docs-only`，只生成 Feature、Plan 和 Release。无法运行脚手架时复制原模板并保留全部栏目，Plan ID 只使用 `IGT-数字`，不要凭印象另写格式。
 2. 确定原始目标、基线、写入范围、验收和回退，逐项映射 Feature REQ/AC。Plan 必须同时有其 release 引用的 Release 草稿，scope 写清原始目标、REQ/AC、负责 Plan 和处理方式，未运行的证据留空。本轮暂不实现写入执行约束，后续仍要交付的功能不能同时被写成永久 non_goals。明确任务不重复塞入 remaining_work。
-3. 准备结束前运行 `node scripts/ignite.mjs plan validate <ID> --prepare`。按 failures 修正原文件，再运行同一检查，不能以 JSON 可解析、空白检查或自评代替。prepared 只表示文档准备结构有效；pending_tests 表示尚未写完的真实断言。用户仅让准备或暂不测试时保留 draft 和待办，不能把准备结果当作 ready、功能通过或完成。报告开工条件以 ready 字段为准，ready=false 时明确写“尚不具备正式开工条件”。已经完成的 prepare 任务用 `pnpm ignite task set-status <ID> <task> done` 回写，不把对应未来任务再抄进 remaining_work。另逐条回查用户原始要求，机器结构检查不能证明语义无遗漏。
-4. 开工后按原生契约记录真实红灯、实现与验收，依据实际证据更新任务、状态与 Design；检查失败和完善仍留在同一 Plan。
+3. 准备结束前，按下文的独立审查约定完成 draft 审查，再运行 `node scripts/ignite.mjs plan validate <ID> --prepare`。按 failures 修正原文件，再运行同一检查，不能以 JSON 可解析、空白检查或自评代替。prepared 只表示文档准备结构有效；pending_tests 表示尚未写完的真实断言。用户仅让准备或暂不测试时保留 draft 和待办，不能把准备结果当作 ready、功能通过或完成。报告开工条件以 ready 字段为准，ready=false 时明确写“尚不具备正式开工条件”。已经完成的 prepare 任务用 `pnpm ignite task set-status <ID> <task> done` 回写，不把对应未来任务再抄进 remaining_work。另逐条回查用户原始要求，机器结构检查不能证明语义无遗漏。
+4. 开工后按原生契约记录真实红灯、实现与验收，依据实际证据更新任务、状态与 Design；交付前按 review-delivery 独立审查实际产物和证据。检查失败、审查发现和完善仍留在同一 Plan。
 
 ### 条件方法
 
@@ -67,6 +67,37 @@ draft → ready → active → verifying → done
 例如可靠保存与按钮间距同时有问题，先沿写入、读取、刷新呈现取证。POST 成功不能证明存储；若真实存储和读取正确，再定位界面如何使用结果，未写入则定位写入路径。没有证据时不先认定数据库出错，也不据此更换数据库。
 
 tasks 按可判断产出拆分，不同责任、依赖、风险或验收需要分开时再细分。不把所有工作塞进“优化系统”，也不按读文件或每次命令拆任务。简单修改几句话即可，跨环节问题才展开；各专业的实现、测试和完成标准仍由原规则负责。
+
+### 精细任务契约
+
+新脚手架显式使用 `planning_contract: 1`。每项任务填写以下字段，状态仍只在 `tasks` 中维护：
+
+| 字段                  | 要回答的问题                                                            |
+| --------------------- | ----------------------------------------------------------------------- |
+| `result`              | 做完后能观察什么结果，怎样判定失败？                                    |
+| `scope`               | 此任务实际允许写哪些仓库相对路径？必须包含在 Plan 的 `write_scope` 内。 |
+| `depends_on`          | 哪些任务完成后才允许启动？没有前置时填空数组。                          |
+| `owner`               | 谁实际负责？角色需求不是已经派发的身份。                                |
+| `phase`、`acceptance` | 属于准备、红灯、实现还是验证？red/implement 对应哪些 AC？               |
+
+例如“完善学生管理”无法验收；“当前用户新增学生后刷新仍能读取，未登录写入被拒绝”给出了结果，API、页面和持久化测试可在同一交付内按依赖分工。只有标题写得长、字段非空或任务数多，仍不能证明颗粒度合适。
+
+官方入口拒绝缺字段、范围越界、未知或循环依赖；依赖任务未完成不能启动下游。接续先看允许启动的任务，再依据本轮重点选择。实际委派后回写真实负责人，共享文件明确单一写入者，未派发不能声称已并行。准备审查、交付审查和 Design 回写也要有具体任务产出。
+
+### 独立审查约定
+
+新脚手架显式使用 `review_contract: 1`。AI 负责发起两次审查，用户无需额外提醒或手动调用技能。准备审查核对原始目标和执行合同；交付审查读取实际改动、运行证据及当前事实，不能只看实施者摘要。审查方法正文分别在 review-plan、review-delivery，触发及准入规则只在本页维护。
+
+1. 使用 `pnpm ignite review context <ID> draft` 或 `delivery` 取得当前对象和范围。没有批准记录时 context 仍可读取，避免审查自身无法启动。
+2. 用当前宿主的实际委派能力安排未参与实施的独立角色，给它原请求、完整对象、相关规格/事实与证据。没有独立角色时保留缺口，不把作者重读、角色文件或虚构名字当成派发。
+3. 审查者给出具体发现与结论，协调者以 `pnpm ignite review record <ID> <draft|delivery> --file <review.json>` 写入原 Plan 的 `reviews`。JSON 只是本次输入，长期记录只存原 Plan，不能另建状态账本。
+4. 未解决阻断不能批准；修正回原 Plan，并重新审查当前对象。准备和正式开工需要有效 draft；Plan 准出需要有效 delivery，不能以交付审查替代真实验收。
+
+记录包含 `stage`、`reviewer`、`executor`、`source`、`subject_fingerprint`、`verdict` 和 `findings`。阶段只有 draft/delivery；verdict 为 approved/needs-revision。发现保存 id、severity、summary、resolved，阻断为 blocking。executor 是 Plan owner；reviewer 不得是执行者或任一实施任务负责人。source 指向实际宿主委派或独立读者来源。CLI 检查这些声明，不认证任意宿主身份，协调者仍须核对真实来源。
+
+draft 绑定原目标、Plan 语义及关联 Feature；delivery 还绑定真实实现和测试输入。语义或受审实现变化使对应记录失效，任务状态、运行证据和审查回填不因自身写入而失效。历史已完成记录按受测版本追溯，不能要求它批准后来不同的系统。
+
+缺少 planning_contract/review_contract 的历史 Plan 按原契约解释，包括 task_contract 1/2；不会自动升级，也不能据此声称经过新审查。新 Plan 的草稿可以不完整，但不能越过新契约的正式准入。工具不能阻止宿主任意改文件或伪造身份声明，这些边界如实保留。
 
 ## 接续与纠偏
 

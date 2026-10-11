@@ -1,6 +1,8 @@
 import { parseArgs } from './arguments.mjs'
 import { preparationReport } from './preparation.mjs'
 import { spawnSync } from 'node:child_process'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { adoptHistory } from './adoption.mjs'
 import { planCheck } from './checks.mjs'
 import { createInputFingerprintContext, currentCommit, repositoryRoot } from './core.mjs'
@@ -9,6 +11,8 @@ import {
   deriveRelease,
   evidenceCoverage,
   findPlan,
+  planReviewContext,
+  recordPlanReview,
   listPlanFiles,
   listReleases,
   readPlan,
@@ -42,6 +46,7 @@ import {
 import { executeCheckPlan, requestRunCancellation, runStatus } from './runs.mjs'
 import { runTddRed } from './tdd.mjs'
 import { commandSkillRead } from './skill-reader.mjs'
+import { validateReviewGate } from './review-contract.mjs'
 import { summarizeVerification } from './verification-summary.mjs'
 
 function fail(message, code = 1) {
@@ -60,6 +65,8 @@ Commands:
   plan set-status <id> <status>
   plan reintegrate <id>
   plan refresh <id>
+  review context <plan-id> <draft|delivery>
+  review record <plan-id> <draft|delivery> --file <review.json>
   task set-status <plan-id> <task-id> <todo|doing|done>
   skill read <name> [--path <failed-discovery-path>]
   skill read --for <owning-document.md>
@@ -76,6 +83,10 @@ Use pnpm ignite <command> --help for command details.
 `
 
 const commandHelp = new Map([
+  [
+    'review',
+    'Usage: pnpm ignite review context <plan-id> <draft|delivery>\n       pnpm ignite review record <plan-id> <draft|delivery> --file <review.json>\nThe AI invokes an independent reviewer and records its declared identity and current object fingerprint.\n',
+  ],
   [
     'validate',
     'Usage: pnpm ignite validate [--ci]\n       pnpm ignite validate --delivery <--plan id|--base commit>\nValidate governance. Delivery also covers committed, staged, working and untracked changes from the declared baseline.\n',
@@ -538,6 +549,20 @@ function commandNext(options) {
     .filter((item) => item.status !== 'passed')
     .map((item) => item.evidence_id)
   const unfinishedTasks = (plan.metadata.tasks || []).filter((task) => task.status !== 'done')
+  const taskById = new Map((plan.metadata.tasks || []).map((task) => [task.id, task]))
+  const startableTasks = unfinishedTasks.filter(
+    (task) =>
+      plan.metadata.planning_contract !== 1 ||
+      (task.depends_on || []).every((dependency) => taskById.get(dependency)?.status === 'done'),
+  )
+  const blockedTasks = unfinishedTasks
+    .filter((task) => !startableTasks.includes(task))
+    .map((task) => ({
+      task_id: task.id,
+      depends_on: (task.depends_on || []).filter(
+        (dependency) => taskById.get(dependency)?.status !== 'done',
+      ),
+    }))
   let nextAction
   if (failures.length) {
     const integrationLost = failures.some(
@@ -545,18 +570,27 @@ function commandNext(options) {
         !item.startsWith('Release ') &&
         /integrated_commit (must be an ancestor|must be a real)/.test(item),
     )
-    nextAction = integrationLost
-      ? {
-          kind: 'reintegrate',
-          reason: failures,
-          command: `pnpm ignite plan reintegrate ${plan.metadata.id}`,
-        }
-      : {
-          kind: 'repair-input',
-          reason: failures,
-          files: [plan.relativePath, releasePath],
-          command: null,
-        }
+    const reviewFailure = failures.some((item) => /draft review|draft.*fingerprint/.test(item))
+    const otherFailures = failures.filter((item) => !/draft review|draft.*fingerprint/.test(item))
+    nextAction =
+      reviewFailure && !otherFailures.length
+        ? {
+            kind: 'review-draft',
+            reason: failures,
+            command: `pnpm ignite review context ${plan.metadata.id} draft`,
+          }
+        : integrationLost
+          ? {
+              kind: 'reintegrate',
+              reason: failures,
+              command: `pnpm ignite plan reintegrate ${plan.metadata.id}`,
+            }
+          : {
+              kind: 'repair-input',
+              reason: failures,
+              files: [plan.relativePath, releasePath],
+              command: null,
+            }
   } else if (['done', 'cancelled', 'superseded'].includes(plan.metadata.status)) {
     nextAction = { kind: 'report-result', reason: plan.metadata.status, command: null }
   } else if (plan.metadata.status === 'blocked') {
@@ -580,17 +614,25 @@ function commandNext(options) {
   } else if (plan.metadata.status === 'draft') {
     const preparation = preparationReport(plan)
     nextAction =
-      preparation.failures.length || !preparation.ready
+      plan.metadata.review_contract === 1 &&
+      preparation.failures.length &&
+      preparation.failures.every((item) => /draft review|draft.*fingerprint/.test(item))
         ? {
-            kind: 'prepare-documents',
-            reason: preparation,
-            command: `node scripts/ignite.mjs plan validate ${plan.metadata.id} --prepare`,
+            kind: 'review-draft',
+            reason: preparation.failures,
+            command: `pnpm ignite review context ${plan.metadata.id} draft`,
           }
-        : {
-            kind: 'complete-plan',
-            reason: 'close open questions and complete the execution contract',
-            command: `pnpm ignite plan set-status ${plan.metadata.id} ready`,
-          }
+        : preparation.failures.length || !preparation.ready
+          ? {
+              kind: 'prepare-documents',
+              reason: preparation,
+              command: `node scripts/ignite.mjs plan validate ${plan.metadata.id} --prepare`,
+            }
+          : {
+              kind: 'complete-plan',
+              reason: 'close open questions and complete the execution contract',
+              command: `pnpm ignite plan set-status ${plan.metadata.id} ready`,
+            }
   } else if (plan.metadata.status === 'ready') {
     nextAction = {
       kind: 'start-plan',
@@ -604,31 +646,38 @@ function commandNext(options) {
           reason: `${plan.metadata.remaining_work.length} acceptance gaps remain; first: ${plan.metadata.remaining_work[0]}`,
           command: null,
         }
-      : plan.metadata.execution_contract === 1 && unfinishedTasks.length
+      : plan.metadata.execution_contract === 1 && unfinishedTasks.length && !startableTasks.length
         ? {
-            kind: 'continue-task',
-            reason:
-              'Resume unfinished work using the Plan goals and whole-task judgment; choose the priority from that basis. Fast checks remain available as needed.',
-            task_ids: (unfinishedTasks.some((task) => task.status === 'doing')
-              ? unfinishedTasks.filter((task) => task.status === 'doing')
-              : unfinishedTasks
-            ).map((task) => task.id),
-            files: [plan.relativePath, ...featurePaths],
+            kind: 'wait-for-task-dependency',
+            reason: blockedTasks,
+            task_ids: [],
             command: null,
           }
-        : !missingEvidence.includes(
-              plan.metadata.risk === 'docs' ? 'check-dev' : 'check-integration',
-            )
+        : plan.metadata.execution_contract === 1 && unfinishedTasks.length
           ? {
-              kind: 'start-verification',
-              reason: 'the current development checks passed; continue to release verification',
-              command: `pnpm ignite plan set-status ${plan.metadata.id} verifying --commit HEAD`,
+              kind: 'continue-task',
+              reason:
+                'Resume unfinished work using the Plan goals and whole-task judgment; choose the priority from that basis. Fast checks remain available as needed.',
+              task_ids: (startableTasks.some((task) => task.status === 'doing')
+                ? startableTasks.filter((task) => task.status === 'doing')
+                : startableTasks
+              ).map((task) => task.id),
+              files: [plan.relativePath, ...featurePaths],
+              command: null,
             }
-          : {
-              kind: 'implement-and-check',
-              reason: 'implement the next task and validate its acceptance criteria',
-              command: `pnpm ignite check --plan ${plan.metadata.id} --level auto`,
-            }
+          : !missingEvidence.includes(
+                plan.metadata.risk === 'docs' ? 'check-dev' : 'check-integration',
+              )
+            ? {
+                kind: 'start-verification',
+                reason: 'the current development checks passed; continue to release verification',
+                command: `pnpm ignite plan set-status ${plan.metadata.id} verifying --commit HEAD`,
+              }
+            : {
+                kind: 'implement-and-check',
+                reason: 'implement the next task and validate its acceptance criteria',
+                command: `pnpm ignite check --plan ${plan.metadata.id} --level auto`,
+              }
   } else if (plan.metadata.status === 'verifying') {
     const missingIntegration = missingEvidence.includes('check-integration')
     const missingDev = missingEvidence.includes('check-dev')
@@ -645,17 +694,24 @@ function commandNext(options) {
             reason: `missing evidence: ${missingEvidence.join(', ')}`,
             command: `pnpm ignite check --plan ${plan.metadata.id} --level ${nextLevel}`,
           }
-        : unfinishedTasks.length
+        : plan.metadata.review_contract === 1 &&
+            validateReviewGate(plan, planReviewContext(plan, 'delivery')).length
           ? {
-              kind: 'complete-tasks',
-              reason: `finish and record the remaining tasks: ${unfinishedTasks.map((task) => task.id).join(', ')}`,
-              command: null,
+              kind: 'review-delivery',
+              reason: 'The current delivery needs independent review before completion.',
+              command: `pnpm ignite review context ${plan.metadata.id} delivery`,
             }
-          : {
-              kind: 'complete-plan',
-              reason: 'required evidence is bound; current inputs still need final validation',
-              command: `pnpm ignite plan set-status ${plan.metadata.id} done`,
-            }
+          : unfinishedTasks.length
+            ? {
+                kind: 'complete-tasks',
+                reason: `finish and record the remaining tasks: ${unfinishedTasks.map((task) => task.id).join(', ')}`,
+                command: null,
+              }
+            : {
+                kind: 'complete-plan',
+                reason: 'required evidence is bound; current inputs still need final validation',
+                command: `pnpm ignite plan set-status ${plan.metadata.id} done`,
+              }
   } else {
     nextAction = { kind: 'report-result', reason: plan.metadata.status, command: null }
   }
@@ -669,7 +725,12 @@ function commandNext(options) {
     authorization: plan.metadata.authorization || null,
     open_questions: plan.metadata.open_questions || [],
     remaining_work: plan.metadata.remaining_work || [],
-    tasks: plan.metadata.tasks || [],
+    tasks: (plan.metadata.tasks || []).map((task) => ({
+      ...task,
+      ...(blockedTasks.find((item) => item.task_id === task.id)
+        ? { blocked_by: blockedTasks.find((item) => item.task_id === task.id).depends_on }
+        : {}),
+    })),
     evidence_coverage: evidenceStatus,
     shared_files: plan.metadata.shared_files || [],
     dependency_contracts: plan.metadata.dependency_contracts || [],
@@ -736,13 +797,36 @@ export async function main(argv = process.argv.slice(2)) {
     return
   }
   const command = argv[0]
-  const hasSubcommand = ['plan', 'run', 'release', 'task', 'example', 'tdd', 'skill'].includes(
-    command,
-  )
+  const hasSubcommand = [
+    'plan',
+    'run',
+    'release',
+    'task',
+    'example',
+    'tdd',
+    'skill',
+    'review',
+  ].includes(command)
   const subcommand = hasSubcommand ? argv[1] : null
   const { options, positionals } = parseArgs(argv.slice(hasSubcommand ? 2 : 1))
 
   if (command === 'validate') return commandValidate(options)
+  if (command === 'review') {
+    if (positionals.length !== 2)
+      throw new Error('review <context|record> <plan-id> <draft|delivery>')
+    const [id, stage] = positionals
+    if (subcommand === 'context') {
+      console.log(JSON.stringify(planReviewContext(findPlan(id), stage), null, 2))
+      return
+    }
+    if (subcommand === 'record') {
+      if (typeof options.file !== 'string') throw new Error('review record requires --file')
+      const record = JSON.parse(readFileSync(resolve(repositoryRoot, options.file), 'utf8'))
+      console.log(JSON.stringify(recordPlanReview(id, stage, record), null, 2))
+      return
+    }
+    throw new Error('review requires context or record')
+  }
   if (command === 'skill' && subcommand === 'read')
     return commandSkillRead(repositoryRoot, options, positionals)
   if (command === 'task' && subcommand === 'set-status') {

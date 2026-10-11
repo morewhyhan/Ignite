@@ -298,18 +298,27 @@ export function stablePlanContract(metadata) {
     ...(metadata.execution_contract === 1
       ? {
           execution_contract: 1,
+          ...(metadata.planning_contract !== undefined
+            ? { planning_contract: metadata.planning_contract }
+            : {}),
+          ...(metadata.review_contract !== undefined
+            ? { review_contract: metadata.review_contract }
+            : {}),
           owner: metadata.owner,
           verification_requirements: metadata.verification_requirements || [],
           ...(metadata.task_contract !== undefined
             ? { task_contract: metadata.task_contract }
             : {}),
-          tasks: (metadata.tasks || []).map(({ id, title, phase, acceptance }) => ({
-            id,
-            title,
-            ...([1, 2].includes(metadata.task_contract)
-              ? { phase, acceptance: acceptance || [] }
-              : {}),
-          })),
+          tasks: (metadata.tasks || []).map(
+            ({ id, title, phase, acceptance, result, scope, depends_on, owner }) => ({
+              id,
+              title,
+              ...([1, 2].includes(metadata.task_contract)
+                ? { phase, acceptance: acceptance || [] }
+                : {}),
+              ...(metadata.planning_contract === 1 ? { result, scope, depends_on, owner } : {}),
+            }),
+          ),
           dependency_contracts: metadata.dependency_contracts || [],
           shared_files: metadata.shared_files || [],
         }

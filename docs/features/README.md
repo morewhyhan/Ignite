@@ -51,6 +51,8 @@
 
 需求保存产品意图，Design 保存当前事实。两者出现差异时在本轮修正，或由 Plan 明确记录尚未解决的影响。原规则仍适用时复用；已交付结果的下一次改动建立存量 Plan，保留历史证据。
 
+短原话可直接保存在 Plan 的原始目标核对表。较长或多份来源可将原文放入[输入资料目录](../others/inputs/README.md)，再从 Feature 或 Plan 引用具体文件和版本。输入资料保留来源上下文，不代替 Feature 中已确认的行为与验收。
+
 需求尺度参考 [NASA 需求编写指南](https://www.nasa.gov/reference/appendix-c-how-to-write-a-good-requirement/)。这是本项目采用的工程方法，不能据此证明任何模型已准确理解需求。
 
 ## 入口

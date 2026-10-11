@@ -186,11 +186,71 @@ The current review must be approved.
   )
   fixture.baseCommit = commitAll(fixture.root, 'valid review fixture')
   const current = read(fixture.root, 'docs/plans/fixture.md')
-  const currentMetadata = JSON.parse(current.match(/<!-- ignite-plan\s*([\s\S]*?)\s*-->/)?.[1] || '{}')
+  const currentMetadata = JSON.parse(
+    current.match(/<!-- ignite-plan\s*([\s\S]*?)\s*-->/)?.[1] || '{}',
+  )
   currentMetadata.base_commit = fixture.baseCommit
-  write(fixture.root, 'docs/plans/fixture.md', `<!-- ignite-plan\n${JSON.stringify(currentMetadata, null, 2)}\n-->${current.split('-->')[1]}`)
+  write(
+    fixture.root,
+    'docs/plans/fixture.md',
+    `<!-- ignite-plan\n${JSON.stringify(currentMetadata, null, 2)}\n-->${current.split('-->')[1]}`,
+  )
   return fixture
 }
+
+it('invalidates a review when its mapped Feature changes', () => {
+  const fixture = validReviewPlanFixture()
+  try {
+    const initial = runCli(fixture.root, 'review', 'context', 'IGT-900', 'draft')
+    expect(initial.status, initial.stderr).toBe(0)
+    const subject = JSON.parse(initial.stdout)
+    expect(subject.features).toEqual(['docs/features/product.md'])
+    const record = {
+      stage: 'draft',
+      reviewer: 'independent-reviewer',
+      executor: subject.executor,
+      source: 'Codex task /root/feature-review',
+      subject_fingerprint: subject.subject_fingerprint,
+      verdict: 'approved',
+      findings: [],
+    }
+    write(fixture.root, '.ignite/review.json', JSON.stringify(record))
+    const saved = runCli(
+      fixture.root,
+      'review',
+      'record',
+      'IGT-900',
+      'draft',
+      '--file',
+      '.ignite/review.json',
+    )
+    expect(saved.status, saved.stderr).toBe(0)
+    write(
+      fixture.root,
+      'docs/features/product.md',
+      read(fixture.root, 'docs/features/product.md').replace(
+        'The execution result is current.',
+        'The behavior now requires a changed result.',
+      ),
+    )
+    const stale = runCli(
+      fixture.root,
+      'review',
+      'record',
+      'IGT-900',
+      'draft',
+      '--file',
+      '.ignite/review.json',
+    )
+    expect(stale.status).not.toBe(0)
+    expect(stale.stderr).toMatch(/fingerprint|stale/)
+    const preparation = runCli(fixture.root, 'plan', 'validate', 'IGT-900', '--prepare')
+    expect(preparation.status).not.toBe(0)
+    expect(preparation.stdout).toMatch(/fingerprint|stale/)
+  } finally {
+    fixture.cleanup()
+  }
+})
 
 it('[AC-DOCFLOW-001] scaffolds executable task detail', () => {
   const fixture = makeFixture()

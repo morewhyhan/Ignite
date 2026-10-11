@@ -25,7 +25,9 @@ Feature、Plan 和测试文档分别保存需求、推进依据与验收意图�
 
 ## 工程方法入口
 
-从当前仓库运行 `pnpm ignite skill read technical-writing` 可直接读取项目技能真源，其他技能替换名称即可。路径错误用同一名字恢复，缺失会明确失败。此命令依赖现有项目依赖；尚未准备依赖时沿所属规则的 `.ai/pstack/skills/` 或 `.ai/skills/` 正文链接直接读取。读取和恢复规则由 [AI 规则维护](../docs/standards/ai-agents.md#固定维护方法) 负责。
+从当前仓库运行 `node scripts/ignite.mjs skill read technical-writing` 可直接读取项目技能真源，其他技能替换名称即可；依赖已准备后也可使用 `pnpm ignite skill read`。Node 读取入口无需安装项目依赖。路径错误用同一名字恢复，缺失会明确失败；不能运行时沿所属规则的 canonical 链接读取。读取和恢复规则由 [AI 规则维护](../docs/standards/ai-agents.md#固定维护方法) 负责。
+
+项目扩展的 [review-plan](skills/review-plan/SKILL.md) 与 [review-delivery](skills/review-delivery/SKILL.md) 取自 AGE 审查方法，来源及许可随正文保存；它们不计入下述上游 pstack 技能数量。AI 按 Plan 规则主动安排独立审查，记录仍归原 Plan。入口链接和技能目录不等于已经派发独立角色，也不保证所有宿主自动发现或模型始终遵守。
 
 移植的 [pstack](pstack/CATALOG.md) 包含51个主技能、23个playbook。涉及项目修改或文档维护时，AI 默认按所属文档规则的“固定维护方法”读取必需技能与原则，并按规定顺序处理；无需用户先启用 [poteto-mode](pstack/skills/poteto-mode/SKILL.md)。额外方法只按写明的条件使用，明确小改动压缩分析和输出，保留必要记录及验收。项目文档位置、工具和模型要求直接写在对应方法中。方法不扩张权限、不替换项目验收，也不强制技能跑分。
 

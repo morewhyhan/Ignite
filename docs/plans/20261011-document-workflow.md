@@ -134,7 +134,7 @@
       "title": "提交规格和断言并取得真实红灯",
       "phase": "red",
       "acceptance": ["AC-DOCFLOW-001", "AC-DOCFLOW-002", "AC-DOCFLOW-003", "AC-DOCFLOW-004"],
-      "status": "doing",
+      "status": "done",
       "result": "四条原生红灯均因承诺行为尚未实现而失败",
       "scope": ["tests/contracts/document-workflow.test.ts", "docs/others/evidence/tdd/"],
       "depends_on": ["T1"],
@@ -145,7 +145,7 @@
       "title": "生成精细任务脚手架",
       "phase": "implement",
       "acceptance": ["AC-DOCFLOW-001"],
-      "status": "todo",
+      "status": "done",
       "result": "模块和存量脚手架一致生成result、scope、depends_on、owner与新契约，保持唯一状态",
       "scope": [
         "scripts/create-change.mjs",
@@ -160,7 +160,7 @@
       "title": "约束任务完整性与依赖推进",
       "phase": "implement",
       "acceptance": ["AC-DOCFLOW-002"],
-      "status": "todo",
+      "status": "done",
       "result": "prepare、task与next拒绝缺结果、越界、未知或循环依赖；依赖未完成不能启动；旧格式保持旧语义",
       "scope": ["scripts/ignite/"],
       "depends_on": ["T2"],
@@ -171,7 +171,7 @@
       "title": "实现两个审查对象与正式准入",
       "phase": "implement",
       "acceptance": ["AC-DOCFLOW-003"],
-      "status": "todo",
+      "status": "done",
       "result": "context/record保存真实来源及对象；draft准入与delivery准出拒绝自查、过期和未解决阻断；状态回填不误失效",
       "scope": ["scripts/ignite/"],
       "depends_on": ["T3A", "T3B"],
@@ -182,7 +182,7 @@
       "title": "重构稳定业务入口、需求来源和事实冲突处理",
       "phase": "implement",
       "acceptance": ["AC-DOCFLOW-004"],
-      "status": "todo",
+      "status": "done",
       "result": "新会话可从现有入口找到真实业务与代码；原始材料有唯一职责；冲突分类和技能步骤无平行真源",
       "scope": [
         "docs/README.md",
@@ -201,7 +201,7 @@
       "title": "迁入两份审查方法并统一 Plan 规则与生成入口",
       "phase": "implement",
       "acceptance": ["AC-DOCFLOW-004"],
-      "status": "todo",
+      "status": "done",
       "result": "计划和交付审查可在克隆内按名读取，正文只有一份且附来源许可",
       "scope": [
         ".ai/skills/",
@@ -221,7 +221,7 @@
       "id": "T6",
       "title": "集成并独立审查真实结果与文档一致性",
       "phase": "verify",
-      "status": "todo",
+      "status": "doing",
       "result": "四项AC与兼容回归通过；另行派发独立角色读取真实diff、方法与证据，发现回到原Plan修复；Design已回写",
       "scope": [
         "docs/designs/execution.md",
@@ -493,13 +493,13 @@ docs/designs/execution.md 记录已实现新契约和限制；domain.md 只写�
 状态：`active`（由元数据生成）
 
 - [x] T1 · 独立审查原目标、任务和真实断言 · done
-- [ ] T2 · 提交规格和断言并取得真实红灯 · doing
-- [ ] T3A · 生成精细任务脚手架 · todo
-- [ ] T3B · 约束任务完整性与依赖推进 · todo
-- [ ] T3C · 实现两个审查对象与正式准入 · todo
-- [ ] T4 · 重构稳定业务入口、需求来源和事实冲突处理 · todo
-- [ ] T5 · 迁入两份审查方法并统一 Plan 规则与生成入口 · todo
-- [ ] T6 · 集成并独立审查真实结果与文档一致性 · todo
+- [x] T2 · 提交规格和断言并取得真实红灯 · done
+- [x] T3A · 生成精细任务脚手架 · done
+- [x] T3B · 约束任务完整性与依赖推进 · done
+- [x] T3C · 实现两个审查对象与正式准入 · done
+- [x] T4 · 重构稳定业务入口、需求来源和事实冲突处理 · done
+- [x] T5 · 迁入两份审查方法并统一 Plan 规则与生成入口 · done
+- [ ] T6 · 集成并独立审查真实结果与文档一致性 · doing
 - [ ] T7 · 核对 Plan 准出与 Release 最终验收交接 · todo
 
 验收缺口：未记录；完成仍须实际证据

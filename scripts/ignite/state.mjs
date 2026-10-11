@@ -1772,8 +1772,10 @@ export function restartPlanTdd(planId, acceptanceId, reason) {
   next.tdd_evidence = next.tdd_evidence.filter((item) => item.acceptance_id !== acceptanceId)
   const resetTaskIds = new Set()
   for (const task of next.tasks) {
-    if (task.phase === 'verify') task.status = 'todo'
-    else if (task.acceptance?.includes(acceptanceId)) {
+    if (task.phase === 'verify') {
+      task.status = 'todo'
+      resetTaskIds.add(task.id)
+    } else if (task.acceptance?.includes(acceptanceId)) {
       if (task.phase === 'red') {
         task.status = 'doing'
         resetTaskIds.add(task.id)

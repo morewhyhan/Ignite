@@ -269,7 +269,12 @@ it('[AC-DOCFLOW-001] scaffolds executable task detail', () => {
     const change = runScript(fixture.root, 'create-change.mjs', 'sample-change')
     expect(change.status, change.stderr).toBe(0)
     commitAll(fixture.root, 'create the change Plan')
-    const generatedModule = runScript(fixture.root, 'create-module.mjs', 'sample-modules', '--docs-only')
+    const generatedModule = runScript(
+      fixture.root,
+      'create-module.mjs',
+      'sample-modules',
+      '--docs-only',
+    )
     expect(generatedModule.status, generatedModule.stderr).toBe(0)
 
     for (const metadata of [

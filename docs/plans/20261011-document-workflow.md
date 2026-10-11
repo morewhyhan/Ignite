@@ -520,3 +520,7 @@ docs/designs/execution.md 记录已实现新契约和限制；domain.md 只写�
 ## TDD 恢复记录
 
 2026-10-11，AC-DOCFLOW-001：rename-CLI-fixture-variable-for-Next-lint。保留原回执 tdd-20261011142815-287daf；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。
+
+## TDD 恢复记录
+
+2026-10-11，AC-DOCFLOW-001：format-test-before-binding-final-assertion。保留原回执 tdd-20261011175031-f56065；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。

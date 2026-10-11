@@ -17,6 +17,8 @@ out/
 node_modules/
 .pnpm-store/
 .ignite/
+TEMP/
+TMP/
 
 # env
 .env*

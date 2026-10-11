@@ -187,6 +187,8 @@ const eslintConfig = defineConfig([
     },
   },
   globalIgnores([
+    'TEMP/**',
+    'TMP/**',
     '.ai/pstack/**',
     '.ignite/**',
     '.next/**',

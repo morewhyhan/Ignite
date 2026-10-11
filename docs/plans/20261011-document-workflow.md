@@ -134,7 +134,7 @@
       "title": "提交规格和断言并取得真实红灯",
       "phase": "red",
       "acceptance": ["AC-DOCFLOW-001", "AC-DOCFLOW-002", "AC-DOCFLOW-003", "AC-DOCFLOW-004"],
-      "status": "done",
+      "status": "doing",
       "result": "四条原生红灯均因承诺行为尚未实现而失败",
       "scope": ["tests/contracts/document-workflow.test.ts", "docs/others/evidence/tdd/"],
       "depends_on": ["T1"],
@@ -145,7 +145,7 @@
       "title": "生成精细任务脚手架",
       "phase": "implement",
       "acceptance": ["AC-DOCFLOW-001"],
-      "status": "done",
+      "status": "todo",
       "result": "模块和存量脚手架一致生成result、scope、depends_on、owner与新契约，保持唯一状态",
       "scope": [
         "scripts/create-change.mjs",
@@ -160,7 +160,7 @@
       "title": "约束任务完整性与依赖推进",
       "phase": "implement",
       "acceptance": ["AC-DOCFLOW-002"],
-      "status": "done",
+      "status": "todo",
       "result": "prepare、task与next拒绝缺结果、越界、未知或循环依赖；依赖未完成不能启动；旧格式保持旧语义",
       "scope": ["scripts/ignite/"],
       "depends_on": ["T2"],
@@ -171,7 +171,7 @@
       "title": "实现两个审查对象与正式准入",
       "phase": "implement",
       "acceptance": ["AC-DOCFLOW-003"],
-      "status": "done",
+      "status": "todo",
       "result": "context/record保存真实来源及对象；draft准入与delivery准出拒绝自查、过期和未解决阻断；状态回填不误失效",
       "scope": ["scripts/ignite/"],
       "depends_on": ["T3A", "T3B"],
@@ -182,7 +182,7 @@
       "title": "重构稳定业务入口、需求来源和事实冲突处理",
       "phase": "implement",
       "acceptance": ["AC-DOCFLOW-004"],
-      "status": "done",
+      "status": "todo",
       "result": "新会话可从现有入口找到真实业务与代码；原始材料有唯一职责；冲突分类和技能步骤无平行真源",
       "scope": [
         "docs/README.md",
@@ -201,7 +201,7 @@
       "title": "迁入两份审查方法并统一 Plan 规则与生成入口",
       "phase": "implement",
       "acceptance": ["AC-DOCFLOW-004"],
-      "status": "done",
+      "status": "todo",
       "result": "计划和交付审查可在克隆内按名读取，正文只有一份且附来源许可",
       "scope": [
         ".ai/skills/",
@@ -221,7 +221,7 @@
       "id": "T6",
       "title": "集成并独立审查真实结果与文档一致性",
       "phase": "verify",
-      "status": "doing",
+      "status": "todo",
       "result": "四项AC与兼容回归通过；另行派发独立角色读取真实diff、方法与证据，发现回到原Plan修复；Design已回写",
       "scope": [
         "docs/designs/execution.md",
@@ -229,7 +229,11 @@
         "docs/plans/",
         "docs/others/evidence/",
         "docs/others/test-cases/",
-        "docs/standards/adoption.md"
+        "docs/standards/adoption.md",
+        "tsconfig.json",
+        "eslint.config.mjs",
+        ".prettierignore",
+        ".gitignore"
       ],
       "depends_on": ["T3A", "T3B", "T3C", "T4", "T5"],
       "owner": "/root"
@@ -282,18 +286,17 @@
     "CLAUDE.md",
     ".cursor/",
     ".opencode/",
-    ".github/copilot-instructions.md"
+    ".github/copilot-instructions.md",
+    "tsconfig.json",
+    "eslint.config.mjs",
+    ".prettierignore",
+    ".gitignore"
   ],
   "tdd_evidence": [
     {
       "acceptance_id": "AC-DOCFLOW-004",
       "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-004] loads project review methods from canonical sources",
       "run_id": "tdd-20261011111441-bfaa75"
-    },
-    {
-      "acceptance_id": "AC-DOCFLOW-001",
-      "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-001] scaffolds executable task detail",
-      "run_id": "tdd-20261011142815-287daf"
     },
     {
       "acceptance_id": "AC-DOCFLOW-002",
@@ -361,6 +364,24 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-10-11T17:07:10.813Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "/root/workflow_independent_audit",
+      "executor": "/root",
+      "source": "本会话独立子智能体 /root/workflow_independent_audit 对当前 .ignite/draft-context.json、原目标、Plan、Feature、Release、AGE 对标和方法文档的真实审查回报",
+      "subject_fingerprint": "f179288bdff1fb74dffdfd4f4dfe723525817698640ceacacf11ae4e1cd69cc0",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "NB-T7-001",
+          "severity": "nonblocking",
+          "summary": "准出正文的最终组合验收可追溯措辞较宽；T7已明确为Release scope和版本交接，真实最终验收由Release完成。",
+          "resolved": false
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-10-11T17:49:07.313Z"
     }
   ]
 }
@@ -467,13 +488,13 @@ docs/designs/execution.md 记录已实现新契约和限制；domain.md 只写�
 状态：`active`（由元数据生成）
 
 - [x] T1 · 独立审查原目标、任务和真实断言 · done
-- [x] T2 · 提交规格和断言并取得真实红灯 · done
-- [x] T3A · 生成精细任务脚手架 · done
-- [x] T3B · 约束任务完整性与依赖推进 · done
-- [x] T3C · 实现两个审查对象与正式准入 · done
-- [x] T4 · 重构稳定业务入口、需求来源和事实冲突处理 · done
-- [x] T5 · 迁入两份审查方法并统一 Plan 规则与生成入口 · done
-- [ ] T6 · 集成并独立审查真实结果与文档一致性 · doing
+- [ ] T2 · 提交规格和断言并取得真实红灯 · doing
+- [ ] T3A · 生成精细任务脚手架 · todo
+- [ ] T3B · 约束任务完整性与依赖推进 · todo
+- [ ] T3C · 实现两个审查对象与正式准入 · todo
+- [ ] T4 · 重构稳定业务入口、需求来源和事实冲突处理 · todo
+- [ ] T5 · 迁入两份审查方法并统一 Plan 规则与生成入口 · todo
+- [ ] T6 · 集成并独立审查真实结果与文档一致性 · todo
 - [ ] T7 · 核对 Plan 准出与 Release 最终验收交接 · todo
 
 验收缺口：未记录；完成仍须实际证据
@@ -495,3 +516,7 @@ docs/designs/execution.md 记录已实现新契约和限制；domain.md 只写�
 ## TDD 恢复记录
 
 2026-10-11，AC-DOCFLOW-003：fixture-preconditions-correction。保留原回执 tdd-20261011111423-5daa5b；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。
+
+## TDD 恢复记录
+
+2026-10-11，AC-DOCFLOW-001：rename-CLI-fixture-variable-for-Next-lint。保留原回执 tdd-20261011142815-287daf；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。

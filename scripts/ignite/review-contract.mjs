@@ -16,7 +16,7 @@ function planNarrative(content) {
     .replace(/<!-- ignite-plan[\s\S]*?-->/, '')
     .replace(/<!-- ignite-progress -->[\s\S]*?<!-- \/ignite-progress -->/g, '')
     .split(/(?=^## )/m)
-    .filter((section) => !/^## (?:状态|状态记录)\s*$/m.test(section.split('\n')[0]))
+    .filter((section) => !/^## (?:状态|状态记录|TDD 恢复记录)\s*$/m.test(section.split('\n')[0]))
     .join('\n')
     .replace(/\r\n/g, '\n')
     .split('\n')
@@ -55,7 +55,11 @@ export function buildReviewContext(plan, stage, { featurePaths, readText, commit
       non_goals: value.non_goals || [],
       authorization: value.authorization || null,
       owner: value.owner,
-      tasks: (value.tasks || []).map(({ status, ...task }) => task),
+      tasks: (value.tasks || []).map((task) => {
+        const semantic = { ...task }
+        delete semantic.status
+        return semantic
+      }),
     },
     narrative: planNarrative(readText(plan.relativePath, commit) || plan.content),
     features: [...featurePaths].sort().map((path) => ({ path, content: readText(path, commit) })),

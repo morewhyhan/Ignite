@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1791708512635291997",
   "release": "document-workflow-v1",
-  "status": "active",
+  "status": "verifying",
   "outcome": "克隆后的 AI 能按精细任务与固定双审查维护唯一文档真源，官方准入识别缺失与过期结果",
   "contract_version": 2,
   "execution_contract": 1,
@@ -318,10 +318,15 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261011190726-f510b4"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "05cc67e130b0caa23c873a05e55ba1e53a921d86",
   "updated_at": "2026-10-11",
   "planning_contract": 1,
   "review_contract": 1,
@@ -513,7 +518,7 @@ docs/designs/execution.md 记录已实现新契约和限制；domain.md 只写�
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`verifying`（由元数据生成）
 
 - [x] T1 · 独立审查原目标、任务和真实断言 · done
 - [x] T2 · 提交规格和断言并取得真实红灯 · done
@@ -526,7 +531,7 @@ docs/designs/execution.md 记录已实现新契约和限制；domain.md 只写�
 - [ ] T7 · 核对 Plan 准出与 Release 最终验收交接 · todo
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20261011190726-f510b4
 <!-- /ignite-progress -->
 
 ## 准出条件

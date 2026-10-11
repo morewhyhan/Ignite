@@ -1,0 +1,58 @@
+{
+  "schema": 2,
+  "id": "document-workflow-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1791708512635291997"],
+  "scope": [
+    {
+      "id": "GOAL-1",
+      "text": "精细化 Plan 的任务产出、写入范围与依赖，并让脚手架直接提供合格结构",
+      "source": "本会话逐项落实 AGE 取舍并强调 Plan 精细化的实施要求",
+      "requirements": ["REQ-DOCFLOW-001"],
+      "acceptance": ["AC-DOCFLOW-001"],
+      "plan_ids": ["IGT-1791708512635291997"],
+      "disposition": "included",
+      "reason": "按用户确定目标实施",
+      "authorization": ""
+    },
+    {
+      "id": "GOAL-2",
+      "text": "拒绝任务无结果、越界和循环依赖，接续遵守未完成依赖",
+      "source": "本会话逐项落实 AGE 取舍并强调 Plan 精细化的实施要求",
+      "requirements": ["REQ-DOCFLOW-002"],
+      "acceptance": ["AC-DOCFLOW-002"],
+      "plan_ids": ["IGT-1791708512635291997"],
+      "disposition": "included",
+      "reason": "按用户确定目标实施",
+      "authorization": ""
+    },
+    {
+      "id": "GOAL-3",
+      "text": "固定开工和交付的独立审查，版本变化使相关审查失效，保持身份可信度说明",
+      "source": "本会话逐项落实 AGE 取舍并强调 Plan 精细化的实施要求",
+      "requirements": ["REQ-DOCFLOW-003"],
+      "acceptance": ["AC-DOCFLOW-003"],
+      "plan_ids": ["IGT-1791708512635291997"],
+      "disposition": "included",
+      "reason": "按用户确定目标实施",
+      "authorization": ""
+    },
+    {
+      "id": "GOAL-4",
+      "text": "整合 AGE 高价值方法与原有文档，技能正文可读、入口单一，保留稳定业务与原始来源",
+      "source": "本会话逐项落实 AGE 取舍并强调 Plan 精细化的实施要求",
+      "requirements": ["REQ-DOCFLOW-004"],
+      "acceptance": ["AC-DOCFLOW-004"],
+      "plan_ids": ["IGT-1791708512635291997"],
+      "disposition": "included",
+      "reason": "按用户确定目标实施",
+      "authorization": ""
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-10-11"
+}

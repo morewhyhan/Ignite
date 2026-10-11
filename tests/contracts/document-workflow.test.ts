@@ -111,6 +111,7 @@ The current review must be approved.
   const metadata = {
     schema: 2,
     id: 'IGT-900',
+    verification_contract: 2,
     release: 'fixture-v1',
     status: 'draft',
     outcome: 'A current independent review is required before preparation.',
@@ -131,6 +132,11 @@ The current review must be approved.
     authorization: { source: 'Fixture user request.' },
     deliverables: ['A valid review gate.'],
     remaining_work: [],
+    verification_requirements: ['unit'],
+    dependency_contracts: [],
+    shared_files: [],
+    tdd_evidence: [],
+    handoff: { interfaces: [], migrations: [], tests: [], remaining: [] },
     review_contract: 1,
     reviews: [],
     depends_on: [],
@@ -178,6 +184,11 @@ The current review must be approved.
       updated_at: '2026-10-11',
     }),
   )
+  fixture.baseCommit = commitAll(fixture.root, 'valid review fixture')
+  const current = read(fixture.root, 'docs/plans/fixture.md')
+  const currentMetadata = JSON.parse(current.match(/<!-- ignite-plan\s*([\s\S]*?)\s*-->/)?.[1] || '{}')
+  currentMetadata.base_commit = fixture.baseCommit
+  write(fixture.root, 'docs/plans/fixture.md', `<!-- ignite-plan\n${JSON.stringify(currentMetadata, null, 2)}\n-->${current.split('-->')[1]}`)
   return fixture
 }
 
@@ -194,6 +205,7 @@ it('[AC-DOCFLOW-001] scaffolds executable task detail', () => {
       'docs/plans/_template.md',
       readFileSync(join(repositoryRoot, 'docs/plans/_template.md'), 'utf8'),
     )
+    commitAll(fixture.root, 'prepare scaffold templates')
     const change = runScript(fixture.root, 'create-change.mjs', 'sample-change')
     expect(change.status, change.stderr).toBe(0)
     commitAll(fixture.root, 'create the change Plan')
@@ -223,7 +235,7 @@ it('[AC-DOCFLOW-001] scaffolds executable task detail', () => {
 })
 
 it('[AC-DOCFLOW-002] rejects incomplete task contracts', () => {
-  const fixture = makeFixture()
+  const fixture = validReviewPlanFixture()
   try {
     const tasks = [
       {
@@ -300,6 +312,12 @@ it('[AC-DOCFLOW-002] rejects incomplete task contracts', () => {
           execution_contract: 1,
           task_contract: 2,
           verification_contract: 2,
+          verification_requirements: ['unit'],
+          dependency_contracts: [],
+          shared_files: [],
+          tdd_evidence: [],
+          handoff: { interfaces: [], migrations: [], tests: [], remaining: [] },
+          required_evidence: ['check-integration'],
           planning_contract: 1,
           owner: 'fixture-owner',
           tasks: nextTasks,
@@ -372,6 +390,12 @@ it('[AC-DOCFLOW-002] rejects incomplete task contracts', () => {
         execution_contract: 1,
         task_contract: 2,
         verification_contract: 2,
+        verification_requirements: ['unit'],
+        dependency_contracts: [],
+        shared_files: [],
+        tdd_evidence: [],
+        handoff: { interfaces: [], migrations: [], tests: [], remaining: [] },
+        required_evidence: ['check-integration'],
         owner: 'fixture-owner',
         acceptance: [
           {
@@ -495,7 +519,7 @@ it('[AC-DOCFLOW-003] requires current independent review records', () => {
     )
     expect(saved.status, saved.stderr).toBe(0)
     const prepared = runCli(fixture.root, 'plan', 'validate', 'IGT-900', '--prepare')
-    expect(prepared.status, prepared.stderr).toBe(0)
+    expect(prepared.status, prepared.stdout + prepared.stderr).toBe(0)
     expect(JSON.parse(prepared.stdout).ready).toBe(true)
 
     const readmitted = runCli(fixture.root, 'review', 'context', 'IGT-900', 'draft')

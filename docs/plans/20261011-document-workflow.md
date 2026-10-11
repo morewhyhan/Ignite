@@ -285,21 +285,6 @@
   ],
   "tdd_evidence": [
     {
-      "acceptance_id": "AC-DOCFLOW-001",
-      "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-001] scaffolds executable task detail",
-      "run_id": "tdd-20261011111340-a4cfd8"
-    },
-    {
-      "acceptance_id": "AC-DOCFLOW-002",
-      "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-002] rejects incomplete task contracts",
-      "run_id": "tdd-20261011111359-9dad1c"
-    },
-    {
-      "acceptance_id": "AC-DOCFLOW-003",
-      "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-003] requires current independent review records",
-      "run_id": "tdd-20261011111423-5daa5b"
-    },
-    {
       "acceptance_id": "AC-DOCFLOW-004",
       "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-004] loads project review methods from canonical sources",
       "run_id": "tdd-20261011111441-bfaa75"
@@ -379,6 +364,19 @@ T3A/T3B/T3C按连续行为分别实施：脚手架字段生成（AC001）、prep
 
 四项真实单元行为：运行脚手架读取实际生成结构；向 CLI 提交错误任务观察拒绝；观察缺失、非独立和失效审查被准入拒绝；按 canonical 入口读取两份方法并跟随现有规则。文档语义另由读者审查，不用字符串通过声称内容质量。
 
+AC-DOCFLOW-004 的逐项内容判定如下，由 T6 的真实独立审查读取产物后判断；机器读取用例只证明方法入口闭合，不能替代这些判定。
+
+| 已采纳的 AGE 职责  | 负责任务与产物                                          | 独立审查的具体判定                                                                                         |
+| ------------------ | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| 短项目上下文       | T4，docs/README.md、现有 product.md 与 .ai/project.json | 能区分模板基线和采用项目，找到相关规格与事实，没有第二项目上下文真源。                                     |
+| 稳定业务与源码入口 | T4，docs/designs/domain.md                              | 能区分认证/Tasks 业务域与可替换界面外壳，常见能力链接到实际模块、路由、API 和 Schema，而非动态完整地图。   |
+| 原始输入可回查     | T4，Feature README、Others/inputs README                | 短原话留 Plan，长材料按需保留来源与版本；原文不替代确认行为，没有材料进度账本。                            |
+| 文档漂移分类       | T4，ai-agents.md 与 Design/总入口链接                   | 四类差异分别回到正确真源；已有依据直接修正，真正未定目标才交人决定，不引入全局 freshness 审批。            |
+| 计划与交付独立审查 | T5，两个 canonical SKILL 与 Plan README                 | 方法检查原请求和真实对象，固定触发和记录只有原 Plan；发现与 verdict 映射清楚，不能自评或倒填身份。         |
+| 单一规则与默认方法 | T5，AGENTS、poteto-mode、.ai/README 和生成桥接          | 用户无需点名方法，必需列表能读取两份正文；两个发现目录不复制正文，来源和许可保留，未声称所有宿主自动发现。 |
+
+本轮保留的既有真实红灯、有效运行复用、Design 回写和 Release 最终验收属于兼容边界；交付审查同时确认没有放宽，不计作新方法已带来的模型效果。
+
 ## 实现任务
 
 顶部 tasks 定义结果、依赖、范围与负责人。T3A–T3C 为同一负责人串行完成的工具单元，T4 为文档，T5 为方法，三个写入范围隔离；Plan 和正式状态只由 root 维护。
@@ -418,3 +416,15 @@ docs/designs/execution.md 记录已实现新契约和限制；domain.md 只写�
 ## 准出条件
 
 四项 AC 与内容审查成立；原目标全部对应；真实证据和最终组合验收可追溯。未接通能力按限制说明，不能冒充自动引擎完成。
+
+## TDD 恢复记录
+
+2026-10-11，AC-DOCFLOW-001：fixture-preconditions-correction。保留原回执 tdd-20261011111340-a4cfd8；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。
+
+## TDD 恢复记录
+
+2026-10-11，AC-DOCFLOW-002：fixture-preconditions-correction。保留原回执 tdd-20261011111359-9dad1c；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。
+
+## TDD 恢复记录
+
+2026-10-11，AC-DOCFLOW-003：fixture-preconditions-correction。保留原回执 tdd-20261011111423-5daa5b；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。

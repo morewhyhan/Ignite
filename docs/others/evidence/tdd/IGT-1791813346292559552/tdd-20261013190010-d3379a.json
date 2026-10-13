@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "3acabdf14194e422fcf0b0fc036a3b0c6f086a451cadae51ae6e0090a77ee1ad",
+  "run_id": "tdd-20261013190010-d3379a",
+  "plan_id": "IGT-1791813346292559552",
+  "acceptance_id": "AC-EXECUTION-044",
+  "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-044] prepares historical code in an isolated recovery worktree",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "9401e169b914f501d43535b57fefa97abec211c8",
+  "output_sha256": "f946f622e052ddafd1ea378159eb7c34a31a4d172ceb3d37b02bd644c55ef183",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/execution-proof.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-044",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-13T19:00:10.144Z",
+  "ended_at": "2026-10-13T19:00:17.162Z",
+  "executor": "ignite-tdd-runner"
+}

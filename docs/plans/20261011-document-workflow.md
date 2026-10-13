@@ -221,7 +221,7 @@
       "id": "T6",
       "title": "集成并独立审查真实结果与文档一致性",
       "phase": "verify",
-      "status": "doing",
+      "status": "done",
       "result": "四项AC与兼容回归通过；另行派发独立角色读取真实diff、方法与证据，发现回到原Plan修复；Design已回写",
       "scope": [
         "docs/designs/execution.md",
@@ -245,7 +245,7 @@
       "id": "T7",
       "title": "核对 Plan 准出与 Release 最终验收交接",
       "phase": "verify",
-      "status": "todo",
+      "status": "done",
       "result": "Plan 目标、当前证据和独立交付审查完整，Release scope 与被测版本一致；最终构建和生产 E2E 由 Release 自身验收，不提前填写通过。",
       "scope": ["docs/plans/", "docs/others/evidence/"],
       "depends_on": ["T6"],
@@ -321,13 +321,13 @@
   "evidence": [
     {
       "id": "check-integration",
-      "run_id": "run-20261011190726-f510b4"
+      "run_id": "run-20261013204520-6be60a"
     }
   ],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": "05cc67e130b0caa23c873a05e55ba1e53a921d86",
-  "updated_at": "2026-10-11",
+  "updated_at": "2026-10-13",
   "planning_contract": 1,
   "review_contract": 1,
   "reviews": [
@@ -413,6 +413,17 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-10-11T19:06:26.982Z"
+    },
+    {
+      "stage": "delivery",
+      "executor": "/root",
+      "reviewer": "/root/recovery_plan_review",
+      "source": "Codex collaboration sub-agent dispatched by /root as /root/recovery_plan_review",
+      "subject_fingerprint": "d6b76e1301e99bd469f3a2dd7f64211205affda878a3c314c3c9d9576502a720",
+      "verdict": "approved",
+      "findings": [],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-10-13T20:58:16.769Z"
     }
   ]
 }
@@ -527,12 +538,14 @@ docs/designs/execution.md 记录已实现新契约和限制；domain.md 只写�
 - [x] T3C · 实现两个审查对象与正式准入 · done
 - [x] T4 · 重构稳定业务入口、需求来源和事实冲突处理 · done
 - [x] T5 · 迁入两份审查方法并统一 Plan 规则与生成入口 · done
-- [ ] T6 · 集成并独立审查真实结果与文档一致性 · doing
-- [ ] T7 · 核对 Plan 准出与 Release 最终验收交接 · todo
+- [x] T6 · 集成并独立审查真实结果与文档一致性 · done
+- [x] T7 · 核对 Plan 准出与 Release 最终验收交接 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：check-integration / run-20261011190726-f510b4
+证据：check-integration / run-20261013204520-6be60a
 <!-- /ignite-progress -->
+
+2026-10-13：接续原有文档流程计划，保留四项原始目标、真实红灯及实现任务；当前源码更新后以新的原生 integration 和独立交付审查替换过期验收绑定。四项 DOCFLOW 验收及兼容行为已验证，Design 已与当前实现核对。Plan 原生准出后继续由 document-workflow-v1 独立执行生产 Release 验收，不复写旧测试通过结果。
 
 ## 准出条件
 

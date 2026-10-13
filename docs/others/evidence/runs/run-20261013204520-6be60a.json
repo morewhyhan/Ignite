@@ -1,0 +1,145 @@
+{
+  "schema": 2,
+  "run_id": "run-20261013204520-6be60a",
+  "check_policy_version": 7,
+  "plan_id": "IGT-1791708512635291997",
+  "evidence_id": "check-integration",
+  "level": "integration",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-10-13T20:45:22.448Z",
+  "ended_at": "2026-10-13T20:54:58.504Z",
+  "commit": "935719821c9cb82e4db63195164c50c3016c8fb4",
+  "input_fingerprint": "d6276abb06d5fce613b2f655d0d8822357d82624d2ae1f78f6d41ac612eeb924",
+  "environment_fingerprint": "e73ab4a40c6b7141120afff35ca73e610ff1a7311abcaabed94c952c6caed87a",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "e2e_server_mode": "development",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "f498ad437703d387bf22cdb6ec1ca75a2118c6d917a7c70729cb5e313082a9a2",
+  "acceptance_results": [
+    {
+      "plan_id": "IGT-1791708512635291997",
+      "criterion": "AC-DOCFLOW-001",
+      "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-001] scaffolds executable task detail",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791708512635291997",
+      "criterion": "AC-DOCFLOW-002",
+      "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-002] rejects incomplete task contracts",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791708512635291997",
+      "criterion": "AC-DOCFLOW-002",
+      "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-002] preserves legacy task contract behavior",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791708512635291997",
+      "criterion": "AC-DOCFLOW-003",
+      "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-003] requires current independent review records",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791708512635291997",
+      "criterion": "AC-DOCFLOW-004",
+      "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-004] loads project review methods from canonical sources",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    }
+  ],
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "3e32ce4e392a6604f34f7476c7f13c811afab9e9"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 2746
+    },
+    {
+      "label": "template-doctor",
+      "command": ["corepack", "pnpm", "template:doctor"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 741
+    },
+    {
+      "label": "governance",
+      "command": ["corepack", "pnpm", "ignite", "validate"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 36629
+    },
+    {
+      "label": "docs",
+      "command": ["corepack", "pnpm", "docs:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 28179
+    },
+    {
+      "label": "typecheck",
+      "command": ["corepack", "pnpm", "typecheck"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 52426
+    },
+    {
+      "label": "tools-typecheck",
+      "command": ["corepack", "pnpm", "tools:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 10019
+    },
+    {
+      "label": "lint",
+      "command": ["corepack", "pnpm", "lint"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 113686,
+      "reused_from": {
+        "run_id": "run-20261013200751-aa459f",
+        "log_sha256": "c2c0870fce066a526d99495d7c2b70c0d9ade225ccac74fc4a279f99db9c898e"
+      }
+    },
+    {
+      "label": "format",
+      "command": ["corepack", "pnpm", "format:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 11492
+    },
+    {
+      "label": "tests",
+      "command": ["corepack", "pnpm", "test"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 406752
+    }
+  ],
+  "log_sha256": "2e97026ce9029cfa177acdde466bbd017f2667a6b2195c4710692f83422f59a7",
+  "execution_source": "ignite-runner-local"
+}

@@ -1106,11 +1106,13 @@ export function validatePlanReleaseContract(plan, release) {
   return [...new Set(failures)]
 }
 
+/** @param {{planFailuresById?: Map<string, string[]> | null}} options */
 export function validateAllPlans(
   plans = listPlans(),
   releaseEntries = listReleases(),
-  { planFailuresById = null } = {},
+  options = {},
 ) {
+  const { planFailuresById = null } = options
   const failures = []
   const ids = new Map()
   for (const plan of plans) {

@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1791708512635291997",
   "release": "document-workflow-v1",
-  "status": "active",
+  "status": "done",
   "outcome": "克隆后的 AI 能按精细任务与固定双审查维护唯一文档真源，官方准入识别缺失与过期结果",
   "contract_version": 2,
   "execution_contract": 1,
@@ -370,7 +370,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "935719821c9cb82e4db63195164c50c3016c8fb4",
+  "integrated_commit": "19d6dba41b8de0fffe506a460f1b886e5024a356",
   "updated_at": "2026-10-13",
   "planning_contract": 1,
   "review_contract": 1,
@@ -595,7 +595,7 @@ docs/designs/execution.md 记录已实现新契约和限制；domain.md 只写�
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 独立审查原目标、任务和真实断言 · done
 - [x] T2 · 提交规格和断言并取得真实红灯 · done

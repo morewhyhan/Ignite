@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1791813346292559552",
   "release": "agent-run-recovery-v1",
-  "status": "active",
+  "status": "done",
   "outcome": "AI 可按准确交接并行实施，测试失败可定位、清理和恢复，开发反馈与正式验收分开。",
   "contract_version": 2,
   "execution_contract": 1,
@@ -969,7 +969,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "9ac8b38a62556d8a4593854ad88037d342226d51",
   "updated_at": "2026-10-13"
 }
 -->
@@ -1080,7 +1080,7 @@ AI 执行失败时可以定位原因、清理自有进程并接续；并行任�
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] PREP · 对齐用户目标、12 项验收及独立开工审查 · done
 - [x] R042 · 取得 AC-EXECUTION-042 的真实目标失败 · done

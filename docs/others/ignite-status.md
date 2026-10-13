@@ -2,21 +2,20 @@
 
 模板状态：`template-baseline`
 输入指纹：`8f71b1346861`
-当前 Plan：2；结构化历史：0；未迁移历史：0
+当前 Plan：1；结构化历史：1；未迁移历史：0
 
 ## 当前工作
 
 - `IGT-1791708512635291997` · `verifying` · `document-workflow-v1`
-- `IGT-1791813346292559552` · `active` · `agent-run-recovery-v1`
 
 ## 发布范围
 
-- `agent-run-recovery-v1` · `active`
+- `agent-run-recovery-v1` · `verifying`
   - Plan：`IGT-1791813346292559552`
   - 缺少证据：无
   - 最终版本验收：missing
-  - 下一步：pnpm ignite next --plan IGT-1791813346292559552
-  - 未完成原始目标：GOAL-001 项目修改能可靠接续、应用既定方法、准确验收并减少重复操作；本次修复全部已确认同源缺陷。
+  - 下一步：pnpm ignite release verify agent-run-recovery-v1 --plan IGT-1791813346292559552
+  - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `document-workflow-v1` · `verifying`
   - Plan：`IGT-1791708512635291997`
   - 缺少证据：`IGT-1791708512635291997:check-integration`（stale：repository or Plan inputs changed after this run）

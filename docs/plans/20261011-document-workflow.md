@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1791708512635291997",
   "release": "document-workflow-v1",
-  "status": "verifying",
+  "status": "active",
   "outcome": "克隆后的 AI 能按精细任务与固定双审查维护唯一文档真源，官方准入识别缺失与过期结果",
   "contract_version": 2,
   "execution_contract": 1,
@@ -110,6 +110,19 @@
           "layer": "unit"
         }
       ]
+    },
+    {
+      "id": "AC-DOCFLOW-005",
+      "tests": [
+        "tests/contracts/review-continuity.test.ts::[AC-DOCFLOW-005] preserves clean legacy CRLF index identity and detects real edits"
+      ],
+      "required_layers": ["unit"],
+      "checks": [
+        {
+          "test": "tests/contracts/review-continuity.test.ts::[AC-DOCFLOW-005] preserves clean legacy CRLF index identity and detects real edits",
+          "layer": "unit"
+        }
+      ]
     }
   ],
   "verification_requirements": ["unit"],
@@ -137,6 +150,17 @@
       "status": "done",
       "result": "四条原生红灯均因承诺行为尚未实现而失败",
       "scope": ["tests/contracts/document-workflow.test.ts", "docs/others/evidence/tdd/"],
+      "depends_on": ["T1"],
+      "owner": "/root"
+    },
+    {
+      "id": "R5-CRLF",
+      "title": "记录旧 CRLF index 身份误判的原生红灯",
+      "phase": "red",
+      "acceptance": ["AC-DOCFLOW-005"],
+      "status": "doing",
+      "result": "当前未修复 Git 身份算法使标记目标失败，原生回执绑定新增用例与辅助上下文；原始红灯历史保留。",
+      "scope": ["docs/others/evidence/tdd/IGT-1791708512635291997/"],
       "depends_on": ["T1"],
       "owner": "/root"
     },
@@ -170,11 +194,11 @@
       "id": "T3C",
       "title": "实现两个审查对象与正式准入",
       "phase": "implement",
-      "acceptance": ["AC-DOCFLOW-003"],
-      "status": "done",
+      "acceptance": ["AC-DOCFLOW-003", "AC-DOCFLOW-005"],
+      "status": "todo",
       "result": "context/record保存真实来源及对象；draft准入与delivery准出拒绝自查、过期和未解决阻断；状态回填不误失效",
-      "scope": ["scripts/ignite/"],
-      "depends_on": ["T3A", "T3B"],
+      "scope": ["scripts/ignite/", "tests/contracts/review-continuity.test.ts"],
+      "depends_on": ["T3A", "T3B", "R5-CRLF"],
       "owner": "/root"
     },
     {
@@ -221,8 +245,8 @@
       "id": "T6",
       "title": "集成并独立审查真实结果与文档一致性",
       "phase": "verify",
-      "status": "done",
-      "result": "四项AC与兼容回归通过；另行派发独立角色读取真实diff、方法与证据，发现回到原Plan修复；Design已回写",
+      "status": "todo",
+      "result": "全部五项AC与兼容回归通过；另行派发独立角色读取真实diff、方法与证据，发现回到原Plan修复；Design已回写",
       "scope": [
         "docs/designs/execution.md",
         "docs/features/document-workflow.md",
@@ -239,17 +263,31 @@
         "tests/contracts/template-history-baseline.ts"
       ],
       "depends_on": ["T3A", "T3B", "T3C", "T4", "T5"],
-      "owner": "/root"
+      "owner": "/root",
+      "acceptance": [
+        "AC-DOCFLOW-001",
+        "AC-DOCFLOW-002",
+        "AC-DOCFLOW-003",
+        "AC-DOCFLOW-004",
+        "AC-DOCFLOW-005"
+      ]
     },
     {
       "id": "T7",
       "title": "核对 Plan 准出与 Release 最终验收交接",
       "phase": "verify",
-      "status": "done",
+      "status": "todo",
       "result": "Plan 目标、当前证据和独立交付审查完整，Release scope 与被测版本一致；最终构建和生产 E2E 由 Release 自身验收，不提前填写通过。",
       "scope": ["docs/plans/", "docs/others/evidence/"],
       "depends_on": ["T6"],
-      "owner": "/root"
+      "owner": "/root",
+      "acceptance": [
+        "AC-DOCFLOW-001",
+        "AC-DOCFLOW-002",
+        "AC-DOCFLOW-003",
+        "AC-DOCFLOW-004",
+        "AC-DOCFLOW-005"
+      ]
     }
   ],
   "depends_on": [],
@@ -265,7 +303,8 @@
       "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-002] rejects incomplete task contracts",
       "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-003] requires current independent review records",
       "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-004] loads project review methods from canonical sources",
-      "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-002] preserves legacy task contract behavior"
+      "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-002] preserves legacy task contract behavior",
+      "tests/contracts/review-continuity.test.ts::[AC-DOCFLOW-005] preserves clean legacy CRLF index identity and detects real edits"
     ],
     "remaining": []
   },
@@ -326,7 +365,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "05cc67e130b0caa23c873a05e55ba1e53a921d86",
+  "integrated_commit": "935719821c9cb82e4db63195164c50c3016c8fb4",
   "updated_at": "2026-10-13",
   "planning_contract": 1,
   "review_contract": 1,
@@ -424,6 +463,17 @@
       "findings": [],
       "identity_assurance": "declared",
       "recorded_at": "2026-10-13T20:58:16.769Z"
+    },
+    {
+      "stage": "draft",
+      "executor": "/root",
+      "reviewer": "/root/recovery_plan_review",
+      "source": "Codex collaboration sub-agent dispatched by /root as /root/recovery_plan_review",
+      "subject_fingerprint": "1ad99017615c11eb6266d44f67481e9e82debacd979e756bac6b9735cb3b4ac1",
+      "verdict": "approved",
+      "findings": [],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-10-13T21:17:45.030Z"
     }
   ]
 }
@@ -441,12 +491,12 @@
 
 ## 原始目标与覆盖核对
 
-| 用户原话或来源                            | 本轮目标                                     | REQ             | AC             | 处理结果                                 |
-| ----------------------------------------- | -------------------------------------------- | --------------- | -------------- | ---------------------------------------- |
-| “普兰的精细化，其实你就没有做好”          | 任务必须有结果、范围与依赖；脚手架提供结构   | REQ-DOCFLOW-001 | AC-DOCFLOW-001 | 纳入                                     |
-| “逐一对照，把这些事情做好”                | 原生检查拒绝笼统、越界或错误顺序任务         | REQ-DOCFLOW-002 | AC-DOCFLOW-002 | 纳入                                     |
-| 已确认取舍：独立计划和交付审查            | 固定审查触发、对象指纹与非自查记录，接入准入 | REQ-DOCFLOW-003 | AC-DOCFLOW-003 | 纳入                                     |
-| “整个当前的文档体系…重构好”，继续参考 AGE | 现有职责内整合稳定入口、来源与高价值方法     | REQ-DOCFLOW-004 | AC-DOCFLOW-004 | 纳入；内容独立核对，程序只证明可读及入口 |
+| 用户原话或来源                            | 本轮目标                                     | REQ             | AC                             | 处理结果                                 |
+| ----------------------------------------- | -------------------------------------------- | --------------- | ------------------------------ | ---------------------------------------- |
+| “普兰的精细化，其实你就没有做好”          | 任务必须有结果、范围与依赖；脚手架提供结构   | REQ-DOCFLOW-001 | AC-DOCFLOW-001                 | 纳入                                     |
+| “逐一对照，把这些事情做好”                | 原生检查拒绝笼统、越界或错误顺序任务         | REQ-DOCFLOW-002 | AC-DOCFLOW-002                 | 纳入                                     |
+| 已确认取舍：独立计划和交付审查            | 固定审查触发、对象指纹与非自查记录，接入准入 | REQ-DOCFLOW-003 | AC-DOCFLOW-003、AC-DOCFLOW-005 | 纳入                                     |
+| “整个当前的文档体系…重构好”，继续参考 AGE | 现有职责内整合稳定入口、来源与高价值方法     | REQ-DOCFLOW-004 | AC-DOCFLOW-004                 | 纳入；内容独立核对，程序只证明可读及入口 |
 
 ## 整体判断与推进顺序
 
@@ -492,7 +542,7 @@ T3A/T3B/T3C按连续行为分别实施：脚手架字段生成（AC001）、prep
 
 ## 测试与验收设计
 
-四项真实单元行为：运行脚手架读取实际生成结构；向 CLI 提交错误任务观察拒绝；观察缺失、非独立和失效审查被准入拒绝；按 canonical 入口读取两份方法并跟随现有规则。文档语义另由读者审查，不用字符串通过声称内容质量。
+五项真实单元行为：未改变的旧 CRLF index 在当前和历史审查中身份一致，真实编辑仍使审查变化；运行脚手架读取实际生成结构；向 CLI 提交错误任务观察拒绝；观察缺失、非独立和失效审查被准入拒绝；按 canonical 入口读取两份方法并跟随现有规则。文档语义另由读者审查，不用字符串通过声称内容质量。
 
 AC-DOCFLOW-004 的逐项内容判定如下，由 T6 的真实独立审查读取产物后判断；机器读取用例只证明方法入口闭合，不能替代这些判定。
 
@@ -513,7 +563,7 @@ AC-DOCFLOW-004 的逐项内容判定如下，由 T6 的真实独立审查读取�
 
 ## 验收方式
 
-规格和真实断言提交后按四项 AC 记录原生红灯；实现后执行原生 integration；所有任务和独立审查完成后，在最终版本执行 Release 验收。
+规格和真实断言提交后按五项 AC 保留或记录原生红灯；新增 AC-DOCFLOW-005 由 R5-CRLF 在 T3C 修复前取得真实目标失败，原四项凭证保持原记录；实现后执行原生 integration；所有任务和独立审查完成后，在最终版本执行 Release 验收。
 
 ## 设计回写
 
@@ -529,17 +579,18 @@ docs/designs/execution.md 记录已实现新契约和限制；domain.md 只写�
 
 <!-- ignite-progress -->
 
-状态：`verifying`（由元数据生成）
+状态：`active`（由元数据生成）
 
 - [x] T1 · 独立审查原目标、任务和真实断言 · done
 - [x] T2 · 提交规格和断言并取得真实红灯 · done
+- [ ] R5-CRLF · 记录旧 CRLF index 身份误判的原生红灯 · doing
 - [x] T3A · 生成精细任务脚手架 · done
 - [x] T3B · 约束任务完整性与依赖推进 · done
-- [x] T3C · 实现两个审查对象与正式准入 · done
+- [ ] T3C · 实现两个审查对象与正式准入 · todo
 - [x] T4 · 重构稳定业务入口、需求来源和事实冲突处理 · done
 - [x] T5 · 迁入两份审查方法并统一 Plan 规则与生成入口 · done
-- [x] T6 · 集成并独立审查真实结果与文档一致性 · done
-- [x] T7 · 核对 Plan 准出与 Release 最终验收交接 · done
+- [ ] T6 · 集成并独立审查真实结果与文档一致性 · todo
+- [ ] T7 · 核对 Plan 准出与 Release 最终验收交接 · todo
 
 验收缺口：未记录；完成仍须实际证据
 证据：check-integration / run-20261013204520-6be60a
@@ -547,9 +598,11 @@ docs/designs/execution.md 记录已实现新契约和限制；domain.md 只写�
 
 2026-10-13：接续原有文档流程计划，保留四项原始目标、真实红灯及实现任务；当前源码更新后以新的原生 integration 和独立交付审查替换过期验收绑定。四项 DOCFLOW 验收及兼容行为已验证，Design 已与当前实现核对。Plan 原生准出后继续由 document-workflow-v1 独立执行生产 Release 验收，不复写旧测试通过结果。
 
+2026-10-13：原生 done 拦截已定位为同一个未改变的 .gitignore：历史 Git blob 保留 CRLF，hash-object --path 按后来加入的 text=auto 归一化为 LF，工作区明明干净却得到不同身份。真实隔离 Git 回归在目标断言失败（legacy-index-red.log），没有准备失败。扩充原 AC-DOCFLOW-003 和原 T3C/T6/T7，保留所有原始目标、旧红灯和已通过记录；修复采用未改变文件的真实 index 身份，实际编辑仍应使审查失效。
+
 ## 准出条件
 
-四项 AC 与内容审查成立；原目标全部对应；真实证据和最终组合验收可追溯。未接通能力按限制说明，不能冒充自动引擎完成。
+全部五项 AC 与内容审查成立；原目标全部对应；真实证据和最终组合验收可追溯。未接通能力按限制说明，不能冒充自动引擎完成。
 
 ## TDD 恢复记录
 

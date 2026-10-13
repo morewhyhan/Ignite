@@ -32,7 +32,7 @@
       "text": "固定开工和交付的独立审查，版本变化使相关审查失效，保持身份可信度说明",
       "source": "本会话逐项落实 AGE 取舍并强调 Plan 精细化的实施要求",
       "requirements": ["REQ-DOCFLOW-003"],
-      "acceptance": ["AC-DOCFLOW-003"],
+      "acceptance": ["AC-DOCFLOW-003", "AC-DOCFLOW-005"],
       "plan_ids": ["IGT-1791708512635291997"],
       "disposition": "included",
       "reason": "按用户确定目标实施",

@@ -25,6 +25,55 @@ import {
 } from './ignite-fixture'
 
 describe('Plan semantic identity', () => {
+  it('[AC-DOCFLOW-005] preserves clean legacy CRLF index identity and detects real edits', () => {
+    const fixture = makeFixture()
+    try {
+      const legacy = '.ignite/\r\nTEMP/\r\n'
+      write(fixture.root, '.gitignore', legacy)
+      write(fixture.root, '.gitattributes', '* text=auto eol=lf\n.gitignore -text\n')
+      const original = JSON.parse(
+        read(fixture.root, 'docs/plans/fixture.md').match(/<!-- ignite-plan\s*([\s\S]*?)-->/)![1],
+      )
+      write(
+        fixture.root,
+        'docs/plans/fixture.md',
+        planContent(fixture.baseCommit, { write_scope: [...original.write_scope, '.gitignore'] }),
+      )
+      commitAll(fixture.root, 'legacy CRLF index')
+      write(fixture.root, '.gitattributes', '* text=auto eol=lf\n')
+      git(fixture.root, 'add', '.gitattributes')
+      git(fixture.root, 'commit', '-m', 'enable text attributes without renormalizing history')
+      const commit = git(fixture.root, 'rev-parse', 'HEAD')
+      expect(git(fixture.root, 'show', `${commit}:.gitignore`)).toContain('\r\n')
+      expect(git(fixture.root, 'diff', '--name-only')).toBe('')
+      const context = (historical: boolean) => {
+        const result = spawnSync(
+          process.execPath,
+          [
+            '--input-type=module',
+            '-e',
+            `import {findPlan,planReviewContext} from ${JSON.stringify(join(repositoryRoot, 'scripts/ignite/state.mjs'))}; console.log(JSON.stringify(planReviewContext(findPlan('IGT-900'),'delivery',${historical ? JSON.stringify(commit) : 'null'})));`,
+          ],
+          {
+            cwd: fixture.root,
+            env: { ...process.env, IGNITE_ROOT: fixture.root },
+            encoding: 'utf8',
+          },
+        )
+        if (result.status !== 0) throw new Error(result.stderr || result.stdout)
+        return JSON.parse(result.stdout).subject_fingerprint
+      }
+      const historical = context(true)
+      expect(context(false), '[AC-DOCFLOW-005] target').toBe(historical)
+      write(fixture.root, '.gitignore', `${legacy}changed/\r\n`)
+      expect(context(false)).not.toBe(historical)
+      write(fixture.root, '.gitignore', legacy)
+      expect(context(false)).toBe(historical)
+    } finally {
+      fixture.cleanup()
+    }
+  }, 60_000)
+
   function fixtureInputFingerprint(root: string) {
     const result = spawnSync(
       process.execPath,

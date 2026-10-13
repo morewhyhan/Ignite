@@ -424,7 +424,7 @@
       "title": "取得 AC-EXECUTION-046 的真实目标失败",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-046"],
-      "status": "todo",
+      "status": "done",
       "result": "同一实际目标测试在真实未实现版本失败，保留原生回执和 Git 祖先。",
       "scope": ["docs/others/evidence/tdd/IGT-1791813346292559552/"],
       "depends_on": ["PREP"],
@@ -864,6 +864,11 @@
       "acceptance_id": "AC-EXECUTION-045",
       "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-045] returns a task packet with its executable workspace and dependency",
       "run_id": "tdd-20261013190049-80c8d7"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-046",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-046] appends an execution note without changing the review subject",
+      "run_id": "tdd-20261013190139-c9a58a"
     }
   ],
   "required_evidence": ["check-integration"],
@@ -980,7 +985,7 @@ AI 执行失败时可以定位原因、清理自有进程并接续；并行任�
 - [x] R043 · 取得 AC-EXECUTION-043 的真实目标失败 · done
 - [x] R044 · 取得 AC-EXECUTION-044 的真实目标失败 · done
 - [x] R045 · 取得 AC-EXECUTION-045 的真实目标失败 · done
-- [ ] R046 · 取得 AC-EXECUTION-046 的真实目标失败 · todo
+- [x] R046 · 取得 AC-EXECUTION-046 的真实目标失败 · done
 - [ ] R047 · 取得 AC-EXECUTION-047 的真实目标失败 · todo
 - [ ] R048 · 取得 AC-EXECUTION-048 的真实目标失败 · todo
 - [ ] R049 · 取得 AC-EXECUTION-049 的真实目标失败 · todo

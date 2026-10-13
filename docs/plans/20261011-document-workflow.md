@@ -195,7 +195,7 @@
       "title": "实现两个审查对象与正式准入",
       "phase": "implement",
       "acceptance": ["AC-DOCFLOW-003", "AC-DOCFLOW-005"],
-      "status": "todo",
+      "status": "done",
       "result": "context/record保存真实来源及对象；draft准入与delivery准出拒绝自查、过期和未解决阻断；状态回填不误失效",
       "scope": ["scripts/ignite/", "tests/contracts/review-continuity.test.ts"],
       "depends_on": ["T3A", "T3B", "R5-CRLF"],
@@ -591,7 +591,7 @@ docs/designs/execution.md 记录已实现新契约和限制；domain.md 只写�
 - [x] R5-CRLF · 记录旧 CRLF index 身份误判的原生红灯 · done
 - [x] T3A · 生成精细任务脚手架 · done
 - [x] T3B · 约束任务完整性与依赖推进 · done
-- [ ] T3C · 实现两个审查对象与正式准入 · todo
+- [x] T3C · 实现两个审查对象与正式准入 · done
 - [x] T4 · 重构稳定业务入口、需求来源和事实冲突处理 · done
 - [x] T5 · 迁入两份审查方法并统一 Plan 规则与生成入口 · done
 - [ ] T6 · 集成并独立审查真实结果与文档一致性 · todo

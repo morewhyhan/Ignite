@@ -206,6 +206,12 @@ export function workingPathBlobIdentity(path) {
     throw new Error(`Input fingerprint does not support custom Git clean filters: ${path}`)
   }
   const content = readFileSync(absolutePath)
+  const indexed = runGit(['rev-parse', '--verify', `:${path}`], { allowFailure: true })
+  const rawIdentity = createHash('sha1')
+    .update(`blob ${content.length}\0`)
+    .update(content)
+    .digest('hex')
+  if (indexed.exitCode === 0 && indexed.stdout.trim() === rawIdentity) return rawIdentity
   const result = spawnSync('git', ['hash-object', `--path=${path}`, '--stdin'], {
     cwd: repositoryRoot,
     input: content,

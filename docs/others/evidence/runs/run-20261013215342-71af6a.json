@@ -1,0 +1,73 @@
+{
+  "schema": 2,
+  "run_id": "run-20261013215342-71af6a",
+  "check_policy_version": 7,
+  "plan_id": "IGT-1791813346292559552",
+  "evidence_id": "check-release",
+  "level": "release",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-10-13T21:54:24.688Z",
+  "ended_at": "2026-10-13T21:59:39.693Z",
+  "commit": "6b61649b973d4bc4b7d8a1c612ad03a20290a7da",
+  "input_fingerprint": "4840176144c816a48ba8bc38218225b475cf9d9b8bb2c7f25bf490141308f28f",
+  "environment_fingerprint": "e73ab4a40c6b7141120afff35ca73e610ff1a7311abcaabed94c952c6caed87a",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "e2e_server_mode": "development",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "e5e7d5a778d5a9b0ac0b5769a44affd0082e1d89833eb1af048b37cb7a309020",
+  "acceptance_results": [
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-043",
+      "test": "tests/e2e/auth.spec.ts::[AC-AUTH-001] [AC-AUTH-002] [AC-AUTH-003] [AC-AUTH-005] [AC-PRODUCT-004] [AC-EXECUTION-043] authenticates without the Tasks example",
+      "layer": "browser",
+      "passed": true,
+      "cases": 2
+    }
+  ],
+  "release_id": "agent-run-recovery-v1",
+  "release_fingerprint": "bb93f92b562c845ebad96cb024b7f046f741542d5496f13a57d0b73817189be3",
+  "release_identity": {
+    "package_version": "0.1.0",
+    "tags": []
+  },
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "55989efae72221572ae4533eb536741197498b8a"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 1120
+    },
+    {
+      "label": "build",
+      "command": ["corepack", "pnpm", "build"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 117259
+    },
+    {
+      "label": "e2e-production",
+      "command": ["corepack", "pnpm", "test:e2e:production"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 58625
+    }
+  ],
+  "log_sha256": "402fb2e2568993ea2b23be892968c05a9e1f1bc65c6c32249e79f2b0ea2131a4",
+  "execution_source": "ignite-runner-local"
+}

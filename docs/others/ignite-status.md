@@ -10,11 +10,10 @@
 
 ## 发布范围
 
-- `agent-run-recovery-v1` · `verifying`
+- `agent-run-recovery-v1` · `done`
   - Plan：`IGT-1791813346292559552`
   - 缺少证据：无
-  - 最终版本验收：stale
-  - 下一步：pnpm ignite release verify agent-run-recovery-v1 --plan IGT-1791813346292559552
+  - 最终版本验收：passed（6b61649b973d）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `document-workflow-v1` · `done`
   - Plan：`IGT-1791708512635291997`

@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "0d8e9aea3ef7e95a698efef3b521523913849dfdd3de21fd52dc6d520e76f626",
+  "run_id": "tdd-20261013185911-73a5fe",
+  "plan_id": "IGT-1791813346292559552",
+  "acceptance_id": "AC-EXECUTION-043",
+  "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-043] gives development-mode Next its own build directory",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "0ded97d1f62addb43eb2c25a5a14739a4a96ddbf",
+  "output_sha256": "c4f54ac65ede2168a692b13f85174c28545d534c976b37a855d46ad6bdfe6948",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/execution-proof.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-043",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-13T18:59:11.952Z",
+  "ended_at": "2026-10-13T18:59:20.212Z",
+  "executor": "ignite-tdd-runner"
+}

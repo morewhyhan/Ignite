@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "0769523a98b55b7b29727dfc8b411a931b288a758cc71fabe20541903eeceb1a",
+  "run_id": "tdd-20261013190558-420dd4",
+  "plan_id": "IGT-1791813346292559552",
+  "acceptance_id": "AC-EXECUTION-051",
+  "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-051] includes the tool-script type check in the policy integration commands",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "b6d69d505d8eb5605b540b731f5b7636bce3f0eb",
+  "output_sha256": "2630ab4f256bcca5703556e904f85443922e72b627527ad243a6d7e48f66f375",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/execution-proof.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-051",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-13T19:05:58.322Z",
+  "ended_at": "2026-10-13T19:06:05.181Z",
+  "executor": "ignite-tdd-runner"
+}

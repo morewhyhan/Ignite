@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1791813346292559552",
   "release": "agent-run-recovery-v1",
-  "status": "draft",
+  "status": "active",
   "outcome": "AI 可按准确交接并行实施，测试失败可定位、清理和恢复，开发反馈与正式验收分开。",
   "contract_version": 2,
   "execution_contract": 1,
@@ -390,7 +390,7 @@
       "title": "对齐用户目标、12 项验收及独立开工审查",
       "phase": "prepare",
       "acceptance": [],
-      "status": "todo",
+      "status": "done",
       "result": "原始结果、缺陷、行为断言、写入边界和审查对象一致；不把结构检查当作行为完成。",
       "scope": [
         "docs/features/execution.md",
@@ -406,7 +406,7 @@
       "title": "取得 AC-EXECUTION-042 的真实目标失败",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-042"],
-      "status": "todo",
+      "status": "done",
       "result": "同一实际目标测试在真实未实现版本失败，保留原生回执和 Git 祖先。",
       "scope": ["docs/others/evidence/tdd/IGT-1791813346292559552/"],
       "depends_on": ["PREP"],
@@ -417,7 +417,7 @@
       "title": "取得 AC-EXECUTION-043 的真实目标失败",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-043"],
-      "status": "todo",
+      "status": "done",
       "result": "同一实际目标测试在真实未实现版本失败，保留原生回执和 Git 祖先。",
       "scope": ["docs/others/evidence/tdd/IGT-1791813346292559552/"],
       "depends_on": ["PREP"],
@@ -428,7 +428,7 @@
       "title": "取得 AC-EXECUTION-044 的真实目标失败",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-044"],
-      "status": "todo",
+      "status": "done",
       "result": "同一实际目标测试在真实未实现版本失败，保留原生回执和 Git 祖先。",
       "scope": ["docs/others/evidence/tdd/IGT-1791813346292559552/"],
       "depends_on": ["PREP"],
@@ -439,7 +439,7 @@
       "title": "取得 AC-EXECUTION-045 的真实目标失败",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-045"],
-      "status": "todo",
+      "status": "done",
       "result": "同一实际目标测试在真实未实现版本失败，保留原生回执和 Git 祖先。",
       "scope": ["docs/others/evidence/tdd/IGT-1791813346292559552/"],
       "depends_on": ["PREP"],
@@ -450,7 +450,7 @@
       "title": "取得 AC-EXECUTION-046 的真实目标失败",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-046"],
-      "status": "todo",
+      "status": "done",
       "result": "同一实际目标测试在真实未实现版本失败，保留原生回执和 Git 祖先。",
       "scope": ["docs/others/evidence/tdd/IGT-1791813346292559552/"],
       "depends_on": ["PREP"],
@@ -461,7 +461,7 @@
       "title": "取得 AC-EXECUTION-047 的真实目标失败",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-047"],
-      "status": "todo",
+      "status": "done",
       "result": "同一实际目标测试在真实未实现版本失败，保留原生回执和 Git 祖先。",
       "scope": ["docs/others/evidence/tdd/IGT-1791813346292559552/"],
       "depends_on": ["PREP"],
@@ -472,7 +472,7 @@
       "title": "取得 AC-EXECUTION-048 的真实目标失败",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-048"],
-      "status": "todo",
+      "status": "done",
       "result": "同一实际目标测试在真实未实现版本失败，保留原生回执和 Git 祖先。",
       "scope": ["docs/others/evidence/tdd/IGT-1791813346292559552/"],
       "depends_on": ["PREP"],
@@ -483,7 +483,7 @@
       "title": "取得 AC-EXECUTION-049 的真实目标失败",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-049"],
-      "status": "todo",
+      "status": "done",
       "result": "同一实际目标测试在真实未实现版本失败，保留原生回执和 Git 祖先。",
       "scope": ["docs/others/evidence/tdd/IGT-1791813346292559552/"],
       "depends_on": ["PREP"],
@@ -494,7 +494,7 @@
       "title": "取得 AC-EXECUTION-050 的真实目标失败",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-050"],
-      "status": "todo",
+      "status": "done",
       "result": "同一实际目标测试在真实未实现版本失败，保留原生回执和 Git 祖先。",
       "scope": ["docs/others/evidence/tdd/IGT-1791813346292559552/"],
       "depends_on": ["PREP"],
@@ -505,7 +505,7 @@
       "title": "取得 AC-EXECUTION-051 的真实目标失败",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-051"],
-      "status": "todo",
+      "status": "done",
       "result": "同一实际目标测试在真实未实现版本失败，保留原生回执和 Git 祖先。",
       "scope": ["docs/others/evidence/tdd/IGT-1791813346292559552/"],
       "depends_on": ["PREP"],
@@ -516,7 +516,7 @@
       "title": "取得 AC-EXECUTION-052 的真实目标失败",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-052"],
-      "status": "todo",
+      "status": "done",
       "result": "同一实际目标测试在真实未实现版本失败，保留原生回执和 Git 祖先。",
       "scope": ["docs/others/evidence/tdd/IGT-1791813346292559552/"],
       "depends_on": ["PREP"],
@@ -527,7 +527,7 @@
       "title": "取得 AC-EXECUTION-053 的真实目标失败",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-053"],
-      "status": "todo",
+      "status": "done",
       "result": "同一实际目标测试在真实未实现版本失败，保留原生回执和 Git 祖先。",
       "scope": ["docs/others/evidence/tdd/IGT-1791813346292559552/"],
       "depends_on": ["PREP"],
@@ -538,7 +538,7 @@
       "title": "取得共享写入范围误锁的真实目标失败",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-054"],
-      "status": "todo",
+      "status": "done",
       "result": "同一共享范围断言在真实旧实现失败，不用环境失败生成证明。",
       "scope": ["docs/others/evidence/tdd/IGT-1791813346292559552/"],
       "depends_on": ["PREP"],
@@ -884,7 +884,73 @@
     "tests/contracts/acceptance-runtime.test.ts",
     "docs/"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-EXECUTION-042",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-042] cleans up detached descendants after the primary command exits",
+      "run_id": "tdd-20261013185812-7634cf"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-043",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-043] gives development-mode Next its own build directory",
+      "run_id": "tdd-20261013185911-73a5fe"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-044",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-044] prepares historical code in an isolated recovery worktree",
+      "run_id": "tdd-20261013190010-d3379a"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-045",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-045] returns a task packet with its executable workspace and dependency",
+      "run_id": "tdd-20261013190049-80c8d7"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-046",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-046] appends an execution note without changing the review subject",
+      "run_id": "tdd-20261013190139-c9a58a"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-047",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-047] selects only mapped feedback cases without writing evidence",
+      "run_id": "tdd-20261013190227-3c103f"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-048",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-048] keeps working and committed delivery reviews equal with CRLF input",
+      "run_id": "tdd-20261013190327-b9d8a8"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-049",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-049] exposes independent todo work alongside a task already in progress",
+      "run_id": "tdd-20261013190422-195ed9"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-050",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-050] reports an unfinished upstream Plan as a handoff blocker",
+      "run_id": "tdd-20261013190510-1606fa"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-051",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-051] includes the tool-script type check in the policy integration commands",
+      "run_id": "tdd-20261013190558-420dd4"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-052",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-052] updates a task without scanning an unrelated malformed Release",
+      "run_id": "tdd-20261013190649-9f4510"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-053",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-053] rejects a Feature with missing preparation headings and a broken local link",
+      "run_id": "tdd-20261013190744-16d88e"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-054",
+      "test": "tests/contracts/scoped-mutation.test.ts::[AC-EXECUTION-054] reserves shared writes by unfinished task scopes and keeps legacy scopes conservative",
+      "run_id": "tdd-20261013195325-247f72"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
@@ -994,22 +1060,22 @@ AI 执行失败时可以定位原因、清理自有进程并接续；并行任�
 
 <!-- ignite-progress -->
 
-状态：`draft`（由元数据生成）
+状态：`active`（由元数据生成）
 
-- [ ] PREP · 对齐用户目标、12 项验收及独立开工审查 · todo
-- [ ] R042 · 取得 AC-EXECUTION-042 的真实目标失败 · todo
-- [ ] R043 · 取得 AC-EXECUTION-043 的真实目标失败 · todo
-- [ ] R044 · 取得 AC-EXECUTION-044 的真实目标失败 · todo
-- [ ] R045 · 取得 AC-EXECUTION-045 的真实目标失败 · todo
-- [ ] R046 · 取得 AC-EXECUTION-046 的真实目标失败 · todo
-- [ ] R047 · 取得 AC-EXECUTION-047 的真实目标失败 · todo
-- [ ] R048 · 取得 AC-EXECUTION-048 的真实目标失败 · todo
-- [ ] R049 · 取得 AC-EXECUTION-049 的真实目标失败 · todo
-- [ ] R050 · 取得 AC-EXECUTION-050 的真实目标失败 · todo
-- [ ] R051 · 取得 AC-EXECUTION-051 的真实目标失败 · todo
-- [ ] R052 · 取得 AC-EXECUTION-052 的真实目标失败 · todo
-- [ ] R053 · 取得 AC-EXECUTION-053 的真实目标失败 · todo
-- [ ] R054 · 取得共享写入范围误锁的真实目标失败 · todo
+- [x] PREP · 对齐用户目标、12 项验收及独立开工审查 · done
+- [x] R042 · 取得 AC-EXECUTION-042 的真实目标失败 · done
+- [x] R043 · 取得 AC-EXECUTION-043 的真实目标失败 · done
+- [x] R044 · 取得 AC-EXECUTION-044 的真实目标失败 · done
+- [x] R045 · 取得 AC-EXECUTION-045 的真实目标失败 · done
+- [x] R046 · 取得 AC-EXECUTION-046 的真实目标失败 · done
+- [x] R047 · 取得 AC-EXECUTION-047 的真实目标失败 · done
+- [x] R048 · 取得 AC-EXECUTION-048 的真实目标失败 · done
+- [x] R049 · 取得 AC-EXECUTION-049 的真实目标失败 · done
+- [x] R050 · 取得 AC-EXECUTION-050 的真实目标失败 · done
+- [x] R051 · 取得 AC-EXECUTION-051 的真实目标失败 · done
+- [x] R052 · 取得 AC-EXECUTION-052 的真实目标失败 · done
+- [x] R053 · 取得 AC-EXECUTION-053 的真实目标失败 · done
+- [x] R054 · 取得共享写入范围误锁的真实目标失败 · done
 - [ ] IP · 受管命令保持诊断并清理自己的进程 · todo
 - [ ] IE · 浏览器启动与缓存隔离且生产模式保留真实构建 · todo
 - [ ] IT · 恢复原生红灯并拒绝准备失败或变化的测试上下文 · todo

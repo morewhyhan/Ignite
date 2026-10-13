@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "3c91ad668ccb140815dac213e97b710f862bae6eb14cde0230b6f760dfe5d341",
+  "run_id": "tdd-20261013190649-9f4510",
+  "plan_id": "IGT-1791813346292559552",
+  "acceptance_id": "AC-EXECUTION-052",
+  "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-052] updates a task without scanning an unrelated malformed Release",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "0d1b491fdf6ebd73960d3c6240f6bde44469c64a",
+  "output_sha256": "ed137dbba9971da2d88bfd568b2ef8883464491dd60901aa22ae65f3cecbec53",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/execution-proof.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-052",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-13T19:06:49.244Z",
+  "ended_at": "2026-10-13T19:06:55.600Z",
+  "executor": "ignite-tdd-runner"
+}

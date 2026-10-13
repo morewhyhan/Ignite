@@ -1,22 +1,22 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`3b8ffcb0bda9`
+输入指纹：`a5a75c88edb5`
 当前 Plan：2；结构化历史：0；未迁移历史：0
 
 ## 当前工作
 
 - `IGT-1791708512635291997` · `verifying` · `document-workflow-v1`
-- `IGT-1791813346292559552` · `draft` · `agent-run-recovery-v1`
+- `IGT-1791813346292559552` · `active` · `agent-run-recovery-v1`
 
 ## 发布范围
 
-- `agent-run-recovery-v1` · `draft`
+- `agent-run-recovery-v1` · `active`
   - Plan：`IGT-1791813346292559552`
   - 缺少证据：`IGT-1791813346292559552:check-integration`（missing：no run is bound to this evidence requirement）
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1791813346292559552
-  - 未完成原始目标：GOAL-001 AI 可按准确交接并行实施，测试失败可定位、清理和恢复，开发反馈与正式验收分开。
+  - 未完成原始目标：GOAL-001 项目修改能可靠接续、应用既定方法、准确验收并减少重复操作；本次修复全部已确认同源缺陷。
 - `document-workflow-v1` · `verifying`
   - Plan：`IGT-1791708512635291997`
   - 缺少证据：`IGT-1791708512635291997:check-integration`（stale：repository or Plan inputs changed after this run）

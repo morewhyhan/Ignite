@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "2dfcf0b2be895390f0a07daf6b59c279b21ff5680aac84090cb16fa2d919cab2",
+  "run_id": "tdd-20261013190049-80c8d7",
+  "plan_id": "IGT-1791813346292559552",
+  "acceptance_id": "AC-EXECUTION-045",
+  "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-045] returns a task packet with its executable workspace and dependency",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "1ddf9728d63b2c3a4f9e26ccbdde91874ace8031",
+  "output_sha256": "291c310b697e159ec9cf77cac233a0cd2e0f78d20f337d3099c0d135f2f7c5da",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/execution-proof.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-045",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-13T19:00:49.882Z",
+  "ended_at": "2026-10-13T19:00:59.512Z",
+  "executor": "ignite-tdd-runner"
+}

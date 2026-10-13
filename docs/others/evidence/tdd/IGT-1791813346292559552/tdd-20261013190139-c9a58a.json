@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "c1f991f5a86033725805284ba5867eabf90ca9d2a478e1b3cfff30f7147b2923",
+  "run_id": "tdd-20261013190139-c9a58a",
+  "plan_id": "IGT-1791813346292559552",
+  "acceptance_id": "AC-EXECUTION-046",
+  "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-046] appends an execution note without changing the review subject",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "9a4b280c0655965aa3f360abe734827de4b87bdd",
+  "output_sha256": "012903284bba605ef395bc6ee2ec4031bbc056ca5d6bd464d827d251623b4a52",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/execution-proof.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-046",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-13T19:01:39.439Z",
+  "ended_at": "2026-10-13T19:01:46.716Z",
+  "executor": "ignite-tdd-runner"
+}

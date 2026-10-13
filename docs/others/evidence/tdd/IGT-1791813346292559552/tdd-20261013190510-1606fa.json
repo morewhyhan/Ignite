@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "b200a08a67d11414d5f01bf5b7df9491b9c69fd5b4340cad14fe534c311db6cd",
+  "run_id": "tdd-20261013190510-1606fa",
+  "plan_id": "IGT-1791813346292559552",
+  "acceptance_id": "AC-EXECUTION-050",
+  "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-050] reports an unfinished upstream Plan as a handoff blocker",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "3aab98bd815a85d9bb023aa9a8f39dca336059a5",
+  "output_sha256": "b3fdde2ef09e80503f7f2783d3bf3a0fff32d641ea0274d03ea6da62ae89a840",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/execution-proof.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-050",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-13T19:05:10.945Z",
+  "ended_at": "2026-10-13T19:05:17.396Z",
+  "executor": "ignite-tdd-runner"
+}

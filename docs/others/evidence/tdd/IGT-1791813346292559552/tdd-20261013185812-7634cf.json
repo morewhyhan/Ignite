@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "cfccb1a451d2d1c850072d15b219fbe3c8309474106a92a2316b6322650f5e13",
+  "run_id": "tdd-20261013185812-7634cf",
+  "plan_id": "IGT-1791813346292559552",
+  "acceptance_id": "AC-EXECUTION-042",
+  "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-042] cleans up detached descendants after the primary command exits",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "2e1c15678bf82d294f373f84a06fa87e9a40b254",
+  "output_sha256": "6311e650ac2cb73523d9b9d5d5dd0baa456f494d26255e563488200ad40962a4",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/execution-proof.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-042",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-13T18:58:12.072Z",
+  "ended_at": "2026-10-13T18:58:27.158Z",
+  "executor": "ignite-tdd-runner"
+}

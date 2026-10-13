@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "dddcb839f0cf6d175429e6c2c98c692771eb3edcaf3727d3e96dc576187a3a59",
+  "run_id": "tdd-20261013195325-247f72",
+  "plan_id": "IGT-1791813346292559552",
+  "acceptance_id": "AC-EXECUTION-054",
+  "test": "tests/contracts/scoped-mutation.test.ts::[AC-EXECUTION-054] reserves shared writes by unfinished task scopes and keeps legacy scopes conservative",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "9f38ca03f0d05f067c9bfdbdf9603732cfe02178",
+  "output_sha256": "644f17fd479f0dd658c1c1c0531ff46f47770982cd79fc84f96fb0f7f594e5c2",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/scoped-mutation.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-054",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-13T19:53:25.687Z",
+  "ended_at": "2026-10-13T19:53:37.648Z",
+  "executor": "ignite-tdd-runner"
+}

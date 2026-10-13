@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "5195c9e9edff87d53755d0ccbbbf716fb9fe58aeb3f2a03284217859a5048693",
+  "run_id": "tdd-20261013190744-16d88e",
+  "plan_id": "IGT-1791813346292559552",
+  "acceptance_id": "AC-EXECUTION-053",
+  "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-053] rejects a Feature with missing preparation headings and a broken local link",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "ba9dd792a02a3680e3ff47a582471a9e7c645c7d",
+  "output_sha256": "a7faf4a3b085835c4f22643953fc44652382980fbcbaebcd98e927ee478e728e",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/execution-proof.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-053",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-13T19:07:44.410Z",
+  "ended_at": "2026-10-13T19:07:50.821Z",
+  "executor": "ignite-tdd-runner"
+}

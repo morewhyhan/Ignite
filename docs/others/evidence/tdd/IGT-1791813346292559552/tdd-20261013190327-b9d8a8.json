@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "750bb103f34a08a65e17fe99f1abb159afcefeb890151ae06a6fd05199955ae6",
+  "run_id": "tdd-20261013190327-b9d8a8",
+  "plan_id": "IGT-1791813346292559552",
+  "acceptance_id": "AC-EXECUTION-048",
+  "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-048] keeps working and committed delivery reviews equal with CRLF input",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "bcdced6297c570dc0f75ced80411f2a650a2828a",
+  "output_sha256": "faa0dfdefe73335293b1c7f0fe5496324493cd9b9bd05c251c8caad385685b0b",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/execution-proof.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-048",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-13T19:03:27.490Z",
+  "ended_at": "2026-10-13T19:03:35.062Z",
+  "executor": "ignite-tdd-runner"
+}

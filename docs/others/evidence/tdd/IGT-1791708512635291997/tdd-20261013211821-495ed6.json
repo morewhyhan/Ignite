@@ -1,0 +1,41 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "07d63dd53cae80fafe0d82a909a6f58aa15ab274e047488884c003697d2acb0d",
+  "context_schema": 1,
+  "context_sha256": "0237dbf2cc3d45ab573709e6bd66b66434e4e21b0ad148a785ab09c64acf836d",
+  "context_files": [
+    "tests/contracts/ignite-fixture.ts",
+    "tests/contracts/review-continuity.test.ts"
+  ],
+  "warnings": [],
+  "run_id": "tdd-20261013211821-495ed6",
+  "plan_id": "IGT-1791708512635291997",
+  "acceptance_id": "AC-DOCFLOW-005",
+  "test": "tests/contracts/review-continuity.test.ts::[AC-DOCFLOW-005] preserves clean legacy CRLF index identity and detects real edits",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "target_assertion_contract": "ac-message-marker-v1",
+  "red_commit": "86c623d20fc82580247d92a439d6925c34945044",
+  "output_sha256": "09f84da0c7fdaeaaca9eb7e4c7c6f3d7b2d8233ab28a3ccb86d828b104976ac9",
+  "failure_sha256": "61d0511aac2676d90233cd25e0171b80e1d7872468c4523d2d2ebca27c2d1358",
+  "failure_summary": [
+    "AssertionError: [AC-DOCFLOW-005] target: expected 'a797e01ac710f31a1c2279408c3ac1eab4005…' to be 'a8c3bd4c75eb3515f177c8615b81a96fff3e7…' // Object.is equality at /mnt/c/Users/why/Documents/ignite/tests/contracts/review-continuity.test.ts:67:57 at file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 at file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26 at file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20 at new Promise (<anonymous>) at runWithCancel (file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10) at file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20 at new Promise (<anonymous>) at runWithTimeout (file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10) a"
+  ],
+  "failure_summary_sha256": "bad8685c6ea11384b0fd434f590370a8e2f6d7fc9e43b39fc9db7d83791044d5",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/review-continuity.test.ts",
+    "--testNamePattern",
+    "AC-DOCFLOW-005",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-13T21:18:21.676Z",
+  "ended_at": "2026-10-13T21:18:28.107Z",
+  "executor": "ignite-tdd-runner"
+}

@@ -158,7 +158,7 @@
       "title": "记录旧 CRLF index 身份误判的原生红灯",
       "phase": "red",
       "acceptance": ["AC-DOCFLOW-005"],
-      "status": "doing",
+      "status": "done",
       "result": "当前未修复 Git 身份算法使标记目标失败，原生回执绑定新增用例与辅助上下文；原始红灯历史保留。",
       "scope": ["docs/others/evidence/tdd/IGT-1791708512635291997/"],
       "depends_on": ["T1"],
@@ -354,6 +354,11 @@
       "acceptance_id": "AC-DOCFLOW-001",
       "test": "tests/contracts/document-workflow.test.ts::[AC-DOCFLOW-001] scaffolds executable task detail",
       "run_id": "tdd-20261011175159-98add8"
+    },
+    {
+      "acceptance_id": "AC-DOCFLOW-005",
+      "test": "tests/contracts/review-continuity.test.ts::[AC-DOCFLOW-005] preserves clean legacy CRLF index identity and detects real edits",
+      "run_id": "tdd-20261013211821-495ed6"
     }
   ],
   "required_evidence": ["check-integration"],
@@ -583,7 +588,7 @@ docs/designs/execution.md 记录已实现新契约和限制；domain.md 只写�
 
 - [x] T1 · 独立审查原目标、任务和真实断言 · done
 - [x] T2 · 提交规格和断言并取得真实红灯 · done
-- [ ] R5-CRLF · 记录旧 CRLF index 身份误判的原生红灯 · doing
+- [x] R5-CRLF · 记录旧 CRLF index 身份误判的原生红灯 · done
 - [x] T3A · 生成精细任务脚手架 · done
 - [x] T3B · 约束任务完整性与依赖推进 · done
 - [ ] T3C · 实现两个审查对象与正式准入 · todo

@@ -538,7 +538,7 @@
       "title": "取得共享写入范围误锁的真实目标失败",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-054"],
-      "status": "todo",
+      "status": "done",
       "result": "同一共享范围断言在真实旧实现失败，不用环境失败生成证明。",
       "scope": ["docs/others/evidence/tdd/IGT-1791813346292559552/"],
       "depends_on": ["PREP"],
@@ -944,6 +944,11 @@
       "acceptance_id": "AC-EXECUTION-053",
       "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-053] rejects a Feature with missing preparation headings and a broken local link",
       "run_id": "tdd-20261013190744-16d88e"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-054",
+      "test": "tests/contracts/scoped-mutation.test.ts::[AC-EXECUTION-054] reserves shared writes by unfinished task scopes and keeps legacy scopes conservative",
+      "run_id": "tdd-20261013195325-247f72"
     }
   ],
   "required_evidence": ["check-integration"],
@@ -1070,7 +1075,7 @@ AI 执行失败时可以定位原因、清理自有进程并接续；并行任�
 - [x] R051 · 取得 AC-EXECUTION-051 的真实目标失败 · done
 - [x] R052 · 取得 AC-EXECUTION-052 的真实目标失败 · done
 - [x] R053 · 取得 AC-EXECUTION-053 的真实目标失败 · done
-- [ ] R054 · 取得共享写入范围误锁的真实目标失败 · todo
+- [x] R054 · 取得共享写入范围误锁的真实目标失败 · done
 - [ ] IP · 受管命令保持诊断并清理自己的进程 · todo
 - [ ] IE · 浏览器启动与缓存隔离且生产模式保留真实构建 · todo
 - [ ] IT · 恢复原生红灯并拒绝准备失败或变化的测试上下文 · todo

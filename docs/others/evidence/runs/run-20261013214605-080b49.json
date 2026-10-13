@@ -1,0 +1,64 @@
+{
+  "schema": 2,
+  "run_id": "run-20261013214605-080b49",
+  "check_policy_version": 7,
+  "plan_id": "IGT-1791708512635291997",
+  "evidence_id": "check-release",
+  "level": "release",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-10-13T21:46:32.443Z",
+  "ended_at": "2026-10-13T21:50:29.594Z",
+  "commit": "6d99bdee27cc9ce6f59806f24b6eba6c3bab66e1",
+  "input_fingerprint": "bcff3273bbcc6a05ca3c4b94cc497e24e8c9f46c3bfde196cb071a33f64d3b99",
+  "environment_fingerprint": "e73ab4a40c6b7141120afff35ca73e610ff1a7311abcaabed94c952c6caed87a",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "e2e_server_mode": "development",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "e5e7d5a778d5a9b0ac0b5769a44affd0082e1d89833eb1af048b37cb7a309020",
+  "acceptance_results": [],
+  "release_id": "document-workflow-v1",
+  "release_fingerprint": "cc915772a91c9f1b39b8d562bceb18682d97ecd3d2589494dce621902e3b15c9",
+  "release_identity": {
+    "package_version": "0.1.0",
+    "tags": []
+  },
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "3e32ce4e392a6604f34f7476c7f13c811afab9e9"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 1241
+    },
+    {
+      "label": "build",
+      "command": ["corepack", "pnpm", "build"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 96580
+    },
+    {
+      "label": "e2e-production",
+      "command": ["corepack", "pnpm", "test:e2e:production"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 56543
+    }
+  ],
+  "log_sha256": "16909ca747c670f27bf6c816112ff75cb39bf703330af104eb63d5cd6e9ef649",
+  "execution_source": "ignite-runner-local"
+}

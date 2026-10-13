@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "df4e65ef27de2607db38aee9ca956ed51975facb1b4f98222a3448a90736ea2b",
+  "run_id": "tdd-20261013190422-195ed9",
+  "plan_id": "IGT-1791813346292559552",
+  "acceptance_id": "AC-EXECUTION-049",
+  "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-049] exposes independent todo work alongside a task already in progress",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "7d1bff8b107fd0756078a1633723ec6089f37455",
+  "output_sha256": "4bce26e39d86ed48b4918d75b29bbb85ee13680b2e84957a385fe414166d756c",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/execution-proof.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-049",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-13T19:04:22.442Z",
+  "ended_at": "2026-10-13T19:04:30.163Z",
+  "executor": "ignite-tdd-runner"
+}

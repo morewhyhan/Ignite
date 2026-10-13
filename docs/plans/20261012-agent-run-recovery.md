@@ -457,7 +457,7 @@
       "title": "取得 AC-EXECUTION-049 的真实目标失败",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-049"],
-      "status": "todo",
+      "status": "done",
       "result": "同一实际目标测试在真实未实现版本失败，保留原生回执和 Git 祖先。",
       "scope": ["docs/others/evidence/tdd/IGT-1791813346292559552/"],
       "depends_on": ["PREP"],
@@ -879,6 +879,11 @@
       "acceptance_id": "AC-EXECUTION-048",
       "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-048] keeps working and committed delivery reviews equal with CRLF input",
       "run_id": "tdd-20261013190327-b9d8a8"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-049",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-049] exposes independent todo work alongside a task already in progress",
+      "run_id": "tdd-20261013190422-195ed9"
     }
   ],
   "required_evidence": ["check-integration"],
@@ -998,7 +1003,7 @@ AI 执行失败时可以定位原因、清理自有进程并接续；并行任�
 - [x] R046 · 取得 AC-EXECUTION-046 的真实目标失败 · done
 - [x] R047 · 取得 AC-EXECUTION-047 的真实目标失败 · done
 - [x] R048 · 取得 AC-EXECUTION-048 的真实目标失败 · done
-- [ ] R049 · 取得 AC-EXECUTION-049 的真实目标失败 · todo
+- [x] R049 · 取得 AC-EXECUTION-049 的真实目标失败 · done
 - [ ] R050 · 取得 AC-EXECUTION-050 的真实目标失败 · todo
 - [ ] R051 · 取得 AC-EXECUTION-051 的真实目标失败 · todo
 - [ ] R052 · 取得 AC-EXECUTION-052 的真实目标失败 · todo

@@ -252,7 +252,7 @@ test('[${acceptanceId}] completes the specified user journey in a real browser',
         },
         {
           id: 'T3',
-          title: '实现模块并接入页面与远程数据路径',
+          title: '实现已定义的模块行为切片',
           phase: 'implement',
           acceptance: [acceptanceId],
           status: 'todo',
@@ -427,7 +427,7 @@ if (dryRun) {
   console.log(
     docsOnly
       ? 'Document draft only; complete the original goals and run the native preparation check. Future behavior tests remain pending.'
-      : 'Next: define the Feature, route and user journey, then replace both red acceptance tests.',
+      : 'Next: define the Feature and user journey, then replace both red acceptance tests. Split implementation tasks only when their results, owners, write scopes and interfaces are independent.',
   )
   console.log('Refresh the generated overview: pnpm ignite status --write')
   console.log(`Continue: pnpm ignite next --plan ${planId}`)

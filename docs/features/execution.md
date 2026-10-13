@@ -28,6 +28,7 @@
 - R51（REQ-EXECUTION-051）：执行脚本纳入 JavaScript 类型检查，识别 Git 返回值及规格登记的错误字段。新 integration 与 CI 必须执行该检查，旧证据保留当时的检查策略。
 - R52（REQ-EXECUTION-052）：任务、笔记和审查只回写对应 Plan，不在每次局部操作后生成全局视图；显式状态刷新与完整治理仍发现其他记录的问题。
 - R53（REQ-EXECUTION-053）：开工准备检查实际读取每条需求所在的 Feature，拒绝缺失的标题和损坏的本地链接，不能因登记路径类型错误而跳过检查。
+- R54（REQ-EXECUTION-054）：结构化 Plan 的共享写入冲突按未完成任务的实际范围判断；已完成代码任务且只剩文档验收的 Plan 不占用旧代码范围。未完成写入继续要求一致负责人；没有结构化任务范围的旧 Plan 保留保守边界。Plan 依赖完成条件不因此缩减。
 
 - R41（REQ-EXECUTION-041）：CI 在构建任务与 E2E 任务之间传递生产构建时，必须保留 Next.js 外部依赖的相对符号链接和文件权限。接收任务按同一锁文件独立安装依赖，解包后执行生产态 E2E；构建成功不能替代转移后的运行验收。
 
@@ -88,6 +89,7 @@
 - AC-EXECUTION-051（REQ-EXECUTION-051）：Given 脚本误用 Git 的 status 或需求字符串的 path When 执行脚本类型检查 Then 报告对应字段错误；正确的 exitCode 读取通过。
 - AC-EXECUTION-052（REQ-EXECUTION-052）：Given 不相关 Release 格式损坏 When 更新当前任务、笔记或有效审查 Then 更新成功且全局视图不变；显式刷新仍报告错误，修复后生成视图。
 - AC-EXECUTION-053（REQ-EXECUTION-053）：Given 对应 Feature 缺必要标题或链接损坏 When 检查 Plan 准备 Then 报告具体 Feature 缺陷；修复后准入成功，未执行行为验收。
+- AC-EXECUTION-054（REQ-EXECUTION-054）：Given 上一 Plan 的代码任务已完成且仅剩文档验收 When 检查新 Plan 的共享代码写入 Then 不把旧代码范围报为占用；上一代码任务仍未完成或没有结构化范围时继续报告冲突。
 
 - AC-EXECUTION-041（REQ-EXECUTION-041）：Given 生产构建通过相对链接引用 pnpm 包及其相邻生成依赖 When 按实际 CI 工作流打包、跨工作区传输并解包 Then 接收工作区可加载同一依赖；将链接展开为普通目录时，回归测试必须捕获依赖加载失败。完整 CI 继续运行生产态 E2E。
 

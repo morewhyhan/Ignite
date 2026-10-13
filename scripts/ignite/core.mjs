@@ -54,6 +54,11 @@ function resolvePrettierCli() {
   return prettierCli
 }
 
+/**
+ * @param {string} content
+ * @param {{ parser?: string, prettierCli?: string }} [options]
+ * @returns {string}
+ */
 export function formatWithPrettier(content, { parser = 'json', prettierCli } = {}) {
   const cli = prettierCli || resolvePrettierCli()
   if (!existsSync(cli))
@@ -96,6 +101,11 @@ export function writeJson(path, value, { format = true } = {}) {
   return writeTextIfChanged(path, content)
 }
 
+/**
+ * @param {string[]} args
+ * @param {{ allowFailure?: boolean, cwd?: string, trimOutput?: boolean }} [options]
+ * @returns {{ exitCode: number, stdout: string, stderr: string }}
+ */
 export function runGit(
   args,
   { allowFailure = false, cwd = repositoryRoot, trimOutput = true } = {},
@@ -254,10 +264,19 @@ function workingTreeEntries() {
   return [...entries]
 }
 
-function fingerprintFromEntries(plan, entries) {
+function fingerprintFromEntries(
+  plan,
+  entries,
+  content = plan.content || '',
+  includeNarrative = true,
+) {
   const digest = createHash('sha256')
   digest.update(JSON.stringify(stablePlanContract(plan.metadata)))
   digest.update('\0')
+  if (includeNarrative) {
+    digest.update(planSemanticNarrative(content))
+    digest.update('\0')
+  }
   for (const [path, identity] of entries.sort(([left], [right]) => left.localeCompare(right))) {
     digest.update(path)
     digest.update('\0')
@@ -265,6 +284,26 @@ function fingerprintFromEntries(plan, entries) {
     digest.update('\0')
   }
   return digest.digest('hex')
+}
+
+/** Normalize the user-authored Plan body shared by review and execution identity. */
+export function planSemanticNarrative(content) {
+  return String(content)
+    .replace(/\r\n/g, '\n')
+    .replace(/<!-- ignite-plan[\s\S]*?-->/, '')
+    .replace(/<!-- ignite-progress -->[\s\S]*?<!-- \/ignite-progress -->/g, '')
+    .split(/(?=^## )/m)
+    .filter((section) => !/^## (?:状态|状态记录|TDD 恢复记录)\s*$/m.test(section.split('\n')[0]))
+    .join('\n')
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .join('\n')
+    .trim()
+}
+
+export function normalizeGitText(content) {
+  return String(content).replace(/\r\n/g, '\n')
 }
 
 export function stablePlanContract(metadata) {
@@ -332,8 +371,8 @@ export function stablePlanContract(metadata) {
   }
 }
 
-export function computeInputFingerprint(plan) {
-  return fingerprintFromEntries(plan, workingTreeEntries())
+export function computeInputFingerprint(plan, { includeNarrative = true } = {}) {
+  return fingerprintFromEntries(plan, workingTreeEntries(), plan.content || '', includeNarrative)
 }
 
 /** Reuse one read-only workspace tree when deriving multiple Plan fingerprints. */
@@ -345,9 +384,12 @@ export function createInputFingerprintContext() {
   }
 }
 
-export function computeInputFingerprintAtCommit(plan, commit) {
+export function computeInputFingerprintAtCommit(plan, commit, { includeNarrative = true } = {}) {
   if (!gitCommitExists(commit)) throw new Error(`invalid fingerprint commit: ${commit}`)
-  return fingerprintFromEntries(plan, committedTreeEntries(commit))
+  const result = runGit(['show', `${commit}:${plan.relativePath}`], { allowFailure: true })
+  if (result.exitCode !== 0)
+    throw new Error(`Plan file is missing at fingerprint commit: ${commit}`)
+  return fingerprintFromEntries(plan, committedTreeEntries(commit), result.stdout, includeNarrative)
 }
 
 function changedPathSet(baseCommit) {
@@ -509,6 +551,7 @@ export function runnerIdentity() {
   }
 }
 
+/** @returns {NodeJS.ProcessEnv} */
 export function makeSafeTestEnvironment() {
   const allowedNames = new Set([
     'PATH',

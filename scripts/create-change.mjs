@@ -121,7 +121,7 @@ const metadata = {
     },
     {
       id: 'T3',
-      title: '实现红灯所指向的存量行为',
+      title: '实现已定义的行为切片',
       phase: 'implement',
       acceptance: [],
       status: 'todo',
@@ -216,7 +216,7 @@ if (dryRun) {
   ])
   console.log(`Created draft ${id}; Release ${releaseId} includes this Plan.`)
   console.log(
-    'Next: define the goals, affected files and applicable unit/database/browser/external acceptance.',
+    'Next: define the goals and behavior. Split implementation tasks only when their results, owners, write scopes and interfaces are independent.',
   )
   console.log('Refresh the generated overview: pnpm ignite status --write')
   console.log(`Continue: pnpm ignite next --plan ${id}`)

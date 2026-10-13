@@ -48,6 +48,7 @@
 | AC-EXECUTION-051 | 真实 JS 字段契约检查能拒绝 Git status 与需求 path 误读；新 integration 带执行脚本门禁              | `tool-type-contract.test.ts`，unit                                                                          |
 | AC-EXECUTION-052 | 局部回写不被不相关发布损坏拖累；全局状态刷新仍报告该损坏                                           | `scoped-mutation.test.ts`，unit                                                                             |
 | AC-EXECUTION-053 | 开工准备实际检查对应 Feature 的必要标题及本地链接                                                  | `preparation-frontier.test.ts`，unit                                                                        |
+| AC-EXECUTION-054 | 已完成代码任务释放写入范围；未完成任务与旧式 Plan 仍保留冲突检查                                   | `scoped-mutation.test.ts`，unit                                                                             |
 
 表中未带目录的文件均位于 `tests/contracts/`。恢复导入用例中的合成凭证仅用于临时 Git 夹具验证校验行为，不能作为项目红灯证据。具体运行结果仍由原 Plan 的原生凭证记录。
 

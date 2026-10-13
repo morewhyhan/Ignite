@@ -18,6 +18,7 @@ export default defineConfig({
   forbidOnly: true,
   retries: isCI ? 2 : 0,
   workers: 1,
+  globalSetup: './tests/e2e/global-setup.ts',
   reporter: tddReportPath
     ? [
         ['json', { outputFile: tddReportPath }],
@@ -52,11 +53,12 @@ export default defineConfig({
       ...(process.platform === 'win32' ? { RUST_LOG: 'info' } : {}),
       APP_ENV: 'test',
       APP_URL: baseURL,
+      E2E_SERVER_MODE: productionServer ? 'production' : 'development',
       BETTER_AUTH_SECRET:
         process.env.BETTER_AUTH_SECRET ?? 'playwright-only-secret-with-at-least-32-characters',
       DATABASE_URL: process.env.E2E_DATABASE_URL ?? 'file:./playwright.db',
     },
-    stdout: isCI ? 'pipe' : 'ignore',
+    stdout: 'pipe',
     reuseExistingServer: false,
     timeout: 120_000,
     url: `${baseURL}/api/health`,

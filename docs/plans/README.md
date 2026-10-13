@@ -154,6 +154,7 @@ next 默认保留全部 goals、constraints、non_goals 与 tasks，是接续建
 
 - `depends_on` 约束最终集成；开发阶段由上游提交明确接口及相关文件，下游在 `dependency_contracts` 引用 commit 和 paths。接口变化后重新对齐，文件快照不代替依赖 Plan 完成。
 - Prisma Schema、API 注册、导航等共享文件在各相关 Plan 的 `shared_files` 声明同一负责人和模式。非负责人提交业务切片和 `handoff`；集成人接管相关 Plan owner 后修改共享文件并集成。
+- 结构化任务只为未完成任务的 `scope` 保留写入范围。代码任务已完成、只剩文档验证时，不继续锁住整个 Plan 的代码范围；尚未完成的写入仍检查冲突。旧式或未声明任务范围的 Plan 保守使用 `write_scope`。这不改变上游 Plan 必须完成的集成门禁。
 - `handoff` 包含接口、迁移、测试入口和未完成项。接收者核对实际快照与现有证据，上游局部通过不能当作组合完成。
 - 并行开发优先不同工作区，提交用 `Ignite-Plan` trailer 标明归属。依赖或写入冲突在原 Plan 对齐；组合版本由 [Release 完成条件](./releases/README.md#完成与证据) 验证，当前事实按 Design 规则回写。
 

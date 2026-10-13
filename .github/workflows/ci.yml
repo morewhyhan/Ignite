@@ -43,6 +43,7 @@ jobs:
       - run: node scripts/check-diff.mjs --base "$DIFF_BASE"
       - run: pnpm docs:check
       - run: pnpm typecheck
+      - run: pnpm tools:check
       - run: pnpm lint
       - run: pnpm format:check
       - run: node scripts/check-clean.mjs

@@ -12,8 +12,6 @@ import {
   writeFileSync,
 } from 'node:fs'
 import { dirname, join } from 'node:path'
-import { fileURLToPath } from 'node:url'
-import { spawn } from 'node:child_process'
 import {
   computeInputFingerprint,
   computeInputFingerprintAtCommit,
@@ -45,6 +43,7 @@ import {
   planContractAtCommit,
 } from './state.mjs'
 import { CHECK_POLICY_VERSION } from './checks.mjs'
+import { runManagedCommand } from './managed-command.mjs'
 
 const HEARTBEAT_INTERVAL_MS = 5_000
 const STALE_AFTER_MS = 25_000
@@ -254,100 +253,78 @@ function appendTail(current, chunk, limit = 8_000) {
   return combined.length > limit ? combined.slice(-limit) : combined
 }
 
-function runChild(spec, environment, record, logStream, persist) {
-  return new Promise((resolveResult) => {
-    const startedAt = now()
-    const startedMonotonic = performance.now()
-    const result = {
-      label: spec.label,
-      command: [spec.command, ...spec.args],
-      status: 'running',
-      started_at: startedAt,
-      ended_at: null,
-      duration_ms: null,
-      exit_code: null,
-      signal: null,
-    }
-    record.commands.push(result)
-    persist()
+async function runChild(spec, environment, record, logStream, persist) {
+  const startedAt = now()
+  const startedMonotonic = performance.now()
+  const timeBudgetMs =
+    spec.label === 'e2e-production' || spec.label === 'verify' ? 20 * 60_000 : 10 * 60_000
+  const result = {
+    label: spec.label,
+    command: [spec.command, ...spec.args],
+    status: 'running',
+    started_at: startedAt,
+    ended_at: null,
+    duration_ms: null,
+    exit_code: null,
+    signal: null,
+  }
+  record.commands.push(result)
+  record.current_command = spec.label
+  record.last_output_at = startedAt
+  persist()
 
-    let tail = ''
-    let settled = false
-    const timeBudgetMs =
-      spec.label === 'e2e-production' || spec.label === 'verify' ? 20 * 60_000 : 10 * 60_000
-    const child = spawn(
-      process.execPath,
-      [fileURLToPath(new URL('./check-worker.mjs', import.meta.url)), spec.command, ...spec.args],
-      {
-        cwd: repositoryRoot,
-        env: environment,
-        windowsHide: true,
-        stdio: ['ignore', 'pipe', 'pipe', 'ipc'],
-      },
-    )
-    record.child_pid = child.pid || null
-    record.current_command = spec.label
-    record.last_output_at = startedAt
-    persist()
+  const abortController = new AbortController()
+  const cancellation = setInterval(() => {
+    if (!existsSync(cancellationPath(record.run_id))) return
+    record.failure_reason = `run ${record.run_id} was cancelled`
+    abortController.abort()
+  }, 1_000)
+  cancellation.unref()
 
-    const stopChild = (signal) => {
-      if (!child.pid || settled) return
-      try {
-        child.kill(signal)
-      } catch (error) {
-        if (error.code !== 'ESRCH') tail = appendTail(tail, `\n${error.message}\n`)
-      }
-    }
-    const timeout = setTimeout(() => {
-      result.timed_out = true
-      record.failure_reason = `${spec.label} exceeded its ${Math.round(timeBudgetMs / 60_000)} minute budget`
-      stopChild('SIGTERM')
-      setTimeout(() => stopChild('SIGKILL'), 5_000).unref()
-    }, timeBudgetMs)
-    timeout.unref()
-    const cancellation = setInterval(() => {
-      if (!existsSync(cancellationPath(record.run_id)) || settled) return
-      result.cancelled = true
-      record.failure_reason = `run ${record.run_id} was cancelled`
-      stopChild('SIGTERM')
-      setTimeout(() => stopChild('SIGKILL'), 5_000).unref()
-    }, 1_000)
-    cancellation.unref()
-
-    const consume = (stream, output) => {
-      stream.on('data', (chunk) => {
-        const text = chunk.toString()
-        tail = appendTail(tail, text)
-        record.last_output_at = now()
-        logStream.write(text)
-        output.write(text)
-      })
-    }
-    consume(child.stdout, process.stdout)
-    consume(child.stderr, process.stderr)
-
-    const finish = (exitCode, signal, error = null) => {
-      if (settled) return
-      settled = true
-      clearTimeout(timeout)
-      clearInterval(cancellation)
-      result.ended_at = now()
-      result.duration_ms = Math.round(performance.now() - startedMonotonic)
-      result.exit_code = result.cancelled ? 130 : exitCode
-      result.signal = signal
-      result.status = result.cancelled ? 'cancelled' : exitCode === 0 ? 'passed' : 'failed'
-      if (result.timed_out) result.status = 'failed'
-      if (error) tail = appendTail(tail, `\n${error.message}\n`)
-      result.output_tail = tail
-      record.child_pid = null
-      record.current_command = null
+  const execution = await runManagedCommand({
+    command: spec.command,
+    args: spec.args,
+    cwd: repositoryRoot,
+    env: environment,
+    timeoutMs: timeBudgetMs,
+    signal: abortController.signal,
+    onStart(pid) {
+      record.child_pid = pid
       persist()
-      resolveResult(result)
-    }
-
-    child.once('error', (error) => finish(1, null, error))
-    child.once('close', (exitCode, signal) => finish(exitCode ?? 1, signal))
+    },
+    onOutput(stream, text) {
+      result.output_tail = appendTail(result.output_tail || '', text)
+      record.last_output_at = now()
+      logStream.write(text)
+      const output = stream === 'stdout' ? process.stdout : process.stderr
+      output.write(text)
+    },
   })
+  clearInterval(cancellation)
+
+  result.ended_at = now()
+  result.duration_ms = Math.round(performance.now() - startedMonotonic)
+  result.timed_out = execution.timedOut || undefined
+  result.cancelled = execution.cancelled || undefined
+  result.exit_code = execution.cancelled ? 130 : execution.exitCode
+  result.signal = execution.signal
+  result.status = execution.cancelled ? 'cancelled' : execution.exitCode === 0 ? 'passed' : 'failed'
+  if (execution.timedOut) {
+    result.status = 'failed'
+    record.failure_reason = `${spec.label} exceeded its ${Math.round(timeBudgetMs / 60_000)} minute budget`
+  } else if (execution.error) {
+    result.status = 'failed'
+    result.exit_code ||= 1
+    result.error = execution.error
+    record.failure_reason ||= `${spec.label} could not start: ${execution.error}`
+    result.output_tail = appendTail(result.output_tail || '', `\n${execution.error}\n`)
+  }
+  if (execution.timedOut) result.exit_code ||= 1
+  if (execution.cancelled) record.failure_reason = `run ${record.run_id} was cancelled`
+  record.child_pid = null
+  record.current_command = null
+  persist()
+  return result
 }
 
 function durableManifest(record, logPath) {
@@ -564,6 +541,7 @@ export async function executeCheckPlan({ plan, checkPlan, release = null, force 
 
     record = {
       schema: 2,
+      failure_reason: null,
       run_id: runId,
       check_policy_version: CHECK_POLICY_VERSION,
       plan_id: plan.metadata.id,

@@ -21,6 +21,17 @@
       "findings": [],
       "identity_assurance": "declared",
       "recorded_at": "2026-10-13T18:45:29.150Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "/root/recovery_plan_review",
+      "executor": "/root",
+      "source": "Codex collaboration sub-agent dispatched by /root as /root/recovery_plan_review",
+      "subject_fingerprint": "1aa380eec7bb93fe60d8c7be0429c31762b73be5f9bf2455acc3a418c1745073",
+      "verdict": "approved",
+      "findings": [],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-10-13T19:53:59.072Z"
     }
   ],
   "verification_contract": 2,
@@ -39,7 +50,8 @@
         "REQ-EXECUTION-050",
         "REQ-EXECUTION-051",
         "REQ-EXECUTION-052",
-        "REQ-EXECUTION-053"
+        "REQ-EXECUTION-053",
+        "REQ-EXECUTION-054"
       ]
     }
   ],
@@ -66,7 +78,7 @@
     "完整规格及真实分层验收"
   ],
   "remaining_work": [
-    "原生红灯、完整 Plan integration、独立交付审查与 Release 尚未完成，定向回归不替代这些证据。"
+    "原生红灯、完整 Plan integration 与独立交付审查尚未完成，定向回归不替代这些证据。"
   ],
   "change_type": "存量改动",
   "base_commit": "55989efae72221572ae4533eb536741197498b8a",
@@ -82,7 +94,8 @@
     "REQ-EXECUTION-050",
     "REQ-EXECUTION-051",
     "REQ-EXECUTION-052",
-    "REQ-EXECUTION-053"
+    "REQ-EXECUTION-053",
+    "REQ-EXECUTION-054"
   ],
   "acceptance": [
     {
@@ -355,6 +368,19 @@
           "layer": "unit"
         }
       ]
+    },
+    {
+      "id": "AC-EXECUTION-054",
+      "tests": [
+        "tests/contracts/scoped-mutation.test.ts::[AC-EXECUTION-054] reserves shared writes by unfinished task scopes and keeps legacy scopes conservative"
+      ],
+      "required_layers": ["unit"],
+      "checks": [
+        {
+          "test": "tests/contracts/scoped-mutation.test.ts::[AC-EXECUTION-054] reserves shared writes by unfinished task scopes and keeps legacy scopes conservative",
+          "layer": "unit"
+        }
+      ]
     }
   ],
   "verification_requirements": ["unit", "browser"],
@@ -508,6 +534,17 @@
       "owner": "/root"
     },
     {
+      "id": "R054",
+      "title": "取得共享写入范围误锁的真实目标失败",
+      "phase": "red",
+      "acceptance": ["AC-EXECUTION-054"],
+      "status": "todo",
+      "result": "同一共享范围断言在真实旧实现失败，不用环境失败生成证明。",
+      "scope": ["docs/others/evidence/tdd/IGT-1791813346292559552/"],
+      "depends_on": ["PREP"],
+      "owner": "/root"
+    },
+    {
       "id": "IP",
       "title": "受管命令保持诊断并清理自己的进程",
       "phase": "implement",
@@ -591,7 +628,7 @@
         "tests/contracts/targeted-feedback.test.ts",
         "tests/contracts/scoped-mutation.test.ts"
       ],
-      "depends_on": ["R046", "R047", "R052"],
+      "depends_on": ["R046", "R047", "R052", "R054"],
       "owner": "/root"
     },
     {
@@ -662,7 +699,8 @@
         "AC-EXECUTION-050",
         "AC-EXECUTION-051",
         "AC-EXECUTION-052",
-        "AC-EXECUTION-053"
+        "AC-EXECUTION-053",
+        "AC-EXECUTION-054"
       ],
       "status": "todo",
       "result": "共享入口使用已确定接口，不扩大执行者的写入与验收权限。",
@@ -696,13 +734,14 @@
         "R050",
         "R051",
         "R052",
-        "R053"
+        "R053",
+        "R054"
       ],
       "owner": "/root"
     },
     {
       "id": "VERIFY",
-      "title": "回写 Design、独立交付审查并完成 Plan 与 Release 验收",
+      "title": "回写 Design、独立交付审查并完成 Plan 验收",
       "phase": "verify",
       "acceptance": [
         "AC-EXECUTION-042",
@@ -716,10 +755,11 @@
         "AC-EXECUTION-050",
         "AC-EXECUTION-051",
         "AC-EXECUTION-052",
-        "AC-EXECUTION-053"
+        "AC-EXECUTION-053",
+        "AC-EXECUTION-054"
       ],
       "status": "todo",
-      "result": "完整 Plan integration、独立交付审查和 Release 生产检查有效；保留实际未通过事项。",
+      "result": "Design 与实际实现一致，完整 Plan integration 和独立交付审查有效；Plan 完成后由 Release 运行最终生产验收。",
       "scope": ["docs/"],
       "depends_on": ["IC"],
       "owner": "/root"
@@ -870,9 +910,11 @@ AI 执行失败时可以定位原因、清理自有进程并接续；并行任�
 | -------------------------------------------------------------------- | ------------------------------------------------------------------ | -------------------- | ------------------------ |
 | 用户要求“研究怎么才能更快更省心”，并确认“先把问题全部修复，暂不测试” | 命令日志和清理、浏览器准备、隔离恢复、任务交接、状态记录、定向反馈 | EXECUTION-042 至 047 | 全部纳入，当前已授权验证 |
 
-| 当前用户要求全部修复并测试，同源漏洞不得遗漏 | 可信目标红灯、语义身份、准确依赖、字段门禁、轻量回写、Feature 准入及可并行提示 | EXECUTION-044、048 至 053，并保留 042 至 047 | 全部纳入，不用局部成功冒充闭环 |
+| 当前用户要求全部修复并测试，同源漏洞不得遗漏 | 可信目标红灯、语义身份、准确依赖、字段门禁、轻量回写、Feature 准入及可并行提示 | EXECUTION-044、048 至 054，并保留 042 至 047 | 全部纳入，不用局部成功冒充闭环 |
 
 本 Plan 当前没有实际跨 Plan 前置；AC-050 的上游依赖由真实 CLI 隔离夹具构造，不虚构本次交付的外部依赖。生产模式的最终真实构建和全局浏览器验收由 Release 运行承担，Plan 保留开发态准备及模式隔离的行为检查。
+
+完整原生运行另暴露共享范围误锁：上一 Plan 的代码任务全部结束、只剩验证时，旧的整个写入范围仍阻塞新 Plan。AC-054 校准为未完成任务的实际范围，保留未结束写入、旧式范围及 Plan 依赖门禁。
 
 ## 整体判断与推进顺序
 
@@ -900,7 +942,7 @@ AI 执行失败时可以定位原因、清理自有进程并接续；并行任�
 
 ## 测试与验收设计
 
-十二项 AC 覆盖原六类执行能力及本轮同源漏洞，逐条映射真实命令行为；目标断言与准备步骤分开，辅助函数和 hook 进入新红灯上下文。用户已授权测试。先用真实缺陷回归验证修复，再完成原生红灯、Plan integration 与 Release；定向检查不冒充完整验收。
+十三项 AC 覆盖原六类执行能力及本轮同源漏洞，逐条映射真实命令行为；目标断言与准备步骤分开，辅助函数和 hook 进入新红灯上下文。用户已授权测试。先用真实缺陷回归验证修复，再完成原生红灯、Plan integration 与 Release；定向检查不冒充完整验收。
 
 活跃目录保留此前按授权先写的实现。只提交规格和测试，隔离目录保留真实旧实现执行原生红灯；随后连接证明的 Git 祖先与当前实现，完成正式分层验收。这个新验证循环不倒填此前未执行的记录，也不回退活跃代码或业务数据。
 
@@ -910,7 +952,7 @@ AI 执行失败时可以定位原因、清理自有进程并接续；并行任�
 
 ## 验收方式
 
-允许测试后在真实未实现快照取得新循环的红灯，再验证当前实现；不倒填本轮未执行的测试。之后依次完成 Plan integration、独立交付审查和 Release 最终验收。
+允许测试后在真实未实现快照取得新循环的红灯，再验证当前实现；不倒填本轮未执行的测试。之后完成 Plan integration、独立交付审查并将 Plan 完成；再由 Release 运行最终生产验收。Plan 任务不能把尚需 done 锚点才能启动的 Release 作为自己进入 done 的前置。
 
 ## 设计回写
 
@@ -967,6 +1009,7 @@ AI 执行失败时可以定位原因、清理自有进程并接续；并行任�
 - [ ] R051 · 取得 AC-EXECUTION-051 的真实目标失败 · todo
 - [ ] R052 · 取得 AC-EXECUTION-052 的真实目标失败 · todo
 - [ ] R053 · 取得 AC-EXECUTION-053 的真实目标失败 · todo
+- [ ] R054 · 取得共享写入范围误锁的真实目标失败 · todo
 - [ ] IP · 受管命令保持诊断并清理自己的进程 · todo
 - [ ] IE · 浏览器启动与缓存隔离且生产模式保留真实构建 · todo
 - [ ] IT · 恢复原生红灯并拒绝准备失败或变化的测试上下文 · todo
@@ -976,8 +1019,8 @@ AI 执行失败时可以定位原因、清理自有进程并接续；并行任�
 - [ ] ID · 准备入口实际检查 Feature 并提示可执行拆分 · todo
 - [ ] IG · 新检查策略纳入执行脚本字段门禁 · todo
 - [ ] IC · 协调者集成单一共享入口 · todo
-- [ ] VERIFY · 回写 Design、独立交付审查并完成 Plan 与 Release 验收 · todo
+- [ ] VERIFY · 回写 Design、独立交付审查并完成 Plan 验收 · todo
 
-验收缺口：原生红灯、完整 Plan integration、独立交付审查与 Release 尚未完成，定向回归不替代这些证据。
+验收缺口：原生红灯、完整 Plan integration 与独立交付审查尚未完成，定向回归不替代这些证据。
 证据：尚无
 <!-- /ignite-progress -->

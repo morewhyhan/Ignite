@@ -1,11 +1,27 @@
 import { parseArgs } from './arguments.mjs'
-import { preparationReport } from './preparation.mjs'
+import { planningDiagnostics, preparationReport } from './preparation.mjs'
 import { spawnSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { adoptHistory } from './adoption.mjs'
-import { planCheck } from './checks.mjs'
-import { createInputFingerprintContext, currentCommit, repositoryRoot } from './core.mjs'
+import { planCheck, feedbackCommands } from './checks.mjs'
+import { runManagedCommand } from './managed-command.mjs'
+import { taskHandoff } from './agent-handoff.mjs'
+import {
+  prepareTddRecovery,
+  recoveredTddRecord,
+  preserveRecoveryAncestry,
+} from './tdd-recovery.mjs'
+import {
+  createInputFingerprintContext,
+  currentCommit,
+  repositoryRoot,
+  makeSafeTestEnvironment,
+  executionWorkspaceIsClean,
+  hash,
+  isAncestor,
+  writeTextIfChanged,
+} from './core.mjs'
 import { verifyRemoteDelivery } from './delivery.mjs'
 import {
   deriveRelease,
@@ -33,6 +49,9 @@ import {
   writeGeneratedStatus,
   updatePlanTask,
   updatePlanMetadata,
+  appendPlanNote,
+  planContractAtCommit,
+  readRepositoryText,
 } from './state.mjs'
 import { exampleRemovalPlan } from './examples.mjs'
 import {
@@ -44,7 +63,7 @@ import {
   validateTraceability,
 } from './governance.mjs'
 import { executeCheckPlan, requestRunCancellation, runStatus } from './runs.mjs'
-import { runTddRed } from './tdd.mjs'
+import { runTddRed, tddTestFingerprint } from './tdd.mjs'
 import { commandSkillRead } from './skill-reader.mjs'
 import { validateReviewGate } from './review-contract.mjs'
 import { summarizeVerification } from './verification-summary.mjs'
@@ -60,11 +79,14 @@ Commands:
   validate [--ci] | validate --delivery <--plan id|--base commit>
   status [--write|--json]
   next --plan <id> [--verify-remote] [--verbose]
+  next --plan <id> --task <task-id> --handoff
   check --plan <id> [--level auto|dev|integration|release]
+  check --plan <id> --feedback [--ac <AC-id>] [--dry-run]
   plan validate [id] [--prepare]
   plan set-status <id> <status>
   plan reintegrate <id>
   plan refresh <id>
+  plan note <id> --text <execution-note>
   review context <plan-id> <draft|delivery>
   review record <plan-id> <draft|delivery> --file <review.json>
   task set-status <plan-id> <task-id> <todo|doing|done>
@@ -77,6 +99,8 @@ Commands:
   adopt-history [--apply]
   tdd red --plan <id> --ac <AC-id>
   tdd restart --plan <id> --ac <AC-id> --reason <correction>
+  tdd recover --plan <id> --ac <AC-id> --from <commit> --restore <path,...>
+  tdd recover --plan <id> --ac <AC-id> --import <recovery-worktree>
   example removal-plan tasks
 
 Use pnpm ignite <command> --help for command details.
@@ -97,15 +121,15 @@ const commandHelp = new Map([
   ],
   [
     'next',
-    'Usage: pnpm ignite next --plan <id> [--verify-remote] [--verbose]\nShow the next action for a Plan from its current state and evidence.\n',
+    'Usage: pnpm ignite next --plan <id> [--verify-remote] [--verbose]\n       pnpm ignite next --plan <id> --task <task-id> --handoff\nShow the next action or a standalone task packet with the exact workspace, runtime, scope and blockers; no Agent is launched.\n',
   ],
   [
     'check',
-    'Usage: pnpm ignite check --plan <id> [--level auto|dev|integration|release]\nRun and record checks for a Plan.\n',
+    'Usage: pnpm ignite check --plan <id> [--level auto|dev|integration|release]\n       pnpm ignite check --plan <id> --feedback [--ac <AC-id>] [--dry-run]\nFormal checks record evidence. Feedback runs mapped cases for diagnosis only and never publishes acceptance evidence.\n',
   ],
   [
     'plan',
-    'Usage: pnpm ignite plan <validate|set-status|reintegrate|refresh> ...\nUse pnpm ignite plan <subcommand> --help for details.\n',
+    'Usage: pnpm ignite plan <validate|set-status|reintegrate|refresh|note> ...\nUse pnpm ignite plan <subcommand> --help for details.\n',
   ],
   [
     'plan validate',
@@ -124,6 +148,10 @@ const commandHelp = new Map([
     'Usage: pnpm ignite plan refresh <id>\nRefresh generated Plan progress and project status.\n',
   ],
   [
+    'plan note',
+    'Usage: pnpm ignite plan note <id> --text <execution-note>\nAppend a note to the existing execution record without changing tasks or publishing acceptance evidence.\n',
+  ],
+  [
     'task',
     'Usage: pnpm ignite task set-status <plan-id> <task-id> <todo|doing|done>\nUpdate a Plan task and generated progress.\n',
   ],
@@ -138,7 +166,7 @@ const commandHelp = new Map([
   ],
   [
     'tdd',
-    'Usage: pnpm ignite tdd red --plan <id> --ac <AC-id>\n       pnpm ignite tdd restart --plan <id> --ac <AC-id> --reason <correction>\nRed records a real behavior failure. Restart reopens an unfinished AC and preserves history; it grants no proof.\n',
+    'Usage: pnpm ignite tdd red --plan <id> --ac <AC-id>\n       pnpm ignite tdd restart --plan <id> --ac <AC-id> --reason <correction>\n       pnpm ignite tdd recover --plan <id> --ac <AC-id> --from <40-char-commit> --restore <path,...>\n       pnpm ignite tdd recover --plan <id> --ac <AC-id> --import <worktree>\nRecovery prepares an isolated historical implementation with the current test; it never runs tests or manufactures proof. Import validates a committed native red and preserves its Git ancestry without changing the live implementation.\n',
   ],
   [
     'example',
@@ -395,10 +423,10 @@ async function commandReleaseVerify(positionals, options) {
   if (result.exitCode !== 0) process.exitCode = result.exitCode
 }
 
-function commandTddRed(options) {
+async function commandTddRed(options) {
   if (!options.plan || !options.ac) throw new Error('tdd red --plan <plan-id> --ac <acceptance-id>')
   checkRuntime()
-  const record = runTddRed(options.plan, options.ac)
+  const record = await runTddRed(options.plan, options.ac)
   console.log(
     JSON.stringify(
       {
@@ -428,10 +456,121 @@ function commandTddRestart(options) {
         acceptance_id: options.ac,
         restarted: result.restarted,
         preserved_runs: result.preserved_runs,
-        next_action:
-          'Restore the affected implementation to its real pre-implementation behavior, commit the corrected test and Plan, then run native tdd red. Preserve all old records; restart grants no red or green proof.',
-        command: `pnpm ignite tdd red --plan ${options.plan} --ac ${options.ac}`,
+        next_action: result.restarted
+          ? 'Restore the affected implementation to its real pre-implementation behavior, commit the corrected test and Plan, then run native tdd red. Preserve all old records; restart grants no red or green proof.'
+          : 'The bound red case is still valid. Preserve its proof and continue the current task; this command creates no new evidence.',
+        command: result.restarted
+          ? `pnpm ignite tdd red --plan ${options.plan} --ac ${options.ac}`
+          : `pnpm ignite next --plan ${options.plan}`,
       },
+      null,
+      2,
+    ),
+  )
+}
+
+function commandTddRecover(options) {
+  if (!options.plan || !options.ac) throw new Error('tdd recover requires --plan and --ac')
+  checkRuntime()
+  if (!executionWorkspaceIsClean())
+    throw new Error(
+      'Commit corrected specifications, tests and implementation before isolated recovery; execution notes may remain local',
+    )
+  const plan = findPlan(options.plan)
+  if (options.import) {
+    if (options.from || options.restore)
+      throw new Error('Use either recovery preparation or --import')
+    if (!['active', 'verifying', 'blocked'].includes(plan.metadata.status))
+      throw new Error('Import only into an unfinished execution Plan')
+    const recovered = recoveredTddRecord(repositoryRoot, plan, options.ac, options.import)
+    const criterion = plan.metadata.acceptance.find((entry) => entry.id === options.ac)
+    const record = recovered.record
+    if (!criterion?.tests.includes(record.test) || !planContractAtCommit(plan, record.red_commit))
+      throw new Error('Recovery test or stable Plan contract does not match the current Plan')
+    const [testPath] = record.test.split('::', 1)
+    const title = record.test.slice(record.test.indexOf('::') + 2)
+    const source = readFileSync(resolve(repositoryRoot, testPath), 'utf8')
+    const fingerprint = tddTestFingerprint(source, options.ac, title)
+    if (
+      !fingerprint ||
+      fingerprint.test_sha256 !== record.test_sha256 ||
+      record.schema !== 2 ||
+      record.test_scope !== 'acceptance-case' ||
+      !/^[a-f0-9]{64}$/.test(record.output_sha256 || '')
+    )
+      throw new Error('Recovery proof is missing or the live acceptance test has changed')
+    const redSource = readRepositoryText(testPath, record.red_commit)
+    const redFingerprint = redSource && tddTestFingerprint(redSource, options.ac, title)
+    if (
+      !redFingerprint ||
+      redFingerprint.test_sha256 !== record.test_sha256 ||
+      !isAncestor(plan.metadata.base_commit, record.red_commit) ||
+      !recovered.path.endsWith(`/${record.run_id}.json`)
+    )
+      throw new Error(
+        'Recovery receipt does not match its historical test, run id or Plan ancestry',
+      )
+    const existingBinding = (plan.metadata.tdd_evidence || []).find(
+      (entry) => entry.acceptance_id === options.ac,
+    )
+    if (existingBinding && existingBinding.run_id !== record.run_id)
+      throw new Error('Restart this AC before replacing its existing red proof')
+    const destination = resolve(repositoryRoot, recovered.path)
+    let previous = null
+    try {
+      previous = readFileSync(destination, 'utf8')
+    } catch (error) {
+      if (error.code !== 'ENOENT') throw error
+    }
+    if (previous !== null && hash(previous.trim()) !== hash(recovered.text.trim()))
+      throw new Error('An existing receipt has different bytes; preserve history and inspect it')
+    preserveRecoveryAncestry(repositoryRoot, recovered)
+    writeTextIfChanged(destination, `${recovered.text}\n`)
+    const candidate = structuredClone(plan.metadata)
+    candidate.tdd_evidence = [
+      ...(candidate.tdd_evidence || []).filter((entry) => entry.acceptance_id !== options.ac),
+      { acceptance_id: options.ac, test: record.test, run_id: record.run_id },
+    ]
+    const failures = validatePlan({ ...plan, metadata: candidate }).filter(
+      (error) => error.includes(options.ac) && /TDD|tdd|red/i.test(error),
+    )
+    if (failures.length)
+      throw new Error(
+        `Imported receipt remains unbound because validation failed: ${failures.join('; ')}`,
+      )
+    updatePlanMetadata(findPlan(options.plan), (metadata) => ({
+      ...metadata,
+      tdd_evidence: candidate.tdd_evidence,
+    }))
+    writeGeneratedStatus()
+    console.log(
+      JSON.stringify(
+        {
+          plan_id: options.plan,
+          acceptance_id: options.ac,
+          imported_run: record.run_id,
+          evidence_created: false,
+          source_worktree: recovered.workspace,
+          next_action:
+            'Commit the imported record and Plan; complete current implementation and native integration. Recovery is retained for inspection.',
+        },
+        null,
+        2,
+      ),
+    )
+    return
+  }
+  if (!options.from || !options.restore)
+    throw new Error('Recovery requires --from <40-char-commit> and --restore <path,...>')
+  console.log(
+    JSON.stringify(
+      prepareTddRecovery({
+        root: repositoryRoot,
+        plan,
+        acceptanceId: options.ac,
+        from: options.from,
+        restore: String(options.restore).split(','),
+      }),
       null,
       2,
     ),
@@ -442,6 +581,44 @@ async function commandCheck(options) {
   if (!options.plan) throw new Error('check requires --plan IGT-000')
   checkRuntime()
   const plan = findPlan(options.plan)
+  if (options.feedback) {
+    if (options.files || options.level || options.force)
+      throw new Error(
+        'Feedback uses mapped acceptance only; --files, --level and --force belong to the formal check entry',
+      )
+    const commands = feedbackCommands(plan, options.ac || null)
+    const summary = {
+      purpose: 'development-feedback',
+      plan_id: plan.metadata.id,
+      acceptance_evidence: false,
+      commands: commands.map((command) => [command.command, ...command.args]),
+      next_action:
+        'Use the actual failure to repair this Plan. Formal Plan integration and Release verification remain required.',
+    }
+    console.log(JSON.stringify(summary, null, 2))
+    if (options['dry-run']) return
+    const environment = makeSafeTestEnvironment()
+    for (const key of Object.keys(environment))
+      if (/^IGNITE_(?:PLAN_ID|ACCEPTANCE_RESULTS|TDD_)/.test(key)) delete environment[key]
+    for (const command of commands) {
+      const result = await runManagedCommand({
+        command: command.command,
+        args: command.args,
+        cwd: repositoryRoot,
+        env: environment,
+        timeoutMs: 10 * 60_000,
+        onOutput: (stream, text) =>
+          (stream === 'stderr' ? process.stderr : process.stdout).write(text),
+      })
+      if (result.exitCode !== 0 || result.error || result.timedOut || result.cancelled) {
+        if (result.error) console.error(result.error)
+        process.exitCode = result.exitCode || 1
+        return
+      }
+    }
+    console.log('Development feedback completed; no Plan or Release evidence was published.')
+    return
+  }
   const planErrors = [
     ...validatePlan(plan, { allowLegacy: false }),
     ...validatePlanDependencies(plan),
@@ -504,6 +681,39 @@ function commandRunStatus(positionals, options) {
 
 function commandNext(options) {
   if (!options.plan) throw new Error('next requires --plan IGT-000')
+  if (options.handoff) {
+    if (!options.task) throw new Error('next --handoff requires --task <task-id>')
+    const plan = findPlan(options.plan)
+    const registry = specificationRegistry()
+    const features = [
+      ...new Set(
+        (plan.metadata.requirements || [])
+          .map((id) => registry.requirements.get(id))
+          .filter(Boolean),
+      ),
+    ]
+    console.log(
+      JSON.stringify(
+        taskHandoff(
+          plan,
+          options.task,
+          repositoryRoot,
+          [
+            ...validatePlan(plan, { allowLegacy: false }),
+            ...validatePlanDependencies(plan),
+            ...validatePlanReleaseContract(
+              plan,
+              listReleases().find(({ value }) => value.id === plan.metadata.release)?.value,
+            ),
+          ],
+          { features },
+        ),
+        null,
+        2,
+      ),
+    )
+    return
+  }
   const remoteDelivery = options['verify-remote']
     ? verifyRemoteDelivery()
     : { remote_sync: 'not_verified', branch: null, remote_commit: null }
@@ -658,10 +868,7 @@ function commandNext(options) {
               kind: 'continue-task',
               reason:
                 'Resume unfinished work using the Plan goals and whole-task judgment; choose the priority from that basis. Fast checks remain available as needed.',
-              task_ids: (startableTasks.some((task) => task.status === 'doing')
-                ? startableTasks.filter((task) => task.status === 'doing')
-                : startableTasks
-              ).map((task) => task.id),
+              task_ids: startableTasks.map((task) => task.id),
               files: [plan.relativePath, ...featurePaths],
               command: null,
             }
@@ -725,6 +932,7 @@ function commandNext(options) {
     authorization: plan.metadata.authorization || null,
     open_questions: plan.metadata.open_questions || [],
     remaining_work: plan.metadata.remaining_work || [],
+    planning_diagnostics: planningDiagnostics(plan),
     tasks: (plan.metadata.tasks || []).map((task) => ({
       ...task,
       ...(blockedTasks.find((item) => item.task_id === task.id)
@@ -779,6 +987,21 @@ function commandNext(options) {
         tasks: fullOutput.tasks,
         plan_path: fullOutput.plan_path,
         remaining_work: fullOutput.remaining_work,
+        planning_diagnostics: fullOutput.planning_diagnostics.filter(
+          (item) => item.code !== 'parallel-readiness' || item.state === 'candidate',
+        ),
+        planning_diagnostic_summary: {
+          total: fullOutput.planning_diagnostics.length,
+          unresolved_reasons: [
+            ...new Set(
+              fullOutput.planning_diagnostics.flatMap((item) =>
+                item.code === 'parallel-readiness' && item.state !== 'candidate'
+                  ? [item.state]
+                  : [],
+              ),
+            ),
+          ],
+        },
         evidence_coverage: fullOutput.evidence_coverage,
         latest_run: fullOutput.latest_run,
         next_action: fullOutput.next_action,
@@ -854,6 +1077,23 @@ export async function main(argv = process.argv.slice(2)) {
     writeGeneratedStatus()
     return
   }
+  if (command === 'plan' && subcommand === 'note') {
+    if (!positionals[0] || !options.text) throw new Error('plan note <id> --text <execution-note>')
+    const plan = appendPlanNote(positionals[0], options.text)
+    console.log(
+      JSON.stringify(
+        {
+          plan_id: plan.metadata.id,
+          recorded_in: plan.relativePath,
+          section: '状态记录',
+          evidence_created: false,
+        },
+        null,
+        2,
+      ),
+    )
+    return
+  }
   if (command === 'example' && subcommand === 'removal-plan') {
     console.log(JSON.stringify(exampleRemovalPlan(positionals[0] || 'tasks'), null, 2))
     return
@@ -887,6 +1127,7 @@ export async function main(argv = process.argv.slice(2)) {
     return commandReleaseVerify(positionals, options)
   if (command === 'tdd' && subcommand === 'red') return commandTddRed(options)
   if (command === 'tdd' && subcommand === 'restart') return commandTddRestart(options)
+  if (command === 'tdd' && subcommand === 'recover') return commandTddRecover(options)
   throw new Error('Unknown command. Run pnpm ignite --help to see valid commands.')
 }
 

@@ -1,7 +1,14 @@
 import { randomBytes } from 'node:crypto'
-import { existsSync, mkdirSync, readFileSync, writeFileSync, unlinkSync } from 'node:fs'
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  writeFileSync,
+  unlinkSync,
+  appendFileSync,
+} from 'node:fs'
 import { dirname, join } from 'node:path'
-import { spawnSync } from 'node:child_process'
+import { runManagedCommand } from './managed-command.mjs'
 import {
   currentCommit,
   executionWorkspaceIsClean,
@@ -18,12 +25,15 @@ import {
   writeGeneratedStatus,
 } from './state.mjs'
 import {
+  configuredBrowserSetupPaths,
   acceptanceTestHasScaffoldFailure,
+  acceptanceTestAssertionLocations,
+  acceptanceTestContextFingerprint,
   acceptanceTestSource,
   acceptanceTestTitles,
 } from './source-analysis.mjs'
 
-function matchingVitestCases(report, acceptanceId) {
+export function matchingVitestCases(report, acceptanceId) {
   return (report.testResults || []).flatMap((suite) =>
     (suite.assertionResults || [])
       .filter((test) => `${test.fullName || test.title || ''}`.includes(acceptanceId))
@@ -34,11 +44,22 @@ function matchingVitestCases(report, acceptanceId) {
   )
 }
 
-function matchingPlaywrightCases(report, acceptanceId) {
+export function matchingPlaywrightCases(report, acceptanceId) {
+  const failureText = (failure) => {
+    if (typeof failure === 'string') return failure
+    if (!failure || typeof failure !== 'object') return ''
+    const location =
+      failure.location?.file && failure.location?.line && failure.location?.column
+        ? `at ${failure.location.file}:${failure.location.line}:${failure.location.column}`
+        : ''
+    return [failure.message, failure.stack, location]
+      .filter((value) => value !== undefined && value !== null)
+      .join('\n')
+  }
   if (Array.isArray(report.tests))
     return report.tests
       .filter((test) => `${test.title || ''}`.includes(acceptanceId))
-      .map((test) => ({ status: test.status, failures: test.failures || [] }))
+      .map((test) => ({ status: test.status, failures: (test.failures || []).map(failureText) }))
 
   const cases = []
   const visit = (suite) => {
@@ -48,10 +69,9 @@ function matchingPlaywrightCases(report, acceptanceId) {
         for (const result of test.results || []) {
           cases.push({
             status: result.status,
-            failures: [
-              result.error?.message,
-              ...(result.errors || []).map((error) => error.message),
-            ].filter(Boolean),
+            failures: [failureText(result.error), ...(result.errors || []).map(failureText)].filter(
+              Boolean,
+            ),
           })
         }
       }
@@ -66,35 +86,119 @@ function matchingPlaywrightCases(report, acceptanceId) {
  * @param {string} source
  * @param {string} acceptanceId
  * @param {string | null} [expectedTitle=null]
+ * @param {{ entryPath: string, readFile: (path: string) => string | null, testSupportPaths?: string[] } | null} [context=null]
+ * @returns {{ schema: number, test_scope: string, test_sha256: string, context_schema?: number, context_sha256?: string, context_files?: string[], warnings?: string[] } | null}
  */
-export function tddTestFingerprint(source, acceptanceId, expectedTitle = null) {
+export function tddTestFingerprint(source, acceptanceId, expectedTitle = null, context = null) {
   const selectedTest = acceptanceTestSource(source, acceptanceId, expectedTitle)
   if (!selectedTest) return null
-  return {
+  const fingerprint = {
     schema: 2,
     test_scope: 'acceptance-case',
     test_sha256: hash(selectedTest),
   }
+  if (context?.entryPath && typeof context.readFile === 'function') {
+    const contextFingerprint = acceptanceTestContextFingerprint({
+      entryPath: context.entryPath,
+      acceptanceId,
+      expectedTitle,
+      readFile: context.readFile,
+      testSupportPaths: context.testSupportPaths || [],
+    })
+    if (contextFingerprint) Object.assign(fingerprint, contextFingerprint)
+  }
+  return fingerprint
 }
 
+/** @returns {[string, string[]]} */
 export function tddBrowserCommand(test, acceptanceId) {
   const [testPath] = test.split('::', 1)
   return ['corepack', ['pnpm', 'test:e2e', '--', testPath, '--grep', acceptanceId]]
 }
 
-export function isBehaviorAssertionFailure(message) {
+/**
+ * @param {string} message
+ * @param {{ testPath: string, assertionLocations: Array<{ line: number, column: number, endLine: number, endColumn: number }> } | null} [provenance=null]
+ * @returns {boolean}
+ */
+export function isBehaviorAssertionFailure(message, provenance = null) {
   if (
     /(?:Cannot find module|ERR_MODULE_NOT_FOUND|ECONNREFUSED|ECONNRESET|browserType\.launch|Failed to launch|webServer.*(?:timeout|failed))/i.test(
       message,
     )
   )
     return false
-  return /AssertionError|expect\([^\n]*\)\.(?:to|not)|expected .+ (?:to|not to)|Expected .+ (?:to|not to)|toHave(?:Text|URL|Value|Count|Attribute|Class|CSS)|toBe(?:Visible|Hidden|Enabled|Disabled|Checked|Focused|Truthy|Falsy|Defined|Null|GreaterThan(?:OrEqual)?|LessThan(?:OrEqual)?|CloseTo|InstanceOf)|toEqual|toStrictEqual|toContain|toMatch/i.test(
-    message,
-  )
+  const assertion =
+    /AssertionError|expect\([^\n]*\)\.(?:to|not)|expected .+ (?:to|not to)|Expected .+ (?:to|not to)|toHave(?:Text|URL|Value|Count|Attribute|Class|CSS)|toBe(?:Visible|Hidden|Enabled|Disabled|Checked|Focused|Truthy|Falsy|Defined|Null|GreaterThan(?:OrEqual)?|LessThan(?:OrEqual)?|CloseTo|InstanceOf)|toEqual|toStrictEqual|toContain|toMatch/i.test(
+      message,
+    )
+  if (!assertion || !provenance?.testPath || !Array.isArray(provenance.assertionLocations))
+    return false
+  const expectedPath = provenance.testPath.replaceAll('\\', '/')
+  for (const match of message.matchAll(/(?:\(|at\s+|^)([^()\s]+):(\d+):(\d+)\)?/gm)) {
+    const actualPath = match[1].replaceAll('\\', '/')
+    if (!(actualPath === expectedPath || actualPath.endsWith(`/${expectedPath}`))) continue
+    const line = Number(match[2])
+    const column = Number(match[3])
+    const lastAssertion = provenance.assertionLocations.reduce(
+      (last, location) =>
+        !last ||
+        location.line > last.line ||
+        (location.line === last.line && location.column > last.column)
+          ? location
+          : last,
+      null,
+    )
+    if (
+      lastAssertion &&
+      line === lastAssertion.line &&
+      column >= lastAssertion.column &&
+      (line < lastAssertion.endLine ||
+        (line === lastAssertion.endLine && column <= lastAssertion.endColumn))
+    )
+      return true
+  }
+  return false
 }
 
-export function runTddRed(planId, acceptanceId) {
+export function summarizeTddFailures(cases) {
+  const failures = cases.flatMap((item) => item.failures || [])
+  const summary = failures
+    .map((failure) => `${failure}`.replaceAll(/\s+/g, ' ').trim())
+    .filter(Boolean)
+    .map((failure) => failure.slice(0, 1200))
+  return {
+    failure_sha256: hash(JSON.stringify(failures)),
+    failure_summary: summary.slice(0, 5),
+    failure_summary_sha256: hash(JSON.stringify(summary.slice(0, 5))),
+  }
+}
+
+export { configuredBrowserSetupPaths } from './source-analysis.mjs'
+
+export function readTddReport(result, reportPath, logLocation) {
+  const diagnostic = `${result.stderr || result.stdout}`.trim().slice(-2000)
+  if (result.error || result.timedOut || result.cancelled || result.signal) {
+    const cause =
+      result.error ||
+      (result.timedOut ? 'timeout' : result.cancelled ? 'cancelled' : `signal ${result.signal}`)
+    throw new Error(
+      `TDD runner ${cause}; no red evidence was saved. Log: ${logLocation}${diagnostic ? `\n${diagnostic}` : ''}`,
+    )
+  }
+  try {
+    const report = JSON.parse(readFileSync(reportPath, 'utf8'))
+    if (!report || typeof report !== 'object' || Array.isArray(report))
+      throw new Error('invalid report object')
+    return report
+  } catch {
+    throw new Error(
+      `The test runner did not produce a readable JSON result; no red evidence was saved. Exit: ${result.exitCode}. Log: ${logLocation}${diagnostic ? `\n${diagnostic}` : ''}`,
+    )
+  }
+}
+
+export async function runTddRed(planId, acceptanceId) {
   const plan = findPlan(planId)
   if (plan.metadata.verification_contract < 2)
     throw new Error('TDD red evidence is available for verification_contract 2 Plans')
@@ -139,8 +243,23 @@ export function runTddRed(planId, acceptanceId) {
   if (!acceptanceTestTitles(source).has(acceptanceId))
     throw new Error(`${testPath} does not contain an executable ${acceptanceId} test`)
   const testTitle = check.test.slice(check.test.indexOf('::') + 2)
-  const testFingerprint = tddTestFingerprint(source, acceptanceId, testTitle)
+  const sourceReader = (path) => {
+    const absolutePath = join(repositoryRoot, path)
+    return existsSync(absolutePath) ? readFileSync(absolutePath, 'utf8') : null
+  }
+  const testFingerprint = tddTestFingerprint(source, acceptanceId, testTitle, {
+    entryPath: testPath,
+    readFile: sourceReader,
+    testSupportPaths: check.layer === 'browser' ? configuredBrowserSetupPaths(sourceReader) : [],
+  })
   if (!testFingerprint) throw new Error(`${testPath} has no active test case for ${acceptanceId}`)
+  const assertionLocations = acceptanceTestAssertionLocations(source, acceptanceId, testTitle, {
+    requireTargetMarker: true,
+  })
+  if (assertionLocations.length === 0)
+    throw new Error(
+      `${testPath} has no target assertion for ${acceptanceId}; mark the behavior assertion with expect(actual, '[${acceptanceId}] target')`,
+    )
   if (acceptanceTestHasScaffoldFailure(source, acceptanceId))
     throw new Error(
       `${testPath} still contains a scaffold failure; write the behavior assertion first`,
@@ -153,7 +272,9 @@ export function runTddRed(planId, acceptanceId) {
   const tempDirectory = join(repositoryRoot, '.ignite', 'tdd-runs')
   mkdirSync(tempDirectory, { recursive: true })
   const reportPath = join(tempDirectory, `${runId}.json`)
+  const logPath = join(tempDirectory, `${runId}.log`)
   const isBrowser = check.layer === 'browser'
+  /** @type {[string, string[]]} */
   const command = isBrowser
     ? tddBrowserCommand(check.test, acceptanceId)
     : [
@@ -176,29 +297,22 @@ export function runTddRed(planId, acceptanceId) {
   environment.IGNITE_PLAN_ID = planId
   environment.IGNITE_TDD_AC = acceptanceId
   environment.IGNITE_TDD_REPORT_PATH = reportPath
-  const result = spawnSync(command[0], command[1], {
+  writeFileSync(logPath, `TDD ${planId} ${acceptanceId}\n`, 'utf8')
+  const result = await runManagedCommand({
+    command: command[0],
+    args: command[1],
     cwd: repositoryRoot,
-    encoding: 'utf8',
-    windowsHide: true,
-    timeout: 180_000,
     env: environment,
-    maxBuffer: 16 * 1024 * 1024,
+    timeoutMs: isBrowser ? 10 * 60_000 : 3 * 60_000,
+    onOutput: (stream, text) => {
+      appendFileSync(logPath, text, 'utf8')
+      ;(stream === 'stderr' ? process.stderr : process.stdout).write(text)
+    },
   })
 
-  let report = null
-  try {
-    const jsonText = existsSync(reportPath) ? readFileSync(reportPath, 'utf8') : ''
-    report = JSON.parse(jsonText)
-  } catch {
-    if (existsSync(reportPath)) unlinkSync(reportPath)
-    throw new Error(
-      'The test runner did not produce a readable JSON result; no red evidence was saved',
-    )
-  }
-  if (existsSync(reportPath)) unlinkSync(reportPath)
-  if (result.error)
-    throw new Error(`TDD test runner failed before completing: ${result.error.message}`)
-  if (result.status === 0)
+  const location = `.ignite/tdd-runs/${runId}.log`
+  const report = readTddReport(result, reportPath, location)
+  if (result.exitCode === 0)
     throw new Error(
       `${acceptanceId} passed before the implementation; no expected red result was recorded`,
     )
@@ -207,9 +321,20 @@ export function runTddRed(planId, acceptanceId) {
     ? matchingPlaywrightCases(report, acceptanceId)
     : matchingVitestCases(report, acceptanceId)
   if (!cases.length) throw new Error(`${acceptanceId} was not found in the test result`)
+  if ((report.errors || []).length)
+    throw new Error(`Test preparation failed; no red evidence was saved. Log: ${location}`)
   const failed = cases.filter((item) => item.status === 'failed')
   const failureText = failed.flatMap((item) => item.failures).join('\n')
-  if (failed.length === 0 || !isBehaviorAssertionFailure(failureText))
+  const failuresAttributed =
+    failed.length > 0 &&
+    failed.every(
+      (item) =>
+        item.failures.length > 0 &&
+        item.failures.every((failure) =>
+          isBehaviorAssertionFailure(failure, { testPath, assertionLocations }),
+        ),
+    )
+  if (!failuresAttributed)
     throw new Error(
       `The selected test did not fail with one recognizable behavior assertion; no red evidence was saved${failureText ? `: ${failureText.slice(0, 1200)}` : ''}`,
     )
@@ -217,6 +342,7 @@ export function runTddRed(planId, acceptanceId) {
   const redEvidencePath = `docs/others/evidence/tdd/${planId}/${runId}.json`
   const redEvidenceAbsolutePath = join(repositoryRoot, redEvidencePath)
   mkdirSync(dirname(redEvidenceAbsolutePath), { recursive: true })
+  const failureEvidence = summarizeTddFailures(failed)
   const record = {
     ...testFingerprint,
     run_id: runId,
@@ -225,8 +351,10 @@ export function runTddRed(planId, acceptanceId) {
     test: check.test,
     layer: check.layer,
     status: 'assertion-failed',
+    target_assertion_contract: 'ac-message-marker-v1',
     red_commit: commit,
     output_sha256: hash(`${result.stdout || ''}\n${result.stderr || ''}`),
+    ...failureEvidence,
     command: isBrowser
       ? [command[0], ...command[1]]
       : [
@@ -251,5 +379,6 @@ export function runTddRed(planId, acceptanceId) {
     return metadata
   })
   writeGeneratedStatus()
+  if (existsSync(reportPath)) unlinkSync(reportPath)
   return { ...record, evidence_path: redEvidencePath }
 }

@@ -41,6 +41,9 @@ import {
   acceptanceTestHasScaffoldFailure,
   acceptanceTestSource,
   acceptanceTestTitles,
+  acceptanceTestContextFingerprint,
+  acceptanceTestAssertionLocations,
+  configuredBrowserSetupPaths,
 } from './source-analysis.mjs'
 import {
   calculateEvidenceCoverage,
@@ -209,6 +212,7 @@ export function readRepositoryText(path, commit = null) {
   return existsSync(absolutePath) ? readFileSync(absolutePath, 'utf8') : null
 }
 
+/** @returns {{requirements: Map<string, string>, acceptance: Map<string, {path: string, text: string, requirements: string[]}>, duplicates: string[]}} */
 export function specificationRegistry(commit = null) {
   const featureRoot = join(repositoryRoot, 'docs', 'features')
   const requirements = new Map()
@@ -532,6 +536,9 @@ export function validatePlan(
           const testTitle = item.test.slice(item.test.indexOf('::') + 2)
           const redSource = readRepositoryText(testPath, record.red_commit)
           const finalSource = readRepositoryText(testPath, historicalCommit)
+          const redRunner = readRepositoryText('scripts/ignite/tdd.mjs', record.red_commit)
+          const requiresContext =
+            /target_assertion_contract\s*:\s*['"]ac-message-marker-v1['"]/.test(redRunner || '')
           const redCase =
             redSource && acceptanceTestSource(redSource, item.acceptance_id, testTitle)
           const finalCase =
@@ -542,6 +549,62 @@ export function validatePlan(
               record.test_scope === 'acceptance-case' &&
               redCase !== null &&
               hash(redCase) === record.test_sha256)
+          const contextOptions = {
+            entryPath: testPath,
+            acceptanceId: item.acceptance_id,
+            expectedTitle: testTitle,
+          }
+          const redContext =
+            record.context_schema === 1
+              ? acceptanceTestContextFingerprint({
+                  ...contextOptions,
+                  readFile: (path) => readRepositoryText(path, record.red_commit),
+                  testSupportPaths:
+                    record.layer === 'browser'
+                      ? configuredBrowserSetupPaths((path) =>
+                          readRepositoryText(path, record.red_commit),
+                        )
+                      : [],
+                })
+              : null
+          const finalContext =
+            record.context_schema === 1
+              ? acceptanceTestContextFingerprint({
+                  ...contextOptions,
+                  readFile: (path) => readRepositoryText(path, historicalCommit),
+                  testSupportPaths:
+                    record.layer === 'browser'
+                      ? configuredBrowserSetupPaths((path) =>
+                          readRepositoryText(path, historicalCommit),
+                        )
+                      : [],
+                })
+              : null
+          const contextMatches =
+            record.context_schema === undefined
+              ? record.context_sha256 === undefined
+              : record.context_schema === 1 &&
+                redContext !== null &&
+                finalContext !== null &&
+                redContext.context_sha256 === finalContext.context_sha256 &&
+                record.context_sha256 === redContext.context_sha256
+          const diagnosticMatches =
+            record.context_schema === undefined ||
+            (record.target_assertion_contract === 'ac-message-marker-v1' &&
+              typeof redSource === 'string' &&
+              acceptanceTestAssertionLocations(redSource, item.acceptance_id, testTitle, {
+                requireTargetMarker: true,
+              }).length > 0 &&
+              Array.isArray(record.failure_summary) &&
+              record.failure_summary.length > 0 &&
+              record.failure_summary.length <= 5 &&
+              record.failure_summary.every(
+                (entry) => typeof entry === 'string' && entry.length > 0 && entry.length <= 1200,
+              ) &&
+              /^[0-9a-f]{64}$/.test(record.failure_sha256 || '') &&
+              hash(JSON.stringify(record.failure_summary)) === record.failure_summary_sha256 &&
+              Array.isArray(record.context_files) &&
+              JSON.stringify(record.context_files) === JSON.stringify(redContext?.context_files))
           const recordMatches =
             [1, 2].includes(record.schema) &&
             record.run_id === item.run_id &&
@@ -560,7 +623,10 @@ export function validatePlan(
             typeof redCase === 'string' &&
             typeof finalCase === 'string' &&
             hash(redCase) === hash(finalCase) &&
-            testDigestMatches
+            testDigestMatches &&
+            contextMatches &&
+            diagnosticMatches &&
+            (!requiresContext || record.context_schema === 1)
           if (!recordMatches)
             failures.push(
               `${item.acceptance_id}: TDD red proof is invalid or its test changed before green` +
@@ -753,7 +819,9 @@ export function validatePlan(
     const expectedInputFingerprint = requireCurrentEvidence
       ? computeInputFingerprint(plan)
       : gitCommitExists(manifest.commit)
-        ? computeInputFingerprintAtCommit(evidencePlan, manifest.commit)
+        ? computeInputFingerprintAtCommit(evidencePlan, manifest.commit, {
+            includeNarrative: manifest.check_policy_version >= 7,
+          })
         : null
     if (manifest.input_fingerprint !== expectedInputFingerprint) {
       failures.push(`evidence ${item.id} is stale for the current execution input`)
@@ -1064,10 +1132,27 @@ export function validateAllPlans(
     }
   }
   const live = plans.filter((item) => ['active', 'verifying'].includes(item.metadata?.status))
+  const pendingScopes = (plan) => {
+    const tasks = plan.metadata.tasks
+    if (
+      plan.metadata.execution_contract !== 1 ||
+      !Array.isArray(tasks) ||
+      !tasks.length ||
+      tasks.some((task) => !Array.isArray(task.scope))
+    )
+      return plan.metadata.write_scope || []
+    return tasks.filter((task) => task.status !== 'done').flatMap((task) => task.scope)
+  }
   for (const plan of live) {
     for (const claim of plan.metadata.shared_files || []) {
+      if (
+        !pendingScopes(plan).some((scope) =>
+          scope.endsWith('/') ? claim.path.startsWith(scope) : claim.path === scope,
+        )
+      )
+        continue
       for (const other of live.filter((item) => item.metadata.id !== plan.metadata.id)) {
-        const overlaps = other.metadata.write_scope?.some((scope) =>
+        const overlaps = pendingScopes(other).some((scope) =>
           scope.endsWith('/') ? claim.path.startsWith(scope) : claim.path === scope,
         )
         if (!overlaps) continue
@@ -1611,6 +1696,7 @@ export function validateAllReleases(releaseEntries = listReleases(), planSnapsho
   return failures
 }
 
+/** @param {{allPlans?: ReturnType<typeof listPlans>, releaseEntries?: ReturnType<typeof listReleases>, manifests?: Map<string, any>}} [options] */
 export function renderStatus({
   allPlans = listPlans(),
   releaseEntries = listReleases(),
@@ -1715,7 +1801,6 @@ export function recordPlanReview(id, stage, record) {
     ...metadata,
     reviews: [...(metadata.reviews || []), saved],
   }))
-  writeGeneratedStatus()
   return saved
 }
 
@@ -1733,6 +1818,25 @@ export function updatePlanMetadata(plan, updater) {
     ),
   )
   return findPlan(next.id)
+}
+
+export function appendPlanNote(planId, text) {
+  const note = typeof text === 'string' ? text.trim().replace(/\s+/g, ' ') : ''
+  if (!note || note.length > 4000 || /<!--|-->/.test(note))
+    throw new Error('Plan note requires a plain execution note of 1–4000 characters')
+  const plan = findPlan(planId)
+  if (['done', 'cancelled', 'superseded'].includes(plan.metadata.status))
+    throw new Error('Execution notes only update an unfinished Plan; preserve completed history')
+  const entry = `${new Date().toISOString().slice(0, 10)}：${note}\n`
+  const heading = /^## 状态记录\s*$/m.exec(plan.content)
+  let content
+  if (heading) {
+    const start = heading.index + heading[0].length
+    const following = /^## /m.exec(plan.content.slice(start))
+    const end = following ? start + following.index : plan.content.length
+    content = `${plan.content.slice(0, end).trimEnd()}\n\n${entry}\n${plan.content.slice(end)}`
+  } else content = `${plan.content.trimEnd()}\n\n## 状态记录\n\n${entry}`
+  return updatePlanMetadata({ ...plan, content }, (metadata) => metadata)
 }
 
 export function restartPlanTdd(planId, acceptanceId, reason) {
@@ -1763,6 +1867,15 @@ export function restartPlanTdd(planId, acceptanceId, reason) {
     )
       return { plan, restarted: false, preserved_runs: [] }
     throw new Error('No prior TDD binding to restart; follow the normal red task')
+  }
+  const invalidBinding = previous.some(
+    (item) => typeof item.test !== 'string' || !/^tdd-\d{14}-[0-9a-f]{6}$/.test(item.run_id || ''),
+  )
+  const proofFailures = validatePlan(plan).filter(
+    (error) => error.includes(acceptanceId) && /TDD|red proof|valid red/i.test(error),
+  )
+  if (!invalidBinding && proofFailures.length === 0) {
+    return { plan, restarted: false, preserved_runs: previous.map((item) => item.run_id) }
   }
   const next = structuredClone(value)
   next.status = 'active'
@@ -1862,7 +1975,6 @@ export function updatePlanTask(planId, taskId, status) {
     metadata.updated_at = new Date().toISOString().slice(0, 10)
     return metadata
   })
-  writeGeneratedStatus()
   return updated
 }
 

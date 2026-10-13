@@ -217,4 +217,116 @@ test.describe('browser suite', () => {
       browserFingerprint(browserSource)?.context_sha256,
     )
   })
+
+  it('[AC-EXECUTION-044] follows named and namespace helper re-exports through test-support barrels', () => {
+    const files = new Map([
+      [
+        '/repo/tests/contracts/barrel.test.ts',
+        `import { it, expect } from 'vitest'
+import { initializeTest } from './test-support/index'
+import * as helpers from './test-support/namespaced'
+it('[AC-TEST-010] barrel-backed target', () => {
+  initializeTest()
+  helpers.configure()
+  expect(true).toBe(true)
+})`,
+      ],
+      [
+        '/repo/tests/contracts/test-support/index.ts',
+        `export { initialize as initializeTest } from './initialize'`,
+      ],
+      [
+        '/repo/tests/contracts/test-support/initialize.ts',
+        `export function initialize() { return 'initial' }`,
+      ],
+      [
+        '/repo/tests/contracts/test-support/namespaced.ts',
+        `export * as helpers from './helper-namespace'`,
+      ],
+      [
+        '/repo/tests/contracts/test-support/helper-namespace.ts',
+        `export function configure() { return 'configured' }
+export function unrelated() { return 'unused' }`,
+      ],
+    ])
+    const readFile = (path: string) => files.get(path) ?? null
+    const fingerprint = () =>
+      tddTestFingerprint(files.get('/repo/tests/contracts/barrel.test.ts')!, 'AC-TEST-010', null, {
+        entryPath: '/repo/tests/contracts/barrel.test.ts',
+        readFile,
+      })
+
+    const initial = fingerprint()
+    expect(initial?.context_files).toContain('/repo/tests/contracts/test-support/index.ts')
+    expect(initial?.context_files).toContain('/repo/tests/contracts/test-support/initialize.ts')
+    expect(initial?.context_files).toContain('/repo/tests/contracts/test-support/namespaced.ts')
+    expect(initial?.context_files).toContain(
+      '/repo/tests/contracts/test-support/helper-namespace.ts',
+    )
+
+    files.set(
+      '/repo/tests/contracts/test-support/initialize.ts',
+      `export function initialize() { return 'changed' }`,
+    )
+    expect(fingerprint()?.context_sha256).not.toBe(initial?.context_sha256)
+  })
+
+  it('[AC-EXECUTION-044] unions requested exports when barrels share a helper module', () => {
+    const files = new Map([
+      [
+        '/repo/tests/contracts/shared-barrels.test.ts',
+        `import { it, expect } from 'vitest'
+import { initializeTest } from './test-support/initialize-barrel'
+import { configureTest } from './test-support/configure-barrel'
+it('[AC-TEST-011] shared barrel target', () => {
+  initializeTest()
+  configureTest()
+  expect(true).toBe(true)
+})`,
+      ],
+      [
+        '/repo/tests/contracts/test-support/initialize-barrel.ts',
+        `export { initialize as initializeTest } from './shared'`,
+      ],
+      [
+        '/repo/tests/contracts/test-support/configure-barrel.ts',
+        `export { configure as configureTest } from './shared'`,
+      ],
+      [
+        '/repo/tests/contracts/test-support/shared.ts',
+        `export function initialize() { return 'initial' }
+export function configure() { return 'configured' }
+export function unrelated() { return 'unused' }`,
+      ],
+    ])
+    const readFile = (path: string) => files.get(path) ?? null
+    const fingerprint = () =>
+      tddTestFingerprint(
+        files.get('/repo/tests/contracts/shared-barrels.test.ts')!,
+        'AC-TEST-011',
+        null,
+        { entryPath: '/repo/tests/contracts/shared-barrels.test.ts', readFile },
+      )
+
+    const initial = fingerprint()
+    const changeSecondExport = () => {
+      files.set(
+        '/repo/tests/contracts/test-support/shared.ts',
+        `export function initialize() { return 'initial' }
+export function configure() { return 'changed' }
+export function unrelated() { return 'unused' }`,
+      )
+    }
+    changeSecondExport()
+    expect(fingerprint()?.context_sha256).not.toBe(initial?.context_sha256)
+
+    const withSecondExport = fingerprint()?.context_sha256
+    files.set(
+      '/repo/tests/contracts/test-support/shared.ts',
+      `export function initialize() { return 'initial' }
+export function configure() { return 'changed' }
+export function unrelated() { return 'changed but unused' }`,
+    )
+    expect(fingerprint()?.context_sha256).toBe(withSecondExport)
+  })
 })

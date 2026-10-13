@@ -3,6 +3,8 @@ import {
   changedFilesForPlanAtCommit,
   hash,
   isExecutionStatePath,
+  normalizeGitText,
+  planSemanticNarrative,
   runGit,
   stablePlanContract,
   workingPathBlobIdentity,
@@ -10,21 +12,6 @@ import {
 
 const text = (value) => typeof value === 'string' && value.trim().length > 0
 const stages = new Set(['draft', 'delivery'])
-
-function planNarrative(content) {
-  return content
-    .replace(/<!-- ignite-plan[\s\S]*?-->/, '')
-    .replace(/<!-- ignite-progress -->[\s\S]*?<!-- \/ignite-progress -->/g, '')
-    .split(/(?=^## )/m)
-    .filter((section) => !/^## (?:状态|状态记录|TDD 恢复记录)\s*$/m.test(section.split('\n')[0]))
-    .join('\n')
-    .replace(/\r\n/g, '\n')
-    .split('\n')
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .join('\n')
-    .trim()
-}
 
 export function buildReviewContext(plan, stage, { featurePaths, readText, commit = null }) {
   if (!stages.has(stage)) throw new Error('review stage must be draft or delivery')
@@ -44,7 +31,7 @@ export function buildReviewContext(plan, stage, { featurePaths, readText, commit
   const inputs = inputPaths.map((path) => {
     if (!commit) return { path, identity: workingPathBlobIdentity(path) }
     const result = runGit(['rev-parse', `${commit}:${path}`], { allowFailure: true })
-    return { path, identity: result.status === 0 ? result.stdout.trim() : null }
+    return { path, identity: result.exitCode === 0 ? result.stdout.trim() : null }
   })
   const subject = {
     contract: {
@@ -61,8 +48,10 @@ export function buildReviewContext(plan, stage, { featurePaths, readText, commit
         return semantic
       }),
     },
-    narrative: planNarrative(readText(plan.relativePath, commit) || plan.content),
-    features: [...featurePaths].sort().map((path) => ({ path, content: readText(path, commit) })),
+    narrative: planSemanticNarrative(readText(plan.relativePath, commit) || plan.content),
+    features: [...featurePaths]
+      .sort()
+      .map((path) => ({ path, content: normalizeGitText(readText(path, commit) || '') })),
     ...(stage === 'delivery' ? { inputs } : {}),
   }
   return {

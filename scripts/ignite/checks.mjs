@@ -4,8 +4,8 @@ import { join } from 'node:path'
 import { changedFilesForPlan, normalizePath, repositoryRoot, validateWriteScope } from './core.mjs'
 
 const LEVEL_RANK = { dev: 1, integration: 2, release: 3 }
-export const CHECK_POLICY_VERSION = 6
-export const SUPPORTED_CHECK_POLICIES = new Set([1, 2, 3, 4, 5, 6])
+export const CHECK_POLICY_VERSION = 7
+export const SUPPORTED_CHECK_POLICIES = new Set([1, 2, 3, 4, 5, 6, 7])
 const SAFE_DOC_PATTERNS = [
   /^README\.md$/,
   /^docs\/README\.md$/,
@@ -177,6 +177,44 @@ export function requiredLayersForChanges(files) {
   return [...layers]
 }
 
+export function feedbackCommands(plan, acceptanceId = null) {
+  const all = plan.metadata.acceptance || []
+  const criteria = acceptanceId ? all.filter((item) => item.id === acceptanceId) : all
+  if (!criteria.length)
+    throw new Error(`No mapped acceptance${acceptanceId ? ` ${acceptanceId}` : ''} for feedback`)
+  const checks = criteria.flatMap((item) =>
+    (item.checks || []).map((check) => ({ ...check, acceptance: item.id })),
+  )
+  const unit = [
+    ...new Set(
+      checks
+        .filter(
+          (check) =>
+            check.layer !== 'browser' && /\.test\.tsx?$/.test(check.test.split('::', 1)[0]),
+        )
+        .map((check) => check.test.split('::', 1)[0]),
+    ),
+  ].sort()
+  const browser = [
+    ...new Set(
+      checks
+        .filter((check) => check.layer === 'browser')
+        .map((check) => check.test.split('::', 1)[0]),
+    ),
+  ].sort()
+  const pattern = criteria.map((item) => item.id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')
+  const commands = []
+  if (unit.length)
+    commands.push(
+      pnpm(['exec', 'vitest', 'run', ...unit, '--testNamePattern', pattern], 'feedback-tests'),
+    )
+  if (browser.length)
+    commands.push(pnpm(['test:e2e', '--', ...browser, '--grep', pattern], 'feedback-browser'))
+  if (!commands.length)
+    throw new Error('No runnable mapped checks; define the actual acceptance paths first')
+  return commands
+}
+
 export function commandsForLevel(
   level,
   files,
@@ -204,6 +242,7 @@ export function commandsForLevel(
     commands.push(pnpm(['ignite', 'validate'], 'governance'))
     commands.push(pnpm(['docs:check'], 'docs'))
     commands.push(pnpm(['typecheck'], 'typecheck'))
+    if (policyVersion >= 7) commands.push(pnpm(['tools:check'], 'tools-typecheck'))
     commands.push(pnpm(['lint'], 'lint'))
     commands.push(pnpm(['format:check'], 'format'))
     const selectedTests = targetedTests(files, fileExists)
@@ -263,6 +302,7 @@ export function commandsForLevel(
  *   requestedLevel?: string,
  *   explicitFiles?: string[] | null,
  *   dryRun?: boolean
+ *   releaseVerification?: boolean
  * }} options
  */
 export function planCheck({

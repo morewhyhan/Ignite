@@ -105,6 +105,8 @@ Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定�
 
 跨 Plan 依赖、共享写入和并行交接按 `docs/plans/README.md` 的“跨 Plan 依赖与交接”维护，继续使用原有协作字段；最终组合由 Release 验收。
 
+有可独立实施且前置已满足的切片时，AI 按 Plan 规则主动委派并行任务。委派前用原生 `next --task --handoff` 提供准确上下文，执行记录用 `plan note` 回原 Plan；开发排查使用 testing 定义的反馈入口，不能替代正式验收。
+
 1. 在安装依赖前执行 `node scripts/runtime-doctor.mjs --preflight`；按采用规范准备 `.env` 并安装依赖后，运行 `pnpm runtime:check` 和 `pnpm template:doctor`。若诊断提示新 Git 历史仍含继承记录，先运行 `pnpm ignite adopt-history` 预览，核对后再运行 `pnpm ignite adopt-history --apply` 并提交归档；之后运行 `pnpm ignite status`。不要逐条修复旧提交缺失造成的模板证据错误。确认采用历史完整后，再用精简状态摘要识别当前 Plan 与结构问题。只有需要程序化解析完整机器上下文时才运行 `pnpm ignite status --json`。
 2. 只读取本轮相关的 Feature、Plan、Standards、Design 和测试；用 `pnpm ignite next --plan <IGT-ID>` 接续匹配的现有 Plan。需要新 Plan 时，新模块用 `pnpm create:module <plural-kebab-name>`，存量改动用 `pnpm create:change <kebab-name>` 起草。
 3. 明确增量/存量、基线 commit、写入范围和验收标准；先读取所属固定方法，完成 Feature、Plan、Release 草稿和原生准备检查，关闭开放问题后再进入实现。

@@ -77,7 +77,7 @@ function databaseSnapshot(sql) {
         "SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%' ORDER BY name",
       )
       .all()
-      .map((row) => row.name)
+      .map((row) => String(row.name))
     const result = {}
     for (const table of tables) {
       const quoted = table.replaceAll("'", "''")

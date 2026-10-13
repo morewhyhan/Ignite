@@ -245,7 +245,7 @@
       "id": "T6",
       "title": "集成并独立审查真实结果与文档一致性",
       "phase": "verify",
-      "status": "todo",
+      "status": "done",
       "result": "全部五项AC与兼容回归通过；另行派发独立角色读取真实diff、方法与证据，发现回到原Plan修复；Design已回写",
       "scope": [
         "docs/designs/execution.md",
@@ -276,7 +276,7 @@
       "id": "T7",
       "title": "核对 Plan 准出与 Release 最终验收交接",
       "phase": "verify",
-      "status": "todo",
+      "status": "done",
       "result": "Plan 目标、当前证据和独立交付审查完整，Release scope 与被测版本一致；最终构建和生产 E2E 由 Release 自身验收，不提前填写通过。",
       "scope": ["docs/plans/", "docs/others/evidence/"],
       "depends_on": ["T6"],
@@ -365,7 +365,7 @@
   "evidence": [
     {
       "id": "check-integration",
-      "run_id": "run-20261013204520-6be60a"
+      "run_id": "run-20261013212809-423f18"
     }
   ],
   "blocker": null,
@@ -479,6 +479,17 @@
       "findings": [],
       "identity_assurance": "declared",
       "recorded_at": "2026-10-13T21:17:45.030Z"
+    },
+    {
+      "stage": "delivery",
+      "executor": "/root",
+      "reviewer": "/root/recovery_plan_review",
+      "source": "Codex collaboration sub-agent dispatched by /root as /root/recovery_plan_review",
+      "subject_fingerprint": "a051b1f1d0a3e11305116b7bd3339285188473c5df357a92e27490d0cd022749",
+      "verdict": "approved",
+      "findings": [],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-10-13T21:42:50.568Z"
     }
   ]
 }
@@ -594,16 +605,18 @@ docs/designs/execution.md 记录已实现新契约和限制；domain.md 只写�
 - [x] T3C · 实现两个审查对象与正式准入 · done
 - [x] T4 · 重构稳定业务入口、需求来源和事实冲突处理 · done
 - [x] T5 · 迁入两份审查方法并统一 Plan 规则与生成入口 · done
-- [ ] T6 · 集成并独立审查真实结果与文档一致性 · todo
-- [ ] T7 · 核对 Plan 准出与 Release 最终验收交接 · todo
+- [x] T6 · 集成并独立审查真实结果与文档一致性 · done
+- [x] T7 · 核对 Plan 准出与 Release 最终验收交接 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：check-integration / run-20261013204520-6be60a
+证据：check-integration / run-20261013212809-423f18
 <!-- /ignite-progress -->
 
 2026-10-13：接续原有文档流程计划，保留四项原始目标、真实红灯及实现任务；当前源码更新后以新的原生 integration 和独立交付审查替换过期验收绑定。四项 DOCFLOW 验收及兼容行为已验证，Design 已与当前实现核对。Plan 原生准出后继续由 document-workflow-v1 独立执行生产 Release 验收，不复写旧测试通过结果。
 
 2026-10-13：原生 done 拦截已定位为同一个未改变的 .gitignore：历史 Git blob 保留 CRLF，hash-object --path 按后来加入的 text=auto 归一化为 LF，工作区明明干净却得到不同身份。真实隔离 Git 回归在目标断言失败（legacy-index-red.log），没有准备失败。扩充原 AC-DOCFLOW-003 和原 T3C/T6/T7，保留所有原始目标、旧红灯和已通过记录；修复采用未改变文件的真实 index 身份，实际编辑仍应使审查失效。
+
+2026-10-13：接续原有文档流程计划，保留四项原始目标及原始红灯，新增 AC-DOCFLOW-005 的原生目标失败和 Git 身份修复。最终 integration run-20261013212809-423f18 在 19d6dba41b8de0fffe506a460f1b886e5024a356 上通过全部五项验收与 53 文件、275 项回归。独立交付审查已批准 a051b1f1d0a3e11305116b7bd3339285188473c5df357a92e27490d0cd022749；实际当前/历史身份一致、输入差异为空，Design 与实现一致。随后原生准出及独立 Release 验收继续执行，不提前宣称生产通过。
 
 ## 准出条件
 

@@ -100,4 +100,121 @@ it('[AC-TEST-001] checks the target behavior', () => expect(result).toBe('expect
         ?.test_sha256,
     ).not.toBe(original?.test_sha256)
   })
+
+  it('[AC-EXECUTION-044] changes the fingerprint when an applicable beforeEach hook changes', () => {
+    const source = `import { it, expect } from 'vitest'
+describe('outer', () => {
+  beforeEach(() => prepare())
+  it('[AC-TEST-001] target', () => expect(true).toBe(true))
+})`
+    const changedHook = source.replace('prepare())', 'prepare(2))')
+    const fingerprint = (content: string) =>
+      tddTestFingerprint(content, 'AC-TEST-001', null, {
+        entryPath: 'tests/target.test.ts',
+        readFile: (path: string) => (path === 'tests/target.test.ts' ? content : null),
+      })
+    expect(fingerprint(changedHook)?.context_sha256).not.toBe(fingerprint(source)?.context_sha256)
+  })
+
+  it('[AC-EXECUTION-044] fingerprints applicable hooks and only referenced transitive test helpers', () => {
+    const files = new Map([
+      [
+        '/repo/tests/target.test.ts',
+        `import { it, expect } from 'vitest'
+import { prepare as prepareForTest } from './test-support/prepare'
+import initialize from './test-support/default-setup'
+import * as setupHelpers from './test-support/helpers'
+function setup() { initialize(); setupHelpers.prepare(); return prepareForTest() }
+describe('outer', () => {
+  beforeEach(() => setup())
+  it('[AC-TEST-001] target', () => expect(true).toBe(true))
+  it('[AC-TEST-002] sibling', () => expect(true).toBe(true))
+})`,
+      ],
+      [
+        '/repo/tests/test-support/prepare.ts',
+        `import { build as buildStep } from './build'
+export function prepare() { return buildStep() }
+export function unused() { return 'v1' }`,
+      ],
+      ['/repo/tests/test-support/build.ts', `export function build() { return 'v1' }`],
+      [
+        '/repo/tests/test-support/default-setup.ts',
+        `export default function initialize() { return 'default' }`,
+      ],
+      ['/repo/tests/test-support/helpers.ts', `export function prepare() { return 'namespace' }`],
+    ])
+    const readFile = (path: string) => files.get(path) ?? null
+    const fingerprint = (acceptanceId: string) =>
+      tddTestFingerprint(files.get('/repo/tests/target.test.ts')!, acceptanceId, null, {
+        entryPath: '/repo/tests/target.test.ts',
+        readFile,
+      })
+    const target = fingerprint('AC-TEST-001')
+    expect(target?.context_sha256).toMatch(/^[a-f0-9]{64}$/)
+    expect(target?.context_files).toEqual([
+      '/repo/tests/target.test.ts',
+      '/repo/tests/test-support/build.ts',
+      '/repo/tests/test-support/default-setup.ts',
+      '/repo/tests/test-support/helpers.ts',
+      '/repo/tests/test-support/prepare.ts',
+    ])
+    const initial = target?.context_sha256
+    files.set('/repo/tests/test-support/build.ts', `export function build() { return 'v2' }`)
+    expect(fingerprint('AC-TEST-001')?.context_sha256).not.toBe(initial)
+    const helperChange = fingerprint('AC-TEST-001')?.context_sha256
+    files.set(
+      '/repo/tests/test-support/prepare.ts',
+      `import { build as buildStep } from './build'
+export function prepare() { return buildStep() }
+export function unused() { return 'v2' }`,
+    )
+    expect(fingerprint('AC-TEST-001')?.context_sha256).toBe(helperChange)
+    const withHook = fingerprint('AC-TEST-001')?.context_sha256
+    files.set(
+      '/repo/tests/target.test.ts',
+      files.get('/repo/tests/target.test.ts')!.replace('setup())', 'setup(2))'),
+    )
+    expect(fingerprint('AC-TEST-001')?.context_sha256).not.toBe(withHook)
+    const targetBeforeSiblingEdit = fingerprint('AC-TEST-001')?.context_sha256
+    files.set(
+      '/repo/tests/target.test.ts',
+      files
+        .get('/repo/tests/target.test.ts')!
+        .replace(
+          "it('[AC-TEST-002] sibling', () => expect(true).toBe(true))",
+          "it('[AC-TEST-002] sibling', () => expect(false).toBe(true))",
+        ),
+    )
+    expect(fingerprint('AC-TEST-001')?.context_sha256).toBe(targetBeforeSiblingEdit)
+
+    const fixtureSource = `import { it, expect } from 'vitest'
+import { setupFixture } from './ignite-fixture'
+it('[AC-TEST-003] fixture-backed behavior', () => expect(setupFixture()).toBe('ready'))`
+    files.set('/repo/tests/contracts/fixture.test.ts', fixtureSource)
+    files.set(
+      '/repo/tests/contracts/ignite-fixture.ts',
+      `export function setupFixture() { return 'ready' }`,
+    )
+    const fixtureFingerprint = tddTestFingerprint(fixtureSource, 'AC-TEST-003', null, {
+      entryPath: '/repo/tests/contracts/fixture.test.ts',
+      readFile,
+    })
+    expect(fixtureFingerprint?.context_files).toContain('/repo/tests/contracts/ignite-fixture.ts')
+
+    const browserSource = `import { test, expect } from '@playwright/test'
+test.describe('browser suite', () => {
+  test.beforeEach(() => setupBrowser())
+  test('[AC-EXECUTION-044] browser target', async () => expect(true).toBe(true))
+})`
+    const browserFingerprint = (content: string) =>
+      tddTestFingerprint(content, 'AC-EXECUTION-044', null, {
+        entryPath: 'tests/e2e/sample.spec.ts',
+        readFile: (path: string) => (path === 'tests/e2e/sample.spec.ts' ? content : null),
+      })
+    const changedBrowserSource = browserSource.replace('setupBrowser())', 'setupBrowser(2))')
+    expect(browserFingerprint(changedBrowserSource)?.context_sha256).not.toBe(
+      browserFingerprint(browserSource)?.context_sha256,
+    )
+  })
 })

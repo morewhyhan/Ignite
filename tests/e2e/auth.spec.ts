@@ -9,7 +9,7 @@ test('[AC-TASKS-001] redirects an unauthenticated dashboard request to the home 
   await expect(page.getByRole('button', { name: '预览应用', exact: true }).first()).toBeVisible()
 })
 
-test('[AC-AUTH-001] [AC-AUTH-002] [AC-AUTH-003] [AC-AUTH-005] [AC-PRODUCT-004] authenticates without the Tasks example', async ({
+test('[AC-AUTH-001] [AC-AUTH-002] [AC-AUTH-003] [AC-AUTH-005] [AC-PRODUCT-004] [AC-EXECUTION-043] authenticates without the Tasks example', async ({
   page,
 }) => {
   const runId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`

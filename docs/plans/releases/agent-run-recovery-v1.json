@@ -1,0 +1,51 @@
+{
+  "schema": 2,
+  "id": "agent-run-recovery-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1791813346292559552"],
+  "scope": [
+    {
+      "id": "GOAL-001",
+      "text": "项目修改能可靠接续、应用既定方法、准确验收并减少重复操作；本次修复全部已确认同源缺陷。",
+      "source": "用户：把问题全部解决，然后开始测试，出问题就改，保证全面通用的高效实用准确。授权本地修复和必要测试；不推送或部署。",
+      "requirements": [
+        "REQ-EXECUTION-042",
+        "REQ-EXECUTION-043",
+        "REQ-EXECUTION-044",
+        "REQ-EXECUTION-045",
+        "REQ-EXECUTION-046",
+        "REQ-EXECUTION-047",
+        "REQ-EXECUTION-048",
+        "REQ-EXECUTION-049",
+        "REQ-EXECUTION-050",
+        "REQ-EXECUTION-051",
+        "REQ-EXECUTION-052",
+        "REQ-EXECUTION-053"
+      ],
+      "acceptance": [
+        "AC-EXECUTION-042",
+        "AC-EXECUTION-043",
+        "AC-EXECUTION-044",
+        "AC-EXECUTION-045",
+        "AC-EXECUTION-046",
+        "AC-EXECUTION-047",
+        "AC-EXECUTION-048",
+        "AC-EXECUTION-049",
+        "AC-EXECUTION-050",
+        "AC-EXECUTION-051",
+        "AC-EXECUTION-052",
+        "AC-EXECUTION-053"
+      ],
+      "plan_ids": ["IGT-1791813346292559552"],
+      "disposition": "included",
+      "reason": "修复已观察执行缺陷与同源漏洞，测试实际工作流并保留未完成边界。",
+      "authorization": "用户：把问题全部解决，然后开始测试，出问题就改，保证全面通用的高效实用准确。授权本地修复和必要测试；不推送或部署。"
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-10-13"
+}

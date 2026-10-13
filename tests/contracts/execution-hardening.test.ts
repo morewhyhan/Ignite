@@ -7,7 +7,7 @@ import { describe, expect, it } from 'vitest'
 import { format } from 'prettier'
 import { planCheck } from '../../scripts/ignite/checks.mjs'
 import { acceptanceLayerResults } from '../../scripts/testing/acceptance-results.mjs'
-import { runGit, stablePlanContract } from '../../scripts/ignite/core.mjs'
+import { stablePlanContract } from '../../scripts/ignite/core.mjs'
 import { tddBrowserCommand } from '../../scripts/ignite/tdd.mjs'
 import {
   calculateEvidenceCoverage,
@@ -100,8 +100,32 @@ describe('execution contract hardening', () => {
   })
 
   it('preserves committed source bytes when reading text and excludes evolving TDD evidence from the plan lock', () => {
-    const committedPackage = runGit(['show', 'HEAD:package.json'], { trimOutput: false }).stdout
-    expect(committedPackage).toBe(readFileSync(join(repositoryRoot, 'package.json'), 'utf8'))
+    const fixture = makeFixture()
+    try {
+      const source = 'line one\r\nline two\n'
+      write(fixture.root, 'source.txt', source)
+      write(fixture.root, '.gitattributes', '* text=auto eol=lf\nsource.txt -text\n')
+      git(fixture.root, 'config', 'core.autocrlf', 'false')
+      commitAll(fixture.root, 'commit source bytes')
+      const coreUrl = pathToFileURL(join(repositoryRoot, 'scripts/ignite/core.mjs')).href
+      const committed = spawnSync(
+        process.execPath,
+        [
+          '--input-type=module',
+          '--eval',
+          `const {runGit}=await import(${JSON.stringify(coreUrl)}); process.stdout.write(runGit(['show','HEAD:source.txt'], {trimOutput:false}).stdout)`,
+        ],
+        {
+          cwd: fixture.root,
+          encoding: 'utf8',
+          env: { ...process.env, IGNITE_ROOT: fixture.root },
+        },
+      )
+      expect(committed.status).toBe(0)
+      expect(committed.stdout).toBe(source)
+    } finally {
+      fixture.cleanup()
+    }
 
     const plan = {
       schema: 2,

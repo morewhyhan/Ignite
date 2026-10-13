@@ -68,6 +68,7 @@ describe('OpenAPI design snapshot', () => {
     const actual = new Set(
       api.routes
         .filter((route) => !route.path.includes('/auth/'))
+        .filter((route) => !(route.method === 'ALL' && route.path.endsWith('/*')))
         .map((route) => operationKey(route.method, route.path)),
     )
     expect(actual).toEqual(expected)

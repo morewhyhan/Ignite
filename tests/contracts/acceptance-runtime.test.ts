@@ -14,7 +14,7 @@ describe('runtime acceptance evidence', () => {
       write(
         fixture.root,
         'runner.config.mjs',
-        `export default ${JSON.stringify({ test: { include: [testFile], reporters: [reporter] } })}\n`,
+        `export default ${JSON.stringify({ test: { include: [testFile], reporters: [reporter], maxWorkers: 1, fileParallelism: false } })}\n`,
       )
       write(
         fixture.root,
@@ -107,6 +107,8 @@ describe('runtime acceptance evidence', () => {
                     reporters: [reporter],
                     allowOnly: false,
                     retry: 1,
+                    maxWorkers: 1,
+                    fileParallelism: false,
                   },
                 },
           )}\n`,

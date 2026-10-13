@@ -109,7 +109,7 @@ describe('Whole-task context and focused execution', () => {
       focusedPlan(fixture.root, fixture.baseCommit)
       expect(next(fixture.root).next_action).toMatchObject({
         kind: 'continue-task',
-        task_ids: ['T1'],
+        task_ids: ['T1', 'T2'],
         command: null,
       })
       focusedPlan(fixture.root, fixture.baseCommit, {

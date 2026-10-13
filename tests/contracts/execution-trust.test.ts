@@ -10,6 +10,7 @@ import {
 } from '../../scripts/ignite/execution-contract.mjs'
 import { validateAllPlans, validateReleaseAcceptanceCoverage } from '../../scripts/ignite/state.mjs'
 import { isBehaviorAssertionFailure } from '../../scripts/ignite/tdd.mjs'
+import { acceptanceTestAssertionLocations } from '../../scripts/ignite/source-analysis.mjs'
 import { summarizeVerification } from '../../scripts/ignite/verification-summary.mjs'
 import { checkScaffoldWorktree } from '../../scripts/scaffold-preflight.mjs'
 import { isExecutionStatePath } from '../../scripts/ignite/core.mjs'
@@ -143,8 +144,20 @@ describe('AI execution trust', () => {
   })
 
   it('[AC-TRUST-004] accepts behavior assertions as red evidence but rejects setup failures', () => {
-    expect(isBehaviorAssertionFailure('AssertionError: expected false to be true')).toBe(true)
-    expect(isBehaviorAssertionFailure('Error: expect(page).toHaveScreenshot timed out')).toBe(true)
+    const source = `import { it, expect } from 'vitest'
+beforeEach(() => { expect(true).toBe(true) })
+it('[AC-TRUST-004] assertion', () => { expect(page).toHaveScreenshot() })`
+    const provenance = {
+      assertionLocations: acceptanceTestAssertionLocations(source, 'AC-TRUST-004'),
+      testPath: 'tests/contracts/target.test.ts',
+    }
+    expect(isBehaviorAssertionFailure('AssertionError: expected false to be true')).toBe(false)
+    expect(
+      isBehaviorAssertionFailure(
+        'Error: expect(page).toHaveScreenshot timed out\n at tests/contracts/target.test.ts:3:43',
+        provenance,
+      ),
+    ).toBe(true)
     expect(isBehaviorAssertionFailure("Error: Cannot find module 'playwright'")).toBe(false)
     expect(isBehaviorAssertionFailure('browserType.launch: Failed to launch')).toBe(false)
   })

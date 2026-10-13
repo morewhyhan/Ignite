@@ -28,7 +28,7 @@ function makePassedEvidence(root: string, baseCommit: string, policyVersion = 2,
     const files = core.changedFilesForPlan(plan)
     process.stdout.write(JSON.stringify({
       commit: core.currentCommit(),
-      fingerprint: core.computeInputFingerprint(plan),
+      fingerprint: core.computeInputFingerprint(plan, { includeNarrative: ${policyVersion} >= 7 }),
       environment,
       commands: Object.fromEntries(['integration', 'release'].map((level) => [
         level,

@@ -143,7 +143,7 @@ describe('CI production build handoff', () => {
       write(
         join(fixture, 'playwright.config.ts'),
         `import base from ${JSON.stringify(join(repositoryRoot, 'playwright.config.ts'))}
-export default { ...base, testDir: './cases', outputDir: './output', projects: [{name: 'startup-diagnostic'}],
+export default { ...base, globalSetup: undefined, testDir: './cases', outputDir: './output', projects: [{name: 'startup-diagnostic'}],
   reporter: base.reporter.map(([name, options]) => [name.startsWith('./') ? ${JSON.stringify(repositoryRoot)} + '/' + name : name, name === 'html' ? {...options, outputFolder: './report'} : options]),
   webServer: {...base.webServer, command: ${JSON.stringify(`"${process.execPath}" "${join(fixture, 'server.cjs')}"`)}, url: 'http://127.0.0.1:${port}', timeout: 5000}
 }\n`,

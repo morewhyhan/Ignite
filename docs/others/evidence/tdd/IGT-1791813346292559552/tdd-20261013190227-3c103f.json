@@ -1,0 +1,28 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "75883f6ddc503c63fdce11884005ad07a2beaf75300d88b5306a7e1db504f310",
+  "run_id": "tdd-20261013190227-3c103f",
+  "plan_id": "IGT-1791813346292559552",
+  "acceptance_id": "AC-EXECUTION-047",
+  "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-047] selects only mapped feedback cases without writing evidence",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "red_commit": "c67e945321831ab9c3b7156a8b6edbc9f103ed8c",
+  "output_sha256": "eac13b809d4cb49cb08b3bf77b96b0ff4964d42c580cd702eb06803bb90fe0dd",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/execution-proof.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-047",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-13T19:02:27.801Z",
+  "ended_at": "2026-10-13T19:02:36.560Z",
+  "executor": "ignite-tdd-runner"
+}

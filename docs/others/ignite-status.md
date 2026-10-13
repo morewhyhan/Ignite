@@ -1,7 +1,7 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`a5a75c88edb5`
+输入指纹：`8f71b1346861`
 当前 Plan：2；结构化历史：0；未迁移历史：0
 
 ## 当前工作
@@ -13,7 +13,7 @@
 
 - `agent-run-recovery-v1` · `active`
   - Plan：`IGT-1791813346292559552`
-  - 缺少证据：`IGT-1791813346292559552:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1791813346292559552
   - 未完成原始目标：GOAL-001 项目修改能可靠接续、应用既定方法、准确验收并减少重复操作；本次修复全部已确认同源缺陷。

@@ -77,9 +77,7 @@
     "脚本字段门禁与 scoped 回写",
     "完整规格及真实分层验收"
   ],
-  "remaining_work": [
-    "原生红灯、完整 Plan integration 与独立交付审查尚未完成，定向回归不替代这些证据。"
-  ],
+  "remaining_work": ["独立交付审查尚未完成；Plan 完成后仍须独立 Release 生产验收。"],
   "change_type": "存量改动",
   "base_commit": "55989efae72221572ae4533eb536741197498b8a",
   "requirements": [
@@ -549,7 +547,7 @@
       "title": "受管命令保持诊断并清理自己的进程",
       "phase": "implement",
       "acceptance": ["AC-EXECUTION-042"],
-      "status": "todo",
+      "status": "done",
       "result": "目标行为及失败边界符合映射规格，保留同一断言；局部回归通过仍不等于交付完成。",
       "scope": [
         "scripts/ignite/managed-command.mjs",
@@ -566,7 +564,7 @@
       "title": "浏览器启动与缓存隔离且生产模式保留真实构建",
       "phase": "implement",
       "acceptance": ["AC-EXECUTION-043"],
-      "status": "todo",
+      "status": "done",
       "result": "目标行为及失败边界符合映射规格，保留同一断言；局部回归通过仍不等于交付完成。",
       "scope": [
         "scripts/run-e2e.mjs",
@@ -586,7 +584,7 @@
       "title": "恢复原生红灯并拒绝准备失败或变化的测试上下文",
       "phase": "implement",
       "acceptance": ["AC-EXECUTION-044"],
-      "status": "todo",
+      "status": "done",
       "result": "目标行为及失败边界符合映射规格，保留同一断言；局部回归通过仍不等于交付完成。",
       "scope": [
         "scripts/ignite/tdd.mjs",
@@ -605,7 +603,7 @@
       "title": "交接准确范围、前置与可并行任务",
       "phase": "implement",
       "acceptance": ["AC-EXECUTION-045", "AC-EXECUTION-049", "AC-EXECUTION-050"],
-      "status": "todo",
+      "status": "done",
       "result": "目标行为及失败边界符合映射规格，保留同一断言；局部回归通过仍不等于交付完成。",
       "scope": [
         "scripts/ignite/agent-handoff.mjs",
@@ -621,7 +619,7 @@
       "title": "局部记录和反馈不写正式证明或扫描不相关记录",
       "phase": "implement",
       "acceptance": ["AC-EXECUTION-046", "AC-EXECUTION-047", "AC-EXECUTION-052"],
-      "status": "todo",
+      "status": "done",
       "result": "目标行为及失败边界符合映射规格，保留同一断言；局部回归通过仍不等于交付完成。",
       "scope": [
         "tests/contracts/plan-notes.test.ts",
@@ -636,7 +634,7 @@
       "title": "Plan 语义与历史文件身份一致，真实变化使证据过期",
       "phase": "implement",
       "acceptance": ["AC-EXECUTION-048"],
-      "status": "todo",
+      "status": "done",
       "result": "目标行为及失败边界符合映射规格，保留同一断言；局部回归通过仍不等于交付完成。",
       "scope": [
         "scripts/ignite/core.mjs",
@@ -653,7 +651,7 @@
       "title": "准备入口实际检查 Feature 并提示可执行拆分",
       "phase": "implement",
       "acceptance": ["AC-EXECUTION-053"],
-      "status": "todo",
+      "status": "done",
       "result": "目标行为及失败边界符合映射规格，保留同一断言；局部回归通过仍不等于交付完成。",
       "scope": [
         "scripts/ignite/preparation.mjs",
@@ -670,7 +668,7 @@
       "title": "新检查策略纳入执行脚本字段门禁",
       "phase": "implement",
       "acceptance": ["AC-EXECUTION-051"],
-      "status": "todo",
+      "status": "done",
       "result": "目标行为及失败边界符合映射规格，保留同一断言；局部回归通过仍不等于交付完成。",
       "scope": [
         "scripts/ignite/checks.mjs",
@@ -702,7 +700,7 @@
         "AC-EXECUTION-053",
         "AC-EXECUTION-054"
       ],
-      "status": "todo",
+      "status": "done",
       "result": "共享入口使用已确定接口，不扩大执行者的写入与验收权限。",
       "scope": [
         "scripts/ignite/cli.mjs",
@@ -758,7 +756,7 @@
         "AC-EXECUTION-053",
         "AC-EXECUTION-054"
       ],
-      "status": "todo",
+      "status": "doing",
       "result": "Design 与实际实现一致，完整 Plan integration 和独立交付审查有效；Plan 完成后由 Release 运行最终生产验收。",
       "scope": ["docs/"],
       "depends_on": ["IC"],
@@ -952,7 +950,12 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261013200751-aa459f"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
@@ -1046,6 +1049,10 @@ AI 执行失败时可以定位原因、清理自有进程并接续；并行任�
 
 2026-10-13：学生稳定修复 5018c48 的反馈通过后，root 接管恢复组织。新的独立开工审查指出姓名/班级长度遗漏，root 将三字段上限与无新增数据合为同一循环，544120c 保存修正；独立 `/root/campus_length_review` PASS，633a436 保存现有目标下的当前批准。四个原生隔离工作树已建立，实际红灯由独占写入的恢复执行者并行处理，活动实现不回滚。WSL 调用两次遇到自动权限审查超时，重试/拆分后继续；未运行进程不证明模型空等，先前对等待原因的判断须限制为观察到无活动命令和无新产物，不能把全部时间归因于模型。接管后不再作为无额外引导的自然完成样本。
 
+2026-10-13：完整 Vitest 回归 53 文件、274 项通过。十三项旧源码原生红灯均已合入 Git 祖先并绑定。当前红灯运行器额外实际调用验证：无目标标记拒绝、前提断言失败拒绝、目标失败生成含辅助函数上下文和失败摘要的凭证；隔离夹具 tdd-20261013200805-fb7782 只证明运行器行为，不替代项目红灯。正式 integration run-20261013200103-db1109 在缓存参数类型声明失败，已修正；run-20261013200611-1af3b7 因回写陈旧 Design 主动取消，最终输入验收 run-20261013200751-aa459f 进行中。
+
+2026-10-13：最终版本原生 Plan integration 已通过，全部映射层级及迁移结果以 check-integration 绑定记录为准。实施与共享入口任务已按真实结果完成，VERIFY 保持 doing 等待独立审查。未借用旧学生副本的通过记录，也未把 Plan 通过冒充 Release 完成。
+
 ## 准出条件
 
 2026-10-13：用户要求找到覆盖面最广的根源并解决，授权本轮必要复现与回归。共同结构问题是跨步骤的上下文、工作粒度和责任不能可靠接续：next 在一任务 doing 时隐藏其它前置满足任务；任务包遗漏对应 Feature/阶段规则并把正式 integration 交给每个执行者；restart 不先验证绑定，错误撤销仍有效的证明；历史审查使用不存在的 Git 返回字段。现已在原入口修复，不新增调度层。四个定向行为断言先复现真实缺陷再通过，相邻 6 文件共 17 项回归、定向 lint 和 typecheck 通过。夹具准备错误已在真实失败前排除，合成记录只测试校验器，不是原生 red。自动权限审核两次超时、各重试一次才启动，不算测试失败。独立 continuity_review 对本轮四项实际差异给出窄范围 PASS，不是 Plan/Release 批准。本轮未重跑整个学生项目，也未把草稿变成 done；原生红灯和全局组合验收仍未完成。反馈层级不直接等于测试执行器，真实数据库测试可使用 Vitest，本轮没有依据只读审查的推测改造反馈路由。
@@ -1076,17 +1083,17 @@ AI 执行失败时可以定位原因、清理自有进程并接续；并行任�
 - [x] R052 · 取得 AC-EXECUTION-052 的真实目标失败 · done
 - [x] R053 · 取得 AC-EXECUTION-053 的真实目标失败 · done
 - [x] R054 · 取得共享写入范围误锁的真实目标失败 · done
-- [ ] IP · 受管命令保持诊断并清理自己的进程 · todo
-- [ ] IE · 浏览器启动与缓存隔离且生产模式保留真实构建 · todo
-- [ ] IT · 恢复原生红灯并拒绝准备失败或变化的测试上下文 · todo
-- [ ] IH · 交接准确范围、前置与可并行任务 · todo
-- [ ] IF · 局部记录和反馈不写正式证明或扫描不相关记录 · todo
-- [ ] II · Plan 语义与历史文件身份一致，真实变化使证据过期 · todo
-- [ ] ID · 准备入口实际检查 Feature 并提示可执行拆分 · todo
-- [ ] IG · 新检查策略纳入执行脚本字段门禁 · todo
-- [ ] IC · 协调者集成单一共享入口 · todo
-- [ ] VERIFY · 回写 Design、独立交付审查并完成 Plan 验收 · todo
+- [x] IP · 受管命令保持诊断并清理自己的进程 · done
+- [x] IE · 浏览器启动与缓存隔离且生产模式保留真实构建 · done
+- [x] IT · 恢复原生红灯并拒绝准备失败或变化的测试上下文 · done
+- [x] IH · 交接准确范围、前置与可并行任务 · done
+- [x] IF · 局部记录和反馈不写正式证明或扫描不相关记录 · done
+- [x] II · Plan 语义与历史文件身份一致，真实变化使证据过期 · done
+- [x] ID · 准备入口实际检查 Feature 并提示可执行拆分 · done
+- [x] IG · 新检查策略纳入执行脚本字段门禁 · done
+- [x] IC · 协调者集成单一共享入口 · done
+- [ ] VERIFY · 回写 Design、独立交付审查并完成 Plan 验收 · doing
 
-验收缺口：原生红灯、完整 Plan integration 与独立交付审查尚未完成，定向回归不替代这些证据。
-证据：尚无
+验收缺口：独立交付审查尚未完成；Plan 完成后仍须独立 Release 生产验收。
+证据：check-integration / run-20261013200751-aa459f
 <!-- /ignite-progress -->

@@ -1,0 +1,411 @@
+{
+  "schema": 2,
+  "run_id": "run-20261013200751-aa459f",
+  "check_policy_version": 7,
+  "plan_id": "IGT-1791813346292559552",
+  "evidence_id": "check-integration",
+  "level": "integration",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-10-13T20:07:54.723Z",
+  "ended_at": "2026-10-13T20:23:27.815Z",
+  "commit": "9ac8b38a62556d8a4593854ad88037d342226d51",
+  "input_fingerprint": "bbeb2c46da5914fc826712e54e0a760224de7541b152eaeed0bc00e7b0fdd324",
+  "environment_fingerprint": "e73ab4a40c6b7141120afff35ca73e610ff1a7311abcaabed94c952c6caed87a",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "e2e_server_mode": "development",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "f498ad437703d387bf22cdb6ec1ca75a2118c6d917a7c70729cb5e313082a9a2",
+  "acceptance_results": [
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-042",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-042] cleans up detached descendants after the primary command exits",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-042",
+      "test": "tests/contracts/managed-command.test.ts::[AC-EXECUTION-042] stops owned descendants and preserves failure diagnostics",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-042",
+      "test": "tests/contracts/tdd-diagnostics.test.ts::[AC-EXECUTION-042] retains the real runner diagnostic when JSON is missing",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-043",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-043] gives development-mode Next its own build directory",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-043",
+      "test": "tests/contracts/e2e-startup.test.ts::[AC-EXECUTION-043] isolates browser startup and warms routes before tests",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-044",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-044] prepares historical code in an isolated recovery worktree",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-044",
+      "test": "tests/contracts/tdd-recovery-worktree.test.ts::[AC-EXECUTION-044] prepares recovery without changing the live checkout",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-044",
+      "test": "tests/contracts/tdd-recovery-worktree.test.ts::[AC-EXECUTION-044] imports a matching receipt while preserving live code and red ancestry",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-044",
+      "test": "tests/contracts/tdd-recovery-worktree.test.ts::[AC-EXECUTION-044] rejects a receipt when the live acceptance case has changed",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-044",
+      "test": "tests/contracts/tdd-recovery-worktree.test.ts::[AC-EXECUTION-044] rejects receipts from outside the prepared recovery ancestry",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-044",
+      "test": "tests/contracts/execution-continuity.test.ts::[AC-EXECUTION-044] preserves an unchanged valid red instead of restarting unrelated work",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-044",
+      "test": "tests/contracts/tdd-integrity.test.ts::[AC-EXECUTION-044] accepts only the marked target assertion after passing prerequisites",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-044",
+      "test": "tests/contracts/tdd-integrity.test.ts::[AC-EXECUTION-044] keeps compact matched failures and verifiable digests",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-044",
+      "test": "tests/contracts/source-analysis.test.ts::[AC-EXECUTION-044] fingerprints applicable hooks and only referenced transitive test helpers",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-045",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-045] returns a task packet with its executable workspace and dependency",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-045",
+      "test": "tests/contracts/agent-handoff.test.ts::[AC-EXECUTION-045] returns an executable handoff from the current Plan",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-046",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-046] appends an execution note without changing the review subject",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-046",
+      "test": "tests/contracts/plan-notes.test.ts::[AC-EXECUTION-046] appends execution notes without changing draft approval",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-047",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-047] selects only mapped feedback cases without writing evidence",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-047",
+      "test": "tests/contracts/targeted-feedback.test.ts::[AC-EXECUTION-047] selects focused feedback without publishing acceptance",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-048",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-048] keeps working and committed delivery reviews equal with CRLF input",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-048",
+      "test": "tests/contracts/execution-continuity.test.ts::[AC-EXECUTION-048] reviews identical working and committed inputs as the same delivery",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-049",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-049] exposes independent todo work alongside a task already in progress",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-049",
+      "test": "tests/contracts/execution-continuity.test.ts::[AC-EXECUTION-049] keeps independent work visible while another task is running",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-049",
+      "test": "tests/contracts/execution-continuity.test.ts::[AC-EXECUTION-049] carries task source and verification ownership in the handoff",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-049",
+      "test": "tests/contracts/preparation-frontier.test.ts::[AC-EXECUTION-049] reports parallel candidates only when declared scopes, ACs, owners and interfaces support them",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-050",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-050] reports an unfinished upstream Plan as a handoff blocker",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-050",
+      "test": "tests/contracts/handoff-dependencies.test.ts::[AC-EXECUTION-050] refuses missing upstream prerequisites in a standalone task packet",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-051",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-051] includes the tool-script type check in the policy integration commands",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-051",
+      "test": "tests/contracts/tool-type-contract.test.ts::[AC-EXECUTION-051] rejects historical wrong Git and registry field reads",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-052",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-052] updates a task without scanning an unrelated malformed Release",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-052",
+      "test": "tests/contracts/scoped-mutation.test.ts::[AC-EXECUTION-052] updates scoped task, note, and review without scanning unrelated releases",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-053",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-053] rejects a Feature with missing preparation headings and a broken local link",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-053",
+      "test": "tests/contracts/preparation-frontier.test.ts::[AC-EXECUTION-053] checks Feature headings and local links for every declared REQ during preparation",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-054",
+      "test": "tests/contracts/scoped-mutation.test.ts::[AC-EXECUTION-054] reserves shared writes by unfinished task scopes and keeps legacy scopes conservative",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1791813346292559552",
+      "criterion": "AC-EXECUTION-043",
+      "test": "tests/e2e/auth.spec.ts::[AC-AUTH-001] [AC-AUTH-002] [AC-AUTH-003] [AC-AUTH-005] [AC-PRODUCT-004] [AC-EXECUTION-043] authenticates without the Tasks example",
+      "layer": "browser",
+      "passed": true,
+      "cases": 2
+    }
+  ],
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "55989efae72221572ae4533eb536741197498b8a"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 1795
+    },
+    {
+      "label": "template-doctor",
+      "command": ["corepack", "pnpm", "template:doctor"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 1288
+    },
+    {
+      "label": "governance",
+      "command": ["corepack", "pnpm", "ignite", "validate"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 12109
+    },
+    {
+      "label": "docs",
+      "command": ["corepack", "pnpm", "docs:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 10641
+    },
+    {
+      "label": "typecheck",
+      "command": ["corepack", "pnpm", "typecheck"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 57575
+    },
+    {
+      "label": "tools-typecheck",
+      "command": ["corepack", "pnpm", "tools:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 13761
+    },
+    {
+      "label": "lint",
+      "command": ["corepack", "pnpm", "lint"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 113686
+    },
+    {
+      "label": "format",
+      "command": ["corepack", "pnpm", "format:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 17506
+    },
+    {
+      "label": "tests",
+      "command": ["corepack", "pnpm", "test"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 478148
+    },
+    {
+      "label": "targeted-browser-tests",
+      "command": [
+        "corepack",
+        "pnpm",
+        "test:e2e",
+        "--",
+        "tests/e2e/auth.spec.ts",
+        "--grep",
+        "AC-EXECUTION-043"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 122227
+    },
+    {
+      "label": "migrations",
+      "command": ["corepack", "pnpm", "test:migrations"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 56172
+    }
+  ],
+  "log_sha256": "c2c0870fce066a526d99495d7c2b70c0d9ade225ccac74fc4a279f99db9c898e",
+  "execution_source": "ignite-runner-local"
+}

@@ -490,7 +490,7 @@
       "title": "取得 AC-EXECUTION-052 的真实目标失败",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-052"],
-      "status": "todo",
+      "status": "done",
       "result": "同一实际目标测试在真实未实现版本失败，保留原生回执和 Git 祖先。",
       "scope": ["docs/others/evidence/tdd/IGT-1791813346292559552/"],
       "depends_on": ["PREP"],
@@ -894,6 +894,11 @@
       "acceptance_id": "AC-EXECUTION-051",
       "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-051] includes the tool-script type check in the policy integration commands",
       "run_id": "tdd-20261013190558-420dd4"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-052",
+      "test": "tests/contracts/execution-proof.test.ts::[AC-EXECUTION-052] updates a task without scanning an unrelated malformed Release",
+      "run_id": "tdd-20261013190649-9f4510"
     }
   ],
   "required_evidence": ["check-integration"],
@@ -1016,7 +1021,7 @@ AI 执行失败时可以定位原因、清理自有进程并接续；并行任�
 - [x] R049 · 取得 AC-EXECUTION-049 的真实目标失败 · done
 - [x] R050 · 取得 AC-EXECUTION-050 的真实目标失败 · done
 - [x] R051 · 取得 AC-EXECUTION-051 的真实目标失败 · done
-- [ ] R052 · 取得 AC-EXECUTION-052 的真实目标失败 · todo
+- [x] R052 · 取得 AC-EXECUTION-052 的真实目标失败 · done
 - [ ] R053 · 取得 AC-EXECUTION-053 的真实目标失败 · todo
 - [ ] IP · 受管命令保持诊断并清理自己的进程 · todo
 - [ ] IE · 浏览器启动与缓存隔离且生产模式保留真实构建 · todo

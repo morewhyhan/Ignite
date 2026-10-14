@@ -1,0 +1,41 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "f5f9745e9e9d2d18ae68966cb72d6ecbb6e8d18bca1b95eb92ed259767fc8c72",
+  "context_schema": 1,
+  "context_sha256": "e99c5fcb05f65c0d0c68c723c25cb74c2e75fbba0711d173cd6fee5fcfffbefd",
+  "context_files": [
+    "tests/contracts/document-method-entry.test.ts",
+    "tests/contracts/ignite-fixture.ts"
+  ],
+  "warnings": [],
+  "run_id": "tdd-20261014124212-2c84cd",
+  "plan_id": "IGT-1791976482786711869",
+  "acceptance_id": "AC-EXECUTION-055",
+  "test": "tests/contracts/document-method-entry.test.ts::[AC-EXECUTION-055]",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "target_assertion_contract": "ac-message-marker-v1",
+  "red_commit": "610f27b3f48989418d78225a46251a6572dfb681",
+  "output_sha256": "4aa7ed37ecd2601843b6049bebe16579d7b46897eabfd2835733b0952812e001",
+  "failure_sha256": "5e2654845ccc015b188bebfdd9c7569fc53e029a5199e5269fa2e9f3aff02a58",
+  "failure_summary": [
+    "AssertionError: [AC-EXECUTION-055] target: the index chooses native file reads before runtime commands: expected undefined to be 'native-file' // Object.is equality at /mnt/c/Users/why/Documents/ignite/tests/contracts/document-method-entry.test.ts:25:7 at file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 at file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26 at file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20 at new Promise (<anonymous>) at runWithCancel (file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10) at file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20 at new Promise (<anonymous>) at runWithTimeout (file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:22"
+  ],
+  "failure_summary_sha256": "37e13963d06a34ed12ffce4f06d7b0f0f9654fc5cae9e4335ddc88c8e352a9e2",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/document-method-entry.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-055",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-14T12:42:12.269Z",
+  "ended_at": "2026-10-14T12:42:26.936Z",
+  "executor": "ignite-tdd-runner"
+}

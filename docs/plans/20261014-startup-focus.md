@@ -261,6 +261,11 @@
       "acceptance_id": "AC-EXECUTION-056",
       "test": "tests/contracts/tdd-integrity.test.ts::[AC-EXECUTION-056]",
       "run_id": "tdd-20261014122957-2190e0"
+    },
+    {
+      "acceptance_id": "AC-EXECUTION-055",
+      "test": "tests/contracts/document-method-entry.test.ts::[AC-EXECUTION-055]",
+      "run_id": "tdd-20261014124212-2c84cd"
     }
   ],
   "required_evidence": ["check-integration"],

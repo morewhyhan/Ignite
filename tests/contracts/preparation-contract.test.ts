@@ -128,7 +128,7 @@ function preparedFixture() {
   return fixture
 }
 
-it('[AC-PREP-001] rejects premature branding changes including staged changes without mutating preparation documents', () => {
+it('[AC-PREP-001] [AC-EXECUTION-057] rejects premature branding changes including staged changes without mutating preparation documents', () => {
   const fixture = preparedFixture()
   try {
     const valid = runCli(fixture.root, 'plan', 'validate', 'IGT-900', '--prepare')

@@ -31,8 +31,8 @@
   ],
   "verification_requirements": ["unit"],
   "tasks": [
-    { "id": "T1", "title": "确认目标、范围和真实验收路径", "phase": "prepare", "status": "todo", "result": "原始目标、Feature、Release、验收场景和写入边界均已对应，独立审查者已核对 draft。", "scope": ["docs/features/<feature-name>.md", "docs/plans/YYYYMMDD-<change-name>.md", "docs/plans/releases/<release-id>.json"], "depends_on": [], "owner": "assigned-worker" },
-    { "id": "T2", "title": "编写行为断言并记录真实红灯", "phase": "red", "acceptance": ["AC-FEATURE-001"], "status": "todo", "result": "每个纳入的 AC 有真实行为断言，原生红灯已记录。", "scope": ["tests/", "docs/others/evidence/tdd/"], "depends_on": ["T1"], "owner": "assigned-worker" },
+    { "id": "T1", "title": "确认目标、编写真实测试并提交准备基线", "phase": "prepare", "status": "todo", "result": "原始目标、Feature、Release、真实断言、测试路径和写入边界均已对应，规格与测试已提交，独立审查者已核对 draft。", "scope": ["docs/features/<feature-name>.md", "docs/plans/YYYYMMDD-<change-name>.md", "docs/plans/releases/<release-id>.json", "tests/path/file.test.ts"], "depends_on": [], "owner": "assigned-worker" },
+    { "id": "T2", "title": "运行真实断言并记录目标行为红灯", "phase": "red", "acceptance": ["AC-FEATURE-001"], "status": "todo", "result": "原生 red 确认已提交测试的目标断言失败并记录证明。", "scope": ["tests/path/file.test.ts", "docs/others/evidence/tdd/"], "depends_on": ["T1"], "owner": "assigned-worker" },
     { "id": "T3", "title": "实现红灯所指向的最小行为切片", "phase": "implement", "acceptance": ["AC-FEATURE-001"], "status": "todo", "result": "同一 AC 断言通过，实现保持在已声明的局部范围内。", "scope": ["src/modules/<feature-name>/", "src/server/api/routes/<feature-name>/", "src/app/"], "depends_on": ["T2"], "owner": "assigned-worker" },
     { "id": "T4", "title": "完成 Plan 验收并回写当前事实", "phase": "verify", "status": "todo", "result": "Plan integration 和独立 delivery 审查均通过，Design 与真实实现一致，剩余缺口有记录。", "scope": ["docs/designs/", "docs/others/evidence/"], "depends_on": ["T3"], "owner": "assigned-worker" }
   ],
@@ -128,7 +128,7 @@
 
 按 [测试标准](../standards/testing.md#检查选择与断言尺度) 说明关键检查要回答什么、断言能发现哪种错误；排查有不同结果时，说明各自的下一步。只列本轮适用项，引用现有测试与证据，不重复维护通过状态。
 
-每个 AC 的 `tests` 与 `checks[].test` 必须引用同一带 `[AC-*]` 标记的可执行用例。`required_layers` 和 `verification_requirements` 表示必须满足的验证层级：纯逻辑用 `unit`；UI 交互补 `browser`；持久化补 `database`；真实第三方依赖补 `external`。`verification_contract: 2` 的 Plan 在 integration 中执行自己映射的所有行为层；Release 再对已完成的 Plan 组合执行生产构建和全量浏览器回归。进入 ready 前，脚手架占位失败测试必须换成真实用户行为断言。
+每个 AC 的 `tests` 与 `checks[].test` 必须引用同一带 `[AC-*]` 标记的可执行用例。`required_layers` 和 `verification_requirements` 表示必须满足的验证层级：纯逻辑用 `unit`；UI 交互补 `browser`；持久化补 `database`；真实第三方依赖补 `external`。`verification_contract: 2` 的 Plan 在 integration 中执行自己映射的所有行为层；Release 再对已完成的 Plan 组合执行生产构建和全量浏览器回归。prepare T1 编写并声明真实测试，进入 ready 前提交规格与测试基线。ready 只检查测试已存在且不是占位失败，不要求已有红灯证据。
 
 ## 实现任务
 
@@ -138,7 +138,7 @@
 
 ## 验收方式
 
-准备文档后先运行 `node scripts/ignite.mjs plan validate <ID> --prepare`，修正 failures；未编写测试保持 draft，不生成通过证据。新行为先写验收测试并提交规格基线，再对每条 AC 执行 `pnpm ignite tdd red --plan <IGT-ID> --ac <AC-ID>`。该命令只记录真实断言失败；环境错误和脚手架占位失败均不算。提交红灯记录后再实施，测试文件在红灯与绿灯之间保持不变。随后运行 `pnpm ignite check --plan <IGT-ID> --level integration`，完成本 Plan 后将它标记为 done。Release 中所有 Plan 都完成后，运行 `pnpm ignite release verify <release-id> --plan <done-plan-id>`，只对最终组合执行一次生产构建和全量浏览器回归。历史 `verification_contract: 1` Plan 继续按旧流程验证。
+prepare T1 编写真实行为测试后，先独立审查 draft，并提交规格和测试基线。然后运行 `node scripts/ignite.mjs plan validate <ID> --prepare`，修正 failures。`ready=true` 仅表示开工文档和测试结构完整，不表示行为已经验证。将 Plan 置为 ready 后，T2 运行 `pnpm ignite tdd red --plan <IGT-ID> --ac <AC-ID>` 并记录真实目标断言失败；环境错误和脚手架占位失败均不算。提交红灯记录后再实施，测试文件在红灯与绿灯之间保持不变。随后运行 `pnpm ignite check --plan <IGT-ID> --level integration`，完成本 Plan 后将它标记为 done。Release 中所有 Plan 都完成后，运行 `pnpm ignite release verify <release-id> --plan <done-plan-id>`，只对最终组合执行一次生产构建和全量浏览器回归。历史 `verification_contract: 1` Plan 继续按旧流程验证。
 
 ## 设计回写
 

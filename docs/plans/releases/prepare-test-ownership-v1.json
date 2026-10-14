@@ -1,0 +1,25 @@
+{
+  "schema": 2,
+  "id": "prepare-test-ownership-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1792007450670818648"],
+  "scope": [
+    {
+      "id": "GOAL-001",
+      "text": "将真实行为测试编写归入 prepare T1；red T2 只运行和记录红灯，且 ready 不要求已有红灯证据。",
+      "source": "用户本轮授权的修复目标",
+      "requirements": ["REQ-EXECUTION-056"],
+      "acceptance": ["AC-EXECUTION-057"],
+      "plan_ids": ["IGT-1792007450670818648"],
+      "disposition": "included",
+      "reason": "修复两个原生脚手架与计划模板的阶段职责矛盾。",
+      "authorization": ""
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-10-15"
+}

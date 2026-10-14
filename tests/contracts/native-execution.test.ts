@@ -131,4 +131,48 @@ describe('Native execution documentation', () => {
       }
     }
   })
+
+  it('[AC-EXECUTION-057] assigns writing tests to preparation and running red evidence to the red task', () => {
+    for (const script of ['create-change.mjs', 'create-module.mjs']) {
+      const fixture = makeFixture()
+      try {
+        for (const path of ['docs/plans/_template.md', 'docs/others/test-cases/_template.md']) {
+          write(fixture.root, path, read(repositoryRoot, path))
+        }
+        commitAll(fixture.root, 'Install draft templates')
+        const result = spawnSync(
+          process.execPath,
+          [join(repositoryRoot, 'scripts', script), 'task-ownership'],
+          {
+            cwd: fixture.root,
+            encoding: 'utf8',
+            windowsHide: true,
+            env: { ...process.env, IGNITE_ROOT: fixture.root },
+          },
+        )
+        expect(result.status, result.stderr || result.stdout).toBe(0)
+        const planPath = readdirSync(join(fixture.root, 'docs/plans')).find((name) =>
+          name.endsWith('-task-ownership.md'),
+        )!
+        const metadata = JSON.parse(
+          read(fixture.root, `docs/plans/${planPath}`).match(/<!-- ignite-plan\s*([\s\S]*?)-->/)![1],
+        )
+        const [prepare, red] = metadata.tasks
+        const testPaths = metadata.acceptance.length
+          ? metadata.acceptance.flatMap((item: { tests: string[] }) =>
+              item.tests.map((test) => test.split('::', 1)[0]),
+            )
+          : ['<test-path>']
+        expect(prepare.phase).toBe('prepare')
+        expect(prepare.scope, '[AC-EXECUTION-057] target').toEqual(
+          expect.arrayContaining(testPaths),
+        )
+        expect(red.phase).toBe('red')
+        expect(red.acceptance).toEqual(metadata.acceptance.map((item: { id: string }) => item.id))
+        expect(red.scope).toContain('docs/others/evidence/tdd/')
+      } finally {
+        fixture.cleanup()
+      }
+    }
+  })
 })

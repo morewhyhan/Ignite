@@ -29,6 +29,7 @@
 - R52（REQ-EXECUTION-052）：任务、笔记和审查只回写对应 Plan，不在每次局部操作后生成全局视图；显式状态刷新与完整治理仍发现其他记录的问题。
 - R53（REQ-EXECUTION-053）：开工准备检查实际读取每条需求所在的 Feature，拒绝缺失的标题和损坏的本地链接，不能因登记路径类型错误而跳过检查。
 - R54（REQ-EXECUTION-054）：结构化 Plan 的共享写入冲突按未完成任务的实际范围判断；已完成代码任务且只剩文档验收的 Plan 不占用旧代码范围。未完成写入继续要求一致负责人；没有结构化任务范围的旧 Plan 保留保守边界。Plan 依赖完成条件不因此缩减。
+- R56（REQ-EXECUTION-056）：新增模块与存量改动 Plan 都由 prepare 任务编写并声明真实行为测试；red 任务只运行并记录目标断言的真实失败。规格和测试基线在进入 ready 和 red 前提交；ready 要求测试已存在且不是占位失败，但不要求已有红灯证据。
 
 - R41（REQ-EXECUTION-041）：CI 在构建任务与 E2E 任务之间传递生产构建时，必须保留 Next.js 外部依赖的相对符号链接和文件权限。接收任务按同一锁文件独立安装依赖，解包后执行生产态 E2E；构建成功不能替代转移后的运行验收。
 
@@ -92,6 +93,7 @@
 - AC-EXECUTION-052（REQ-EXECUTION-052）：Given 不相关 Release 格式损坏 When 更新当前任务、笔记或有效审查 Then 更新成功且全局视图不变；显式刷新仍报告错误，修复后生成视图。
 - AC-EXECUTION-053（REQ-EXECUTION-053）：Given 对应 Feature 缺必要标题或链接损坏 When 检查 Plan 准备 Then 报告具体 Feature 缺陷；修复后准入成功，未执行行为验收。
 - AC-EXECUTION-054（REQ-EXECUTION-054）：Given 上一 Plan 的代码任务已完成且仅剩文档验收 When 检查新 Plan 的共享代码写入 Then 不把旧代码范围报为占用；上一代码任务仍未完成或没有结构化范围时继续报告冲突。
+- AC-EXECUTION-057（REQ-EXECUTION-056）：Given 新建模块或存量改动草稿 When 检查任务职责和验收路径 Then prepare 任务负责编写其 scope 中声明的真实测试路径，red 任务只运行并记录这些测试的目标失败，且不要求 ready 前已经存在红灯证据。required_layers：unit；checks：tests/contracts/native-execution.test.ts::[AC-EXECUTION-057]、tests/contracts/preparation-contract.test.ts::[AC-EXECUTION-057]。
 
 - AC-EXECUTION-041（REQ-EXECUTION-041）：Given 生产构建通过相对链接引用 pnpm 包及其相邻生成依赖 When 按实际 CI 工作流打包、跨工作区传输并解包 Then 接收工作区可加载同一依赖；将链接展开为普通目录时，回归测试必须捕获依赖加载失败。完整 CI 继续运行生产态 E2E。
 

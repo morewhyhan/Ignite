@@ -75,7 +75,7 @@
 - R25（REQ-EXECUTION-025）：新历史模板副本必须先按锁文件安装项目依赖，再运行依赖这些包的诊断与历史归档 CLI；采用文档中的命令顺序必须能在干净副本实际执行。
 - R26（REQ-EXECUTION-026）：TDD 红灯证据必须绑定对应 AC 的活动测试用例，而不是整份测试文件；同文件新增无关用例不得让既有证据失效，目标用例发生变化则必须重新验证；历史 schema 1 记录继续可验证。
 
-- R55（REQ-EXECUTION-055）：方法索引优先用宿主文件工具读取 canonical 正文，CLI 保留为恢复入口；同一会话中相同项目和版本的完整正文复用，当前阶段只应用所需职责。环境等待期间先整理已确定规格；node_modules 各项目隔离，下载缓存可复用，项目准备不更改全局配置。规则校验不证明模型效果。
+- R55（REQ-EXECUTION-055）：方法索引优先用宿主文件工具读取 canonical 正文，CLI 保留为恢复入口；同一会话中相同项目和版本的完整正文复用，当前阶段只应用所需职责。环境等待期间先整理已确定规格；node_modules 各项目隔离，下载缓存可复用，项目准备不更改全局配置。规则校验不证明模型效果。红灯失败须按完整目标断言的位置范围归属，多行格式化不导致误拒绝；准备和邻接断言仍不能充当目标证据。
 
 ## 验收标准
 
@@ -140,6 +140,8 @@
 - AC-EXECUTION-026（REQ-EXECUTION-026）：Given 同一个测试文件包含一个已记录 TDD 红灯的 AC 用例和其他用例，When 添加或修改不相关的兄弟用例后验证该 Plan，Then 既有红灯证据仍有效；目标 AC 测试用例本身发生变化时证据失效；新生成的记录按活动测试用例内容计算哈希，历史 schema 1 文件级记录兼容验证。
 
 - AC-EXECUTION-055（REQ-EXECUTION-055）：Given 项目所属规则及完整 canonical 正文 When 读取原生方法索引 Then 首选读法为 native-file，路径对应实际正文，原 CLI fallback 仍返回相同完整内容；准备、缓存及复用条款由独立内容复核确认。required_layers：unit；checks：tests/contracts/document-method-entry.test.ts::[AC-EXECUTION-055]。
+
+- AC-EXECUTION-056（REQ-EXECUTION-055）：Given 正常多行目标断言及准备、后续断言 When 校验实际 matcher 行的失败堆栈 Then 接受范围内目标失败，拒绝范围外和邻接失败。required_layers：unit；checks：tests/contracts/tdd-integrity.test.ts::[AC-EXECUTION-056]。
 
 ## 验收边界
 

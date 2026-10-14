@@ -12,6 +12,30 @@ import {
 } from '../../scripts/ignite/source-analysis.mjs'
 
 describe('TDD red evidence attribution', () => {
+  it('[AC-EXECUTION-056] attributes a formatted multiline target without accepting neighbouring failures', () => {
+    const multiline = `import { it, expect } from 'vitest'
+it('[AC-MULTILINE-001] target', () => {
+  expect(prerequisite).toBe(true)
+  expect(
+    actual,
+    '[AC-MULTILINE-001] target',
+  ).toBe('expected')
+  expect(other).toBe(true)
+})`
+    const marked = acceptanceTestAssertionLocations(multiline, 'AC-MULTILINE-001', null, {
+      requireTargetMarker: true,
+    })
+    const provenance = { testPath: 'tests/multiline.test.ts', assertionLocations: marked }
+    const at = (line: number, column: number) =>
+      `AssertionError: expected value\n at tests/multiline.test.ts:${line}:${column}`
+    const accepted = isBehaviorAssertionFailure(at(7, 5), provenance)
+    expect(accepted, '[AC-EXECUTION-056] target').toBe(true)
+    expect(isBehaviorAssertionFailure(at(3, 5), provenance)).toBe(false)
+    expect(isBehaviorAssertionFailure(at(8, 5), provenance)).toBe(false)
+    expect(isBehaviorAssertionFailure(at(4, 2), provenance)).toBe(false)
+    expect(isBehaviorAssertionFailure(at(7, marked[0].endColumn + 1), provenance)).toBe(false)
+  })
+
   const source = `import { it, expect } from 'vitest'
 beforeEach(() => { expect(true).toBe(true) })
 it('[AC-TEST-001] target', () => {

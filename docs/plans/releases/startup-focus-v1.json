@@ -7,10 +7,10 @@
   "scope": [
     {
       "id": "GOAL-1",
-      "text": "同版本方法正文优先直接读取并复用，减少重复阅读和不必要的 WSL 审批调用；依赖安装等待期间先整理已明确需求，只在实际依赖测试工具时等待环境；隔离各项目 node_modules 并复用现有下载缓存，不用项目准备改全局配置",
+      "text": "同版本方法正文优先直接读取并复用，减少重复阅读和不必要的 WSL 审批调用；依赖安装等待期间先整理已明确需求，只在实际依赖测试工具时等待环境；隔离各项目 node_modules 并复用现有下载缓存，不用项目准备改全局配置；修正同一开工流程的多行目标误拒绝",
       "source": "2026-10-14 用户启用 poteto-mode 并要求“从本质，用最少的改动修正问题”",
       "requirements": ["REQ-EXECUTION-055"],
-      "acceptance": ["AC-EXECUTION-055"],
+      "acceptance": ["AC-EXECUTION-055", "AC-EXECUTION-056"],
       "plan_ids": ["IGT-1791976482786711869"],
       "disposition": "included",
       "reason": "按用户已确定的最小修复目标实施",

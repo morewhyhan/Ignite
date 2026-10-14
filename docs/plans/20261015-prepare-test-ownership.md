@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1792007450670818648",
   "release": "prepare-test-ownership-v1",
-  "status": "draft",
+  "status": "active",
   "outcome": "新建 Plan 在 prepare 阶段编写并声明真实测试，red 阶段只运行和记录红灯",
   "contract_version": 2,
   "execution_contract": 1,
@@ -72,7 +72,7 @@
       "id": "T1",
       "title": "确认目标并编写真实测试基线",
       "phase": "prepare",
-      "status": "todo",
+      "status": "done",
       "result": "原始目标、Feature、Release、真实行为断言和测试路径均已记录，测试及规格基线已提交。",
       "scope": [
         "docs/plans/20261015-prepare-test-ownership.md",
@@ -89,7 +89,7 @@
       "title": "运行真实断言并记录红灯",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-057"],
-      "status": "todo",
+      "status": "doing",
       "result": "原生 red 运行确认断言针对任务归属行为失败，并记录本 AC 的真实红灯。",
       "scope": [
         "tests/contracts/native-execution.test.ts",
@@ -158,13 +158,19 @@
     "docs/plans/releases/prepare-test-ownership-v1.json",
     "docs/others/evidence/tdd/"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-EXECUTION-057",
+      "test": "tests/contracts/native-execution.test.ts::[AC-EXECUTION-057]",
+      "run_id": "tdd-20261014202740-a24d3c"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
-  "updated_at": "2026-10-15"
+  "updated_at": "2026-10-14"
 }
 -->
 
@@ -243,10 +249,10 @@ prepare T1 编写真实行为测试后，先独立审查 draft，并提交规格
 
 <!-- ignite-progress -->
 
-状态：`draft`（由元数据生成）
+状态：`active`（由元数据生成）
 
-- [ ] T1 · 确认目标并编写真实测试基线 · todo
-- [ ] T2 · 运行真实断言并记录红灯 · todo
+- [x] T1 · 确认目标并编写真实测试基线 · done
+- [ ] T2 · 运行真实断言并记录红灯 · doing
 - [ ] T3 · 修正规则、模板和脚手架的任务归属 · todo
 - [ ] T4 · 验证原生流程并回写当前设计 · todo
 

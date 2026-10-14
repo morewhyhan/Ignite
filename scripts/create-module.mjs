@@ -162,7 +162,7 @@ const files = new Map([
 
 - ${acceptanceId}（${requirementId}）：Given <context> When <action> Then <observable-result>。
 
-本脚手架生成的需求、用例和失败测试都只是草稿。prepare T1 先写清真实用户行为、补全可执行断言并提交规格和测试基线；将 Plan 置为 ready 后，red T2 只运行 \`pnpm ignite tdd red --plan ${planId} --ac ${acceptanceId}\` 并记录目标行为断言失败，然后再实现。涉及持久化或第三方服务时，另补 database / external 验收。
+本脚手架生成的需求、用例和失败测试都只是草稿。先写清真实用户行为，再写可执行断言；提交测试后对每条 AC 执行 \`pnpm ignite tdd red --plan ${planId} --ac ${acceptanceId}\`，确认目标行为断言失败并提交红灯记录，然后实现。涉及持久化或第三方服务时，另补 database / external 验收。
 `,
   ],
   [
@@ -170,7 +170,7 @@ const files = new Map([
     `import { describe, expect, it } from 'vitest'
 
 describe('${moduleName} acceptance', () => {
-  it('[${acceptanceId}] observes the specified user behavior', () => {
+  it('[${acceptanceId}] replaces this red specification with executable behavior', () => {
     expect.fail('Implement ${requirementId} before moving the Plan to verifying')
   })
 })
@@ -231,29 +231,21 @@ test('[${acceptanceId}] completes the specified user journey in a real browser',
       tasks: [
         {
           id: 'T1',
-          title: '确认模块行为、编写真实测试并提交准备基线',
+          title: '确认模块行为、数据边界与验收场景',
           phase: 'prepare',
           status: 'todo',
-          result:
-            '模块规则、权限、失败行为、真实断言和测试路径均已对应，规格与测试已提交，独立审查者已核对 draft。',
-          scope: [
-            `docs/features/${moduleName}.md`,
-            planPath,
-            releasePath,
-            testCasePath,
-            testPath,
-            browserTestPath,
-          ],
+          result: '模块规则、权限、失败行为和真实验收路径已确认，独立审查者已核对 draft。',
+          scope: [`docs/features/${moduleName}.md`, planPath, releasePath, testCasePath],
           depends_on: [],
           owner: 'assigned-worker',
         },
         {
           id: 'T2',
-          title: '运行用户行为断言并记录真实红灯',
+          title: '编写用户行为断言并记录真实红灯',
           phase: 'red',
           acceptance: [acceptanceId],
           status: 'todo',
-          result: '原生 red 已运行单元和真实浏览器断言，目标行为失败绑定到本轮 AC。',
+          result: '单元和真实浏览器断言都能观察目标行为，原生红灯绑定到本轮 AC。',
           scope: [testPath, browserTestPath, 'docs/others/evidence/tdd/'],
           depends_on: ['T1'],
           owner: 'assigned-worker',
@@ -435,7 +427,7 @@ if (dryRun) {
   console.log(
     docsOnly
       ? 'Document draft only; complete the original goals and run the native preparation check. Future behavior tests remain pending.'
-      : 'Next: define the Feature and user journey, then write real acceptance tests during preparation and commit the specifications and test baseline. Red tasks run and record the native failing assertions. Split implementation tasks only when their results, owners, write scopes and interfaces are independent.',
+      : 'Next: define the Feature and user journey, then replace both red acceptance tests. Split implementation tasks only when their results, owners, write scopes and interfaces are independent.',
   )
   console.log('Refresh the generated overview: pnpm ignite status --write')
   console.log(`Continue: pnpm ignite next --plan ${planId}`)

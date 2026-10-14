@@ -96,27 +96,25 @@ const metadata = {
   tasks: [
     {
       id: 'T1',
-      title: '确认本轮目标、编写真实测试并提交准备基线',
+      title: '确认本轮目标与验收路径',
       phase: 'prepare',
       status: 'todo',
-      result:
-        '原始目标、Feature、真实断言、测试路径和写入边界均已对应，规格与测试已提交，独立审查者已核对 draft。',
+      result: '原始目标、受影响 Feature 和验收路径已记录，独立审查者已核对 draft。',
       scope: [
         `docs/plans/${date.replaceAll('-', '')}-${slug}.md`,
         `docs/plans/releases/${releaseId}.json`,
         '<feature-path>',
-        '<test-path>',
       ],
       depends_on: [],
       owner: 'assigned-worker',
     },
     {
       id: 'T2',
-      title: '运行真实断言并记录目标行为红灯',
+      title: '为已确认的行为编写真实断言',
       phase: 'red',
       acceptance: [],
       status: 'todo',
-      result: '原生 red 运行确认已提交测试的目标断言失败，并记录真实红灯。',
+      result: '每条验收标准都有真实断言，并记录了目标行为的红灯。',
       scope: ['<test-path>', 'docs/others/evidence/tdd/'],
       depends_on: ['T1'],
       owner: 'assigned-worker',

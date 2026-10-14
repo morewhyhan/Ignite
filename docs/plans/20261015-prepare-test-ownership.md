@@ -89,7 +89,7 @@
       "title": "运行真实断言并记录红灯",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-057"],
-      "status": "done",
+      "status": "doing",
       "result": "原生 red 运行确认断言针对任务归属行为失败，并记录本 AC 的真实红灯。",
       "scope": [
         "tests/contracts/native-execution.test.ts",
@@ -104,7 +104,7 @@
       "title": "修正规则、模板和脚手架的任务归属",
       "phase": "implement",
       "acceptance": ["AC-EXECUTION-057"],
-      "status": "done",
+      "status": "todo",
       "result": "两个脚手架与 Plan 模板都把测试编写归入 prepare T1，red T2 仅记录红灯。",
       "scope": [
         "scripts/create-change.mjs",
@@ -119,7 +119,7 @@
       "id": "T4",
       "title": "验证原生流程并回写当前设计",
       "phase": "verify",
-      "status": "doing",
+      "status": "todo",
       "result": "Plan integration 和独立 delivery 审查均通过，Design 记录实际行为。",
       "scope": ["docs/designs/execution.md", "docs/others/evidence/"],
       "depends_on": ["T3"],
@@ -158,13 +158,7 @@
     "docs/plans/releases/prepare-test-ownership-v1.json",
     "docs/others/evidence/tdd/"
   ],
-  "tdd_evidence": [
-    {
-      "acceptance_id": "AC-EXECUTION-057",
-      "test": "tests/contracts/native-execution.test.ts::[AC-EXECUTION-057]",
-      "run_id": "tdd-20261014202740-a24d3c"
-    }
-  ],
+  "tdd_evidence": [],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
@@ -252,9 +246,9 @@ prepare T1 编写真实行为测试后，先独立审查 draft，并提交规格
 状态：`active`（由元数据生成）
 
 - [x] T1 · 确认目标并编写真实测试基线 · done
-- [x] T2 · 运行真实断言并记录红灯 · done
-- [x] T3 · 修正规则、模板和脚手架的任务归属 · done
-- [ ] T4 · 验证原生流程并回写当前设计 · doing
+- [ ] T2 · 运行真实断言并记录红灯 · doing
+- [ ] T3 · 修正规则、模板和脚手架的任务归属 · todo
+- [ ] T4 · 验证原生流程并回写当前设计 · todo
 
 验收缺口：未记录；完成仍须实际证据
 证据：尚无
@@ -265,3 +259,7 @@ prepare T1 编写真实行为测试后，先独立审查 draft，并提交规格
 按 [完成条件](./README.md#完成与证据) 回查原始目标核对表，记录实际结果、对应证据、被测版本及缺口。最终报告按 [沟通规则](../../AGENTS.md#沟通) 说明人能得到什么、依据是什么和未完成影响。
 
 每条 REQ 被 AC 覆盖，AC 有匹配层级的真实测试；`tasks` 全部完成，`remaining_work` 清空；`integrated_commit` 可追溯，所需证据属于当前输入与环境；Design 已回写。只有这些条件经验证成立，才把 Plan 标记为 `done`。
+
+## TDD 恢复记录
+
+2026-10-14，AC-EXECUTION-057：Prettier formatting required by repository format check changed bound test bytes。保留原回执 tdd-20261014202740-a24d3c；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。

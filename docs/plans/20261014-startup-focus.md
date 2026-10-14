@@ -69,6 +69,17 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-10-14T12:29:46.028Z"
+    },
+    {
+      "stage": "delivery",
+      "executor": "/root",
+      "reviewer": "/root/startup_delivery_review",
+      "source": "Codex collaboration sub-agent dispatched by /root as /root/startup_delivery_review",
+      "subject_fingerprint": "4f376372ff0277a6a2afa71e060c46877b9bdeb4c3d666dde21ab0a0de0a473b",
+      "verdict": "approved",
+      "findings": [],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-10-14T13:32:45.965Z"
     }
   ],
   "verification_contract": 2,
@@ -207,7 +218,7 @@
       "id": "T4",
       "title": "验证兼容入口并回写事实",
       "phase": "verify",
-      "status": "doing",
+      "status": "done",
       "result": "原生 integration、AC056 边界回归、独立 delivery 和 Design 一致；delivery 逐项核对正文复用、安装时推进规格、缓存隔离与禁止全局设置的条款，不把 unit 结果当模型实证；Release 单独验证",
       "scope": ["docs/designs/execution.md", "docs/others/evidence/"],
       "depends_on": ["T3"],
@@ -269,7 +280,12 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261014125748-8289e9"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
@@ -334,6 +350,8 @@ execution.md 记录实际入口和仍需宿主/模型实测的边界。
 
 2026-10-14：拟删除重复读取协议，以已有规则承载修复；未改模板技能正文。实际 red 拒绝日志 startup-native-red-retry.log 显示正确失败发生在格式化 matcher 行，而门禁只比对 expression 起始行。这属于同一开工修复内的实际工具缺陷，新增 AC056，不弱化证据要求。
 
+2026-10-14：最终 integration run-20261014125748-8289e9 在 d9b68cc506f4ba9a4471f7eb9be953c7912355e9 通过；AC055/056 的真实 red 已保留。独立 delivery 4f376372ff0277a6a2afa71e060c46877b9bdeb4c3d666dde21ab0a0de0a473b 已核对直接读取及完整正文兼容、多行范围归属，以及复用、等待时推进规格、缓存权限三项条款。核心仅修改原有两个入口，不增加调度层；未重跑学生模型试验。初次格式门禁失败已仅格式化凭证，不改数据与断言。cursor-team-kit/deslop 当前不可用，已用实际差异检查去除重复协议并保持代码最小。
+
 ## 准出条件
 
 AC 原生证据、三项规则语义复核、兼容入口与 Design 一致。模型自然执行效果仍需另行实测，不能冒充已通过。
@@ -347,10 +365,10 @@ AC 原生证据、三项规则语义复核、兼容入口与 Design 一致。模
 - [x] I056 · 按目标断言实际范围归属失败 · done
 - [x] T2 · 记录直接读取优先缺失的真实红灯 · done
 - [x] T3 · 收敛读取与开工准备入口 · done
-- [ ] T4 · 验证兼容入口并回写事实 · doing
+- [x] T4 · 验证兼容入口并回写事实 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20261014125748-8289e9
 <!-- /ignite-progress -->
 
 2026-10-14：独立 draft 复核要求同步新增门禁修复后的两段顺序，并明确 T4 的规则语义复核。上述职责已回写，不把索引 unit 绿灯当作自然执行效果。

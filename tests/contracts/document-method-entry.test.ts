@@ -1,6 +1,39 @@
 import { expect, it } from 'vitest'
 import { makeFixture, read, runCli, write } from './ignite-fixture'
 
+it('[AC-EXECUTION-055] exposes native canonical reads with the CLI retained as a fallback', () => {
+  const fixture = makeFixture()
+  try {
+    write(
+      fixture.root,
+      'docs/plans/README.md',
+      '# Plan\n\n## 固定维护方法\n\n涉及本类文档时，先读取以下必需方法：[plan-method](../../.ai/pstack/skills/plan-method/SKILL.md)。\n',
+    )
+    write(
+      fixture.root,
+      'docs/standards/ai-agents.md',
+      '# Rules\n\n## 固定维护方法\n\n涉及文档写作时，必须读取 [unslop](../../.ai/pstack/skills/unslop/SKILL.md)。\n',
+    )
+    write(fixture.root, '.ai/pstack/skills/plan-method/SKILL.md', '# Plan method\nComplete body.\n')
+    write(fixture.root, '.ai/pstack/skills/unslop/SKILL.md', '# Unslop\nComplete writing body.\n')
+    const result = runCli(fixture.root, 'skill', 'read', '--for', 'docs/plans/README.md', '--list')
+    expect(result.status, result.stderr).toBe(0)
+    const index = JSON.parse(result.stdout)
+    expect(
+      index.preferred_reader,
+      '[AC-EXECUTION-055] the index chooses native file reads before runtime commands',
+    ).toBe('native-file')
+    for (const method of index.required) {
+      const canonical = read(fixture.root, method.path)
+      const fallback = runCli(fixture.root, ...method.read_command.split(' ').slice(2))
+      expect(fallback.status, fallback.stderr).toBe(0)
+      expect(fallback.stdout).toBe(canonical)
+    }
+  } finally {
+    fixture.cleanup()
+  }
+})
+
 it('[AC-METHOD-014] provides a safe tool output budget for every canonical body and the index itself', () => {
   const fixture = makeFixture()
   try {

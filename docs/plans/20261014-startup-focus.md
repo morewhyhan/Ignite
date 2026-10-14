@@ -256,7 +256,13 @@
     "scripts/ignite/tdd.mjs",
     "tests/contracts/tdd-integrity.test.ts"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-EXECUTION-056",
+      "test": "tests/contracts/tdd-integrity.test.ts::[AC-EXECUTION-056]",
+      "run_id": "tdd-20261014122957-2190e0"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

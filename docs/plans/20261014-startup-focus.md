@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1791976482786711869",
   "release": "startup-focus-v1",
-  "status": "active",
+  "status": "done",
   "outcome": "首次开工使用已有正文和缓存，准备阶段持续产生规格，保留真实审查与验收",
   "contract_version": 2,
   "execution_contract": 1,
@@ -288,7 +288,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "d9b68cc506f4ba9a4471f7eb9be953c7912355e9",
   "updated_at": "2026-10-14"
 }
 -->
@@ -358,7 +358,7 @@ AC 原生证据、三项规则语义复核、兼容入口与 Design 一致。模
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 确认最小修复及独立开工复核 · done
 - [x] R056 · 复现格式化多行断言被拒绝 · done

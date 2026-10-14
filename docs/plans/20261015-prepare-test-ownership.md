@@ -119,7 +119,7 @@
       "id": "T4",
       "title": "验证原生流程并回写当前设计",
       "phase": "verify",
-      "status": "todo",
+      "status": "doing",
       "result": "Plan integration 和独立 delivery 审查均通过，Design 记录实际行为。",
       "scope": ["docs/designs/execution.md", "docs/others/evidence/"],
       "depends_on": ["T3"],
@@ -166,7 +166,12 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261014210615-aae608"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
@@ -254,11 +259,13 @@ prepare T1 编写真实行为测试后，先独立审查 draft，并提交规格
 - [x] T1 · 确认目标并编写真实测试基线 · done
 - [x] T2 · 运行真实断言并记录红灯 · done
 - [x] T3 · 修正规则、模板和脚手架的任务归属 · done
-- [ ] T4 · 验证原生流程并回写当前设计 · todo
+- [ ] T4 · 验证原生流程并回写当前设计 · doing
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20261014210615-aae608
 <!-- /ignite-progress -->
+
+2026-10-14：先前集成 run-20261014210615-aae608 通过；随后回写 Design，输入指纹变更，故该运行 stale，待最终版本重跑。此前 run-20261014203938-ff9173 因格式检查失败；按 testing 规则格式化并 restart，保留原失败证据后重新取得 red tdd-20261014205154-2ebc67。
 
 ## 准出条件
 

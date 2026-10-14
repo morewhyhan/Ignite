@@ -155,7 +155,9 @@ describe('Native execution documentation', () => {
           name.endsWith('-task-ownership.md'),
         )!
         const metadata = JSON.parse(
-          read(fixture.root, `docs/plans/${planPath}`).match(/<!-- ignite-plan\s*([\s\S]*?)-->/)![1],
+          read(fixture.root, `docs/plans/${planPath}`).match(
+            /<!-- ignite-plan\s*([\s\S]*?)-->/,
+          )![1],
         )
         const [prepare, red] = metadata.tasks
         const testPaths = metadata.acceptance.length

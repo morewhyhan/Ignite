@@ -99,7 +99,8 @@ const metadata = {
       title: '确认本轮目标、编写真实测试并提交准备基线',
       phase: 'prepare',
       status: 'todo',
-      result: '原始目标、Feature、真实断言、测试路径和写入边界均已对应，规格与测试已提交，独立审查者已核对 draft。',
+      result:
+        '原始目标、Feature、真实断言、测试路径和写入边界均已对应，规格与测试已提交，独立审查者已核对 draft。',
       scope: [
         `docs/plans/${date.replaceAll('-', '')}-${slug}.md`,
         `docs/plans/releases/${releaseId}.json`,

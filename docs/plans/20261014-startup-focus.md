@@ -152,7 +152,7 @@
       "title": "复现格式化多行断言被拒绝",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-056"],
-      "status": "doing",
+      "status": "done",
       "result": "真实目标失败证明门禁遗漏正常多行位置",
       "scope": ["tests/contracts/tdd-integrity.test.ts", "docs/others/evidence/tdd/"],
       "depends_on": ["T1"],
@@ -163,7 +163,7 @@
       "title": "按目标断言实际范围归属失败",
       "phase": "implement",
       "acceptance": ["AC-EXECUTION-056"],
-      "status": "todo",
+      "status": "done",
       "result": "多行目标被正确识别，邻接和准备失败仍拒绝",
       "scope": ["scripts/ignite/tdd.mjs"],
       "depends_on": ["R056"],
@@ -174,7 +174,7 @@
       "title": "记录直接读取优先缺失的真实红灯",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-055"],
-      "status": "todo",
+      "status": "doing",
       "result": "原生索引成功返回但目标读取优先断言失败，红灯凭证绑定实际测试",
       "scope": ["tests/contracts/document-method-entry.test.ts", "docs/others/evidence/tdd/"],
       "depends_on": ["T1", "I056"],
@@ -338,9 +338,9 @@ AC 原生证据、三项规则语义复核、兼容入口与 Design 一致。模
 状态：`active`（由元数据生成）
 
 - [x] T1 · 确认最小修复及独立开工复核 · done
-- [ ] R056 · 复现格式化多行断言被拒绝 · doing
-- [ ] I056 · 按目标断言实际范围归属失败 · todo
-- [ ] T2 · 记录直接读取优先缺失的真实红灯 · todo
+- [x] R056 · 复现格式化多行断言被拒绝 · done
+- [x] I056 · 按目标断言实际范围归属失败 · done
+- [ ] T2 · 记录直接读取优先缺失的真实红灯 · doing
 - [ ] T3 · 收敛读取与开工准备入口 · todo
 - [ ] T4 · 验证兼容入口并回写事实 · todo
 

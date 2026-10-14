@@ -151,8 +151,9 @@ export function isBehaviorAssertionFailure(message, provenance = null) {
     )
     if (
       lastAssertion &&
-      line === lastAssertion.line &&
-      column >= lastAssertion.column &&
+      line >= lastAssertion.line &&
+      line <= lastAssertion.endLine &&
+      (line > lastAssertion.line || column >= lastAssertion.column) &&
       (line < lastAssertion.endLine ||
         (line === lastAssertion.endLine && column <= lastAssertion.endColumn))
     )

@@ -55,12 +55,14 @@ wsl.exe -e bash -lc 'cd /mnt/c/your/project && source ~/.nvm/nvm.sh && nvm use $
 
 后续原生 CLI 也在相同 WSL 项目目录和 NVM 环境执行。技能读取 `node scripts/ignite.mjs skill read --for <所属规则.md> --list` 不需要安装项目依赖；其余诊断、准备检查与历史命令仍按下面的依赖步骤处理。
 
+每个项目安装自己的 node_modules，Windows 与 WSL 保持隔离；同一运行环境可复用 pnpm 下载缓存，优先采用已有配置。项目准备不运行 pnpm config set 改用户或全局配置；确需独立缓存时仅对本次安装传 --store-dir，不把相对路径写入全局设置。
+
 首次采用前，先在新副本提交初始源码，再准备可运行本地命令的环境。Ignite 的诊断与历史归档 CLI 依赖项目包（包括 TypeScript）；在依赖安装前运行 `template:doctor` 或 `adopt-history` 会因缺少包而失败。
 
 ```bash
 node scripts/runtime-doctor.mjs --preflight
 cp .env.example .env
-corepack pnpm install --frozen-lockfile
+corepack pnpm install --frozen-lockfile --prefer-offline
 pnpm runtime:check
 ```
 

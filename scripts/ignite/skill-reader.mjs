@@ -108,6 +108,7 @@ export function commandSkillRead(root, options, positionals) {
     if (options.list) {
       const index = {
         scope: 'document-method-index',
+        preferred_reader: 'native-file',
         owner: options.for,
         instructions: steps?.content || '',
         tool_options: { max_output_tokens: 0 },
@@ -123,7 +124,7 @@ export function commandSkillRead(root, options, positionals) {
           }
         }),
         next_action:
-          'Use the stated tool output budget. Read each body in a separate invocation; recover any truncated output before continuing. This index is not reading evidence.',
+          'Read canonical paths with the host file tool for the current stage. Reuse complete unchanged bodies from this project still present in context. Use read_command only to recover a failed native read, respecting its output budget. Recover truncated content; this index is not reading evidence.',
       }
       index.tool_options.max_output_tokens = Math.max(
         8192,

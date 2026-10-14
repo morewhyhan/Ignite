@@ -6,7 +6,9 @@
 
 ## 固定维护方法
 
-先读本节必需条款与技能正文。在项目使用契约指定的 WSL/Linux Node，运行 `node scripts/ignite.mjs skill read --for docs/plans/README.md --list`；这个入口无需安装依赖；每次调用只读一个目录的清单，首次清单输出容量至少 8192 tokens。清单只返回固定职责和必需方法，不代表正文已经读取。按各项 `tool_options.max_output_tokens` 设置宿主及外层封装的输出上限，再逐份运行 `node scripts/ignite.mjs skill read <name>`，每次工具调用只读取一份正文；也可逐份读取真源文件，截断时分段补齐。
+先读本节适用条款，正文读取与复用按 [共同规则](../standards/ai-agents.md#固定维护方法)。以下方法按本页步骤使用，不预读尚未触发的后续阶段。
+
+准备时先把用户已确定的目标、字段、权限和验收写入 Feature/Plan；安装依赖的会话等待期间继续这些不依赖运行环境的工作。仅依赖缺失工具的脚手架、测试与检查等待环境。已给定事实不留作待确认，准备只写规格、计划与测试，不提前改实现。
 
 新 Plan 声明 `task_contract: 2`。tasks 的 `phase` 只能为 prepare、red、implement、verify；red 与 implement 列出负责的 `acceptance` AC。每个实施任务前先列覆盖同一 AC 的 red 任务，原生校验会拒绝逆序或缺失阶段。开始或完成 implement、完成 red 时，原生任务命令核对有效红灯记录；只有任务标题写了“先测试”不算满足条件。历史 `task_contract: 1` 和未声明此契约的 Plan 保留兼容，不能据此推断它已遵守新约束。
 
@@ -24,7 +26,7 @@
 
 草稿回查时，每条 `required_layers` 都须在该 AC 的 `checks` 中有对应层级；真实数据库和浏览器检查分开映射。尚未编写的测试路径是后续设计，不是已通过证据。缺少对应检查时保留缺口，不能因为任务顺序正确就进入 ready。
 
-涉及本类文档时，先读取以下必需方法：[figure-it-out](../../.ai/pstack/skills/figure-it-out/SKILL.md)、[show-me-your-work](../../.ai/pstack/skills/show-me-your-work/SKILL.md)、[principle-sequence-verifiable-units](../../.ai/pstack/skills/principle-sequence-verifiable-units/SKILL.md)、[review-plan](../../.ai/skills/review-plan/SKILL.md)、[review-delivery](../../.ai/skills/review-delivery/SKILL.md)。必须按下面的顺序处理，不能由 AI 自行省略；未触及本类文档时不强制执行。
+涉及本类文档时，先读取以下必需方法：[figure-it-out](../../.ai/pstack/skills/figure-it-out/SKILL.md)、[show-me-your-work](../../.ai/pstack/skills/show-me-your-work/SKILL.md)、[principle-sequence-verifiable-units](../../.ai/pstack/skills/principle-sequence-verifiable-units/SKILL.md)、[review-plan](../../.ai/skills/review-plan/SKILL.md)、[review-delivery](../../.ai/skills/review-delivery/SKILL.md)。这些是 Plan 生命周期的必需方法：准备阶段读取并应用 review-plan，交付阶段再读取并应用 review-delivery；其它方法用于本轮规划和记录。必须按下面的顺序处理，不能省略对应阶段职责。
 
 1. 接续覆盖本轮结果的未完成 Plan。需要新交付时，新增模块用 `pnpm create:module <name>`，存量改动用 `pnpm create:change <name>`。仅准备文档的新模块使用 `pnpm create:module <name> --docs-only`，只生成 Feature、Plan 和 Release。无法运行脚手架时复制原模板并保留全部栏目，Plan ID 只使用 `IGT-数字`，不要凭印象另写格式。
 2. 确定原始目标、基线、写入范围、验收和回退，逐项映射 Feature REQ/AC。Plan 必须同时有其 release 引用的 Release 草稿，scope 写清原始目标、REQ/AC、负责 Plan 和处理方式，未运行的证据留空。本轮暂不实现写入执行约束，后续仍要交付的功能不能同时被写成永久 non_goals。明确任务不重复塞入 remaining_work。

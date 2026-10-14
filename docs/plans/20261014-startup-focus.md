@@ -174,7 +174,7 @@
       "title": "记录直接读取优先缺失的真实红灯",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-055"],
-      "status": "doing",
+      "status": "done",
       "result": "原生索引成功返回但目标读取优先断言失败，红灯凭证绑定实际测试",
       "scope": ["tests/contracts/document-method-entry.test.ts", "docs/others/evidence/tdd/"],
       "depends_on": ["T1", "I056"],
@@ -185,7 +185,7 @@
       "title": "收敛读取与开工准备入口",
       "phase": "implement",
       "acceptance": ["AC-EXECUTION-055"],
-      "status": "todo",
+      "status": "done",
       "result": "读取入口优先原生文件；共同规则复用；安装等待与缓存范围清楚，既有 gate 保留",
       "scope": [
         "docs/features/README.md",
@@ -207,7 +207,7 @@
       "id": "T4",
       "title": "验证兼容入口并回写事实",
       "phase": "verify",
-      "status": "todo",
+      "status": "doing",
       "result": "原生 integration、AC056 边界回归、独立 delivery 和 Design 一致；delivery 逐项核对正文复用、安装时推进规格、缓存隔离与禁止全局设置的条款，不把 unit 结果当模型实证；Release 单独验证",
       "scope": ["docs/designs/execution.md", "docs/others/evidence/"],
       "depends_on": ["T3"],
@@ -345,9 +345,9 @@ AC 原生证据、三项规则语义复核、兼容入口与 Design 一致。模
 - [x] T1 · 确认最小修复及独立开工复核 · done
 - [x] R056 · 复现格式化多行断言被拒绝 · done
 - [x] I056 · 按目标断言实际范围归属失败 · done
-- [ ] T2 · 记录直接读取优先缺失的真实红灯 · doing
-- [ ] T3 · 收敛读取与开工准备入口 · todo
-- [ ] T4 · 验证兼容入口并回写事实 · todo
+- [x] T2 · 记录直接读取优先缺失的真实红灯 · done
+- [x] T3 · 收敛读取与开工准备入口 · done
+- [ ] T4 · 验证兼容入口并回写事实 · doing
 
 验收缺口：未记录；完成仍须实际证据
 证据：尚无

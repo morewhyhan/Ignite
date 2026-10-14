@@ -89,7 +89,7 @@
       "title": "运行真实断言并记录红灯",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-057"],
-      "status": "doing",
+      "status": "done",
       "result": "原生 red 运行确认断言针对任务归属行为失败，并记录本 AC 的真实红灯。",
       "scope": [
         "tests/contracts/native-execution.test.ts",
@@ -104,7 +104,7 @@
       "title": "修正规则、模板和脚手架的任务归属",
       "phase": "implement",
       "acceptance": ["AC-EXECUTION-057"],
-      "status": "todo",
+      "status": "done",
       "result": "两个脚手架与 Plan 模板都把测试编写归入 prepare T1，red T2 仅记录红灯。",
       "scope": [
         "scripts/create-change.mjs",
@@ -119,7 +119,7 @@
       "id": "T4",
       "title": "验证原生流程并回写当前设计",
       "phase": "verify",
-      "status": "todo",
+      "status": "doing",
       "result": "Plan integration 和独立 delivery 审查均通过，Design 记录实际行为。",
       "scope": ["docs/designs/execution.md", "docs/others/evidence/"],
       "depends_on": ["T3"],
@@ -252,9 +252,9 @@ prepare T1 编写真实行为测试后，先独立审查 draft，并提交规格
 状态：`active`（由元数据生成）
 
 - [x] T1 · 确认目标并编写真实测试基线 · done
-- [ ] T2 · 运行真实断言并记录红灯 · doing
-- [ ] T3 · 修正规则、模板和脚手架的任务归属 · todo
-- [ ] T4 · 验证原生流程并回写当前设计 · todo
+- [x] T2 · 运行真实断言并记录红灯 · done
+- [x] T3 · 修正规则、模板和脚手架的任务归属 · done
+- [ ] T4 · 验证原生流程并回写当前设计 · doing
 
 验收缺口：未记录；完成仍须实际证据
 证据：尚无

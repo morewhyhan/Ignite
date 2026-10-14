@@ -158,7 +158,13 @@
     "docs/plans/releases/prepare-test-ownership-v1.json",
     "docs/others/evidence/tdd/"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-EXECUTION-057",
+      "test": "tests/contracts/native-execution.test.ts::[AC-EXECUTION-057]",
+      "run_id": "tdd-20261014205154-2ebc67"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

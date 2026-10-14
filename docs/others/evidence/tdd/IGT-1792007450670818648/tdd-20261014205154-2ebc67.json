@@ -1,0 +1,41 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "51645d2ccbdfff6093c94e0bcf9cc3c72d8985b6b9fa6ae0f2f56b32d658f5c6",
+  "context_schema": 1,
+  "context_sha256": "6ca9822fbaab9036d491d87d0dd686edb40f27a677c588a2fd4f6caf73ca449e",
+  "context_files": [
+    "tests/contracts/ignite-fixture.ts",
+    "tests/contracts/native-execution.test.ts"
+  ],
+  "warnings": [],
+  "run_id": "tdd-20261014205154-2ebc67",
+  "plan_id": "IGT-1792007450670818648",
+  "acceptance_id": "AC-EXECUTION-057",
+  "test": "tests/contracts/native-execution.test.ts::[AC-EXECUTION-057]",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "target_assertion_contract": "ac-message-marker-v1",
+  "red_commit": "2880424eddb40949ba50306a303cbef4dce50c13",
+  "output_sha256": "84a000f0c5171fe51deaefa5ff36313e3ba09d2070858101e903cbdefc9753e0",
+  "failure_sha256": "68c82a890b5ed1752f2d3b79622827b7f28c4bb8ce1f1795a4f7107a93cad41d",
+  "failure_summary": [
+    "AssertionError: [AC-EXECUTION-057] target: expected [ …(3) ] to deeply equal ArrayContaining [\"<test-path>\"] at /mnt/c/Users/why/Documents/ignite/tests/contracts/native-execution.test.ts:169:60 at file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 at file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26 at file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20 at new Promise (<anonymous>) at runWithCancel (file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10) at file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20 at new Promise (<anonymous>) at runWithTimeout (file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10) at file:///mnt/c/Users/why/Documents/ignite/node_mod"
+  ],
+  "failure_summary_sha256": "3cb999f7168281985f3aaa0c7744f019d67178bfa01bce7ca9a6ea4f0ebc23ea",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/native-execution.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-057",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-14T20:51:54.394Z",
+  "ended_at": "2026-10-14T20:52:02.778Z",
+  "executor": "ignite-tdd-runner"
+}

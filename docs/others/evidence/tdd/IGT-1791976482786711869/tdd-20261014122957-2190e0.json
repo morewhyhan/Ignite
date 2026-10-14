@@ -4,9 +4,7 @@
   "test_sha256": "390f7e9fda132791c087b174cff19ddfe24d5a0c4b6f0d40195b55c3578c710f",
   "context_schema": 1,
   "context_sha256": "3cb421c361e0dbc0ced262698b787459063fcc065bbcc7981250ba61cc42204c",
-  "context_files": [
-    "tests/contracts/tdd-integrity.test.ts"
-  ],
+  "context_files": ["tests/contracts/tdd-integrity.test.ts"],
   "warnings": [
     "local dependency excluded outside declared test-support paths: scripts/ignite/source-analysis.mjs",
     "local dependency excluded outside declared test-support paths: scripts/ignite/tdd.mjs"

@@ -22,11 +22,10 @@
   - 最终版本验收：stale
   - 下一步：pnpm ignite release verify document-workflow-v1 --plan IGT-1791708512635291997
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `startup-focus-v1` · `verifying`
+- `startup-focus-v1` · `done`
   - Plan：`IGT-1791976482786711869`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite release verify startup-focus-v1 --plan IGT-1791976482786711869
+  - 最终版本验收：passed（b922b5fccb43）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题

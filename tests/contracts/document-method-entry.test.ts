@@ -21,7 +21,7 @@ it('[AC-EXECUTION-055] exposes native canonical reads with the CLI retained as a
     const index = JSON.parse(result.stdout)
     expect(
       index.preferred_reader,
-      '[AC-EXECUTION-055] the index chooses native file reads before runtime commands',
+      '[AC-EXECUTION-055] target: the index chooses native file reads before runtime commands',
     ).toBe('native-file')
     for (const method of index.required) {
       const canonical = read(fixture.root, method.path)

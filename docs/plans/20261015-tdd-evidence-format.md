@@ -95,7 +95,7 @@
       "title": "运行目标格式断言并记录真实红灯",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-058"],
-      "status": "doing",
+      "status": "done",
       "result": "原生 red 运行确认已提交测试的目标断言失败，并记录真实红灯。",
       "scope": ["tests/contracts/tdd-evidence-format.test.ts", "docs/others/evidence/tdd/"],
       "depends_on": ["T1"],
@@ -106,7 +106,7 @@
       "title": "用 formatJson 写入 TDD receipt",
       "phase": "implement",
       "acceptance": ["AC-EXECUTION-058"],
-      "status": "todo",
+      "status": "done",
       "result": "TDD runner 写入仓库格式化后的 JSON，receipt 的数据与 hash 值保持原样。",
       "scope": ["scripts/ignite/tdd.mjs"],
       "depends_on": ["T2"],
@@ -116,7 +116,7 @@
       "id": "T4",
       "title": "运行 Plan integration 并回写当前设计",
       "phase": "verify",
-      "status": "todo",
+      "status": "doing",
       "result": "Plan integration 通过；Design 描述实际生成格式；独立 delivery 审查基于最终差异与运行证据。",
       "scope": ["docs/designs/execution.md", "docs/others/evidence/"],
       "depends_on": ["T3"],
@@ -237,9 +237,9 @@ TDD runner 只有一处 receipt 写入，本轮保留单个实施任务。
 状态：`active`（由元数据生成）
 
 - [x] T1 · 记录目标并编写真正调用 native TDD 的格式行为测试 · done
-- [ ] T2 · 运行目标格式断言并记录真实红灯 · doing
-- [ ] T3 · 用 formatJson 写入 TDD receipt · todo
-- [ ] T4 · 运行 Plan integration 并回写当前设计 · todo
+- [x] T2 · 运行目标格式断言并记录真实红灯 · done
+- [x] T3 · 用 formatJson 写入 TDD receipt · done
+- [ ] T4 · 运行 Plan integration 并回写当前设计 · doing
 
 验收缺口：未记录；完成仍须实际证据
 证据：尚无

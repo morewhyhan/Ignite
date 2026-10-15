@@ -15,6 +15,7 @@ import {
   gitCommitExists,
   hash,
   makeSafeTestEnvironment,
+  formatJson,
   repositoryRoot,
 } from './core.mjs'
 import {
@@ -370,7 +371,7 @@ export async function runTddRed(planId, acceptanceId) {
     ended_at: new Date().toISOString(),
     executor: 'ignite-tdd-runner',
   }
-  writeFileSync(redEvidenceAbsolutePath, `${JSON.stringify(record, null, 2)}\n`, 'utf8')
+  writeFileSync(redEvidenceAbsolutePath, formatJson(record), 'utf8')
   updatePlanMetadata(findPlan(planId), (metadata) => {
     metadata.tdd_evidence = [
       ...(metadata.tdd_evidence || []).filter((item) => item.acceptance_id !== acceptanceId),

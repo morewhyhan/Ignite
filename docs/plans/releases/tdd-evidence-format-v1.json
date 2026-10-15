@@ -1,0 +1,25 @@
+{
+  "schema": 2,
+  "id": "tdd-evidence-format-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1792029176916013864"],
+  "scope": [
+    {
+      "id": "GOAL-001",
+      "text": "修复 TDD runner 生成的 JSON 证据不符合仓库 Prettier 格式的问题，同时保留 receipt 字段和哈希值。",
+      "source": "本轮用户授权的持续测试与最小修复，由主 Agent 指定的独立格式修复任务。",
+      "requirements": ["REQ-EXECUTION-057"],
+      "acceptance": ["AC-EXECUTION-058"],
+      "plan_ids": ["IGT-1792029176916013864"],
+      "disposition": "included",
+      "reason": "修复 TDD runner 的证据写入格式，不改 receipt 数据和摘要计算。",
+      "authorization": ""
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-10-15"
+}

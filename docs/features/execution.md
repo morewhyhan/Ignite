@@ -31,6 +31,8 @@
 - R54（REQ-EXECUTION-054）：结构化 Plan 的共享写入冲突按未完成任务的实际范围判断；已完成代码任务且只剩文档验收的 Plan 不占用旧代码范围。未完成写入继续要求一致负责人；没有结构化任务范围的旧 Plan 保留保守边界。Plan 依赖完成条件不因此缩减。
 - R56（REQ-EXECUTION-056）：新增模块与存量改动 Plan 都由 prepare 任务编写并声明真实行为测试；red 任务只运行并记录目标断言的真实失败。规格和测试基线在进入 ready 和 red 前提交；ready 要求测试已存在且不是占位失败，但不要求已有红灯证据。
 
+- R57（REQ-EXECUTION-057）：TDD runner 写入红灯 JSON 证据时使用仓库 Prettier 格式，保留原有字段及其值，使新生成的证据通过 `format:check`。
+
 - R41（REQ-EXECUTION-041）：CI 在构建任务与 E2E 任务之间传递生产构建时，必须保留 Next.js 外部依赖的相对符号链接和文件权限。接收任务按同一锁文件独立安装依赖，解包后执行生产态 E2E；构建成功不能替代转移后的运行验收。
 
 - R40（REQ-EXECUTION-040）：删除没有独立职责的 workflow 文档及当前入口、生成器与检查器对它的依赖。跨 Plan 的依赖、共享写入、交接与冲突处理由 Plan 规则维护，组合完成由 Release 规则维护；专业规则仍在各自真源。模板缺少冗余文件时正常诊断与生成，缺少必要的 Plan 规则仍应拒绝诊断通过。保留原有任务状态、协作契约、真实验收和历史证据。
@@ -144,6 +146,8 @@
 - AC-EXECUTION-055（REQ-EXECUTION-055）：Given 项目所属规则及完整 canonical 正文 When 读取原生方法索引 Then 首选读法为 native-file，路径对应实际正文，原 CLI fallback 仍返回相同完整内容；准备、缓存及复用条款由独立内容复核确认。required_layers：unit；checks：tests/contracts/document-method-entry.test.ts::[AC-EXECUTION-055]。
 
 - AC-EXECUTION-056（REQ-EXECUTION-055）：Given 正常多行目标断言及准备、后续断言 When 校验实际 matcher 行的失败堆栈 Then 接受范围内目标失败，拒绝范围外和邻接失败。required_layers：unit；checks：tests/contracts/tdd-integrity.test.ts::[AC-EXECUTION-056]。
+
+- AC-EXECUTION-058（REQ-EXECUTION-057）：Given 活跃 Plan 的真实目标断言失败 When 原生 TDD runner 写入红灯 JSON 证据 Then 生成内容符合仓库 Prettier 格式，解析后的证据字段和哈希值与 runner 生成内容一致，且该文件通过 Prettier 检查。required_layers：unit；checks：tests/contracts/tdd-evidence-format.test.ts::[AC-EXECUTION-058] writes formatted evidence from a native TDD run。
 
 ## 验收边界
 

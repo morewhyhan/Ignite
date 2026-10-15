@@ -17,11 +17,13 @@ describe('TDD receipt formatting', () => {
   it('[AC-EXECUTION-058] writes formatted evidence from a native TDD run', () => {
     const fixture = makeFixture()
     try {
-      const { prettier } = JSON.parse(readFileSync(join(repositoryRoot, 'package.json'), 'utf8'))
+      const { prettier: prettierConfig } = JSON.parse(
+        readFileSync(join(repositoryRoot, 'package.json'), 'utf8'),
+      )
       write(
         fixture.root,
         'package.json',
-        `${JSON.stringify({ packageManager: 'pnpm@9.11.0', prettier }, null, 2)}\n`,
+        `${JSON.stringify({ packageManager: 'pnpm@9.11.0', prettier: prettierConfig }, null, 2)}\n`,
       )
       write(fixture.root, '.gitignore', '.ignite/\nnode_modules/\n')
       write(

@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1792007450670818648",
   "release": "prepare-test-ownership-v1",
-  "status": "active",
+  "status": "done",
   "outcome": "新建 Plan 在 prepare 阶段编写并声明真实测试，red 阶段只运行和记录红灯",
   "contract_version": 2,
   "execution_contract": 1,
@@ -21,6 +21,24 @@
       "findings": [],
       "identity_assurance": "declared",
       "recorded_at": "2026-10-14T20:15:39.548Z"
+    },
+    {
+      "source": "Actual parent agent /root independent delivery review of implementation authored by prepare_contract_fix, inspecting current diff, Design, native red receipt and run-20261015004412-564682",
+      "executor": "prepare_contract_fix",
+      "subject_fingerprint": "e01dbf0a0ae6dce4cb302549b5e5a0d4d98c03fa8cb8aff5e78d80e5c6f6f067",
+      "reviewer": "/root",
+      "findings": [
+        {
+          "resolved": true,
+          "summary": "Generator red task wording incorrectly promised both unit and browser execution; it now correctly names the selected target assertion. Active transition and prepare assertion replacement guidance are explicit. Verified final source and native passed run at 56753c8.",
+          "id": "DELIVERY-001",
+          "severity": "blocking"
+        }
+      ],
+      "verdict": "approved",
+      "stage": "delivery",
+      "identity_assurance": "declared",
+      "recorded_at": "2026-10-15T00:59:21.815Z"
     }
   ],
   "verification_contract": 2,
@@ -119,7 +137,7 @@
       "id": "T4",
       "title": "验证原生流程并回写当前设计",
       "phase": "verify",
-      "status": "doing",
+      "status": "done",
       "result": "Plan integration 和独立 delivery 审查均通过，Design 记录实际行为。",
       "scope": ["docs/designs/execution.md", "docs/others/evidence/"],
       "depends_on": ["T3"],
@@ -169,13 +187,13 @@
   "evidence": [
     {
       "id": "check-integration",
-      "run_id": "run-20261014210615-aae608"
+      "run_id": "run-20261015004412-564682"
     }
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
-  "updated_at": "2026-10-14"
+  "integrated_commit": "56753c8ff268e8bf18ff3242cb234263e3f2495f",
+  "updated_at": "2026-10-15"
 }
 -->
 
@@ -254,15 +272,15 @@ prepare T1 编写真实行为测试后，先独立审查 draft，并提交规格
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 确认目标并编写真实测试基线 · done
 - [x] T2 · 运行真实断言并记录红灯 · done
 - [x] T3 · 修正规则、模板和脚手架的任务归属 · done
-- [ ] T4 · 验证原生流程并回写当前设计 · doing
+- [x] T4 · 验证原生流程并回写当前设计 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：check-integration / run-20261014210615-aae608
+证据：check-integration / run-20261015004412-564682
 <!-- /ignite-progress -->
 
 2026-10-14：先前集成 run-20261014210615-aae608 通过；随后回写 Design，输入指纹变更，故该运行 stale，待最终版本重跑。此前 run-20261014203938-ff9173 因格式检查失败；按 testing 规则格式化并 restart，保留原失败证据后重新取得 red tdd-20261014205154-2ebc67。

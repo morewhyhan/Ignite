@@ -1,0 +1,64 @@
+{
+  "schema": 2,
+  "run_id": "run-20261015110220-7567ed",
+  "check_policy_version": 7,
+  "plan_id": "IGT-1792029176916013864",
+  "evidence_id": "check-release",
+  "level": "release",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-10-15T11:02:20.847Z",
+  "ended_at": "2026-10-15T11:02:56.994Z",
+  "commit": "5cba7a71f4e73a484e163a2b7e5c276a1b976f63",
+  "input_fingerprint": "534b82578825d2710d4ac429e82ac295441d3e7ab910ca7836daf534a84daa3b",
+  "environment_fingerprint": "e73ab4a40c6b7141120afff35ca73e610ff1a7311abcaabed94c952c6caed87a",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "e2e_server_mode": "development",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "3c61307e7088a17ffe017de4c90104a0c9dede62307efc6760a0ed8671d81da6",
+  "acceptance_results": [],
+  "release_id": "tdd-evidence-format-v1",
+  "release_fingerprint": "95c192c542cc3b53c8cc5ebc86324dc22ffc0fcedf6d313e9b5f31bc8e328d92",
+  "release_identity": {
+    "package_version": "0.1.0",
+    "tags": []
+  },
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "954cf3f1948f244c24654622173c1910fa380f97"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 82
+    },
+    {
+      "label": "build",
+      "command": ["corepack", "pnpm", "build"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 12408
+    },
+    {
+      "label": "e2e-production",
+      "command": ["corepack", "pnpm", "test:e2e:production"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 20859
+    }
+  ],
+  "log_sha256": "242d504f006bacd6bbb4ddf05898cab286d68fb6f5ffb04053d34ceb7283e09b",
+  "execution_source": "ignite-runner-local"
+}

@@ -34,11 +34,10 @@
   - 最终版本验收：stale
   - 下一步：pnpm ignite release verify startup-focus-v1 --plan IGT-1791976482786711869
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `tdd-evidence-format-v1` · `verifying`
+- `tdd-evidence-format-v1` · `done`
   - Plan：`IGT-1792029176916013864`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite release verify tdd-evidence-format-v1 --plan IGT-1792029176916013864
+  - 最终版本验收：passed（5cba7a71f4e7）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题

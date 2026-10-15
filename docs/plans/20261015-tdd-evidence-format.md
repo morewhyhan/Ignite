@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1792029176916013864",
   "release": "tdd-evidence-format-v1",
-  "status": "draft",
+  "status": "active",
   "outcome": "原生 TDD runner 写入的红灯 JSON 证据符合仓库 Prettier 格式，并保留原字段及哈希值。",
   "contract_version": 2,
   "execution_contract": 1,
@@ -79,7 +79,7 @@
       "id": "T1",
       "title": "记录目标并编写真正调用 native TDD 的格式行为测试",
       "phase": "prepare",
-      "status": "todo",
+      "status": "done",
       "result": "Feature、Plan、Release 与实际原始目标一致；测试通过真实 native TDD red 生成 receipt 并检查其格式；草稿经独立审查并提交基线。",
       "scope": [
         "docs/plans/20261015-tdd-evidence-format.md",
@@ -95,7 +95,7 @@
       "title": "运行目标格式断言并记录真实红灯",
       "phase": "red",
       "acceptance": ["AC-EXECUTION-058"],
-      "status": "todo",
+      "status": "doing",
       "result": "原生 red 运行确认已提交测试的目标断言失败，并记录真实红灯。",
       "scope": ["tests/contracts/tdd-evidence-format.test.ts", "docs/others/evidence/tdd/"],
       "depends_on": ["T1"],
@@ -152,7 +152,13 @@
     "docs/plans/releases/tdd-evidence-format-v1.json",
     "docs/others/evidence/tdd/"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-EXECUTION-058",
+      "test": "tests/contracts/tdd-evidence-format.test.ts::[AC-EXECUTION-058] writes formatted evidence from a native TDD run",
+      "run_id": "tdd-20261015092603-695dd6"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
@@ -228,10 +234,10 @@ TDD runner 只有一处 receipt 写入，本轮保留单个实施任务。
 
 <!-- ignite-progress -->
 
-状态：`draft`（由元数据生成）
+状态：`active`（由元数据生成）
 
-- [ ] T1 · 记录目标并编写真正调用 native TDD 的格式行为测试 · todo
-- [ ] T2 · 运行目标格式断言并记录真实红灯 · todo
+- [x] T1 · 记录目标并编写真正调用 native TDD 的格式行为测试 · done
+- [ ] T2 · 运行目标格式断言并记录真实红灯 · doing
 - [ ] T3 · 用 formatJson 写入 TDD receipt · todo
 - [ ] T4 · 运行 Plan integration 并回写当前设计 · todo
 

@@ -1,0 +1,43 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "936945dd3623ac1ce30a0773dec9b67086367a16950686ba7e7e73a98f759142",
+  "context_schema": 1,
+  "context_sha256": "4ccf3712b58c554ef45695ad90bb80cdc9c3a6befa29a1a011ba23e19fb6deb4",
+  "context_files": [
+    "tests/contracts/ignite-fixture.ts",
+    "tests/contracts/tdd-evidence-format.test.ts"
+  ],
+  "warnings": [
+    "local dependency excluded outside declared test-support paths: scripts/ignite/core.mjs"
+  ],
+  "run_id": "tdd-20261015092603-695dd6",
+  "plan_id": "IGT-1792029176916013864",
+  "acceptance_id": "AC-EXECUTION-058",
+  "test": "tests/contracts/tdd-evidence-format.test.ts::[AC-EXECUTION-058] writes formatted evidence from a native TDD run",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "target_assertion_contract": "ac-message-marker-v1",
+  "red_commit": "5cbd3b073b145f2fe2fa1338b255df5ef7490330",
+  "output_sha256": "73e1eeeeaf7bba99ddb75768d04fb0c99ce862f9ce8afae4a6f5fbd5bc998cd4",
+  "failure_sha256": "f4ce1fa6b2aeed90fa9f3e1e1f8dc1d1389c4e92b82049dd04e60964dba0c96f",
+  "failure_summary": [
+    "AssertionError: [AC-EXECUTION-058] target: expected '{\\n \"schema\": 2,\\n \"test_scope\": \"a…' to be '{\\n \"schema\": 2,\\n \"test_scope\": \"a…' // Object.is equality at /mnt/c/Users/why/Documents/ignite/tests/contracts/tdd-evidence-format.test.ts:99:52 at file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 at file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26 at file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20 at new Promise (<anonymous>) at runWithCancel (file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10) at file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20 at new Promise (<anonymous>) at runWithTimeout (file:///mnt/c/Users/why/Documents/ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10) a"
+  ],
+  "failure_summary_sha256": "28f73ae6f59457af14adb1a4eda24498090916e4d13f89cf62e46460d0fc80da",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/tdd-evidence-format.test.ts",
+    "--testNamePattern",
+    "AC-EXECUTION-058",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-10-15T09:26:03.326Z",
+  "ended_at": "2026-10-15T09:26:43.275Z",
+  "executor": "ignite-tdd-runner"
+}

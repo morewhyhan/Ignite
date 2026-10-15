@@ -162,7 +162,7 @@ const files = new Map([
 
 - ${acceptanceId}（${requirementId}）：Given <context> When <action> Then <observable-result>。
 
-本脚手架生成的需求、用例和失败测试都只是草稿。prepare T1 先写清真实用户行为、补全可执行断言并提交规格和测试基线；将 Plan 置为 ready 后，red T2 只运行 \`pnpm ignite tdd red --plan ${planId} --ac ${acceptanceId}\` 并记录目标行为断言失败，然后再实现。涉及持久化或第三方服务时，另补 database / external 验收。
+本脚手架生成的需求、用例和失败测试都只是草稿。prepare T1 先写清真实用户行为、补全可执行断言并提交规格和测试基线；将 Plan 置为 ready、active 后，red T2 只运行 \`pnpm ignite tdd red --plan ${planId} --ac ${acceptanceId}\` 并记录目标行为断言失败，然后再实现。涉及持久化或第三方服务时，另补 database / external 验收。
 `,
   ],
   [
@@ -171,7 +171,7 @@ const files = new Map([
 
 describe('${moduleName} acceptance', () => {
   it('[${acceptanceId}] observes the specified user behavior', () => {
-    expect.fail('Implement ${requirementId} before moving the Plan to verifying')
+    expect.fail('Replace this scaffold with a real user-behavior assertion during prepare T1')
   })
 })
 `,
@@ -253,7 +253,7 @@ test('[${acceptanceId}] completes the specified user journey in a real browser',
           phase: 'red',
           acceptance: [acceptanceId],
           status: 'todo',
-          result: '原生 red 已运行单元和真实浏览器断言，目标行为失败绑定到本轮 AC。',
+          result: '原生 red 已运行所选真实目标断言并绑定本轮 AC。',
           scope: [testPath, browserTestPath, 'docs/others/evidence/tdd/'],
           depends_on: ['T1'],
           owner: 'assigned-worker',

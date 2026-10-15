@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1792029176916013864",
   "release": "tdd-evidence-format-v1",
-  "status": "active",
+  "status": "done",
   "outcome": "原生 TDD runner 写入的红灯 JSON 证据符合仓库 Prettier 格式，并保留原字段及哈希值。",
   "contract_version": 2,
   "execution_contract": 1,
@@ -32,6 +32,17 @@
       "findings": [],
       "identity_assurance": "declared",
       "recorded_at": "2026-10-15T02:25:28.734Z"
+    },
+    {
+      "stage": "delivery",
+      "reviewer": "/root",
+      "executor": "history_batch_author",
+      "source": "Actual parent /root independent review of implementation authored by collaboration sub-agent /root/history_batch_author. Read original failure, full Plan and Feature, exact production diff, native fixture test, Design, real red and integration manifest; verified transferred native run commit/input/environment equality and full log SHA256.",
+      "subject_fingerprint": "978b1b639b7e1eb416460b79a9cbc66420dbdd533eef52c1f15fbfb14c413370",
+      "verdict": "approved",
+      "findings": [],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-10-15T10:45:43.504Z"
     }
   ],
   "verification_contract": 2,
@@ -116,7 +127,7 @@
       "id": "T4",
       "title": "运行 Plan integration 并回写当前设计",
       "phase": "verify",
-      "status": "doing",
+      "status": "done",
       "result": "Plan integration 通过；Design 描述实际生成格式；独立 delivery 审查基于最终差异与运行证据。",
       "scope": ["docs/designs/execution.md", "docs/others/evidence/"],
       "depends_on": ["T3"],
@@ -160,10 +171,15 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261015103626-97da14"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "083ccae866cd0e1268a445c0efcae1ddcaf05053",
   "updated_at": "2026-10-15"
 }
 -->
@@ -234,16 +250,18 @@ TDD runner 只有一处 receipt 写入，本轮保留单个实施任务。
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 记录目标并编写真正调用 native TDD 的格式行为测试 · done
 - [x] T2 · 运行目标格式断言并记录真实红灯 · done
 - [x] T3 · 用 formatJson 写入 TDD receipt · done
-- [ ] T4 · 运行 Plan integration 并回写当前设计 · doing
+- [x] T4 · 运行 Plan integration 并回写当前设计 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20261015103626-97da14
 <!-- /ignite-progress -->
+
+2026-10-15：Run-20261015095250-4fec86 timed out unrelated docs-traceability AC-PRODUCT-010 at 90s on /mnt/c; unchanged commit/input/env passed the same 6-file/43-test integration in WSL-native /tmp clone as run-20261015103626-97da14 (docs-traceability 4.385s; full Vitest 18.78s). Root native check verified the transferred run as passed/reused=true; no timeout or assertion was changed.
 
 ## 准出条件
 

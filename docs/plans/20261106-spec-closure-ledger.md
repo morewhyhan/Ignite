@@ -262,6 +262,48 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-05T20:52:26.814Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent draft review of IGT-202611060004, three rounds, approved at 18929b4",
+      "subject_fingerprint": "61898c878c0c29c4db145bbdadb8ded065cb44a22114aa3b83d8ef5a3aef339d",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "LB-009",
+          "severity": "blocking",
+          "summary": "Resolved: EXPECTED_MET_PLAN pins each met item to its agreed live plan.",
+          "resolved": true
+        },
+        {
+          "id": "LB-010",
+          "severity": "nonblocking",
+          "summary": "Resolved: T3 records the P0 cancellation and b03c24f landing for GAP-01.",
+          "resolved": true
+        },
+        {
+          "id": "LB-011",
+          "severity": "nonblocking",
+          "summary": "Resolved: contradiction says exactly 5 and the test design names sets, order and mapping.",
+          "resolved": true
+        },
+        {
+          "id": "LB-003",
+          "severity": "nonblocking",
+          "summary": "Text/stage immutability is not asserted; delivery diff review must catch it.",
+          "resolved": false
+        },
+        {
+          "id": "LB-007",
+          "severity": "nonblocking",
+          "summary": "base_commit is the plan creation commit; T1 prep outside delivery diff.",
+          "resolved": false
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-05T20:57:38.591Z"
     }
   ],
   "verification_contract": 2,

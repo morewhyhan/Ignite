@@ -41,7 +41,7 @@
   ],
   "remaining_work": [],
   "change_type": "存量改动",
-  "base_commit": "6b4cdb9",
+  "base_commit": "cf87b657232b630ca90e5194cf5082fef24e1ddd",
   "requirements": [
     "REQ-SPEC-008"
   ],

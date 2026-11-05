@@ -368,7 +368,7 @@
     {
       "acceptance_id": "AC-SPEC-008",
       "test": "tests/contracts/spec-closure-content.test.ts::[AC-SPEC-008]",
-      "run_id": "tdd-20261105215925-771c7c"
+      "run_id": "tdd-20261105221327-a8600f"
     }
   ],
   "required_evidence": ["check-integration"],

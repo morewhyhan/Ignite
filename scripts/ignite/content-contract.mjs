@@ -1,3 +1,4 @@
+/** @type {Array<[string, number]>} */
 const REQUIRED = [
   ['## 来源规格', 3],
   ['## 目标映射', 2],

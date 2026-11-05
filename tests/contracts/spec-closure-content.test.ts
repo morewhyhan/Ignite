@@ -6,30 +6,28 @@ import { contentGaps } from '../../scripts/ignite/content-contract.mjs'
 import { validatePlan } from '../../scripts/ignite/state.mjs'
 
 const read = (path: string) => readFileSync(join(repositoryRoot, path), 'utf8')
+const PLAN_PATH = 'docs/plans/20261106-spec-closure-content.md'
 
 describe('plan content contract', () => {
-  it('[AC-SPEC-008] the plan template carries substantive analysis sections', () => {
-    const gaps = contentGaps(read('docs/plans/_template.md'))
-    expect(gaps, '[AC-SPEC-008] target template analysis gaps').toEqual([])
-  })
+  it('[AC-SPEC-008] declared content contracts are enforced on template and plans', () => {
+    const gaps: string[] = []
+    gaps.push(...contentGaps(read('docs/plans/_template.md')).map((gap) => 'template ' + gap))
 
-  it('[AC-SPEC-008] empty or boilerplate sections are rejected', () => {
     const empty = '# p\n\n## 主要矛盾\n\n## 次要矛盾\n\n## 决策原则\n\n## 方案比较\n\n## 约束绑定矩阵\n\n## 回退\n'
-    expect(contentGaps(empty).length, '[AC-SPEC-008] target empty sections').toBeGreaterThan(0)
-    expect(contentGaps('# p\n\n## 主要矛盾\n\n按 推进规则 说明以下判断\n').join(' '), '[AC-SPEC-008] target boilerplate').toContain('boilerplate')
-    const headerOnly = '# p\n\n## 约束绑定矩阵\n\n| Source | Task |\n| --- | --- |\n'
-    expect(contentGaps(headerOnly).join(' '), '[AC-SPEC-008] target empty table').toContain('约束绑定矩阵')
-  })
-  it('[AC-SPEC-008] plan validation rejects a gutted analysis section', () => {
-    const path = 'docs/plans/20261106-spec-closure-content.md'
-    const content = read(path)
-    const meta = JSON.parse(content.match(/<!-- ignite-plan\n([\s\S]*?)\n-->/)![1])
-    const plan = { path: join(repositoryRoot, path), relativePath: path, content, metadata: meta }
-    expect(contentGaps(content), '[AC-SPEC-008] target plan sections').toEqual([])
-    const intact = validatePlan(plan as never, { allowLegacy: false }).filter((error) => error.includes('主要矛盾'))
-    expect(intact, '[AC-SPEC-008] target intact plan').toEqual([])
-    const broken = { ...plan, content: content.replace(/## 主要矛盾[\s\S]*?(?=\n## )/, '## 主要矛盾\n\n') }
-    const failures = validatePlan(broken as never, { allowLegacy: false })
-    expect(failures.some((error) => error.includes('主要矛盾')), '[AC-SPEC-008] target gutted section').toBe(true)
+    if (!contentGaps(empty).length) gaps.push('empty sections accepted')
+    if (!contentGaps('# p\n\n## 主要矛盾\n\n按 推进规则 说明以下判断\n').join(' ').includes('boilerplate'))
+      gaps.push('boilerplate accepted')
+    if (!contentGaps('# p\n\n## 约束绑定矩阵\n\n| Source | Task |\n| --- | --- |\n').join(' ').includes('约束绑定矩阵'))
+      gaps.push('header-only table accepted')
+
+    const content = read(PLAN_PATH)
+    gaps.push(...contentGaps(content).map((gap) => 'plan ' + gap))
+    const meta = JSON.parse(content.match(/<!-- ignite-plan\n([\s\S]*?)\n-->/)[1])
+    const plan = { path: join(repositoryRoot, PLAN_PATH), relativePath: PLAN_PATH, content, metadata: meta }
+    const gutted = { ...plan, content: content.replace(/## 主要矛盾[\s\S]*?(?=\n## )/, '## 主要矛盾\n\n') }
+    if (!validatePlan(gutted as never, { allowLegacy: false }).some((error) => error.includes('主要矛盾')))
+      gaps.push('validatePlan ignores gutted section')
+
+    expect(gaps, '[AC-SPEC-008] target content contract gaps').toEqual([])
   })
 })

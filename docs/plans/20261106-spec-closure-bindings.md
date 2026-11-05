@@ -299,7 +299,13 @@
     "scripts/ignite/state.mjs",
     "scripts/check-docs.mjs"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-SPEC-006",
+      "test": "tests/contracts/spec-closure-bindings.test.ts::[AC-SPEC-006]",
+      "run_id": "tdd-20261105183628-c337fe"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

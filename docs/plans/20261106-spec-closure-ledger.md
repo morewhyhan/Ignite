@@ -3,56 +3,122 @@
   "schema": 2,
   "id": "IGT-202611060004",
   "release": "spec-closure-ledger-v1",
-  "status": "draft",
+  "status": "active",
   "outcome": "账本为每条差异记录真实实施结果，met 条目必须指向真实计划",
   "contract_version": 2,
   "execution_contract": 1,
   "task_contract": 2,
   "planning_contract": 1,
   "review_contract": 1,
-  "reviews": [],
+  "reviews": [
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent draft review of IGT-202611060004, three rounds, approved at 18929b4",
+      "subject_fingerprint": "115767c65215b888962f75f993cb916e92af56beed41d8f13cec9435cebde95c",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "LB-009",
+          "severity": "blocking",
+          "summary": "Resolved: EXPECTED_MET_PLAN pins each met item to its agreed live plan.",
+          "resolved": true
+        },
+        {
+          "id": "LB-010",
+          "severity": "nonblocking",
+          "summary": "Resolved: T3 records the P0 cancellation and b03c24f landing for GAP-01.",
+          "resolved": true
+        },
+        {
+          "id": "LB-011",
+          "severity": "nonblocking",
+          "summary": "Resolved: contradiction says exactly 5 and the test design names sets, order and mapping.",
+          "resolved": true
+        },
+        {
+          "id": "LB-003",
+          "severity": "nonblocking",
+          "summary": "Text/stage immutability is not asserted; delivery diff review must catch it.",
+          "resolved": false
+        },
+        {
+          "id": "LB-007",
+          "severity": "nonblocking",
+          "summary": "base_commit is the plan creation commit; T1 prep outside delivery diff.",
+          "resolved": false
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-05T20:18:55.172Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent draft review of IGT-202611060004, three rounds, approved at 18929b4",
+      "subject_fingerprint": "4ee9bc8bf6ea31484699072d558859c84535a9ae5be94bdd951649e8c1a76242",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "LB-009",
+          "severity": "blocking",
+          "summary": "Resolved: EXPECTED_MET_PLAN pins each met item to its agreed live plan.",
+          "resolved": true
+        },
+        {
+          "id": "LB-010",
+          "severity": "nonblocking",
+          "summary": "Resolved: T3 records the P0 cancellation and b03c24f landing for GAP-01.",
+          "resolved": true
+        },
+        {
+          "id": "LB-011",
+          "severity": "nonblocking",
+          "summary": "Resolved: contradiction says exactly 5 and the test design names sets, order and mapping.",
+          "resolved": true
+        },
+        {
+          "id": "LB-003",
+          "severity": "nonblocking",
+          "summary": "Text/stage immutability is not asserted; delivery diff review must catch it.",
+          "resolved": false
+        },
+        {
+          "id": "LB-007",
+          "severity": "nonblocking",
+          "summary": "base_commit is the plan creation commit; T1 prep outside delivery diff.",
+          "resolved": false
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-05T20:19:15.296Z"
+    }
+  ],
   "verification_contract": 2,
   "binding_contract": 1,
   "goals": [
     {
       "text": "账本每条记录实施结果，且 met 条目有计划",
-      "requirements": [
-        "REQ-SPEC-007"
-      ]
+      "requirements": ["REQ-SPEC-007"]
     }
   ],
-  "constraints": [
-    "不重写条目文本",
-    "不改变负责阶段",
-    "不追溯修改已完成计划证据"
-  ],
-  "non_goals": [
-    "不改 P0–P2 的计划与证据",
-    "不重排条目"
-  ],
+  "constraints": ["不重写条目文本", "不改变负责阶段", "不追溯修改已完成计划证据"],
+  "non_goals": ["不改 P0–P2 的计划与证据", "不重排条目"],
   "authorization": {
     "source": "用户 2026-11-06 收尾 goal 指令"
   },
-  "deliverables": [
-    "带 result 字段的 52 条账本",
-    "账本校验断言",
-    "执行设计回写"
-  ],
+  "deliverables": ["带 result 字段的 52 条账本", "账本校验断言", "执行设计回写"],
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "2bb56368a18b5204b65b3aa7b8dba2fcc3f8f249",
-  "requirements": [
-    "REQ-SPEC-007"
-  ],
+  "requirements": ["REQ-SPEC-007"],
   "acceptance": [
     {
       "id": "AC-SPEC-007",
-      "tests": [
-        "tests/contracts/spec-closure-ledger.test.ts::[AC-SPEC-007]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "tests": ["tests/contracts/spec-closure-ledger.test.ts::[AC-SPEC-007]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-ledger.test.ts::[AC-SPEC-007]",
@@ -61,15 +127,13 @@
       ]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
       "title": "登记规格、计划与断言并提交基线",
       "phase": "prepare",
-      "status": "todo",
+      "status": "done",
       "result": "Feature、计划、发布范围与断言写入并提交基线，准备检查通过。",
       "scope": [
         "docs/features/spec-closure-ledger.md",
@@ -84,52 +148,33 @@
       "id": "T2",
       "title": "运行账本断言并记录原生红灯",
       "phase": "red",
-      "acceptance": [
-        "AC-SPEC-007"
-      ],
-      "status": "todo",
+      "acceptance": ["AC-SPEC-007"],
+      "status": "doing",
       "result": "账本缺少 result 时断言真实失败并写入原生回执。",
-      "scope": [
-        "tests/contracts/spec-closure-ledger.test.ts",
-        "docs/others/evidence/tdd/"
-      ],
-      "depends_on": [
-        "T1"
-      ],
+      "scope": ["tests/contracts/spec-closure-ledger.test.ts", "docs/others/evidence/tdd/"],
+      "depends_on": ["T1"],
       "owner": "ignite-executor"
     },
     {
       "id": "T3",
       "title": "为 52 条回填实施结果",
       "phase": "implement",
-      "acceptance": [
-        "AC-SPEC-007"
-      ],
+      "acceptance": ["AC-SPEC-007"],
       "status": "todo",
       "result": "为 52 条回填 result：met 为 GAP-01（IGT-202611060001，P0 已取消，登记工作随 b03c24f 落地）、GAP-10（IGT-202611060002）、GAP-20/GAP-21/GAP-24（IGT-202611060003）；partial 为 GAP-23；其余为 missing；断言转绿。",
-      "scope": [
-        "docs/others/spec-closure/ledger.json"
-      ],
-      "depends_on": [
-        "T2"
-      ],
+      "scope": ["docs/others/spec-closure/ledger.json"],
+      "depends_on": ["T2"],
       "owner": "ignite-executor"
     },
     {
       "id": "T4",
       "title": "完成检查与回写",
       "phase": "verify",
-      "acceptance": [
-        "AC-SPEC-007"
-      ],
+      "acceptance": ["AC-SPEC-007"],
       "status": "todo",
       "result": "检查通过，执行设计记录账本结果字段。",
-      "scope": [
-        "docs/designs/execution.md"
-      ],
-      "depends_on": [
-        "T3"
-      ],
+      "scope": ["docs/designs/execution.md"],
+      "depends_on": ["T3"],
       "owner": "ignite-executor"
     }
   ],
@@ -194,17 +239,22 @@
     "docs/others/evidence/",
     "tests/contracts/spec-closure-ledger.test.ts"
   ],
-  "tdd_evidence": [],
-  "required_evidence": [
-    "check-integration"
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-SPEC-007",
+      "test": "tests/contracts/spec-closure-ledger.test.ts::[AC-SPEC-007]",
+      "run_id": "tdd-20261105202145-5e0d5c"
+    }
   ],
+  "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
-  "updated_at": "2026-11-06"
+  "updated_at": "2026-11-05"
 }
 -->
+
 # Ignite 实施计划：spec-closure-ledger
 
 > 账本为每条差异记录真实实施结果，met 条目必须指向真实计划。
@@ -219,9 +269,9 @@
 
 ## 原始目标与覆盖核对
 
-| 用户原话或可追溯来源 | 本轮目标 | REQ | AC | 处理结果 |
-| --- | --- | --- | --- | --- |
-| 账本校准：39 条如实回填 | 每条记录实施结果 | REQ-SPEC-007 | AC-SPEC-007 | 保留 |
+| 用户原话或可追溯来源    | 本轮目标         | REQ          | AC          | 处理结果 |
+| ----------------------- | ---------------- | ------------ | ----------- | -------- |
+| 账本校准：39 条如实回填 | 每条记录实施结果 | REQ-SPEC-007 | AC-SPEC-007 | 保留     |
 
 ## 整体判断与推进顺序
 
@@ -232,12 +282,12 @@
 
 ## 来源与绑定矩阵
 
-| Source ID | 来源 | 适用理由 | 状态 | Binding | 任务 | 验证 |
-| --- | --- | --- | --- | --- | --- | --- |
-| REQ-SPEC-007 | docs/features/spec-closure-ledger.md | 本轮产品要求 | missing | BIND-001 | T3 | AC-SPEC-007 |
-| AC-SPEC-007 | docs/features/spec-closure-ledger.md | 本轮验收 | missing | BIND-002 | T2 | AC-SPEC-007 |
-| DES-EXEC-101 | docs/designs/execution.md | 记录账本事实 | missing | BIND-003 | T4 | 文档检查 |
-| ADR-0004 | docs/others/adr/0004-spec-closure-contract.md | 闭环契约决策 | met | BIND-004 | T3 | AC-SPEC-007 |
+| Source ID    | 来源                                          | 适用理由     | 状态    | Binding  | 任务 | 验证        |
+| ------------ | --------------------------------------------- | ------------ | ------- | -------- | ---- | ----------- |
+| REQ-SPEC-007 | docs/features/spec-closure-ledger.md          | 本轮产品要求 | missing | BIND-001 | T3   | AC-SPEC-007 |
+| AC-SPEC-007  | docs/features/spec-closure-ledger.md          | 本轮验收     | missing | BIND-002 | T2   | AC-SPEC-007 |
+| DES-EXEC-101 | docs/designs/execution.md                     | 记录账本事实 | missing | BIND-003 | T4   | 文档检查    |
+| ADR-0004     | docs/others/adr/0004-spec-closure-contract.md | 闭环契约决策 | met     | BIND-004 | T3   | AC-SPEC-007 |
 
 ## 主要矛盾
 
@@ -301,10 +351,10 @@
 
 <!-- ignite-progress -->
 
-状态：draft（由元数据生成）
+状态：`active`（由元数据生成）
 
-- [ ] T1 · 登记规格、计划与断言并提交基线 · todo
-- [ ] T2 · 运行账本断言并记录原生红灯 · todo
+- [x] T1 · 登记规格、计划与断言并提交基线 · done
+- [ ] T2 · 运行账本断言并记录原生红灯 · doing
 - [ ] T3 · 为 52 条回填实施结果 · todo
 - [ ] T4 · 完成检查与回写 · todo
 

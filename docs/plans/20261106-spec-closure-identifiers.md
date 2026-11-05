@@ -43,21 +43,28 @@
       "findings": [],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-05T17:19:27.171Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-4e6085c2",
+      "executor": "ignite-executor",
+      "source": "DSH subagent 4e6085c2 independent read-only review, five revision rounds, approved 2026-11-06",
+      "subject_fingerprint": "d740cbfa8cfeee0cd5125ec17caa8533491cf184fdf2a3cb2fe66a141acc72e6",
+      "verdict": "approved",
+      "findings": [],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-05T17:28:28.021Z"
     }
   ],
   "verification_contract": 2,
   "goals": [
     {
       "text": "每份标准、设计与 ADR 文件都携带至少一个全仓唯一编号",
-      "requirements": [
-        "REQ-SPEC-004"
-      ]
+      "requirements": ["REQ-SPEC-004"]
     },
     {
       "text": "计划引用不存在的编号时校验失败并列出该编号",
-      "requirements": [
-        "REQ-SPEC-005"
-      ]
+      "requirements": ["REQ-SPEC-005"]
     }
   ],
   "constraints": [
@@ -82,19 +89,12 @@
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "a408dc90dcd7882d32c71396b7e518333233fdc3",
-  "requirements": [
-    "REQ-SPEC-004",
-    "REQ-SPEC-005"
-  ],
+  "requirements": ["REQ-SPEC-004", "REQ-SPEC-005"],
   "acceptance": [
     {
       "id": "AC-SPEC-004",
-      "tests": [
-        "tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-004]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "tests": ["tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-004]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-004]",
@@ -104,12 +104,8 @@
     },
     {
       "id": "AC-SPEC-005",
-      "tests": [
-        "tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-005]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "tests": ["tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-005]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-005]",
@@ -118,9 +114,7 @@
       ]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
@@ -142,29 +136,18 @@
       "id": "T2",
       "title": "运行编号断言并记录原生红灯",
       "phase": "red",
-      "acceptance": [
-        "AC-SPEC-004",
-        "AC-SPEC-005"
-      ],
+      "acceptance": ["AC-SPEC-004", "AC-SPEC-005"],
       "status": "doing",
       "result": "在未编号的文档上，两条断言真实失败并写入原生回执。",
-      "scope": [
-        "tests/contracts/spec-closure-ids.test.ts",
-        "docs/others/evidence/tdd/"
-      ],
-      "depends_on": [
-        "T1"
-      ],
+      "scope": ["tests/contracts/spec-closure-ids.test.ts", "docs/others/evidence/tdd/"],
+      "depends_on": ["T1"],
       "owner": "ignite-executor"
     },
     {
       "id": "T3",
       "title": "给十六份来源文件追加编号并接入检查",
       "phase": "implement",
-      "acceptance": [
-        "AC-SPEC-004",
-        "AC-SPEC-005"
-      ],
+      "acceptance": ["AC-SPEC-004", "AC-SPEC-005"],
       "status": "todo",
       "result": "二十份文件全部可被扫描，缺号、重号与未知引用被拒绝。",
       "scope": [
@@ -174,45 +157,29 @@
         "docs/plans/",
         "docs/others/evidence/"
       ],
-      "depends_on": [
-        "T2"
-      ],
+      "depends_on": ["T2"],
       "owner": "ignite-executor"
     },
     {
       "id": "T4",
       "title": "复审 ADR-0004 并更新账本的编号映射",
       "phase": "implement",
-      "acceptance": [
-        "AC-SPEC-004"
-      ],
+      "acceptance": ["AC-SPEC-004"],
       "status": "todo",
       "result": "ADR-0004 记录编号已引入的复审结论，账本补充编号映射说明。",
-      "scope": [
-        "docs/others/adr/",
-        "docs/others/spec-closure/"
-      ],
-      "depends_on": [
-        "T3"
-      ],
+      "scope": ["docs/others/adr/", "docs/others/spec-closure/"],
+      "depends_on": ["T3"],
       "owner": "ignite-executor"
     },
     {
       "id": "T5",
       "title": "完成检查与回写",
       "phase": "verify",
-      "acceptance": [
-        "AC-SPEC-004"
-      ],
+      "acceptance": ["AC-SPEC-004"],
       "status": "todo",
       "result": "契约断言与文档检查通过，执行设计与标准索引记录编号现状。",
-      "scope": [
-        "docs/designs/execution.md",
-        "docs/standards/README.md"
-      ],
-      "depends_on": [
-        "T4"
-      ],
+      "scope": ["docs/designs/execution.md", "docs/standards/README.md"],
+      "depends_on": ["T4"],
       "owner": "ignite-executor"
     }
   ],
@@ -272,9 +239,7 @@
       "run_id": "tdd-20261105172010-6f552b"
     }
   ],
-  "required_evidence": [
-    "check-integration"
-  ],
+  "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],

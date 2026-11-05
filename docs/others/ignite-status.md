@@ -16,11 +16,10 @@
   - 最终版本验收：missing
   - 下一步：null
   - 未完成原始目标：GOAL-SPEC-CLOSURE-P0 把规格闭环标准登记为有效来源，并把本轮差异与历史归属固化为可检查的记录；GOAL-SPEC-CONNECTION 解决各板块、各领域模块之间的连接可靠性，并让约束尽量由代码与文档体系承担
-- `spec-closure-p1-v1` · `verifying`
+- `spec-closure-p1-v1` · `done`
   - Plan：`IGT-202611060002`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite release verify spec-closure-p1-v1 --plan IGT-202611060002
+  - 最终版本验收：passed（26a647e6fe43）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `spec-closure-p2-v1` · `verifying`
   - Plan：`IGT-202611060003`

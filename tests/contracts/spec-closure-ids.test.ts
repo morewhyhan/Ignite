@@ -18,9 +18,9 @@ const plans = readdirSync(join(repositoryRoot, 'docs/plans'))
 
 describe('specification identifiers', () => {
   it('[AC-SPEC-004] every source file carries a unique identifier', () => {
-    expect(entries.length, '[AC-SPEC-004] target file count').toBe(20)
+    expect(entries.length).toBe(20)
+    expect(duplicates).toEqual([])
     expect(filesWithoutIds(entries), '[AC-SPEC-004] target missing identifiers').toEqual([])
-    expect(duplicates, '[AC-SPEC-004] target duplicates').toEqual([])
   })
 
   it('[AC-SPEC-004] duplicate identifiers are reported with both locations', () => {

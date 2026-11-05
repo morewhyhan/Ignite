@@ -30,6 +30,11 @@ describe('plan binding contract', () => {
     expect(Array.isArray(meta.bindings), '[AC-SPEC-006] target template bindings').toBe(true)
   })
 
+  it('[AC-SPEC-006] plan validation consults the binding contract', () => {
+    const state = read('scripts/ignite/state.mjs')
+    expect(state, '[AC-SPEC-006] target plan validation wiring').toContain('validateBindings')
+  })
+
   it('[AC-SPEC-006] validator reports missing, duplicate and unknown-task bindings', () => {
     expect(validateBindings(complete), '[AC-SPEC-006] target complete bindings').toEqual([])
     expect(

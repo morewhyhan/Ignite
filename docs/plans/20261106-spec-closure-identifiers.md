@@ -240,7 +240,12 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261105173133-f48e0e"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
@@ -402,7 +407,7 @@
 - [ ] T5 · 完成检查与回写 · todo
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20261105173133-f48e0e
 <!-- /ignite-progress -->
 
 ## 准出条件

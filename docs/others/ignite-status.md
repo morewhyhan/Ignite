@@ -1,7 +1,7 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`8a9ed055fecc`
+输入指纹：`f9200eaf6a35`
 当前 Plan：1；结构化历史：3；未迁移历史：0
 
 ## 当前工作
@@ -12,7 +12,7 @@
 
 - `spec-closure-ledger-v1` · `active`
   - Plan：`IGT-202611060004`
-  - 缺少证据：`IGT-202611060004:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-202611060004
   - 未完成原始目标：GOAL-SPEC-LEDGER 账本记录真实实施结果，met 条目指向真实计划

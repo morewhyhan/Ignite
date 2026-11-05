@@ -20,16 +20,16 @@
 
 - 需求类型：存量修改（模板文档治理与检查器）
 - 规格位置：`docs/features/spec-closure.md`
-- 计划位置：`docs/plans/20261106-spec-closure-bootstrap.md`
-- 检查入口：`scripts/check-docs.mjs`、`scripts/ignite/checks.mjs`、`tests/contracts/spec-closure.test.ts`
+- 计划位置：`docs/plans/20261106-spec-closure-bootstrap.md`（P0）、`docs/plans/20261106-spec-closure-identifiers.md`（P1）
+- 检查入口：`scripts/check-docs.mjs`、`scripts/ignite/checks.mjs`、`scripts/ignite/specification-registry.mjs`、`tests/contracts/spec-closure.test.ts`、`tests/contracts/spec-closure-ids.test.ts`
 - 账本与补录：`docs/others/spec-closure/`
 - 决策记录：`docs/others/adr/`
 
 ## 业务规则
 
 - R1（REQ-SPEC-001）：`docs/standards/specification-to-implementation-ddd.md` 必须同时出现在标准索引、文档检查必备路径与治理白名单中；缺任一处，文档检查失败并指出缺失位置。
-- R2（REQ-SPEC-002）：本轮 52 条差异必须形成机器可读账本，每条包含稳定编号、类别、问题描述、负责计划与处置；处置只能是实施、保留或延期，延期必须写理由。
-- R4（REQ-SPEC-004）：`docs/standards/`、`docs/designs/` 与 `docs/others/adr/` 下每份非索引文件都必须携带至少一个稳定编号（`STD-<区>-NNN`、`DES-<区>-NNN`、`ADR-NNNN`），且全仓唯一。
+- R2（REQ-SPEC-002）：本轮 52 条差异必须形成机器可读账本，每条包含稳定编号、类别、问题描述、负责阶段与处置；处置只能是实施、保留或延期，延期必须写理由；有对应计划时必须填写真实计划编号。
+- R4（REQ-SPEC-004）：`docs/standards/`、`docs/designs/` 与 `docs/others/adr/` 下每份非索引文件都必须携带至少一个稳定编号（STD-区域-NNN、DES-区域-NNN、ADR-四位数字），且全仓唯一。
 - R5（REQ-SPEC-005）：计划正文引用的 STD/DES/ADR 编号必须存在于当前注册表；引用未知编号时检查失败并指出该编号。
 - R3（REQ-SPEC-003）：五个建设期计划移出工作树后必须有归档补录，包含补录日期、所属发布、集成提交与规格归属；补录只保存可从计划元数据核对的内容，当时的分析过程未记录时必须写明，不得推断。
 
@@ -57,7 +57,6 @@
 ## 非目标
 
 - 本阶段不引入绑定矩阵字段与 ready 门禁（后续计划负责）。
-- 本阶段不引入绑定矩阵字段与 ready 门禁（后续计划负责）。
 - 本阶段不改动任何历史计划的正文与证据。
 - 本阶段不做文档定稿状态机。
 
@@ -71,6 +70,7 @@
 
 ## 实现完成后更新
 
-- `docs/designs/execution.md`：记录闭环登记与账本的当前事实。
-- `docs/standards/README.md`：登记新标准与适用范围。
-- `docs/others/adr/0004-spec-closure-contract.md`：记录本轮长期取舍。
+- `docs/designs/execution.md`：记录闭环登记、编号约定与账本的当前事实。
+- `docs/standards/README.md`：登记新标准与编号约定。
+- `docs/others/adr/0004-spec-closure-contract.md`：记录本轮长期取舍与编号引入后的复审。
+- `docs/others/spec-closure/ledger.json`：在引入编号后补充编号映射说明。

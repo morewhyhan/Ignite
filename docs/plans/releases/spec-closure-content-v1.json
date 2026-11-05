@@ -1,0 +1,35 @@
+{
+  "schema": 2,
+  "id": "spec-closure-content-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": [
+    "IGT-202611060005"
+  ],
+  "scope": [
+    {
+      "id": "GOAL-SPEC-CONTENT",
+      "text": "声明内容契约的计划必须有实质分析章节",
+      "source": "用户 2026-11-06 收尾指令",
+      "requirements": [
+        "REQ-SPEC-008"
+      ],
+      "acceptance": [
+        "AC-SPEC-008"
+      ],
+      "plan_ids": [
+        "IGT-202611060005"
+      ],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    }
+  ],
+  "must_pass": [
+    "check-release"
+  ],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-11-06"
+}

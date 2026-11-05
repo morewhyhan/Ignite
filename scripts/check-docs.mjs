@@ -4,6 +4,7 @@ import {
   markdownHeadings,
 } from './ignite/document-contract.mjs'
 import { isGovernedPath } from './ignite/checks.mjs'
+import { CONTENT_HEADINGS } from './ignite/content-contract.mjs'
 import {
   collectSpecificationIds,
   filesWithoutIds,

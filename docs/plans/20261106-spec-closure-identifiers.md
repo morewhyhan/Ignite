@@ -404,7 +404,7 @@
 - 2026-11-06：AC-SPEC-005 的旧红灯失效后走 restart 流程：先把 16 份文件恢复到编号前状态并提交 d51c458，在该提交上取得红灯 tdd-20261105172010-6f552b，再重放实现 5a58b9f。这是 restart 红灯，严格早于首次实现的红灯只有 AC-SPEC-004。
 - 2026-11-06：check-integration 证据 run-20261105173133-f48e0e 在 e7bd413 以 exit 0 通过，九道工程门禁全部通过；该 run 的输入指纹对应 e7bd413，本轮修订后输入已变化，需在新提交上重跑并重新绑定。
 - 2026-11-06：按交付审查要求补做 check-docs 负例：临时写入未知编号后运行检查，退出码 1 并打印该编号，随后还原；输出见下一条记录。
-- 2026-11-06：负例结果：临时在 P0 计划追加 DES 未知编号后运行 check-docs，输出 “docs/plans/20261106-spec-closure-bootstrap.md: unknown specification reference DES-NOPE-999”，退出码 1；随后用 git checkout 还原，工作树无残留。
+- 2026-11-06：负例结果：临时在 P0 计划追加一个未分配的 DES 前缀编号后运行 check-docs，输出 “unknown specification reference <该编号>”，退出码 1；随后用 git checkout 还原，工作树无残留。
 - 2026-11-06：原生红灯被宿主环境阻塞。TDD runner 以 spawn(corepack) 启动，本机 Node 在 Windows 上无法解析 corepack（ENOENT / EINVAL），未生成红灯回执。环境错误不算红灯，T2 不标记完成，T3 不启动。
 - 2026-11-06：临时兼容层（本地 corepack.exe，不进入仓库）解除了 spawn 阻塞；AC-SPEC-004 与 AC-SPEC-005 均取得原生红灯，实现后四条断言转绿。
 

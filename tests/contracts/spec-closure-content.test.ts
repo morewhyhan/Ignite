@@ -17,6 +17,8 @@ describe('plan content contract', () => {
     const empty = '# p\n\n## 主要矛盾\n\n## 次要矛盾\n\n## 决策原则\n\n## 方案比较\n\n## 约束绑定矩阵\n\n## 回退\n'
     expect(contentGaps(empty).length, '[AC-SPEC-008] target empty sections').toBeGreaterThan(0)
     expect(contentGaps('# p\n\n## 主要矛盾\n\n按 推进规则 说明以下判断\n').join(' '), '[AC-SPEC-008] target boilerplate').toContain('boilerplate')
+    const headerOnly = '# p\n\n## 约束绑定矩阵\n\n| Source | Task |\n| --- | --- |\n'
+    expect(contentGaps(headerOnly).join(' '), '[AC-SPEC-008] target empty table').toContain('约束绑定矩阵')
   })
   it('[AC-SPEC-008] plan validation rejects a gutted analysis section', () => {
     const path = 'docs/plans/20261106-spec-closure-content.md'

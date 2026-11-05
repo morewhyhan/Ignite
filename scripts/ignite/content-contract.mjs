@@ -9,6 +9,7 @@ const REQUIRED = [
   ['## 回退', 2],
 ]
 const BOILERPLATE = /^(?:按 .*说明以下判断.*|简单任务可以用几句话回答.*|待填写)$/m
+const SEPARATOR = /^\|[\s:|-]+\|$/
 
 function section(content, heading) {
   const start = content.indexOf(heading + '\n')
@@ -19,10 +20,19 @@ function section(content, heading) {
 }
 
 function substantive(body) {
-  return body
+  const lines = body
     .split('\n')
     .map((line) => line.trim())
-    .filter((line) => line && !/^\|?[\s:-]*-[\s:-]*\|?$/.test(line))
+    .filter(Boolean)
+  const kept = []
+  for (const line of lines) {
+    if (SEPARATOR.test(line)) {
+      if (kept.length && kept[kept.length - 1].startsWith('|')) kept.pop()
+      continue
+    }
+    kept.push(line)
+  }
+  return kept
 }
 
 export function contentGaps(content) {

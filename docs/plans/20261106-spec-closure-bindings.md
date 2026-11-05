@@ -10,49 +10,97 @@
   "task_contract": 2,
   "planning_contract": 1,
   "review_contract": 1,
-  "reviews": [],
+  "reviews": [
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent draft review of IGT-202611060003, two rounds, approved at 351d764",
+      "subject_fingerprint": "e2af8c34e78d9e44c208b43a135c01df7cf3c0e698bc4fc4227437b17d75713e",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "P2-001",
+          "severity": "blocking",
+          "summary": "Resolved: behavioural validatePlan assertion on real P2 metadata; intact returns [], broken returns [] today and must return AC-SPEC-006: no binding after T3.",
+          "resolved": true
+        },
+        {
+          "id": "P2-002",
+          "severity": "blocking",
+          "summary": "Resolved: template must declare contract, non-empty bindings and pass validateBindings.",
+          "resolved": true
+        },
+        {
+          "id": "P2-003",
+          "severity": "blocking",
+          "summary": "Resolved: missing-AC case present; REQ/AC/duplicate/unknown-task all verified.",
+          "resolved": true
+        },
+        {
+          "id": "P2-004",
+          "severity": "blocking",
+          "summary": "Resolved: feature non-goal and module map reconciled.",
+          "resolved": true
+        },
+        {
+          "id": "P2-005",
+          "severity": "nonblocking",
+          "summary": "base_commit is the P2 prep commit; prep diff outside delivery scope.",
+          "resolved": false
+        },
+        {
+          "id": "P2-006",
+          "severity": "nonblocking",
+          "summary": "Test design names two assertions; name the validatePlan behaviour assertion too.",
+          "resolved": false
+        },
+        {
+          "id": "P2-007",
+          "severity": "nonblocking",
+          "summary": "Resolved: feature map and update list include P2 files.",
+          "resolved": true
+        },
+        {
+          "id": "P2-008",
+          "severity": "nonblocking",
+          "summary": "T3 result still present tense; prefer expected phrasing.",
+          "resolved": false
+        },
+        {
+          "id": "P2-009",
+          "severity": "nonblocking",
+          "summary": "Resolved: non-object binding entries return a failure; branch untested (optional).",
+          "resolved": false
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-05T18:27:59.717Z"
+    }
+  ],
   "verification_contract": 2,
   "binding_contract": 1,
   "goals": [
     {
       "text": "声明绑定契约的计划必须为每条 REQ 与 AC 提供唯一绑定",
-      "requirements": [
-        "REQ-SPEC-006"
-      ]
+      "requirements": ["REQ-SPEC-006"]
     }
   ],
-  "constraints": [
-    "不追溯改造已完成计划",
-    "绑定字段只对新契约计划强制",
-    "模板本身必须示范完整绑定"
-  ],
-  "non_goals": [
-    "不改写 P0/P1 已完成计划",
-    "不引入跨计划传播检查"
-  ],
+  "constraints": ["不追溯改造已完成计划", "绑定字段只对新契约计划强制", "模板本身必须示范完整绑定"],
+  "non_goals": ["不改写 P0/P1 已完成计划", "不引入跨计划传播检查"],
   "authorization": {
     "source": "用户 2026-11-06 指令：按方案自行持续推进"
   },
-  "deliverables": [
-    "绑定契约校验模块与模板变更",
-    "P2 计划自身的绑定矩阵",
-    "AC-SPEC-006 的三条断言"
-  ],
+  "deliverables": ["绑定契约校验模块与模板变更", "P2 计划自身的绑定矩阵", "AC-SPEC-006 的三条断言"],
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "86c8e52298ca80d1b84eede09466754b147f117e",
-  "requirements": [
-    "REQ-SPEC-006"
-  ],
+  "requirements": ["REQ-SPEC-006"],
   "acceptance": [
     {
       "id": "AC-SPEC-006",
-      "tests": [
-        "tests/contracts/spec-closure-bindings.test.ts::[AC-SPEC-006]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "tests": ["tests/contracts/spec-closure-bindings.test.ts::[AC-SPEC-006]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-bindings.test.ts::[AC-SPEC-006]",
@@ -61,9 +109,7 @@
       ]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
@@ -85,54 +131,33 @@
       "id": "T2",
       "title": "运行绑定断言并记录原生红灯",
       "phase": "red",
-      "acceptance": [
-        "AC-SPEC-006"
-      ],
+      "acceptance": ["AC-SPEC-006"],
       "status": "todo",
       "result": "模板尚未声明绑定时断言真实失败并写入原生回执。",
-      "scope": [
-        "tests/contracts/spec-closure-bindings.test.ts",
-        "docs/others/evidence/tdd/"
-      ],
-      "depends_on": [
-        "T1"
-      ],
+      "scope": ["tests/contracts/spec-closure-bindings.test.ts", "docs/others/evidence/tdd/"],
+      "depends_on": ["T1"],
       "owner": "ignite-executor"
     },
     {
       "id": "T3",
       "title": "模板声明绑定契约并接入校验",
       "phase": "implement",
-      "acceptance": [
-        "AC-SPEC-006"
-      ],
+      "acceptance": ["AC-SPEC-006"],
       "status": "todo",
       "result": "模板带 binding_contract 与 bindings，检查器在缺失、重复或未知任务时拒绝，计划校验实际调用该检查。",
-      "scope": [
-        "docs/plans/_template.md",
-        "scripts/ignite/state.mjs",
-        "scripts/check-docs.mjs"
-      ],
-      "depends_on": [
-        "T2"
-      ],
+      "scope": ["docs/plans/_template.md", "scripts/ignite/state.mjs", "scripts/check-docs.mjs"],
+      "depends_on": ["T2"],
       "owner": "ignite-executor"
     },
     {
       "id": "T4",
       "title": "完成检查与回写",
       "phase": "verify",
-      "acceptance": [
-        "AC-SPEC-006"
-      ],
+      "acceptance": ["AC-SPEC-006"],
       "status": "todo",
       "result": "计划校验调用绑定检查后，断言与文档检查通过，执行设计记录绑定契约现状。",
-      "scope": [
-        "docs/designs/execution.md"
-      ],
-      "depends_on": [
-        "T3"
-      ],
+      "scope": ["docs/designs/execution.md"],
+      "depends_on": ["T3"],
       "owner": "ignite-executor"
     }
   ],
@@ -209,9 +234,7 @@
     "scripts/check-docs.mjs"
   ],
   "tdd_evidence": [],
-  "required_evidence": [
-    "check-integration"
-  ],
+  "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
@@ -219,6 +242,7 @@
   "updated_at": "2026-11-06"
 }
 -->
+
 # Ignite 实施计划：spec-closure-bindings
 
 > 让新计划为每条需求与验收声明唯一绑定，缺一条就进不了 ready。
@@ -233,10 +257,10 @@
 
 ## 原始目标与覆盖核对
 
-| 用户原话或可追溯来源 | 本轮目标 | REQ | AC | 处理结果 |
-| --- | --- | --- | --- | --- |
-| 每条规格都能被执行清楚 | 每条需求与验收有唯一绑定 | REQ-SPEC-006 | AC-SPEC-006 | 保留 |
-| 不依赖大模型的能力 | 缺失与重复由校验器拒绝 | REQ-SPEC-006 | AC-SPEC-006 | 保留 |
+| 用户原话或可追溯来源   | 本轮目标                 | REQ          | AC          | 处理结果 |
+| ---------------------- | ------------------------ | ------------ | ----------- | -------- |
+| 每条规格都能被执行清楚 | 每条需求与验收有唯一绑定 | REQ-SPEC-006 | AC-SPEC-006 | 保留     |
+| 不依赖大模型的能力     | 缺失与重复由校验器拒绝   | REQ-SPEC-006 | AC-SPEC-006 | 保留     |
 
 ## 整体判断与推进顺序
 
@@ -247,13 +271,13 @@
 
 ## 来源与绑定矩阵
 
-| Source ID | 来源 | 适用理由 | 状态 | Binding | 任务 | 验证 |
-| --- | --- | --- | --- | --- | --- | --- |
-| REQ-SPEC-006 | docs/features/spec-closure.md | 本轮产品要求 | missing | BIND-001 | T3 | AC-SPEC-006 |
-| AC-SPEC-006 | docs/features/spec-closure.md | 本轮验收 | missing | BIND-002 | T2 | AC-SPEC-006 |
-| STD-CLOSE-101 | docs/standards/specification-to-implementation-ddd.md | 闭环要求逐条绑定 | missing | BIND-003 | T3 | AC-SPEC-006 |
-| DES-EXEC-101 | docs/designs/execution.md | 执行设计记录契约 | missing | BIND-004 | T4 | 文档检查 |
-| ADR-0004 | docs/others/adr/0004-spec-closure-contract.md | 闭环契约决策 | met | BIND-005 | T3 | AC-SPEC-006 |
+| Source ID     | 来源                                                  | 适用理由         | 状态    | Binding  | 任务 | 验证        |
+| ------------- | ----------------------------------------------------- | ---------------- | ------- | -------- | ---- | ----------- |
+| REQ-SPEC-006  | docs/features/spec-closure.md                         | 本轮产品要求     | missing | BIND-001 | T3   | AC-SPEC-006 |
+| AC-SPEC-006   | docs/features/spec-closure.md                         | 本轮验收         | missing | BIND-002 | T2   | AC-SPEC-006 |
+| STD-CLOSE-101 | docs/standards/specification-to-implementation-ddd.md | 闭环要求逐条绑定 | missing | BIND-003 | T3   | AC-SPEC-006 |
+| DES-EXEC-101  | docs/designs/execution.md                             | 执行设计记录契约 | missing | BIND-004 | T4   | 文档检查    |
+| ADR-0004      | docs/others/adr/0004-spec-closure-contract.md         | 闭环契约决策     | met     | BIND-005 | T3   | AC-SPEC-006 |
 
 ## 主要矛盾
 
@@ -319,7 +343,7 @@
 
 <!-- ignite-progress -->
 
-状态：draft（由元数据生成）
+状态：`draft`（由元数据生成）
 
 - [ ] T1 · 登记需求、计划与断言并提交基线 · todo
 - [ ] T2 · 运行绑定断言并记录原生红灯 · todo

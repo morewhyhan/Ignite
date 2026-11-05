@@ -11,10 +11,6 @@ export function validateBindings(metadata) {
   const ids = new Set()
   const sources = new Set()
   for (const binding of bindings) {
-    if (!binding || typeof binding !== 'object') {
-      failures.push('binding entries must be objects')
-      continue
-    }
     if (!/^BIND-\d{3}$/.test(binding.id || '')) failures.push(`invalid binding id: ${binding.id}`)
     if (ids.has(binding.id)) failures.push(`duplicate binding id: ${binding.id}`)
     ids.add(binding.id)

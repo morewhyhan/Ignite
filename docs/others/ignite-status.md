@@ -10,11 +10,10 @@
 
 ## 发布范围
 
-- `spec-closure-ledger-v1` · `verifying`
+- `spec-closure-ledger-v1` · `done`
   - Plan：`IGT-202611060004`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite release verify spec-closure-ledger-v1 --plan IGT-202611060004
+  - 最终版本验收：passed（b8f36ae7d49c）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `spec-closure-p0-v1` · `cancelled`
   - Plan：`IGT-202611060001`

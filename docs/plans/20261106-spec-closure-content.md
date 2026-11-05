@@ -10,7 +10,74 @@
   "task_contract": 2,
   "planning_contract": 1,
   "review_contract": 1,
-  "reviews": [],
+  "reviews": [
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent draft review of IGT-202611060005, three rounds, approved at 23833f6",
+      "subject_fingerprint": "df3d2d89dde09b76dceb023fd4a4ab581109c4e076ec538c8e5d58157f89d6de",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "CT-006",
+          "severity": "nonblocking",
+          "summary": "base_commit is the plan creation commit; prep diff outside delivery scope.",
+          "resolved": false
+        },
+        {
+          "id": "CT-009",
+          "severity": "blocking",
+          "summary": "Resolved: separator/header excluded; data rows only; header-only fixture covered.",
+          "resolved": true
+        },
+        {
+          "id": "CT-001",
+          "severity": "blocking",
+          "summary": "Resolved: validatePlan imported.",
+          "resolved": true
+        },
+        {
+          "id": "CT-002",
+          "severity": "blocking",
+          "summary": "Resolved: plan sections satisfy contentGaps.",
+          "resolved": true
+        },
+        {
+          "id": "CT-003",
+          "severity": "blocking",
+          "summary": "Resolved: table data rows count; plan contentGaps empty.",
+          "resolved": true
+        },
+        {
+          "id": "CT-004",
+          "severity": "blocking",
+          "summary": "Resolved: full contentGaps asserted before gutted case.",
+          "resolved": true
+        },
+        {
+          "id": "CT-005",
+          "severity": "blocking",
+          "summary": "Resolved: boilerplate anchored.",
+          "resolved": true
+        },
+        {
+          "id": "CT-007",
+          "severity": "nonblocking",
+          "summary": "Resolved: import fixed.",
+          "resolved": true
+        },
+        {
+          "id": "CT-008",
+          "severity": "nonblocking",
+          "summary": "Resolved: plan matrix and rollback satisfy contract.",
+          "resolved": true
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-05T21:26:46.197Z"
+    }
+  ],
   "verification_contract": 2,
   "binding_contract": 1,
   "content_contract": 1,
@@ -41,7 +108,7 @@
   ],
   "remaining_work": [],
   "change_type": "存量改动",
-  "base_commit": "cf87b657232b630ca90e5194cf5082fef24e1ddd",
+  "base_commit": "23833f6",
   "requirements": [
     "REQ-SPEC-008"
   ],
@@ -210,6 +277,7 @@
   "updated_at": "2026-11-06"
 }
 -->
+
 # Ignite 实施计划：spec-closure-content
 
 > 声明内容契约的计划，分析章节必须有实质内容，空壳与模板语被拒。
@@ -224,9 +292,16 @@
 
 ## 原始目标与覆盖核对
 
-| 用户原话或可追溯来源 | 本轮目标 | REQ | AC | 处理结果 |
-| --- | --- | --- | --- | --- |
-| 章节内容不许是空壳或残留模板提示语 | 八节最小实质内容 | REQ-SPEC-008 | AC-SPEC-008 | 保留 |
+| 用户原话或可追溯来源               | 本轮目标         | REQ          | AC          | 处理结果 |
+| ---------------------------------- | ---------------- | ------------ | ----------- | -------- |
+| 章节内容不许是空壳或残留模板提示语 | 八节最小实质内容 | REQ-SPEC-008 | AC-SPEC-008 | 保留     |
+
+## 整体判断与推进顺序
+
+- 整体链路与事实：计划模板有章节，检查只比对标题是否存在。
+- 当前主要问题：空壳章节与模板提示语可以通过，判断无法被验证。
+- 推进与尺度：先做机械可判定的最小内容门禁，语义质量仍交独立审查。
+- 纠偏与停止：模板合规且空壳被拒即停止，不扩张到评分。
 
 ## 来源规格
 
@@ -241,10 +316,10 @@
 
 ## 约束绑定矩阵
 
-| Source ID | Binding | 任务 | 验证 |
-| --- | --- | --- | --- |
-| REQ-SPEC-008 | BIND-001 | T3 | AC-SPEC-008 |
-| AC-SPEC-008 | BIND-002 | T2 | AC-SPEC-008 |
+| Source ID    | Binding  | 任务 | 验证        |
+| ------------ | -------- | ---- | ----------- |
+| REQ-SPEC-008 | BIND-001 | T3   | AC-SPEC-008 |
+| AC-SPEC-008  | BIND-002 | T2   | AC-SPEC-008 |
 
 矩阵由来源条目逐条收束：每条 REQ/AC 对应唯一绑定与主要任务，标准与设计作为附加约束。
 表内每一行都必须能回指到真源文件与验证方式。
@@ -315,7 +390,7 @@
 
 <!-- ignite-progress -->
 
-状态：draft（由元数据生成）
+状态：`draft`（由元数据生成）
 
 - [ ] T1 · 登记规格、计划与断言并提交基线 · todo
 - [ ] T2 · 运行内容断言并记录原生红灯 · todo

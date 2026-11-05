@@ -178,6 +178,48 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-05T20:33:51.381Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent draft review of IGT-202611060004, three rounds, approved at 18929b4",
+      "subject_fingerprint": "32f1ce7a8e4e789849b3f4c95e1218752f8d3dd07112cc217235c9e3e5b1af99",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "LB-009",
+          "severity": "blocking",
+          "summary": "Resolved: EXPECTED_MET_PLAN pins each met item to its agreed live plan.",
+          "resolved": true
+        },
+        {
+          "id": "LB-010",
+          "severity": "nonblocking",
+          "summary": "Resolved: T3 records the P0 cancellation and b03c24f landing for GAP-01.",
+          "resolved": true
+        },
+        {
+          "id": "LB-011",
+          "severity": "nonblocking",
+          "summary": "Resolved: contradiction says exactly 5 and the test design names sets, order and mapping.",
+          "resolved": true
+        },
+        {
+          "id": "LB-003",
+          "severity": "nonblocking",
+          "summary": "Text/stage immutability is not asserted; delivery diff review must catch it.",
+          "resolved": false
+        },
+        {
+          "id": "LB-007",
+          "severity": "nonblocking",
+          "summary": "base_commit is the plan creation commit; T1 prep outside delivery diff.",
+          "resolved": false
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-05T20:49:58.652Z"
     }
   ],
   "verification_contract": 2,
@@ -381,7 +423,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "d861f87",
+  "integrated_commit": "d861f878de7fc2a3cf1625513b99824463262f58",
   "updated_at": "2026-11-05"
 }
 -->
@@ -484,12 +526,12 @@
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`verifying`（由元数据生成）
 
 - [x] T1 · 登记规格、计划与断言并提交基线 · done
-- [ ] T2 · 运行账本断言并记录原生红灯 · doing
-- [ ] T3 · 为 52 条回填实施结果 · todo
-- [ ] T4 · 完成检查与回写 · todo
+- [x] T2 · 运行账本断言并记录原生红灯 · done
+- [x] T3 · 为 52 条回填实施结果 · done
+- [x] T4 · 完成检查与回写 · done
 
 验收缺口：未记录；完成仍须实际证据
 证据：check-integration / run-20261105203653-a21d76

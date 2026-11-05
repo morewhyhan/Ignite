@@ -29,10 +29,11 @@ export function standardRegistryFailures(files, readmeText, isGoverned) {
   return failures
 }
 
-export function validatePlanDocument(content, template) {
+export function validatePlanDocument(content, template, { ignore = [] } = {}) {
   if (template === null) return []
   const actual = new Set(markdownHeadings(content))
   return markdownHeadings(template)
+    .filter((heading) => !ignore.includes(heading))
     .filter((heading) => !actual.has(heading))
     .map((heading) => `missing heading "${heading}"`)
 }

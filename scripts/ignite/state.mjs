@@ -305,10 +305,21 @@ export function validatePlan(
     value.status === 'done' && gitCommitExists(value.integrated_commit)
       ? value.integrated_commit
       : null
+  const contentOnlyHeadings = [
+    '## 来源规格',
+    '## 目标映射',
+    '## 主要矛盾',
+    '## 次要矛盾',
+    '## 决策原则',
+    '## 方案比较',
+    '## 约束绑定矩阵',
+    '## 回退',
+  ]
   failures.push(
     ...validatePlanDocument(
       plan.content,
       readRepositoryText('docs/plans/_template.md', historicalCommit),
+      { ignore: value.content_contract === 1 ? [] : contentOnlyHeadings },
     ),
   )
   const registry = specificationRegistry(historicalCommit)

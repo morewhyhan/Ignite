@@ -33,11 +33,15 @@ const GOVERNANCE_PATTERNS = [
   /^tests\//,
   /^docs\/features\//,
   /^docs\/designs\//,
-  /^docs\/standards\/(?:workflow|testing|development|security|api|database|architecture|ai-agents|adoption)\.md$/,
+  /^docs\/standards\/(?:workflow|testing|development|security|api|database|architecture|ai-agents|adoption|specification-to-implementation-ddd)\.md$/,
 ]
 
 function matchesAny(path, patterns) {
   return patterns.some((pattern) => pattern.test(path))
+}
+
+export function isGovernedPath(path) {
+  return matchesAny(normalizePath(path), GOVERNANCE_PATTERNS)
 }
 
 /**

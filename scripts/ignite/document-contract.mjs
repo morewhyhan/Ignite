@@ -18,6 +18,17 @@ export function markdownHeadings(content) {
   return headings
 }
 
+export function standardRegistryFailures(files, readmeText, isGoverned) {
+  const failures = []
+  for (const file of files) {
+    if (!readmeText.includes(file))
+      failures.push(`standard is not indexed in docs/standards/README.md: ${file}`)
+    if (!isGoverned(`docs/standards/${file}`))
+      failures.push(`standard is not covered by the governance path whitelist: ${file}`)
+  }
+  return failures
+}
+
 export function validatePlanDocument(content, template) {
   if (template === null) return []
   const actual = new Set(markdownHeadings(content))

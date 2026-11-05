@@ -1,4 +1,5 @@
-import { validatePlanDocument, markdownHeadings } from './ignite/document-contract.mjs'
+import { standardRegistryFailures, validatePlanDocument, markdownHeadings } from './ignite/document-contract.mjs'
+import { isGovernedPath } from './ignite/checks.mjs'
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, extname, join, relative, resolve } from 'node:path'
 import { repositoryRoot, walkFiles } from './ignite/core.mjs'
@@ -29,6 +30,7 @@ for (const path of [
   'AGENTS.md',
   'docs/README.md',
   'docs/standards/adoption.md',
+  'docs/standards/specification-to-implementation-ddd.md',
   'docs/plans/README.md',
   'docs/features/product.md',
   'docs/features/_template.md',
@@ -44,6 +46,13 @@ for (const path of [
 ]) {
   requirePath(path)
 }
+
+const standardFiles = walkFiles(join(docsRoot, 'standards'))
+  .filter((path) => path.endsWith('.md') && !/[/\\]README\.md$/.test(path))
+  .map((path) => relative(join(docsRoot, 'standards'), path).replaceAll('\\', '/'))
+failures.push(
+  ...standardRegistryFailures(standardFiles, read('docs/standards/README.md'), isGovernedPath),
+)
 
 const markdownFiles = walkFiles(docsRoot).filter((path) => extname(path) === '.md')
 const localLinkPattern = /!?\[[^\]]*]\(([^)]+)\)/g

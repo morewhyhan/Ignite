@@ -1,44 +1,21 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`f7ef19ee129f`
-当前 Plan：0；结构化历史：5；未迁移历史：0
+输入指纹：`055fd7da32d7`
+当前 Plan：1；结构化历史：0；未迁移历史：0
 
 ## 当前工作
 
-- 无。
+- `IGT-202611060001` · `draft` · `spec-closure-p0-v1`
 
 ## 发布范围
 
-- `agent-run-recovery-v1` · `verifying`
-  - Plan：`IGT-1791813346292559552`
-  - 缺少证据：无
-  - 最终版本验收：stale
-  - 下一步：pnpm ignite release verify agent-run-recovery-v1 --plan IGT-1791813346292559552
-  - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `document-workflow-v1` · `verifying`
-  - Plan：`IGT-1791708512635291997`
-  - 缺少证据：无
-  - 最终版本验收：stale
-  - 下一步：pnpm ignite release verify document-workflow-v1 --plan IGT-1791708512635291997
-  - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `prepare-test-ownership-v1` · `verifying`
-  - Plan：`IGT-1792007450670818648`
-  - 缺少证据：无
-  - 最终版本验收：stale
-  - 下一步：pnpm ignite release verify prepare-test-ownership-v1 --plan IGT-1792007450670818648
-  - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `startup-focus-v1` · `verifying`
-  - Plan：`IGT-1791976482786711869`
-  - 缺少证据：无
-  - 最终版本验收：stale
-  - 下一步：pnpm ignite release verify startup-focus-v1 --plan IGT-1791976482786711869
-  - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `tdd-evidence-format-v1` · `done`
-  - Plan：`IGT-1792029176916013864`
-  - 缺少证据：无
-  - 最终版本验收：passed（5cba7a71f4e7）
-  - 未完成原始目标：无已登记缺口（仍需语义核对）
+- `spec-closure-p0-v1` · `draft`
+  - Plan：`IGT-202611060001`
+  - 缺少证据：`IGT-202611060001:check-dev`（missing：no run is bound to this evidence requirement）
+  - 最终版本验收：missing
+  - 下一步：pnpm ignite next --plan IGT-202611060001
+  - 未完成原始目标：GOAL-SPEC-CLOSURE-P0 把规格闭环标准登记为有效来源，并把本轮差异与历史归属固化为可检查的记录
 
 ## 结构问题
 

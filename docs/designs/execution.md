@@ -150,3 +150,9 @@ TDD restart 先复用原生验证器核对已绑定证明；有效绑定返回 r
 方法索引声明 preferred_reader 为 native-file，path 仍指向 canonical 正文，read_command 保留为恢复入口。共同读取协议维护在 ai-agents；同项目、同版本且仍在上下文中的完整正文可复用，变更、丢失或截断须补读。Plan 明确准备与交付审查的触发阶段；准备文档不等待依赖安装，测试及检查仍等待环境和原生准入。采用规范要求项目 node_modules 隔离，但下载缓存可复用，项目准备不改全局配置。
 
 该入口减少重复协议和不必要的运行时调用，不执行 Agent 调度，也不能保证宿主审批或模型遵守。自然执行效果仍需真实会话另验。
+
+## 规格闭环登记
+
+`docs/standards/specification-to-implementation-ddd.md` 当前登记在三处：标准索引、`scripts/check-docs.mjs` 的必备路径和 `scripts/ignite/checks.mjs` 的治理白名单。`tests/contracts/spec-closure.test.ts` 用三条断言守住这三处登记、52 条差异账本（`docs/others/inputs/spec-closure-ledger.json`）与五个历史计划的补录（`docs/others/inputs/spec-closure-backfill.json`）。
+
+当前事实只覆盖"登记与记账"：编号体系、绑定矩阵、内容门禁、跨文档传播与回写检查均未实现。账本中的 P1–P5 条目是后续计划的输入，不代表已经完成。

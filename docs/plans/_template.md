@@ -10,6 +10,7 @@
   "task_contract": 2,
   "planning_contract": 1,
   "review_contract": 1,
+  "binding_contract": 1,
   "reviews": [],
   "verification_contract": 2,
   "goals": [{ "text": "用户可验证的目标", "requirements": ["REQ-FEATURE-001"] }],
@@ -30,6 +31,10 @@
     }
   ],
   "verification_requirements": ["unit"],
+  "bindings": [
+    { "id": "BIND-001", "source": "REQ-FEATURE-001", "applicable": "本轮产品要求", "status": "missing", "task": "T3", "check": "AC-FEATURE-001" },
+    { "id": "BIND-002", "source": "AC-FEATURE-001", "applicable": "本轮验收", "status": "missing", "task": "T2", "check": "AC-FEATURE-001" }
+  ],
   "tasks": [
     { "id": "T1", "title": "确认目标、编写真实测试并提交准备基线", "phase": "prepare", "status": "todo", "result": "原始目标、Feature、Release、真实断言、测试路径和写入边界均已对应，规格与测试已提交，独立审查者已核对 draft。", "scope": ["docs/features/<feature-name>.md", "docs/plans/YYYYMMDD-<change-name>.md", "docs/plans/releases/<release-id>.json", "tests/path/file.test.ts"], "depends_on": [], "owner": "assigned-worker" },
     { "id": "T2", "title": "运行真实断言并记录目标行为红灯", "phase": "red", "acceptance": ["AC-FEATURE-001"], "status": "todo", "result": "原生 red 确认已提交测试的目标断言失败并记录证明。", "scope": ["tests/path/file.test.ts", "docs/others/evidence/tdd/"], "depends_on": ["T1"], "owner": "assigned-worker" },

@@ -22,7 +22,7 @@ describe('plan content contract', () => {
 
     const content = read(PLAN_PATH)
     gaps.push(...contentGaps(content).map((gap) => 'plan ' + gap))
-    const meta = JSON.parse(content.match(/<!-- ignite-plan\n([\s\S]*?)\n-->/)[1])
+    const meta = JSON.parse(content.match(/<!-- ignite-plan\n([\s\S]*?)\n-->/)![1])
     const plan = { path: join(repositoryRoot, PLAN_PATH), relativePath: PLAN_PATH, content, metadata: meta }
     const gutted = { ...plan, content: content.replace(/## 主要矛盾[\s\S]*?(?=\n## )/, '## 主要矛盾\n\n') }
     if (!validatePlan(gutted as never, { allowLegacy: false }).some((error) => error.includes('主要矛盾')))

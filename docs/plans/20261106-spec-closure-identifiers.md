@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-202611060002",
   "release": "spec-closure-p1-v1",
-  "status": "verifying",
+  "status": "done",
   "outcome": "每份标准、设计与 ADR 文件至少携带一个全仓唯一编号，未知编号引用被拒绝",
   "contract_version": 2,
   "execution_contract": 1,
@@ -65,21 +65,125 @@
       "findings": [],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-05T17:46:21.909Z"
+    },
+    {
+      "stage": "delivery",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent delivery review of IGT-202611060002, three rounds; approved at HEAD adb4882 with two non-blocking follow-ups",
+      "subject_fingerprint": "e18e68224b6543ef4dae2c46a8cfd1cb5aed75cffd57812ccde12c104bbd9866",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "DEL-001",
+          "severity": "blocking",
+          "summary": "Resolved: tasks T1-T5 done; progress matches; validatePlan no longer reports unfinished tasks.",
+          "resolved": true
+        },
+        {
+          "id": "DEL-002",
+          "severity": "blocking",
+          "summary": "Resolved: old false records removed; binding matrix 已验证; draft review bf5263 matches current fingerprint.",
+          "resolved": true
+        },
+        {
+          "id": "DEL-003",
+          "severity": "blocking",
+          "summary": "Resolved: check-docs negative run recorded; P0 plan clean; AC-005 test hash unchanged.",
+          "resolved": true
+        },
+        {
+          "id": "DEL-004",
+          "severity": "nonblocking",
+          "summary": "Formatting/scope churn retained: DDD reflow; P0 bootstrap/release/test formatting; no shared_files declaration.",
+          "resolved": false
+        },
+        {
+          "id": "DEL-005",
+          "severity": "nonblocking",
+          "summary": "base_commit moved to a408dc9, hiding scanner/test/plan creation from the delivery diff.",
+          "resolved": false
+        },
+        {
+          "id": "DEL-006",
+          "severity": "nonblocking",
+          "summary": "File-level self-referential IDs; third original goal partial without an AC.",
+          "resolved": false
+        },
+        {
+          "id": "DEL-007",
+          "severity": "nonblocking",
+          "summary": "DDD:496 still uses unregistered STD-ARCH-001 instead of STD-ARCH-101.",
+          "resolved": false
+        },
+        {
+          "id": "DEL-008",
+          "severity": "nonblocking",
+          "summary": "sourceEntries non-recursive; no synthetic missing-ID test.",
+          "resolved": false
+        },
+        {
+          "id": "DEL-009",
+          "severity": "nonblocking",
+          "summary": "Resolved: status record states AC-005 was a restart red at d51c458.",
+          "resolved": true
+        },
+        {
+          "id": "DEL-010",
+          "severity": "nonblocking",
+          "summary": "Draft review provenance not independently verifiable; retained.",
+          "resolved": false
+        },
+        {
+          "id": "DEL-011",
+          "severity": "blocking",
+          "summary": "Resolved: run-20261105175158-edbeca at ae90ea5 exit 0; input matches; evidence rebound.",
+          "resolved": true
+        },
+        {
+          "id": "DEL-012",
+          "severity": "blocking",
+          "summary": "Resolved: mk-delivery.mjs deleted; delivery review recorded with this actual verdict.",
+          "resolved": true
+        },
+        {
+          "id": "DEL-013",
+          "severity": "nonblocking",
+          "summary": "check-docs negative run remains a note with no native log; tests never invoke check-docs.",
+          "resolved": false
+        },
+        {
+          "id": "DEL-014",
+          "severity": "nonblocking",
+          "summary": "Resolved: ignite-status.md shows verifying with no missing evidence or structure issue.",
+          "resolved": true
+        },
+        {
+          "id": "DEL-015",
+          "severity": "nonblocking",
+          "summary": "integrated_commit set to ae90ea5 before done.",
+          "resolved": false
+        },
+        {
+          "id": "DEL-016",
+          "severity": "nonblocking",
+          "summary": "Status record updated to edbeca/ae90ea5.",
+          "resolved": false
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-05T17:59:38.231Z"
     }
   ],
   "verification_contract": 2,
   "goals": [
     {
       "text": "每份标准、设计与 ADR 文件都携带至少一个全仓唯一编号",
-      "requirements": [
-        "REQ-SPEC-004"
-      ]
+      "requirements": ["REQ-SPEC-004"]
     },
     {
       "text": "计划引用不存在的编号时校验失败并列出该编号",
-      "requirements": [
-        "REQ-SPEC-005"
-      ]
+      "requirements": ["REQ-SPEC-005"]
     }
   ],
   "constraints": [
@@ -104,19 +208,12 @@
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "a408dc90dcd7882d32c71396b7e518333233fdc3",
-  "requirements": [
-    "REQ-SPEC-004",
-    "REQ-SPEC-005"
-  ],
+  "requirements": ["REQ-SPEC-004", "REQ-SPEC-005"],
   "acceptance": [
     {
       "id": "AC-SPEC-004",
-      "tests": [
-        "tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-004]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "tests": ["tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-004]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-004]",
@@ -126,12 +223,8 @@
     },
     {
       "id": "AC-SPEC-005",
-      "tests": [
-        "tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-005]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "tests": ["tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-005]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-005]",
@@ -140,9 +233,7 @@
       ]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
@@ -164,29 +255,18 @@
       "id": "T2",
       "title": "运行编号断言并记录原生红灯",
       "phase": "red",
-      "acceptance": [
-        "AC-SPEC-004",
-        "AC-SPEC-005"
-      ],
+      "acceptance": ["AC-SPEC-004", "AC-SPEC-005"],
       "status": "done",
       "result": "在未编号的文档上，两条断言真实失败并写入原生回执。",
-      "scope": [
-        "tests/contracts/spec-closure-ids.test.ts",
-        "docs/others/evidence/tdd/"
-      ],
-      "depends_on": [
-        "T1"
-      ],
+      "scope": ["tests/contracts/spec-closure-ids.test.ts", "docs/others/evidence/tdd/"],
+      "depends_on": ["T1"],
       "owner": "ignite-executor"
     },
     {
       "id": "T3",
       "title": "给十六份来源文件追加编号并接入检查",
       "phase": "implement",
-      "acceptance": [
-        "AC-SPEC-004",
-        "AC-SPEC-005"
-      ],
+      "acceptance": ["AC-SPEC-004", "AC-SPEC-005"],
       "status": "done",
       "result": "二十份文件全部可被扫描，缺号、重号与未知引用被拒绝。",
       "scope": [
@@ -196,45 +276,29 @@
         "docs/plans/",
         "docs/others/evidence/"
       ],
-      "depends_on": [
-        "T2"
-      ],
+      "depends_on": ["T2"],
       "owner": "ignite-executor"
     },
     {
       "id": "T4",
       "title": "复审 ADR-0004 并更新账本的编号映射",
       "phase": "implement",
-      "acceptance": [
-        "AC-SPEC-004"
-      ],
+      "acceptance": ["AC-SPEC-004"],
       "status": "done",
       "result": "ADR-0004 记录编号已引入的复审结论，账本补充编号映射说明。",
-      "scope": [
-        "docs/others/adr/",
-        "docs/others/spec-closure/"
-      ],
-      "depends_on": [
-        "T3"
-      ],
+      "scope": ["docs/others/adr/", "docs/others/spec-closure/"],
+      "depends_on": ["T3"],
       "owner": "ignite-executor"
     },
     {
       "id": "T5",
       "title": "完成检查与回写",
       "phase": "verify",
-      "acceptance": [
-        "AC-SPEC-004"
-      ],
+      "acceptance": ["AC-SPEC-004"],
       "status": "done",
       "result": "契约断言与文档检查通过，执行设计与标准索引记录编号现状。",
-      "scope": [
-        "docs/designs/execution.md",
-        "docs/standards/README.md"
-      ],
-      "depends_on": [
-        "T4"
-      ],
+      "scope": ["docs/designs/execution.md", "docs/standards/README.md"],
+      "depends_on": ["T4"],
       "owner": "ignite-executor"
     }
   ],
@@ -294,9 +358,7 @@
       "run_id": "tdd-20261105172010-6f552b"
     }
   ],
-  "required_evidence": [
-    "check-integration"
-  ],
+  "required_evidence": ["check-integration"],
   "evidence": [
     {
       "id": "check-integration",
@@ -456,7 +518,7 @@
 
 <!-- ignite-progress -->
 
-状态：`verifying`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 登记需求、计划与发布范围并编写真实断言 · done
 - [x] T2 · 运行编号断言并记录原生红灯 · done

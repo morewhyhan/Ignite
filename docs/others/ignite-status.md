@@ -2,12 +2,11 @@
 
 模板状态：`template-baseline`
 输入指纹：`f5f712cdff22`
-当前 Plan：2；结构化历史：0；未迁移历史：0
+当前 Plan：1；结构化历史：1；未迁移历史：0
 
 ## 当前工作
 
 - `IGT-202611060001` · `draft` · `spec-closure-p0-v1`
-- `IGT-202611060002` · `verifying` · `spec-closure-p1-v1`
 
 ## 发布范围
 
@@ -21,8 +20,8 @@
   - Plan：`IGT-202611060002`
   - 缺少证据：无
   - 最终版本验收：missing
-  - 下一步：pnpm ignite next --plan IGT-202611060002
-  - 未完成原始目标：GOAL-SPEC-P1 每份标准、设计与 ADR 文件至少获得一个稳定编号，未知引用被拒绝
+  - 下一步：pnpm ignite release verify spec-closure-p1-v1 --plan IGT-202611060002
+  - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题
 

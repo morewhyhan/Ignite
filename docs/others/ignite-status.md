@@ -1,18 +1,18 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`e669b6141b52`
+输入指纹：`e9cccbdf4ed7`
 当前 Plan：1；结构化历史：4；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-202611060005` · `active` · `spec-closure-content-v1`
+- `IGT-202611060005` · `verifying` · `spec-closure-content-v1`
 
 ## 发布范围
 
-- `spec-closure-content-v1` · `active`
+- `spec-closure-content-v1` · `verifying`
   - Plan：`IGT-202611060005`
-  - 缺少证据：无
+  - 缺少证据：`IGT-202611060005:check-integration`（stale：repository or Plan inputs changed after this run）
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-202611060005
   - 未完成原始目标：GOAL-SPEC-CONTENT 声明内容契约的计划必须有实质分析章节

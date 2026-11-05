@@ -64,9 +64,15 @@ describe('specification closure bootstrap', () => {
       (name) => name.endsWith('.md') && name !== 'README.md',
     )
     expect(standards).toContain('specification-to-implementation-ddd.md')
-    expect(standardRegistryFailures(standards, read('docs/standards/README.md'), isGovernedPath)).toEqual([])
+    expect(
+      standardRegistryFailures(standards, read('docs/standards/README.md'), isGovernedPath),
+    ).toEqual([])
 
-    const unregistered = standardRegistryFailures(['unindexed-standard.md'], '# Standards\n', () => false)
+    const unregistered = standardRegistryFailures(
+      ['unindexed-standard.md'],
+      '# Standards\n',
+      () => false,
+    )
     expect(unregistered).toHaveLength(2)
     expect(unregistered[0]).toContain('unindexed-standard.md')
     expect(unregistered[0]).toContain('not indexed')

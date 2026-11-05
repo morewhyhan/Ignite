@@ -3,33 +3,21 @@
   "id": "spec-closure-p1-v1",
   "coverage_version": 2,
   "verification_contract": 2,
-  "plan_ids": [
-    "IGT-202611060002"
-  ],
+  "plan_ids": ["IGT-202611060002"],
   "scope": [
     {
       "id": "GOAL-SPEC-P1",
       "text": "每份标准、设计与 ADR 文件至少获得一个稳定编号，未知引用被拒绝",
       "source": "用户 2026-11-06 指令与 docs/standards/specification-to-implementation-ddd.md §6",
-      "requirements": [
-        "REQ-SPEC-004",
-        "REQ-SPEC-005"
-      ],
-      "acceptance": [
-        "AC-SPEC-004",
-        "AC-SPEC-005"
-      ],
-      "plan_ids": [
-        "IGT-202611060002"
-      ],
+      "requirements": ["REQ-SPEC-004", "REQ-SPEC-005"],
+      "acceptance": ["AC-SPEC-004", "AC-SPEC-005"],
+      "plan_ids": ["IGT-202611060002"],
       "disposition": "included",
       "reason": "",
       "authorization": ""
     }
   ],
-  "must_pass": [
-    "check-release"
-  ],
+  "must_pass": ["check-release"],
   "evidence": [],
   "integrated_commit": null,
   "excluded": [],

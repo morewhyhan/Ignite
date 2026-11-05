@@ -241,13 +241,13 @@
 
 ## 原始目标与覆盖核对
 
-| 用户原话或可追溯来源 | 本轮目标 | REQ | AC | 处理结果 |
-| --- | --- | --- | --- | --- |
-| "这份文档它是一个草案……你要按照这个来做"（2026-11-06 会话） | 把闭环标准登记为有效来源 | REQ-SPEC-001 | AC-SPEC-001 | 保留 |
-| "把我的这些规格……被执行清楚，并且能够被验收清楚" | 52 条差异形成可检查账本 | REQ-SPEC-002 | AC-SPEC-002 | 保留 |
-| "那个补上去"（历史计划） | 五个建设期计划归档后可追溯，未记录项如实标注 | REQ-SPEC-003 | AC-SPEC-003 | 保留 |
-| "解决各个板块、各个领域模块之间的连接性的可靠问题" | 跨文档、跨模块、跨计划的连接检查 | 本阶段不纳入 | — | 延期到 P4 |
-| "不依赖大模型的能力，而靠代码和文档体系约束" | 能写成检查的一律写成检查器 | 本阶段部分纳入（标准登记检查） | AC-SPEC-001 | 其余延期到 P2/P3 |
+| 用户原话或可追溯来源                                        | 本轮目标                                     | REQ                            | AC          | 处理结果         |
+| ----------------------------------------------------------- | -------------------------------------------- | ------------------------------ | ----------- | ---------------- |
+| "这份文档它是一个草案……你要按照这个来做"（2026-11-06 会话） | 把闭环标准登记为有效来源                     | REQ-SPEC-001                   | AC-SPEC-001 | 保留             |
+| "把我的这些规格……被执行清楚，并且能够被验收清楚"            | 52 条差异形成可检查账本                      | REQ-SPEC-002                   | AC-SPEC-002 | 保留             |
+| "那个补上去"（历史计划）                                    | 五个建设期计划归档后可追溯，未记录项如实标注 | REQ-SPEC-003                   | AC-SPEC-003 | 保留             |
+| "解决各个板块、各个领域模块之间的连接性的可靠问题"          | 跨文档、跨模块、跨计划的连接检查             | 本阶段不纳入                   | —           | 延期到 P4        |
+| "不依赖大模型的能力，而靠代码和文档体系约束"                | 能写成检查的一律写成检查器                   | 本阶段部分纳入（标准登记检查） | AC-SPEC-001 | 其余延期到 P2/P3 |
 
 进入 ready 前已回看原始请求：三条目标覆盖"按草案做、差异有账、历史补齐"，未把 AI 改写后的 goals 当作原始输入。
 
@@ -260,24 +260,24 @@
 
 ## 来源规格与绑定矩阵
 
-| Source ID | 来源 | 适用理由 | 目标 | 当前事实 | Binding | 任务 | 验证 |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| DOC-DDD-§0 | specification-to-implementation-ddd.md | 本轮需求基线 | 标准被登记为有效来源 | 三处索引均缺失 | BIND-001 | T3 | AC-SPEC-001 |
-| DOC-DDD-§10.5 | specification-to-implementation-ddd.md | 要求绑定可检查 | 差异与归属可被机器读取 | 无账本文件 | BIND-002 | T3 | AC-SPEC-002 |
-| DOC-DDD-§10.2 | specification-to-implementation-ddd.md | 要求来源逐项检查 | 历史计划可追溯 | 五个计划无补录 | BIND-003 | T3 | AC-SPEC-003 |
-| REQ-SPEC-001 | docs/features/spec-closure.md | 产品要求 | 四处登记一致 | 缺失 | BIND-004 | T3 | AC-SPEC-001 |
-| REQ-SPEC-002 | docs/features/spec-closure.md | 产品要求 | 账本完整 | 缺失 | BIND-005 | T3 | AC-SPEC-002 |
-| REQ-SPEC-003 | docs/features/spec-closure.md | 产品要求 | 补录完整 | 缺失 | BIND-006 | T3 | AC-SPEC-003 |
-| DES-EXECUTION | docs/designs/execution.md | 执行系统当前事实 | 登记事实被记录 | 未记录闭环登记 | BIND-007 | T4 | 文档检查 |
-| ADR-0004 | docs/others/adr/0004-spec-closure-contract.md | 本轮长期取舍 | 决策可追溯 | 已写入 | BIND-008 | T3 | 文档检查 |
-| AC-SPEC-001 | docs/features/spec-closure.md | 登记必须可检查 | 未登记标准被拒 | 规则已实现 | BIND-009 | T2/T3 | AC-SPEC-001 |
-| AC-SPEC-002 | docs/features/spec-closure.md | 账本必须锚定真实章节 | 52 条可核对 | 账本已写入 | BIND-010 | T2/T3 | AC-SPEC-002 |
-| AC-SPEC-003 | docs/features/spec-closure.md | 补录不得推断 | 归档可核对 | 补录已写入 | BIND-011 | T2/T3 | AC-SPEC-003 |
-| GOAL-SPEC-CLOSURE-P0 | docs/plans/releases/spec-closure-p0-v1.json | 发布范围覆盖本轮目标 | 三条验收有去向 | 已纳入 | BIND-012 | T3 | 发布检查 |
-| DOC-DDD-§6 | specification-to-implementation-ddd.md | 绑定矩阵要求 | 每条来源有绑定 | 本表即最小示例 | BIND-013 | T3 | 文档检查 |
-| DOC-DDD-§7 | specification-to-implementation-ddd.md | 矛盾写法要求 | 按句式写主要矛盾 | 已按句式重写 | BIND-014 | T2 | 文档检查 |
-| DOC-DDD-§10.1 | specification-to-implementation-ddd.md | 计划固定内容 | 十五部分齐备 | 本计划含新增章节 | BIND-015 | T3 | 文档检查 |
-| DOC-DDD-§10.4 | specification-to-implementation-ddd.md | 准入条件 | 十条逐条满足 | 见准出条件 | BIND-016 | T3 | 文档检查 |
+| Source ID            | 来源                                          | 适用理由             | 目标                   | 当前事实         | Binding  | 任务  | 验证        |
+| -------------------- | --------------------------------------------- | -------------------- | ---------------------- | ---------------- | -------- | ----- | ----------- |
+| DOC-DDD-§0           | specification-to-implementation-ddd.md        | 本轮需求基线         | 标准被登记为有效来源   | 三处索引均缺失   | BIND-001 | T3    | AC-SPEC-001 |
+| DOC-DDD-§10.5        | specification-to-implementation-ddd.md        | 要求绑定可检查       | 差异与归属可被机器读取 | 无账本文件       | BIND-002 | T3    | AC-SPEC-002 |
+| DOC-DDD-§10.2        | specification-to-implementation-ddd.md        | 要求来源逐项检查     | 历史计划可追溯         | 五个计划无补录   | BIND-003 | T3    | AC-SPEC-003 |
+| REQ-SPEC-001         | docs/features/spec-closure.md                 | 产品要求             | 四处登记一致           | 缺失             | BIND-004 | T3    | AC-SPEC-001 |
+| REQ-SPEC-002         | docs/features/spec-closure.md                 | 产品要求             | 账本完整               | 缺失             | BIND-005 | T3    | AC-SPEC-002 |
+| REQ-SPEC-003         | docs/features/spec-closure.md                 | 产品要求             | 补录完整               | 缺失             | BIND-006 | T3    | AC-SPEC-003 |
+| DES-EXECUTION        | docs/designs/execution.md                     | 执行系统当前事实     | 登记事实被记录         | 未记录闭环登记   | BIND-007 | T4    | 文档检查    |
+| ADR-0004             | docs/others/adr/0004-spec-closure-contract.md | 本轮长期取舍         | 决策可追溯             | 已写入           | BIND-008 | T3    | 文档检查    |
+| AC-SPEC-001          | docs/features/spec-closure.md                 | 登记必须可检查       | 未登记标准被拒         | 规则已实现       | BIND-009 | T2/T3 | AC-SPEC-001 |
+| AC-SPEC-002          | docs/features/spec-closure.md                 | 账本必须锚定真实章节 | 52 条可核对            | 账本已写入       | BIND-010 | T2/T3 | AC-SPEC-002 |
+| AC-SPEC-003          | docs/features/spec-closure.md                 | 补录不得推断         | 归档可核对             | 补录已写入       | BIND-011 | T2/T3 | AC-SPEC-003 |
+| GOAL-SPEC-CLOSURE-P0 | docs/plans/releases/spec-closure-p0-v1.json   | 发布范围覆盖本轮目标 | 三条验收有去向         | 已纳入           | BIND-012 | T3    | 发布检查    |
+| DOC-DDD-§6           | specification-to-implementation-ddd.md        | 绑定矩阵要求         | 每条来源有绑定         | 本表即最小示例   | BIND-013 | T3    | 文档检查    |
+| DOC-DDD-§7           | specification-to-implementation-ddd.md        | 矛盾写法要求         | 按句式写主要矛盾       | 已按句式重写     | BIND-014 | T2    | 文档检查    |
+| DOC-DDD-§10.1        | specification-to-implementation-ddd.md        | 计划固定内容         | 十五部分齐备           | 本计划含新增章节 | BIND-015 | T3    | 文档检查    |
+| DOC-DDD-§10.4        | specification-to-implementation-ddd.md        | 准入条件             | 十条逐条满足           | 见准出条件       | BIND-016 | T3    | 文档检查    |
 
 不适用来源：本轮的测试意图沿用现有契约测试结构，不新增测试用例文档；跨 Plan 交接不涉及，故 handoff 为空。
 

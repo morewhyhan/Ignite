@@ -3,27 +3,15 @@
   "id": "spec-closure-p0-v1",
   "coverage_version": 2,
   "verification_contract": 2,
-  "plan_ids": [
-    "IGT-202611060001"
-  ],
+  "plan_ids": ["IGT-202611060001"],
   "scope": [
     {
       "id": "GOAL-SPEC-CLOSURE-P0",
       "text": "把规格闭环标准登记为有效来源，并把本轮差异与历史归属固化为可检查的记录",
       "source": "用户 2026-11-06 会话指令与 docs/standards/specification-to-implementation-ddd.md",
-      "requirements": [
-        "REQ-SPEC-001",
-        "REQ-SPEC-002",
-        "REQ-SPEC-003"
-      ],
-      "acceptance": [
-        "AC-SPEC-001",
-        "AC-SPEC-002",
-        "AC-SPEC-003"
-      ],
-      "plan_ids": [
-        "IGT-202611060001"
-      ],
+      "requirements": ["REQ-SPEC-001", "REQ-SPEC-002", "REQ-SPEC-003"],
+      "acceptance": ["AC-SPEC-001", "AC-SPEC-002", "AC-SPEC-003"],
+      "plan_ids": ["IGT-202611060001"],
       "disposition": "included",
       "reason": "",
       "authorization": ""
@@ -40,9 +28,7 @@
       "authorization": ""
     }
   ],
-  "must_pass": [
-    "check-release"
-  ],
+  "must_pass": ["check-release"],
   "evidence": [],
   "integrated_commit": null,
   "excluded": [],

@@ -5,8 +5,8 @@ import { repositoryRoot } from '../../scripts/ignite/core.mjs'
 import { standardRegistryFailures } from '../../scripts/ignite/document-contract.mjs'
 import { isGovernedPath } from '../../scripts/ignite/checks.mjs'
 
-const read = (path) => readFileSync(join(repositoryRoot, path), 'utf8')
-const readdir = (path) => readdirSync(join(repositoryRoot, path))
+const read = (path: string) => readFileSync(join(repositoryRoot, path), 'utf8')
+const readdir = (path: string) => readdirSync(join(repositoryRoot, path))
 const DOC = 'docs/standards/specification-to-implementation-ddd.md'
 const LEDGER = 'docs/others/spec-closure/ledger.json'
 const BACKFILL = 'docs/others/spec-closure/backfill.json'
@@ -51,11 +51,11 @@ describe('specification closure bootstrap', () => {
     const ledger = JSON.parse(read(LEDGER))
     expect(ledger.source_document).toBe(DOC)
     expect(ledger.items).toHaveLength(52)
-    expect(ledger.items.map((item) => item.id)).toEqual(
+    expect((ledger.items as any[]).map((item) => item.id)).toEqual(
       Array.from({ length: 52 }, (_, index) => `GAP-${String(index + 1).padStart(2, '0')}`),
     )
     const plans = planIds()
-    for (const item of ledger.items) {
+    for (const item of ledger.items as any[]) {
       expect(doc).toContain(item.doc_heading)
       expect(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']).toContain(item.group)
       expect(['P0', 'P1', 'P2', 'P3', 'P4', 'P5']).toContain(item.stage)
@@ -64,7 +64,7 @@ describe('specification closure bootstrap', () => {
       if (item.disposition === 'defer') expect(item.reason?.trim().length ?? 0).toBeGreaterThan(0)
       if (item.plan !== null) expect(plans.has(item.plan)).toBe(true)
     }
-    expect(ledger.items.filter((item) => item.plan !== null).length).toBeGreaterThan(0)
+    expect((ledger.items as any[]).filter((item) => item.plan !== null).length).toBeGreaterThan(0)
   })
 
   it('[AC-SPEC-003] archived plans keep only verifiable bindings and admit what was not recorded', () => {
@@ -72,7 +72,7 @@ describe('specification closure bootstrap', () => {
     expect(backfill.entries).toHaveLength(5)
     const acceptance = acceptanceIndex()
     const live = planIds()
-    for (const entry of backfill.entries) {
+    for (const entry of backfill.entries as any[]) {
       expect(entry.archived_in_git).toBe(true)
       expect(entry.plan_path).toBeUndefined()
       expect(live.has(entry.plan_id)).toBe(false)

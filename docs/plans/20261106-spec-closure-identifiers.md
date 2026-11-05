@@ -363,6 +363,9 @@
 - 2026-11-06：测试改为四条断言，其中"文件缺号"与"计划引用未解析"两条在真实仓库上失败，构成 AC-SPEC-004/005 的目标红灯；重号与占位符两条为生产扫描器的单元保证。
 - 2026-11-06：draft 审查经五轮修订后 approved，记录已回写；计划转 ready、active，T1 完成。
 - 2026-11-06：原生红灯被宿主环境阻塞。TDD runner 以 spawn(corepack) 启动，本机 Node 在 Windows 上无法解析 corepack（ENOENT / EINVAL），未生成红灯回执。环境错误不算红灯，T2 不标记完成，T3 不启动。
+- 2026-11-06：临时兼容层（本地 corepack.exe，不进入仓库）解除了 spawn 阻塞；AC-SPEC-004 与 AC-SPEC-005 均取得原生红灯，实现后四条断言转绿。
+- 2026-11-06：AC-SPEC-005 的红灯证据在绿灯前失效：为修复 AC-SPEC-004 的断言顺序，测试文件在其红灯之后被修改，检查器判定 test changed before green。这属于流程错误，不用重写证据掩盖；该 AC 需在新的交付中按 restart 流程重取红灯后才计入完成。
+- 2026-11-06：T5 未完成。check --level auto 的失败项为审查指纹失效与该条证据失效，二者如实保留。
 
 <!-- ignite-progress -->
 

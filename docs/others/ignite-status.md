@@ -1,7 +1,7 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`95ba35f888fe`
+输入指纹：`e669b6141b52`
 当前 Plan：1；结构化历史：4；未迁移历史：0
 
 ## 当前工作
@@ -10,9 +10,9 @@
 
 ## 发布范围
 
-- `spec-closure-content-v1` · `invalid`
+- `spec-closure-content-v1` · `active`
   - Plan：`IGT-202611060005`
-  - 缺少证据：`IGT-202611060005:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-202611060005
   - 未完成原始目标：GOAL-SPEC-CONTENT 声明内容契约的计划必须有实质分析章节
@@ -43,6 +43,6 @@
 
 ## 结构问题
 
-- docs/plans/20261106-spec-closure-content.md: draft review fingerprint is stale or does not match the current object
+- 无。
 
 > 本文件是确定性派生视图；修改 Plan 或 Release 机器源后重新生成。

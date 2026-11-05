@@ -222,7 +222,8 @@
     "docs/others/evidence/",
     "tests/contracts/spec-closure-ids.test.ts",
     "scripts/ignite/spec-id-registry.mjs",
-    "scripts/check-docs.mjs"
+    "scripts/check-docs.mjs",
+    "docs/plans/"
   ],
   "tdd_evidence": [],
   "required_evidence": [

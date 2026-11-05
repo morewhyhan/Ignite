@@ -377,6 +377,7 @@
 - 2026-11-06：临时兼容层（本地 corepack.exe，不进入仓库）解除了 spawn 阻塞；AC-SPEC-004 与 AC-SPEC-005 均取得原生红灯，实现后四条断言转绿。
 - 2026-11-06：AC-SPEC-005 的红灯证据在绿灯前失效：为修复 AC-SPEC-004 的断言顺序，测试文件在其红灯之后被修改，检查器判定 test changed before green。这属于流程错误，不用重写证据掩盖；该 AC 需在新的交付中按 restart 流程重取红灯后才计入完成。
 - 2026-11-06：T5 未完成。check --level auto 的失败项为审查指纹失效与该条证据失效，二者如实保留。
+- 2026-11-06：check --level auto 的 check-integration 未产出。受管命令使用清洗后的环境，子进程拿不到 IGNITE_SKIP_RUNTIME_CHECK，而本机 Node 为 24.11.0（要求 24.19.0），治理门禁在子命令启动处失败。该限制属于宿主环境，不是代码缺陷。
 
 <!-- ignite-progress -->
 

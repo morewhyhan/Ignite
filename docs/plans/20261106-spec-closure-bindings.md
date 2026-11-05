@@ -198,7 +198,7 @@
       "title": "运行绑定断言并记录原生红灯",
       "phase": "red",
       "acceptance": ["AC-SPEC-006"],
-      "status": "doing",
+      "status": "done",
       "result": "模板尚未声明绑定时断言真实失败并写入原生回执。",
       "scope": ["tests/contracts/spec-closure-bindings.test.ts", "docs/others/evidence/tdd/"],
       "depends_on": ["T1"],
@@ -412,13 +412,16 @@
 ## 状态记录
 
 - 2026-11-06：建立计划；模板尚未声明绑定契约，断言失败。
+- 2026-11-06：首次红灯在格式化测试后失效，按 restart 重做：回退实现 6becef1 → 红灯 tdd-20261105183628-c337fe → 重放实现 f152fb0。
+- 2026-11-06：实现包含模板契约、validatePlan 接线、非对象条目防御，以及 check-docs 仅扫描计划正文。
+- 2026-11-06：check --level auto 的剩余失败来自 ignite-cli.test.ts 的三条用例；在基线 86c8e52 的 worktree 上复现其中两条，错误为 ERR_UNSUPPORTED_ESM_URL_SCHEME（Windows 绝对路径被当作 c: 协议）。第三条单独运行通过。判定为既有 Windows 不兼容与并行不稳定，与本轮改动无关，但门禁因此无法变绿。
 
 <!-- ignite-progress -->
 
 状态：`active`（由元数据生成）
 
 - [x] T1 · 登记需求、计划与断言并提交基线 · done
-- [ ] T2 · 运行绑定断言并记录原生红灯 · doing
+- [x] T2 · 运行绑定断言并记录原生红灯 · done
 - [ ] T3 · 模板声明绑定契约并接入校验 · todo
 - [ ] T4 · 完成检查与回写 · todo
 

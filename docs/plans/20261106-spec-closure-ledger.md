@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-202611060004",
   "release": "spec-closure-ledger-v1",
-  "status": "verifying",
+  "status": "done",
   "outcome": "账本为每条差异记录真实实施结果，met 条目必须指向真实计划",
   "contract_version": 2,
   "execution_contract": 1,
@@ -304,6 +304,72 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-05T20:57:38.591Z"
+    },
+    {
+      "stage": "delivery",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent delivery review of IGT-202611060004, approved at 30f5d35",
+      "subject_fingerprint": "808812dfadb715a2098f81da9fa8021473d2943d1504c4e12aeca00563a05950",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "LBD-005",
+          "severity": "nonblocking",
+          "summary": "kept 11 is a hardcoded expected set; no independent proof beyond the constant.",
+          "resolved": false
+        },
+        {
+          "id": "LBD-007",
+          "severity": "nonblocking",
+          "summary": "base_commit is the plan creation commit; prep diff outside delivery scope.",
+          "resolved": false
+        },
+        {
+          "id": "LBD-010",
+          "severity": "blocking",
+          "summary": "Resolved: final run b52aef at d2d52ff, exit 0, covers the final state.",
+          "resolved": true
+        },
+        {
+          "id": "LBD-001",
+          "severity": "nonblocking",
+          "summary": "Resolved: feature table, R1/AC, test, ledger and plan include kept.",
+          "resolved": true
+        },
+        {
+          "id": "LBD-006",
+          "severity": "nonblocking",
+          "summary": "Resolved: kept set within spec.",
+          "resolved": true
+        },
+        {
+          "id": "LB-003",
+          "severity": "nonblocking",
+          "summary": "Resolved by diff: ledger adds result fields only.",
+          "resolved": true
+        },
+        {
+          "id": "LBD-002",
+          "severity": "blocking",
+          "summary": "Resolved: tasks done, verifying, integrated_commit set.",
+          "resolved": true
+        },
+        {
+          "id": "LBD-003",
+          "severity": "blocking",
+          "summary": "Resolved: design records counts and mapping.",
+          "resolved": true
+        },
+        {
+          "id": "LBD-004",
+          "severity": "blocking",
+          "summary": "Resolved: status record includes red, restart, implementation and runs.",
+          "resolved": true
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-05T21:08:37.823Z"
     }
   ],
   "verification_contract": 2,
@@ -311,43 +377,24 @@
   "goals": [
     {
       "text": "账本每条记录实施结果，且 met 条目有计划",
-      "requirements": [
-        "REQ-SPEC-007"
-      ]
+      "requirements": ["REQ-SPEC-007"]
     }
   ],
-  "constraints": [
-    "不重写条目文本",
-    "不改变负责阶段",
-    "不追溯修改已完成计划证据"
-  ],
-  "non_goals": [
-    "不改 P0–P2 的计划与证据",
-    "不重排条目"
-  ],
+  "constraints": ["不重写条目文本", "不改变负责阶段", "不追溯修改已完成计划证据"],
+  "non_goals": ["不改 P0–P2 的计划与证据", "不重排条目"],
   "authorization": {
     "source": "用户 2026-11-06 收尾 goal 指令"
   },
-  "deliverables": [
-    "带 result 字段的 52 条账本",
-    "账本校验断言",
-    "执行设计回写"
-  ],
+  "deliverables": ["带 result 字段的 52 条账本", "账本校验断言", "执行设计回写"],
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "2bb56368a18b5204b65b3aa7b8dba2fcc3f8f249",
-  "requirements": [
-    "REQ-SPEC-007"
-  ],
+  "requirements": ["REQ-SPEC-007"],
   "acceptance": [
     {
       "id": "AC-SPEC-007",
-      "tests": [
-        "tests/contracts/spec-closure-ledger.test.ts::[AC-SPEC-007]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "tests": ["tests/contracts/spec-closure-ledger.test.ts::[AC-SPEC-007]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-ledger.test.ts::[AC-SPEC-007]",
@@ -356,9 +403,7 @@
       ]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
@@ -379,52 +424,33 @@
       "id": "T2",
       "title": "运行账本断言并记录原生红灯",
       "phase": "red",
-      "acceptance": [
-        "AC-SPEC-007"
-      ],
+      "acceptance": ["AC-SPEC-007"],
       "status": "done",
       "result": "账本缺少 result 时断言真实失败并写入原生回执。",
-      "scope": [
-        "tests/contracts/spec-closure-ledger.test.ts",
-        "docs/others/evidence/tdd/"
-      ],
-      "depends_on": [
-        "T1"
-      ],
+      "scope": ["tests/contracts/spec-closure-ledger.test.ts", "docs/others/evidence/tdd/"],
+      "depends_on": ["T1"],
       "owner": "ignite-executor"
     },
     {
       "id": "T3",
       "title": "为 52 条回填实施结果",
       "phase": "implement",
-      "acceptance": [
-        "AC-SPEC-007"
-      ],
+      "acceptance": ["AC-SPEC-007"],
       "status": "done",
       "result": "为 52 条回填 result：met 为 GAP-01（IGT-202611060001，P0 已取消，登记随 b03c24f 落地）、GAP-10（IGT-202611060002）、GAP-20/21/24（IGT-202611060003）；kept 为基线已满足的 11 条（GAP-14/18/25/35/38/39/40/45/48/51/52）；partial 为 GAP-23；其余为 missing。",
-      "scope": [
-        "docs/others/spec-closure/ledger.json"
-      ],
-      "depends_on": [
-        "T2"
-      ],
+      "scope": ["docs/others/spec-closure/ledger.json"],
+      "depends_on": ["T2"],
       "owner": "ignite-executor"
     },
     {
       "id": "T4",
       "title": "完成检查与回写",
       "phase": "verify",
-      "acceptance": [
-        "AC-SPEC-007"
-      ],
+      "acceptance": ["AC-SPEC-007"],
       "status": "done",
       "result": "检查通过，执行设计记录账本结果字段。",
-      "scope": [
-        "docs/designs/execution.md"
-      ],
-      "depends_on": [
-        "T3"
-      ],
+      "scope": ["docs/designs/execution.md"],
+      "depends_on": ["T3"],
       "owner": "ignite-executor"
     }
   ],
@@ -496,9 +522,7 @@
       "run_id": "tdd-20261105203514-5e7d0d"
     }
   ],
-  "required_evidence": [
-    "check-integration"
-  ],
+  "required_evidence": ["check-integration"],
   "evidence": [
     {
       "id": "check-integration",
@@ -610,7 +634,7 @@
 
 <!-- ignite-progress -->
 
-状态：`verifying`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 登记规格、计划与断言并提交基线 · done
 - [x] T2 · 运行账本断言并记录原生红灯 · done

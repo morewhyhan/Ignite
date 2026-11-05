@@ -2,11 +2,11 @@
 
 模板状态：`template-baseline`
 输入指纹：`84368403b87f`
-当前 Plan：1；结构化历史：3；未迁移历史：0
+当前 Plan：0；结构化历史：4；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-202611060004` · `verifying` · `spec-closure-ledger-v1`
+- 无。
 
 ## 发布范围
 
@@ -14,8 +14,8 @@
   - Plan：`IGT-202611060004`
   - 缺少证据：无
   - 最终版本验收：missing
-  - 下一步：pnpm ignite next --plan IGT-202611060004
-  - 未完成原始目标：GOAL-SPEC-LEDGER 账本记录真实实施结果，met 条目指向真实计划
+  - 下一步：pnpm ignite release verify spec-closure-ledger-v1 --plan IGT-202611060004
+  - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `spec-closure-p0-v1` · `cancelled`
   - Plan：`IGT-202611060001`
   - 缺少证据：无

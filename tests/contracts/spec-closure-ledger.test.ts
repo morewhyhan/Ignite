@@ -19,6 +19,13 @@ function livePlanIds() {
 const EXPECTED_MET = ['GAP-01', 'GAP-10', 'GAP-20', 'GAP-21', 'GAP-24']
 const EXPECTED_PARTIAL = ['GAP-23']
 const EXPECTED_MISSING = ['GAP-02', 'GAP-03', 'GAP-05', 'GAP-06', 'GAP-08', 'GAP-46']
+const EXPECTED_MET_PLAN: Record<string, string> = {
+  'GAP-01': 'IGT-202611060001',
+  'GAP-10': 'IGT-202611060002',
+  'GAP-20': 'IGT-202611060003',
+  'GAP-21': 'IGT-202611060003',
+  'GAP-24': 'IGT-202611060003',
+}
 
 describe('specification closure ledger', () => {
   it('[AC-SPEC-007] every entry records a truthful implementation result', () => {
@@ -45,6 +52,10 @@ describe('specification closure ledger', () => {
     if (met.join(',') !== [...EXPECTED_MET].sort().join(',')) gaps.push(`met set ${met.join(',')}`)
     if (partial.join(',') !== [...EXPECTED_PARTIAL].sort().join(',')) gaps.push(`partial set ${partial.join(',')}`)
     for (const id of EXPECTED_MISSING) if (!missing.includes(id)) gaps.push(`${id}: expected missing`)
+    for (const [id, plan] of Object.entries(EXPECTED_MET_PLAN)) {
+      const item = ledger.items.find((entry) => entry.id === id)
+      if (item?.plan !== plan) gaps.push(`${id}: plan ${item?.plan ?? 'none'} != ${plan}`)
+    }
 
     expect(gaps, '[AC-SPEC-007] target ledger result gaps').toEqual([])
   })

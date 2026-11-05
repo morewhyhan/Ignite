@@ -106,7 +106,7 @@
         "AC-SPEC-007"
       ],
       "status": "todo",
-      "result": "为 52 条回填 result：met 为 GAP-01（IGT-202611060001）、GAP-10（IGT-202611060002）、GAP-20/GAP-21/GAP-24（IGT-202611060003）；partial 为 GAP-23；其余为 missing；断言转绿。",
+      "result": "为 52 条回填 result：met 为 GAP-01（IGT-202611060001，P0 已取消，登记工作随 b03c24f 落地）、GAP-10（IGT-202611060002）、GAP-20/GAP-21/GAP-24（IGT-202611060003）；partial 为 GAP-23；其余为 missing；断言转绿。",
       "scope": [
         "docs/others/spec-closure/ledger.json"
       ],
@@ -244,7 +244,7 @@
 目标要求账本可判断完成度。
 当前账本只有意图字段，没有结果字段。
 因此完成度判断与现有账本不能同时成立。
-支撑事实：39 条标 implement，实际落地约 6 条。
+支撑事实：39 条标 implement，实际只有 5 条落地（GAP-01/10/20/21/24）。
 推翻条件：若账本已记录结果，本矛盾不成立。
 
 ## 次要矛盾
@@ -281,7 +281,7 @@
 
 ## 测试与验收设计
 
-一条断言：52 条都必须有合法 result，met 条目必须有 plan。
+一条断言：52 条都必须有合法 result；met 集合必须精确等于 GAP-01/10/20/21/24 且各自指向约定的实时计划；partial 为 GAP-23；GAP-02/03/05/06/08/46 必须为 missing；条目顺序与总数不变。
 
 ## 实现任务
 

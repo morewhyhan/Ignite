@@ -27,10 +27,12 @@ const complete = {
 describe('plan binding contract', () => {
   it('[AC-SPEC-006] plan template demonstrates a complete binding list', () => {
     const meta = metadataOf(read('docs/plans/_template.md'))
-    expect(meta.binding_contract, '[AC-SPEC-006] target template binding contract').toBe(1)
+    const gaps: string[] = []
+    if (meta.binding_contract !== 1) gaps.push('binding_contract')
     const bindings = meta.bindings as unknown[]
-    expect(Array.isArray(bindings) && bindings.length > 0, '[AC-SPEC-006] target template bindings').toBe(true)
-    expect(validateBindings(meta as never), '[AC-SPEC-006] target template bindings validate').toEqual([])
+    if (!Array.isArray(bindings) || bindings.length === 0) gaps.push('bindings')
+    gaps.push(...validateBindings(meta as never))
+    expect(gaps, '[AC-SPEC-006] target template contract gaps').toEqual([])
   })
 
   it('[AC-SPEC-006] plan validation rejects a plan that lost an acceptance binding', () => {

@@ -1,12 +1,12 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`f5f712cdff22`
-当前 Plan：0；结构化历史：2；未迁移历史：0
+输入指纹：`fd5ba077c966`
+当前 Plan：1；结构化历史：2；未迁移历史：0
 
 ## 当前工作
 
-- 无。
+- `IGT-202611060003` · `active` · `spec-closure-p2-v1`
 
 ## 发布范围
 
@@ -22,6 +22,12 @@
   - 最终版本验收：missing
   - 下一步：pnpm ignite release verify spec-closure-p1-v1 --plan IGT-202611060002
   - 未完成原始目标：无已登记缺口（仍需语义核对）
+- `spec-closure-p2-v1` · `active`
+  - Plan：`IGT-202611060003`
+  - 缺少证据：`IGT-202611060003:check-integration`（missing：no run is bound to this evidence requirement）
+  - 最终版本验收：missing
+  - 下一步：pnpm ignite next --plan IGT-202611060003
+  - 未完成原始目标：GOAL-SPEC-P2 新计划为每条需求与验收声明唯一绑定，缺失即拒绝
 
 ## 结构问题
 

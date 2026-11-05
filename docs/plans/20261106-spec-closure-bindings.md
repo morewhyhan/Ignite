@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-202611060003",
   "release": "spec-closure-p2-v1",
-  "status": "draft",
+  "status": "active",
   "outcome": "新计划必须为每条需求与验收声明唯一绑定，缺一条就进不了 ready",
   "contract_version": 2,
   "execution_contract": 1,
@@ -76,6 +76,72 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-05T18:27:59.717Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent draft review of IGT-202611060003, two rounds, approved at 351d764",
+      "subject_fingerprint": "74747fedf11f36ee8f7a378ad70cd2a8f24a43c0bf38bffdf3195913a38a7a64",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "P2-001",
+          "severity": "blocking",
+          "summary": "Resolved: behavioural validatePlan assertion on real P2 metadata; intact returns [], broken returns [] today and must return AC-SPEC-006: no binding after T3.",
+          "resolved": true
+        },
+        {
+          "id": "P2-002",
+          "severity": "blocking",
+          "summary": "Resolved: template must declare contract, non-empty bindings and pass validateBindings.",
+          "resolved": true
+        },
+        {
+          "id": "P2-003",
+          "severity": "blocking",
+          "summary": "Resolved: missing-AC case present; REQ/AC/duplicate/unknown-task all verified.",
+          "resolved": true
+        },
+        {
+          "id": "P2-004",
+          "severity": "blocking",
+          "summary": "Resolved: feature non-goal and module map reconciled.",
+          "resolved": true
+        },
+        {
+          "id": "P2-005",
+          "severity": "nonblocking",
+          "summary": "base_commit is the P2 prep commit; prep diff outside delivery scope.",
+          "resolved": false
+        },
+        {
+          "id": "P2-006",
+          "severity": "nonblocking",
+          "summary": "Test design names two assertions; name the validatePlan behaviour assertion too.",
+          "resolved": false
+        },
+        {
+          "id": "P2-007",
+          "severity": "nonblocking",
+          "summary": "Resolved: feature map and update list include P2 files.",
+          "resolved": true
+        },
+        {
+          "id": "P2-008",
+          "severity": "nonblocking",
+          "summary": "T3 result still present tense; prefer expected phrasing.",
+          "resolved": false
+        },
+        {
+          "id": "P2-009",
+          "severity": "nonblocking",
+          "summary": "Resolved: non-object binding entries return a failure; branch untested (optional).",
+          "resolved": false
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-05T18:28:35.104Z"
     }
   ],
   "verification_contract": 2,
@@ -115,7 +181,7 @@
       "id": "T1",
       "title": "登记需求、计划与断言并提交基线",
       "phase": "prepare",
-      "status": "todo",
+      "status": "done",
       "result": "Feature 增量、计划、发布范围与断言写入并提交基线，准备检查通过。",
       "scope": [
         "docs/features/spec-closure.md",
@@ -132,7 +198,7 @@
       "title": "运行绑定断言并记录原生红灯",
       "phase": "red",
       "acceptance": ["AC-SPEC-006"],
-      "status": "todo",
+      "status": "doing",
       "result": "模板尚未声明绑定时断言真实失败并写入原生回执。",
       "scope": ["tests/contracts/spec-closure-bindings.test.ts", "docs/others/evidence/tdd/"],
       "depends_on": ["T1"],
@@ -239,7 +305,7 @@
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
-  "updated_at": "2026-11-06"
+  "updated_at": "2026-11-05"
 }
 -->
 
@@ -343,10 +409,10 @@
 
 <!-- ignite-progress -->
 
-状态：`draft`（由元数据生成）
+状态：`active`（由元数据生成）
 
-- [ ] T1 · 登记需求、计划与断言并提交基线 · todo
-- [ ] T2 · 运行绑定断言并记录原生红灯 · todo
+- [x] T1 · 登记需求、计划与断言并提交基线 · done
+- [ ] T2 · 运行绑定断言并记录原生红灯 · doing
 - [ ] T3 · 模板声明绑定契约并接入校验 · todo
 - [ ] T4 · 完成检查与回写 · todo
 

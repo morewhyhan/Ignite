@@ -52,5 +52,3 @@
 ## 变更规则
 
 修改视觉基线时，同时更新本文档、`src/app/globals.css` 和受影响的 UI 组件，并通过 Playwright E2E 或浏览器手动验证关键交互。响应式主题与首页基线由 `tests/e2e/visual-baseline.spec.ts` 覆盖。
-
-- DES-VISUAL-101：当前视觉系统与交互状态事实以本编号引用。

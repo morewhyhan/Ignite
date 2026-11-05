@@ -25,5 +25,3 @@ user 1 ─── n task
 | `task`         | `id`, `title`, `completed`, `userId`, timestamps  | `userId + createdAt` index                      |
 
 完整字段和关系以 [`prisma/schema.prisma`](../../prisma/schema.prisma) 为准。
-
-- DES-DB-101：当前数据模型与迁移事实以本编号引用。

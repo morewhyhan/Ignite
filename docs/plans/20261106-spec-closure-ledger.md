@@ -136,6 +136,48 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-05T20:26:37.527Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent draft review of IGT-202611060004, three rounds, approved at 18929b4",
+      "subject_fingerprint": "a083cd10ed8ccd16bd26fced4fb8b0dd0d11ebcdfaf4e150fb161732d69a1c8b",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "LB-009",
+          "severity": "blocking",
+          "summary": "Resolved: EXPECTED_MET_PLAN pins each met item to its agreed live plan.",
+          "resolved": true
+        },
+        {
+          "id": "LB-010",
+          "severity": "nonblocking",
+          "summary": "Resolved: T3 records the P0 cancellation and b03c24f landing for GAP-01.",
+          "resolved": true
+        },
+        {
+          "id": "LB-011",
+          "severity": "nonblocking",
+          "summary": "Resolved: contradiction says exactly 5 and the test design names sets, order and mapping.",
+          "resolved": true
+        },
+        {
+          "id": "LB-003",
+          "severity": "nonblocking",
+          "summary": "Text/stage immutability is not asserted; delivery diff review must catch it.",
+          "resolved": false
+        },
+        {
+          "id": "LB-007",
+          "severity": "nonblocking",
+          "summary": "base_commit is the plan creation commit; T1 prep outside delivery diff.",
+          "resolved": false
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-05T20:33:51.381Z"
     }
   ],
   "verification_contract": 2,
@@ -281,13 +323,7 @@
     "docs/others/evidence/",
     "tests/contracts/spec-closure-ledger.test.ts"
   ],
-  "tdd_evidence": [
-    {
-      "acceptance_id": "AC-SPEC-007",
-      "test": "tests/contracts/spec-closure-ledger.test.ts::[AC-SPEC-007]",
-      "run_id": "tdd-20261105202456-dbbbcc"
-    }
-  ],
+  "tdd_evidence": [],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
@@ -411,3 +447,7 @@
 ## TDD 恢复记录
 
 2026-11-05，AC-SPEC-007：add。保留原回执 tdd-20261105202145-5e0d5c；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。
+
+## TDD 恢复记录
+
+2026-11-05，AC-SPEC-007：prettier。保留原回执 tdd-20261105202456-dbbbcc；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。

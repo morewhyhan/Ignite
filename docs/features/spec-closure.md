@@ -21,7 +21,7 @@
 - 需求类型：存量修改（模板文档治理与检查器）
 - 规格位置：`docs/features/spec-closure.md`
 - 计划位置：`docs/plans/20261106-spec-closure-bootstrap.md`（P0）、`docs/plans/20261106-spec-closure-identifiers.md`（P1）
-- 检查入口：`scripts/check-docs.mjs`、`scripts/ignite/checks.mjs`、`scripts/ignite/specification-registry.mjs`、`tests/contracts/spec-closure.test.ts`、`tests/contracts/spec-closure-ids.test.ts`
+- 检查入口：`scripts/check-docs.mjs`、`scripts/ignite/checks.mjs`、`scripts/ignite/spec-id-registry.mjs`、`tests/contracts/spec-closure.test.ts`、`tests/contracts/spec-closure-ids.test.ts`
 - 账本与补录：`docs/others/spec-closure/`
 - 决策记录：`docs/others/adr/`
 

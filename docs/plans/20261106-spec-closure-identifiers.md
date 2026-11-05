@@ -298,6 +298,7 @@
 | DOC-DDD-§6 | docs/standards/specification-to-implementation-ddd.md | 要求绑定用稳定 ID | 编号可被引用 | 无编号 | missing | 无 Source ID | 无法建立绑定 | 先做编号 | BIND-008 | T3 | AC-SPEC-004 | 待验证 |
 | DOC-DDD-§10.5 | docs/standards/specification-to-implementation-ddd.md | 要求 Source ID 稳定 | 编号唯一 | 无编号 | missing | 无唯一性检查 | 重号不可发现 | 查重 | BIND-009 | T3 | AC-SPEC-004 | 待验证 |
 | DOC-DDD-§10.1 | docs/standards/specification-to-implementation-ddd.md | 计划要引用来源 | 引用可核对 | 无校验 | missing | 无引用校验 | 未知引用不可发现 | 严格 token | BIND-010 | T3 | AC-SPEC-005 | 待验证 |
+| DOC-DDD-§10.4 | docs/standards/specification-to-implementation-ddd.md | 准入要求每条来源有 Binding | 计划准入可判断 | 无编号即无绑定 | missing | 准入缺编号依据 | 无编号则无法进入 ready | 先补编号 | BIND-011 | T3 | AC-SPEC-004 | 待验证 |
 
 ## 主要矛盾
 
@@ -366,7 +367,8 @@
 ## 状态记录
 
 - 2026-11-06：建立计划；测试在未编号仓库上失败（2 failed / 1 passed），准备基线随后提交。
-- 2026-11-06：两轮初审共 22 条意见（含 12 条阻断），已改：risk、绑定矩阵、编号分配表、引用范围、ADR 复审任务、计数与示例 ID。原生红灯仍未记录。
+- 2026-11-06：前三轮审查共 27 条意见（阻断 15 条）。已改：risk、绑定矩阵、编号分配表、引用范围、ADR 复审任务、计数与示例 ID、扫描器路径与测试接入。原生红灯仍未记录。
+- 2026-11-06：测试改为四条断言，其中"文件缺号"与"计划引用未解析"两条在真实仓库上失败，构成 AC-SPEC-004/005 的目标红灯；重号与占位符两条为生产扫描器的单元保证。
 
 <!-- ignite-progress -->
 

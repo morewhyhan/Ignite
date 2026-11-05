@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-202611060003",
   "release": "spec-closure-p2-v1",
-  "status": "active",
+  "status": "verifying",
   "outcome": "新计划必须为每条需求与验收声明唯一绑定，缺一条就进不了 ready",
   "contract_version": 2,
   "execution_contract": 1,
@@ -209,7 +209,7 @@
       "title": "模板声明绑定契约并接入校验",
       "phase": "implement",
       "acceptance": ["AC-SPEC-006"],
-      "status": "todo",
+      "status": "done",
       "result": "模板带 binding_contract 与 bindings，检查器在缺失、重复或未知任务时拒绝，计划校验实际调用该检查。",
       "scope": ["docs/plans/_template.md", "scripts/ignite/state.mjs", "scripts/check-docs.mjs"],
       "depends_on": ["T2"],
@@ -220,7 +220,7 @@
       "title": "完成检查与回写",
       "phase": "verify",
       "acceptance": ["AC-SPEC-006"],
-      "status": "todo",
+      "status": "done",
       "result": "计划校验调用绑定检查后，断言与文档检查通过，执行设计记录绑定契约现状。",
       "scope": ["docs/designs/execution.md"],
       "depends_on": ["T3"],
@@ -315,7 +315,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "b711c2621da0be97ac51d9545074366920820901",
   "updated_at": "2026-11-05"
 }
 -->
@@ -419,16 +419,16 @@
 - 2026-11-06：建立计划；模板尚未声明绑定契约，断言失败。
 - 2026-11-06：首次红灯在格式化测试后失效，按 restart 重做：回退实现 6becef1 → 红灯 tdd-20261105183628-c337fe → 重放实现 f152fb0。
 - 2026-11-06：实现包含模板契约、validatePlan 接线、非对象条目防御，以及 check-docs 仅扫描计划正文。
-- 2026-11-06：check --level auto 的剩余失败来自 ignite-cli.test.ts 的三条用例；在基线 86c8e52 的 worktree 上复现其中两条，错误为 ERR_UNSUPPORTED_ESM_URL_SCHEME（Windows 绝对路径被当作 c: 协议）。第三条单独运行通过。判定为既有 Windows 不兼容与并行不稳定，与本轮改动无关，但门禁因此无法变绿。
+- 2026-11-06：宿主切换到 WSL（Node 24.19 + linux/x64 依赖），同一提交上 check --level auto 以 exit 0 通过，run-20261105192720-627d03；此前 Windows 上的 ignite-cli 失败属于宿主不兼容，已不再阻塞。该 run 的目标测试集合覆盖 P2 验收与改动文件相关用例，不是完整契约套件。
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`verifying`（由元数据生成）
 
 - [x] T1 · 登记需求、计划与断言并提交基线 · done
 - [x] T2 · 运行绑定断言并记录原生红灯 · done
-- [ ] T3 · 模板声明绑定契约并接入校验 · todo
-- [ ] T4 · 完成检查与回写 · todo
+- [x] T3 · 模板声明绑定契约并接入校验 · done
+- [x] T4 · 完成检查与回写 · done
 
 验收缺口：未记录；完成仍须实际证据
 证据：check-integration / run-20261105192720-627d03

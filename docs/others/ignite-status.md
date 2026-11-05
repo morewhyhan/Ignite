@@ -6,7 +6,7 @@
 
 ## 当前工作
 
-- `IGT-202611060003` · `active` · `spec-closure-p2-v1`
+- `IGT-202611060003` · `verifying` · `spec-closure-p2-v1`
 
 ## 发布范围
 
@@ -22,7 +22,7 @@
   - 最终版本验收：missing
   - 下一步：pnpm ignite release verify spec-closure-p1-v1 --plan IGT-202611060002
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `spec-closure-p2-v1` · `active`
+- `spec-closure-p2-v1` · `verifying`
   - Plan：`IGT-202611060003`
   - 缺少证据：无
   - 最终版本验收：missing

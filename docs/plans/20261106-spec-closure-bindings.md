@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-202611060003",
   "release": "spec-closure-p2-v1",
-  "status": "verifying",
+  "status": "done",
   "outcome": "新计划必须为每条需求与验收声明唯一绑定，缺一条就进不了 ready",
   "contract_version": 2,
   "execution_contract": 1,
@@ -142,6 +142,60 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-05T18:28:35.104Z"
+    },
+    {
+      "stage": "delivery",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent delivery review of IGT-202611060003, approved after the WSL integration run",
+      "subject_fingerprint": "fbc4e8a652f487f0bfddbc482de78c3a065bb4c2c312710b3b51fd9a8b28429f",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "P2D-001",
+          "severity": "nonblocking",
+          "summary": "P1 regression confirmed: the P1 review finding contains STD-ARCH-001 and the P1 test scans full content. Not a P2 blocker; fix under a P1 maintenance plan.",
+          "resolved": false
+        },
+        {
+          "id": "P2D-002",
+          "severity": "nonblocking",
+          "summary": "Status record updated to record the WSL pass and its scope.",
+          "resolved": true
+        },
+        {
+          "id": "P2D-003",
+          "severity": "nonblocking",
+          "summary": "The run covers P2 acceptance and changed-file tests, not the full contract suite.",
+          "resolved": false
+        },
+        {
+          "id": "P2D-004",
+          "severity": "nonblocking",
+          "summary": "base_commit is the P2 prep commit; prep diff outside delivery scope.",
+          "resolved": false
+        },
+        {
+          "id": "P2D-005",
+          "severity": "nonblocking",
+          "summary": "Test design still names two assertions; validatePlan behaviour assertion not named.",
+          "resolved": false
+        },
+        {
+          "id": "P2D-006",
+          "severity": "nonblocking",
+          "summary": "T3 result still reads as achieved state.",
+          "resolved": false
+        },
+        {
+          "id": "P2D-007",
+          "severity": "nonblocking",
+          "summary": "Plan evidence/task changes committed with the review record.",
+          "resolved": true
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-05T19:39:27.765Z"
     }
   ],
   "verification_contract": 2,
@@ -423,7 +477,7 @@
 
 <!-- ignite-progress -->
 
-状态：`verifying`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 登记需求、计划与断言并提交基线 · done
 - [x] T2 · 运行绑定断言并记录原生红灯 · done

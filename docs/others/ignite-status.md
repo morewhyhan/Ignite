@@ -2,11 +2,11 @@
 
 模板状态：`template-baseline`
 输入指纹：`040fe26bd017`
-当前 Plan：1；结构化历史：2；未迁移历史：0
+当前 Plan：0；结构化历史：3；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-202611060003` · `verifying` · `spec-closure-p2-v1`
+- 无。
 
 ## 发布范围
 
@@ -26,8 +26,8 @@
   - Plan：`IGT-202611060003`
   - 缺少证据：无
   - 最终版本验收：missing
-  - 下一步：pnpm ignite next --plan IGT-202611060003
-  - 未完成原始目标：GOAL-SPEC-P2 新计划为每条需求与验收声明唯一绑定，缺失即拒绝
+  - 下一步：pnpm ignite release verify spec-closure-p2-v1 --plan IGT-202611060003
+  - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题
 

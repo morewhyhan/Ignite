@@ -42,7 +42,7 @@
   },
   "deliverables": [
     "带编号的 16 份来源文件",
-    "scripts/ignite/specification-registry.mjs 与 check-docs 注册检查",
+    "scripts/ignite/spec-id-registry.mjs 与 check-docs 注册检查",
     "tests/contracts/spec-closure-ids.test.ts 的三条断言"
   ],
   "remaining_work": [],
@@ -99,7 +99,7 @@
         "docs/plans/20261106-spec-closure-identifiers.md",
         "docs/plans/releases/spec-closure-p1-v1.json",
         "tests/contracts/spec-closure-ids.test.ts",
-        "scripts/ignite/specification-registry.mjs"
+        "scripts/ignite/spec-id-registry.mjs"
       ],
       "depends_on": [],
       "owner": "ignite-executor"
@@ -136,7 +136,9 @@
       "scope": [
         "docs/standards/",
         "docs/designs/",
-        "scripts/check-docs.mjs"
+        "scripts/check-docs.mjs",
+        "docs/plans/",
+        "docs/others/evidence/"
       ],
       "depends_on": [
         "T2"
@@ -219,7 +221,7 @@
     "docs/others/spec-closure/",
     "docs/others/evidence/",
     "tests/contracts/spec-closure-ids.test.ts",
-    "scripts/ignite/specification-registry.mjs",
+    "scripts/ignite/spec-id-registry.mjs",
     "scripts/check-docs.mjs"
   ],
   "tdd_evidence": [],

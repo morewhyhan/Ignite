@@ -187,6 +187,11 @@
       "path": "docs/designs/",
       "owner": "ignite-executor",
       "mode": "exclusive"
+    },
+    {
+      "path": "docs/standards/",
+      "owner": "ignite-executor",
+      "mode": "exclusive"
     }
   ],
   "handoff": {
@@ -259,22 +264,22 @@
 
 | 文件 | 编号 | 处理 |
 | --- | --- | --- |
-| docs/standards/architecture.md | STD-ARCH-001 | 追加 |
-| docs/standards/api.md | STD-API-001 | 追加 |
-| docs/standards/database.md | STD-DATA-001 | 追加 |
-| docs/standards/development.md | STD-DEV-001 | 追加 |
-| docs/standards/security.md | STD-SEC-001 | 追加 |
-| docs/standards/testing.md | STD-TEST-001 | 追加 |
-| docs/standards/ai-agents.md | STD-AGENT-001 | 追加 |
-| docs/standards/adoption.md | STD-ADOPT-001 | 追加 |
-| docs/standards/specification-to-implementation-ddd.md | STD-CLOSE-001 | 追加 |
-| docs/designs/api.md | DES-API-001 | 追加 |
-| docs/designs/auth.md | DES-AUTH-001 | 追加 |
-| docs/designs/database.md | DES-DB-001 | 追加 |
-| docs/designs/design.md | DES-VISUAL-001 | 追加 |
-| docs/designs/domain.md | DES-DOMAIN-001 | 追加 |
-| docs/designs/execution.md | DES-EXEC-001 | 追加 |
-| docs/designs/runtime.md | DES-RUNTIME-001 | 追加（该文件无条目，按约束追加一条规则行） |
+| docs/standards/architecture.md | STD-ARCH-101 | 追加 |
+| docs/standards/api.md | STD-API-101 | 追加 |
+| docs/standards/database.md | STD-DATA-101 | 追加 |
+| docs/standards/development.md | STD-DEV-101 | 追加 |
+| docs/standards/security.md | STD-SEC-101 | 追加 |
+| docs/standards/testing.md | STD-TEST-101 | 追加 |
+| docs/standards/ai-agents.md | STD-AGENT-101 | 追加 |
+| docs/standards/adoption.md | STD-ADOPT-101 | 追加 |
+| docs/standards/specification-to-implementation-ddd.md | STD-CLOSE-101 | 追加 |
+| docs/designs/api.md | DES-API-101 | 追加 |
+| docs/designs/auth.md | DES-AUTH-101 | 追加 |
+| docs/designs/database.md | DES-DB-101 | 追加 |
+| docs/designs/design.md | DES-VISUAL-101 | 追加 |
+| docs/designs/domain.md | DES-DOMAIN-101 | 追加 |
+| docs/designs/execution.md | DES-EXEC-101 | 追加 |
+| docs/designs/runtime.md | DES-RUNTIME-101 | 追加（该文件无条目，按约束追加一条规则行） |
 | docs/others/adr/0001-0004 | ADR-0001..0004 | 已有，不新增 |
 
 共 20 份非索引文件：4 份 ADR 已有编号，16 份需要追加。
@@ -283,12 +288,12 @@
 
 | Source ID | 来源 | 适用理由 | 目标 | 当前事实（证据） | Status | Gap | Contradiction | Decision | Binding | 任务 | 验证 | Result |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| REQ-SPEC-004 | docs/features/spec-closure.md | 产品要求 | 每份文件至少一个唯一编号 | 0 个编号（全仓检索） | missing | 20 份文件缺号 | 无编号则无法引用 | 文件级编号 | BIND-001 | T3 | AC-SPEC-004 | 待验证 |
+| REQ-SPEC-004 | docs/features/spec-closure.md | 产品要求 | 每份文件至少一个唯一编号 | 4 份 ADR 已有编号，16 份缺号（见分配表） | missing | 16 份文件缺号 | 文件无身份，条目不可被引用 | 文件级编号 | BIND-001 | T3 | AC-SPEC-004 | 待验证 |
 | REQ-SPEC-005 | docs/features/spec-closure.md | 产品要求 | 未知引用被拒绝 | 无校验（check-docs 无引用检查） | missing | 无引用校验 | 自由文本无法核对 | 严格 token 校验 | BIND-002 | T3 | AC-SPEC-005 | 待验证 |
-| AC-SPEC-004 | docs/features/spec-closure.md | 验收 | 缺号与重号被拒 | 测试已红，实现未做 | missing | 实现缺失 | 同上 | 扫描器 + check-docs | BIND-003 | T3 | AC-SPEC-004 | 待验证 |
-| AC-SPEC-005 | docs/features/spec-closure.md | 验收 | 未知引用被拒 | 测试已红，实现未做 | missing | 实现缺失 | 同上 | 引用校验 | BIND-004 | T3 | AC-SPEC-005 | 待验证 |
+| AC-SPEC-004 | docs/features/spec-closure.md | 验收 | 缺号与重号被拒 | 断言已写，尚无原生红灯 | partial | 实现与红灯均缺 | 同上 | 扫描器 + check-docs | BIND-003 | T3 | AC-SPEC-004 | 待验证 |
+| AC-SPEC-005 | docs/features/spec-closure.md | 验收 | 未知引用被拒 | 断言已写，尚无原生红灯 | partial | 实现与红灯均缺 | 同上 | 引用校验 | BIND-004 | T3 | AC-SPEC-005 | 待验证 |
 | GOAL-SPEC-P1 | docs/plans/releases/spec-closure-p1-v1.json | 发布范围 | 两条验收有去向 | scope 已纳入（文件第 8-19 行） | met | 无 | 无 | included | BIND-005 | T3 | 发布检查 | 待验证 |
-| DES-EXEC-001 | docs/designs/execution.md | 当前事实来源 | 记录编号现状 | 未见编号章节 | missing | 回写缺失 | 无 | T5 回写 | BIND-006 | T5 | 文档检查 | 待验证 |
+| DES-EXEC-101 | docs/designs/execution.md | 当前事实来源 | 记录编号现状 | 未见编号章节 | missing | 回写缺失 | 事实与结构不同步 | T5 回写 | BIND-006 | T5 | 文档检查 | 待验证 |
 | ADR-0004 | docs/others/adr/0004-spec-closure-contract.md | 决策要求引入编号时复审 | 复审并记录 | 第 26 行要求届时复审 | missing | 未复审 | 决策与实施脱节 | T4 复审 | BIND-007 | T4 | 文档检查 | 待验证 |
 | DOC-DDD-§6 | docs/standards/specification-to-implementation-ddd.md | 要求绑定用稳定 ID | 编号可被引用 | 无编号 | missing | 无 Source ID | 无法建立绑定 | 先做编号 | BIND-008 | T3 | AC-SPEC-004 | 待验证 |
 | DOC-DDD-§10.5 | docs/standards/specification-to-implementation-ddd.md | 要求 Source ID 稳定 | 编号唯一 | 无编号 | missing | 无唯一性检查 | 重号不可发现 | 查重 | BIND-009 | T3 | AC-SPEC-004 | 待验证 |
@@ -310,13 +315,14 @@
 ## 决策原则与方案比较
 
 - 原则：能检查的写成检查；编号只加在可判定条目；没有条目的文件追加一条规则行。
+- 扫描器在准备基线中作为断言依赖提交，实际行为（编号数据与 check-docs 接入）在红灯之后实现。
 - 采用方案：STD-区-NNN、DES-区-NNN、ADR-NNNN 三种前缀；扫描器放 scripts/ignite，测试与 check-docs 共用。
 - 替代方案：给每段散文编号（否决，噪音大）；用文件路径当 ID（否决，无法定位条目）。
 - 代价：16 份文件追加编号；检查器新增一次全量扫描。
 
 ## 引用校验范围
 
-只扫描计划正文中形如 STD-XXX-000、DES-XXX-000、ADR-0000 的完整 token；ADR-NNNN、STD-<区>-NNN 等占位写法不参与校验。已完成计划不重写；校验在 check-docs 中对当前全部计划执行。
+只扫描计划正文中字母加三位或四位数字的完整编号；ADR-NNNN、STD-区域-NNN 这类占位写法不参与校验。已完成计划不重写；校验在 check-docs 中对当前全部计划执行。
 
 ## 变更类型
 
@@ -334,7 +340,7 @@
 
 - 需求：docs/features/spec-closure.md（R4、R5、AC-SPEC-004、AC-SPEC-005）
 - 决策：docs/others/adr/0004-spec-closure-contract.md
-- 标准：docs/standards/specification-to-implementation-ddd.md §6、§10.1、§10.5
+- 标准：docs/standards/specification-to-implementation-ddd.md §6、§10.1、§10.4、§10.5
 - 发布：docs/plans/releases/spec-closure-p1-v1.json
 
 ## 测试与验收设计
@@ -351,7 +357,7 @@
 
 ## 验收方式
 
-运行 tests/contracts/spec-closure-ids.test.ts；运行 node scripts/check-docs.mjs；运行 pnpm ignite check --plan IGT-202611060002 --level auto（risk=integration，需 check-integration）；交付前运行 pnpm delivery:check。
+运行 tests/contracts/spec-closure-ids.test.ts；运行 node scripts/check-docs.mjs；运行 pnpm ignite check --plan IGT-202611060002 --level auto（risk=infrastructure，需 check-integration）；交付前运行 pnpm delivery:check。
 
 ## 设计回写
 
@@ -359,8 +365,8 @@
 
 ## 状态记录
 
-- 2026-11-06：建立计划并取得红灯（2 failed / 1 passed）；尚未提交准备基线。
-- 2026-11-06：初审否决 8 项，已改：risk 改为 infrastructure、绑定矩阵补齐、编号分配表、引用范围、ADR 复审任务、计数修正。
+- 2026-11-06：建立计划；测试在未编号仓库上失败（2 failed / 1 passed），准备基线随后提交。
+- 2026-11-06：两轮初审共 22 条意见（含 12 条阻断），已改：risk、绑定矩阵、编号分配表、引用范围、ADR 复审任务、计数与示例 ID。原生红灯仍未记录。
 
 <!-- ignite-progress -->
 

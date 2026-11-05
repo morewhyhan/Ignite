@@ -9,7 +9,7 @@
   "scope": [
     {
       "id": "GOAL-SPEC-P1",
-      "text": "标准、设计与 ADR 的规则获得稳定编号，未知引用被拒绝",
+      "text": "每份标准、设计与 ADR 文件至少获得一个稳定编号，未知引用被拒绝",
       "source": "用户 2026-11-06 指令与 docs/standards/specification-to-implementation-ddd.md §6",
       "requirements": [
         "REQ-SPEC-004",

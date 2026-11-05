@@ -143,7 +143,8 @@ for (const duplicate of specRegistry.duplicates)
   )
 for (const planFile of planFiles) {
   const plan = readPlan(planFile)
-  for (const id of unknownReferences(plan.content, specRegistry.byId))
+  const prose = plan.content.replace(/<!-- ignite-plan[\s\S]*?-->/, '')
+  for (const id of unknownReferences(prose, specRegistry.byId))
     fail(`${plan.relativePath}: unknown specification reference ${id}`)
 }
 

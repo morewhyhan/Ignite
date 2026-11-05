@@ -71,11 +71,15 @@
   "goals": [
     {
       "text": "每份标准、设计与 ADR 文件都携带至少一个全仓唯一编号",
-      "requirements": ["REQ-SPEC-004"]
+      "requirements": [
+        "REQ-SPEC-004"
+      ]
     },
     {
       "text": "计划引用不存在的编号时校验失败并列出该编号",
-      "requirements": ["REQ-SPEC-005"]
+      "requirements": [
+        "REQ-SPEC-005"
+      ]
     }
   ],
   "constraints": [
@@ -100,12 +104,19 @@
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "a408dc90dcd7882d32c71396b7e518333233fdc3",
-  "requirements": ["REQ-SPEC-004", "REQ-SPEC-005"],
+  "requirements": [
+    "REQ-SPEC-004",
+    "REQ-SPEC-005"
+  ],
   "acceptance": [
     {
       "id": "AC-SPEC-004",
-      "tests": ["tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-004]"],
-      "required_layers": ["unit"],
+      "tests": [
+        "tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-004]"
+      ],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-004]",
@@ -115,8 +126,12 @@
     },
     {
       "id": "AC-SPEC-005",
-      "tests": ["tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-005]"],
-      "required_layers": ["unit"],
+      "tests": [
+        "tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-005]"
+      ],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-005]",
@@ -125,7 +140,9 @@
       ]
     }
   ],
-  "verification_requirements": ["unit"],
+  "verification_requirements": [
+    "unit"
+  ],
   "tasks": [
     {
       "id": "T1",
@@ -147,18 +164,29 @@
       "id": "T2",
       "title": "运行编号断言并记录原生红灯",
       "phase": "red",
-      "acceptance": ["AC-SPEC-004", "AC-SPEC-005"],
+      "acceptance": [
+        "AC-SPEC-004",
+        "AC-SPEC-005"
+      ],
       "status": "done",
       "result": "在未编号的文档上，两条断言真实失败并写入原生回执。",
-      "scope": ["tests/contracts/spec-closure-ids.test.ts", "docs/others/evidence/tdd/"],
-      "depends_on": ["T1"],
+      "scope": [
+        "tests/contracts/spec-closure-ids.test.ts",
+        "docs/others/evidence/tdd/"
+      ],
+      "depends_on": [
+        "T1"
+      ],
       "owner": "ignite-executor"
     },
     {
       "id": "T3",
       "title": "给十六份来源文件追加编号并接入检查",
       "phase": "implement",
-      "acceptance": ["AC-SPEC-004", "AC-SPEC-005"],
+      "acceptance": [
+        "AC-SPEC-004",
+        "AC-SPEC-005"
+      ],
       "status": "done",
       "result": "二十份文件全部可被扫描，缺号、重号与未知引用被拒绝。",
       "scope": [
@@ -168,29 +196,45 @@
         "docs/plans/",
         "docs/others/evidence/"
       ],
-      "depends_on": ["T2"],
+      "depends_on": [
+        "T2"
+      ],
       "owner": "ignite-executor"
     },
     {
       "id": "T4",
       "title": "复审 ADR-0004 并更新账本的编号映射",
       "phase": "implement",
-      "acceptance": ["AC-SPEC-004"],
+      "acceptance": [
+        "AC-SPEC-004"
+      ],
       "status": "done",
       "result": "ADR-0004 记录编号已引入的复审结论，账本补充编号映射说明。",
-      "scope": ["docs/others/adr/", "docs/others/spec-closure/"],
-      "depends_on": ["T3"],
+      "scope": [
+        "docs/others/adr/",
+        "docs/others/spec-closure/"
+      ],
+      "depends_on": [
+        "T3"
+      ],
       "owner": "ignite-executor"
     },
     {
       "id": "T5",
       "title": "完成检查与回写",
       "phase": "verify",
-      "acceptance": ["AC-SPEC-004"],
+      "acceptance": [
+        "AC-SPEC-004"
+      ],
       "status": "done",
       "result": "契约断言与文档检查通过，执行设计与标准索引记录编号现状。",
-      "scope": ["docs/designs/execution.md", "docs/standards/README.md"],
-      "depends_on": ["T4"],
+      "scope": [
+        "docs/designs/execution.md",
+        "docs/standards/README.md"
+      ],
+      "depends_on": [
+        "T4"
+      ],
       "owner": "ignite-executor"
     }
   ],
@@ -250,7 +294,9 @@
       "run_id": "tdd-20261105172010-6f552b"
     }
   ],
-  "required_evidence": ["check-integration"],
+  "required_evidence": [
+    "check-integration"
+  ],
   "evidence": [
     {
       "id": "check-integration",
@@ -259,7 +305,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "e7bd41353e3b3c16ee2fdc2a2b2f07903fcfe62c",
+  "integrated_commit": "ae90ea59d46f99979fd16899ce66ad8e3641df4a",
   "updated_at": "2026-11-05"
 }
 -->
@@ -402,7 +448,7 @@
 - 2026-11-06：测试改为四条断言，其中"文件缺号"与"计划引用未解析"两条在真实仓库上失败，构成 AC-SPEC-004/005 的目标红灯；重号与占位符两条为生产扫描器的单元保证。
 - 2026-11-06：draft 审查经五轮修订后 approved，记录已回写；计划转 ready、active，T1 完成。
 - 2026-11-06：AC-SPEC-005 的旧红灯失效后走 restart 流程：先把 16 份文件恢复到编号前状态并提交 d51c458，在该提交上取得红灯 tdd-20261105172010-6f552b，再重放实现 5a58b9f。这是 restart 红灯，严格早于首次实现的红灯只有 AC-SPEC-004。
-- 2026-11-06：check-integration 证据 run-20261105173133-f48e0e 在 e7bd413 以 exit 0 通过，九道工程门禁全部通过；该 run 的输入指纹对应 e7bd413，本轮修订后输入已变化，需在新提交上重跑并重新绑定。
+- 2026-11-06：check-integration 证据 run-20261105175158-edbeca 在 ae90ea5 以 exit 0 通过，输入指纹与当前一致；九道工程门禁全部通过。integrated_commit 指向 ae90ea5。
 - 2026-11-06：按交付审查要求补做 check-docs 负例：临时写入未知编号后运行检查，退出码 1 并打印该编号，随后还原；输出见下一条记录。
 - 2026-11-06：负例结果：临时在 P0 计划追加一个未分配的 DES 前缀编号后运行 check-docs，输出 “unknown specification reference <该编号>”，退出码 1；随后用 git checkout 还原，工作树无残留。
 - 2026-11-06：原生红灯被宿主环境阻塞。TDD runner 以 spawn(corepack) 启动，本机 Node 在 Windows 上无法解析 corepack（ENOENT / EINVAL），未生成红灯回执。环境错误不算红灯，T2 不标记完成，T3 不启动。

@@ -1,0 +1,40 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "66bb8f8686d947adb754e7db9b453e14c92c796503970428ca0db1b0401059ab",
+  "context_schema": 1,
+  "context_sha256": "ba4df4c8088adf7ae4a56cf7475aee30bd4c522ac2249670f0bc2bd10a1e7631",
+  "context_files": ["tests/contracts/spec-closure-ledger.test.ts"],
+  "warnings": [
+    "local dependency excluded outside declared test-support paths: scripts/ignite/core.mjs"
+  ],
+  "run_id": "tdd-20261105202456-dbbbcc",
+  "plan_id": "IGT-202611060004",
+  "acceptance_id": "AC-SPEC-007",
+  "test": "tests/contracts/spec-closure-ledger.test.ts::[AC-SPEC-007]",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "target_assertion_contract": "ac-message-marker-v1",
+  "red_commit": "f590ce4683e6a0082452cc94eebc11c1605cf17a",
+  "output_sha256": "b7951214606aa16531c531d5bab27554bfb3094a1783ef8307cdf901b26a5468",
+  "failure_sha256": "c21d7b348be7bcc24823c91e954344fd64d99d0c40d6ee6518aee1ddecc85937",
+  "failure_summary": [
+    "AssertionError: [AC-SPEC-007] target ledger result gaps: expected [ …(65) ] to deeply equal [] at /mnt/c/Users/why/Documents/ChatGPT/igent/Ignite/tests/contracts/spec-closure-ledger.test.ts:63:61 at file:///mnt/c/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 at file:///mnt/c/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26 at file:///mnt/c/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20 at new Promise (<anonymous>) at runWithCancel (file:///mnt/c/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10) at file:///mnt/c/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20 at new Promise (<anonymous>) at runWithTimeout (file:///mnt/c/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runne"
+  ],
+  "failure_summary_sha256": "d20878fb2f65fdbf6703f6fe15b4977aabaaf14cfa2c0ca221b0c6053ff1e19f",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/spec-closure-ledger.test.ts",
+    "--testNamePattern",
+    "AC-SPEC-007",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-11-05T20:24:56.498Z",
+  "ended_at": "2026-11-05T20:25:10.088Z",
+  "executor": "ignite-tdd-runner"
+}

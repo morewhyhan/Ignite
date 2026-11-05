@@ -10,7 +10,7 @@
 
 ## 发布范围
 
-- `spec-closure-ledger-v1` · `active`
+- `spec-closure-ledger-v1` · `invalid`
   - Plan：`IGT-202611060004`
   - 缺少证据：`IGT-202611060004:check-integration`（missing：no run is bound to this evidence requirement）
   - 最终版本验收：missing
@@ -37,6 +37,6 @@
 
 ## 结构问题
 
-- 无。
+- docs/plans/20261106-spec-closure-ledger.md: draft review fingerprint is stale or does not match the current object
 
 > 本文件是确定性派生视图；修改 Plan 或 Release 机器源后重新生成。

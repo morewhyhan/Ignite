@@ -177,7 +177,7 @@
     "remaining": []
   },
   "owner": "ignite-executor",
-  "risk": "docs",
+  "risk": "infrastructure",
   "data_contract": {
     "access_scope": "not-applicable",
     "access_rationale": "只改治理记录与断言，不读写业务数据。",
@@ -196,7 +196,7 @@
   ],
   "tdd_evidence": [],
   "required_evidence": [
-    "check-dev"
+    "check-integration"
   ],
   "evidence": [],
   "blocker": null,

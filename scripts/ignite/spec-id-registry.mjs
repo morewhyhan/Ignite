@@ -26,9 +26,10 @@ export function filesWithoutIds(entries) {
 }
 
 export function unknownReferences(text, byId) {
+  const prose = String(text).replace(/<!-- ignite-plan[\s\S]*?-->/, '')
   const unknown = new Set()
   for (const pattern of REFERENCE_PATTERNS)
-    for (const match of text.match(pattern) || []) if (!byId.has(match)) unknown.add(match)
+    for (const match of prose.match(pattern) || []) if (!byId.has(match)) unknown.add(match)
   return [...unknown].sort()
 }
 

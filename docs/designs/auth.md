@@ -23,3 +23,5 @@ AuthModal
 Better Auth schema 的 `verification` 表仍保留，用于保持官方 schema 与迁移兼容；它是预留存储，不会在当前基线触发邮件发送。
 
 认证客户端是业务 RPC 的明确例外，不重复创建一套 Hono 认证 API。
+
+- DES-AUTH-101：当前认证与会话边界的事实以本编号引用。

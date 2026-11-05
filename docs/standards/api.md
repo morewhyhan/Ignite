@@ -26,3 +26,5 @@ export type AppType = typeof routes
 `InferRequestType` / `InferResponseType` 类型，但不能再次创建 `hc()`。
 
 业务 Hook 负责调用、缓存与数据状态，不依赖 `window.location` 或 Sonner 等 Web 通知组件；提示由 screen/平台外壳决定。认证调用继续由 Better Auth Client 负责，不混入业务 RPC。
+
+- STD-API-101：业务接口必须经统一校验器、会话守卫与统一错误格式；新增规则另起编号。

@@ -2,7 +2,7 @@
   "schema": 2,
   "source_document": "docs/standards/specification-to-implementation-ddd.md",
   "generated_at": "2026-11-06",
-  "schema_note": "stage 指向负责阶段；plan 只在对应计划已存在时填写真实计划编号，未规划阶段保持 null，不得用阶段代号冒充计划。",
+  "schema_note": "stage 指向负责阶段；plan 只在对应计划已存在时填写真实计划编号；result 记录实施结果：met 为已交付（必须有 plan）、kept 为基线已满足、partial 为部分实现、missing 为未实现。",
   "items": [
     {
       "id": "GAP-01",
@@ -11,7 +11,8 @@
       "doc_heading": "## 0. 文档控制",
       "stage": "P0",
       "plan": "IGT-202611060001",
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "met"
     },
     {
       "id": "GAP-02",
@@ -20,7 +21,8 @@
       "doc_heading": "## 0. 文档控制",
       "stage": "P0",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-03",
@@ -29,7 +31,8 @@
       "doc_heading": "## 8. 文档治理领域的 DDD 模块",
       "stage": "P0",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-04",
@@ -39,7 +42,8 @@
       "stage": "P0",
       "plan": null,
       "disposition": "defer",
-      "reason": "模板暂无文档生命周期状态机；本轮以 Plan 状态与标准索引承载，避免引入第二套文档状态。"
+      "reason": "模板暂无文档生命周期状态机；本轮以 Plan 状态与标准索引承载，避免引入第二套文档状态。",
+      "result": "missing"
     },
     {
       "id": "GAP-05",
@@ -48,7 +52,8 @@
       "doc_heading": "## 3. 两套结构不能混在一起",
       "stage": "P0",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-06",
@@ -57,7 +62,8 @@
       "doc_heading": "## 17. 本模板的使用顺序",
       "stage": "P0",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-07",
@@ -66,7 +72,8 @@
       "doc_heading": "## 4. 词义表和总体结构",
       "stage": "P5",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-08",
@@ -75,7 +82,8 @@
       "doc_heading": "## 3. 两套结构不能混在一起",
       "stage": "P0",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-09",
@@ -84,7 +92,8 @@
       "doc_heading": "## 8. 文档治理领域的 DDD 模块",
       "stage": "P4",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-10",
@@ -92,8 +101,9 @@
       "problem": "标准、设计、ADR 无稳定编号，无法绑定",
       "doc_heading": "## 6. 目标、事实和约束绑定矩阵",
       "stage": "P1",
-      "plan": null,
-      "disposition": "implement"
+      "plan": "IGT-202611060002",
+      "disposition": "implement",
+      "result": "met"
     },
     {
       "id": "GAP-11",
@@ -102,7 +112,8 @@
       "doc_heading": "## 4. 词义表和总体结构",
       "stage": "P2",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-12",
@@ -111,7 +122,8 @@
       "doc_heading": "## 4. 词义表和总体结构",
       "stage": "P3",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-13",
@@ -120,7 +132,8 @@
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P1",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-14",
@@ -129,7 +142,8 @@
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P0",
       "plan": null,
-      "disposition": "keep"
+      "disposition": "keep",
+      "result": "kept"
     },
     {
       "id": "GAP-15",
@@ -138,7 +152,8 @@
       "doc_heading": "## 5. 两条基线",
       "stage": "P4",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-16",
@@ -147,7 +162,8 @@
       "doc_heading": "## 4. 词义表和总体结构",
       "stage": "P4",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-17",
@@ -156,7 +172,8 @@
       "doc_heading": "## 5. 两条基线",
       "stage": "P4",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-18",
@@ -165,7 +182,8 @@
       "doc_heading": "## 14. 文档领域的完整工作流",
       "stage": "P0",
       "plan": null,
-      "disposition": "keep"
+      "disposition": "keep",
+      "result": "kept"
     },
     {
       "id": "GAP-19",
@@ -174,7 +192,8 @@
       "doc_heading": "## 12. 验证后的回写",
       "stage": "P4",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-20",
@@ -182,8 +201,9 @@
       "problem": "不存在规格与任务的绑定记录",
       "doc_heading": "## 6. 目标、事实和约束绑定矩阵",
       "stage": "P2",
-      "plan": null,
-      "disposition": "implement"
+      "plan": "IGT-202611060003",
+      "disposition": "implement",
+      "result": "met"
     },
     {
       "id": "GAP-21",
@@ -191,8 +211,9 @@
       "problem": "绑定记录所需字段全部缺失",
       "doc_heading": "## 6. 目标、事实和约束绑定矩阵",
       "stage": "P2",
-      "plan": null,
-      "disposition": "implement"
+      "plan": "IGT-202611060003",
+      "disposition": "implement",
+      "result": "met"
     },
     {
       "id": "GAP-22",
@@ -201,7 +222,8 @@
       "doc_heading": "## 6. 目标、事实和约束绑定矩阵",
       "stage": "P5",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-23",
@@ -210,7 +232,8 @@
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P2",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "partial"
     },
     {
       "id": "GAP-24",
@@ -218,8 +241,9 @@
       "problem": "没有绑定记录的规矩也能算完成",
       "doc_heading": "## 6. 目标、事实和约束绑定矩阵",
       "stage": "P2",
-      "plan": null,
-      "disposition": "implement"
+      "plan": "IGT-202611060003",
+      "disposition": "implement",
+      "result": "met"
     },
     {
       "id": "GAP-25",
@@ -228,7 +252,8 @@
       "doc_heading": "## 6. 目标、事实和约束绑定矩阵",
       "stage": "P0",
       "plan": null,
-      "disposition": "keep"
+      "disposition": "keep",
+      "result": "kept"
     },
     {
       "id": "GAP-26",
@@ -237,7 +262,8 @@
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P2",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-27",
@@ -246,7 +272,8 @@
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P2",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-28",
@@ -255,7 +282,8 @@
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P3",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-29",
@@ -264,7 +292,8 @@
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P3",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-30",
@@ -273,7 +302,8 @@
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P2",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-31",
@@ -282,7 +312,8 @@
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P3",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-32",
@@ -291,7 +322,8 @@
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P2",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-33",
@@ -300,7 +332,8 @@
       "doc_heading": "## 7. 差距和主要矛盾",
       "stage": "P3",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-34",
@@ -309,7 +342,8 @@
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P2",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-35",
@@ -318,7 +352,8 @@
       "doc_heading": "## 6. 目标、事实和约束绑定矩阵",
       "stage": "P0",
       "plan": null,
-      "disposition": "keep"
+      "disposition": "keep",
+      "result": "kept"
     },
     {
       "id": "GAP-36",
@@ -327,7 +362,8 @@
       "doc_heading": "## 11. TDD 验证什么",
       "stage": "P2",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-37",
@@ -336,7 +372,8 @@
       "doc_heading": "## 11. TDD 验证什么",
       "stage": "P4",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-38",
@@ -345,7 +382,8 @@
       "doc_heading": "## 11. TDD 验证什么",
       "stage": "P0",
       "plan": null,
-      "disposition": "keep"
+      "disposition": "keep",
+      "result": "kept"
     },
     {
       "id": "GAP-39",
@@ -354,7 +392,8 @@
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P0",
       "plan": null,
-      "disposition": "keep"
+      "disposition": "keep",
+      "result": "kept"
     },
     {
       "id": "GAP-40",
@@ -363,7 +402,8 @@
       "doc_heading": "## 11. TDD 验证什么",
       "stage": "P0",
       "plan": null,
-      "disposition": "keep"
+      "disposition": "keep",
+      "result": "kept"
     },
     {
       "id": "GAP-41",
@@ -372,7 +412,8 @@
       "doc_heading": "## 12. 验证后的回写",
       "stage": "P4",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-42",
@@ -381,7 +422,8 @@
       "doc_heading": "## 12. 验证后的回写",
       "stage": "P4",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-43",
@@ -390,7 +432,8 @@
       "doc_heading": "## 13. 失败后的回流规则",
       "stage": "P4",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-44",
@@ -399,7 +442,8 @@
       "doc_heading": "## 15. 文档模块的关系矩阵",
       "stage": "P4",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-45",
@@ -408,7 +452,8 @@
       "doc_heading": "## 14. 文档领域的完整工作流",
       "stage": "P0",
       "plan": null,
-      "disposition": "keep"
+      "disposition": "keep",
+      "result": "kept"
     },
     {
       "id": "GAP-46",
@@ -417,7 +462,8 @@
       "doc_heading": "## 8. 文档治理领域的 DDD 模块",
       "stage": "P0",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-47",
@@ -426,7 +472,8 @@
       "doc_heading": "## 8. 文档治理领域的 DDD 模块",
       "stage": "P4",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-48",
@@ -435,7 +482,8 @@
       "doc_heading": "## 8. 文档治理领域的 DDD 模块",
       "stage": "P0",
       "plan": null,
-      "disposition": "keep"
+      "disposition": "keep",
+      "result": "kept"
     },
     {
       "id": "GAP-49",
@@ -445,7 +493,8 @@
       "stage": "P5",
       "plan": null,
       "disposition": "defer",
-      "reason": "模板当前只有认证与任务两个领域，尚无真实领域事件；先登记记录格式，不强制引入事件模型。"
+      "reason": "模板当前只有认证与任务两个领域，尚无真实领域事件；先登记记录格式，不强制引入事件模型。",
+      "result": "missing"
     },
     {
       "id": "GAP-50",
@@ -454,7 +503,8 @@
       "doc_heading": "## 9. 文档治理模块的 DDD 建模顺序",
       "stage": "P4",
       "plan": null,
-      "disposition": "implement"
+      "disposition": "implement",
+      "result": "missing"
     },
     {
       "id": "GAP-51",
@@ -463,7 +513,8 @@
       "doc_heading": "## 9. 文档治理模块的 DDD 建模顺序",
       "stage": "P0",
       "plan": null,
-      "disposition": "keep"
+      "disposition": "keep",
+      "result": "kept"
     },
     {
       "id": "GAP-52",
@@ -472,7 +523,8 @@
       "doc_heading": "## 9. 文档治理模块的 DDD 建模顺序",
       "stage": "P0",
       "plan": null,
-      "disposition": "keep"
+      "disposition": "keep",
+      "result": "kept"
     }
   ],
   "identifier_mapping": "条目编号沿用 GAP-01..52；来源文件编号使用 STD/DES/ADR 前缀，编号到条目的映射在绑定阶段补充。"

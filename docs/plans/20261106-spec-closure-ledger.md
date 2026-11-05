@@ -323,7 +323,13 @@
     "docs/others/evidence/",
     "tests/contracts/spec-closure-ledger.test.ts"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-SPEC-007",
+      "test": "tests/contracts/spec-closure-ledger.test.ts::[AC-SPEC-007]",
+      "run_id": "tdd-20261105203514-5e7d0d"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

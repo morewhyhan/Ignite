@@ -1,16 +1,16 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`f9200eaf6a35`
+输入指纹：`84368403b87f`
 当前 Plan：1；结构化历史：3；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-202611060004` · `active` · `spec-closure-ledger-v1`
+- `IGT-202611060004` · `verifying` · `spec-closure-ledger-v1`
 
 ## 发布范围
 
-- `spec-closure-ledger-v1` · `active`
+- `spec-closure-ledger-v1` · `verifying`
   - Plan：`IGT-202611060004`
   - 缺少证据：无
   - 最终版本验收：missing

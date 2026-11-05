@@ -32,6 +32,17 @@
       "findings": [],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-05T17:14:52.043Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-4e6085c2",
+      "executor": "ignite-executor",
+      "source": "DSH subagent 4e6085c2 independent read-only review, five revision rounds, approved 2026-11-06",
+      "subject_fingerprint": "4294ccef70eff8581d939d9888b785254ccb55f70e1765776ad44977b378f849",
+      "verdict": "approved",
+      "findings": [],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-05T17:19:27.171Z"
     }
   ],
   "verification_contract": 2,

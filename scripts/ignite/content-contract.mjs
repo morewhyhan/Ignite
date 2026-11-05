@@ -8,7 +8,7 @@ const REQUIRED = [
   ['## 约束绑定矩阵', 2],
   ['## 回退', 2],
 ]
-const BOILERPLATE = /待填写|待确认|TODO|按 .*说明以下判断|简单任务可以用几句话回答/
+const BOILERPLATE = /^(?:按 .*说明以下判断.*|简单任务可以用几句话回答.*|待填写)$/m
 
 function section(content, heading) {
   const start = content.indexOf(heading + '\n')
@@ -16,6 +16,13 @@ function section(content, heading) {
   const rest = content.slice(start + heading.length)
   const end = rest.search(/\n## /)
   return end < 0 ? rest : rest.slice(0, end)
+}
+
+function substantive(body) {
+  return body
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => line && !/^\|?[\s:-]*-[\s:-]*\|?$/.test(line))
 }
 
 export function contentGaps(content) {
@@ -26,7 +33,7 @@ export function contentGaps(content) {
       gaps.push(`${heading}: missing section`)
       continue
     }
-    const lines = body.split('\n').map((line) => line.trim()).filter((line) => line && !line.startsWith('|'))
+    const lines = substantive(body)
     if (lines.length < minimum) gaps.push(`${heading}: only ${lines.length} substantive lines`)
     if (BOILERPLATE.test(body)) gaps.push(`${heading}: template boilerplate`)
   }

@@ -3,6 +3,7 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { repositoryRoot } from '../../scripts/ignite/core.mjs'
 import { contentGaps } from '../../scripts/ignite/content-contract.mjs'
+import { validatePlan } from '../../scripts/ignite/state.mjs'
 
 const read = (path: string) => readFileSync(join(repositoryRoot, path), 'utf8')
 
@@ -22,6 +23,7 @@ describe('plan content contract', () => {
     const content = read(path)
     const meta = JSON.parse(content.match(/<!-- ignite-plan\n([\s\S]*?)\n-->/)![1])
     const plan = { path: join(repositoryRoot, path), relativePath: path, content, metadata: meta }
+    expect(contentGaps(content), '[AC-SPEC-008] target plan sections').toEqual([])
     const intact = validatePlan(plan as never, { allowLegacy: false }).filter((error) => error.includes('主要矛盾'))
     expect(intact, '[AC-SPEC-008] target intact plan').toEqual([])
     const broken = { ...plan, content: content.replace(/## 主要矛盾[\s\S]*?(?=\n## )/, '## 主要矛盾\n\n') }

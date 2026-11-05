@@ -107,7 +107,7 @@
         "AC-SPEC-006"
       ],
       "status": "todo",
-      "result": "模板带 binding_contract 与 bindings，检查器拒绝缺失、重复与未知任务。",
+      "result": "模板带 binding_contract 与 bindings，检查器在缺失、重复或未知任务时拒绝，计划校验实际调用该检查。",
       "scope": [
         "docs/plans/_template.md",
         "scripts/ignite/state.mjs",
@@ -126,7 +126,7 @@
         "AC-SPEC-006"
       ],
       "status": "todo",
-      "result": "断言与文档检查通过，执行设计记录绑定契约现状。",
+      "result": "计划校验调用绑定检查后，断言与文档检查通过，执行设计记录绑定契约现状。",
       "scope": [
         "docs/designs/execution.md"
       ],
@@ -299,7 +299,7 @@
 
 ## 测试与验收设计
 
-两条断言：模板必须声明 binding_contract 与 bindings；校验器必须拒绝缺绑定、重号与未知任务，并接受完整夹具。
+三条断言：模板必须声明 binding_contract 与 bindings；校验器必须拒绝缺绑定、重号与未知任务，并接受完整夹具。
 
 ## 实现任务
 
@@ -332,4 +332,4 @@
 
 ## 准出条件
 
-两条断言通过、文档检查退出码 0、check-integration 有效、设计已回写。
+三条断言通过、文档检查退出码 0、check-integration 有效、设计已回写。

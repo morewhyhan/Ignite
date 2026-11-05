@@ -20,8 +20,8 @@
 
 - 需求类型：存量修改（模板文档治理与检查器）
 - 规格位置：`docs/features/spec-closure.md`
-- 计划位置：`docs/plans/20261106-spec-closure-bootstrap.md`（P0）、`docs/plans/20261106-spec-closure-identifiers.md`（P1）
-- 检查入口：`scripts/check-docs.mjs`、`scripts/ignite/checks.mjs`、`scripts/ignite/spec-id-registry.mjs`、`tests/contracts/spec-closure.test.ts`、`tests/contracts/spec-closure-ids.test.ts`
+- 计划位置：`docs/plans/20261106-spec-closure-bootstrap.md`（P0）、`docs/plans/20261106-spec-closure-identifiers.md`（P1）、`docs/plans/20261106-spec-closure-bindings.md`（P2）
+- 检查入口：`scripts/check-docs.mjs`、`scripts/ignite/checks.mjs`、`scripts/ignite/spec-id-registry.mjs`、`scripts/ignite/binding-contract.mjs`、`tests/contracts/spec-closure.test.ts`、`tests/contracts/spec-closure-ids.test.ts`、`tests/contracts/spec-closure-bindings.test.ts`
 - 账本与补录：`docs/others/spec-closure/`
 - 决策记录：`docs/others/adr/`
 
@@ -58,7 +58,7 @@
 
 ## 非目标
 
-- 本阶段不引入绑定矩阵字段与 ready 门禁（后续计划负责）。
+- 本阶段不引入跨计划传播、Release 条目绑定与自动生成绑定（后续计划负责）。
 - 本阶段不改动任何历史计划的正文与证据。
 - 本阶段不做文档定稿状态机。
 
@@ -78,3 +78,4 @@
 - `docs/standards/README.md`：登记新标准与编号约定。
 - `docs/others/adr/0004-spec-closure-contract.md`：记录本轮长期取舍与编号引入后的复审。
 - `docs/others/spec-closure/ledger.json`：在引入编号后补充编号映射说明。
+- `docs/plans/_template.md`：声明绑定契约并示范完整绑定。

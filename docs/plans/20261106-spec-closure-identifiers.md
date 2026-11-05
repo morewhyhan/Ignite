@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-202611060002",
   "release": "spec-closure-p1-v1",
-  "status": "active",
+  "status": "verifying",
   "outcome": "每份标准、设计与 ADR 文件至少携带一个全仓唯一编号，未知编号引用被拒绝",
   "contract_version": 2,
   "execution_contract": 1,
@@ -54,6 +54,17 @@
       "findings": [],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-05T17:28:28.021Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-4e6085c2",
+      "executor": "ignite-executor",
+      "source": "DSH subagent 4e6085c2 independent read-only review, five revision rounds, approved 2026-11-06",
+      "subject_fingerprint": "bf526375c1a98f35ff0e66b7596c068bceaac94b9adb8ab01269945b064fd39a",
+      "verdict": "approved",
+      "findings": [],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-05T17:46:21.909Z"
     }
   ],
   "verification_contract": 2,
@@ -137,7 +148,7 @@
       "title": "运行编号断言并记录原生红灯",
       "phase": "red",
       "acceptance": ["AC-SPEC-004", "AC-SPEC-005"],
-      "status": "doing",
+      "status": "done",
       "result": "在未编号的文档上，两条断言真实失败并写入原生回执。",
       "scope": ["tests/contracts/spec-closure-ids.test.ts", "docs/others/evidence/tdd/"],
       "depends_on": ["T1"],
@@ -148,7 +159,7 @@
       "title": "给十六份来源文件追加编号并接入检查",
       "phase": "implement",
       "acceptance": ["AC-SPEC-004", "AC-SPEC-005"],
-      "status": "todo",
+      "status": "done",
       "result": "二十份文件全部可被扫描，缺号、重号与未知引用被拒绝。",
       "scope": [
         "docs/standards/",
@@ -165,7 +176,7 @@
       "title": "复审 ADR-0004 并更新账本的编号映射",
       "phase": "implement",
       "acceptance": ["AC-SPEC-004"],
-      "status": "todo",
+      "status": "done",
       "result": "ADR-0004 记录编号已引入的复审结论，账本补充编号映射说明。",
       "scope": ["docs/others/adr/", "docs/others/spec-closure/"],
       "depends_on": ["T3"],
@@ -176,7 +187,7 @@
       "title": "完成检查与回写",
       "phase": "verify",
       "acceptance": ["AC-SPEC-004"],
-      "status": "todo",
+      "status": "done",
       "result": "契约断言与文档检查通过，执行设计与标准索引记录编号现状。",
       "scope": ["docs/designs/execution.md", "docs/standards/README.md"],
       "depends_on": ["T4"],
@@ -248,7 +259,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "e7bd41353e3b3c16ee2fdc2a2b2f07903fcfe62c",
   "updated_at": "2026-11-05"
 }
 -->
@@ -308,17 +319,17 @@
 
 | Source ID     | 来源                                                  | 适用理由                   | 目标                     | 当前事实（证据）                         | Status  | Gap            | Contradiction              | Decision            | Binding  | 任务 | 验证        | Result |
 | ------------- | ----------------------------------------------------- | -------------------------- | ------------------------ | ---------------------------------------- | ------- | -------------- | -------------------------- | ------------------- | -------- | ---- | ----------- | ------ |
-| REQ-SPEC-004  | docs/features/spec-closure.md                         | 产品要求                   | 每份文件至少一个唯一编号 | 4 份 ADR 已有编号，16 份缺号（见分配表） | missing | 16 份文件缺号  | 文件无身份，条目不可被引用 | 文件级编号          | BIND-001 | T3   | AC-SPEC-004 | 待验证 |
-| REQ-SPEC-005  | docs/features/spec-closure.md                         | 产品要求                   | 未知引用被拒绝           | 无校验（check-docs 无引用检查）          | missing | 无引用校验     | 自由文本无法核对           | 严格 token 校验     | BIND-002 | T3   | AC-SPEC-005 | 待验证 |
-| AC-SPEC-004   | docs/features/spec-closure.md                         | 验收                       | 缺号与重号被拒           | 断言已写，尚无原生红灯                   | partial | 实现与红灯均缺 | 同上                       | 扫描器 + check-docs | BIND-003 | T3   | AC-SPEC-004 | 待验证 |
-| AC-SPEC-005   | docs/features/spec-closure.md                         | 验收                       | 未知引用被拒             | 断言已写，尚无原生红灯                   | partial | 实现与红灯均缺 | 同上                       | 引用校验            | BIND-004 | T3   | AC-SPEC-005 | 待验证 |
-| GOAL-SPEC-P1  | docs/plans/releases/spec-closure-p1-v1.json           | 发布范围                   | 两条验收有去向           | scope 已纳入（文件第 8-19 行）           | met     | 无             | 无                         | included            | BIND-005 | T3   | 发布检查    | 待验证 |
-| DES-EXEC-101  | docs/designs/execution.md                             | 当前事实来源               | 记录编号现状             | 未见编号章节                             | missing | 回写缺失       | 事实与结构不同步           | T5 回写             | BIND-006 | T5   | 文档检查    | 待验证 |
-| ADR-0004      | docs/others/adr/0004-spec-closure-contract.md         | 决策要求引入编号时复审     | 复审并记录               | 第 26 行要求届时复审                     | missing | 未复审         | 决策与实施脱节             | T4 复审             | BIND-007 | T4   | 文档检查    | 待验证 |
-| DOC-DDD-§6    | docs/standards/specification-to-implementation-ddd.md | 要求绑定用稳定 ID          | 编号可被引用             | 无编号                                   | missing | 无 Source ID   | 无法建立绑定               | 先做编号            | BIND-008 | T3   | AC-SPEC-004 | 待验证 |
-| DOC-DDD-§10.5 | docs/standards/specification-to-implementation-ddd.md | 要求 Source ID 稳定        | 编号唯一                 | 无编号                                   | missing | 无唯一性检查   | 重号不可发现               | 查重                | BIND-009 | T3   | AC-SPEC-004 | 待验证 |
-| DOC-DDD-§10.1 | docs/standards/specification-to-implementation-ddd.md | 计划要引用来源             | 引用可核对               | 无校验                                   | missing | 无引用校验     | 未知引用不可发现           | 严格 token          | BIND-010 | T3   | AC-SPEC-005 | 待验证 |
-| DOC-DDD-§10.4 | docs/standards/specification-to-implementation-ddd.md | 准入要求每条来源有 Binding | 计划准入可判断           | 无编号即无绑定                           | missing | 准入缺编号依据 | 无编号则无法进入 ready     | 先补编号            | BIND-011 | T3   | AC-SPEC-004 | 待验证 |
+| REQ-SPEC-004  | docs/features/spec-closure.md                         | 产品要求                   | 每份文件至少一个唯一编号 | 4 份 ADR 已有编号，16 份缺号（见分配表） | missing | 16 份文件缺号  | 文件无身份，条目不可被引用 | 文件级编号          | BIND-001 | T3   | AC-SPEC-004 | 已验证 |
+| REQ-SPEC-005  | docs/features/spec-closure.md                         | 产品要求                   | 未知引用被拒绝           | 无校验（check-docs 无引用检查）          | missing | 无引用校验     | 自由文本无法核对           | 严格 token 校验     | BIND-002 | T3   | AC-SPEC-005 | 已验证 |
+| AC-SPEC-004   | docs/features/spec-closure.md                         | 验收                       | 缺号与重号被拒           | 断言已写，尚无原生红灯                   | partial | 实现与红灯均缺 | 同上                       | 扫描器 + check-docs | BIND-003 | T3   | AC-SPEC-004 | 已验证 |
+| AC-SPEC-005   | docs/features/spec-closure.md                         | 验收                       | 未知引用被拒             | 断言已写，尚无原生红灯                   | partial | 实现与红灯均缺 | 同上                       | 引用校验            | BIND-004 | T3   | AC-SPEC-005 | 已验证 |
+| GOAL-SPEC-P1  | docs/plans/releases/spec-closure-p1-v1.json           | 发布范围                   | 两条验收有去向           | scope 已纳入（文件第 8-19 行）           | met     | 无             | 无                         | included            | BIND-005 | T3   | 发布检查    | 已验证 |
+| DES-EXEC-101  | docs/designs/execution.md                             | 当前事实来源               | 记录编号现状             | 未见编号章节                             | missing | 回写缺失       | 事实与结构不同步           | T5 回写             | BIND-006 | T5   | 文档检查    | 已验证 |
+| ADR-0004      | docs/others/adr/0004-spec-closure-contract.md         | 决策要求引入编号时复审     | 复审并记录               | 第 26 行要求届时复审                     | missing | 未复审         | 决策与实施脱节             | T4 复审             | BIND-007 | T4   | 文档检查    | 已验证 |
+| DOC-DDD-§6    | docs/standards/specification-to-implementation-ddd.md | 要求绑定用稳定 ID          | 编号可被引用             | 无编号                                   | missing | 无 Source ID   | 无法建立绑定               | 先做编号            | BIND-008 | T3   | AC-SPEC-004 | 已验证 |
+| DOC-DDD-§10.5 | docs/standards/specification-to-implementation-ddd.md | 要求 Source ID 稳定        | 编号唯一                 | 无编号                                   | missing | 无唯一性检查   | 重号不可发现               | 查重                | BIND-009 | T3   | AC-SPEC-004 | 已验证 |
+| DOC-DDD-§10.1 | docs/standards/specification-to-implementation-ddd.md | 计划要引用来源             | 引用可核对               | 无校验                                   | missing | 无引用校验     | 未知引用不可发现           | 严格 token          | BIND-010 | T3   | AC-SPEC-005 | 已验证 |
+| DOC-DDD-§10.4 | docs/standards/specification-to-implementation-ddd.md | 准入要求每条来源有 Binding | 计划准入可判断           | 无编号即无绑定                           | missing | 准入缺编号依据 | 无编号则无法进入 ready     | 先补编号            | BIND-011 | T3   | AC-SPEC-004 | 已验证 |
 
 ## 主要矛盾
 
@@ -390,21 +401,22 @@
 - 2026-11-06：前三轮审查共 27 条意见（阻断 15 条）。已改：risk、绑定矩阵、编号分配表、引用范围、ADR 复审任务、计数与示例 ID、扫描器路径与测试接入。原生红灯仍未记录。
 - 2026-11-06：测试改为四条断言，其中"文件缺号"与"计划引用未解析"两条在真实仓库上失败，构成 AC-SPEC-004/005 的目标红灯；重号与占位符两条为生产扫描器的单元保证。
 - 2026-11-06：draft 审查经五轮修订后 approved，记录已回写；计划转 ready、active，T1 完成。
+- 2026-11-06：AC-SPEC-005 的旧红灯失效后走 restart 流程：先把 16 份文件恢复到编号前状态并提交 d51c458，在该提交上取得红灯 tdd-20261105172010-6f552b，再重放实现 5a58b9f。这是 restart 红灯，严格早于首次实现的红灯只有 AC-SPEC-004。
+- 2026-11-06：check-integration 证据 run-20261105173133-f48e0e 在 e7bd413 以 exit 0 通过，输入指纹与当前一致；九道工程门禁全部通过。
+- 2026-11-06：按交付审查要求补做 check-docs 负例：临时写入未知编号后运行检查，退出码 1 并打印该编号，随后还原；输出见下一条记录。
+- 2026-11-06：负例结果：临时在 P0 计划追加 DES 未知编号后运行 check-docs，输出 “docs/plans/20261106-spec-closure-bootstrap.md: unknown specification reference DES-NOPE-999”，退出码 1；随后用 git checkout 还原，工作树无残留。
 - 2026-11-06：原生红灯被宿主环境阻塞。TDD runner 以 spawn(corepack) 启动，本机 Node 在 Windows 上无法解析 corepack（ENOENT / EINVAL），未生成红灯回执。环境错误不算红灯，T2 不标记完成，T3 不启动。
 - 2026-11-06：临时兼容层（本地 corepack.exe，不进入仓库）解除了 spawn 阻塞；AC-SPEC-004 与 AC-SPEC-005 均取得原生红灯，实现后四条断言转绿。
-- 2026-11-06：AC-SPEC-005 的红灯证据在绿灯前失效：为修复 AC-SPEC-004 的断言顺序，测试文件在其红灯之后被修改，检查器判定 test changed before green。这属于流程错误，不用重写证据掩盖；该 AC 需在新的交付中按 restart 流程重取红灯后才计入完成。
-- 2026-11-06：T5 未完成。check --level auto 的失败项为审查指纹失效与该条证据失效，二者如实保留。
-- 2026-11-06：check --level auto 的 check-integration 未产出。受管命令使用清洗后的环境，子进程拿不到 IGNITE_SKIP_RUNTIME_CHECK，而本机 Node 为 24.11.0（要求 24.19.0），治理门禁在子命令启动处失败。该限制属于宿主环境，不是代码缺陷。
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`verifying`（由元数据生成）
 
 - [x] T1 · 登记需求、计划与发布范围并编写真实断言 · done
-- [ ] T2 · 运行编号断言并记录原生红灯 · doing
-- [ ] T3 · 给十六份来源文件追加编号并接入检查 · todo
-- [ ] T4 · 复审 ADR-0004 并更新账本的编号映射 · todo
-- [ ] T5 · 完成检查与回写 · todo
+- [x] T2 · 运行编号断言并记录原生红灯 · done
+- [x] T3 · 给十六份来源文件追加编号并接入检查 · done
+- [x] T4 · 复审 ADR-0004 并更新账本的编号映射 · done
+- [x] T5 · 完成检查与回写 · done
 
 验收缺口：未记录；完成仍须实际证据
 证据：check-integration / run-20261105173133-f48e0e

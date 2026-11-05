@@ -115,7 +115,7 @@
       "title": "运行编号断言并记录原生红灯",
       "phase": "red",
       "acceptance": ["AC-SPEC-004", "AC-SPEC-005"],
-      "status": "doing",
+      "status": "done",
       "result": "在未编号的文档上，两条断言真实失败并写入原生回执。",
       "scope": ["tests/contracts/spec-closure-ids.test.ts", "docs/others/evidence/tdd/"],
       "depends_on": ["T1"],
@@ -126,7 +126,7 @@
       "title": "给十六份来源文件追加编号并接入检查",
       "phase": "implement",
       "acceptance": ["AC-SPEC-004", "AC-SPEC-005"],
-      "status": "todo",
+      "status": "done",
       "result": "二十份文件全部可被扫描，缺号、重号与未知引用被拒绝。",
       "scope": [
         "docs/standards/",
@@ -143,7 +143,7 @@
       "title": "复审 ADR-0004 并更新账本的编号映射",
       "phase": "implement",
       "acceptance": ["AC-SPEC-004"],
-      "status": "todo",
+      "status": "done",
       "result": "ADR-0004 记录编号已引入的复审结论，账本补充编号映射说明。",
       "scope": ["docs/others/adr/", "docs/others/spec-closure/"],
       "depends_on": ["T3"],
@@ -204,7 +204,18 @@
     "scripts/check-docs.mjs",
     "docs/plans/"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-SPEC-005",
+      "test": "tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-005]",
+      "run_id": "tdd-20261105171646-7fab4e"
+    },
+    {
+      "acceptance_id": "AC-SPEC-004",
+      "test": "tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-004]",
+      "run_id": "tdd-20261105171732-dc9c29"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
@@ -358,9 +369,9 @@
 状态：`active`（由元数据生成）
 
 - [x] T1 · 登记需求、计划与发布范围并编写真实断言 · done
-- [ ] T2 · 运行编号断言并记录原生红灯 · doing
-- [ ] T3 · 给十六份来源文件追加编号并接入检查 · todo
-- [ ] T4 · 复审 ADR-0004 并更新账本的编号映射 · todo
+- [x] T2 · 运行编号断言并记录原生红灯 · done
+- [x] T3 · 给十六份来源文件追加编号并接入检查 · done
+- [x] T4 · 复审 ADR-0004 并更新账本的编号映射 · done
 - [ ] T5 · 完成检查与回写 · todo
 
 验收缺口：未记录；完成仍须实际证据

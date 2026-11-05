@@ -153,6 +153,8 @@ TDD restart 先复用原生验证器核对已绑定证明；有效绑定返回 r
 
 ## 规格闭环登记
 
-`docs/standards/specification-to-implementation-ddd.md` 当前登记在三处：标准索引、`scripts/check-docs.mjs` 的必备路径和 `scripts/ignite/checks.mjs` 的治理白名单。`tests/contracts/spec-closure.test.ts` 用三条断言守住这三处登记、52 条差异账本（`docs/others/inputs/spec-closure-ledger.json`）与五个历史计划的补录（`docs/others/inputs/spec-closure-backfill.json`）。
+`docs/standards/specification-to-implementation-ddd.md` 当前登记在三处：标准索引、`scripts/check-docs.mjs` 的必备路径和 `scripts/ignite/checks.mjs` 的治理白名单。`tests/contracts/spec-closure.test.ts` 守住这三处登记、52 条差异账本（`docs/others/spec-closure/ledger.json`）与五个建设期计划的归档补录（`docs/others/spec-closure/backfill.json`）。
 
-当前事实只覆盖"登记与记账"：编号体系、绑定矩阵、内容门禁、跨文档传播与回写检查均未实现。账本中的 P1–P5 条目是后续计划的输入，不代表已经完成。
+编号现状：20 份非索引来源文件全部带编号（16 份 STD/DES 追加，4 份 ADR 原有），`scripts/ignite/spec-id-registry.mjs` 负责扫描，`check-docs` 拒绝缺号、重号与计划中的未知引用。绑定矩阵、内容门禁、跨文档传播与回写检查仍未实现；账本中的 P2–P5 条目是后续输入，不代表已经完成。
+
+- DES-EXEC-101：当前执行系统契约与证据事实以本编号引用。

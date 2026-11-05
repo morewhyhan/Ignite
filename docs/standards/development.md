@@ -9,3 +9,5 @@
 - 业务变更按 [Feature 规则](../features/README.md) 明确行为、按 [Plan 规则](../plans/README.md) 组织本轮交付、按 [测试标准](./testing.md) 先行验证，最终事实回写 [Design](../designs/README.md)。
 - 不手工猜测检查范围。统一运行 `pnpm ignite check --plan <IGT-ID> --level auto`；它按真实 Plan diff 选择最低层级，且所有层级都执行 `git diff --check`。
 - 新版 Plan（`verification_contract: 2`）先完成 Plan integration 和本 Plan 验收，再将 Plan 标为 `done`；所有纳入 Release 的 Plan 完成后，运行 `pnpm ignite release verify <release-id> --plan <IGT-ID>` 验证组合版本的生产构建与生产态 E2E。旧 Plan（`verification_contract: 1`）继续使用 `pnpm ignite check --plan <IGT-ID> --level release`。
+
+- STD-DEV-101：开发与提交必须保持格式、类型与检查入口一致；新增规则另起编号。

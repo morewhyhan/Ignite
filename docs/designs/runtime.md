@@ -48,3 +48,5 @@ CI 构建任务先将完整 `.next` 打包为 tar，再上传单个归档；E2E 
 CI Playwright 使用 line、HTML 和验收 reporter；line 实际转发服务启动的 stdout/stderr，`pw:webserver` 提供 readiness 诊断。本地仍使用 list reporter。启动失败输出由实际退出的服务器夹具验证，不依靠配置文本断言。
 
 Plan、Release、运行恢复和证据契约统一见 [AI 执行系统](./execution.md)。实际检查策略以 `scripts/ignite/checks.mjs` 为准，运行清单记录所用版本；本文件只维护应用与测试的运行环境。
+
+- DES-RUNTIME-101：当前运行时与支持的执行环境事实以本编号引用。

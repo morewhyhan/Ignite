@@ -474,5 +474,6 @@
       "plan": null,
       "disposition": "keep"
     }
-  ]
+  ],
+  "identifier_mapping": "条目编号沿用 GAP-01..52；来源文件编号使用 STD/DES/ADR 前缀，编号到条目的映射在绑定阶段补充。"
 }

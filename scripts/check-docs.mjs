@@ -1,5 +1,11 @@
 import { standardRegistryFailures, validatePlanDocument, markdownHeadings } from './ignite/document-contract.mjs'
 import { isGovernedPath } from './ignite/checks.mjs'
+import {
+  collectSpecificationIds,
+  filesWithoutIds,
+  sourceEntries,
+  unknownReferences,
+} from './ignite/spec-id-registry.mjs'
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, extname, join, relative, resolve } from 'node:path'
 import { repositoryRoot, walkFiles } from './ignite/core.mjs'
@@ -118,6 +124,21 @@ for (const planFile of planFiles) {
     ]
     if (selectedTypes.length !== 1) fail(`${plan.relativePath}: select exactly one change type`)
   }
+}
+
+const specEntries = sourceEntries(repositoryRoot, [
+  'docs/standards',
+  'docs/designs',
+  'docs/others/adr',
+])
+const specRegistry = collectSpecificationIds(specEntries)
+for (const path of filesWithoutIds(specEntries)) fail(`${path}: missing specification identifier`)
+for (const duplicate of specRegistry.duplicates)
+  fail(`${duplicate.second}: duplicate specification identifier ${duplicate.id} (also ${duplicate.first})`)
+for (const planFile of planFiles) {
+  const plan = readPlan(planFile)
+  for (const id of unknownReferences(plan.content, specRegistry.byId))
+    fail(`${plan.relativePath}: unknown specification reference ${id}`)
 }
 
 const agentGuide = read('AGENTS.md')

@@ -34,3 +34,5 @@ verification  （Better Auth 兼容性预留的临时凭证表；模板默认不
 - `task.title` 创建时非空，长度 1–200 个字符。
 - 任务更新至少包含 `title` 或 `completed` 其中一个字段。
 - 删除用户时级联删除其 session、account 和 task。
+
+- DES-DOMAIN-101：当前领域对象与不变量事实以本编号引用。

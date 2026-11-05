@@ -21,11 +21,10 @@
   - 缺少证据：无
   - 最终版本验收：passed（26a647e6fe43）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `spec-closure-p2-v1` · `verifying`
+- `spec-closure-p2-v1` · `done`
   - Plan：`IGT-202611060003`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite release verify spec-closure-p2-v1 --plan IGT-202611060003
+  - 最终版本验收：passed（45ea2a4de27a）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题

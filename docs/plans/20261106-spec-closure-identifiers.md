@@ -254,7 +254,7 @@
   "evidence": [
     {
       "id": "check-integration",
-      "run_id": "run-20261105173133-f48e0e"
+      "run_id": "run-20261105175158-edbeca"
     }
   ],
   "blocker": null,
@@ -419,7 +419,7 @@
 - [x] T5 · 完成检查与回写 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：check-integration / run-20261105173133-f48e0e
+证据：check-integration / run-20261105175158-edbeca
 <!-- /ignite-progress -->
 
 ## 准出条件

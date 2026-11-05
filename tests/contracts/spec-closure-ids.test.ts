@@ -37,11 +37,20 @@ describe('specification identifiers', () => {
     const citation = /\b(?:STD|DES)-[A-Z]+-\d{3}\b|\bADR-\d{4}\b/g
     const all = plans.flatMap((text) => text.match(citation) || [])
     expect(all.length, '[AC-SPEC-005] target citations exist').toBeGreaterThan(0)
-    expect([...new Set(plans.flatMap((text) => unknownReferences(text, byId)))], '[AC-SPEC-005] target unresolved citations').toEqual([])
+    expect(
+      [...new Set(plans.flatMap((text) => unknownReferences(text, byId)))],
+      '[AC-SPEC-005] target unresolved citations',
+    ).toEqual([])
   })
 
   it('[AC-SPEC-005] unknown identifiers are listed and placeholders ignored', () => {
-    expect(unknownReferences('依据 STD-ARCH-999 实现', byId), '[AC-SPEC-005] target unknown reference').toEqual(['STD-ARCH-999'])
-    expect(unknownReferences('格式写作 ADR-NNNN 与 STD-区域-NNN', byId), '[AC-SPEC-005] target placeholders').toEqual([])
+    expect(
+      unknownReferences('依据 STD-ARCH-999 实现', byId),
+      '[AC-SPEC-005] target unknown reference',
+    ).toEqual(['STD-ARCH-999'])
+    expect(
+      unknownReferences('格式写作 ADR-NNNN 与 STD-区域-NNN', byId),
+      '[AC-SPEC-005] target placeholders',
+    ).toEqual([])
   })
 })

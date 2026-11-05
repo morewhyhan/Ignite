@@ -1,0 +1,35 @@
+{
+  "schema": 2,
+  "id": "spec-closure-p2-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": [
+    "IGT-202611060003"
+  ],
+  "scope": [
+    {
+      "id": "GOAL-SPEC-P2",
+      "text": "新计划为每条需求与验收声明唯一绑定，缺失即拒绝",
+      "source": "用户 2026-11-06 指令与 docs/standards/specification-to-implementation-ddd.md §6",
+      "requirements": [
+        "REQ-SPEC-006"
+      ],
+      "acceptance": [
+        "AC-SPEC-006"
+      ],
+      "plan_ids": [
+        "IGT-202611060003"
+      ],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    }
+  ],
+  "must_pass": [
+    "check-release"
+  ],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-11-06"
+}

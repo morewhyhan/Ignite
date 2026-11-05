@@ -3,31 +3,21 @@
   "id": "spec-closure-ledger-v1",
   "coverage_version": 2,
   "verification_contract": 2,
-  "plan_ids": [
-    "IGT-202611060004"
-  ],
+  "plan_ids": ["IGT-202611060004"],
   "scope": [
     {
       "id": "GOAL-SPEC-LEDGER",
       "text": "账本记录真实实施结果，met 条目指向真实计划",
       "source": "用户 2026-11-06 收尾指令",
-      "requirements": [
-        "REQ-SPEC-007"
-      ],
-      "acceptance": [
-        "AC-SPEC-007"
-      ],
-      "plan_ids": [
-        "IGT-202611060004"
-      ],
+      "requirements": ["REQ-SPEC-007"],
+      "acceptance": ["AC-SPEC-007"],
+      "plan_ids": ["IGT-202611060004"],
       "disposition": "included",
       "reason": "",
       "authorization": ""
     }
   ],
-  "must_pass": [
-    "check-release"
-  ],
+  "must_pass": ["check-release"],
   "evidence": [],
   "integrated_commit": null,
   "excluded": [],

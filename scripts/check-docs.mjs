@@ -131,7 +131,9 @@ for (const planFile of planFiles) {
     '## 回退',
   ]
   const ignore = plan.metadata?.content_contract === 1 ? [] : contentOnlyHeadings
-  for (const error of validatePlanDocument(plan.content, read('docs/plans/_template.md'), { ignore }))
+  for (const error of validatePlanDocument(plan.content, read('docs/plans/_template.md'), {
+    ignore,
+  }))
     fail(`${plan.relativePath}: ${error}`)
   if (plan.metadata?.schema !== 2) {
     const selectedTypes = [

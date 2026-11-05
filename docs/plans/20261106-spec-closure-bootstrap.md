@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-202611060001",
   "release": "spec-closure-p0-v1",
-  "status": "draft",
+  "status": "cancelled",
   "outcome": "模板能把闭环标准登记为有效来源，并用一份机器可读账本与历史补录回答每条规矩归谁",
   "contract_version": 2,
   "execution_contract": 1,
@@ -15,21 +15,15 @@
   "goals": [
     {
       "text": "标准索引、文档检查清单与治理白名单同时登记闭环标准",
-      "requirements": [
-        "REQ-SPEC-001"
-      ]
+      "requirements": ["REQ-SPEC-001"]
     },
     {
       "text": "52 条差异形成可被检查的账本，每条有负责计划与处置",
-      "requirements": [
-        "REQ-SPEC-002"
-      ]
+      "requirements": ["REQ-SPEC-002"]
     },
     {
       "text": "五个已完成计划可按补录记录追溯规格归属",
-      "requirements": [
-        "REQ-SPEC-003"
-      ]
+      "requirements": ["REQ-SPEC-003"]
     }
   ],
   "constraints": [
@@ -53,20 +47,12 @@
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "173224e460dcf76459a8fe76f52d8fe6d34d124d",
-  "requirements": [
-    "REQ-SPEC-001",
-    "REQ-SPEC-002",
-    "REQ-SPEC-003"
-  ],
+  "requirements": ["REQ-SPEC-001", "REQ-SPEC-002", "REQ-SPEC-003"],
   "acceptance": [
     {
       "id": "AC-SPEC-001",
-      "tests": [
-        "tests/contracts/spec-closure.test.ts::[AC-SPEC-001]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "tests": ["tests/contracts/spec-closure.test.ts::[AC-SPEC-001]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure.test.ts::[AC-SPEC-001]",
@@ -76,12 +62,8 @@
     },
     {
       "id": "AC-SPEC-002",
-      "tests": [
-        "tests/contracts/spec-closure.test.ts::[AC-SPEC-002]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "tests": ["tests/contracts/spec-closure.test.ts::[AC-SPEC-002]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure.test.ts::[AC-SPEC-002]",
@@ -91,12 +73,8 @@
     },
     {
       "id": "AC-SPEC-003",
-      "tests": [
-        "tests/contracts/spec-closure.test.ts::[AC-SPEC-003]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "tests": ["tests/contracts/spec-closure.test.ts::[AC-SPEC-003]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure.test.ts::[AC-SPEC-003]",
@@ -105,9 +83,7 @@
       ]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
@@ -128,31 +104,18 @@
       "id": "T2",
       "title": "运行契约断言并记录目标行为红灯",
       "phase": "red",
-      "acceptance": [
-        "AC-SPEC-001",
-        "AC-SPEC-002",
-        "AC-SPEC-003"
-      ],
+      "acceptance": ["AC-SPEC-001", "AC-SPEC-002", "AC-SPEC-003"],
       "status": "todo",
       "result": "在登记与账本缺失的旧实现上，三条断言真实失败并记录原生回执。",
-      "scope": [
-        "tests/contracts/spec-closure.test.ts",
-        "docs/others/evidence/tdd/"
-      ],
-      "depends_on": [
-        "T1"
-      ],
+      "scope": ["tests/contracts/spec-closure.test.ts", "docs/others/evidence/tdd/"],
+      "depends_on": ["T1"],
       "owner": "ignite-executor"
     },
     {
       "id": "T3",
       "title": "登记标准、写入差异账本与历史补录",
       "phase": "implement",
-      "acceptance": [
-        "AC-SPEC-001",
-        "AC-SPEC-002",
-        "AC-SPEC-003"
-      ],
+      "acceptance": ["AC-SPEC-001", "AC-SPEC-002", "AC-SPEC-003"],
       "status": "todo",
       "result": "四处索引一致，账本含 52 条归属，补录覆盖五个历史计划，三条断言转绿。",
       "scope": [
@@ -163,9 +126,7 @@
         "docs/others/inputs/spec-closure-backfill.json",
         "docs/others/adr/0004-spec-closure-contract.md"
       ],
-      "depends_on": [
-        "T2"
-      ],
+      "depends_on": ["T2"],
       "owner": "ignite-executor"
     },
     {
@@ -174,13 +135,8 @@
       "phase": "verify",
       "status": "todo",
       "result": "文档检查与契约测试全绿，执行设计记录登记事实，剩余缺口如实记录。",
-      "scope": [
-        "docs/designs/execution.md",
-        "docs/others/evidence/"
-      ],
-      "depends_on": [
-        "T3"
-      ],
+      "scope": ["docs/designs/execution.md", "docs/others/evidence/"],
+      "depends_on": ["T3"],
       "owner": "ignite-executor"
     }
   ],
@@ -216,14 +172,12 @@
     "scripts/ignite/checks.mjs"
   ],
   "tdd_evidence": [],
-  "required_evidence": [
-    "check-dev"
-  ],
+  "required_evidence": ["check-dev"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
-  "updated_at": "2026-11-06"
+  "updated_at": "2026-11-05"
 }
 -->
 
@@ -347,6 +301,7 @@
 ## 状态记录
 
 - 2026-11-06：建立计划，记录三条目标与绑定矩阵。
+- 2026-11-06：本计划取消（cancelled）。交付物已随 b03c24f 落地，但原生红灯在实现之前未取得，无法按契约标记完成；为避免用伪造回执凑完成，保留交付事实并取消计划状态。AC-SPEC-001..003 的行为由 tests/contracts/spec-closure.test.ts 持续覆盖，若需要正式闭环，应另立计划用原生红灯重做覆盖。
 - 2026-11-06：实现前直接运行 `vitest run tests/contracts/spec-closure.test.ts`，三条断言真实失败（标准索引缺链接、账本与补录文件不存在）；该次运行未走原生 `ignite tdd red`，因此没有原生回执，记为流程缺口，后续计划必须用原生入口取红灯。
 - 2026-11-06：写入账本、补录、ADR 与三处登记后，同一文件三条断言通过。
 - 2026-11-06：`node scripts/check-docs.mjs` 曾因五个建设期计划的提交不在 HEAD 祖先链上失败；按用户选项 A 将这些计划与发布记录移出工作树（内容留在 Git 历史），补录改为归档形式后检查通过（51 个 Markdown、8 份需求、1 份计划，退出码 0）。
@@ -355,7 +310,7 @@
 
 <!-- ignite-progress -->
 
-状态：`draft`（由元数据生成）
+状态：`cancelled`（由元数据生成）
 
 - [ ] T1 · 登记需求、计划、发布范围并编写真实断言 · todo
 - [ ] T2 · 运行契约断言并记录目标行为红灯 · todo

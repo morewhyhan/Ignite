@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-202611060005",
   "release": "spec-closure-content-v1",
-  "status": "draft",
+  "status": "active",
   "outcome": "声明内容契约的计划，分析章节必须有实质内容，空壳与模板语被拒",
   "contract_version": 2,
   "execution_contract": 1,
@@ -76,6 +76,72 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-05T21:26:46.197Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent draft review of IGT-202611060005, three rounds, approved at 23833f6",
+      "subject_fingerprint": "a0d1a0681b47aa5f3d19de5805e803fcb4a7b688a5ecb554d5d32224fcca7982",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "CT-006",
+          "severity": "nonblocking",
+          "summary": "base_commit is the plan creation commit; prep diff outside delivery scope.",
+          "resolved": false
+        },
+        {
+          "id": "CT-009",
+          "severity": "blocking",
+          "summary": "Resolved: separator/header excluded; data rows only; header-only fixture covered.",
+          "resolved": true
+        },
+        {
+          "id": "CT-001",
+          "severity": "blocking",
+          "summary": "Resolved: validatePlan imported.",
+          "resolved": true
+        },
+        {
+          "id": "CT-002",
+          "severity": "blocking",
+          "summary": "Resolved: plan sections satisfy contentGaps.",
+          "resolved": true
+        },
+        {
+          "id": "CT-003",
+          "severity": "blocking",
+          "summary": "Resolved: table data rows count; plan contentGaps empty.",
+          "resolved": true
+        },
+        {
+          "id": "CT-004",
+          "severity": "blocking",
+          "summary": "Resolved: full contentGaps asserted before gutted case.",
+          "resolved": true
+        },
+        {
+          "id": "CT-005",
+          "severity": "blocking",
+          "summary": "Resolved: boilerplate anchored.",
+          "resolved": true
+        },
+        {
+          "id": "CT-007",
+          "severity": "nonblocking",
+          "summary": "Resolved: import fixed.",
+          "resolved": true
+        },
+        {
+          "id": "CT-008",
+          "severity": "nonblocking",
+          "summary": "Resolved: plan matrix and rollback satisfy contract.",
+          "resolved": true
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-05T21:27:27.409Z"
     }
   ],
   "verification_contract": 2,
@@ -84,43 +150,24 @@
   "goals": [
     {
       "text": "内容契约计划的分析章节必须有实质内容",
-      "requirements": [
-        "REQ-SPEC-008"
-      ]
+      "requirements": ["REQ-SPEC-008"]
     }
   ],
-  "constraints": [
-    "只对新契约计划强制",
-    "不追溯 P0–P3 已完成计划",
-    "不做语义质量评分"
-  ],
-  "non_goals": [
-    "不改历史计划正文",
-    "不引入模型评分"
-  ],
+  "constraints": ["只对新契约计划强制", "不追溯 P0–P3 已完成计划", "不做语义质量评分"],
+  "non_goals": ["不改历史计划正文", "不引入模型评分"],
   "authorization": {
     "source": "用户 2026-11-06 收尾 goal 指令"
   },
-  "deliverables": [
-    "模板八个章节与内容契约",
-    "content-contract 校验与接线",
-    "AC-SPEC-008 断言"
-  ],
+  "deliverables": ["模板八个章节与内容契约", "content-contract 校验与接线", "AC-SPEC-008 断言"],
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "23833f6bca8825f21e72c7b8d4177b7fc75e1f4a",
-  "requirements": [
-    "REQ-SPEC-008"
-  ],
+  "requirements": ["REQ-SPEC-008"],
   "acceptance": [
     {
       "id": "AC-SPEC-008",
-      "tests": [
-        "tests/contracts/spec-closure-content.test.ts::[AC-SPEC-008]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "tests": ["tests/contracts/spec-closure-content.test.ts::[AC-SPEC-008]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-content.test.ts::[AC-SPEC-008]",
@@ -129,9 +176,7 @@
       ]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
@@ -153,53 +198,33 @@
       "id": "T2",
       "title": "运行内容断言并记录原生红灯",
       "phase": "red",
-      "acceptance": [
-        "AC-SPEC-008"
-      ],
+      "acceptance": ["AC-SPEC-008"],
       "status": "todo",
       "result": "模板缺章节时断言真实失败并写入原生回执。",
-      "scope": [
-        "tests/contracts/spec-closure-content.test.ts",
-        "docs/others/evidence/tdd/"
-      ],
-      "depends_on": [
-        "T1"
-      ],
+      "scope": ["tests/contracts/spec-closure-content.test.ts", "docs/others/evidence/tdd/"],
+      "depends_on": ["T1"],
       "owner": "ignite-executor"
     },
     {
       "id": "T3",
       "title": "模板补齐章节并接入内容校验",
       "phase": "implement",
-      "acceptance": [
-        "AC-SPEC-008"
-      ],
+      "acceptance": ["AC-SPEC-008"],
       "status": "todo",
       "result": "模板含八节与 content_contract，validatePlan 调用 contentGaps。",
-      "scope": [
-        "docs/plans/_template.md",
-        "scripts/ignite/state.mjs"
-      ],
-      "depends_on": [
-        "T2"
-      ],
+      "scope": ["docs/plans/_template.md", "scripts/ignite/state.mjs"],
+      "depends_on": ["T2"],
       "owner": "ignite-executor"
     },
     {
       "id": "T4",
       "title": "完成检查与回写",
       "phase": "verify",
-      "acceptance": [
-        "AC-SPEC-008"
-      ],
+      "acceptance": ["AC-SPEC-008"],
       "status": "todo",
       "result": "断言与检查通过，执行设计记录内容门禁。",
-      "scope": [
-        "docs/designs/execution.md"
-      ],
-      "depends_on": [
-        "T3"
-      ],
+      "scope": ["docs/designs/execution.md"],
+      "depends_on": ["T3"],
       "owner": "ignite-executor"
     }
   ],
@@ -267,14 +292,12 @@
     "scripts/ignite/state.mjs"
   ],
   "tdd_evidence": [],
-  "required_evidence": [
-    "check-integration"
-  ],
+  "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
-  "updated_at": "2026-11-06"
+  "updated_at": "2026-11-05"
 }
 -->
 
@@ -390,7 +413,7 @@
 
 <!-- ignite-progress -->
 
-状态：`draft`（由元数据生成）
+状态：`active`（由元数据生成）
 
 - [ ] T1 · 登记规格、计划与断言并提交基线 · todo
 - [ ] T2 · 运行内容断言并记录原生红灯 · todo

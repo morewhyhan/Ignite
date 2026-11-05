@@ -1,19 +1,26 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`84368403b87f`
-当前 Plan：0；结构化历史：4；未迁移历史：0
+输入指纹：`e3f6265bb93f`
+当前 Plan：1；结构化历史：4；未迁移历史：0
 
 ## 当前工作
 
-- 无。
+- `IGT-202611060005` · `ready` · `spec-closure-content-v1`
 
 ## 发布范围
 
-- `spec-closure-ledger-v1` · `done`
+- `spec-closure-content-v1` · `ready`
+  - Plan：`IGT-202611060005`
+  - 缺少证据：`IGT-202611060005:check-integration`（missing：no run is bound to this evidence requirement）
+  - 最终版本验收：missing
+  - 下一步：pnpm ignite next --plan IGT-202611060005
+  - 未完成原始目标：GOAL-SPEC-CONTENT 声明内容契约的计划必须有实质分析章节
+- `spec-closure-ledger-v1` · `verifying`
   - Plan：`IGT-202611060004`
   - 缺少证据：无
-  - 最终版本验收：passed（b8f36ae7d49c）
+  - 最终版本验收：stale
+  - 下一步：pnpm ignite release verify spec-closure-ledger-v1 --plan IGT-202611060004
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `spec-closure-p0-v1` · `cancelled`
   - Plan：`IGT-202611060001`

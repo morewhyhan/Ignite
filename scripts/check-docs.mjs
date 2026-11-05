@@ -120,16 +120,7 @@ for (const featureFile of featureFiles) {
 const planFiles = listPlanFiles()
 for (const planFile of planFiles) {
   const plan = readPlan(planFile)
-  const contentOnlyHeadings = [
-    '## 来源规格',
-    '## 目标映射',
-    '## 主要矛盾',
-    '## 次要矛盾',
-    '## 决策原则',
-    '## 方案比较',
-    '## 约束绑定矩阵',
-    '## 回退',
-  ]
+  const contentOnlyHeadings = CONTENT_HEADINGS
   const ignore = plan.metadata?.content_contract === 1 ? [] : contentOnlyHeadings
   for (const error of validatePlanDocument(plan.content, read('docs/plans/_template.md'), {
     ignore,

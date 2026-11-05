@@ -9,6 +9,7 @@ const REQUIRED = [
   ['## 约束绑定矩阵', 2],
   ['## 回退', 2],
 ]
+export const CONTENT_HEADINGS = REQUIRED.map(([heading]) => heading)
 const BOILERPLATE = /^(?:按 .*说明以下判断.*|简单任务可以用几句话回答.*|待填写)$/m
 const SEPARATOR = /^\|[\s:|-]+\|$/
 

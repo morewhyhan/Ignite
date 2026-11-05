@@ -34,9 +34,10 @@ describe('specification identifiers', () => {
   })
 
   it('[AC-SPEC-005] every identifier cited by a plan resolves', () => {
-    const cited = plans.flatMap((text) => unknownReferences(text, byId))
-    expect(cited.length, '[AC-SPEC-005] target citations exist').toBeGreaterThan(0)
-    expect([...new Set(cited)], '[AC-SPEC-005] target unresolved citations').toEqual([])
+    const citation = /\b(?:STD|DES)-[A-Z]+-\d{3}\b|\bADR-\d{4}\b/g
+    const all = plans.flatMap((text) => text.match(citation) || [])
+    expect(all.length, '[AC-SPEC-005] target citations exist').toBeGreaterThan(0)
+    expect([...new Set(plans.flatMap((text) => unknownReferences(text, byId)))], '[AC-SPEC-005] target unresolved citations').toEqual([])
   })
 
   it('[AC-SPEC-005] unknown identifiers are listed and placeholders ignored', () => {

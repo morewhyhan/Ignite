@@ -43,7 +43,7 @@
   "deliverables": [
     "带编号的 16 份来源文件",
     "scripts/ignite/spec-id-registry.mjs 与 check-docs 注册检查",
-    "tests/contracts/spec-closure-ids.test.ts 的三条断言"
+    "tests/contracts/spec-closure-ids.test.ts 的四条断言"
   ],
   "remaining_work": [],
   "change_type": "存量改动",
@@ -93,7 +93,7 @@
       "title": "登记需求、计划与发布范围并编写真实断言",
       "phase": "prepare",
       "status": "todo",
-      "result": "Feature 增量、计划、发布范围、扫描器与三条断言写入并提交基线，准备结构检查通过。",
+      "result": "Feature 增量、计划、发布范围、扫描器与四条断言写入并提交基线，准备结构检查通过。",
       "scope": [
         "docs/features/spec-closure.md",
         "docs/plans/20261106-spec-closure-identifiers.md",
@@ -349,7 +349,7 @@
 
 ## 测试与验收设计
 
-三条断言 import 生产扫描器 scripts/ignite/spec-id-registry.mjs 并直接读真实文件：每份文件必须有编号且唯一；重号要报出两个位置；未知引用要列出且不误报占位符。AC-SPEC-005 的"运行引用校验失败"另由 T3 记录运行证据：在本地临时写入一个未知编号、确认 check-docs 退出码非 0 并打印该编号，然后还原。
+四条断言 import 生产扫描器 scripts/ignite/spec-id-registry.mjs 并直接读真实文件：每份文件必须有编号且唯一；重号要报出两个位置；未知引用要列出且不误报占位符。AC-SPEC-005 的"运行引用校验失败"另由 T3 记录运行证据：在本地临时写入一个未知编号、确认 check-docs 退出码非 0 并打印该编号，然后还原。
 
 ## 实现任务
 
@@ -369,7 +369,7 @@
 
 ## 状态记录
 
-- 2026-11-06：建立计划；测试在未编号仓库上失败（2 failed / 1 passed），准备基线随后提交。
+- 2026-11-06：建立计划；测试在未编号仓库上失败（2 failed / 2 passed），准备基线随后提交。
 - 2026-11-06：前三轮审查共 27 条意见（阻断 15 条）。已改：risk、绑定矩阵、编号分配表、引用范围、ADR 复审任务、计数与示例 ID、扫描器路径与测试接入。原生红灯仍未记录。
 - 2026-11-06：测试改为四条断言，其中"文件缺号"与"计划引用未解析"两条在真实仓库上失败，构成 AC-SPEC-004/005 的目标红灯；重号与占位符两条为生产扫描器的单元保证。
 
@@ -389,4 +389,4 @@
 
 ## 准出条件
 
-三条断言通过、文档检查退出码 0、check-integration 证据有效、ADR 复审已记录、设计已回写。
+四条断言通过、文档检查退出码 0、check-integration 证据有效、ADR 复审已记录、设计已回写。

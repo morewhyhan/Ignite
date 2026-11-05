@@ -299,13 +299,7 @@
     "scripts/ignite/state.mjs",
     "scripts/check-docs.mjs"
   ],
-  "tdd_evidence": [
-    {
-      "acceptance_id": "AC-SPEC-006",
-      "test": "tests/contracts/spec-closure-bindings.test.ts::[AC-SPEC-006]",
-      "run_id": "tdd-20261105183029-5d46d0"
-    }
-  ],
+  "tdd_evidence": [],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
@@ -429,3 +423,7 @@
 ## 准出条件
 
 三条断言通过、文档检查退出码 0、check-integration 有效、设计已回写。
+
+## TDD 恢复记录
+
+2026-11-05，AC-SPEC-006：formatting changed the acceptance test after red。保留原回执 tdd-20261105183029-5d46d0；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。

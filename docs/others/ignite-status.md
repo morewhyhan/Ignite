@@ -1,7 +1,7 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`30e26d1fb0c3`
+输入指纹：`040fe26bd017`
 当前 Plan：1；结构化历史：2；未迁移历史：0
 
 ## 当前工作
@@ -22,7 +22,7 @@
   - 最终版本验收：missing
   - 下一步：pnpm ignite release verify spec-closure-p1-v1 --plan IGT-202611060002
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `spec-closure-p2-v1` · `active`
+- `spec-closure-p2-v1` · `invalid`
   - Plan：`IGT-202611060003`
   - 缺少证据：`IGT-202611060003:check-integration`（missing：no run is bound to this evidence requirement）
   - 最终版本验收：missing
@@ -31,6 +31,8 @@
 
 ## 结构问题
 
-- 无。
+- docs/plans/20261106-spec-closure-bindings.md: scripts/check-docs.mjs: implementation changed before the first valid red; restore it, complete preparation and record a real red first
+- docs/plans/20261106-spec-closure-bindings.md: scripts/ignite/binding-contract.mjs: implementation changed before the first valid red; restore it, complete preparation and record a real red first
+- docs/plans/20261106-spec-closure-bindings.md: scripts/ignite/state.mjs: implementation changed before the first valid red; restore it, complete preparation and record a real red first
 
 > 本文件是确定性派生视图；修改 Plan 或 Release 机器源后重新生成。

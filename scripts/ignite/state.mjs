@@ -285,8 +285,6 @@ function validateLegacyPlan(plan) {
   return failures
 }
 
-import { validateBindings } from './binding-contract.mjs'
-
 export function validatePlan(
   plan,
   { allowLegacy = true, requireCurrentEvidence = false, evidenceCommit = null } = {},
@@ -338,7 +336,6 @@ export function validatePlan(
   }
 
   if (value.schema !== 2) failures.push('schema must be 2 for current Plans')
-  failures.push(...validateBindings(value))
   if (typeof value.id !== 'string' || !/^IGT-\d{3,}$/.test(value.id)) {
     failures.push('id must match IGT-000')
   }

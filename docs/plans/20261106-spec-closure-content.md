@@ -182,7 +182,7 @@
       "id": "T1",
       "title": "登记规格、计划与断言并提交基线",
       "phase": "prepare",
-      "status": "todo",
+      "status": "done",
       "result": "Feature、计划、发布与断言写入并提交基线，准备检查通过。",
       "scope": [
         "docs/features/spec-closure-content.md",
@@ -199,7 +199,7 @@
       "title": "运行内容断言并记录原生红灯",
       "phase": "red",
       "acceptance": ["AC-SPEC-008"],
-      "status": "todo",
+      "status": "doing",
       "result": "模板缺章节时断言真实失败并写入原生回执。",
       "scope": ["tests/contracts/spec-closure-content.test.ts", "docs/others/evidence/tdd/"],
       "depends_on": ["T1"],
@@ -415,8 +415,8 @@
 
 状态：`active`（由元数据生成）
 
-- [ ] T1 · 登记规格、计划与断言并提交基线 · todo
-- [ ] T2 · 运行内容断言并记录原生红灯 · todo
+- [x] T1 · 登记规格、计划与断言并提交基线 · done
+- [ ] T2 · 运行内容断言并记录原生红灯 · doing
 - [ ] T3 · 模板补齐章节并接入内容校验 · todo
 - [ ] T4 · 完成检查与回写 · todo
 

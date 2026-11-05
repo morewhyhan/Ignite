@@ -2,7 +2,7 @@
 
 ## 背景与目标
 
-52 条差异账本记录了"谁负责"，但没有记录"做到了没有"。结果是账本把计划意图当成实施结果，读者无法据此判断还剩多少工作。本规格要求账本为每条记录实施结果，并让已完成条目指向真实计划与证据。
+52 条差异账本记录了"谁负责"，但没有记录"做到了没有"。结果是账本把计划意图当成实施结果，读者无法据此判断还剩多少工作。本规格要求账本为每条记录实施结果，并让已完成条目指向真实计划；证据引用留到后续阶段。
 
 ## 用户行为与边界
 
@@ -15,7 +15,7 @@
 
 - 规格位置：`docs/features/spec-closure-ledger.md`
 - 账本：`docs/others/spec-closure/ledger.json`
-- 校验与断言：`scripts/ignite/spec-id-registry.mjs`、`tests/contracts/spec-closure-ledger.test.ts`
+- 校验与断言：`tests/contracts/spec-closure-ledger.test.ts`（读账本与真实计划集）
 
 ## 业务规则
 

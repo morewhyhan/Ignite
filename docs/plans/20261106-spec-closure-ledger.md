@@ -106,7 +106,7 @@
         "AC-SPEC-007"
       ],
       "status": "todo",
-      "result": "每条带 result，met 条目指向真实计划，断言转绿。",
+      "result": "为 52 条回填 result：met 为 GAP-01（IGT-202611060001）、GAP-10（IGT-202611060002）、GAP-20/GAP-21/GAP-24（IGT-202611060003）；partial 为 GAP-23；其余为 missing；断言转绿。",
       "scope": [
         "docs/others/spec-closure/ledger.json"
       ],

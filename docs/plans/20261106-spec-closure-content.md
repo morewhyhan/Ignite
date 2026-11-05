@@ -208,6 +208,72 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-05T21:54:20.814Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent draft review of IGT-202611060005, three rounds, approved at 23833f6",
+      "subject_fingerprint": "45c48ae6ed22fb9b988fc519e13ce70ab953a803356e08899436c559fefef40d",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "CT-006",
+          "severity": "nonblocking",
+          "summary": "base_commit is the plan creation commit; prep diff outside delivery scope.",
+          "resolved": false
+        },
+        {
+          "id": "CT-009",
+          "severity": "blocking",
+          "summary": "Resolved: separator/header excluded; data rows only; header-only fixture covered.",
+          "resolved": true
+        },
+        {
+          "id": "CT-001",
+          "severity": "blocking",
+          "summary": "Resolved: validatePlan imported.",
+          "resolved": true
+        },
+        {
+          "id": "CT-002",
+          "severity": "blocking",
+          "summary": "Resolved: plan sections satisfy contentGaps.",
+          "resolved": true
+        },
+        {
+          "id": "CT-003",
+          "severity": "blocking",
+          "summary": "Resolved: table data rows count; plan contentGaps empty.",
+          "resolved": true
+        },
+        {
+          "id": "CT-004",
+          "severity": "blocking",
+          "summary": "Resolved: full contentGaps asserted before gutted case.",
+          "resolved": true
+        },
+        {
+          "id": "CT-005",
+          "severity": "blocking",
+          "summary": "Resolved: boilerplate anchored.",
+          "resolved": true
+        },
+        {
+          "id": "CT-007",
+          "severity": "nonblocking",
+          "summary": "Resolved: import fixed.",
+          "resolved": true
+        },
+        {
+          "id": "CT-008",
+          "severity": "nonblocking",
+          "summary": "Resolved: plan matrix and rollback satisfy contract.",
+          "resolved": true
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-05T22:15:23.703Z"
     }
   ],
   "verification_contract": 2,

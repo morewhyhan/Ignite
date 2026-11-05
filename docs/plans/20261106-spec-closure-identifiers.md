@@ -3,27 +3,46 @@
   "schema": 2,
   "id": "IGT-202611060002",
   "release": "spec-closure-p1-v1",
-  "status": "draft",
+  "status": "active",
   "outcome": "每份标准、设计与 ADR 文件至少携带一个全仓唯一编号，未知编号引用被拒绝",
   "contract_version": 2,
   "execution_contract": 1,
   "task_contract": 2,
   "planning_contract": 1,
   "review_contract": 1,
-  "reviews": [],
+  "reviews": [
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-4e6085c2",
+      "executor": "ignite-executor",
+      "source": "DSH subagent 4e6085c2 (independent read-only reviewer) reviewed the Plan across five revision rounds and approved on 2026-11-06",
+      "subject_fingerprint": "d13e82fc51f12b9389b9d6c107cbd645c5710f86f093da447576e52075b8b2a7",
+      "verdict": "approved",
+      "findings": [],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-05T17:13:56.514Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-4e6085c2",
+      "executor": "ignite-executor",
+      "source": "DSH subagent 4e6085c2 independent read-only review, five revision rounds, approved 2026-11-06",
+      "subject_fingerprint": "ede68a68e6000226b20f5ff3f4eb0b7af5297667fb2b175af9595fe453ad8b86",
+      "verdict": "approved",
+      "findings": [],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-05T17:14:52.043Z"
+    }
+  ],
   "verification_contract": 2,
   "goals": [
     {
       "text": "每份标准、设计与 ADR 文件都携带至少一个全仓唯一编号",
-      "requirements": [
-        "REQ-SPEC-004"
-      ]
+      "requirements": ["REQ-SPEC-004"]
     },
     {
       "text": "计划引用不存在的编号时校验失败并列出该编号",
-      "requirements": [
-        "REQ-SPEC-005"
-      ]
+      "requirements": ["REQ-SPEC-005"]
     }
   ],
   "constraints": [
@@ -48,19 +67,12 @@
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "a408dc90dcd7882d32c71396b7e518333233fdc3",
-  "requirements": [
-    "REQ-SPEC-004",
-    "REQ-SPEC-005"
-  ],
+  "requirements": ["REQ-SPEC-004", "REQ-SPEC-005"],
   "acceptance": [
     {
       "id": "AC-SPEC-004",
-      "tests": [
-        "tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-004]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "tests": ["tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-004]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-004]",
@@ -70,12 +82,8 @@
     },
     {
       "id": "AC-SPEC-005",
-      "tests": [
-        "tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-005]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "tests": ["tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-005]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-005]",
@@ -84,15 +92,13 @@
       ]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
       "title": "登记需求、计划与发布范围并编写真实断言",
       "phase": "prepare",
-      "status": "todo",
+      "status": "done",
       "result": "Feature 增量、计划、发布范围、扫描器与四条断言写入并提交基线，准备结构检查通过。",
       "scope": [
         "docs/features/spec-closure.md",
@@ -108,29 +114,18 @@
       "id": "T2",
       "title": "运行编号断言并记录原生红灯",
       "phase": "red",
-      "acceptance": [
-        "AC-SPEC-004",
-        "AC-SPEC-005"
-      ],
-      "status": "todo",
+      "acceptance": ["AC-SPEC-004", "AC-SPEC-005"],
+      "status": "doing",
       "result": "在未编号的文档上，两条断言真实失败并写入原生回执。",
-      "scope": [
-        "tests/contracts/spec-closure-ids.test.ts",
-        "docs/others/evidence/tdd/"
-      ],
-      "depends_on": [
-        "T1"
-      ],
+      "scope": ["tests/contracts/spec-closure-ids.test.ts", "docs/others/evidence/tdd/"],
+      "depends_on": ["T1"],
       "owner": "ignite-executor"
     },
     {
       "id": "T3",
       "title": "给十六份来源文件追加编号并接入检查",
       "phase": "implement",
-      "acceptance": [
-        "AC-SPEC-004",
-        "AC-SPEC-005"
-      ],
+      "acceptance": ["AC-SPEC-004", "AC-SPEC-005"],
       "status": "todo",
       "result": "二十份文件全部可被扫描，缺号、重号与未知引用被拒绝。",
       "scope": [
@@ -140,45 +135,29 @@
         "docs/plans/",
         "docs/others/evidence/"
       ],
-      "depends_on": [
-        "T2"
-      ],
+      "depends_on": ["T2"],
       "owner": "ignite-executor"
     },
     {
       "id": "T4",
       "title": "复审 ADR-0004 并更新账本的编号映射",
       "phase": "implement",
-      "acceptance": [
-        "AC-SPEC-004"
-      ],
+      "acceptance": ["AC-SPEC-004"],
       "status": "todo",
       "result": "ADR-0004 记录编号已引入的复审结论，账本补充编号映射说明。",
-      "scope": [
-        "docs/others/adr/",
-        "docs/others/spec-closure/"
-      ],
-      "depends_on": [
-        "T3"
-      ],
+      "scope": ["docs/others/adr/", "docs/others/spec-closure/"],
+      "depends_on": ["T3"],
       "owner": "ignite-executor"
     },
     {
       "id": "T5",
       "title": "完成检查与回写",
       "phase": "verify",
-      "acceptance": [
-        "AC-SPEC-004"
-      ],
+      "acceptance": ["AC-SPEC-004"],
       "status": "todo",
       "result": "契约断言与文档检查通过，执行设计与标准索引记录编号现状。",
-      "scope": [
-        "docs/designs/execution.md",
-        "docs/standards/README.md"
-      ],
-      "depends_on": [
-        "T4"
-      ],
+      "scope": ["docs/designs/execution.md", "docs/standards/README.md"],
+      "depends_on": ["T4"],
       "owner": "ignite-executor"
     }
   ],
@@ -226,16 +205,15 @@
     "docs/plans/"
   ],
   "tdd_evidence": [],
-  "required_evidence": [
-    "check-integration"
-  ],
+  "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
-  "updated_at": "2026-11-06"
+  "updated_at": "2026-11-05"
 }
 -->
+
 # Ignite 实施计划：spec-closure-identifiers
 
 > 给标准、设计与 ADR 的规则加稳定编号，并让计划无法引用不存在的编号。
@@ -250,11 +228,11 @@
 
 ## 原始目标与覆盖核对
 
-| 用户原话或可追溯来源 | 本轮目标 | REQ | AC | 处理结果 |
-| --- | --- | --- | --- | --- |
-| 每条规格都能被执行清楚 | 每份来源文件至少一个稳定编号 | REQ-SPEC-004 | AC-SPEC-004 | 保留 |
-| 不依赖大模型的能力 | 引用未知编号由检查器拒绝 | REQ-SPEC-005 | AC-SPEC-005 | 保留 |
-| 各板块之间连接可靠 | 编号成为跨文档引用的锚点 | REQ-SPEC-004 | AC-SPEC-004 | 部分纳入，绑定阶段完成 |
+| 用户原话或可追溯来源   | 本轮目标                     | REQ          | AC          | 处理结果               |
+| ---------------------- | ---------------------------- | ------------ | ----------- | ---------------------- |
+| 每条规格都能被执行清楚 | 每份来源文件至少一个稳定编号 | REQ-SPEC-004 | AC-SPEC-004 | 保留                   |
+| 不依赖大模型的能力     | 引用未知编号由检查器拒绝     | REQ-SPEC-005 | AC-SPEC-005 | 保留                   |
+| 各板块之间连接可靠     | 编号成为跨文档引用的锚点     | REQ-SPEC-004 | AC-SPEC-004 | 部分纳入，绑定阶段完成 |
 
 ## 整体判断与推进顺序
 
@@ -265,43 +243,43 @@
 
 ## 编号分配表
 
-| 文件 | 编号 | 处理 |
-| --- | --- | --- |
-| docs/standards/architecture.md | STD-ARCH-101 | 追加 |
-| docs/standards/api.md | STD-API-101 | 追加 |
-| docs/standards/database.md | STD-DATA-101 | 追加 |
-| docs/standards/development.md | STD-DEV-101 | 追加 |
-| docs/standards/security.md | STD-SEC-101 | 追加 |
-| docs/standards/testing.md | STD-TEST-101 | 追加 |
-| docs/standards/ai-agents.md | STD-AGENT-101 | 追加 |
-| docs/standards/adoption.md | STD-ADOPT-101 | 追加 |
-| docs/standards/specification-to-implementation-ddd.md | STD-CLOSE-101 | 追加 |
-| docs/designs/api.md | DES-API-101 | 追加 |
-| docs/designs/auth.md | DES-AUTH-101 | 追加 |
-| docs/designs/database.md | DES-DB-101 | 追加 |
-| docs/designs/design.md | DES-VISUAL-101 | 追加 |
-| docs/designs/domain.md | DES-DOMAIN-101 | 追加 |
-| docs/designs/execution.md | DES-EXEC-101 | 追加 |
-| docs/designs/runtime.md | DES-RUNTIME-101 | 追加（该文件无条目，按约束追加一条规则行） |
-| docs/others/adr/0001-0004 | ADR-0001..0004 | 已有，不新增 |
+| 文件                                                  | 编号            | 处理                                       |
+| ----------------------------------------------------- | --------------- | ------------------------------------------ |
+| docs/standards/architecture.md                        | STD-ARCH-101    | 追加                                       |
+| docs/standards/api.md                                 | STD-API-101     | 追加                                       |
+| docs/standards/database.md                            | STD-DATA-101    | 追加                                       |
+| docs/standards/development.md                         | STD-DEV-101     | 追加                                       |
+| docs/standards/security.md                            | STD-SEC-101     | 追加                                       |
+| docs/standards/testing.md                             | STD-TEST-101    | 追加                                       |
+| docs/standards/ai-agents.md                           | STD-AGENT-101   | 追加                                       |
+| docs/standards/adoption.md                            | STD-ADOPT-101   | 追加                                       |
+| docs/standards/specification-to-implementation-ddd.md | STD-CLOSE-101   | 追加                                       |
+| docs/designs/api.md                                   | DES-API-101     | 追加                                       |
+| docs/designs/auth.md                                  | DES-AUTH-101    | 追加                                       |
+| docs/designs/database.md                              | DES-DB-101      | 追加                                       |
+| docs/designs/design.md                                | DES-VISUAL-101  | 追加                                       |
+| docs/designs/domain.md                                | DES-DOMAIN-101  | 追加                                       |
+| docs/designs/execution.md                             | DES-EXEC-101    | 追加                                       |
+| docs/designs/runtime.md                               | DES-RUNTIME-101 | 追加（该文件无条目，按约束追加一条规则行） |
+| docs/others/adr/0001-0004                             | ADR-0001..0004  | 已有，不新增                               |
 
 共 20 份非索引文件：4 份 ADR 已有编号，16 份需要追加。
 
 ## 来源与绑定矩阵
 
-| Source ID | 来源 | 适用理由 | 目标 | 当前事实（证据） | Status | Gap | Contradiction | Decision | Binding | 任务 | 验证 | Result |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| REQ-SPEC-004 | docs/features/spec-closure.md | 产品要求 | 每份文件至少一个唯一编号 | 4 份 ADR 已有编号，16 份缺号（见分配表） | missing | 16 份文件缺号 | 文件无身份，条目不可被引用 | 文件级编号 | BIND-001 | T3 | AC-SPEC-004 | 待验证 |
-| REQ-SPEC-005 | docs/features/spec-closure.md | 产品要求 | 未知引用被拒绝 | 无校验（check-docs 无引用检查） | missing | 无引用校验 | 自由文本无法核对 | 严格 token 校验 | BIND-002 | T3 | AC-SPEC-005 | 待验证 |
-| AC-SPEC-004 | docs/features/spec-closure.md | 验收 | 缺号与重号被拒 | 断言已写，尚无原生红灯 | partial | 实现与红灯均缺 | 同上 | 扫描器 + check-docs | BIND-003 | T3 | AC-SPEC-004 | 待验证 |
-| AC-SPEC-005 | docs/features/spec-closure.md | 验收 | 未知引用被拒 | 断言已写，尚无原生红灯 | partial | 实现与红灯均缺 | 同上 | 引用校验 | BIND-004 | T3 | AC-SPEC-005 | 待验证 |
-| GOAL-SPEC-P1 | docs/plans/releases/spec-closure-p1-v1.json | 发布范围 | 两条验收有去向 | scope 已纳入（文件第 8-19 行） | met | 无 | 无 | included | BIND-005 | T3 | 发布检查 | 待验证 |
-| DES-EXEC-101 | docs/designs/execution.md | 当前事实来源 | 记录编号现状 | 未见编号章节 | missing | 回写缺失 | 事实与结构不同步 | T5 回写 | BIND-006 | T5 | 文档检查 | 待验证 |
-| ADR-0004 | docs/others/adr/0004-spec-closure-contract.md | 决策要求引入编号时复审 | 复审并记录 | 第 26 行要求届时复审 | missing | 未复审 | 决策与实施脱节 | T4 复审 | BIND-007 | T4 | 文档检查 | 待验证 |
-| DOC-DDD-§6 | docs/standards/specification-to-implementation-ddd.md | 要求绑定用稳定 ID | 编号可被引用 | 无编号 | missing | 无 Source ID | 无法建立绑定 | 先做编号 | BIND-008 | T3 | AC-SPEC-004 | 待验证 |
-| DOC-DDD-§10.5 | docs/standards/specification-to-implementation-ddd.md | 要求 Source ID 稳定 | 编号唯一 | 无编号 | missing | 无唯一性检查 | 重号不可发现 | 查重 | BIND-009 | T3 | AC-SPEC-004 | 待验证 |
-| DOC-DDD-§10.1 | docs/standards/specification-to-implementation-ddd.md | 计划要引用来源 | 引用可核对 | 无校验 | missing | 无引用校验 | 未知引用不可发现 | 严格 token | BIND-010 | T3 | AC-SPEC-005 | 待验证 |
-| DOC-DDD-§10.4 | docs/standards/specification-to-implementation-ddd.md | 准入要求每条来源有 Binding | 计划准入可判断 | 无编号即无绑定 | missing | 准入缺编号依据 | 无编号则无法进入 ready | 先补编号 | BIND-011 | T3 | AC-SPEC-004 | 待验证 |
+| Source ID     | 来源                                                  | 适用理由                   | 目标                     | 当前事实（证据）                         | Status  | Gap            | Contradiction              | Decision            | Binding  | 任务 | 验证        | Result |
+| ------------- | ----------------------------------------------------- | -------------------------- | ------------------------ | ---------------------------------------- | ------- | -------------- | -------------------------- | ------------------- | -------- | ---- | ----------- | ------ |
+| REQ-SPEC-004  | docs/features/spec-closure.md                         | 产品要求                   | 每份文件至少一个唯一编号 | 4 份 ADR 已有编号，16 份缺号（见分配表） | missing | 16 份文件缺号  | 文件无身份，条目不可被引用 | 文件级编号          | BIND-001 | T3   | AC-SPEC-004 | 待验证 |
+| REQ-SPEC-005  | docs/features/spec-closure.md                         | 产品要求                   | 未知引用被拒绝           | 无校验（check-docs 无引用检查）          | missing | 无引用校验     | 自由文本无法核对           | 严格 token 校验     | BIND-002 | T3   | AC-SPEC-005 | 待验证 |
+| AC-SPEC-004   | docs/features/spec-closure.md                         | 验收                       | 缺号与重号被拒           | 断言已写，尚无原生红灯                   | partial | 实现与红灯均缺 | 同上                       | 扫描器 + check-docs | BIND-003 | T3   | AC-SPEC-004 | 待验证 |
+| AC-SPEC-005   | docs/features/spec-closure.md                         | 验收                       | 未知引用被拒             | 断言已写，尚无原生红灯                   | partial | 实现与红灯均缺 | 同上                       | 引用校验            | BIND-004 | T3   | AC-SPEC-005 | 待验证 |
+| GOAL-SPEC-P1  | docs/plans/releases/spec-closure-p1-v1.json           | 发布范围                   | 两条验收有去向           | scope 已纳入（文件第 8-19 行）           | met     | 无             | 无                         | included            | BIND-005 | T3   | 发布检查    | 待验证 |
+| DES-EXEC-101  | docs/designs/execution.md                             | 当前事实来源               | 记录编号现状             | 未见编号章节                             | missing | 回写缺失       | 事实与结构不同步           | T5 回写             | BIND-006 | T5   | 文档检查    | 待验证 |
+| ADR-0004      | docs/others/adr/0004-spec-closure-contract.md         | 决策要求引入编号时复审     | 复审并记录               | 第 26 行要求届时复审                     | missing | 未复审         | 决策与实施脱节             | T4 复审             | BIND-007 | T4   | 文档检查    | 待验证 |
+| DOC-DDD-§6    | docs/standards/specification-to-implementation-ddd.md | 要求绑定用稳定 ID          | 编号可被引用             | 无编号                                   | missing | 无 Source ID   | 无法建立绑定               | 先做编号            | BIND-008 | T3   | AC-SPEC-004 | 待验证 |
+| DOC-DDD-§10.5 | docs/standards/specification-to-implementation-ddd.md | 要求 Source ID 稳定        | 编号唯一                 | 无编号                                   | missing | 无唯一性检查   | 重号不可发现               | 查重                | BIND-009 | T3   | AC-SPEC-004 | 待验证 |
+| DOC-DDD-§10.1 | docs/standards/specification-to-implementation-ddd.md | 计划要引用来源             | 引用可核对               | 无校验                                   | missing | 无引用校验     | 未知引用不可发现           | 严格 token          | BIND-010 | T3   | AC-SPEC-005 | 待验证 |
+| DOC-DDD-§10.4 | docs/standards/specification-to-implementation-ddd.md | 准入要求每条来源有 Binding | 计划准入可判断           | 无编号即无绑定                           | missing | 准入缺编号依据 | 无编号则无法进入 ready     | 先补编号            | BIND-011 | T3   | AC-SPEC-004 | 待验证 |
 
 ## 主要矛盾
 
@@ -372,13 +350,15 @@
 - 2026-11-06：建立计划；测试在未编号仓库上失败（2 failed / 2 passed），准备基线随后提交。
 - 2026-11-06：前三轮审查共 27 条意见（阻断 15 条）。已改：risk、绑定矩阵、编号分配表、引用范围、ADR 复审任务、计数与示例 ID、扫描器路径与测试接入。原生红灯仍未记录。
 - 2026-11-06：测试改为四条断言，其中"文件缺号"与"计划引用未解析"两条在真实仓库上失败，构成 AC-SPEC-004/005 的目标红灯；重号与占位符两条为生产扫描器的单元保证。
+- 2026-11-06：draft 审查经五轮修订后 approved，记录已回写；计划转 ready、active，T1 完成。
+- 2026-11-06：原生红灯被宿主环境阻塞。TDD runner 以 spawn(corepack) 启动，本机 Node 在 Windows 上无法解析 corepack（ENOENT / EINVAL），未生成红灯回执。环境错误不算红灯，T2 不标记完成，T3 不启动。
 
 <!-- ignite-progress -->
 
-状态：draft（由元数据生成）
+状态：`active`（由元数据生成）
 
-- [ ] T1 · 登记需求、计划与发布范围并编写真实断言 · todo
-- [ ] T2 · 运行编号断言并记录原生红灯 · todo
+- [x] T1 · 登记需求、计划与发布范围并编写真实断言 · done
+- [ ] T2 · 运行编号断言并记录原生红灯 · doing
 - [ ] T3 · 给十六份来源文件追加编号并接入检查 · todo
 - [ ] T4 · 复审 ADR-0004 并更新账本的编号映射 · todo
 - [ ] T5 · 完成检查与回写 · todo

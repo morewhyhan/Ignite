@@ -286,6 +286,7 @@ function validateLegacyPlan(plan) {
 }
 
 import { validateBindings } from './binding-contract.mjs'
+import { contentGaps } from './content-contract.mjs'
 
 export function validatePlan(
   plan,
@@ -339,6 +340,7 @@ export function validatePlan(
 
   if (value.schema !== 2) failures.push('schema must be 2 for current Plans')
   failures.push(...validateBindings(value))
+  if (value.content_contract === 1) failures.push(...contentGaps(plan.content || ''))
   if (typeof value.id !== 'string' || !/^IGT-\d{3,}$/.test(value.id)) {
     failures.push('id must match IGT-000')
   }

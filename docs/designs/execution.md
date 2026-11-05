@@ -157,6 +157,8 @@ TDD restart 先复用原生验证器核对已绑定证明；有效绑定返回 r
 
 编号现状：20 份非索引来源文件全部带编号（16 份 STD/DES 追加，4 份 ADR 原有），`scripts/ignite/spec-id-registry.mjs` 负责扫描，`check-docs` 拒绝缺号、重号与计划正文中的未知引用。
 
+差异账本新增 `result` 字段：met（已交付，必须指向计划）、kept（基线已满足）、partial（部分实现）、missing（未实现）。当前 52 条为 met 5、kept 11、partial 1、missing 35，由 `tests/contracts/spec-closure-ledger.test.ts` 锁定集合、顺序与计划映射。
+
 绑定契约：声明 `binding_contract: 1` 的计划必须为每条 REQ 与 AC 提供唯一绑定（编号、来源、适用理由、状态、任务、检查）。`scripts/ignite/binding-contract.mjs` 负责校验，`validatePlan` 在结构与准入检查中调用它；模板自带两条示例绑定。内容门禁、跨文档传播与回写检查仍未实现。
 
 - DES-EXEC-101：当前执行系统契约与证据事实以本编号引用。

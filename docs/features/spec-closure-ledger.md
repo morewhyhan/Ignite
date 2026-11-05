@@ -19,7 +19,7 @@
 
 ## 业务规则
 
-- R1（REQ-SPEC-007）：账本每条必须包含 `result`，取值为 met、partial 或 missing；标为 met 的条目必须填写真实计划编号。
+- R1（REQ-SPEC-007）：账本每条必须包含 `result`，取值为 met、kept、partial 或 missing；met 表示本轮已交付且必须填写真实计划编号，kept 表示基线已满足、无需实施。
 
 ## 权限、错误与缓存
 
@@ -42,7 +42,7 @@
 
 ## 验收标准
 
-- AC-SPEC-007（REQ-SPEC-007）：Given 任一条目缺少 result、取值非法，或标记 met 却没有计划 When 运行账本校验 Then 失败并指出条目编号；全部条目齐备且 met 条目有计划时通过。
+- AC-SPEC-007（REQ-SPEC-007）：Given 任一条目缺少 result、取值非法，或标记 met 却没有真实计划 When 运行账本校验 Then 失败并指出条目编号；全部条目齐备且 met 条目有计划时通过。
 
 ## 实现完成后更新
 

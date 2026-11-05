@@ -1,0 +1,41 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "f63c816d5aad323342dd7021b8f3a045276245ed78dbed4fa48b1b422ae8c8e8",
+  "context_schema": 1,
+  "context_sha256": "ccd4a868ab42d1997c8e70c0f7ee790527fb40132ed68ac8298e4f5fd09421ed",
+  "context_files": ["tests/contracts/spec-closure-ids.test.ts"],
+  "warnings": [
+    "local dependency excluded outside declared test-support paths: scripts/ignite/core.mjs",
+    "local dependency excluded outside declared test-support paths: scripts/ignite/spec-id-registry.mjs"
+  ],
+  "run_id": "tdd-20261105172010-6f552b",
+  "plan_id": "IGT-202611060002",
+  "acceptance_id": "AC-SPEC-005",
+  "test": "tests/contracts/spec-closure-ids.test.ts::[AC-SPEC-005]",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "target_assertion_contract": "ac-message-marker-v1",
+  "red_commit": "d51c4589f5daa3bffec5fa7383932bc2cf5590cc",
+  "output_sha256": "a9c0e5a91d3eea15a84398d27afad4e0eb36297aee89f29f3d26cfaac79889e6",
+  "failure_sha256": "62272e32f603c99c5a7c3c3cc98acb58f2f76af885ab4416f139315d3102ccbd",
+  "failure_summary": [
+    "AssertionError: [AC-SPEC-005] target unresolved citations: expected [ Array(16) ] to deeply equal [] at C:/Users/why/Documents/ChatGPT/igent/Ignite/tests/contracts/spec-closure-ids.test.ts:43:7 at file:///C:/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 at file:///C:/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26 at file:///C:/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20 at new Promise (<anonymous>) at runWithCancel (file:///C:/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10) at file:///C:/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20 at new Promise (<anonymous>) at runWithTimeout (file:///C:/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/@vitest/runner/dist/chunk-artifact.js:2272:10) at file:///C:/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/@vitest/runner/dist/chunk-artifact.js:2955:64"
+  ],
+  "failure_summary_sha256": "d767f161fe35be32112074224b1ec300dcfd96448bd345557e5ee969abf72fa4",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/spec-closure-ids.test.ts",
+    "--testNamePattern",
+    "AC-SPEC-005",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-11-05T17:20:10.897Z",
+  "ended_at": "2026-11-05T17:20:13.036Z",
+  "executor": "ignite-tdd-runner"
+}

@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1793990498597924061",
   "release": "spec-closure-glossary-v1",
-  "status": "draft",
+  "status": "ready",
   "outcome": "把术语、状态词与两条延期项处置写成可校验文档，消除同一概念多种叫法",
   "contract_version": 2,
   "execution_contract": 1,
@@ -21,6 +21,17 @@
       "subject_fingerprint": "ef1cd4afe5819a848139357db0f32a090818f19f35b6db24cdca153dedacbb41",
       "findings": [],
       "recorded_at": "2026-11-06T19:18:16.228Z"
+    },
+    {
+      "reviewer": "ignite-reviewer",
+      "executor": "ignite-executor",
+      "source": "docs/plans/README.md draft review checklist",
+      "stage": "draft",
+      "identity_assurance": "declared",
+      "verdict": "approved",
+      "subject_fingerprint": "42b6ef66b479dc83dca655d6a7eac4cfb85c734c5b36e8232377a7b43436dc2e",
+      "findings": [],
+      "recorded_at": "2026-11-06T19:19:22.509Z"
     }
   ],
   "verification_contract": 2,
@@ -102,7 +113,7 @@
       "id": "T2",
       "title": "运行真实断言并记录目标行为红灯",
       "phase": "red",
-      "acceptance": [],
+      "acceptance": ["AC-SPEC-014", "AC-SPEC-015", "AC-SPEC-016"],
       "status": "todo",
       "result": "原生 red 运行确认已提交测试的目标断言失败，并记录真实红灯。",
       "scope": [
@@ -120,7 +131,7 @@
       "id": "T3",
       "title": "实现已定义的行为切片",
       "phase": "implement",
-      "acceptance": [],
+      "acceptance": ["AC-SPEC-014", "AC-SPEC-015", "AC-SPEC-016"],
       "status": "todo",
       "result": "已声明的验收行为通过，改动保持在本轮写入范围内。",
       "scope": [
@@ -182,9 +193,9 @@
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
-  "open_questions": ["填写目标、受影响的现有 Feature/Design、验收标准与写入范围"],
+  "open_questions": [],
   "integrated_commit": null,
-  "updated_at": "2026-11-07"
+  "updated_at": "2026-11-06"
 }
 -->
 
@@ -308,7 +319,7 @@ prepare T1 编写真实行为测试后，先独立审查 draft，并提交规格
 
 <!-- ignite-progress -->
 
-状态：`draft`（由元数据生成）
+状态：`ready`（由元数据生成）
 
 - [ ] T1 · 确认本轮目标、编写真实测试并提交准备基线 · todo
 - [ ] T2 · 运行真实断言并记录目标行为红灯 · todo

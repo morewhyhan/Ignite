@@ -814,7 +814,8 @@
         "docs/plans/20261106-spec-closure-ledger.md",
         "tests/contracts/spec-closure-ledger.test.ts",
         "scripts/ignite/state.mjs",
-        "scripts/ignite/governance.mjs"
+        "scripts/ignite/governance.mjs",
+        "scripts/ignite/review-contract.mjs"
       ],
       "depends_on": ["T2"],
       "owner": "ignite-executor"
@@ -894,7 +895,8 @@
     "tests/contracts/spec-closure-ledger-maintenance.test.ts",
     "tests/contracts/spec-closure-ledger.test.ts",
     "scripts/ignite/state.mjs",
-    "scripts/ignite/governance.mjs"
+    "scripts/ignite/governance.mjs",
+    "scripts/ignite/review-contract.mjs"
   ],
   "tdd_evidence": [
     {

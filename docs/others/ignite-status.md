@@ -16,7 +16,7 @@
   - 最终版本验收：stale
   - 下一步：pnpm ignite release verify spec-closure-content-v1 --plan IGT-202611060005
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `spec-closure-ledger-maintenance-v1` · `active`
+- `spec-closure-ledger-maintenance-v1` · `invalid`
   - Plan：`IGT-202611060006`
   - 缺少证据：`IGT-202611060006:check-integration`（stale：repository or Plan inputs changed after this run）
   - 最终版本验收：missing
@@ -49,6 +49,6 @@
 
 ## 结构问题
 
-- 无。
+- docs/plans/20261106-spec-closure-ledger-maintenance.md: draft review fingerprint is stale or does not match the current object
 
 > 本文件是确定性派生视图；修改 Plan 或 Release 机器源后重新生成。

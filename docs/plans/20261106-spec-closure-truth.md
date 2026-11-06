@@ -171,8 +171,14 @@
   ],
   "dependency_contracts": [],
   "shared_files": [
-    "docs/others/spec-closure/ledger.json",
-    "docs/others/spec-closure/ledger-expectations.json"
+    {
+      "path": "docs/others/spec-closure/ledger.json",
+      "owner": "IGT-202611060006"
+    },
+    {
+      "path": "docs/others/spec-closure/ledger-expectations.json",
+      "owner": "IGT-202611060006"
+    }
   ],
   "handoff": {
     "interfaces": [],

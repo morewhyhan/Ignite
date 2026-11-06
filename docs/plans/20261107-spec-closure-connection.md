@@ -301,7 +301,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "7e4d046c1c5f0e6f2d3b1a0c9e8d7f6a5b4c3d2e",
+  "integrated_commit": "7e4d0468e3ae52b2488af460904060d4c9d8a6b1",
   "updated_at": "2026-11-06"
 }
 -->

@@ -1,0 +1,35 @@
+{
+  "schema": 2,
+  "id": "spec-closure-ledger-maintenance-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": [
+    "IGT-202611060006"
+  ],
+  "scope": [
+    {
+      "id": "GOAL-SPEC-LEDGER-OWN",
+      "text": "账本期望值由维护计划拥有，可持续刷新",
+      "source": "用户 2026-11-06 方案 A",
+      "requirements": [
+        "REQ-SPEC-009"
+      ],
+      "acceptance": [
+        "AC-SPEC-009"
+      ],
+      "plan_ids": [
+        "IGT-202611060006"
+      ],
+      "disposition": "included",
+      "reason": "",
+      "authorization": ""
+    }
+  ],
+  "must_pass": [
+    "check-release"
+  ],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-11-06"
+}

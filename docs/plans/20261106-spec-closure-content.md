@@ -434,16 +434,11 @@
     {
       "acceptance_id": "AC-SPEC-008",
       "test": "tests/contracts/spec-closure-content.test.ts::[AC-SPEC-008]",
-      "run_id": "tdd-20261106023535-f3fb3d"
+      "run_id": "tdd-20261106025135-30cf2f"
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [
-    {
-      "id": "check-integration",
-      "run_id": "run-20261106023819-eb2478"
-    }
-  ],
+  "evidence": [],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
@@ -574,7 +569,7 @@
 - [ ] T4 · 完成检查与回写 · todo
 
 验收缺口：未记录；完成仍须实际证据
-证据：check-integration / run-20261106023819-eb2478
+证据：尚无
 <!-- /ignite-progress -->
 
 ## 准出条件
@@ -588,3 +583,7 @@
 ## TDD 恢复记录
 
 2026-11-06，AC-SPEC-008：test fixtures added after red。保留原回执 tdd-20261105221327-a8600f；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。
+
+## TDD 恢复记录
+
+2026-11-06，AC-SPEC-008：table placeholder fixture added。保留原回执 tdd-20261106023535-f3fb3d；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。

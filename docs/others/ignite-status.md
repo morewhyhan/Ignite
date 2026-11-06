@@ -6,11 +6,11 @@
 
 ## 当前工作
 
-- `IGT-1793982738195660699` · `active` · `spec-closure-connection-v1`
+- `IGT-1793982738195660699` · `verifying` · `spec-closure-connection-v1`
 
 ## 发布范围
 
-- `spec-closure-connection-v1` · `active`
+- `spec-closure-connection-v1` · `verifying`
   - Plan：`IGT-1793982738195660699`
   - 缺少证据：无
   - 最终版本验收：missing

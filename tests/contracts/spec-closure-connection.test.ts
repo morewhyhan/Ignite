@@ -9,7 +9,7 @@ const designFiles = readdirSync(designs)
   .sort()
 const ledgerPath = join(root, 'docs', 'others', 'design-writeback.md')
 
-it('[AC-SPEC-012] marks every design document as current fact or target design', () => {
+it('[AC-SPEC-012]', () => {
   const missing = designFiles.filter((name) => {
     const content = readFileSync(join(designs, name), 'utf8')
     return !/^> 状态：(当前事实|目标设计)$/m.test(content)
@@ -17,7 +17,7 @@ it('[AC-SPEC-012] marks every design document as current fact or target design',
   expect(missing, '[AC-SPEC-012] target every design document declares a state marker').toEqual([])
 })
 
-it('[AC-SPEC-013] write-back ledger lists every design document and its owning plan', () => {
+it('[AC-SPEC-013]', () => {
   const ledger = existsSync(ledgerPath) ? readFileSync(ledgerPath, 'utf8') : ''
   const problems = []
   if (!ledger) problems.push('docs/others/design-writeback.md is missing')

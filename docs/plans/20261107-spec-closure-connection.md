@@ -115,14 +115,14 @@
     {
       "id": "AC-SPEC-012",
       "tests": [
-        "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-012] marks every design document as current fact or target design"
+        "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-012]"
       ],
       "required_layers": [
         "unit"
       ],
       "checks": [
         {
-          "test": "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-012] marks every design document as current fact or target design",
+          "test": "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-012]",
           "layer": "unit"
         }
       ]
@@ -130,14 +130,14 @@
     {
       "id": "AC-SPEC-013",
       "tests": [
-        "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-013] write-back ledger lists every design document and its owning plan"
+        "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-013]"
       ],
       "required_layers": [
         "unit"
       ],
       "checks": [
         {
-          "test": "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-013] write-back ledger lists every design document and its owning plan",
+          "test": "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-013]",
           "layer": "unit"
         }
       ]

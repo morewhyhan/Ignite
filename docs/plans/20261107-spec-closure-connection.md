@@ -4,7 +4,7 @@
   "id": "IGT-1793982738195660699",
   "release": "spec-closure-connection-v1",
   "status": "draft",
-  "outcome": "完成 spec-closure-connection 的一项可独立验收的存量改动",
+  "outcome": "设计文档能区分当前事实与目标设计，并留下计划到设计文档的回写台账",
   "contract_version": 2,
   "execution_contract": 1,
   "task_contract": 2,
@@ -12,66 +12,141 @@
   "review_contract": 1,
   "reviews": [],
   "verification_contract": 2,
-  "goals": [],
-  "constraints": [],
-  "non_goals": [],
+  "goals": [
+    "每份设计文档声明事实或目标",
+    "建立回写台账并覆盖全部设计文档"
+  ],
+  "constraints": [
+    "只改文档与测试，不改业务代码",
+    "标记必须可机器检查"
+  ],
+  "non_goals": [
+    "重写设计正文",
+    "把检查并入 check-docs 门禁"
+  ],
   "authorization": {
-    "source": "等待填写用户已确定的具体请求"
+    "source": "用户 2026-11-06 收尾指令：设计文档区分当前事实与目标设计并加回写总表"
   },
-  "deliverables": [],
-  "remaining_work": ["原始目标尚未细化，无法确认完整验收场景"],
+  "deliverables": [
+    "设计文档状态标记",
+    "回写台账 docs/others/design-writeback.md",
+    "AC-SPEC-012 / AC-SPEC-013 断言"
+  ],
+  "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "7f580c44592870674ed7bfc0b3212dd6ba0c486f",
-  "requirements": [],
-  "acceptance": [],
-  "verification_requirements": ["unit"],
+  "requirements": [
+    "REQ-SPEC-012",
+    "REQ-SPEC-013"
+  ],
+  "acceptance": [
+    {
+      "id": "AC-SPEC-012",
+      "tests": [
+        "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-012]"
+      ],
+      "required_layers": [
+        "unit"
+      ],
+      "checks": [
+        {
+          "test": "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-012]",
+          "layer": "unit"
+        }
+      ]
+    },
+    {
+      "id": "AC-SPEC-013",
+      "tests": [
+        "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-013]"
+      ],
+      "required_layers": [
+        "unit"
+      ],
+      "checks": [
+        {
+          "test": "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-013]",
+          "layer": "unit"
+        }
+      ]
+    }
+  ],
+  "verification_requirements": [
+    "unit"
+  ],
   "tasks": [
     {
       "id": "T1",
-      "title": "确认本轮目标、编写真实测试并提交准备基线",
+      "title": "登记规格、计划与断言并提交基线",
       "phase": "prepare",
-      "status": "todo",
-      "result": "原始目标、Feature、真实断言、测试路径和写入边界均已对应，规格与测试已提交，独立审查者已核对 draft。",
+      "status": "done",
+      "result": "Feature、计划、发布与断言已写入并提交基线。",
       "scope": [
+        "docs/features/spec-closure-connection.md",
         "docs/plans/20261107-spec-closure-connection.md",
         "docs/plans/releases/spec-closure-connection-v1.json",
-        "<feature-path>",
-        "<test-path>"
+        "tests/contracts/spec-closure-connection.test.ts"
       ],
       "depends_on": [],
-      "owner": "assigned-worker"
+      "owner": "ignite-executor"
     },
     {
       "id": "T2",
       "title": "运行真实断言并记录目标行为红灯",
       "phase": "red",
-      "acceptance": [],
-      "status": "todo",
+      "acceptance": [
+        "AC-SPEC-012",
+        "AC-SPEC-013"
+      ],
+      "status": "doing",
       "result": "原生 red 运行确认已提交测试的目标断言失败，并记录真实红灯。",
-      "scope": ["<test-path>", "docs/others/evidence/tdd/"],
-      "depends_on": ["T1"],
-      "owner": "assigned-worker"
+      "scope": [
+        "tests/contracts/spec-closure-connection.test.ts",
+        "docs/others/evidence/tdd/"
+      ],
+      "depends_on": [
+        "T1"
+      ],
+      "owner": "ignite-executor"
     },
     {
       "id": "T3",
-      "title": "实现已定义的行为切片",
+      "title": "实现标记、台账与模板顺序",
       "phase": "implement",
-      "acceptance": [],
+      "acceptance": [
+        "AC-SPEC-012",
+        "AC-SPEC-013"
+      ],
       "status": "todo",
-      "result": "已声明的验收行为通过，改动保持在本轮写入范围内。",
-      "scope": ["<affected-path>"],
-      "depends_on": ["T2"],
-      "owner": "assigned-worker"
+      "result": "设计文档带状态标记，回写台账覆盖全部设计文档，断言通过。",
+      "scope": [
+        "docs/designs/",
+        "docs/others/design-writeback.md",
+        "docs/features/_template.md"
+      ],
+      "depends_on": [
+        "T2"
+      ],
+      "owner": "ignite-executor"
     },
     {
       "id": "T4",
-      "title": "验证兼容性并回写当前设计",
+      "title": "验证兼容性并回写设计",
       "phase": "verify",
+      "acceptance": [
+        "AC-SPEC-012",
+        "AC-SPEC-013"
+      ],
       "status": "todo",
-      "result": "Plan integration 和独立 delivery 审查均通过，Design 已记录实际结果及缺口。",
-      "scope": ["<design-path>", "docs/others/evidence/"],
-      "depends_on": ["T3"],
-      "owner": "assigned-worker"
+      "result": "Plan integration 与交付审查通过，设计文档记录实际结果。",
+      "scope": [
+        "docs/designs/",
+        "docs/others/evidence/"
+      ],
+      "depends_on": [
+        "T3"
+      ],
+      "owner": "ignite-executor"
     }
   ],
   "depends_on": [],
@@ -83,10 +158,10 @@
     "tests": [],
     "remaining": []
   },
-  "owner": "assigned-worker",
-  "risk": "feature",
+  "owner": "ignite-executor",
+  "risk": "docs",
   "data_contract": {
-    "access_scope": "not-decided",
+    "access_scope": "not-applicable",
     "access_rationale": "",
     "migration_impact": "not-decided",
     "rollback": "",
@@ -103,10 +178,14 @@
     "docs/others/evidence/tdd/"
   ],
   "tdd_evidence": [],
-  "required_evidence": ["check-integration"],
+  "required_evidence": [
+    "check-integration"
+  ],
   "evidence": [],
   "blocker": null,
-  "open_questions": ["填写目标、受影响的现有 Feature/Design、验收标准与写入范围"],
+  "open_questions": [
+    "填写目标、受影响的现有 Feature/Design、验收标准与写入范围"
+  ],
   "integrated_commit": null,
   "updated_at": "2026-11-07"
 }

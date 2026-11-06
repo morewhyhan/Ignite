@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-202611060005",
   "release": "spec-closure-content-v1",
-  "status": "active",
+  "status": "verifying",
   "outcome": "声明内容契约的计划，分析章节必须有实质内容，空壳与模板语被拒",
   "contract_version": 2,
   "execution_contract": 1,
@@ -282,24 +282,43 @@
   "goals": [
     {
       "text": "内容契约计划的分析章节必须有实质内容",
-      "requirements": ["REQ-SPEC-008"]
+      "requirements": [
+        "REQ-SPEC-008"
+      ]
     }
   ],
-  "constraints": ["只对新契约计划强制", "不追溯 P0–P3 已完成计划", "不做语义质量评分"],
-  "non_goals": ["不改历史计划正文", "不引入模型评分"],
+  "constraints": [
+    "只对新契约计划强制",
+    "不追溯 P0–P3 已完成计划",
+    "不做语义质量评分"
+  ],
+  "non_goals": [
+    "不改历史计划正文",
+    "不引入模型评分"
+  ],
   "authorization": {
     "source": "用户 2026-11-06 收尾 goal 指令"
   },
-  "deliverables": ["模板八个章节与内容契约", "content-contract 校验与接线", "AC-SPEC-008 断言"],
+  "deliverables": [
+    "模板八个章节与内容契约",
+    "content-contract 校验与接线",
+    "AC-SPEC-008 断言"
+  ],
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "23833f6bca8825f21e72c7b8d4177b7fc75e1f4a",
-  "requirements": ["REQ-SPEC-008"],
+  "requirements": [
+    "REQ-SPEC-008"
+  ],
   "acceptance": [
     {
       "id": "AC-SPEC-008",
-      "tests": ["tests/contracts/spec-closure-content.test.ts::[AC-SPEC-008]"],
-      "required_layers": ["unit"],
+      "tests": [
+        "tests/contracts/spec-closure-content.test.ts::[AC-SPEC-008]"
+      ],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-content.test.ts::[AC-SPEC-008]",
@@ -308,7 +327,9 @@
       ]
     }
   ],
-  "verification_requirements": ["unit"],
+  "verification_requirements": [
+    "unit"
+  ],
   "tasks": [
     {
       "id": "T1",
@@ -330,19 +351,28 @@
       "id": "T2",
       "title": "运行内容断言并记录原生红灯",
       "phase": "red",
-      "acceptance": ["AC-SPEC-008"],
-      "status": "doing",
+      "acceptance": [
+        "AC-SPEC-008"
+      ],
+      "status": "done",
       "result": "模板缺章节时断言真实失败并写入原生回执。",
-      "scope": ["tests/contracts/spec-closure-content.test.ts", "docs/others/evidence/tdd/"],
-      "depends_on": ["T1"],
+      "scope": [
+        "tests/contracts/spec-closure-content.test.ts",
+        "docs/others/evidence/tdd/"
+      ],
+      "depends_on": [
+        "T1"
+      ],
       "owner": "ignite-executor"
     },
     {
       "id": "T3",
       "title": "模板补齐章节并接入内容校验",
       "phase": "implement",
-      "acceptance": ["AC-SPEC-008"],
-      "status": "todo",
+      "acceptance": [
+        "AC-SPEC-008"
+      ],
+      "status": "done",
       "result": "模板含八节与 content_contract，validatePlan 调用 contentGaps。",
       "scope": [
         "docs/plans/_template.md",
@@ -350,18 +380,26 @@
         "scripts/ignite/document-contract.mjs",
         "scripts/check-docs.mjs"
       ],
-      "depends_on": ["T2"],
+      "depends_on": [
+        "T2"
+      ],
       "owner": "ignite-executor"
     },
     {
       "id": "T4",
       "title": "完成检查与回写",
       "phase": "verify",
-      "acceptance": ["AC-SPEC-008"],
-      "status": "todo",
+      "acceptance": [
+        "AC-SPEC-008"
+      ],
+      "status": "done",
       "result": "断言与检查通过，执行设计记录内容门禁。",
-      "scope": ["docs/designs/execution.md"],
-      "depends_on": ["T3"],
+      "scope": [
+        "docs/designs/execution.md"
+      ],
+      "depends_on": [
+        "T3"
+      ],
       "owner": "ignite-executor"
     }
   ],
@@ -437,11 +475,13 @@
       "run_id": "tdd-20261106025135-30cf2f"
     }
   ],
-  "required_evidence": ["check-integration"],
+  "required_evidence": [
+    "check-integration"
+  ],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "d0ec0c134fcd3348ce01f55338d1d93de1ca870e",
   "updated_at": "2026-11-06"
 }
 -->
@@ -555,6 +595,7 @@
 ## 状态记录
 
 - 2026-11-06：建立计划；模板缺八节，断言失败。
+- 2026-11-06：restart 重取红灯 tdd-20261106025135-30cf2f（表格占位符夹具）；实现后 check 以 run-20261106023819-eb2478 通过；后续又按审查补表格占位符拦截与 contentContract 开关。
 - 2026-11-06：restart 后重取红灯 tdd-20261105221327-a8600f（red_commit=0ad4e56）；实现 07ab0f7 之后 check 以 run 4ec9a7 在 1faac13 通过。
 - 2026-11-06：交付审查指出标题检查仍是忽略列表，已改为从 content-contract 的 REQUIRED 派生 CONTENT_HEADINGS。
 - 2026-11-06：governance 失败根因：新增模板标题被所有计划强制要求；改为仅 content_contract=1 的计划要求八节，需同步 document-contract 与 check-docs，故扩展 T3 写入范围。

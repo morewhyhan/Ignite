@@ -10,7 +10,7 @@ const REQUIRED = [
   ['## 回退', 2],
 ]
 export const CONTENT_HEADINGS = REQUIRED.map(([heading]) => heading)
-const BOILERPLATE = /^(?:按 .*说明以下判断.*|简单任务可以用几句话回答.*|待填写)$/m
+const BOILERPLATE = /^(?:按 .*说明以下判断.*|简单任务可以用几句话回答.*|待填写|TODO|待确认)$/
 const SEPARATOR = /^\|[\s:|-]+\|$/
 
 function section(content, heading) {
@@ -47,7 +47,7 @@ export function contentGaps(content) {
     }
     const lines = substantive(body)
     if (lines.length < minimum) gaps.push(`${heading}: only ${lines.length} substantive lines`)
-    if (BOILERPLATE.test(body)) gaps.push(`${heading}: template boilerplate`)
+    if (lines.some((line) => BOILERPLATE.test(line))) gaps.push(`${heading}: template boilerplate`)
   }
   return gaps
 }

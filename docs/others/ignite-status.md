@@ -46,11 +46,10 @@
   - 最终版本验收：stale
   - 下一步：pnpm ignite release verify spec-closure-p2-v1 --plan IGT-202611060003
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `spec-closure-truth-v1` · `verifying`
+- `spec-closure-truth-v1` · `done`
   - Plan：`IGT-202611060007`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite release verify spec-closure-truth-v1 --plan IGT-202611060007
+  - 最终版本验收：passed（692b10141a0f）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题

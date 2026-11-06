@@ -25,7 +25,7 @@ it('[AC-SPEC-015]', () => {
 
 it('[AC-SPEC-016]', () => {
   const needs = ['文档定稿状态机', '领域事件', '触发条件', '非目标']
-  const missing = needs.filter((word) => !p0.includes(word))
+  const missing = needs.filter((word) => !glossary.includes(word))
   expect(missing.length === 0, '[AC-SPEC-016] target both deferred items have a disposition').toBe(
     true,
   )

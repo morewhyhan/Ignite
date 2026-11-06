@@ -433,9 +433,7 @@
         "AC-SPEC-011"
       ],
       "result": "领域规则测试在实现前失败，红灯记录已提交。",
-      "depends_on": [
-        "T1"
-      ],
+      "depends_on": [],
       "owner": "ignite-executor"
     },
     {
@@ -450,9 +448,7 @@
       "acceptance": [
         "AC-SPEC-011"
       ],
-      "depends_on": [
-        "T2"
-      ],
+      "depends_on": [],
       "result": "路由改为调用领域函数，现有 API 测试全部通过。",
       "owner": "ignite-executor"
     },
@@ -468,9 +464,7 @@
       "acceptance": [
         "AC-SPEC-011"
       ],
-      "depends_on": [
-        "T3"
-      ],
+      "depends_on": [],
       "result": "集成检查通过；validate --delivery 的全量覆盖确认现有 API 测试未回归；设计文档记录了规则位置。",
       "owner": "ignite-executor"
     }

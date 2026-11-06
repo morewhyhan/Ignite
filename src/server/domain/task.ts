@@ -1,4 +1,4 @@
-export type DomainErrorCode = 'title_invalid' | 'not_found' | 'invalid_update' | 'not_implemented'
+export type DomainErrorCode = 'title_invalid' | 'not_found' | 'invalid_update'
 
 export class DomainError extends Error {
   readonly code: DomainErrorCode
@@ -10,14 +10,20 @@ export class DomainError extends Error {
   }
 }
 
-export function normalizeTitle(_raw: string): string {
-  throw new DomainError('not_implemented')
+const TITLE_MIN = 1
+const TITLE_MAX = 200
+
+export function normalizeTitle(raw: string): string {
+  const title = raw.trim()
+  if (title.length < TITLE_MIN || title.length > TITLE_MAX) throw new DomainError('title_invalid')
+  return title
 }
 
-export function assertOwnership(_task: { userId: string } | null, _userId: string): void {
-  throw new DomainError('not_implemented')
+export function assertOwnership(task: { userId: string } | null, userId: string): void {
+  if (!task || task.userId !== userId) throw new DomainError('not_found')
 }
 
-export function assertUpdatePayload(_patch: { title?: string; completed?: boolean }): void {
-  throw new DomainError('not_implemented')
+export function assertUpdatePayload(patch: { title?: string; completed?: boolean }): void {
+  if (patch.title === undefined && patch.completed === undefined)
+    throw new DomainError('invalid_update')
 }

@@ -300,6 +300,7 @@ export function validatePlan(
   const value = plan.metadata
   const failures = []
   const retired = ['cancelled', 'superseded'].includes(value.status)
+  const retiredExempt = retired && Boolean(value.integrated_commit)
   const draft = value.status === 'draft'
   const historicalCommit =
     value.status === 'done' && gitCommitExists(value.integrated_commit)
@@ -512,7 +513,7 @@ export function validatePlan(
     } else {
       const seenTdd = new Set()
       const validTdd = new Set()
-      for (const item of retired ? [] : value.tdd_evidence) {
+      for (const item of retiredExempt ? [] : value.tdd_evidence) {
         if (
           !item ||
           typeof item.acceptance_id !== 'string' ||
@@ -678,7 +679,7 @@ export function validatePlan(
             )
         }
       }
-      if (!retired && [1, 2].includes(value.task_contract)) {
+      if (!retiredExempt && [1, 2].includes(value.task_contract)) {
         for (const task of value.tasks || []) {
           if (
             (task.phase === 'implement' && ['doing', 'done'].includes(task.status)) ||

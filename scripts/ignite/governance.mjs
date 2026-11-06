@@ -51,7 +51,11 @@ export function validateTraceability() {
   )
   const retiredAcceptance = new Set(
     listPlans()
-      .filter((plan) => ['cancelled', 'superseded'].includes(plan.metadata?.status))
+      .filter(
+        (plan) =>
+          ['cancelled', 'superseded'].includes(plan.metadata?.status) &&
+          Boolean(plan.metadata?.integrated_commit),
+      )
       .flatMap((plan) => (plan.metadata?.acceptance || []).map((entry) => entry.id)),
   )
   const requirementsWithAcceptance = new Set()

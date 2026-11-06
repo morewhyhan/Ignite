@@ -72,7 +72,6 @@
       "status": "todo",
       "result": "规格、计划、发布与基线提交完成，准备检查通过。",
       "scope": [
-        "docs/features/spec-closure-truth.md",
         "docs/plans/20261106-spec-closure-truth.md",
         "docs/plans/releases/spec-closure-truth-v1.json"
       ],

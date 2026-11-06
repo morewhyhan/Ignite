@@ -1,18 +1,18 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`101493bd7bbe`
+输入指纹：`6b13649e3c8f`
 当前 Plan：1；结构化历史：8；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-1793982738195660699` · `verifying` · `spec-closure-connection-v1`
+- `IGT-1793982738195660699` · `active` · `spec-closure-connection-v1`
 
 ## 发布范围
 
-- `spec-closure-connection-v1` · `verifying`
+- `spec-closure-connection-v1` · `active`
   - Plan：`IGT-1793982738195660699`
-  - 缺少证据：无
+  - 缺少证据：`IGT-1793982738195660699:check-integration`（stale：repository or Plan inputs changed after this run）
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1793982738195660699
   - 未完成原始目标：GOAL-001 设计文档区分当前事实与目标设计，并留下计划到设计文档的回写台账

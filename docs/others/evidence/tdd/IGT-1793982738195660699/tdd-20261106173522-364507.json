@@ -1,0 +1,38 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "220a778eac4462116f6eb8c28771204ef27c8b290e79404f879ed8e3dee392f6",
+  "context_schema": 1,
+  "context_sha256": "88ee20759f586c37b57a400ee271e30630e711ba747a3f9cfc56e334f2ef4605",
+  "context_files": ["tests/contracts/spec-closure-connection.test.ts"],
+  "warnings": [],
+  "run_id": "tdd-20261106173522-364507",
+  "plan_id": "IGT-1793982738195660699",
+  "acceptance_id": "AC-SPEC-013",
+  "test": "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-013]",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "target_assertion_contract": "ac-message-marker-v1",
+  "red_commit": "506b0dbea7bd2ce665b826b84258d19ac3926916",
+  "output_sha256": "52be36fc4e7fedfebeb9bc20f6b6a556ba0ff15e2dff118da7f1ff0bc20f480d",
+  "failure_sha256": "06df49aeb4fc15823add189843c029460ff6b3f727c4f4682321ce244883e702",
+  "failure_summary": [
+    "AssertionError: [AC-SPEC-013] target write-back ledger covers every design document: expected [ Array(1) ] to deeply equal [] at /mnt/c/Users/why/Documents/ChatGPT/igent/Ignite/tests/contracts/spec-closure-connection.test.ts:29:91 at file:///mnt/c/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 at file:///mnt/c/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26 at file:///mnt/c/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20 at new Promise (<anonymous>) at runWithCancel (file:///mnt/c/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10) at file:///mnt/c/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20 at new Promise (<anonymous>) at runWithTimeout (file:///mnt/c/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/.pnpm/@vitest+runne"
+  ],
+  "failure_summary_sha256": "766a9111878707bbd18f365d1723367765ea4ec8f44197411e0957b1e45f6a2f",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/spec-closure-connection.test.ts",
+    "--testNamePattern",
+    "AC-SPEC-013",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-11-06T17:35:22.166Z",
+  "ended_at": "2026-11-06T17:35:36.745Z",
+  "executor": "ignite-tdd-runner"
+}

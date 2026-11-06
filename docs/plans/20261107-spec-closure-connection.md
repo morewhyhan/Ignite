@@ -236,6 +236,11 @@
       "acceptance_id": "AC-SPEC-012",
       "test": "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-012]",
       "run_id": "tdd-20261106165854-ff8bb6"
+    },
+    {
+      "acceptance_id": "AC-SPEC-013",
+      "test": "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-013]",
+      "run_id": "tdd-20261106173522-364507"
     }
   ],
   "required_evidence": ["check-integration"],

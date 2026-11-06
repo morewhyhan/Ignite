@@ -1217,3 +1217,7 @@ tests/contracts/spec-closure-ledger-maintenance.test.ts、node scripts/check-doc
 ## TDD 恢复记录
 
 2026-11-06，AC-SPEC-009：type cast fix changed the test。保留原回执 tdd-20261106042448-bd78a8；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。
+
+## TDD 恢复记录
+
+2026-11-06，AC-SPEC-009：该红灯回执未纳入当前证据。保留原回执 tdd-20261106040554-c9286a；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。

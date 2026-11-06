@@ -10,49 +10,74 @@
   "task_contract": 2,
   "planning_contract": 1,
   "review_contract": 1,
-  "reviews": [],
+  "reviews": [
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent draft review of IGT-202611060007, approved after LT4 fixes",
+      "subject_fingerprint": "2fd2e95bfdd75c25c3bfb72680bd46347b86a4477042c73e21447ab260abbb70",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "LT5-001",
+          "severity": "nonblocking",
+          "summary": "done plans are not re-checked for a real integrated commit in the test helper.",
+          "resolved": false
+        },
+        {
+          "id": "LT5-002",
+          "severity": "nonblocking",
+          "summary": "release scope is not item-specific; matches the feature non-goal.",
+          "resolved": true
+        },
+        {
+          "id": "LT5-003",
+          "severity": "nonblocking",
+          "summary": "base_commit is the plan creation commit; prep diff outside delivery.",
+          "resolved": false
+        },
+        {
+          "id": "LT4-001",
+          "severity": "blocking",
+          "summary": "Resolved: snapshot status done/verifying enforced.",
+          "resolved": true
+        },
+        {
+          "id": "LT4-002",
+          "severity": "blocking",
+          "summary": "Resolved: data reverted before red; genuine pre-implementation failure.",
+          "resolved": true
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-06T08:33:35.500Z"
+    }
+  ],
   "verification_contract": 2,
   "binding_contract": 1,
   "content_contract": 1,
   "goals": [
     {
       "text": "met 有可核验引用",
-      "requirements": [
-        "REQ-SPEC-010"
-      ]
+      "requirements": ["REQ-SPEC-010"]
     }
   ],
-  "constraints": [
-    "不改条目文本",
-    "不新增条目"
-  ],
-  "non_goals": [
-    "不重算历史 result",
-    "不改测试断言"
-  ],
+  "constraints": ["不改条目文本", "不新增条目"],
+  "non_goals": ["不重算历史 result", "不改测试断言"],
   "authorization": {
     "source": "用户 2026-11-06 收尾指令"
   },
-  "deliverables": [
-    "账本 result 刷新",
-    "期望值同步",
-    "设计回写"
-  ],
+  "deliverables": ["账本 result 刷新", "期望值同步", "设计回写"],
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "bbec1a834fdb45be7dddfce89a82e4c6a720e3cb",
-  "requirements": [
-    "REQ-SPEC-010"
-  ],
+  "requirements": ["REQ-SPEC-010"],
   "acceptance": [
     {
       "id": "AC-SPEC-010",
-      "tests": [
-        "tests/contracts/spec-closure-ledger-truth.test.ts::[AC-SPEC-010]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "tests": ["tests/contracts/spec-closure-ledger-truth.test.ts::[AC-SPEC-010]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-ledger-truth.test.ts::[AC-SPEC-010]",
@@ -61,9 +86,7 @@
       ]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
@@ -84,9 +107,7 @@
       "id": "T2",
       "title": "运行账本断言并记录红灯",
       "phase": "red",
-      "acceptance": [
-        "AC-SPEC-010"
-      ],
+      "acceptance": ["AC-SPEC-010"],
       "status": "todo",
       "result": "账本与期望不一致时断言真实失败。",
       "scope": [
@@ -94,44 +115,32 @@
         "docs/others/evidence/tdd/",
         "tests/contracts/spec-closure-ledger-truth.test.ts"
       ],
-      "depends_on": [
-        "T1"
-      ],
+      "depends_on": ["T1"],
       "owner": "ignite-executor"
     },
     {
       "id": "T3",
       "title": "刷新账本与期望值",
       "phase": "implement",
-      "acceptance": [
-        "AC-SPEC-010"
-      ],
+      "acceptance": ["AC-SPEC-010"],
       "status": "todo",
       "result": "账本 result 与期望集合同步，断言通过。",
       "scope": [
         "docs/others/spec-closure/ledger.json",
         "docs/others/spec-closure/ledger-expectations.json"
       ],
-      "depends_on": [
-        "T2"
-      ],
+      "depends_on": ["T2"],
       "owner": "ignite-executor"
     },
     {
       "id": "T4",
       "title": "完成检查与回写",
       "phase": "verify",
-      "acceptance": [
-        "AC-SPEC-010"
-      ],
+      "acceptance": ["AC-SPEC-010"],
       "status": "todo",
       "result": "检查通过，设计记录刷新规则。",
-      "scope": [
-        "docs/designs/execution.md"
-      ],
-      "depends_on": [
-        "T3"
-      ],
+      "scope": ["docs/designs/execution.md"],
+      "depends_on": ["T3"],
       "owner": "ignite-executor"
     }
   ],
@@ -169,9 +178,7 @@
       "check": "文档检查"
     }
   ],
-  "depends_on": [
-    "IGT-202611060006"
-  ],
+  "depends_on": ["IGT-202611060006"],
   "dependency_contracts": [],
   "shared_files": [
     {
@@ -211,10 +218,7 @@
     "tests/contracts/spec-closure-ledger-truth.test.ts"
   ],
   "tdd_evidence": [],
-  "required_evidence": [
-    "check-dev",
-    "check-integration"
-  ],
+  "required_evidence": ["check-dev", "check-integration"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
@@ -222,6 +226,7 @@
   "updated_at": "2026-11-06"
 }
 -->
+
 # Ignite 实施计划：spec-closure-truth
 
 > 账本 result 必须与本轮实际交付一致。
@@ -236,9 +241,9 @@
 
 ## 原始目标与覆盖核对
 
-| 用户原话 | 本轮目标 | REQ | AC | 处理结果 |
-| --- | --- | --- | --- | --- |
-| 账本每条 result 与代码一致 | 刷新账本 | REQ-SPEC-010 | AC-SPEC-010 | 保留 |
+| 用户原话                   | 本轮目标 | REQ          | AC          | 处理结果 |
+| -------------------------- | -------- | ------------ | ----------- | -------- |
+| 账本每条 result 与代码一致 | 刷新账本 | REQ-SPEC-010 | AC-SPEC-010 | 保留     |
 
 ## 整体判断与推进顺序
 
@@ -260,10 +265,10 @@
 
 ## 约束绑定矩阵
 
-| Source ID | Binding | 任务 | 验证 |
-| --- | --- | --- | --- |
-| REQ-SPEC-010 | BIND-001 | T3 | AC-SPEC-010 |
-| AC-SPEC-010 | BIND-002 | T2 | AC-SPEC-010 |
+| Source ID    | Binding  | 任务 | 验证        |
+| ------------ | -------- | ---- | ----------- |
+| REQ-SPEC-010 | BIND-001 | T3   | AC-SPEC-010 |
+| AC-SPEC-010  | BIND-002 | T2   | AC-SPEC-010 |
 
 矩阵逐行回指真源与验证方式。
 每行都必须能在账本或测试中找到对应位置。
@@ -334,6 +339,15 @@ tests/contracts/spec-closure-ledger-truth.test.ts、node scripts/ignite.mjs vali
 
 <!-- ignite-progress -->
 
+状态：`draft`（由元数据生成）
+
+- [ ] T1 · 登记规格与计划并提交基线 · todo
+- [ ] T2 · 运行账本断言并记录红灯 · todo
+- [ ] T3 · 刷新账本与期望值 · todo
+- [ ] T4 · 完成检查与回写 · todo
+
+验收缺口：未记录；完成仍须实际证据
+证据：尚无
 <!-- /ignite-progress -->
 
 ## 准出条件

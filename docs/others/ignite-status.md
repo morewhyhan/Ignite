@@ -1,12 +1,12 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`7ae42844d91a`
-当前 Plan：0；结构化历史：6；未迁移历史：0
+输入指纹：`8c7fa5b796f1`
+当前 Plan：1；结构化历史：6；未迁移历史：0
 
 ## 当前工作
 
-- 无。
+- `IGT-202611060007` · `active` · `spec-closure-truth-v1`
 
 ## 发布范围
 
@@ -16,10 +16,11 @@
   - 最终版本验收：stale
   - 下一步：pnpm ignite release verify spec-closure-content-v1 --plan IGT-202611060005
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `spec-closure-ledger-maintenance-v1` · `done`
+- `spec-closure-ledger-maintenance-v1` · `verifying`
   - Plan：`IGT-202611060006`
   - 缺少证据：无
-  - 最终版本验收：passed（f8e7ac253758）
+  - 最终版本验收：stale
+  - 下一步：pnpm ignite release verify spec-closure-ledger-maintenance-v1 --plan IGT-202611060006
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `spec-closure-ledger-v1` · `cancelled`
   - Plan：`IGT-202611060004`
@@ -45,6 +46,12 @@
   - 最终版本验收：stale
   - 下一步：pnpm ignite release verify spec-closure-p2-v1 --plan IGT-202611060003
   - 未完成原始目标：无已登记缺口（仍需语义核对）
+- `spec-closure-truth-v1` · `active`
+  - Plan：`IGT-202611060007`
+  - 缺少证据：`IGT-202611060007:check-dev`（missing：no run is bound to this evidence requirement）、`IGT-202611060007:check-integration`（missing：no run is bound to this evidence requirement）
+  - 最终版本验收：missing
+  - 下一步：pnpm ignite next --plan IGT-202611060007
+  - 未完成原始目标：GOAL-SPEC-TRUTH 账本与真实交付一致
 
 ## 结构问题
 

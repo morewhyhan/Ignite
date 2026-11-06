@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-202611060007",
   "release": "spec-closure-truth-v1",
-  "status": "draft",
+  "status": "active",
   "outcome": "账本 met 必须给出可核验的计划与发布引用",
   "contract_version": 2,
   "execution_contract": 1,
@@ -52,6 +52,48 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-06T08:33:35.500Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent draft review of IGT-202611060007, approved after LT4 fixes",
+      "subject_fingerprint": "6948a0b43561d5a34a39266f424dedfd91b8cac3f4bac9a2f5179c75e87db4a1",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "LT5-001",
+          "severity": "nonblocking",
+          "summary": "done plans are not re-checked for a real integrated commit in the test helper.",
+          "resolved": false
+        },
+        {
+          "id": "LT5-002",
+          "severity": "nonblocking",
+          "summary": "release scope is not item-specific; matches the feature non-goal.",
+          "resolved": true
+        },
+        {
+          "id": "LT5-003",
+          "severity": "nonblocking",
+          "summary": "base_commit is the plan creation commit; prep diff outside delivery.",
+          "resolved": false
+        },
+        {
+          "id": "LT4-001",
+          "severity": "blocking",
+          "summary": "Resolved: snapshot status done/verifying enforced.",
+          "resolved": true
+        },
+        {
+          "id": "LT4-002",
+          "severity": "blocking",
+          "summary": "Resolved: data reverted before red; genuine pre-implementation failure.",
+          "resolved": true
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-06T08:34:08.007Z"
     }
   ],
   "verification_contract": 2,
@@ -92,7 +134,7 @@
       "id": "T1",
       "title": "登记规格与计划并提交基线",
       "phase": "prepare",
-      "status": "todo",
+      "status": "done",
       "result": "规格、计划、发布与基线提交完成，准备检查通过。",
       "scope": [
         "docs/plans/20261106-spec-closure-truth.md",
@@ -108,7 +150,7 @@
       "title": "运行账本断言并记录红灯",
       "phase": "red",
       "acceptance": ["AC-SPEC-010"],
-      "status": "todo",
+      "status": "doing",
       "result": "账本与期望不一致时断言真实失败。",
       "scope": [
         "docs/others/spec-closure/ledger.json",
@@ -339,10 +381,10 @@ tests/contracts/spec-closure-ledger-truth.test.ts、node scripts/ignite.mjs vali
 
 <!-- ignite-progress -->
 
-状态：`draft`（由元数据生成）
+状态：`active`（由元数据生成）
 
-- [ ] T1 · 登记规格与计划并提交基线 · todo
-- [ ] T2 · 运行账本断言并记录红灯 · todo
+- [x] T1 · 登记规格与计划并提交基线 · done
+- [ ] T2 · 运行账本断言并记录红灯 · doing
 - [ ] T3 · 刷新账本与期望值 · todo
 - [ ] T4 · 完成检查与回写 · todo
 

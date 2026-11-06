@@ -32,7 +32,8 @@
       "stage": "P0",
       "plan": null,
       "disposition": "implement",
-      "result": "missing"
+      "result": "partial",
+      "reason": "P0 结论将其定为显式非目标：与现有 Plan 编号与目录定位重复；非目标本身是一种处置结论，因此记 partial 而非 missing。"
     },
     {
       "id": "GAP-04",

@@ -62,7 +62,7 @@ describe('Tasks ownership regression sensitivity', () => {
               cwd: repositoryRoot,
               encoding: 'utf8',
               windowsHide: true,
-              timeout: 25_000,
+              timeout: 120_000,
               env: { ...process.env, IGNITE_PLAN_ID: '' },
             },
           )

@@ -136,3 +136,24 @@ P4 的完整证据：红灯 `tdd-20261106165854-ff8bb6` 与 `tdd-20261106173522-
 | `node scripts/check-clean.mjs` | 0      | Tracked workspace remained clean.                 |
 
 这一步证明 CI 的检查项与仓库当前状态一致。它不等于"GitHub 上跑过"——真实远端运行需要远端环境，本仓库无法在本地伪造。
+
+## 十一、本批次的完成边界
+
+以下三项明确未完成。它们不是遗漏，而是受规则或环境限制，并已记录触发条件。
+
+1. **P5 的证据链**：内容（`glossary.md`、`p0-conclusions.md`、三条 AC 测试）已交付并通过 `docs:check`，
+   但计划 `IGT-1793990498597924061` 已取消、发布 `spec-closure-glossary-v1` 记为 deferred。
+   原因：红灯要求"实现不存在"，而这些内容先于计划创建；把实现删除本身又是一次实现改动，
+   工具会以 `implementation changed before the first valid red` 拒绝，无法自洽。
+   触发条件：若为"仅改文档、不改代码与测试"的改动设立免红灯通道，可重新建计划并走完整链路。
+
+2. **账本 met 覆盖率**：现为 met 6 / kept 11 / partial 5 / missing 30（共 52）。
+   本轮 P4 只把 GAP-15、GAP-19 从 missing 推到 partial；P0 的显式非目标让 GAP-03 变成 partial。
+   没有任何条目因为本轮工作变成 met，因此不把数字调高。
+   触发条件：补齐"计划 done 前强制回写""模块级 AC""需求模板先现实后术语"三项后复评。
+
+3. **GitHub Actions 实跑**：`.github/workflows/ci.yml` 的 8 个步骤已在本地以相同命令、相同环境变量执行，全部 exit 0；
+   但"在 GitHub 上跑过"需要远端仓库与 Actions 运行记录，本地无法产生，故不声称。
+
+评审者若只读本文件，应能判断：哪些交付有发布级证据（P1–P4），哪些只有文档级证据（P5、P0 结论），
+哪些完全未做（上述三项的对应要求）。

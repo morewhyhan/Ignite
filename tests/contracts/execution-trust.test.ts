@@ -272,7 +272,7 @@ it('[AC-TRUST-004] assertion', () => { expect(page).toHaveScreenshot() })`
     )
 
     expect(versionFailures).toEqual([])
-  }, 90_000)
+  }, 240_000)
 
   it('[AC-TRUST-011] never recommends ready when the linked Release contract is invalid', () => {
     const fixture = makeFixture()

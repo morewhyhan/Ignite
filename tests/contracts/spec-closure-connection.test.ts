@@ -22,8 +22,11 @@ it('[AC-SPEC-013]', () => {
   const problems = []
   if (!ledger) problems.push('docs/others/design-writeback.md is missing')
   else {
-    for (const name of designFiles) if (!ledger.includes(name)) problems.push('missing row: ' + name)
+    for (const name of designFiles)
+      if (!ledger.includes(name)) problems.push('missing row: ' + name)
     if (!/IGT-\d{3,}/.test(ledger)) problems.push('no plan id recorded')
   }
-  expect(problems, '[AC-SPEC-013] target write-back ledger covers every design document').toEqual([])
+  expect(problems, '[AC-SPEC-013] target write-back ledger covers every design document').toEqual(
+    [],
+  )
 })

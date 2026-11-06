@@ -5,6 +5,7 @@ import { repositoryRoot } from '../../scripts/ignite/core.mjs'
 
 const LEDGER = 'docs/others/spec-closure/ledger.json'
 const EXPECTATIONS = 'docs/others/spec-closure/ledger-expectations.json'
+const RESULTS = ['met', 'kept', 'partial', 'missing']
 
 describe('specification closure ledger ownership', () => {
   it('[AC-SPEC-009] ledger results match the owned expectations file', () => {
@@ -18,23 +19,26 @@ describe('specification closure ledger ownership', () => {
           met: string[]
           kept: string[]
           partial: string[]
+          missing: string[]
           metPlan: Record<string, string>
         })
       : null
     if (!expectations) gaps.push('expectations file missing')
-    const expected = expectations ?? { met: [], kept: [], partial: [], metPlan: {} }
+    const expected = expectations ?? { met: [], kept: [], partial: [], missing: [], metPlan: {} }
     if (ledger.items.length !== 52) gaps.push('item count ' + ledger.items.length)
+    const order = Array.from({ length: 52 }, (_, i) => 'GAP-' + String(i + 1).padStart(2, '0'))
+    if (ledger.items.map((item) => item.id).join(',') !== order.join(',')) gaps.push('item order changed')
+    for (const item of ledger.items)
+      if (!RESULTS.includes(item.result ?? '')) gaps.push(item.id + ': result=' + (item.result ?? 'missing-field'))
     const byResult = (value: string) =>
       ledger.items
         .filter((item) => item.result === value)
         .map((item) => item.id)
         .sort()
         .join(',')
-    if (byResult('met') !== [...expected.met].sort().join(',')) gaps.push('met set ' + byResult('met'))
-    if (byResult('kept') !== [...expected.kept].sort().join(','))
-      gaps.push('kept set ' + byResult('kept'))
-    if (byResult('partial') !== [...expected.partial].sort().join(','))
-      gaps.push('partial set ' + byResult('partial'))
+    for (const result of ['met', 'kept', 'partial', 'missing'])
+      if (byResult(result) !== [...(expected as Record<string, string[]>)[result]].sort().join(','))
+        gaps.push(result + ' set ' + byResult(result))
     for (const [id, plan] of Object.entries(expected.metPlan ?? {})) {
       const item = ledger.items.find((entry) => entry.id === id)
       if (item?.plan !== plan) gaps.push(id + ': plan ' + (item?.plan ?? 'none') + ' != ' + plan)

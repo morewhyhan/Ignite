@@ -77,7 +77,8 @@
         "docs/features/spec-closure-ledger-ownership.md",
         "docs/plans/20261106-spec-closure-ledger-maintenance.md",
         "docs/plans/releases/spec-closure-ledger-maintenance-v1.json",
-        "tests/contracts/spec-closure-ledger-maintenance.test.ts"
+        "tests/contracts/spec-closure-ledger-maintenance.test.ts",
+        "tests/contracts/spec-closure-ledger.test.ts"
       ],
       "depends_on": [],
       "owner": "ignite-executor"
@@ -108,10 +109,11 @@
         "AC-SPEC-009"
       ],
       "status": "todo",
-      "result": "期望值文件就位，断言通过，旧账本计划标记 superseded。",
+      "result": "期望值文件就位、断言通过；旧账本计划标 superseded 并注明其证据因测试删除而失效。",
       "scope": [
         "docs/others/spec-closure/ledger-expectations.json",
-        "docs/plans/20261106-spec-closure-ledger.md"
+        "docs/plans/20261106-spec-closure-ledger.md",
+        "tests/contracts/spec-closure-ledger.test.ts"
       ],
       "depends_on": [
         "T2"

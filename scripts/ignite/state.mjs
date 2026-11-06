@@ -300,8 +300,6 @@ export function validatePlan(
   const value = plan.metadata
   const failures = []
   const retired = ['cancelled', 'superseded'].includes(value.status)
-  if (value.status === 'superseded' && !value.superseded_by)
-    failures.push('superseded_plan_requires_successor')
   const draft = value.status === 'draft'
   const historicalCommit =
     value.status === 'done' && gitCommitExists(value.integrated_commit)

@@ -139,7 +139,7 @@
       "applicable": "本轮产品要求",
       "status": "met",
       "task": "T3",
-      "check": "AC-SPEC-010"
+      "check": "AC-SPEC-009"
     },
     {
       "id": "BIND-002",
@@ -147,7 +147,7 @@
       "applicable": "本轮验收",
       "status": "missing",
       "task": "T2",
-      "check": "AC-SPEC-010"
+      "check": "AC-SPEC-009"
     },
     {
       "id": "BIND-003",
@@ -155,7 +155,7 @@
       "applicable": "闭环要求判断成立",
       "status": "missing",
       "task": "T3",
-      "check": "AC-SPEC-010"
+      "check": "AC-SPEC-009"
     },
     {
       "id": "BIND-004",
@@ -163,12 +163,23 @@
       "applicable": "执行设计记录规则",
       "status": "missing",
       "task": "T4",
-      "check": "文档检查"
+      "check": "AC-SPEC-009"
     }
   ],
-  "depends_on": [],
-  "dependency_contracts": [],
-  "shared_files": [],
+  "depends_on": [
+    "IGT-202611060006"
+  ],
+  "dependency_contracts": [
+    {
+      "plan": "IGT-202611060006",
+      "kind": "shared-write",
+      "note": "账本与期望值由已完成计划建立，本计划仅刷新内容"
+    }
+  ],
+  "shared_files": [
+    "docs/others/spec-closure/ledger.json",
+    "docs/others/spec-closure/ledger-expectations.json"
+  ],
   "handoff": {
     "interfaces": [],
     "migrations": [],
@@ -287,7 +298,7 @@
 
 ## 输入规格
 
-- docs/features/spec-closure-truth.md
+- docs/features/spec-closure-ledger-ownership.md
 - docs/others/spec-closure/ledger.json
 
 ## 已关闭问题

@@ -1,7 +1,7 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`3fa002fe6152`
+输入指纹：`cb58081e9799`
 当前 Plan：1；结构化历史：5；未迁移历史：0
 
 ## 当前工作
@@ -22,11 +22,11 @@
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-202611060006
   - 未完成原始目标：GOAL-SPEC-LEDGER-OWN 账本期望值由维护计划拥有，可持续刷新
-- `spec-closure-ledger-v1` · `invalid`
+- `spec-closure-ledger-v1` · `cancelled`
   - Plan：`IGT-202611060004`
   - 缺少证据：无
   - 最终版本验收：stale
-  - 下一步：pnpm ignite next --plan IGT-202611060004
+  - 下一步：null
   - 未完成原始目标：GOAL-SPEC-LEDGER 账本记录真实实施结果，met 条目指向真实计划
 - `spec-closure-p0-v1` · `cancelled`
   - Plan：`IGT-202611060001`
@@ -49,9 +49,7 @@
 
 ## 结构问题
 
-- docs/plans/20261106-spec-closure-ledger-maintenance.md: draft review fingerprint is stale or does not match the current object
-- docs/plans/20261106-spec-closure-ledger.md: AC-SPEC-007: TDD red proof is invalid or its test changed before green; for an intentional test correction use ignite tdd restart --plan IGT-202611060004 --ac AC-SPEC-007 --reason "<correction reason>", then repeat real red before implementation
-- docs/plans/20261106-spec-closure-ledger.md: T2: AC-SPEC-007 requires valid red evidence before implementation
-- docs/plans/20261106-spec-closure-ledger.md: T3: AC-SPEC-007 requires valid red evidence before implementation
+- docs/plans/20261106-spec-closure-ledger-maintenance.md: scripts/ignite/governance.mjs: implementation changed before the first valid red; restore it, complete preparation and record a real red first
+- docs/plans/20261106-spec-closure-ledger-maintenance.md: scripts/ignite/state.mjs: implementation changed before the first valid red; restore it, complete preparation and record a real red first
 
 > 本文件是确定性派生视图；修改 Plan 或 Release 机器源后重新生成。

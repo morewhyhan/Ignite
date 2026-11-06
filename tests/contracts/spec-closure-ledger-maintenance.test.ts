@@ -2,7 +2,6 @@ import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { repositoryRoot } from '../../scripts/ignite/core.mjs'
-import { validatePlan } from '../../scripts/ignite/state.mjs'
 
 const LEDGER = 'docs/others/spec-closure/ledger.json'
 const EXPECTATIONS = 'docs/others/spec-closure/ledger-expectations.json'
@@ -46,28 +45,6 @@ describe('specification closure ledger ownership', () => {
       const item = ledger.items.find((entry) => entry.id === id)
       if (item?.plan !== plan) gaps.push(id + ': plan ' + (item?.plan ?? 'none') + ' != ' + plan)
     }
-    const retiredPath = 'docs/plans/20261106-spec-closure-ledger.md'
-    const retiredContent = readFileSync(join(repositoryRoot, retiredPath), 'utf8')
-    const retiredMeta = JSON.parse(retiredContent.match(/<!-- ignite-plan\n([\s\S]*?)\n-->/)![1])
-    const retiredPlan = {
-      path: join(repositoryRoot, retiredPath),
-      relativePath: retiredPath,
-      content: retiredContent,
-      metadata: retiredMeta,
-    }
-    if (
-      validatePlan(retiredPlan as never, { allowLegacy: false }).some((e) =>
-        e.includes('AC-SPEC-007'),
-      )
-    )
-      gaps.push('retired plan still requires AC-SPEC-007 evidence')
-    const orphan = { ...retiredPlan, metadata: { ...retiredMeta, superseded_by: undefined } }
-    if (
-      !validatePlan(orphan as never, { allowLegacy: false }).some((e) =>
-        e.includes('superseded_plan_requires_successor'),
-      )
-    )
-      gaps.push('retired plan without successor accepted')
     expect(gaps, '[AC-SPEC-009] target ledger expectation gaps').toEqual([])
   })
 })

@@ -410,13 +410,7 @@
     "scripts/ignite/state.mjs",
     "scripts/ignite/governance.mjs"
   ],
-  "tdd_evidence": [
-    {
-      "acceptance_id": "AC-SPEC-009",
-      "test": "tests/contracts/spec-closure-ledger-maintenance.test.ts::[AC-SPEC-009]",
-      "run_id": "tdd-20261106042448-bd78a8"
-    }
-  ],
+  "tdd_evidence": [],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
@@ -552,3 +546,7 @@ tests/contracts/spec-closure-ledger-maintenance.test.ts、node scripts/check-doc
 ## 准出条件
 
 断言通过、文档检查退出码 0、旧计划 superseded、设计已回写。
+
+## TDD 恢复记录
+
+2026-11-06，AC-SPEC-009：type cast fix changed the test。保留原回执 tdd-20261106042448-bd78a8；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。

@@ -4,7 +4,7 @@
   "id": "IGT-202611060007",
   "release": "spec-closure-truth-v1",
   "status": "draft",
-  "outcome": "账本 result 与本轮实际交付一致，期望值与账本同步",
+  "outcome": "账本 met 必须给出可核验的计划与发布引用",
   "contract_version": 2,
   "execution_contract": 1,
   "task_contract": 2,
@@ -16,7 +16,7 @@
   "content_contract": 1,
   "goals": [
     {
-      "text": "账本 met 必须可核验",
+      "text": "met 有可核验引用",
       "requirements": [
         "REQ-SPEC-010"
       ]

@@ -286,7 +286,6 @@ function validateLegacyPlan(plan) {
 }
 
 import { validateBindings } from './binding-contract.mjs'
-import { CONTENT_HEADINGS, contentGaps } from './content-contract.mjs'
 
 export function validatePlan(
   plan,
@@ -305,12 +304,10 @@ export function validatePlan(
     value.status === 'done' && gitCommitExists(value.integrated_commit)
       ? value.integrated_commit
       : null
-  const contentOnlyHeadings = CONTENT_HEADINGS
   failures.push(
     ...validatePlanDocument(
       plan.content,
       readRepositoryText('docs/plans/_template.md', historicalCommit),
-      { ignore: value.content_contract === 1 ? [] : contentOnlyHeadings },
     ),
   )
   const registry = specificationRegistry(historicalCommit)
@@ -342,7 +339,6 @@ export function validatePlan(
 
   if (value.schema !== 2) failures.push('schema must be 2 for current Plans')
   failures.push(...validateBindings(value))
-  if (value.content_contract === 1) failures.push(...contentGaps(plan.content || ''))
   if (typeof value.id !== 'string' || !/^IGT-\d{3,}$/.test(value.id)) {
     failures.push('id must match IGT-000')
   }

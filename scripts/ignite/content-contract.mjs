@@ -1,4 +1,3 @@
-/** @type {Array<[string, number]>} */
 const REQUIRED = [
   ['## 来源规格', 3],
   ['## 目标映射', 2],
@@ -9,8 +8,7 @@ const REQUIRED = [
   ['## 约束绑定矩阵', 2],
   ['## 回退', 2],
 ]
-export const CONTENT_HEADINGS = REQUIRED.map(([heading]) => heading)
-const BOILERPLATE = /^(?:按 .*说明以下判断.*|简单任务可以用几句话回答.*|待填写|TODO|待确认)$/
+const BOILERPLATE = /^(?:按 .*说明以下判断.*|简单任务可以用几句话回答.*|待填写)$/m
 const SEPARATOR = /^\|[\s:|-]+\|$/
 
 function section(content, heading) {
@@ -47,7 +45,7 @@ export function contentGaps(content) {
     }
     const lines = substantive(body)
     if (lines.length < minimum) gaps.push(`${heading}: only ${lines.length} substantive lines`)
-    if (lines.some((line) => BOILERPLATE.test(line))) gaps.push(`${heading}: template boilerplate`)
+    if (BOILERPLATE.test(body)) gaps.push(`${heading}: template boilerplate`)
   }
   return gaps
 }

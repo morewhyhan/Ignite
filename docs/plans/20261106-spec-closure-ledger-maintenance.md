@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-202611060006",
   "release": "spec-closure-ledger-maintenance-v1",
-  "status": "active",
+  "status": "verifying",
   "outcome": "账本期望值迁到独立文件，由本计划拥有，使账本可持续刷新",
   "contract_version": 2,
   "execution_contract": 1,
@@ -310,6 +310,66 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-06T04:50:23.001Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent draft review of IGT-202611060006, approved after LM fixes",
+      "subject_fingerprint": "b5972bd5d3e90182954310ba1b5d57ade4e35b8b71c6faf436f97d83f43fd0c5",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "LM-007",
+          "severity": "nonblocking",
+          "summary": "base_commit is the plan creation commit; prep diff outside delivery scope.",
+          "resolved": false
+        },
+        {
+          "id": "LM-008",
+          "severity": "nonblocking",
+          "summary": "Old ledger plan must be superseded in T3 with evidence invalidation.",
+          "resolved": false
+        },
+        {
+          "id": "LM-001",
+          "severity": "blocking",
+          "summary": "Resolved: enum, order, sets and metPlan checked.",
+          "resolved": true
+        },
+        {
+          "id": "LM-002",
+          "severity": "blocking",
+          "summary": "Resolved: T1/T3 scopes include old test deletion.",
+          "resolved": true
+        },
+        {
+          "id": "LM-003",
+          "severity": "blocking",
+          "summary": "Resolved at plan level: superseded_by required by T3.",
+          "resolved": true
+        },
+        {
+          "id": "LM-004",
+          "severity": "nonblocking",
+          "summary": "Resolved: red is the missing expectations file.",
+          "resolved": true
+        },
+        {
+          "id": "LM-005",
+          "severity": "nonblocking",
+          "summary": "Resolved: contentGaps and bindings empty.",
+          "resolved": true
+        },
+        {
+          "id": "LM-006",
+          "severity": "nonblocking",
+          "summary": "Resolved: T3 scope/result explicit.",
+          "resolved": true
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-06T05:06:48.864Z"
     }
   ],
   "verification_contract": 2,
@@ -481,7 +541,7 @@
   "evidence": [],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "445c5297782a516a781b5c67a7d57403aab35547",
   "updated_at": "2026-11-06"
 }
 -->
@@ -598,7 +658,7 @@ tests/contracts/spec-closure-ledger-maintenance.test.ts、node scripts/check-doc
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`verifying`（由元数据生成）
 
 - [x] T1 · 登记规格、计划与断言并提交基线 · done
 - [x] T2 · 运行账本断言并记录原生红灯 · done

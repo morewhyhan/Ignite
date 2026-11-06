@@ -4,7 +4,6 @@ import {
   markdownHeadings,
 } from './ignite/document-contract.mjs'
 import { isGovernedPath } from './ignite/checks.mjs'
-import { CONTENT_HEADINGS } from './ignite/content-contract.mjs'
 import {
   collectSpecificationIds,
   filesWithoutIds,
@@ -121,11 +120,7 @@ for (const featureFile of featureFiles) {
 const planFiles = listPlanFiles()
 for (const planFile of planFiles) {
   const plan = readPlan(planFile)
-  const contentOnlyHeadings = CONTENT_HEADINGS
-  const ignore = plan.metadata?.content_contract === 1 ? [] : contentOnlyHeadings
-  for (const error of validatePlanDocument(plan.content, read('docs/plans/_template.md'), {
-    ignore,
-  }))
+  for (const error of validatePlanDocument(plan.content, read('docs/plans/_template.md')))
     fail(`${plan.relativePath}: ${error}`)
   if (plan.metadata?.schema !== 2) {
     const selectedTypes = [

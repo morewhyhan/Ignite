@@ -271,9 +271,9 @@
       "problem": "计划模板缺少八个必需部分",
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P2",
-      "plan": null,
+      "plan": "IGT-202611060005",
       "disposition": "implement",
-      "result": "missing"
+      "result": "met"
     },
     {
       "id": "GAP-28",
@@ -311,9 +311,9 @@
       "problem": "只检查标题存在，空壳章节可通过",
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P3",
-      "plan": null,
+      "plan": "IGT-202611060005",
       "disposition": "implement",
-      "result": "missing"
+      "result": "met"
     },
     {
       "id": "GAP-32",

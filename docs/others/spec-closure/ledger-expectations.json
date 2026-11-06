@@ -1,5 +1,5 @@
 {
-  "met": ["GAP-10", "GAP-20", "GAP-21", "GAP-24"],
+  "met": ["GAP-10", "GAP-20", "GAP-21", "GAP-24", "GAP-27", "GAP-31"],
   "kept": [
     "GAP-14",
     "GAP-18",
@@ -32,11 +32,9 @@
     "GAP-19",
     "GAP-22",
     "GAP-26",
-    "GAP-27",
     "GAP-28",
     "GAP-29",
     "GAP-30",
-    "GAP-31",
     "GAP-32",
     "GAP-33",
     "GAP-34",
@@ -73,6 +71,14 @@
     "GAP-24": {
       "plan": "IGT-202611060003",
       "release": "spec-closure-p2-v1"
+    },
+    "GAP-27": {
+      "plan": "IGT-202611060005",
+      "release": "spec-closure-content-v1"
+    },
+    "GAP-31": {
+      "plan": "IGT-202611060005",
+      "release": "spec-closure-content-v1"
     }
   }
 }

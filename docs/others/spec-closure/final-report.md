@@ -119,3 +119,20 @@ P4 的完整证据：红灯 `tdd-20261106165854-ff8bb6` 与 `tdd-20261106173522-
 - `node scripts/ignite.mjs validate`：通过。
 - `pnpm docs:check`：通过（70 篇 Markdown / 14 规格 / 10 计划）。
 - P4 的发布验收：`release verify` exit 0，生产构建 + 生产态 E2E 12 条通过。
+
+### CI 工作流的本地等价执行
+
+`.github/workflows/ci.yml` 的 8 个可在本地执行的步骤，用 `.ignite/ci.sh` 逐条运行（带 CI 环境变量），全部通过：
+
+| 步骤                           | 退出码 | 输出                                              |
+| ------------------------------ | ------ | ------------------------------------------------- |
+| `pnpm runtime:check`           | 0      | Runtime contract passed (linux/x64, Node 24.19.0) |
+| `pnpm template:doctor`         | 0      | Template doctor passed.                           |
+| `pnpm ignite validate --ci`    | 0      | Ignite governance validation passed.              |
+| `pnpm docs:check`              | 0      | 70 Markdown / 14 feature specs / 10 Plans         |
+| `pnpm tools:check`             | 0      | Execution tool type contracts passed.             |
+| `pnpm lint`                    | 0      | —                                                 |
+| `pnpm format:check`            | 0      | All matched files use Prettier code style!        |
+| `node scripts/check-clean.mjs` | 0      | Tracked workspace remained clean.                 |
+
+这一步证明 CI 的检查项与仓库当前状态一致。它不等于"GitHub 上跑过"——真实远端运行需要远端环境，本仓库无法在本地伪造。

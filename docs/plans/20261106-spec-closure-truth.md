@@ -176,11 +176,13 @@
   "shared_files": [
     {
       "path": "docs/others/spec-closure/ledger.json",
-      "owner": "IGT-202611060006"
+      "owner": "IGT-202611060006",
+      "mode": "exclusive"
     },
     {
       "path": "docs/others/spec-closure/ledger-expectations.json",
-      "owner": "IGT-202611060006"
+      "owner": "IGT-202611060006",
+      "mode": "exclusive"
     }
   ],
   "handoff": {

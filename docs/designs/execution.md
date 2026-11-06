@@ -159,6 +159,8 @@ TDD restart 先复用原生验证器核对已绑定证明；有效绑定返回 r
 
 差异账本新增 `result` 字段：met（已交付，必须指向计划）、kept（基线已满足）、partial（部分实现）、missing（未实现）。当前 52 条为 met 5、kept 11、partial 1、missing 35，由 `tests/contracts/spec-closure-ledger.test.ts` 锁定集合、顺序与计划映射。
 
-绑定契约：声明 `binding_contract: 1` 的计划必须为每条 REQ 与 AC 提供唯一绑定（编号、来源、适用理由、状态、任务、检查）。`scripts/ignite/binding-contract.mjs` 负责校验，`validatePlan` 在结构与准入检查中调用它；模板自带两条示例绑定。内容门禁、跨文档传播与回写检查仍未实现。
+绑定契约：声明 `binding_contract: 1` 的计划必须为每条 REQ 与 AC 提供唯一绑定（编号、来源、适用理由、状态、任务、检查）。`scripts/ignite/binding-contract.mjs` 负责校验，`validatePlan` 在结构与准入检查中调用它；模板自带两条示例绑定。
+
+内容门禁：声明 `content_contract: 1` 的计划必须包含来源规格、目标映射、主要矛盾、次要矛盾、决策原则、方案比较、约束绑定矩阵、回退八节，每节有最小实质行数且不得出现整行占位符或模板提示语。`scripts/ignite/content-contract.mjs` 提供 `contentGaps` 与 `CONTENT_HEADINGS`（单一来源），`validatePlan` 与 `check-docs` 按 `content_contract` 开关决定是否要求八节，历史计划不追溯。跨文档传播与回写检查仍未实现。
 
 - DES-EXEC-101：当前执行系统契约与证据事实以本编号引用。

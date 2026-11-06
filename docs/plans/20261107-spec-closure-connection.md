@@ -213,7 +213,13 @@
     "docs/features/_template.md",
     "docs/others/evidence/"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-SPEC-012",
+      "test": "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-012]",
+      "run_id": "tdd-20261106165854-ff8bb6"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

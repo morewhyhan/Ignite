@@ -169,13 +169,7 @@
   "depends_on": [
     "IGT-202611060006"
   ],
-  "dependency_contracts": [
-    {
-      "plan": "IGT-202611060006",
-      "kind": "shared-write",
-      "note": "账本与期望值由已完成计划建立，本计划仅刷新内容"
-    }
-  ],
+  "dependency_contracts": [],
   "shared_files": [
     "docs/others/spec-closure/ledger.json",
     "docs/others/spec-closure/ledger-expectations.json"

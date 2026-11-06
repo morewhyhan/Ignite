@@ -448,6 +448,48 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-06T09:45:36.020Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent draft review of IGT-202611060007, approved after LT4 fixes",
+      "subject_fingerprint": "e839e6c9951b6eb3ec83cd42d9f6c3c94a2a78ae716cc4aab9672a495ff3b7aa",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "LT5-001",
+          "severity": "nonblocking",
+          "summary": "done plans are not re-checked for a real integrated commit in the test helper.",
+          "resolved": false
+        },
+        {
+          "id": "LT5-002",
+          "severity": "nonblocking",
+          "summary": "release scope is not item-specific; matches the feature non-goal.",
+          "resolved": true
+        },
+        {
+          "id": "LT5-003",
+          "severity": "nonblocking",
+          "summary": "base_commit is the plan creation commit; prep diff outside delivery.",
+          "resolved": false
+        },
+        {
+          "id": "LT4-001",
+          "severity": "blocking",
+          "summary": "Resolved: snapshot status done/verifying enforced.",
+          "resolved": true
+        },
+        {
+          "id": "LT4-002",
+          "severity": "blocking",
+          "summary": "Resolved: data reverted before red; genuine pre-implementation failure.",
+          "resolved": true
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-06T09:46:26.491Z"
     }
   ],
   "verification_contract": 2,
@@ -630,7 +672,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "0dc0fcea9d0a14e3acc922559d6f224c27f9e6f7",
+  "integrated_commit": "b8678c72be2b905bc074f8b24ae7c1146752fdda",
   "updated_at": "2026-11-06"
 }
 -->

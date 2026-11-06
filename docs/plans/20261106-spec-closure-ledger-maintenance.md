@@ -378,24 +378,44 @@
   "goals": [
     {
       "text": "账本期望值不再硬编码在测试里",
-      "requirements": ["REQ-SPEC-009"]
+      "requirements": [
+        "REQ-SPEC-009"
+      ]
     }
   ],
-  "constraints": ["不改账本条目文本与阶段", "旧账本计划按 superseded 处置", "不自动推断 result"],
-  "non_goals": ["不刷新 result 值（仅迁移所有权）", "不改 ledger.json 内容"],
+  "constraints": [
+    "不改账本条目文本与阶段",
+    "旧账本计划按 superseded 处置",
+    "不自动推断 result"
+  ],
+  "non_goals": [
+    "不刷新 result 值（仅迁移所有权）",
+    "不改 ledger.json 内容"
+  ],
   "authorization": {
     "source": "用户 2026-11-06 选择方案 A"
   },
-  "deliverables": ["期望值文件", "维护测试 AC-SPEC-009", "旧计划 superseded 记录", "设计回写"],
+  "deliverables": [
+    "期望值文件",
+    "维护测试 AC-SPEC-009",
+    "旧计划 superseded 记录",
+    "设计回写"
+  ],
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "de9362a5c6f3848ee2a8663a39d8c4fd925a30f5",
-  "requirements": ["REQ-SPEC-009"],
+  "requirements": [
+    "REQ-SPEC-009"
+  ],
   "acceptance": [
     {
       "id": "AC-SPEC-009",
-      "tests": ["tests/contracts/spec-closure-ledger-maintenance.test.ts::[AC-SPEC-009]"],
-      "required_layers": ["unit"],
+      "tests": [
+        "tests/contracts/spec-closure-ledger-maintenance.test.ts::[AC-SPEC-009]"
+      ],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-ledger-maintenance.test.ts::[AC-SPEC-009]",
@@ -404,7 +424,9 @@
       ]
     }
   ],
-  "verification_requirements": ["unit"],
+  "verification_requirements": [
+    "unit"
+  ],
   "tasks": [
     {
       "id": "T1",
@@ -426,21 +448,27 @@
       "id": "T2",
       "title": "运行账本断言并记录原生红灯",
       "phase": "red",
-      "acceptance": ["AC-SPEC-009"],
+      "acceptance": [
+        "AC-SPEC-009"
+      ],
       "status": "done",
       "result": "期望值文件缺失时断言真实失败并写入原生回执。",
       "scope": [
         "tests/contracts/spec-closure-ledger-maintenance.test.ts",
         "docs/others/evidence/tdd/"
       ],
-      "depends_on": ["T1"],
+      "depends_on": [
+        "T1"
+      ],
       "owner": "ignite-executor"
     },
     {
       "id": "T3",
       "title": "生成期望值文件并迁移所有权",
       "phase": "implement",
-      "acceptance": ["AC-SPEC-009"],
+      "acceptance": [
+        "AC-SPEC-009"
+      ],
       "status": "done",
       "result": "期望值文件就位、断言通过；旧账本计划标 superseded 并注明证据失效；validatePlan 与 governance 对退场计划跳过验收证据，并要求 superseded_by。",
       "scope": [
@@ -450,18 +478,26 @@
         "scripts/ignite/state.mjs",
         "scripts/ignite/governance.mjs"
       ],
-      "depends_on": ["T2"],
+      "depends_on": [
+        "T2"
+      ],
       "owner": "ignite-executor"
     },
     {
       "id": "T4",
       "title": "完成检查与回写",
       "phase": "verify",
-      "acceptance": ["AC-SPEC-009"],
+      "acceptance": [
+        "AC-SPEC-009"
+      ],
       "status": "done",
       "result": "检查通过，设计记录期望值所有权。",
-      "scope": ["docs/designs/execution.md"],
-      "depends_on": ["T3"],
+      "scope": [
+        "docs/designs/execution.md"
+      ],
+      "depends_on": [
+        "T3"
+      ],
       "owner": "ignite-executor"
     }
   ],
@@ -537,11 +573,13 @@
       "run_id": "tdd-20261106044038-96dee2"
     }
   ],
-  "required_evidence": ["check-integration"],
+  "required_evidence": [
+    "check-integration"
+  ],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "445c5297782a516a781b5c67a7d57403aab35547",
+  "integrated_commit": "d185ff618b0105d579057437452fc3cad00d125a",
   "updated_at": "2026-11-06"
 }
 -->
@@ -653,6 +691,8 @@ tests/contracts/spec-closure-ledger-maintenance.test.ts、node scripts/check-doc
 在 docs/designs/execution.md 记录期望值所有权。
 
 ## 状态记录
+
+- 2026-11-06：任务 T1–T4 完成，check 运行 run-20261106045040-36f0d3 与 57dbd3 记录 format 与 targeted-tests 失败；随后修复格式并转 verifying。
 
 - 2026-11-06：建立计划；期望值文件不存在，断言失败。
 

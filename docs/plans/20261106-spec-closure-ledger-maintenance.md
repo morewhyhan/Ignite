@@ -130,6 +130,66 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-06T03:55:54.037Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent draft review of IGT-202611060006, approved after LM fixes",
+      "subject_fingerprint": "f1c0235392457d321b7d792c24bace00784d73c9afaad7facc1a14291398c761",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "LM-007",
+          "severity": "nonblocking",
+          "summary": "base_commit is the plan creation commit; prep diff outside delivery scope.",
+          "resolved": false
+        },
+        {
+          "id": "LM-008",
+          "severity": "nonblocking",
+          "summary": "Old ledger plan must be superseded in T3 with evidence invalidation.",
+          "resolved": false
+        },
+        {
+          "id": "LM-001",
+          "severity": "blocking",
+          "summary": "Resolved: enum, order, sets and metPlan checked.",
+          "resolved": true
+        },
+        {
+          "id": "LM-002",
+          "severity": "blocking",
+          "summary": "Resolved: T1/T3 scopes include old test deletion.",
+          "resolved": true
+        },
+        {
+          "id": "LM-003",
+          "severity": "blocking",
+          "summary": "Resolved at plan level: superseded_by required by T3.",
+          "resolved": true
+        },
+        {
+          "id": "LM-004",
+          "severity": "nonblocking",
+          "summary": "Resolved: red is the missing expectations file.",
+          "resolved": true
+        },
+        {
+          "id": "LM-005",
+          "severity": "nonblocking",
+          "summary": "Resolved: contentGaps and bindings empty.",
+          "resolved": true
+        },
+        {
+          "id": "LM-006",
+          "severity": "nonblocking",
+          "summary": "Resolved: T3 scope/result explicit.",
+          "resolved": true
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-06T03:56:07.521Z"
     }
   ],
   "verification_contract": 2,
@@ -149,7 +209,7 @@
   "deliverables": ["期望值文件", "维护测试 AC-SPEC-009", "旧计划 superseded 记录", "设计回写"],
   "remaining_work": [],
   "change_type": "存量改动",
-  "base_commit": "f64a9336cf3f179984935c6cd6a5552057c0a781",
+  "base_commit": "de9362a5c6f3848ee2a8663a39d8c4fd925a30f5",
   "requirements": ["REQ-SPEC-009"],
   "acceptance": [
     {

@@ -51,11 +51,16 @@ export function validateTraceability() {
   )
   const retiredAcceptance = new Set(
     listPlans()
-      .filter(
-        (plan) =>
-          ['cancelled', 'superseded'].includes(plan.metadata?.status) &&
-          Boolean(plan.metadata?.integrated_commit),
-      )
+      .filter((plan) => {
+        if (!['cancelled', 'superseded'].includes(plan.metadata?.status)) return false
+        const commit = plan.metadata?.integrated_commit
+        if (!commit || !gitCommitExists(commit) || !isAncestor(commit, 'HEAD')) return false
+        const file = relativePath(plan.path || plan.relativePath || '')
+        if (!file) return false
+        const snapshot = runGit(['show', commit + ':' + file], { allowFailure: true })
+        if (snapshot.exitCode !== 0) return false
+        return ['done', 'verifying'].includes(extractPlanMetadata(snapshot.stdout)?.value?.status)
+      })
       .flatMap((plan) => (plan.metadata?.acceptance || []).map((entry) => entry.id)),
   )
   const requirementsWithAcceptance = new Set()

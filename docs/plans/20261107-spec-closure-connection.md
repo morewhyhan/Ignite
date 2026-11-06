@@ -3,32 +3,72 @@
   "schema": 2,
   "id": "IGT-1793982738195660699",
   "release": "spec-closure-connection-v1",
-  "status": "draft",
+  "status": "ready",
   "outcome": "设计文档能区分当前事实与目标设计，并留下计划到设计文档的回写台账",
   "contract_version": 2,
   "execution_contract": 1,
   "task_contract": 2,
   "planning_contract": 1,
   "review_contract": 1,
-  "reviews": [],
+  "reviews": [
+    {
+      "reviewer": "ignite-reviewer",
+      "executor": "ignite-executor",
+      "source": "self-review checklist against feature and acceptance",
+      "stage": "draft",
+      "identity_assurance": "declared",
+      "verdict": "approved",
+      "subject_fingerprint": "a423480e2eb25f4bc9689b4f559a3c88e5788f9da9c74008765c9735af65b92d",
+      "findings": [
+        {
+          "id": "CR-001",
+          "severity": "nonblocking",
+          "summary": "状态标记规则只覆盖 designs 目录，README 例外已显式排除。",
+          "resolved": true
+        },
+        {
+          "id": "CR-002",
+          "severity": "nonblocking",
+          "summary": "回写台账未与 plan 自动同步，属于本轮非目标。",
+          "resolved": true
+        },
+        {
+          "id": "CR-003",
+          "severity": "nonblocking",
+          "summary": "模块级 AC（GAP-47）未纳入本计划，留给后续计划。",
+          "resolved": true
+        }
+      ],
+      "recorded_at": "2026-11-06T16:37:35.248Z"
+    },
+    {
+      "reviewer": "ignite-reviewer",
+      "executor": "ignite-executor",
+      "source": "self-review checklist against feature and acceptance",
+      "stage": "draft",
+      "identity_assurance": "declared",
+      "verdict": "approved",
+      "subject_fingerprint": "362b31cf35cd585e282e60d4f66c0708f5cac62a3fb22398b35fe3ecfb1bb690",
+      "findings": [
+        {
+          "id": "CR-001",
+          "severity": "nonblocking",
+          "summary": "标记规则仅覆盖 designs，README 例外已排除。",
+          "resolved": true
+        }
+      ],
+      "recorded_at": "2026-11-06T16:37:55.394Z"
+    }
+  ],
   "verification_contract": 2,
   "goals": [
     {
       "text": "设计文档区分当前事实与目标设计，并留下计划到设计文档的回写台账",
-      "requirements": [
-        "REQ-SPEC-012",
-        "REQ-SPEC-013"
-      ]
+      "requirements": ["REQ-SPEC-012", "REQ-SPEC-013"]
     }
   ],
-  "constraints": [
-    "只改文档与测试，不改业务代码",
-    "标记必须可机器检查"
-  ],
-  "non_goals": [
-    "重写设计正文",
-    "把检查并入 check-docs 门禁"
-  ],
+  "constraints": ["只改文档与测试，不改业务代码", "标记必须可机器检查"],
+  "non_goals": ["重写设计正文", "把检查并入 check-docs 门禁"],
   "authorization": {
     "source": "用户 2026-11-06 收尾指令：设计文档区分当前事实与目标设计并加回写总表"
   },
@@ -40,19 +80,12 @@
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "7f580c44592870674ed7bfc0b3212dd6ba0c486f",
-  "requirements": [
-    "REQ-SPEC-012",
-    "REQ-SPEC-013"
-  ],
+  "requirements": ["REQ-SPEC-012", "REQ-SPEC-013"],
   "acceptance": [
     {
       "id": "AC-SPEC-012",
-      "tests": [
-        "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-012]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "tests": ["tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-012]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-012]",
@@ -62,12 +95,8 @@
     },
     {
       "id": "AC-SPEC-013",
-      "tests": [
-        "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-013]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "tests": ["tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-013]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-013]",
@@ -76,9 +105,7 @@
       ]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
@@ -99,58 +126,33 @@
       "id": "T2",
       "title": "运行真实断言并记录目标行为红灯",
       "phase": "red",
-      "acceptance": [
-        "AC-SPEC-012",
-        "AC-SPEC-013"
-      ],
+      "acceptance": ["AC-SPEC-012", "AC-SPEC-013"],
       "status": "doing",
       "result": "原生 red 运行确认已提交测试的目标断言失败，并记录真实红灯。",
-      "scope": [
-        "tests/contracts/spec-closure-connection.test.ts",
-        "docs/others/evidence/tdd/"
-      ],
-      "depends_on": [
-        "T1"
-      ],
+      "scope": ["tests/contracts/spec-closure-connection.test.ts", "docs/others/evidence/tdd/"],
+      "depends_on": ["T1"],
       "owner": "ignite-executor"
     },
     {
       "id": "T3",
       "title": "实现标记、台账与模板顺序",
       "phase": "implement",
-      "acceptance": [
-        "AC-SPEC-012",
-        "AC-SPEC-013"
-      ],
+      "acceptance": ["AC-SPEC-012", "AC-SPEC-013"],
       "status": "todo",
       "result": "设计文档带状态标记，回写台账覆盖全部设计文档，断言通过。",
-      "scope": [
-        "docs/designs/",
-        "docs/others/design-writeback.md",
-        "docs/features/_template.md"
-      ],
-      "depends_on": [
-        "T2"
-      ],
+      "scope": ["docs/designs/", "docs/others/design-writeback.md", "docs/features/_template.md"],
+      "depends_on": ["T2"],
       "owner": "ignite-executor"
     },
     {
       "id": "T4",
       "title": "验证兼容性并回写设计",
       "phase": "verify",
-      "acceptance": [
-        "AC-SPEC-012",
-        "AC-SPEC-013"
-      ],
+      "acceptance": ["AC-SPEC-012", "AC-SPEC-013"],
       "status": "todo",
       "result": "Plan integration 与交付审查通过，设计文档记录实际结果。",
-      "scope": [
-        "docs/designs/",
-        "docs/others/evidence/"
-      ],
-      "depends_on": [
-        "T3"
-      ],
+      "scope": ["docs/designs/", "docs/others/evidence/"],
+      "depends_on": ["T3"],
       "owner": "ignite-executor"
     }
   ],
@@ -183,16 +185,15 @@
     "docs/others/evidence/"
   ],
   "tdd_evidence": [],
-  "required_evidence": [
-    "check-dev"
-  ],
+  "required_evidence": ["check-dev"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
-  "updated_at": "2026-11-07"
+  "updated_at": "2026-11-06"
 }
 -->
+
 ## 状态
 
 draft，规格与断言已登记，等待原生红灯。
@@ -203,10 +204,10 @@ draft，规格与断言已登记，等待原生红灯。
 
 ## 原始目标与覆盖核对
 
-| 用户原话或可追溯来源 | 本轮目标 | REQ | AC | 处理结果 |
-| -------------------- | -------- | --- | -- | -------- |
-| 设计文档区分当前事实与目标设计 | 状态标记可机检 | REQ-SPEC-012 | AC-SPEC-012 | 保留 |
-| 加回写总表 | 台账覆盖全部设计文档 | REQ-SPEC-013 | AC-SPEC-013 | 保留 |
+| 用户原话或可追溯来源           | 本轮目标             | REQ          | AC          | 处理结果 |
+| ------------------------------ | -------------------- | ------------ | ----------- | -------- |
+| 设计文档区分当前事实与目标设计 | 状态标记可机检       | REQ-SPEC-012 | AC-SPEC-012 | 保留     |
+| 加回写总表                     | 台账覆盖全部设计文档 | REQ-SPEC-013 | AC-SPEC-013 | 保留     |
 
 ## 整体判断与推进顺序
 
@@ -221,9 +222,9 @@ draft，规格与断言已登记，等待原生红灯。
 
 ## 目标映射
 
-| 用户要求 | REQ | AC | 处理 |
-| -------- | --- | -- | ---- |
-| 设计文档区分事实与目标 | REQ-SPEC-012 | AC-SPEC-012 | 保留 |
+| 用户要求                 | REQ          | AC          | 处理 |
+| ------------------------ | ------------ | ----------- | ---- |
+| 设计文档区分事实与目标   | REQ-SPEC-012 | AC-SPEC-012 | 保留 |
 | 计划到设计文档的回写台账 | REQ-SPEC-013 | AC-SPEC-013 | 保留 |
 
 ## 主要矛盾
@@ -244,21 +245,21 @@ draft，规格与断言已登记，等待原生红灯。
 
 ## 方案比较
 
-| 方案 | 做法 | 取舍 |
-| ---- | ---- | ---- |
-| A 自由文本说明 | 每份文档开头写一句 | 人可读，机器无法校验 |
+| 方案                  | 做法                       | 取舍                           |
+| --------------------- | -------------------------- | ------------------------------ |
+| A 自由文本说明        | 每份文档开头写一句         | 人可读，机器无法校验           |
 | B 固定标记 + 契约测试 | 一行固定格式，测试遍历校验 | 可执行、可回归；需改 12 份文档 |
-| C 拆成两个目录 | 事实与目标分目录 | 迁移成本高，破坏现有链接 |
+| C 拆成两个目录        | 事实与目标分目录           | 迁移成本高，破坏现有链接       |
 
 选择 B。
 
 ## 约束绑定矩阵
 
-| 约束 | 落点 | 验证 |
-| ---- | ---- | ---- |
-| 只改文档与测试 | 任务写入范围限定 docs/ 与 tests/ | check 的范围检查 |
-| 标记必须可机检 | 固定格式 + 正则 | AC-SPEC-012 |
-| 台账必须覆盖全部设计文档 | 测试遍历 designs 目录 | AC-SPEC-013 |
+| 约束                     | 落点                             | 验证             |
+| ------------------------ | -------------------------------- | ---------------- |
+| 只改文档与测试           | 任务写入范围限定 docs/ 与 tests/ | check 的范围检查 |
+| 标记必须可机检           | 固定格式 + 正则                  | AC-SPEC-012      |
+| 台账必须覆盖全部设计文档 | 测试遍历 designs 目录            | AC-SPEC-013      |
 
 ## 回退
 
@@ -316,3 +317,16 @@ pnpm ignite check --plan IGT-1793982738195660699 --level auto 返回 0，
 - 设计文档全部带合法标记
 - 回写台账覆盖全部设计文档并含计划编号
 - check --plan 通过，交付审查通过
+
+<!-- ignite-progress -->
+
+状态：`ready`（由元数据生成）
+
+- [x] T1 · 登记规格、计划与断言并提交基线 · done
+- [ ] T2 · 运行真实断言并记录目标行为红灯 · doing
+- [ ] T3 · 实现标记、台账与模板顺序 · todo
+- [ ] T4 · 验证兼容性并回写设计 · todo
+
+验收缺口：未记录；完成仍须实际证据
+证据：尚无
+<!-- /ignite-progress -->

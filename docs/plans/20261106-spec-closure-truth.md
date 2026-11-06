@@ -259,7 +259,13 @@
     "docs/features/spec-closure-truth.md",
     "tests/contracts/spec-closure-ledger-truth.test.ts"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-SPEC-010",
+      "test": "tests/contracts/spec-closure-ledger-truth.test.ts::[AC-SPEC-010]",
+      "run_id": "tdd-20261106084051-17c394"
+    }
+  ],
   "required_evidence": ["check-dev", "check-integration"],
   "evidence": [],
   "blocker": null,

@@ -1,6 +1,5 @@
 {
   "met": [
-    "GAP-01",
     "GAP-10",
     "GAP-20",
     "GAP-21",
@@ -20,6 +19,7 @@
     "GAP-52"
   ],
   "partial": [
+    "GAP-01",
     "GAP-23"
   ],
   "missing": [
@@ -60,10 +60,27 @@
     "GAP-50"
   ],
   "metPlan": {
-    "GAP-01": "IGT-202611060001",
     "GAP-10": "IGT-202611060002",
     "GAP-20": "IGT-202611060003",
     "GAP-21": "IGT-202611060003",
     "GAP-24": "IGT-202611060003"
+  },
+  "metEvidence": {
+    "GAP-10": {
+      "plan": "IGT-202611060002",
+      "release": "spec-closure-p1-v1"
+    },
+    "GAP-20": {
+      "plan": "IGT-202611060003",
+      "release": "spec-closure-p2-v1"
+    },
+    "GAP-21": {
+      "plan": "IGT-202611060003",
+      "release": "spec-closure-p2-v1"
+    },
+    "GAP-24": {
+      "plan": "IGT-202611060003",
+      "release": "spec-closure-p2-v1"
+    }
   }
 }

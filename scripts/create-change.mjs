@@ -52,6 +52,10 @@ if (planBodyStart < 0) throw new Error('docs/plans/_template.md is missing ignit
 const planBody = planTemplate
   .slice(planBodyStart + 3)
   .replaceAll('<change-name>', slug)
+  .replaceAll('<feature-name>', slug)
+  .replaceAll('<actor>', '用户')
+  .replaceAll('<capability>', slug)
+  .replaceAll('<value>', '可验收结果')
   .replaceAll('REQ-FEATURE-001', '待填写')
   .replaceAll('AC-FEATURE-001', '待填写')
 if (existsSync(planPath)) throw new Error(`Plan already exists: ${planPath}`)

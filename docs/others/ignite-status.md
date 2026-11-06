@@ -1,20 +1,27 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`a29c678ba4e6`
-当前 Plan：0；结构化历史：5；未迁移历史：0
+输入指纹：`fc45635b85d7`
+当前 Plan：1；结构化历史：5；未迁移历史：0
 
 ## 当前工作
 
-- 无。
+- `IGT-202611060006` · `active` · `spec-closure-ledger-maintenance-v1`
 
 ## 发布范围
 
-- `spec-closure-content-v1` · `done`
+- `spec-closure-content-v1` · `verifying`
   - Plan：`IGT-202611060005`
   - 缺少证据：无
-  - 最终版本验收：passed（2b61e43e01d2）
+  - 最终版本验收：stale
+  - 下一步：pnpm ignite release verify spec-closure-content-v1 --plan IGT-202611060005
   - 未完成原始目标：无已登记缺口（仍需语义核对）
+- `spec-closure-ledger-maintenance-v1` · `active`
+  - Plan：`IGT-202611060006`
+  - 缺少证据：`IGT-202611060006:check-integration`（missing：no run is bound to this evidence requirement）
+  - 最终版本验收：missing
+  - 下一步：pnpm ignite next --plan IGT-202611060006
+  - 未完成原始目标：GOAL-SPEC-LEDGER-OWN 账本期望值由维护计划拥有，可持续刷新
 - `spec-closure-ledger-v1` · `verifying`
   - Plan：`IGT-202611060004`
   - 缺少证据：无

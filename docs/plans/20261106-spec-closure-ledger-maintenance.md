@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-202611060006",
   "release": "spec-closure-ledger-maintenance-v1",
-  "status": "draft",
+  "status": "active",
   "outcome": "账本期望值迁到独立文件，由本计划拥有，使账本可持续刷新",
   "contract_version": 2,
   "execution_contract": 1,
@@ -230,7 +230,7 @@
       "id": "T1",
       "title": "登记规格、计划与断言并提交基线",
       "phase": "prepare",
-      "status": "todo",
+      "status": "done",
       "result": "Feature、计划、发布与断言写入并提交基线，准备检查通过。",
       "scope": [
         "docs/features/spec-closure-ledger-ownership.md",
@@ -468,9 +468,9 @@ tests/contracts/spec-closure-ledger-maintenance.test.ts、node scripts/check-doc
 
 <!-- ignite-progress -->
 
-状态：`draft`（由元数据生成）
+状态：`active`（由元数据生成）
 
-- [ ] T1 · 登记规格、计划与断言并提交基线 · todo
+- [x] T1 · 登记规格、计划与断言并提交基线 · done
 - [ ] T2 · 运行账本断言并记录原生红灯 · todo
 - [ ] T3 · 生成期望值文件并迁移所有权 · todo
 - [ ] T4 · 完成检查与回写 · todo

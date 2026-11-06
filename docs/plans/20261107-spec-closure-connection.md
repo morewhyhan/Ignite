@@ -179,13 +179,11 @@
   ],
   "tdd_evidence": [],
   "required_evidence": [
-    "check-integration"
+    "check-dev"
   ],
   "evidence": [],
   "blocker": null,
-  "open_questions": [
-    "填写目标、受影响的现有 Feature/Design、验收标准与写入范围"
-  ],
+  "open_questions": [],
   "integrated_commit": null,
   "updated_at": "2026-11-07"
 }

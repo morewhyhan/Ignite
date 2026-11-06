@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-202611060006",
   "release": "spec-closure-ledger-maintenance-v1",
-  "status": "active",
+  "status": "verifying",
   "outcome": "账本期望值迁到独立文件，由本计划拥有，使账本可持续刷新",
   "contract_version": 2,
   "execution_contract": 1,
@@ -1034,7 +1034,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "f2e9c66229123203a894970bb7079f357309c0c4",
+  "integrated_commit": "3779656364fab496c15f159a5e3880e0a1c230c3",
   "updated_at": "2026-11-06"
 }
 -->
@@ -1157,7 +1157,7 @@ tests/contracts/spec-closure-ledger-maintenance.test.ts、node scripts/check-doc
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`verifying`（由元数据生成）
 
 - [x] T1 · 登记规格、计划与断言并提交基线 · done
 - [x] T2 · 运行账本断言并记录原生红灯 · done

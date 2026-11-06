@@ -1,0 +1,64 @@
+{
+  "schema": 2,
+  "run_id": "run-20261106080856-b38169",
+  "check_policy_version": 7,
+  "plan_id": "IGT-202611060006",
+  "evidence_id": "check-release",
+  "level": "release",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-11-06T08:10:02.174Z",
+  "ended_at": "2026-11-06T08:16:59.011Z",
+  "commit": "f8e7ac253758f91257da3e9e61a8d9ca622cff1c",
+  "input_fingerprint": "0a86913d273bcf9d30868e14e8c9c7674d6b485df2715a76ef37976efb1524dc",
+  "environment_fingerprint": "e73ab4a40c6b7141120afff35ca73e610ff1a7311abcaabed94c952c6caed87a",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "e2e_server_mode": "development",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "ff6608b19c73eb2052c57e4e1411591b133769e58137954f79aa2ab4f1e47c88",
+  "acceptance_results": [],
+  "release_id": "spec-closure-ledger-maintenance-v1",
+  "release_fingerprint": "4e719588a513ebe55b02bb09136a37554d79e7291496147fd075289620b568e6",
+  "release_identity": {
+    "package_version": "0.1.0",
+    "tags": []
+  },
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "de9362a5c6f3848ee2a8663a39d8c4fd925a30f5"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 2323
+    },
+    {
+      "label": "build",
+      "command": ["corepack", "pnpm", "build"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 128561
+    },
+    {
+      "label": "e2e-production",
+      "command": ["corepack", "pnpm", "test:e2e:production"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 81086
+    }
+  ],
+  "log_sha256": "3030f187bbcbef7d6ce898ec0a0fef969ff1874ae7fc7ea5e53244487ada5898",
+  "execution_source": "ignite-runner-local"
+}

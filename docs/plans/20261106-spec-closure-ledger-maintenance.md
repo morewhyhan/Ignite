@@ -598,7 +598,12 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261106052058-0ca0d0"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": "d185ff618b0105d579057437452fc3cad00d125a",
@@ -728,7 +733,7 @@ tests/contracts/spec-closure-ledger-maintenance.test.ts、node scripts/check-doc
 - [x] T4 · 完成检查与回写 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20261106052058-0ca0d0
 <!-- /ignite-progress -->
 
 ## 准出条件

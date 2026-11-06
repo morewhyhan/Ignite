@@ -667,7 +667,7 @@
   "evidence": [
     {
       "id": "check-integration",
-      "run_id": "run-20261106093107-88aea1"
+      "run_id": "run-20261106094708-64473d"
     }
   ],
   "blocker": null,
@@ -801,7 +801,7 @@ tests/contracts/spec-closure-ledger-truth.test.ts、node scripts/ignite.mjs vali
 - [x] T4 · 完成检查与回写 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：check-integration / run-20261106093107-88aea1
+证据：check-integration / run-20261106094708-64473d
 <!-- /ignite-progress -->
 
 ## 准出条件

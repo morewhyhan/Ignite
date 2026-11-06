@@ -85,3 +85,11 @@ P4 的完整证据：红灯 `tdd-20261106165854-ff8bb6` 与 `tdd-20261106173522-
 2. `kept` 类条目只有文档声明，没有独立测试证明；
 3. `check-docs` 只扫正文，不校验代码块里的内容；
 4. `check-docs` 的负例没有原生日志，只有断言。
+
+## 八、环境说明
+
+- 运行时以 `.node-version` 与 `packageManager` 为准，默认 WSL/Linux，Node 24。
+- Windows 与 WSL 不共享 `node_modules`：Windows 侧依赖缓存在 `%TEMP%\ignite-node_modules-win`（约 3.0 GB），
+  属于独立缓存，不在仓库内、不被 Git 跟踪；删掉后下次 Windows 侧运行需要重新安装。
+- 本仓库位于 `/mnt/c`（drvfs）时，全量 `pnpm test` 约 12–15 分钟，单个重测试可达 150 秒；
+  这是文件系统开销，不是代码问题。CI 使用本地盘，同套测试显著更快。

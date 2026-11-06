@@ -2,11 +2,11 @@
 
 模板状态：`template-baseline`
 输入指纹：`ad1e95fb6609`
-当前 Plan：1；结构化历史：9；未迁移历史：0
+当前 Plan：0；结构化历史：10；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-1793990498597924061` · `active` · `spec-closure-glossary-v1`
+- 无。
 
 ## 发布范围
 
@@ -27,11 +27,11 @@
   - 缺少证据：无
   - 最终版本验收：missing
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `spec-closure-glossary-v1` · `active`
+- `spec-closure-glossary-v1` · `cancelled`
   - Plan：`IGT-1793990498597924061`
-  - 缺少证据：`IGT-1793990498597924061:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
-  - 下一步：pnpm ignite next --plan IGT-1793990498597924061
+  - 下一步：null
   - 未完成原始目标：GOAL-001 仓库内三组术语与三套状态词唯一定义，两条历史延期项各有处置
 - `spec-closure-ledger-maintenance-v1` · `verifying`
   - Plan：`IGT-202611060006`

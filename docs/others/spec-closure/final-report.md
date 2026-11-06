@@ -93,3 +93,20 @@ P4 的完整证据：红灯 `tdd-20261106165854-ff8bb6` 与 `tdd-20261106173522-
   属于独立缓存，不在仓库内、不被 Git 跟踪；删掉后下次 Windows 侧运行需要重新安装。
 - 本仓库位于 `/mnt/c`（drvfs）时，全量 `pnpm test` 约 12–15 分钟，单个重测试可达 150 秒；
   这是文件系统开销，不是代码问题。CI 使用本地盘，同套测试显著更快。
+
+## 九、P5 的实际结果（未完成，已记录）
+
+术语与状态词的内容已交付：
+
+- `docs/others/glossary.md`：三组术语对照、Plan/证据/Release 三套状态词、两条延期项处置；
+- `docs/others/spec-closure/p0-conclusions.md`：P0 六条逐一结论；
+- `tests/contracts/spec-closure-glossary.test.ts`：三条 AC 的行为断言；
+- `docs/features/spec-closure-glossary.md`：REQ/AC 规格。
+
+但计划 `IGT-1793990498597924061` 被取消，发布 `spec-closure-glossary-v1` 记为 deferred。原因：
+
+> 内容是先写并提交，计划后创建。红灯要求"实现不存在"，而把文件删掉本身就是一次实现改动，同样被 `implementation changed before the first valid red` 拒绝。纯文档改动无法取得原生红灯。
+
+因此 P5 只有内容与文档门禁证据（`docs:check` 通过），没有 Plan 级检查、审查和发布验收。账本中相关条目保持 partial，不升级为 met。
+
+需要决策：是否在 `docs/standards/testing.md` 的红灯纪律里为"仅改文档、不改代码与测试"的改动开一条免红灯通道。开了之后 P5 可重新激活并走完；不开则此限制长期存在。

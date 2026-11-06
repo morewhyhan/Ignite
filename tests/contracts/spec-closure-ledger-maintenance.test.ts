@@ -40,7 +40,7 @@ describe('specification closure ledger ownership', () => {
         .sort()
         .join(',')
     for (const result of ['met', 'kept', 'partial', 'missing'])
-      if (byResult(result) !== [...(expected as Record<string, string[]>)[result]].sort().join(','))
+      if (byResult(result) !== [...(expected as unknown as Record<string, string[]>[result]].sort().join(','))
         gaps.push(result + ' set ' + byResult(result))
     for (const [id, plan] of Object.entries(expected.metPlan ?? {})) {
       const item = ledger.items.find((entry) => entry.id === id)

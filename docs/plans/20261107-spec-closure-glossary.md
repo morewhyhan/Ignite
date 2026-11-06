@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1793990498597924061",
   "release": "spec-closure-glossary-v1",
-  "status": "ready",
+  "status": "active",
   "outcome": "把术语、状态词与两条延期项处置写成可校验文档，消除同一概念多种叫法",
   "contract_version": 2,
   "execution_contract": 1,
@@ -319,7 +319,7 @@ prepare T1 编写真实行为测试后，先独立审查 draft，并提交规格
 
 <!-- ignite-progress -->
 
-状态：`ready`（由元数据生成）
+状态：`active`（由元数据生成）
 
 - [ ] T1 · 确认本轮目标、编写真实测试并提交准备基线 · todo
 - [ ] T2 · 运行真实断言并记录目标行为红灯 · todo

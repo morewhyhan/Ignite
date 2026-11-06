@@ -60,10 +60,15 @@
   "goals": [
     {
       "text": "任务规则由领域层统一裁决",
-      "requirements": ["REQ-SPEC-011"]
+      "requirements": [
+        "REQ-SPEC-011"
+      ]
     }
   ],
-  "constraints": ["现有 API 测试必须全部保持通过", "只新增一个领域文件"],
+  "constraints": [
+    "现有 API 测试必须全部保持通过",
+    "只新增一个领域文件"
+  ],
   "non_goals": [
     "不改 Prisma schema",
     "不改 API 路径与响应形状",
@@ -73,16 +78,27 @@
   "authorization": {
     "source": "用户 2026-11-06 指令：补领域层"
   },
-  "deliverables": ["领域层文件", "路由改为编排", "领域单元测试", "设计回写"],
+  "deliverables": [
+    "领域层文件",
+    "路由改为编排",
+    "领域单元测试",
+    "设计回写"
+  ],
   "remaining_work": [],
   "change_type": "存量改动",
-  "base_commit": "21516a5615ecab6da17c25fc86ccd5286b1ee48e",
-  "requirements": ["REQ-SPEC-011"],
+  "base_commit": "018913e7cef0bbad3f0822758bc92441897004d8",
+  "requirements": [
+    "REQ-SPEC-011"
+  ],
   "acceptance": [
     {
       "id": "AC-SPEC-011",
-      "tests": ["tests/contracts/task-domain.test.ts::[AC-SPEC-011]"],
-      "required_layers": ["unit"],
+      "tests": [
+        "tests/contracts/task-domain.test.ts::[AC-SPEC-011]"
+      ],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
           "test": "tests/contracts/task-domain.test.ts::[AC-SPEC-011]",
@@ -91,7 +107,9 @@
       ]
     }
   ],
-  "verification_requirements": ["unit"],
+  "verification_requirements": [
+    "unit"
+  ],
   "tasks": [
     {
       "id": "T1",
@@ -113,10 +131,17 @@
       "title": "运行领域规则断言并记录红灯",
       "phase": "red",
       "status": "doing",
-      "scope": ["tests/contracts/task-domain.test.ts", "docs/others/evidence/tdd/"],
-      "acceptance": ["AC-SPEC-011"],
+      "scope": [
+        "tests/contracts/task-domain.test.ts",
+        "docs/others/evidence/tdd/"
+      ],
+      "acceptance": [
+        "AC-SPEC-011"
+      ],
       "result": "领域规则测试在实现前失败，红灯记录已提交。",
-      "depends_on": ["T1"],
+      "depends_on": [
+        "T1"
+      ],
       "owner": "ignite-executor"
     },
     {
@@ -124,9 +149,16 @@
       "title": "抽出领域层并接线路由",
       "phase": "implement",
       "status": "todo",
-      "scope": ["src/server/domain/task.ts", "src/server/api/routes/tasks/index.ts"],
-      "acceptance": ["AC-SPEC-011"],
-      "depends_on": ["T2"],
+      "scope": [
+        "src/server/domain/task.ts",
+        "src/server/api/routes/tasks/index.ts"
+      ],
+      "acceptance": [
+        "AC-SPEC-011"
+      ],
+      "depends_on": [
+        "T2"
+      ],
       "result": "路由改为调用领域函数，现有 API 测试全部通过。",
       "owner": "ignite-executor"
     },
@@ -135,9 +167,16 @@
       "title": "完成检查与设计回写",
       "phase": "verify",
       "status": "todo",
-      "scope": ["docs/designs/execution.md", "docs/designs/domain.puml"],
-      "acceptance": ["AC-SPEC-011"],
-      "depends_on": ["T3"],
+      "scope": [
+        "docs/designs/execution.md",
+        "docs/designs/domain.puml"
+      ],
+      "acceptance": [
+        "AC-SPEC-011"
+      ],
+      "depends_on": [
+        "T3"
+      ],
       "result": "集成检查通过；validate --delivery 的全量覆盖确认现有 API 测试未回归；设计文档记录了规则位置。",
       "owner": "ignite-executor"
     }
@@ -198,7 +237,9 @@
     "docs/others/evidence/"
   ],
   "tdd_evidence": [],
-  "required_evidence": ["check-integration"],
+  "required_evidence": [
+    "check-integration"
+  ],
   "evidence": [],
   "blocker": null,
   "open_questions": [],

@@ -296,12 +296,12 @@
   "evidence": [
     {
       "id": "check-integration",
-      "run_id": "run-20261106171327-ff1792"
+      "run_id": "run-20261106174934-c9c500"
     }
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "a7faf781f3b8667e172446e604af50856b21bb83",
+  "integrated_commit": "7e4d046c1c5f0e6f2d3b1a0c9e8d7f6a5b4c3d2e",
   "updated_at": "2026-11-06"
 }
 -->
@@ -440,7 +440,7 @@ pnpm ignite check --plan IGT-1793982738195660699 --level auto 返回 0，
 - [x] T4 · 验证兼容性并回写设计 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：check-integration / run-20261106171327-ff1792
+证据：check-integration / run-20261106174934-c9c500
 <!-- /ignite-progress -->
 
 ## TDD 恢复记录

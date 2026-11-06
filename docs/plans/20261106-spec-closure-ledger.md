@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-202611060004",
   "release": "spec-closure-ledger-v1",
-  "status": "done",
+  "status": "superseded",
   "outcome": "账本为每条差异记录真实实施结果，met 条目必须指向真实计划",
   "contract_version": 2,
   "execution_contract": 1,
@@ -377,24 +377,43 @@
   "goals": [
     {
       "text": "账本每条记录实施结果，且 met 条目有计划",
-      "requirements": ["REQ-SPEC-007"]
+      "requirements": [
+        "REQ-SPEC-007"
+      ]
     }
   ],
-  "constraints": ["不重写条目文本", "不改变负责阶段", "不追溯修改已完成计划证据"],
-  "non_goals": ["不改 P0–P2 的计划与证据", "不重排条目"],
+  "constraints": [
+    "不重写条目文本",
+    "不改变负责阶段",
+    "不追溯修改已完成计划证据"
+  ],
+  "non_goals": [
+    "不改 P0–P2 的计划与证据",
+    "不重排条目"
+  ],
   "authorization": {
     "source": "用户 2026-11-06 收尾 goal 指令"
   },
-  "deliverables": ["带 result 字段的 52 条账本", "账本校验断言", "执行设计回写"],
+  "deliverables": [
+    "带 result 字段的 52 条账本",
+    "账本校验断言",
+    "执行设计回写"
+  ],
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "2bb56368a18b5204b65b3aa7b8dba2fcc3f8f249",
-  "requirements": ["REQ-SPEC-007"],
+  "requirements": [
+    "REQ-SPEC-007"
+  ],
   "acceptance": [
     {
       "id": "AC-SPEC-007",
-      "tests": ["tests/contracts/spec-closure-ledger.test.ts::[AC-SPEC-007]"],
-      "required_layers": ["unit"],
+      "tests": [
+        "tests/contracts/spec-closure-ledger.test.ts::[AC-SPEC-007]"
+      ],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-ledger.test.ts::[AC-SPEC-007]",
@@ -403,7 +422,9 @@
       ]
     }
   ],
-  "verification_requirements": ["unit"],
+  "verification_requirements": [
+    "unit"
+  ],
   "tasks": [
     {
       "id": "T1",
@@ -424,33 +445,52 @@
       "id": "T2",
       "title": "运行账本断言并记录原生红灯",
       "phase": "red",
-      "acceptance": ["AC-SPEC-007"],
+      "acceptance": [
+        "AC-SPEC-007"
+      ],
       "status": "done",
       "result": "账本缺少 result 时断言真实失败并写入原生回执。",
-      "scope": ["tests/contracts/spec-closure-ledger.test.ts", "docs/others/evidence/tdd/"],
-      "depends_on": ["T1"],
+      "scope": [
+        "tests/contracts/spec-closure-ledger.test.ts",
+        "docs/others/evidence/tdd/"
+      ],
+      "depends_on": [
+        "T1"
+      ],
       "owner": "ignite-executor"
     },
     {
       "id": "T3",
       "title": "为 52 条回填实施结果",
       "phase": "implement",
-      "acceptance": ["AC-SPEC-007"],
+      "acceptance": [
+        "AC-SPEC-007"
+      ],
       "status": "done",
       "result": "为 52 条回填 result：met 为 GAP-01（IGT-202611060001，P0 已取消，登记随 b03c24f 落地）、GAP-10（IGT-202611060002）、GAP-20/21/24（IGT-202611060003）；kept 为基线已满足的 11 条（GAP-14/18/25/35/38/39/40/45/48/51/52）；partial 为 GAP-23；其余为 missing。",
-      "scope": ["docs/others/spec-closure/ledger.json"],
-      "depends_on": ["T2"],
+      "scope": [
+        "docs/others/spec-closure/ledger.json"
+      ],
+      "depends_on": [
+        "T2"
+      ],
       "owner": "ignite-executor"
     },
     {
       "id": "T4",
       "title": "完成检查与回写",
       "phase": "verify",
-      "acceptance": ["AC-SPEC-007"],
+      "acceptance": [
+        "AC-SPEC-007"
+      ],
       "status": "done",
       "result": "检查通过，执行设计记录账本结果字段。",
-      "scope": ["docs/designs/execution.md"],
-      "depends_on": ["T3"],
+      "scope": [
+        "docs/designs/execution.md"
+      ],
+      "depends_on": [
+        "T3"
+      ],
       "owner": "ignite-executor"
     }
   ],
@@ -522,7 +562,9 @@
       "run_id": "tdd-20261105203514-5e7d0d"
     }
   ],
-  "required_evidence": ["check-integration"],
+  "required_evidence": [
+    "check-integration"
+  ],
   "evidence": [
     {
       "id": "check-integration",
@@ -532,7 +574,8 @@
   "blocker": null,
   "open_questions": [],
   "integrated_commit": "d2d52ffa2808f2448215cd74acd01d0e6cbaa9b3",
-  "updated_at": "2026-11-05"
+  "updated_at": "2026-11-05",
+  "superseded_by": "IGT-202611060006"
 }
 -->
 
@@ -627,6 +670,8 @@
 在 docs/designs/execution.md 记录账本结果字段。
 
 ## 状态记录
+
+- 2026-11-06：由 IGT-202611060006（账本维护）取代。其验收测试 tests/contracts/spec-closure-ledger.test.ts 已被删除，原红灯与验收证据随之中止有效，不冒充仍然成立。
 
 - 2026-11-06：建立计划；账本没有 result 字段，断言失败。
 - 2026-11-06：契约修正：11 条 keep 属基线已满足，新增 kept；restart 后重取红灯 tdd-20261105203514-5e7d0d（red_commit=8ba3d53）。

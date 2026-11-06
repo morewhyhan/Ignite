@@ -198,24 +198,44 @@
   "goals": [
     {
       "text": "账本期望值不再硬编码在测试里",
-      "requirements": ["REQ-SPEC-009"]
+      "requirements": [
+        "REQ-SPEC-009"
+      ]
     }
   ],
-  "constraints": ["不改账本条目文本与阶段", "旧账本计划按 superseded 处置", "不自动推断 result"],
-  "non_goals": ["不刷新 result 值（仅迁移所有权）", "不改 ledger.json 内容"],
+  "constraints": [
+    "不改账本条目文本与阶段",
+    "旧账本计划按 superseded 处置",
+    "不自动推断 result"
+  ],
+  "non_goals": [
+    "不刷新 result 值（仅迁移所有权）",
+    "不改 ledger.json 内容"
+  ],
   "authorization": {
     "source": "用户 2026-11-06 选择方案 A"
   },
-  "deliverables": ["期望值文件", "维护测试 AC-SPEC-009", "旧计划 superseded 记录", "设计回写"],
+  "deliverables": [
+    "期望值文件",
+    "维护测试 AC-SPEC-009",
+    "旧计划 superseded 记录",
+    "设计回写"
+  ],
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "de9362a5c6f3848ee2a8663a39d8c4fd925a30f5",
-  "requirements": ["REQ-SPEC-009"],
+  "requirements": [
+    "REQ-SPEC-009"
+  ],
   "acceptance": [
     {
       "id": "AC-SPEC-009",
-      "tests": ["tests/contracts/spec-closure-ledger-maintenance.test.ts::[AC-SPEC-009]"],
-      "required_layers": ["unit"],
+      "tests": [
+        "tests/contracts/spec-closure-ledger-maintenance.test.ts::[AC-SPEC-009]"
+      ],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-ledger-maintenance.test.ts::[AC-SPEC-009]",
@@ -224,7 +244,9 @@
       ]
     }
   ],
-  "verification_requirements": ["unit"],
+  "verification_requirements": [
+    "unit"
+  ],
   "tasks": [
     {
       "id": "T1",
@@ -246,40 +268,56 @@
       "id": "T2",
       "title": "运行账本断言并记录原生红灯",
       "phase": "red",
-      "acceptance": ["AC-SPEC-009"],
-      "status": "todo",
+      "acceptance": [
+        "AC-SPEC-009"
+      ],
+      "status": "doing",
       "result": "期望值文件缺失时断言真实失败并写入原生回执。",
       "scope": [
         "tests/contracts/spec-closure-ledger-maintenance.test.ts",
         "docs/others/evidence/tdd/"
       ],
-      "depends_on": ["T1"],
+      "depends_on": [
+        "T1"
+      ],
       "owner": "ignite-executor"
     },
     {
       "id": "T3",
       "title": "生成期望值文件并迁移所有权",
       "phase": "implement",
-      "acceptance": ["AC-SPEC-009"],
+      "acceptance": [
+        "AC-SPEC-009"
+      ],
       "status": "todo",
-      "result": "期望值文件就位、断言通过；旧账本计划标 superseded 并注明其证据因测试删除而失效。",
+      "result": "期望值文件就位、断言通过；旧账本计划标 superseded 并注明证据失效；validatePlan 与 governance 对退场计划跳过验收证据，并要求 superseded_by。",
       "scope": [
         "docs/others/spec-closure/ledger-expectations.json",
         "docs/plans/20261106-spec-closure-ledger.md",
-        "tests/contracts/spec-closure-ledger.test.ts"
+        "tests/contracts/spec-closure-ledger.test.ts",
+        "scripts/ignite/state.mjs",
+        "scripts/ignite/governance.mjs"
       ],
-      "depends_on": ["T2"],
+      "depends_on": [
+        "T2"
+      ],
       "owner": "ignite-executor"
     },
     {
       "id": "T4",
       "title": "完成检查与回写",
       "phase": "verify",
-      "acceptance": ["AC-SPEC-009"],
+      "acceptance": [
+        "AC-SPEC-009"
+      ],
       "status": "todo",
       "result": "检查通过，设计记录期望值所有权。",
-      "scope": ["docs/designs/execution.md"],
-      "depends_on": ["T3"],
+      "scope": [
+        "docs/designs/execution.md"
+      ],
+      "depends_on": [
+        "T3"
+      ],
       "owner": "ignite-executor"
     }
   ],
@@ -344,10 +382,20 @@
     "docs/designs/execution.md",
     "docs/others/evidence/",
     "tests/contracts/spec-closure-ledger-maintenance.test.ts",
-    "tests/contracts/spec-closure-ledger.test.ts"
+    "tests/contracts/spec-closure-ledger.test.ts",
+    "scripts/ignite/state.mjs",
+    "scripts/ignite/governance.mjs"
   ],
-  "tdd_evidence": [],
-  "required_evidence": ["check-integration"],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-SPEC-009",
+      "test": "tests/contracts/spec-closure-ledger-maintenance.test.ts::[AC-SPEC-009]",
+      "run_id": "tdd-20261106040554-c9286a"
+    }
+  ],
+  "required_evidence": [
+    "check-integration"
+  ],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
@@ -471,7 +519,7 @@ tests/contracts/spec-closure-ledger-maintenance.test.ts、node scripts/check-doc
 状态：`active`（由元数据生成）
 
 - [x] T1 · 登记规格、计划与断言并提交基线 · done
-- [ ] T2 · 运行账本断言并记录原生红灯 · todo
+- [ ] T2 · 运行账本断言并记录原生红灯 · doing
 - [ ] T3 · 生成期望值文件并迁移所有权 · todo
 - [ ] T4 · 完成检查与回写 · todo
 

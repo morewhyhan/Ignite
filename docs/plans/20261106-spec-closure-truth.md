@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-202611060007",
   "release": "spec-closure-truth-v1",
-  "status": "verifying",
+  "status": "done",
   "outcome": "账本 met 必须给出可核验的计划与发布引用",
   "contract_version": 2,
   "execution_contract": 1,
@@ -490,6 +490,36 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-06T09:46:26.491Z"
+    },
+    {
+      "stage": "delivery",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent delivery review of IGT-202611060007, final round",
+      "subject_fingerprint": "42b794711862fced816fd736ec39ace4bf3b17d67440af3392d33d683deb6c6c",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "LT7-001",
+          "severity": "blocking",
+          "summary": "Resolved: integrated_commit bound to the run commit 0dc0fce.",
+          "resolved": true
+        },
+        {
+          "id": "LT7-002",
+          "severity": "nonblocking",
+          "summary": "The changed timeout is the AC-PRODUCT-010 test at line 45 (90s to 240s); line 36 is the beforeAll hook.",
+          "resolved": false
+        },
+        {
+          "id": "LT7-003",
+          "severity": "nonblocking",
+          "summary": "base_commit is the plan creation commit; prep diff outside delivery.",
+          "resolved": false
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-06T10:00:49.580Z"
     }
   ],
   "verification_contract": 2,
@@ -498,42 +528,24 @@
   "goals": [
     {
       "text": "met 有可核验引用",
-      "requirements": [
-        "REQ-SPEC-010"
-      ]
+      "requirements": ["REQ-SPEC-010"]
     }
   ],
-  "constraints": [
-    "不改条目文本",
-    "不新增条目"
-  ],
-  "non_goals": [
-    "不重算历史 result",
-    "不改测试断言"
-  ],
+  "constraints": ["不改条目文本", "不新增条目"],
+  "non_goals": ["不重算历史 result", "不改测试断言"],
   "authorization": {
     "source": "用户 2026-11-06 收尾指令"
   },
-  "deliverables": [
-    "账本 result 刷新",
-    "期望值同步",
-    "设计回写"
-  ],
+  "deliverables": ["账本 result 刷新", "期望值同步", "设计回写"],
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "bbec1a834fdb45be7dddfce89a82e4c6a720e3cb",
-  "requirements": [
-    "REQ-SPEC-010"
-  ],
+  "requirements": ["REQ-SPEC-010"],
   "acceptance": [
     {
       "id": "AC-SPEC-010",
-      "tests": [
-        "tests/contracts/spec-closure-ledger-truth.test.ts::[AC-SPEC-010]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "tests": ["tests/contracts/spec-closure-ledger-truth.test.ts::[AC-SPEC-010]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-ledger-truth.test.ts::[AC-SPEC-010]",
@@ -542,9 +554,7 @@
       ]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
@@ -565,9 +575,7 @@
       "id": "T2",
       "title": "运行账本断言并记录红灯",
       "phase": "red",
-      "acceptance": [
-        "AC-SPEC-010"
-      ],
+      "acceptance": ["AC-SPEC-010"],
       "status": "done",
       "result": "账本与期望不一致时断言真实失败。",
       "scope": [
@@ -575,45 +583,32 @@
         "docs/others/evidence/tdd/",
         "tests/contracts/spec-closure-ledger-truth.test.ts"
       ],
-      "depends_on": [
-        "T1"
-      ],
+      "depends_on": ["T1"],
       "owner": "ignite-executor"
     },
     {
       "id": "T3",
       "title": "刷新账本与期望值",
       "phase": "implement",
-      "acceptance": [
-        "AC-SPEC-010"
-      ],
+      "acceptance": ["AC-SPEC-010"],
       "status": "done",
       "result": "账本 result 与期望集合同步，断言通过。",
       "scope": [
         "docs/others/spec-closure/ledger.json",
         "docs/others/spec-closure/ledger-expectations.json"
       ],
-      "depends_on": [
-        "T2"
-      ],
+      "depends_on": ["T2"],
       "owner": "ignite-executor"
     },
     {
       "id": "T4",
       "title": "完成检查与回写",
       "phase": "verify",
-      "acceptance": [
-        "AC-SPEC-010"
-      ],
+      "acceptance": ["AC-SPEC-010"],
       "status": "done",
       "result": "检查通过（run passed）、设计回写；为让 docs-traceability 的 AC-PRODUCT-010 在 drvfs 上跑完，将其超时由 90s 提到 240s（环境让步，已写入 scope）。",
-      "scope": [
-        "docs/designs/execution.md",
-        "tests/contracts/docs-traceability.test.ts"
-      ],
-      "depends_on": [
-        "T3"
-      ],
+      "scope": ["docs/designs/execution.md", "tests/contracts/docs-traceability.test.ts"],
+      "depends_on": ["T3"],
       "owner": "ignite-executor"
     }
   ],
@@ -651,9 +646,7 @@
       "check": "文档检查"
     }
   ],
-  "depends_on": [
-    "IGT-202611060006"
-  ],
+  "depends_on": ["IGT-202611060006"],
   "dependency_contracts": [],
   "shared_files": [
     {
@@ -700,9 +693,7 @@
       "run_id": "tdd-20261106084051-17c394"
     }
   ],
-  "required_evidence": [
-    "check-integration"
-  ],
+  "required_evidence": ["check-integration"],
   "evidence": [
     {
       "id": "check-integration",
@@ -832,7 +823,7 @@ tests/contracts/spec-closure-ledger-truth.test.ts、node scripts/ignite.mjs vali
 
 <!-- ignite-progress -->
 
-状态：`verifying`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 登记规格与计划并提交基线 · done
 - [x] T2 · 运行账本断言并记录红灯 · done

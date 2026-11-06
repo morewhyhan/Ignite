@@ -2,11 +2,11 @@
 
 模板状态：`template-baseline`
 输入指纹：`8c2d77b87847`
-当前 Plan：1；结构化历史：6；未迁移历史：0
+当前 Plan：0；结构化历史：7；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-202611060007` · `verifying` · `spec-closure-truth-v1`
+- 无。
 
 ## 发布范围
 
@@ -50,8 +50,8 @@
   - Plan：`IGT-202611060007`
   - 缺少证据：无
   - 最终版本验收：missing
-  - 下一步：pnpm ignite next --plan IGT-202611060007
-  - 未完成原始目标：GOAL-SPEC-TRUTH 账本与真实交付一致
+  - 下一步：pnpm ignite release verify spec-closure-truth-v1 --plan IGT-202611060007
+  - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题
 

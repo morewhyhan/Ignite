@@ -310,7 +310,7 @@ export function validatePlan(
     ...validatePlanDocument(
       plan.content,
       readRepositoryText('docs/plans/_template.md', historicalCommit),
-      { ignore: value.content_contract === 1 ? [] : contentOnlyHeadings },
+      { contentContract: value.content_contract === 1 },
     ),
   )
   const registry = specificationRegistry(historicalCommit)

@@ -122,9 +122,8 @@ const planFiles = listPlanFiles()
 for (const planFile of planFiles) {
   const plan = readPlan(planFile)
   const contentOnlyHeadings = CONTENT_HEADINGS
-  const ignore = plan.metadata?.content_contract === 1 ? [] : contentOnlyHeadings
   for (const error of validatePlanDocument(plan.content, read('docs/plans/_template.md'), {
-    ignore,
+    contentContract: plan.metadata?.content_contract === 1,
   }))
     fail(`${plan.relativePath}: ${error}`)
   if (plan.metadata?.schema !== 2) {

@@ -1,3 +1,4 @@
+import { CONTENT_HEADINGS } from './content-contract.mjs'
 import { existsSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 
@@ -29,11 +30,11 @@ export function standardRegistryFailures(files, readmeText, isGoverned) {
   return failures
 }
 
-export function validatePlanDocument(content, template, { ignore = [] } = {}) {
+export function validatePlanDocument(content, template, { contentContract = false } = {}) {
   if (template === null) return []
   const actual = new Set(markdownHeadings(content))
   return markdownHeadings(template)
-    .filter((heading) => !ignore.includes(heading))
+    .filter((heading) => contentContract || !CONTENT_HEADINGS.includes(heading))
     .filter((heading) => !actual.has(heading))
     .map((heading) => `missing heading "${heading}"`)
 }

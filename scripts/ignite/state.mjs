@@ -304,7 +304,9 @@ export function validatePlan(
     if (!retired || !value.integrated_commit) return false
     if (!gitCommitExists(value.integrated_commit)) return false
     if (!isAncestor(value.integrated_commit, 'HEAD')) return false
-    const snapshot = runGit(['show', value.integrated_commit + ':' + plan.relativePath], { allowFailure: true })
+    const snapshot = runGit(['show', value.integrated_commit + ':' + plan.relativePath], {
+      allowFailure: true,
+    })
     if (snapshot.exitCode !== 0) return false
     const prior = extractPlanMetadata(snapshot.stdout)
     return ['done', 'verifying'].includes(prior?.value?.status)

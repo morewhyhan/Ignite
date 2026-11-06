@@ -12,7 +12,7 @@
 
 - `spec-closure-content-v1` · `verifying`
   - Plan：`IGT-202611060005`
-  - 缺少证据：`IGT-202611060005:check-integration`（stale：repository or Plan inputs changed after this run）
+  - 缺少证据：无
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-202611060005
   - 未完成原始目标：GOAL-SPEC-CONTENT 声明内容契约的计划必须有实质分析章节

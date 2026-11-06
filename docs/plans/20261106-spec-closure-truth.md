@@ -520,7 +520,12 @@
     }
   ],
   "required_evidence": ["check-dev", "check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261106091412-03f640"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
   "integrated_commit": null,
@@ -650,7 +655,7 @@ tests/contracts/spec-closure-ledger-truth.test.ts、node scripts/ignite.mjs vali
 - [ ] T4 · 完成检查与回写 · todo
 
 验收缺口：未记录；完成仍须实际证据
-证据：尚无
+证据：check-integration / run-20261106091412-03f640
 <!-- /ignite-progress -->
 
 ## 准出条件

@@ -1,7 +1,7 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`710f0f9e01d6`
+输入指纹：`8c2d77b87847`
 当前 Plan：1；结构化历史：6；未迁移历史：0
 
 ## 当前工作
@@ -48,7 +48,7 @@
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `spec-closure-truth-v1` · `active`
   - Plan：`IGT-202611060007`
-  - 缺少证据：`IGT-202611060007:check-dev`（missing：no run is bound to this evidence requirement）、`IGT-202611060007:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：`IGT-202611060007:check-dev`（missing：no run is bound to this evidence requirement）
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-202611060007
   - 未完成原始目标：GOAL-SPEC-TRUTH 账本与真实交付一致

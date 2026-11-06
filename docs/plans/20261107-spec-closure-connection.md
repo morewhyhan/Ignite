@@ -179,7 +179,8 @@
     "tests/contracts/spec-closure-connection.test.ts",
     "docs/designs/",
     "docs/others/design-writeback.md",
-    "docs/features/_template.md"
+    "docs/features/_template.md",
+    "docs/others/evidence/"
   ],
   "tdd_evidence": [],
   "required_evidence": [

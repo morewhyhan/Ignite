@@ -1,12 +1,12 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`8c2d77b87847`
-当前 Plan：0；结构化历史：7；未迁移历史：0
+输入指纹：`3abede4ebe35`
+当前 Plan：1；结构化历史：7；未迁移历史：0
 
 ## 当前工作
 
-- 无。
+- `IGT-202611060008` · `active` · `spec-closure-domain-v1`
 
 ## 发布范围
 
@@ -16,6 +16,12 @@
   - 最终版本验收：stale
   - 下一步：pnpm ignite release verify spec-closure-content-v1 --plan IGT-202611060005
   - 未完成原始目标：无已登记缺口（仍需语义核对）
+- `spec-closure-domain-v1` · `active`
+  - Plan：`IGT-202611060008`
+  - 缺少证据：`IGT-202611060008:check-integration`（missing：no run is bound to this evidence requirement）
+  - 最终版本验收：missing
+  - 下一步：pnpm ignite next --plan IGT-202611060008
+  - 未完成原始目标：GOAL-SPEC-DOMAIN 任务规则由领域层统一裁决
 - `spec-closure-ledger-maintenance-v1` · `verifying`
   - Plan：`IGT-202611060006`
   - 缺少证据：无
@@ -46,10 +52,11 @@
   - 最终版本验收：stale
   - 下一步：pnpm ignite release verify spec-closure-p2-v1 --plan IGT-202611060003
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `spec-closure-truth-v1` · `done`
+- `spec-closure-truth-v1` · `verifying`
   - Plan：`IGT-202611060007`
   - 缺少证据：无
-  - 最终版本验收：passed（692b10141a0f）
+  - 最终版本验收：stale
+  - 下一步：pnpm ignite release verify spec-closure-truth-v1 --plan IGT-202611060007
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 
 ## 结构问题

@@ -3,29 +3,67 @@
   "schema": 2,
   "id": "IGT-202611060008",
   "release": "spec-closure-domain-v1",
-  "status": "draft",
+  "status": "active",
   "outcome": "任务规则集中到领域层，HTTP 入口只负责编排",
   "contract_version": 2,
   "execution_contract": 1,
   "task_contract": 2,
   "planning_contract": 1,
   "review_contract": 1,
-  "reviews": [],
+  "reviews": [
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent draft review of IGT-202611060008, approved after DM-001..005",
+      "subject_fingerprint": "7baac845e10bcdb22867143de61509fa1305bfd1a1b18b3c84ab719ea38bb32a",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "DM-005",
+          "severity": "blocking",
+          "summary": "Resolved: 8 cases cover 4 failures and 4 success/boundary paths.",
+          "resolved": true
+        },
+        {
+          "id": "DM-001",
+          "severity": "blocking",
+          "summary": "Resolved: AC-SPEC-011 is unit-only; API regression covered by validate --delivery.",
+          "resolved": true
+        },
+        {
+          "id": "DM-002",
+          "severity": "nonblocking",
+          "summary": "Resolved: DB constraints are defense-in-depth; zod keeps type/format only.",
+          "resolved": true
+        },
+        {
+          "id": "DM-003",
+          "severity": "nonblocking",
+          "summary": "Resolved: T2 depends_on T1.",
+          "resolved": true
+        },
+        {
+          "id": "DM-004",
+          "severity": "nonblocking",
+          "summary": "Resolved: data_contract adequate; one domain file plus route.",
+          "resolved": true
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-06T11:12:14.805Z"
+    }
+  ],
   "verification_contract": 2,
   "binding_contract": 1,
   "content_contract": 1,
   "goals": [
     {
       "text": "任务规则由领域层统一裁决",
-      "requirements": [
-        "REQ-SPEC-011"
-      ]
+      "requirements": ["REQ-SPEC-011"]
     }
   ],
-  "constraints": [
-    "现有 API 测试必须全部保持通过",
-    "只新增一个领域文件"
-  ],
+  "constraints": ["现有 API 测试必须全部保持通过", "只新增一个领域文件"],
   "non_goals": [
     "不改 Prisma schema",
     "不改 API 路径与响应形状",
@@ -35,27 +73,16 @@
   "authorization": {
     "source": "用户 2026-11-06 指令：补领域层"
   },
-  "deliverables": [
-    "领域层文件",
-    "路由改为编排",
-    "领域单元测试",
-    "设计回写"
-  ],
+  "deliverables": ["领域层文件", "路由改为编排", "领域单元测试", "设计回写"],
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "21516a5615ecab6da17c25fc86ccd5286b1ee48e",
-  "requirements": [
-    "REQ-SPEC-011"
-  ],
+  "requirements": ["REQ-SPEC-011"],
   "acceptance": [
     {
       "id": "AC-SPEC-011",
-      "tests": [
-        "tests/contracts/task-domain.test.ts::[AC-SPEC-011]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "tests": ["tests/contracts/task-domain.test.ts::[AC-SPEC-011]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/task-domain.test.ts::[AC-SPEC-011]",
@@ -64,15 +91,13 @@
       ]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
       "title": "登记规格与计划并提交基线",
       "phase": "prepare",
-      "status": "todo",
+      "status": "done",
       "scope": [
         "docs/plans/20261106-spec-closure-domain.md",
         "docs/plans/releases/spec-closure-domain-v1.json",
@@ -87,18 +112,11 @@
       "id": "T2",
       "title": "运行领域规则断言并记录红灯",
       "phase": "red",
-      "status": "todo",
-      "scope": [
-        "tests/contracts/task-domain.test.ts",
-        "docs/others/evidence/tdd/"
-      ],
-      "acceptance": [
-        "AC-SPEC-011"
-      ],
+      "status": "doing",
+      "scope": ["tests/contracts/task-domain.test.ts", "docs/others/evidence/tdd/"],
+      "acceptance": ["AC-SPEC-011"],
       "result": "领域规则测试在实现前失败，红灯记录已提交。",
-      "depends_on": [
-        "T1"
-      ],
+      "depends_on": ["T1"],
       "owner": "ignite-executor"
     },
     {
@@ -106,16 +124,9 @@
       "title": "抽出领域层并接线路由",
       "phase": "implement",
       "status": "todo",
-      "scope": [
-        "src/server/domain/task.ts",
-        "src/server/api/routes/tasks/index.ts"
-      ],
-      "acceptance": [
-        "AC-SPEC-011"
-      ],
-      "depends_on": [
-        "T2"
-      ],
+      "scope": ["src/server/domain/task.ts", "src/server/api/routes/tasks/index.ts"],
+      "acceptance": ["AC-SPEC-011"],
+      "depends_on": ["T2"],
       "result": "路由改为调用领域函数，现有 API 测试全部通过。",
       "owner": "ignite-executor"
     },
@@ -124,16 +135,9 @@
       "title": "完成检查与设计回写",
       "phase": "verify",
       "status": "todo",
-      "scope": [
-        "docs/designs/execution.md",
-        "docs/designs/domain.puml"
-      ],
-      "acceptance": [
-        "AC-SPEC-011"
-      ],
-      "depends_on": [
-        "T3"
-      ],
+      "scope": ["docs/designs/execution.md", "docs/designs/domain.puml"],
+      "acceptance": ["AC-SPEC-011"],
+      "depends_on": ["T3"],
       "result": "集成检查通过；validate --delivery 的全量覆盖确认现有 API 测试未回归；设计文档记录了规则位置。",
       "owner": "ignite-executor"
     }
@@ -194,9 +198,7 @@
     "docs/others/evidence/"
   ],
   "tdd_evidence": [],
-  "required_evidence": [
-    "check-integration"
-  ],
+  "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
@@ -358,3 +360,16 @@ AC-SPEC-011 只覆盖领域规则（unit 层）；现有 API 测试的回归由 
 交付审查通过。
 无新增失败测试。
 账本对应条目可回填。
+
+<!-- ignite-progress -->
+
+状态：`active`（由元数据生成）
+
+- [x] T1 · 登记规格与计划并提交基线 · done
+- [ ] T2 · 运行领域规则断言并记录红灯 · doing
+- [ ] T3 · 抽出领域层并接线路由 · todo
+- [ ] T4 · 完成检查与设计回写 · todo
+
+验收缺口：未记录；完成仍须实际证据
+证据：尚无
+<!-- /ignite-progress -->

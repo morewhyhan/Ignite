@@ -14,13 +14,16 @@ it('[AC-SPEC-012] marks every design document as current fact or target design',
     const content = readFileSync(join(designs, name), 'utf8')
     return !/^> 状态：(当前事实|目标设计)$/m.test(content)
   })
-  expect(missing, `design documents without a 状态 marker: ${missing.join(', ')}`).toEqual([])
+  expect(missing, '[AC-SPEC-012] target every design document declares a state marker').toEqual([])
 })
 
 it('[AC-SPEC-013] write-back ledger lists every design document and its owning plan', () => {
-  expect(existsSync(ledgerPath), 'docs/others/design-writeback.md is missing').toBe(true)
-  const content = readFileSync(ledgerPath, 'utf8')
-  const missing = designFiles.filter((name) => !content.includes(name))
-  expect(missing, `write-back ledger does not mention: ${missing.join(', ')}`).toEqual([])
-  expect(/IGT-\d{3,}/.test(content), 'write-back ledger has no plan id').toBe(true)
+  const ledger = existsSync(ledgerPath) ? readFileSync(ledgerPath, 'utf8') : ''
+  const problems = []
+  if (!ledger) problems.push('docs/others/design-writeback.md is missing')
+  else {
+    for (const name of designFiles) if (!ledger.includes(name)) problems.push('missing row: ' + name)
+    if (!/IGT-\d{3,}/.test(ledger)) problems.push('no plan id recorded')
+  }
+  expect(problems, '[AC-SPEC-013] target write-back ledger covers every design document').toEqual([])
 })

@@ -486,7 +486,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "3ce73a0",
+  "integrated_commit": "3ce73a0be74721e8f5963314767c8c85591f8a7c",
   "updated_at": "2026-11-06"
 }
 -->

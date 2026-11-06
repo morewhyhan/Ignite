@@ -367,7 +367,7 @@
       "title": "运行账本断言并记录原生红灯",
       "phase": "red",
       "acceptance": ["AC-SPEC-009"],
-      "status": "doing",
+      "status": "done",
       "result": "期望值文件缺失时断言真实失败并写入原生回执。",
       "scope": [
         "tests/contracts/spec-closure-ledger-maintenance.test.ts",
@@ -381,7 +381,7 @@
       "title": "生成期望值文件并迁移所有权",
       "phase": "implement",
       "acceptance": ["AC-SPEC-009"],
-      "status": "todo",
+      "status": "done",
       "result": "期望值文件就位、断言通过；旧账本计划标 superseded 并注明证据失效；validatePlan 与 governance 对退场计划跳过验收证据，并要求 superseded_by。",
       "scope": [
         "docs/others/spec-closure/ledger-expectations.json",
@@ -398,7 +398,7 @@
       "title": "完成检查与回写",
       "phase": "verify",
       "acceptance": ["AC-SPEC-009"],
-      "status": "todo",
+      "status": "done",
       "result": "检查通过，设计记录期望值所有权。",
       "scope": ["docs/designs/execution.md"],
       "depends_on": ["T3"],
@@ -601,9 +601,9 @@ tests/contracts/spec-closure-ledger-maintenance.test.ts、node scripts/check-doc
 状态：`active`（由元数据生成）
 
 - [x] T1 · 登记规格、计划与断言并提交基线 · done
-- [ ] T2 · 运行账本断言并记录原生红灯 · doing
-- [ ] T3 · 生成期望值文件并迁移所有权 · todo
-- [ ] T4 · 完成检查与回写 · todo
+- [x] T2 · 运行账本断言并记录原生红灯 · done
+- [x] T3 · 生成期望值文件并迁移所有权 · done
+- [x] T4 · 完成检查与回写 · done
 
 验收缺口：未记录；完成仍须实际证据
 证据：尚无

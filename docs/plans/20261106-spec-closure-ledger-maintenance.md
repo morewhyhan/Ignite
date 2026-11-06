@@ -652,6 +652,48 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-06T06:48:07.540Z"
+    },
+    {
+      "stage": "delivery",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent review of IGT-202611060006, approved at ff508c7",
+      "subject_fingerprint": "7259702470c590fdd13d3c9b9e846cbb53a2802f1b75c79174f0db0290d50183",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "LM5-002",
+          "severity": "nonblocking",
+          "summary": "Old plan metadata still carries tdd_evidence/evidence to the deleted test; status record explains invalidation.",
+          "resolved": false
+        },
+        {
+          "id": "LM5-001",
+          "severity": "blocking",
+          "summary": "Resolved: governance uses the same three checks as state.",
+          "resolved": true
+        },
+        {
+          "id": "LM5-003",
+          "severity": "nonblocking",
+          "summary": "Resolved: P0 cancelled not exempt.",
+          "resolved": true
+        },
+        {
+          "id": "LM5-004",
+          "severity": "nonblocking",
+          "summary": "Resolved: old plan exempt at its done snapshot.",
+          "resolved": true
+        },
+        {
+          "id": "LM5-005",
+          "severity": "nonblocking",
+          "summary": "Resolved: plan verifying, run passed, expectations consistent.",
+          "resolved": true
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-06T06:49:25.313Z"
     }
   ],
   "verification_contract": 2,

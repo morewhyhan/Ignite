@@ -42,7 +42,7 @@
   ],
   "remaining_work": [],
   "change_type": "存量改动",
-  "base_commit": "aeaddad",
+  "base_commit": "f64a9336cf3f179984935c6cd6a5552057c0a781",
   "requirements": [
     "REQ-SPEC-009"
   ],

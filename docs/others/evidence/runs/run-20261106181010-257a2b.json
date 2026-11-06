@@ -1,0 +1,64 @@
+{
+  "schema": 2,
+  "run_id": "run-20261106181010-257a2b",
+  "check_policy_version": 7,
+  "plan_id": "IGT-1793982738195660699",
+  "evidence_id": "check-release",
+  "level": "release",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-11-06T18:10:50.225Z",
+  "ended_at": "2026-11-06T18:15:53.388Z",
+  "commit": "088cd4de56a7827efa5f70356f4680fb36bb88e2",
+  "input_fingerprint": "e8c3006597538725fb7ede73d1714eb959feb68e5169d0c35850a5b6662dfe57",
+  "environment_fingerprint": "e73ab4a40c6b7141120afff35ca73e610ff1a7311abcaabed94c952c6caed87a",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "e2e_server_mode": "development",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "8e818b39eeb0931ccfc3495df36eeaf314d9f955eaaa1872d6430114d9bbaceb",
+  "acceptance_results": [],
+  "release_id": "spec-closure-connection-v1",
+  "release_fingerprint": "7ac034c51ab9d2b9ebb0abe0514dd993060fd33bdc5654d941c0cd5d94314adf",
+  "release_identity": {
+    "package_version": "0.1.0",
+    "tags": []
+  },
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "7f580c44592870674ed7bfc0b3212dd6ba0c486f"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 1573
+    },
+    {
+      "label": "build",
+      "command": ["corepack", "pnpm", "build"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 105878
+    },
+    {
+      "label": "e2e-production",
+      "command": ["corepack", "pnpm", "test:e2e:production"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 63386
+    }
+  ],
+  "log_sha256": "6e32c4a0f15a2f9ad1005543d7cd76828745eec557c6886d6f3e750fafe9a34a",
+  "execution_source": "ignite-runner-local"
+}

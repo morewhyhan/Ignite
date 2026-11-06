@@ -2,20 +2,19 @@
 
 模板状态：`template-baseline`
 输入指纹：`dc411ac4340f`
-当前 Plan：1；结构化历史：8；未迁移历史：0
+当前 Plan：0；结构化历史：9；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-1793982738195660699` · `verifying` · `spec-closure-connection-v1`
+- 无。
 
 ## 发布范围
 
-- `spec-closure-connection-v1` · `verifying`
+- `spec-closure-connection-v1` · `done`
   - Plan：`IGT-1793982738195660699`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite next --plan IGT-1793982738195660699
-  - 未完成原始目标：GOAL-001 设计文档区分当前事实与目标设计，并留下计划到设计文档的回写台账
+  - 最终版本验收：passed（088cd4de56a7）
+  - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `spec-closure-content-v1` · `verifying`
   - Plan：`IGT-202611060005`
   - 缺少证据：无

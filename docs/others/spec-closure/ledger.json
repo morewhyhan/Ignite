@@ -151,9 +151,9 @@
       "problem": "事实四类无标记",
       "doc_heading": "## 5. 两条基线",
       "stage": "P4",
-      "plan": null,
+      "plan": "IGT-1793982738195660699",
       "disposition": "implement",
-      "result": "missing"
+      "result": "partial"
     },
     {
       "id": "GAP-16",
@@ -191,9 +191,9 @@
       "problem": "不回写设计也能把计划标为完成",
       "doc_heading": "## 12. 验证后的回写",
       "stage": "P4",
-      "plan": null,
+      "plan": "IGT-1793982738195660699",
       "disposition": "implement",
-      "result": "missing"
+      "result": "partial"
     },
     {
       "id": "GAP-20",

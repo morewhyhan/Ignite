@@ -7,10 +7,10 @@
   "scope": [
     {
       "id": "GOAL-001",
-      "text": "待填写原始目标",
-      "source": "待填写来源",
-      "requirements": [],
-      "acceptance": [],
+      "text": "设计文档区分当前事实与目标设计，并留下计划到设计文档的回写台账",
+      "source": "用户 2026-11-06 收尾指令",
+      "requirements": ["REQ-SPEC-012", "REQ-SPEC-013"],
+      "acceptance": ["AC-SPEC-012", "AC-SPEC-013"],
       "plan_ids": ["IGT-1793982738195660699"],
       "disposition": "included",
       "reason": "",

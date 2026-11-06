@@ -6,7 +6,7 @@
 
 ## 当前工作
 
-- `IGT-202611060007` · `active` · `spec-closure-truth-v1`
+- `IGT-202611060007` · `verifying` · `spec-closure-truth-v1`
 
 ## 发布范围
 
@@ -46,15 +46,16 @@
   - 最终版本验收：stale
   - 下一步：pnpm ignite release verify spec-closure-p2-v1 --plan IGT-202611060003
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `spec-closure-truth-v1` · `active`
+- `spec-closure-truth-v1` · `invalid`
   - Plan：`IGT-202611060007`
-  - 缺少证据：`IGT-202611060007:check-dev`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：`IGT-202611060007:check-dev`（missing：no run is bound to this evidence requirement）、`IGT-202611060007:check-integration`（stale：repository or Plan inputs changed after this run）
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-202611060007
   - 未完成原始目标：GOAL-SPEC-TRUTH 账本与真实交付一致
 
 ## 结构问题
 
-- 无。
+- docs/plans/20261106-spec-closure-truth.md: draft review fingerprint is stale or does not match the current object
+- docs/plans/20261106-spec-closure-truth.md: integrated_commit does not contain the current Plan contract
 
 > 本文件是确定性派生视图；修改 Plan 或 Release 机器源后重新生成。

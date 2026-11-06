@@ -136,6 +136,48 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-06T11:21:02.101Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent draft review of IGT-202611060008, approved after DM-001..005",
+      "subject_fingerprint": "7b26dede6d3ecf28d2b5a23c0cb1fcf265c4afd94b76559b184ce14f0d412edf",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "DM-005",
+          "severity": "blocking",
+          "summary": "Resolved: 8 cases cover 4 failures and 4 success/boundary paths.",
+          "resolved": true
+        },
+        {
+          "id": "DM-001",
+          "severity": "blocking",
+          "summary": "Resolved: AC-SPEC-011 is unit-only; API regression covered by validate --delivery.",
+          "resolved": true
+        },
+        {
+          "id": "DM-002",
+          "severity": "nonblocking",
+          "summary": "Resolved: DB constraints are defense-in-depth; zod keeps type/format only.",
+          "resolved": true
+        },
+        {
+          "id": "DM-003",
+          "severity": "nonblocking",
+          "summary": "Resolved: T2 depends_on T1.",
+          "resolved": true
+        },
+        {
+          "id": "DM-004",
+          "severity": "nonblocking",
+          "summary": "Resolved: data_contract adequate; one domain file plus route.",
+          "resolved": true
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-06T11:21:57.327Z"
     }
   ],
   "verification_contract": 2,

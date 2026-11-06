@@ -10,52 +10,43 @@
   "task_contract": 2,
   "planning_contract": 1,
   "review_contract": 1,
-  "reviews": [],
+  "reviews": [
+    {
+      "reviewer": "ignite-reviewer",
+      "executor": "ignite-executor",
+      "source": "docs/plans/README.md draft review checklist",
+      "stage": "draft",
+      "identity_assurance": "declared",
+      "verdict": "approved",
+      "subject_fingerprint": "ef1cd4afe5819a848139357db0f32a090818f19f35b6db24cdca153dedacbb41",
+      "findings": [],
+      "recorded_at": "2026-11-06T19:18:16.228Z"
+    }
+  ],
   "verification_contract": 2,
   "goals": [
     {
       "id": "GOAL-001",
       "text": "三组术语与三套状态词唯一定义，两条延期项各有处置",
-      "requirements": [
-        "REQ-SPEC-014",
-        "REQ-SPEC-015",
-        "REQ-SPEC-016"
-      ]
+      "requirements": ["REQ-SPEC-014", "REQ-SPEC-015", "REQ-SPEC-016"]
     }
   ],
-  "constraints": [
-    "只新增与校验文档，不改运行时代码",
-    "既有 290 条测试必须保持通过"
-  ],
-  "non_goals": [
-    "不引入文档定稿状态机",
-    "不实现领域事件"
-  ],
+  "constraints": ["只新增与校验文档，不改运行时代码", "既有 290 条测试必须保持通过"],
+  "non_goals": ["不引入文档定稿状态机", "不实现领域事件"],
   "authorization": {
     "source": "用户在规格闭环收尾任务中列出 T3 词表与迁移、T4 P0 六条结论"
   },
-  "deliverables": [
-    "docs/others/glossary.md",
-    "docs/others/spec-closure/p0-conclusions.md"
-  ],
+  "deliverables": ["docs/others/glossary.md", "docs/others/spec-closure/p0-conclusions.md"],
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "dd98484b2a93c17e01eecefa7f6d4bcc865f3dac",
-  "requirements": [
-    "REQ-SPEC-014",
-    "REQ-SPEC-015",
-    "REQ-SPEC-016"
-  ],
+  "requirements": ["REQ-SPEC-014", "REQ-SPEC-015", "REQ-SPEC-016"],
   "acceptance": [
     {
       "id": "AC-SPEC-014",
       "title": "术语表列出三组对照",
-      "required_layers": [
-        "unit"
-      ],
-      "tests": [
-        "tests/contracts/spec-closure-glossary.test.ts::[AC-SPEC-014]"
-      ],
+      "required_layers": ["unit"],
+      "tests": ["tests/contracts/spec-closure-glossary.test.ts::[AC-SPEC-014]"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-glossary.test.ts::[AC-SPEC-014]",
@@ -66,12 +57,8 @@
     {
       "id": "AC-SPEC-015",
       "title": "三套状态词齐备且互不冒充",
-      "required_layers": [
-        "unit"
-      ],
-      "tests": [
-        "tests/contracts/spec-closure-glossary.test.ts::[AC-SPEC-015]"
-      ],
+      "required_layers": ["unit"],
+      "tests": ["tests/contracts/spec-closure-glossary.test.ts::[AC-SPEC-015]"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-glossary.test.ts::[AC-SPEC-015]",
@@ -82,12 +69,8 @@
     {
       "id": "AC-SPEC-016",
       "title": "两条延期项各有处置",
-      "required_layers": [
-        "unit"
-      ],
-      "tests": [
-        "tests/contracts/spec-closure-glossary.test.ts::[AC-SPEC-016]"
-      ],
+      "required_layers": ["unit"],
+      "tests": ["tests/contracts/spec-closure-glossary.test.ts::[AC-SPEC-016]"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-glossary.test.ts::[AC-SPEC-016]",
@@ -96,9 +79,7 @@
       ]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
@@ -115,7 +96,7 @@
         "tests/contracts/spec-closure-glossary.test.ts"
       ],
       "depends_on": [],
-      "owner": "assigned-worker"
+      "owner": "ignite-executor"
     },
     {
       "id": "T2",
@@ -132,10 +113,8 @@
         "docs/others/spec-closure/p0-conclusions.md",
         "tests/contracts/spec-closure-glossary.test.ts"
       ],
-      "depends_on": [
-        "T1"
-      ],
-      "owner": "assigned-worker"
+      "depends_on": ["T1"],
+      "owner": "ignite-executor"
     },
     {
       "id": "T3",
@@ -152,10 +131,8 @@
         "docs/others/spec-closure/p0-conclusions.md",
         "tests/contracts/spec-closure-glossary.test.ts"
       ],
-      "depends_on": [
-        "T2"
-      ],
-      "owner": "assigned-worker"
+      "depends_on": ["T2"],
+      "owner": "ignite-executor"
     },
     {
       "id": "T4",
@@ -171,10 +148,8 @@
         "docs/others/spec-closure/p0-conclusions.md",
         "tests/contracts/spec-closure-glossary.test.ts"
       ],
-      "depends_on": [
-        "T3"
-      ],
-      "owner": "assigned-worker"
+      "depends_on": ["T3"],
+      "owner": "ignite-executor"
     }
   ],
   "depends_on": [],
@@ -186,7 +161,7 @@
     "tests": [],
     "remaining": []
   },
-  "owner": "assigned-worker",
+  "owner": "ignite-executor",
   "risk": "feature",
   "data_contract": {
     "access_scope": "not-decided",
@@ -204,14 +179,10 @@
     "tests/contracts/spec-closure-glossary.test.ts"
   ],
   "tdd_evidence": [],
-  "required_evidence": [
-    "check-integration"
-  ],
+  "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
-  "open_questions": [
-    "填写目标、受影响的现有 Feature/Design、验收标准与写入范围"
-  ],
+  "open_questions": ["填写目标、受影响的现有 Feature/Design、验收标准与写入范围"],
   "integrated_commit": null,
   "updated_at": "2026-11-07"
 }
@@ -344,7 +315,7 @@ prepare T1 编写真实行为测试后，先独立审查 draft，并提交规格
 - [ ] T3 · 实现已定义的行为切片 · todo
 - [ ] T4 · 验证兼容性并回写当前设计 · todo
 
-验收缺口：原始目标尚未细化，无法确认完整验收场景
+验收缺口：未记录；完成仍须实际证据
 证据：尚无
 <!-- /ignite-progress -->
 

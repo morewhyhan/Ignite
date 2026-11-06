@@ -94,6 +94,48 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-06T08:34:08.007Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent draft review of IGT-202611060007, approved after LT4 fixes",
+      "subject_fingerprint": "fd525952665278d1799e94bf44dabac1ccc7298b9c64e0461781d7320f472e86",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "LT5-001",
+          "severity": "nonblocking",
+          "summary": "done plans are not re-checked for a real integrated commit in the test helper.",
+          "resolved": false
+        },
+        {
+          "id": "LT5-002",
+          "severity": "nonblocking",
+          "summary": "release scope is not item-specific; matches the feature non-goal.",
+          "resolved": true
+        },
+        {
+          "id": "LT5-003",
+          "severity": "nonblocking",
+          "summary": "base_commit is the plan creation commit; prep diff outside delivery.",
+          "resolved": false
+        },
+        {
+          "id": "LT4-001",
+          "severity": "blocking",
+          "summary": "Resolved: snapshot status done/verifying enforced.",
+          "resolved": true
+        },
+        {
+          "id": "LT4-002",
+          "severity": "blocking",
+          "summary": "Resolved: data reverted before red; genuine pre-implementation failure.",
+          "resolved": true
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-06T08:43:06.993Z"
     }
   ],
   "verification_contract": 2,
@@ -102,42 +144,24 @@
   "goals": [
     {
       "text": "met 有可核验引用",
-      "requirements": [
-        "REQ-SPEC-010"
-      ]
+      "requirements": ["REQ-SPEC-010"]
     }
   ],
-  "constraints": [
-    "不改条目文本",
-    "不新增条目"
-  ],
-  "non_goals": [
-    "不重算历史 result",
-    "不改测试断言"
-  ],
+  "constraints": ["不改条目文本", "不新增条目"],
+  "non_goals": ["不重算历史 result", "不改测试断言"],
   "authorization": {
     "source": "用户 2026-11-06 收尾指令"
   },
-  "deliverables": [
-    "账本 result 刷新",
-    "期望值同步",
-    "设计回写"
-  ],
+  "deliverables": ["账本 result 刷新", "期望值同步", "设计回写"],
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "bbec1a834fdb45be7dddfce89a82e4c6a720e3cb",
-  "requirements": [
-    "REQ-SPEC-010"
-  ],
+  "requirements": ["REQ-SPEC-010"],
   "acceptance": [
     {
       "id": "AC-SPEC-010",
-      "tests": [
-        "tests/contracts/spec-closure-ledger-truth.test.ts::[AC-SPEC-010]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "tests": ["tests/contracts/spec-closure-ledger-truth.test.ts::[AC-SPEC-010]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-ledger-truth.test.ts::[AC-SPEC-010]",
@@ -146,9 +170,7 @@
       ]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
@@ -169,9 +191,7 @@
       "id": "T2",
       "title": "运行账本断言并记录红灯",
       "phase": "red",
-      "acceptance": [
-        "AC-SPEC-010"
-      ],
+      "acceptance": ["AC-SPEC-010"],
       "status": "doing",
       "result": "账本与期望不一致时断言真实失败。",
       "scope": [
@@ -179,44 +199,32 @@
         "docs/others/evidence/tdd/",
         "tests/contracts/spec-closure-ledger-truth.test.ts"
       ],
-      "depends_on": [
-        "T1"
-      ],
+      "depends_on": ["T1"],
       "owner": "ignite-executor"
     },
     {
       "id": "T3",
       "title": "刷新账本与期望值",
       "phase": "implement",
-      "acceptance": [
-        "AC-SPEC-010"
-      ],
+      "acceptance": ["AC-SPEC-010"],
       "status": "todo",
       "result": "账本 result 与期望集合同步，断言通过。",
       "scope": [
         "docs/others/spec-closure/ledger.json",
         "docs/others/spec-closure/ledger-expectations.json"
       ],
-      "depends_on": [
-        "T2"
-      ],
+      "depends_on": ["T2"],
       "owner": "ignite-executor"
     },
     {
       "id": "T4",
       "title": "完成检查与回写",
       "phase": "verify",
-      "acceptance": [
-        "AC-SPEC-010"
-      ],
+      "acceptance": ["AC-SPEC-010"],
       "status": "todo",
       "result": "检查通过，设计记录刷新规则。",
-      "scope": [
-        "docs/designs/execution.md"
-      ],
-      "depends_on": [
-        "T3"
-      ],
+      "scope": ["docs/designs/execution.md"],
+      "depends_on": ["T3"],
       "owner": "ignite-executor"
     }
   ],
@@ -254,9 +262,7 @@
       "check": "文档检查"
     }
   ],
-  "depends_on": [
-    "IGT-202611060006"
-  ],
+  "depends_on": ["IGT-202611060006"],
   "dependency_contracts": [],
   "shared_files": [
     {
@@ -302,10 +308,7 @@
       "run_id": "tdd-20261106084051-17c394"
     }
   ],
-  "required_evidence": [
-    "check-dev",
-    "check-integration"
-  ],
+  "required_evidence": ["check-dev", "check-integration"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],

@@ -307,7 +307,7 @@ export function validatePlan(
     const snapshot = runGit(['show', value.integrated_commit + ':' + plan.relativePath], { allowFailure: true })
     if (snapshot.exitCode !== 0) return false
     const prior = extractPlanMetadata(snapshot.stdout)
-    return ['done', 'verifying'].includes(prior?.status)
+    return ['done', 'verifying'].includes(prior?.value?.status)
   })()
   const retiredExempt = priorCompletedAt
   const draft = value.status === 'draft'

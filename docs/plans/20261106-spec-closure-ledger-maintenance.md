@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-202611060006",
   "release": "spec-closure-ledger-maintenance-v1",
-  "status": "done",
+  "status": "active",
   "outcome": "账本期望值迁到独立文件，由本计划拥有，使账本可持续刷新",
   "contract_version": 2,
   "execution_contract": 1,

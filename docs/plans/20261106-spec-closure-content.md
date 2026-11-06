@@ -658,3 +658,7 @@
 ## TDD 恢复记录
 
 2026-11-06，AC-SPEC-008：prettier formatted the test again。保留原回执 tdd-20261106025135-30cf2f；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。
+
+## TDD 恢复记录
+
+2026-11-05，AC-SPEC-008：first red run was superseded before the test stabilised。保留原回执 tdd-20261105215925-771c7c；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。

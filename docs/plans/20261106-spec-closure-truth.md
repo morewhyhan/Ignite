@@ -16,9 +16,9 @@
   "content_contract": 1,
   "goals": [
     {
-      "text": "账本反映真实交付",
+      "text": "账本 met 必须可核验",
       "requirements": [
-        "REQ-SPEC-009"
+        "REQ-SPEC-010"
       ]
     }
   ],
@@ -42,20 +42,20 @@
   "change_type": "存量改动",
   "base_commit": "bbec1a834fdb45be7dddfce89a82e4c6a720e3cb",
   "requirements": [
-    "REQ-SPEC-009"
+    "REQ-SPEC-010"
   ],
   "acceptance": [
     {
-      "id": "AC-SPEC-009",
+      "id": "AC-SPEC-010",
       "tests": [
-        "tests/contracts/spec-closure-ledger-maintenance.test.ts::[AC-SPEC-009]"
+        "tests/contracts/spec-closure-ledger-truth.test.ts::[AC-SPEC-010]"
       ],
       "required_layers": [
         "unit"
       ],
       "checks": [
         {
-          "test": "tests/contracts/spec-closure-ledger-maintenance.test.ts::[AC-SPEC-009]",
+          "test": "tests/contracts/spec-closure-ledger-truth.test.ts::[AC-SPEC-010]",
           "layer": "unit"
         }
       ]
@@ -73,7 +73,9 @@
       "result": "规格、计划、发布与基线提交完成，准备检查通过。",
       "scope": [
         "docs/plans/20261106-spec-closure-truth.md",
-        "docs/plans/releases/spec-closure-truth-v1.json"
+        "docs/plans/releases/spec-closure-truth-v1.json",
+        "docs/features/spec-closure-truth.md",
+        "tests/contracts/spec-closure-ledger-truth.test.ts"
       ],
       "depends_on": [],
       "owner": "ignite-executor"
@@ -83,13 +85,14 @@
       "title": "运行账本断言并记录红灯",
       "phase": "red",
       "acceptance": [
-        "AC-SPEC-009"
+        "AC-SPEC-010"
       ],
       "status": "todo",
       "result": "账本与期望不一致时断言真实失败。",
       "scope": [
         "docs/others/spec-closure/ledger.json",
-        "docs/others/evidence/tdd/"
+        "docs/others/evidence/tdd/",
+        "tests/contracts/spec-closure-ledger-truth.test.ts"
       ],
       "depends_on": [
         "T1"
@@ -101,7 +104,7 @@
       "title": "刷新账本与期望值",
       "phase": "implement",
       "acceptance": [
-        "AC-SPEC-009"
+        "AC-SPEC-010"
       ],
       "status": "todo",
       "result": "账本 result 与期望集合同步，断言通过。",
@@ -119,7 +122,7 @@
       "title": "完成检查与回写",
       "phase": "verify",
       "acceptance": [
-        "AC-SPEC-009"
+        "AC-SPEC-010"
       ],
       "status": "todo",
       "result": "检查通过，设计记录刷新规则。",
@@ -135,19 +138,19 @@
   "bindings": [
     {
       "id": "BIND-001",
-      "source": "REQ-SPEC-009",
+      "source": "REQ-SPEC-010",
       "applicable": "本轮产品要求",
       "status": "met",
       "task": "T3",
-      "check": "AC-SPEC-009"
+      "check": "AC-SPEC-010"
     },
     {
       "id": "BIND-002",
-      "source": "AC-SPEC-009",
+      "source": "AC-SPEC-010",
       "applicable": "本轮验收",
       "status": "missing",
       "task": "T2",
-      "check": "AC-SPEC-009"
+      "check": "AC-SPEC-010"
     },
     {
       "id": "BIND-003",
@@ -155,7 +158,7 @@
       "applicable": "闭环要求判断成立",
       "status": "missing",
       "task": "T3",
-      "check": "AC-SPEC-009"
+      "check": "AC-SPEC-010"
     },
     {
       "id": "BIND-004",
@@ -163,7 +166,7 @@
       "applicable": "执行设计记录规则",
       "status": "missing",
       "task": "T4",
-      "check": "AC-SPEC-009"
+      "check": "文档检查"
     }
   ],
   "depends_on": [
@@ -201,7 +204,9 @@
     "docs/others/spec-closure/ledger.json",
     "docs/others/spec-closure/ledger-expectations.json",
     "docs/designs/execution.md",
-    "docs/others/evidence/"
+    "docs/others/evidence/",
+    "docs/features/spec-closure-truth.md",
+    "tests/contracts/spec-closure-ledger-truth.test.ts"
   ],
   "tdd_evidence": [],
   "required_evidence": [
@@ -231,7 +236,7 @@
 
 | 用户原话 | 本轮目标 | REQ | AC | 处理结果 |
 | --- | --- | --- | --- | --- |
-| 账本每条 result 与代码一致 | 刷新账本 | REQ-SPEC-009 | AC-SPEC-009 | 保留 |
+| 账本每条 result 与代码一致 | 刷新账本 | REQ-SPEC-010 | AC-SPEC-010 | 保留 |
 
 ## 整体判断与推进顺序
 
@@ -242,21 +247,21 @@
 
 ## 来源规格
 
-- 需求：docs/features/spec-closure-ledger-ownership.md（REQ-SPEC-009 / AC-SPEC-009）。
+- 需求：docs/features/spec-closure-truth.md（REQ-SPEC-010 / AC-SPEC-010）。
 - 标准：docs/standards/specification-to-implementation-ddd.md。
 - 决策：账本维护计划 IGT-202611060006 已交付期望值机制。
 
 ## 目标映射
 
-- REQ-SPEC-009 → BIND-001 → T3。
-- AC-SPEC-009 → BIND-002 → T2/T3。
+- REQ-SPEC-010 → BIND-001 → T3。
+- AC-SPEC-010 → BIND-002 → T2/T3。
 
 ## 约束绑定矩阵
 
 | Source ID | Binding | 任务 | 验证 |
 | --- | --- | --- | --- |
-| REQ-SPEC-009 | BIND-001 | T3 | AC-SPEC-009 |
-| AC-SPEC-009 | BIND-002 | T2 | AC-SPEC-009 |
+| REQ-SPEC-010 | BIND-001 | T3 | AC-SPEC-010 |
+| AC-SPEC-010 | BIND-002 | T2 | AC-SPEC-010 |
 
 矩阵逐行回指真源与验证方式。
 每行都必须能在账本或测试中找到对应位置。
@@ -315,7 +320,7 @@
 
 ## 验收方式
 
-tests/contracts/spec-closure-ledger-maintenance.test.ts、node scripts/ignite.mjs validate、ignite check --plan IGT-202611060007 --level integration。
+tests/contracts/spec-closure-ledger-truth.test.ts、node scripts/ignite.mjs validate、ignite check --plan IGT-202611060007 --level integration。
 
 ## 设计回写
 

@@ -12,10 +12,10 @@
       "text": "账本与真实交付一致",
       "source": "用户 2026-11-06 收尾指令",
       "requirements": [
-        "REQ-SPEC-009"
+        "REQ-SPEC-010"
       ],
       "acceptance": [
-        "AC-SPEC-009"
+        "AC-SPEC-010"
       ],
       "plan_ids": [
         "IGT-202611060007"

@@ -410,7 +410,13 @@
     "scripts/ignite/state.mjs",
     "scripts/ignite/governance.mjs"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-SPEC-009",
+      "test": "tests/contracts/spec-closure-ledger-maintenance.test.ts::[AC-SPEC-009]",
+      "run_id": "tdd-20261106044038-96dee2"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,

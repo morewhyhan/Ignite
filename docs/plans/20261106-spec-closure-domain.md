@@ -51,10 +51,7 @@
     {
       "id": "AC-SPEC-011",
       "tests": [
-        "tests/contracts/task-domain.test.ts::[AC-SPEC-011]",
-        "tests/api/tasks.test.ts::[AC-TASKS-003]",
-        "tests/api/tasks.test.ts::[AC-PRODUCT-013]",
-        "tests/api/tasks.test.ts::[AC-TASKS-004]"
+        "tests/contracts/task-domain.test.ts::[AC-SPEC-011]"
       ],
       "required_layers": [
         "unit"
@@ -62,18 +59,6 @@
       "checks": [
         {
           "test": "tests/contracts/task-domain.test.ts::[AC-SPEC-011]",
-          "layer": "unit"
-        },
-        {
-          "test": "tests/api/tasks.test.ts::[AC-TASKS-003]",
-          "layer": "unit"
-        },
-        {
-          "test": "tests/api/tasks.test.ts::[AC-PRODUCT-013]",
-          "layer": "unit"
-        },
-        {
-          "test": "tests/api/tasks.test.ts::[AC-TASKS-004]",
           "layer": "unit"
         }
       ]
@@ -149,7 +134,7 @@
       "depends_on": [
         "T3"
       ],
-      "result": "集成检查通过且设计文档记录了规则位置。",
+      "result": "集成检查通过；validate --delivery 的全量覆盖确认现有 API 测试未回归；设计文档记录了规则位置。",
       "owner": "ignite-executor"
     }
   ],
@@ -349,7 +334,7 @@ T4 检查与回写。
 ## 验收方式
 
 check --plan IGT-202611060008 --level integration 必须退出码为零。
-现有 API 测试必须全部仍通过。
+AC-SPEC-011 只覆盖领域规则（unit 层）；现有 API 测试的回归由 validate --delivery 的全量覆盖保证，不在本 AC 内重复绑定。
 新增单元测试必须覆盖三类失败。
 三条同时满足才算通过。
 

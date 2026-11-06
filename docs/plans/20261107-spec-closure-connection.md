@@ -82,11 +82,20 @@
   "goals": [
     {
       "text": "设计文档区分当前事实与目标设计，并留下计划到设计文档的回写台账",
-      "requirements": ["REQ-SPEC-012", "REQ-SPEC-013"]
+      "requirements": [
+        "REQ-SPEC-012",
+        "REQ-SPEC-013"
+      ]
     }
   ],
-  "constraints": ["只改文档与测试，不改业务代码", "标记必须可机器检查"],
-  "non_goals": ["重写设计正文", "把检查并入 check-docs 门禁"],
+  "constraints": [
+    "只改文档与测试，不改业务代码",
+    "标记必须可机器检查"
+  ],
+  "non_goals": [
+    "重写设计正文",
+    "把检查并入 check-docs 门禁"
+  ],
   "authorization": {
     "source": "用户 2026-11-06 收尾指令：设计文档区分当前事实与目标设计并加回写总表"
   },
@@ -98,32 +107,45 @@
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "7f580c44592870674ed7bfc0b3212dd6ba0c486f",
-  "requirements": ["REQ-SPEC-012", "REQ-SPEC-013"],
+  "requirements": [
+    "REQ-SPEC-012",
+    "REQ-SPEC-013"
+  ],
   "acceptance": [
     {
       "id": "AC-SPEC-012",
-      "tests": ["tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-012]"],
-      "required_layers": ["unit"],
+      "tests": [
+        "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-012] marks every design document as current fact or target design"
+      ],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
-          "test": "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-012]",
+          "test": "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-012] marks every design document as current fact or target design",
           "layer": "unit"
         }
       ]
     },
     {
       "id": "AC-SPEC-013",
-      "tests": ["tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-013]"],
-      "required_layers": ["unit"],
+      "tests": [
+        "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-013] write-back ledger lists every design document and its owning plan"
+      ],
+      "required_layers": [
+        "unit"
+      ],
       "checks": [
         {
-          "test": "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-013]",
+          "test": "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-013] write-back ledger lists every design document and its owning plan",
           "layer": "unit"
         }
       ]
     }
   ],
-  "verification_requirements": ["unit"],
+  "verification_requirements": [
+    "unit"
+  ],
   "tasks": [
     {
       "id": "T1",
@@ -144,33 +166,58 @@
       "id": "T2",
       "title": "运行真实断言并记录目标行为红灯",
       "phase": "red",
-      "acceptance": ["AC-SPEC-012", "AC-SPEC-013"],
+      "acceptance": [
+        "AC-SPEC-012",
+        "AC-SPEC-013"
+      ],
       "status": "doing",
       "result": "原生 red 运行确认已提交测试的目标断言失败，并记录真实红灯。",
-      "scope": ["tests/contracts/spec-closure-connection.test.ts", "docs/others/evidence/tdd/"],
-      "depends_on": ["T1"],
+      "scope": [
+        "tests/contracts/spec-closure-connection.test.ts",
+        "docs/others/evidence/tdd/"
+      ],
+      "depends_on": [
+        "T1"
+      ],
       "owner": "ignite-executor"
     },
     {
       "id": "T3",
       "title": "实现标记、台账与模板顺序",
       "phase": "implement",
-      "acceptance": ["AC-SPEC-012", "AC-SPEC-013"],
+      "acceptance": [
+        "AC-SPEC-012",
+        "AC-SPEC-013"
+      ],
       "status": "todo",
       "result": "设计文档带状态标记，回写台账覆盖全部设计文档，断言通过。",
-      "scope": ["docs/designs/", "docs/others/design-writeback.md", "docs/features/_template.md"],
-      "depends_on": ["T2"],
+      "scope": [
+        "docs/designs/",
+        "docs/others/design-writeback.md",
+        "docs/features/_template.md"
+      ],
+      "depends_on": [
+        "T2"
+      ],
       "owner": "ignite-executor"
     },
     {
       "id": "T4",
       "title": "验证兼容性并回写设计",
       "phase": "verify",
-      "acceptance": ["AC-SPEC-012", "AC-SPEC-013"],
+      "acceptance": [
+        "AC-SPEC-012",
+        "AC-SPEC-013"
+      ],
       "status": "todo",
       "result": "Plan integration 与交付审查通过，设计文档记录实际结果。",
-      "scope": ["docs/designs/", "docs/others/evidence/"],
-      "depends_on": ["T3"],
+      "scope": [
+        "docs/designs/",
+        "docs/others/evidence/"
+      ],
+      "depends_on": [
+        "T3"
+      ],
       "owner": "ignite-executor"
     }
   ],
@@ -209,7 +256,9 @@
       "run_id": "tdd-20261106164431-4f1304"
     }
   ],
-  "required_evidence": ["check-integration"],
+  "required_evidence": [
+    "check-integration"
+  ],
   "evidence": [],
   "blocker": null,
   "open_questions": [],

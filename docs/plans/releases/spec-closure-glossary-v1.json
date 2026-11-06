@@ -24,8 +24,8 @@
       "plan_ids": [
         "IGT-1793990498597924061"
       ],
-      "disposition": "included",
-      "reason": "",
+      "disposition": "deferred",
+      "reason": "内容已写在 docs/others/glossary.md 与 p0-conclusions.md，但文档类改动无法取得原生红灯，计划已取消；待确定是否为此类改动设立豁免通道",
       "authorization": ""
     }
   ],

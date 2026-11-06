@@ -1,7 +1,7 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`fc1b4b01dbd0`
+输入指纹：`051774e6fcdd`
 当前 Plan：1；结构化历史：5；未迁移历史：0
 
 ## 当前工作
@@ -18,7 +18,7 @@
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `spec-closure-ledger-maintenance-v1` · `verifying`
   - Plan：`IGT-202611060006`
-  - 缺少证据：无
+  - 缺少证据：`IGT-202611060006:check-integration`（stale：repository or Plan inputs changed after this run）
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-202611060006
   - 未完成原始目标：GOAL-SPEC-LEDGER-OWN 账本期望值由维护计划拥有，可持续刷新

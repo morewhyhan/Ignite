@@ -573,7 +573,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "d2d52ffa2808f2448215cd74acd01d0e6cbaa9b3",
+  "integrated_commit": "b8f36ae7d49c9fedcd5064072aa379539b1c204d",
   "updated_at": "2026-11-05",
   "superseded_by": "IGT-202611060006"
 }

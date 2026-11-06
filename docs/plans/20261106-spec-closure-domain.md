@@ -51,7 +51,10 @@
     {
       "id": "AC-SPEC-011",
       "tests": [
-        "tests/contracts/task-domain.test.ts::[AC-SPEC-011]"
+        "tests/contracts/task-domain.test.ts::[AC-SPEC-011]",
+        "tests/api/tasks.test.ts::[AC-TASKS-003]",
+        "tests/api/tasks.test.ts::[AC-PRODUCT-013]",
+        "tests/api/tasks.test.ts::[AC-TASKS-004]"
       ],
       "required_layers": [
         "unit"
@@ -59,6 +62,18 @@
       "checks": [
         {
           "test": "tests/contracts/task-domain.test.ts::[AC-SPEC-011]",
+          "layer": "unit"
+        },
+        {
+          "test": "tests/api/tasks.test.ts::[AC-TASKS-003]",
+          "layer": "unit"
+        },
+        {
+          "test": "tests/api/tasks.test.ts::[AC-PRODUCT-013]",
+          "layer": "unit"
+        },
+        {
+          "test": "tests/api/tasks.test.ts::[AC-TASKS-004]",
           "layer": "unit"
         }
       ]
@@ -96,7 +111,9 @@
         "AC-SPEC-011"
       ],
       "result": "领域规则测试在实现前失败，红灯记录已提交。",
-      "depends_on": [],
+      "depends_on": [
+        "T1"
+      ],
       "owner": "ignite-executor"
     },
     {
@@ -254,10 +271,10 @@ AC-SPEC-011 由 T2 取红灯、T3 满足。
 
 ## 主要矛盾
 
-规则现在同时存在于三处。
+业务规则现在同时存在于三处：zod schema、路由查询条件、数据库约束。
 三处分别是 zod schema、Prisma 约束与路由查询条件。
 改一处不会同步另外两处。
-领域层只保留一份实现。
+领域层只保留一份业务规则实现；数据库约束保留作为最后防线，属于纵深防御，不视为重复实现。
 
 ## 次要矛盾
 

@@ -1,0 +1,42 @@
+{
+  "schema": 2,
+  "test_scope": "acceptance-case",
+  "test_sha256": "8ab99757ef08888de21489d845a4d50f75af80af8cc47286bf5a0803cda781f1",
+  "context_schema": 1,
+  "context_sha256": "04b4af72124c7ba5881babc28a2359d3d201dfb4c8a1eb9f69f8efcbd9dc1681",
+  "context_files": ["tests/contracts/spec-closure-content.test.ts"],
+  "warnings": [
+    "local dependency excluded outside declared test-support paths: scripts/ignite/content-contract.mjs",
+    "local dependency excluded outside declared test-support paths: scripts/ignite/core.mjs",
+    "local dependency excluded outside declared test-support paths: scripts/ignite/state.mjs"
+  ],
+  "run_id": "tdd-20261106030302-8430dd",
+  "plan_id": "IGT-202611060005",
+  "acceptance_id": "AC-SPEC-008",
+  "test": "tests/contracts/spec-closure-content.test.ts::[AC-SPEC-008]",
+  "layer": "unit",
+  "status": "assertion-failed",
+  "target_assertion_contract": "ac-message-marker-v1",
+  "red_commit": "26fbe5e5c5469955f3b7c703d2dc400dbd623dab",
+  "output_sha256": "a757186715da06006453e995445f9b258d13ca80b0690bde68b17457b4c00224",
+  "failure_sha256": "718d6938049cd50f8bff91d8aa2fb77f98d7ecef6d5fc45bc125bf0cfb896aae",
+  "failure_summary": [
+    "AssertionError: [AC-SPEC-008] target content contract gaps: expected [ …(13) ] to deeply equal [] at /mnt/c/Users/why/Documents/ChatGPT/igent/Ignite/tests/contracts/spec-closure-content.test.ts:66:64 at file:///mnt/c/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11 at file:///mnt/c/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:26 at file:///mnt/c/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2326:20 at new Promise (<anonymous>) at runWithCancel (file:///mnt/c/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2323:10) at file:///mnt/c/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/runner/dist/chunk-artifact.js:2305:20 at new Promise (<anonymous>) at runWithTimeout (file:///mnt/c/Users/why/Documents/ChatGPT/igent/Ignite/node_modules/.pnpm/@vitest+runner@4.1.10/node_modules/@vitest/r"
+  ],
+  "failure_summary_sha256": "38ab3f991572817618f233982bd9274c0f0570ced503b0c4340bdf9b664296f8",
+  "command": [
+    "corepack",
+    "pnpm",
+    "exec",
+    "vitest",
+    "run",
+    "tests/contracts/spec-closure-content.test.ts",
+    "--testNamePattern",
+    "AC-SPEC-008",
+    "--reporter=json",
+    "--outputFile=<temporary-json-report>"
+  ],
+  "started_at": "2026-11-06T03:03:02.861Z",
+  "ended_at": "2026-11-06T03:03:21.928Z",
+  "executor": "ignite-tdd-runner"
+}

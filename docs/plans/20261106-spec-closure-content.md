@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-202611060005",
   "release": "spec-closure-content-v1",
-  "status": "verifying",
+  "status": "active",
   "outcome": "声明内容契约的计划，分析章节必须有实质内容，空壳与模板语被拒",
   "contract_version": 2,
   "execution_contract": 1,
@@ -331,7 +331,7 @@
       "title": "运行内容断言并记录原生红灯",
       "phase": "red",
       "acceptance": ["AC-SPEC-008"],
-      "status": "done",
+      "status": "doing",
       "result": "模板缺章节时断言真实失败并写入原生回执。",
       "scope": ["tests/contracts/spec-closure-content.test.ts", "docs/others/evidence/tdd/"],
       "depends_on": ["T1"],
@@ -342,7 +342,7 @@
       "title": "模板补齐章节并接入内容校验",
       "phase": "implement",
       "acceptance": ["AC-SPEC-008"],
-      "status": "done",
+      "status": "todo",
       "result": "模板含八节与 content_contract，validatePlan 调用 contentGaps。",
       "scope": [
         "docs/plans/_template.md",
@@ -358,7 +358,7 @@
       "title": "完成检查与回写",
       "phase": "verify",
       "acceptance": ["AC-SPEC-008"],
-      "status": "done",
+      "status": "todo",
       "result": "断言与检查通过，执行设计记录内容门禁。",
       "scope": ["docs/designs/execution.md"],
       "depends_on": ["T3"],
@@ -434,14 +434,14 @@
     {
       "acceptance_id": "AC-SPEC-008",
       "test": "tests/contracts/spec-closure-content.test.ts::[AC-SPEC-008]",
-      "run_id": "tdd-20261106025135-30cf2f"
+      "run_id": "tdd-20261106030302-8430dd"
     }
   ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "d0ec0c134fcd3348ce01f55338d1d93de1ca870e",
+  "integrated_commit": null,
   "updated_at": "2026-11-06"
 }
 -->
@@ -562,12 +562,12 @@
 
 <!-- ignite-progress -->
 
-状态：`verifying`（由元数据生成）
+状态：`active`（由元数据生成）
 
 - [x] T1 · 登记规格、计划与断言并提交基线 · done
-- [x] T2 · 运行内容断言并记录原生红灯 · done
-- [x] T3 · 模板补齐章节并接入内容校验 · done
-- [x] T4 · 完成检查与回写 · done
+- [ ] T2 · 运行内容断言并记录原生红灯 · doing
+- [ ] T3 · 模板补齐章节并接入内容校验 · todo
+- [ ] T4 · 完成检查与回写 · todo
 
 验收缺口：未记录；完成仍须实际证据
 证据：尚无
@@ -588,3 +588,7 @@
 ## TDD 恢复记录
 
 2026-11-06，AC-SPEC-008：table placeholder fixture added。保留原回执 tdd-20261106023535-f3fb3d；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。
+
+## TDD 恢复记录
+
+2026-11-06，AC-SPEC-008：prettier formatted the test again。保留原回执 tdd-20261106025135-30cf2f；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。

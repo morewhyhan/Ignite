@@ -1,5 +1,7 @@
 # Ignite 视觉设计系统
 
+> 状态：当前事实
+
 本文档固定当前 Ignite UI 的可复用视觉规则，供新增页面和组件参考。颜色、圆角、动画和基础间距的最终实现仍以 `src/app/globals.css` 与 `src/components/ui/` 为准。
 
 ## 视觉方向

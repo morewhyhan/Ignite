@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1793982738195660699",
   "release": "spec-closure-connection-v1",
-  "status": "ready",
+  "status": "active",
   "outcome": "设计文档能区分当前事实与目标设计，并留下计划到设计文档的回写台账",
   "contract_version": 2,
   "execution_contract": 1,
@@ -184,7 +184,13 @@
     "docs/features/_template.md",
     "docs/others/evidence/"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-SPEC-012",
+      "test": "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-012]",
+      "run_id": "tdd-20261106164431-4f1304"
+    }
+  ],
   "required_evidence": ["check-dev"],
   "evidence": [],
   "blocker": null,
@@ -320,7 +326,7 @@ pnpm ignite check --plan IGT-1793982738195660699 --level auto 返回 0，
 
 <!-- ignite-progress -->
 
-状态：`ready`（由元数据生成）
+状态：`active`（由元数据生成）
 
 - [x] T1 · 登记规格、计划与断言并提交基线 · done
 - [ ] T2 · 运行真实断言并记录目标行为红灯 · doing

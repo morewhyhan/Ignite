@@ -1,27 +1,32 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`aa6c62920d3f`
-当前 Plan：1；结构化历史：7；未迁移历史：0
+输入指纹：`718cfd4c3c1a`
+当前 Plan：1；结构化历史：8；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-202611060008` · `active` · `spec-closure-domain-v1`
+- `IGT-1793982738195660699` · `active` · `spec-closure-connection-v1`
 
 ## 发布范围
 
+- `spec-closure-connection-v1` · `active`
+  - Plan：`IGT-1793982738195660699`
+  - 缺少证据：`IGT-1793982738195660699:check-dev`（missing：no run is bound to this evidence requirement）
+  - 最终版本验收：missing
+  - 下一步：pnpm ignite next --plan IGT-1793982738195660699
+  - 未完成原始目标：GOAL-001 设计文档区分当前事实与目标设计，并留下计划到设计文档的回写台账
 - `spec-closure-content-v1` · `verifying`
   - Plan：`IGT-202611060005`
   - 缺少证据：无
   - 最终版本验收：stale
   - 下一步：pnpm ignite release verify spec-closure-content-v1 --plan IGT-202611060005
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `spec-closure-domain-v1` · `active`
+- `spec-closure-domain-v1` · `cancelled`
   - Plan：`IGT-202611060008`
-  - 缺少证据：`IGT-202611060008:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
-  - 下一步：pnpm ignite next --plan IGT-202611060008
-  - 未完成原始目标：GOAL-SPEC-DOMAIN 任务规则由领域层统一裁决
+  - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `spec-closure-ledger-maintenance-v1` · `verifying`
   - Plan：`IGT-202611060006`
   - 缺少证据：无

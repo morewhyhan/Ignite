@@ -1,5 +1,7 @@
 # 当前领域模型
 
+> 状态：当前事实
+
 Ignite 当前有认证域和 Tasks 参考业务域。认证域使用 Better Auth 的 `user`、`session`、`account` 和 `verification` 模型。`verification` 是兼容性预留，模板不发送验证邮件。Tasks 域由用户与任务的归属关系组成。字段、校验与用户行为分别见[认证规格](../features/auth.md)和[Tasks 规格](../features/tasks.md)。
 
 首页、工作台、设置和主题选择是产品界面模块，不构成额外领域实体。Tasks 是可保留、改造或删除的参考切片，采用时由具体项目决定去留。

@@ -300,8 +300,6 @@ export function validatePlan(
   const value = plan.metadata
   const failures = []
   const retired = ['cancelled', 'superseded'].includes(value.status)
-  if (value.status === 'superseded' && !value.superseded_by)
-    failures.push('superseded_plan_requires_successor')
   const draft = value.status === 'draft'
   const historicalCommit =
     value.status === 'done' && gitCommitExists(value.integrated_commit)
@@ -514,7 +512,7 @@ export function validatePlan(
     } else {
       const seenTdd = new Set()
       const validTdd = new Set()
-      for (const item of retired ? [] : value.tdd_evidence) {
+      for (const item of value.tdd_evidence) {
         if (
           !item ||
           typeof item.acceptance_id !== 'string' ||
@@ -680,7 +678,7 @@ export function validatePlan(
             )
         }
       }
-      if (!retired && [1, 2].includes(value.task_contract)) {
+      if ([1, 2].includes(value.task_contract)) {
         for (const task of value.tasks || []) {
           if (
             (task.phase === 'implement' && ['doing', 'done'].includes(task.status)) ||

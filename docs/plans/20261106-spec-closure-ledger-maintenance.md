@@ -190,6 +190,66 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-06T03:56:07.521Z"
+    },
+    {
+      "stage": "draft",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent draft review of IGT-202611060006, approved after LM fixes",
+      "subject_fingerprint": "7648b15561c2c9f4b7b4f7a03142a104db8ddd9453bf2d23ad2d5db6528d4c31",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "LM-007",
+          "severity": "nonblocking",
+          "summary": "base_commit is the plan creation commit; prep diff outside delivery scope.",
+          "resolved": false
+        },
+        {
+          "id": "LM-008",
+          "severity": "nonblocking",
+          "summary": "Old ledger plan must be superseded in T3 with evidence invalidation.",
+          "resolved": false
+        },
+        {
+          "id": "LM-001",
+          "severity": "blocking",
+          "summary": "Resolved: enum, order, sets and metPlan checked.",
+          "resolved": true
+        },
+        {
+          "id": "LM-002",
+          "severity": "blocking",
+          "summary": "Resolved: T1/T3 scopes include old test deletion.",
+          "resolved": true
+        },
+        {
+          "id": "LM-003",
+          "severity": "blocking",
+          "summary": "Resolved at plan level: superseded_by required by T3.",
+          "resolved": true
+        },
+        {
+          "id": "LM-004",
+          "severity": "nonblocking",
+          "summary": "Resolved: red is the missing expectations file.",
+          "resolved": true
+        },
+        {
+          "id": "LM-005",
+          "severity": "nonblocking",
+          "summary": "Resolved: contentGaps and bindings empty.",
+          "resolved": true
+        },
+        {
+          "id": "LM-006",
+          "severity": "nonblocking",
+          "summary": "Resolved: T3 scope/result explicit.",
+          "resolved": true
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-06T04:28:41.177Z"
     }
   ],
   "verification_contract": 2,

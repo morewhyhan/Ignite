@@ -10,9 +10,9 @@
       "problem": "文档未进入任何索引或白名单",
       "doc_heading": "## 0. 文档控制",
       "stage": "P0",
-      "plan": null,
+      "plan": "IGT-202611060001",
       "disposition": "implement",
-      "result": "partial"
+      "result": "met"
     },
     {
       "id": "GAP-02",

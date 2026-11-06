@@ -1,7 +1,7 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { gitCommitExists, isAncestor, repositoryRoot } from '../../scripts/ignite/core.mjs'
+import { gitCommitExists, isAncestor, repositoryRoot, runGit } from '../../scripts/ignite/core.mjs'
 
 const LEDGER = 'docs/others/spec-closure/ledger.json'
 const EXPECTATIONS = 'docs/others/spec-closure/ledger-expectations.json'
@@ -17,11 +17,24 @@ function qualifiedPlanIds() {
     if (!match) continue
     const metadata = JSON.parse(match[1])
     if (metadata.id === CURRENT_PLAN) continue
-    const completedRetired =
+    let completedRetired = false
+    if (
       ['cancelled', 'superseded'].includes(metadata.status) &&
-      Boolean(metadata.integrated_commit) &&
+      metadata.integrated_commit &&
       gitCommitExists(metadata.integrated_commit) &&
       isAncestor(metadata.integrated_commit, 'HEAD')
+    ) {
+      const snapshot = runGit(['show', metadata.integrated_commit + ':' + 'docs/plans/' + name], {
+        allowFailure: true,
+      })
+      if (snapshot.exitCode === 0) {
+        const prior = snapshot.stdout.match(/<!-- ignite-plan\n([\s\S]*?)\n-->/)
+        if (prior) {
+          const priorStatus = JSON.parse(prior[1]).status
+          completedRetired = priorStatus === 'done' || priorStatus === 'verifying'
+        }
+      }
+    }
     if (metadata.status === 'done' || completedRetired) ids.add(metadata.id)
   }
   return ids

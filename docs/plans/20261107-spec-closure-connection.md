@@ -13,8 +13,13 @@
   "reviews": [],
   "verification_contract": 2,
   "goals": [
-    "每份设计文档声明事实或目标",
-    "建立回写台账并覆盖全部设计文档"
+    {
+      "text": "设计文档区分当前事实与目标设计，并留下计划到设计文档的回写台账",
+      "requirements": [
+        "REQ-SPEC-012",
+        "REQ-SPEC-013"
+      ]
+    }
   ],
   "constraints": [
     "只改文档与测试，不改业务代码",
@@ -168,14 +173,13 @@
     "destructive_authorization": null
   },
   "write_scope": [
-    "<feature-path>",
-    "<test-path>",
-    "<affected-path>",
-    "<design-path>",
-    "docs/others/evidence/",
+    "docs/features/spec-closure-connection.md",
     "docs/plans/20261107-spec-closure-connection.md",
     "docs/plans/releases/spec-closure-connection-v1.json",
-    "docs/others/evidence/tdd/"
+    "tests/contracts/spec-closure-connection.test.ts",
+    "docs/designs/",
+    "docs/others/design-writeback.md",
+    "docs/features/_template.md"
   ],
   "tdd_evidence": [],
   "required_evidence": [

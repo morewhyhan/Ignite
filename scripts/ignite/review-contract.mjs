@@ -20,6 +20,7 @@ export function buildReviewContext(plan, stage, { featurePaths, readText, commit
     stage === 'delivery'
       ? (commit ? changedFilesForPlanAtCommit(plan, commit) : changedFilesForPlan(plan))
           .filter((path) => !isExecutionStatePath(path))
+          .filter((path) => path !== plan.relativePath)
           .filter((path) =>
             (value.write_scope || []).some(
               (scope) =>

@@ -2,7 +2,6 @@
 
 > 状态：当前事实
 
-
 认证由 Better Auth 服务端配置和 auth module 的客户端 Hook 组成：
 
 ```text

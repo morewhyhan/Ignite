@@ -2,7 +2,6 @@
 
 > 状态：当前事实
 
-
 API 组合真源是 `src/server/api/index.ts`，Next.js 适配入口是
 `src/app/api/[[...route]]/route.ts`。
 

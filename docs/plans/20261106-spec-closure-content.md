@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-202611060005",
   "release": "spec-closure-content-v1",
-  "status": "verifying",
+  "status": "done",
   "outcome": "声明内容契约的计划，分析章节必须有实质内容，空壳与模板语被拒",
   "contract_version": 2,
   "execution_contract": 1,
@@ -274,6 +274,66 @@
       ],
       "identity_assurance": "declared",
       "recorded_at": "2026-11-05T22:15:23.703Z"
+    },
+    {
+      "stage": "delivery",
+      "reviewer": "dsh-review-subagent-ed3c40cb",
+      "executor": "ignite-executor",
+      "source": "DSH subagent ed3c40cb independent review of IGT-202611060005, approved at 88d60c7",
+      "subject_fingerprint": "cc9d8039b901b4a2e514351343f834028596546c4b063f3e0e26ca45188e2ec0",
+      "verdict": "approved",
+      "findings": [
+        {
+          "id": "CD5-004",
+          "severity": "nonblocking",
+          "summary": "Status record cites f33369; final run 72d965 recorded in evidence only.",
+          "resolved": false
+        },
+        {
+          "id": "CD5-005",
+          "severity": "nonblocking",
+          "summary": "base_commit is the plan creation commit; prep diff outside delivery scope.",
+          "resolved": false
+        },
+        {
+          "id": "CD5-001",
+          "severity": "blocking",
+          "summary": "Resolved: verifying with T1-T4 done.",
+          "resolved": true
+        },
+        {
+          "id": "CD5-002",
+          "severity": "blocking",
+          "summary": "Resolved: tdd_evidence is 8430dd.",
+          "resolved": true
+        },
+        {
+          "id": "CD5-003",
+          "severity": "blocking",
+          "summary": "Resolved: integrated_commit is 3ce73a0.",
+          "resolved": true
+        },
+        {
+          "id": "CD5-006",
+          "severity": "nonblocking",
+          "summary": "Resolved: ignore lists replaced by contentContract flag.",
+          "resolved": true
+        },
+        {
+          "id": "CD5-007",
+          "severity": "nonblocking",
+          "summary": "Resolved: table-cell placeholders rejected.",
+          "resolved": true
+        },
+        {
+          "id": "CD5-008",
+          "severity": "nonblocking",
+          "summary": "Resolved: design records content gate.",
+          "resolved": true
+        }
+      ],
+      "identity_assurance": "declared",
+      "recorded_at": "2026-11-06T03:33:56.993Z"
     }
   ],
   "verification_contract": 2,
@@ -282,43 +342,24 @@
   "goals": [
     {
       "text": "内容契约计划的分析章节必须有实质内容",
-      "requirements": [
-        "REQ-SPEC-008"
-      ]
+      "requirements": ["REQ-SPEC-008"]
     }
   ],
-  "constraints": [
-    "只对新契约计划强制",
-    "不追溯 P0–P3 已完成计划",
-    "不做语义质量评分"
-  ],
-  "non_goals": [
-    "不改历史计划正文",
-    "不引入模型评分"
-  ],
+  "constraints": ["只对新契约计划强制", "不追溯 P0–P3 已完成计划", "不做语义质量评分"],
+  "non_goals": ["不改历史计划正文", "不引入模型评分"],
   "authorization": {
     "source": "用户 2026-11-06 收尾 goal 指令"
   },
-  "deliverables": [
-    "模板八个章节与内容契约",
-    "content-contract 校验与接线",
-    "AC-SPEC-008 断言"
-  ],
+  "deliverables": ["模板八个章节与内容契约", "content-contract 校验与接线", "AC-SPEC-008 断言"],
   "remaining_work": [],
   "change_type": "存量改动",
   "base_commit": "23833f6bca8825f21e72c7b8d4177b7fc75e1f4a",
-  "requirements": [
-    "REQ-SPEC-008"
-  ],
+  "requirements": ["REQ-SPEC-008"],
   "acceptance": [
     {
       "id": "AC-SPEC-008",
-      "tests": [
-        "tests/contracts/spec-closure-content.test.ts::[AC-SPEC-008]"
-      ],
-      "required_layers": [
-        "unit"
-      ],
+      "tests": ["tests/contracts/spec-closure-content.test.ts::[AC-SPEC-008]"],
+      "required_layers": ["unit"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-content.test.ts::[AC-SPEC-008]",
@@ -327,9 +368,7 @@
       ]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
@@ -351,27 +390,18 @@
       "id": "T2",
       "title": "运行内容断言并记录原生红灯",
       "phase": "red",
-      "acceptance": [
-        "AC-SPEC-008"
-      ],
+      "acceptance": ["AC-SPEC-008"],
       "status": "done",
       "result": "模板缺章节时断言真实失败并写入原生回执。",
-      "scope": [
-        "tests/contracts/spec-closure-content.test.ts",
-        "docs/others/evidence/tdd/"
-      ],
-      "depends_on": [
-        "T1"
-      ],
+      "scope": ["tests/contracts/spec-closure-content.test.ts", "docs/others/evidence/tdd/"],
+      "depends_on": ["T1"],
       "owner": "ignite-executor"
     },
     {
       "id": "T3",
       "title": "模板补齐章节并接入内容校验",
       "phase": "implement",
-      "acceptance": [
-        "AC-SPEC-008"
-      ],
+      "acceptance": ["AC-SPEC-008"],
       "status": "done",
       "result": "模板含八节与 content_contract，validatePlan 调用 contentGaps。",
       "scope": [
@@ -380,26 +410,18 @@
         "scripts/ignite/document-contract.mjs",
         "scripts/check-docs.mjs"
       ],
-      "depends_on": [
-        "T2"
-      ],
+      "depends_on": ["T2"],
       "owner": "ignite-executor"
     },
     {
       "id": "T4",
       "title": "完成检查与回写",
       "phase": "verify",
-      "acceptance": [
-        "AC-SPEC-008"
-      ],
+      "acceptance": ["AC-SPEC-008"],
       "status": "done",
       "result": "断言与检查通过，执行设计记录内容门禁。",
-      "scope": [
-        "docs/designs/execution.md"
-      ],
-      "depends_on": [
-        "T3"
-      ],
+      "scope": ["docs/designs/execution.md"],
+      "depends_on": ["T3"],
       "owner": "ignite-executor"
     }
   ],
@@ -475,9 +497,7 @@
       "run_id": "tdd-20261106030302-8430dd"
     }
   ],
-  "required_evidence": [
-    "check-integration"
-  ],
+  "required_evidence": ["check-integration"],
   "evidence": [
     {
       "id": "check-integration",
@@ -608,7 +628,7 @@
 
 <!-- ignite-progress -->
 
-状态：`verifying`（由元数据生成）
+状态：`done`（由元数据生成）
 
 - [x] T1 · 登记规格、计划与断言并提交基线 · done
 - [x] T2 · 运行内容断言并记录原生红灯 · done

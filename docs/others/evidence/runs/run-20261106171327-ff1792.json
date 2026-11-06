@@ -1,0 +1,126 @@
+{
+  "schema": 2,
+  "run_id": "run-20261106171327-ff1792",
+  "check_policy_version": 7,
+  "plan_id": "IGT-1793982738195660699",
+  "evidence_id": "check-integration",
+  "level": "integration",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-11-06T17:13:32.761Z",
+  "ended_at": "2026-11-06T17:26:37.484Z",
+  "commit": "7d981d13bfc74a279388e123a79f91337fdb733b",
+  "input_fingerprint": "d0393d47223413002745af3b6f3284f12034e234eaf5bd5b75e2c98aeb0b5620",
+  "environment_fingerprint": "e73ab4a40c6b7141120afff35ca73e610ff1a7311abcaabed94c952c6caed87a",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "e2e_server_mode": "development",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "c564a71013ebffb41e0655dae9c5ee345d58251e16c0dc43559ffc909d56be27",
+  "acceptance_results": [
+    {
+      "plan_id": "IGT-1793982738195660699",
+      "criterion": "AC-SPEC-012",
+      "test": "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-012]",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1793982738195660699",
+      "criterion": "AC-SPEC-013",
+      "test": "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-013]",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    }
+  ],
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "7f580c44592870674ed7bfc0b3212dd6ba0c486f"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 2280
+    },
+    {
+      "label": "template-doctor",
+      "command": ["corepack", "pnpm", "template:doctor"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 2107
+    },
+    {
+      "label": "governance",
+      "command": ["corepack", "pnpm", "ignite", "validate"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 134228
+    },
+    {
+      "label": "docs",
+      "command": ["corepack", "pnpm", "docs:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 151957
+    },
+    {
+      "label": "typecheck",
+      "command": ["corepack", "pnpm", "typecheck"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 81103
+    },
+    {
+      "label": "tools-typecheck",
+      "command": ["corepack", "pnpm", "tools:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 20096
+    },
+    {
+      "label": "lint",
+      "command": ["corepack", "pnpm", "lint"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 99831
+    },
+    {
+      "label": "format",
+      "command": ["corepack", "pnpm", "format:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 17676
+    },
+    {
+      "label": "targeted-tests",
+      "command": [
+        "corepack",
+        "pnpm",
+        "exec",
+        "vitest",
+        "run",
+        "tests/contracts/api-design.test.ts",
+        "tests/contracts/docs-traceability.test.ts",
+        "tests/contracts/spec-closure-connection.test.ts"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 185438
+    }
+  ],
+  "log_sha256": "0d3c4144c6d7f1fe57ba5d62567919f6dcf75e079f86b8d8c6ff717deae16e04",
+  "execution_source": "ignite-runner-local"
+}

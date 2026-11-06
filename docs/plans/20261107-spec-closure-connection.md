@@ -213,13 +213,7 @@
     "docs/features/_template.md",
     "docs/others/evidence/"
   ],
-  "tdd_evidence": [
-    {
-      "acceptance_id": "AC-SPEC-012",
-      "test": "tests/contracts/spec-closure-connection.test.ts::[AC-SPEC-012]",
-      "run_id": "tdd-20261106164431-4f1304"
-    }
-  ],
+  "tdd_evidence": [],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
@@ -365,3 +359,7 @@ pnpm ignite check --plan IGT-1793982738195660699 --level auto 返回 0，
 验收缺口：未记录；完成仍须实际证据
 证据：尚无
 <!-- /ignite-progress -->
+
+## TDD 恢复记录
+
+2026-11-06，AC-SPEC-012：acceptance。保留原回执 tdd-20261106164431-4f1304；对应任务重新进入真实红灯，旧验收绑定已撤销。本次恢复没有生成通过或失败凭证。

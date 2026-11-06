@@ -29,6 +29,12 @@ describe('plan content contract', () => {
     if (!contentGaps('# p\n\n## 主要矛盾\n\n  待填写  \n').join(' ').includes('boilerplate'))
       gaps.push('spaced placeholder accepted')
     if (
+      !contentGaps('# p\n\n## 约束绑定矩阵\n\n| Source | Task |\n| --- | --- |\n| TODO | 待确认 |\n')
+        .join(' ')
+        .includes('boilerplate')
+    )
+      gaps.push('table placeholder accepted')
+    if (
       !contentGaps('# p\n\n## 约束绑定矩阵\n\n| Source | Task |\n| --- | --- |\n')
         .join(' ')
         .includes('约束绑定矩阵')

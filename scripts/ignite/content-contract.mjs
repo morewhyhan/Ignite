@@ -47,7 +47,15 @@ export function contentGaps(content) {
     }
     const lines = substantive(body)
     if (lines.length < minimum) gaps.push(`${heading}: only ${lines.length} substantive lines`)
-    if (lines.some((line) => BOILERPLATE.test(line))) gaps.push(`${heading}: template boilerplate`)
+    const placeholder = lines.some((line) => {
+      if (!line.startsWith('|')) return BOILERPLATE.test(line)
+      return line
+        .split('|')
+        .map((cell) => cell.trim())
+        .filter(Boolean)
+        .some((cell) => BOILERPLATE.test(cell))
+    })
+    if (placeholder) gaps.push(heading + ': template boilerplate')
   }
   return gaps
 }

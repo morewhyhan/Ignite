@@ -899,6 +899,8 @@ tests/contracts/spec-closure-ledger-maintenance.test.ts、node scripts/check-doc
 
 ## 状态记录
 
+- 2026-11-06：审查指出豁免只检查字符串非空；已改为要求 integrated_commit 真实存在且是 HEAD 祖先，governance 同步。
+
 - 2026-11-06：交付审查指出豁免过宽；已收窄为「退场且曾完成」，superseded_by 降为文档约定。
 
 - 2026-11-06：任务 T1–T4 完成，check 运行 run-20261106045040-36f0d3 与 57dbd3 记录 format 与 targeted-tests 失败；随后修复格式并转 verifying。

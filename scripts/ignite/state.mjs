@@ -300,7 +300,11 @@ export function validatePlan(
   const value = plan.metadata
   const failures = []
   const retired = ['cancelled', 'superseded'].includes(value.status)
-  const retiredExempt = retired && Boolean(value.integrated_commit)
+  const retiredExempt =
+    retired &&
+    Boolean(value.integrated_commit) &&
+    gitCommitExists(value.integrated_commit) &&
+    isAncestor(value.integrated_commit, 'HEAD')
   const draft = value.status === 'draft'
   const historicalCommit =
     value.status === 'done' && gitCommitExists(value.integrated_commit)

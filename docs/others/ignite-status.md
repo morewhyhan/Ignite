@@ -1,7 +1,7 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`fe28e1b06df3`
+输入指纹：`bd76c806031f`
 当前 Plan：2；结构化历史：11；未迁移历史：0
 
 ## 当前工作
@@ -14,13 +14,12 @@
 - `doc-fill-v1` · `done`
   - Plan：`IGT-1794061076111244240`
   - 缺少证据：无
-  - 最终版本验收：passed（5d8c60a6385c）
+  - 最终版本验收：passed（c21bc4b0788c）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `doc-spec-closure-v1` · `verifying`
+- `doc-spec-closure-v1` · `done`
   - Plan：`IGT-1794057232553297948`
   - 缺少证据：无
-  - 最终版本验收：stale
-  - 下一步：pnpm ignite release verify doc-spec-closure-v1 --plan IGT-1794057232553297948
+  - 最终版本验收：passed（c21bc4b0788c）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `spec-closure-connection-v1` · `verifying`
   - Plan：`IGT-1793982738195660699`

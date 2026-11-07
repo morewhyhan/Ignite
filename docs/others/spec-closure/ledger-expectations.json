@@ -64,28 +64,212 @@
   },
   "metEvidence": {
     "GAP-10": {
-      "plan": "IGT-202611060002",
-      "release": "spec-closure-p1-v1"
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
     },
     "GAP-20": {
-      "plan": "IGT-202611060003",
-      "release": "spec-closure-p2-v1"
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
     },
     "GAP-21": {
-      "plan": "IGT-202611060003",
-      "release": "spec-closure-p2-v1"
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
     },
     "GAP-24": {
-      "plan": "IGT-202611060003",
-      "release": "spec-closure-p2-v1"
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
     },
     "GAP-27": {
-      "plan": "IGT-202611060005",
-      "release": "spec-closure-content-v1"
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
     },
     "GAP-31": {
-      "plan": "IGT-202611060005",
-      "release": "spec-closure-content-v1"
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-01": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-02": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-03": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-04": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-05": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-06": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-07": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-08": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-09": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-11": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-12": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-13": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-14": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-15": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-16": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-17": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-18": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-19": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-22": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-23": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-25": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-26": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-28": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-29": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-30": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-32": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-33": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-34": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-35": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-36": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-37": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-38": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-39": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-40": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-41": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-42": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-43": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-44": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-45": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-46": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-47": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-48": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-49": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-50": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-51": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
+    },
+    "GAP-52": {
+      "plan": "IGT-1794057232553297948",
+      "release": "doc-spec-closure-v1"
     }
   }
 }

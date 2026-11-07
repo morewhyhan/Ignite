@@ -13,7 +13,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "docs/standards/README.md 已索引本类文档；governance 白名单见 scripts/ignite/checks.mjs"
+      "reason": "docs/standards/README.md 已索引本类文档；governance 白名单见 scripts/ignite/checks.mjs",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-02",
@@ -24,7 +25,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "docs/standards/ai-agents.md「文档真源」规定草案不入 standards；check-docs 增加草稿状态检查"
+      "reason": "docs/standards/ai-agents.md「文档真源」规定草案不入 standards；check-docs 增加草稿状态检查",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-03",
@@ -35,7 +37,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "reject",
       "result": "met",
-      "reason": "docs/standards/specification-to-implementation-ddd.md §8.2 明确 D0–D6 含义"
+      "reason": "docs/standards/specification-to-implementation-ddd.md §8.2 明确 D0–D6 含义",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-04",
@@ -46,7 +49,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "defer",
       "reason": "§16.1 定义草稿与定稿；check-docs 拒绝 standards 下的草稿状态文档",
-      "result": "met"
+      "result": "met",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-05",
@@ -57,7 +61,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "AGENTS.md 说明五步法是单次交付顺序、Loop 跨交付，接口是 Plan"
+      "reason": "AGENTS.md 说明五步法是单次交付顺序、Loop 跨交付，接口是 Plan",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-06",
@@ -68,7 +73,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "AGENTS.md 声明执行顺序只有一处，其它文档只写差异"
+      "reason": "AGENTS.md 声明执行顺序只有一处，其它文档只写差异",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-07",
@@ -79,7 +85,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "docs/others/glossary.md 统一术语，计划 IGT-1793990498597924061 承载"
+      "reason": "docs/others/glossary.md 统一术语，计划 IGT-1793990498597924061 承载",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-08",
@@ -90,7 +97,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "AGENTS.md 承认目录即方法入口，新增方法必须落在目录与 README"
+      "reason": "AGENTS.md 承认目录即方法入口，新增方法必须落在目录与 README",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-09",
@@ -101,7 +109,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "四个目录 README 增加「模块说明（§8.1）」八项，覆盖原十项要求"
+      "reason": "四个目录 README 增加「模块说明（§8.1）」八项，覆盖原十项要求",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-10",
@@ -111,7 +120,8 @@
       "stage": "P1",
       "plan": "IGT-202611060002",
       "disposition": "implement",
-      "result": "met"
+      "result": "met",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-11",
@@ -122,7 +132,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "docs/plans/_template.md 原始目标章节要求写阶段目标、代价与假设"
+      "reason": "docs/plans/_template.md 原始目标章节要求写阶段目标、代价与假设",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-12",
@@ -133,7 +144,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "docs/plans/_template.md 目标映射要求目标与事实同维度比较"
+      "reason": "docs/plans/_template.md 目标映射要求目标与事实同维度比较",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-13",
@@ -144,7 +156,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "docs/plans/README.md 新增「七类来源与不适用理由」"
+      "reason": "docs/plans/README.md 新增「七类来源与不适用理由」",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-14",
@@ -155,7 +168,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "keep",
       "result": "met",
-      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-15",
@@ -166,7 +180,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "docs/designs 状态标记与段落来源标记规则落地（execution.md 示范）"
+      "reason": "docs/designs 状态标记与段落来源标记规则落地（execution.md 示范）",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-16",
@@ -177,7 +192,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "§5.1 明确设计必须能承载目标，删除相反表述"
+      "reason": "§5.1 明确设计必须能承载目标，删除相反表述",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-17",
@@ -188,7 +204,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "docs/designs/README.md 定义段落来源标记，execution.md 作示范"
+      "reason": "docs/designs/README.md 定义段落来源标记，execution.md 作示范",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-18",
@@ -199,7 +216,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "keep",
       "result": "met",
-      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-19",
@@ -210,7 +228,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "state.mjs 在 done 前强制 design_writeback，缺失即拒绝"
+      "reason": "state.mjs 在 done 前强制 design_writeback，缺失即拒绝",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-20",
@@ -220,7 +239,8 @@
       "stage": "P2",
       "plan": "IGT-202611060003",
       "disposition": "implement",
-      "result": "met"
+      "result": "met",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-21",
@@ -230,7 +250,8 @@
       "stage": "P2",
       "plan": "IGT-202611060003",
       "disposition": "implement",
-      "result": "met"
+      "result": "met",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-22",
@@ -241,7 +262,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "docs/others/glossary.md 统一状态词含义；计划 IGT-1793990498597924061 承载"
+      "reason": "docs/others/glossary.md 统一状态词含义；计划 IGT-1793990498597924061 承载",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-23",
@@ -252,7 +274,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "testing.md 与 checks.mjs 的最低检查对应关系已对齐（本计划复核）"
+      "reason": "testing.md 与 checks.mjs 的最低检查对应关系已对齐（本计划复核）",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-24",
@@ -262,7 +285,8 @@
       "stage": "P2",
       "plan": "IGT-202611060003",
       "disposition": "implement",
-      "result": "met"
+      "result": "met",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-25",
@@ -273,7 +297,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "keep",
       "result": "met",
-      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-26",
@@ -284,7 +309,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "docs/plans/_template.md 要求准备与验证任务都有验收指向"
+      "reason": "docs/plans/_template.md 要求准备与验证任务都有验收指向",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-27",
@@ -294,7 +320,8 @@
       "stage": "P2",
       "plan": "IGT-202611060005",
       "disposition": "implement",
-      "result": "met"
+      "result": "met",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-28",
@@ -305,7 +332,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "docs/plans/_template.md 回退章节覆盖配置、接口与对外行为"
+      "reason": "docs/plans/_template.md 回退章节覆盖配置、接口与对外行为",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-29",
@@ -316,7 +344,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "docs/plans/_template.md 实现任务要求写明改变条件与失败判定"
+      "reason": "docs/plans/_template.md 实现任务要求写明改变条件与失败判定",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-30",
@@ -327,7 +356,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "docs/plans/README.md 写入进入实现前的十条准入"
+      "reason": "docs/plans/README.md 写入进入实现前的十条准入",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-31",
@@ -337,7 +367,8 @@
       "stage": "P3",
       "plan": "IGT-202611060005",
       "disposition": "implement",
-      "result": "met"
+      "result": "met",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-32",
@@ -348,7 +379,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "docs/plans/_template.md 写明计划不是任务清单，任务只是证明落点"
+      "reason": "docs/plans/_template.md 写明计划不是任务清单，任务只是证明落点",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-33",
@@ -359,7 +391,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "docs/plans/_template.md 主要矛盾要求两个条件真实、方向相反、相互制约"
+      "reason": "docs/plans/_template.md 主要矛盾要求两个条件真实、方向相反、相互制约",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-34",
@@ -370,7 +403,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "docs/plans/_template.md 来源规格新增不适用来源与理由"
+      "reason": "docs/plans/_template.md 来源规格新增不适用来源与理由",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-35",
@@ -381,7 +415,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "keep",
       "result": "met",
-      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-36",
@@ -392,7 +427,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "§11.1 与 testing.md 统一为验证可观察行为，不验证实现细节"
+      "reason": "§11.1 与 testing.md 统一为验证可观察行为，不验证实现细节",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-37",
@@ -403,7 +439,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "check-docs.mjs 增加结构检查：章节、模块说明、事件章节、定稿状态"
+      "reason": "check-docs.mjs 增加结构检查：章节、模块说明、事件章节、定稿状态",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-38",
@@ -414,7 +451,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "keep",
       "result": "met",
-      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-39",
@@ -425,7 +463,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "keep",
       "result": "met",
-      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-40",
@@ -436,7 +475,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "keep",
       "result": "met",
-      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-41",
@@ -447,7 +487,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "docs/standards/ai-agents.md 新增「验证后的回写」作为唯一出处"
+      "reason": "docs/standards/ai-agents.md 新增「验证后的回写」作为唯一出处",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-42",
@@ -458,7 +499,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "§12.1 补「重新建立绑定」步骤"
+      "reason": "§12.1 补「重新建立绑定」步骤",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-43",
@@ -469,7 +511,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "§13 补「回到主要矛盾重新判断」一层"
+      "reason": "§13 补「回到主要矛盾重新判断」一层",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-44",
@@ -480,7 +523,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "§8.4.1 新增文档模块之间的交接表"
+      "reason": "§8.4.1 新增文档模块之间的交接表",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-45",
@@ -491,7 +535,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "keep",
       "result": "met",
-      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-46",
@@ -502,7 +547,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "docs/plans/README.md 写入免 Plan 通道与纯文档计划"
+      "reason": "docs/plans/README.md 写入免 Plan 通道与纯文档计划",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-47",
@@ -513,7 +559,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "验收标准新增 module 字段；新计划缺字段时 validate 报错；create-module 自动带模块路径"
+      "reason": "验收标准新增 module 字段；新计划缺字段时 validate 报错；create-module 自动带模块路径",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-48",
@@ -524,7 +571,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "keep",
       "result": "met",
-      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-49",
@@ -535,7 +583,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "defer",
       "reason": "八份设计文档各加「事件与命令」章节（§9.3 六步）；结构检查要求该章节存在",
-      "result": "met"
+      "result": "met",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-50",
@@ -546,7 +595,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "implement",
       "result": "met",
-      "reason": "docs/features/_template.md 先写现有行为，再写业务规则"
+      "reason": "docs/features/_template.md 先写现有行为，再写业务规则",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-51",
@@ -557,7 +607,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "keep",
       "result": "met",
-      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）",
+      "release": "doc-spec-closure-v1"
     },
     {
       "id": "GAP-52",
@@ -568,7 +619,8 @@
       "plan": "IGT-1794057232553297948",
       "disposition": "keep",
       "result": "met",
-      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）",
+      "release": "doc-spec-closure-v1"
     }
   ],
   "identifier_mapping": "条目编号沿用 GAP-01..52；来源文件编号使用 STD/DES/ADR 前缀，编号到条目的映射在绑定阶段补充。",

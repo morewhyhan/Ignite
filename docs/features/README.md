@@ -59,7 +59,7 @@
 
 业务起点：[产品定位](./product.md)、[认证](./auth.md)、[Tasks](./tasks.md)。模板见 [_template.md](./_template.md)。
 
-[执行工具](./execution.md) 与 [执行可信性](./ai-execution-trust.md) 是已有工具的回归契约，普通业务任务不必全文读取，也不把它们当成新项目待执行整改清单。
+[执行工具](./execution.md) 是已有工具的回归契约，普通业务任务不必全文读取。
 
 ## 模块说明（§8.1）
 

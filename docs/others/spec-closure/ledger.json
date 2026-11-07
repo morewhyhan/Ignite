@@ -129,7 +129,8 @@
       "stage": "P3",
       "plan": null,
       "disposition": "implement",
-      "result": "missing"
+      "result": "partial",
+      "reason": "目标映射新增\"目标与事实同维度比较\"表，要求逐维度对应。 缺承载该批改动的计划编号，故记 partial。"
     },
     {
       "id": "GAP-13",
@@ -290,7 +291,8 @@
       "stage": "P3",
       "plan": null,
       "disposition": "implement",
-      "result": "missing"
+      "result": "partial",
+      "reason": "回退章节要求覆盖配置默认值、接口契约与对外行为，写兼容期与旧调用方处置。 缺承载该批改动的计划编号，故记 partial。"
     },
     {
       "id": "GAP-29",
@@ -352,7 +354,8 @@
       "stage": "P2",
       "plan": null,
       "disposition": "implement",
-      "result": "missing"
+      "result": "partial",
+      "reason": "来源规格新增\"不适用来源与理由\"，逐条写明为什么不适用。 缺承载该批改动的计划编号，故记 partial。"
     },
     {
       "id": "GAP-35",

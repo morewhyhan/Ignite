@@ -126,6 +126,7 @@ draft 绑定原目标、Plan 语义及关联 Feature；delivery 还绑定真实�
 - 当前输入通过 Plan integration，所有映射层级满足，实际差异要求的迁移检查有效；
 - tasks 全部完成、真实缺口已解决、integrated_commit 可追溯；
 - 当前 Design 已回写，未解决差异与取消/延期如实记录。
+- `design_writeback` 已填：列出被更新的设计文档（`changed`），或写明为什么本次不涉及设计（`reason`）。两项都空时 `plan set-status done` 直接拒绝。
 
 新版 Plan 的 required_evidence 仅为 check-integration；旧 verification_contract 1 按原契约处理。证据的生成、恢复和有效性见 [验收证据](../others/evidence/README.md)，不要重跑已有匹配证据。状态回填不能掩盖新输入；过期证据不妨碍继续修复，却不能完成 Plan。
 

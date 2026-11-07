@@ -74,6 +74,7 @@
   "tdd_evidence": [],
   "required_evidence": ["check-integration"],
   "evidence": [],
+  "design_writeback": { "changed": [], "reason": "" },
   "blocker": null,
   "open_questions": ["需要关闭的问题"],
   "integrated_commit": null,

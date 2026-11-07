@@ -6,7 +6,7 @@
 
 ## 当前工作
 
-- `IGT-1794029824186174768` · `draft` · `spec-closure-docs-v1`
+- `IGT-1794029824186174768` · `active` · `spec-closure-docs-v1`
 - `IGT-1793990498597924061` · `verifying` · `spec-closure-glossary-v1`
 
 ## 发布范围
@@ -23,7 +23,7 @@
   - 最终版本验收：stale
   - 下一步：pnpm ignite release verify spec-closure-content-v1 --plan IGT-202611060005
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `spec-closure-docs-v1` · `draft`
+- `spec-closure-docs-v1` · `active`
   - Plan：`IGT-1794029824186174768`
   - 缺少证据：`IGT-1794029824186174768:check-docs`（missing：no run is bound to this evidence requirement）
   - 最终版本验收：missing

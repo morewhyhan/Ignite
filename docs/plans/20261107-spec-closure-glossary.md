@@ -138,25 +138,46 @@
     {
       "id": "GOAL-001",
       "text": "三组术语与三套状态词唯一定义，两条延期项各有处置",
-      "requirements": ["REQ-SPEC-014", "REQ-SPEC-015", "REQ-SPEC-016"]
+      "requirements": [
+        "REQ-SPEC-014",
+        "REQ-SPEC-015",
+        "REQ-SPEC-016"
+      ]
     }
   ],
-  "constraints": ["只新增与校验文档，不改运行时代码", "既有 290 条测试必须保持通过"],
-  "non_goals": ["不引入文档定稿状态机", "不实现领域事件"],
+  "constraints": [
+    "只新增与校验文档，不改运行时代码",
+    "既有 290 条测试必须保持通过"
+  ],
+  "non_goals": [
+    "不引入文档定稿状态机",
+    "不实现领域事件"
+  ],
   "authorization": {
     "source": "用户在规格闭环收尾任务中列出 T3 词表与迁移、T4 P0 六条结论"
   },
-  "deliverables": ["docs/others/glossary.md", "docs/others/spec-closure/p0-conclusions.md"],
+  "deliverables": [
+    "docs/others/glossary.md",
+    "docs/others/spec-closure/p0-conclusions.md"
+  ],
   "remaining_work": [],
   "change_type": "存量改动",
-  "base_commit": "1317ad29ef3e07320b8a10496b450fa6938fd76c",
-  "requirements": ["REQ-SPEC-014", "REQ-SPEC-015", "REQ-SPEC-016"],
+  "base_commit": "0118cc6c6b642a6d0183f28407c0b6f57f798a57",
+  "requirements": [
+    "REQ-SPEC-014",
+    "REQ-SPEC-015",
+    "REQ-SPEC-016"
+  ],
   "acceptance": [
     {
       "id": "AC-SPEC-014",
       "title": "术语表列出三组对照",
-      "required_layers": ["unit"],
-      "tests": ["tests/contracts/spec-closure-glossary.test.ts::[AC-SPEC-014]"],
+      "required_layers": [
+        "unit"
+      ],
+      "tests": [
+        "tests/contracts/spec-closure-glossary.test.ts::[AC-SPEC-014]"
+      ],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-glossary.test.ts::[AC-SPEC-014]",
@@ -167,8 +188,12 @@
     {
       "id": "AC-SPEC-015",
       "title": "三套状态词齐备且互不冒充",
-      "required_layers": ["unit"],
-      "tests": ["tests/contracts/spec-closure-glossary.test.ts::[AC-SPEC-015]"],
+      "required_layers": [
+        "unit"
+      ],
+      "tests": [
+        "tests/contracts/spec-closure-glossary.test.ts::[AC-SPEC-015]"
+      ],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-glossary.test.ts::[AC-SPEC-015]",
@@ -179,8 +204,12 @@
     {
       "id": "AC-SPEC-016",
       "title": "两条延期项各有处置",
-      "required_layers": ["unit"],
-      "tests": ["tests/contracts/spec-closure-glossary.test.ts::[AC-SPEC-016]"],
+      "required_layers": [
+        "unit"
+      ],
+      "tests": [
+        "tests/contracts/spec-closure-glossary.test.ts::[AC-SPEC-016]"
+      ],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-glossary.test.ts::[AC-SPEC-016]",
@@ -189,7 +218,9 @@
       ]
     }
   ],
-  "verification_requirements": ["unit"],
+  "verification_requirements": [
+    "unit"
+  ],
   "tasks": [
     {
       "id": "T1",
@@ -213,7 +244,11 @@
       "id": "T2",
       "title": "运行真实断言并记录目标行为红灯",
       "phase": "red",
-      "acceptance": ["AC-SPEC-014", "AC-SPEC-015", "AC-SPEC-016"],
+      "acceptance": [
+        "AC-SPEC-014",
+        "AC-SPEC-015",
+        "AC-SPEC-016"
+      ],
       "status": "done",
       "result": "原生 red 运行确认已提交测试的目标断言失败，并记录真实红灯。",
       "scope": [
@@ -225,14 +260,20 @@
         "docs/others/spec-closure/ledger.json",
         "docs/others/spec-closure/ledger-expectations.json"
       ],
-      "depends_on": ["T1"],
+      "depends_on": [
+        "T1"
+      ],
       "owner": "ignite-executor"
     },
     {
       "id": "T3",
       "title": "实现已定义的行为切片",
       "phase": "implement",
-      "acceptance": ["AC-SPEC-014", "AC-SPEC-015", "AC-SPEC-016"],
+      "acceptance": [
+        "AC-SPEC-014",
+        "AC-SPEC-015",
+        "AC-SPEC-016"
+      ],
       "status": "done",
       "result": "已声明的验收行为通过，改动保持在本轮写入范围内。",
       "scope": [
@@ -244,7 +285,9 @@
         "docs/others/spec-closure/ledger.json",
         "docs/others/spec-closure/ledger-expectations.json"
       ],
-      "depends_on": ["T2"],
+      "depends_on": [
+        "T2"
+      ],
       "owner": "ignite-executor"
     },
     {
@@ -262,7 +305,9 @@
         "docs/others/spec-closure/ledger.json",
         "docs/others/spec-closure/ledger-expectations.json"
       ],
-      "depends_on": ["T3"],
+      "depends_on": [
+        "T3"
+      ],
       "owner": "ignite-executor"
     }
   ],
@@ -294,7 +339,9 @@
     "docs/others/spec-closure/ledger-expectations.json"
   ],
   "tdd_evidence": [],
-  "required_evidence": ["check-docs"],
+  "required_evidence": [
+    "check-docs"
+  ],
   "evidence": [
     {
       "id": "check-integration",
@@ -303,10 +350,13 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "5b3c2a7c1b29b4fb0227275b853b8f0645ff53a3",
+  "integrated_commit": "0118cc6c6b642a6d0183f28407c0b6f57f798a57",
   "updated_at": "2026-11-07",
   "design_writeback": {
-    "changed": ["docs/others/glossary.md", "docs/others/spec-closure/final-report.md"],
+    "changed": [
+      "docs/others/glossary.md",
+      "docs/others/spec-closure/final-report.md"
+    ],
     "reason": ""
   }
 }

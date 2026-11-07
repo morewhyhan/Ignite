@@ -1,0 +1,125 @@
+{
+  "schema": 2,
+  "run_id": "run-20261107114113-4767cb",
+  "check_policy_version": 7,
+  "plan_id": "IGT-1793990498597924061",
+  "evidence_id": "check-integration",
+  "level": "integration",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-11-07T11:41:13.245Z",
+  "ended_at": "2026-11-07T11:44:03.540Z",
+  "commit": "cba1fb7bd9ab6631cef0c8c1d2d9d00bbba84417",
+  "input_fingerprint": "1f4370b106940c2c64f2f3eff4a77a187fc728e605b030f9852228e1a8d58130",
+  "environment_fingerprint": "e73ab4a40c6b7141120afff35ca73e610ff1a7311abcaabed94c952c6caed87a",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "e2e_server_mode": "development",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "7ffb9e20cbfa3da17e96be6ec512f96a10522946e030128071779de9c666f2d9",
+  "acceptance_results": [
+    {
+      "plan_id": "IGT-1793990498597924061",
+      "criterion": "AC-SPEC-014",
+      "test": "tests/contracts/spec-closure-glossary.test.ts::[AC-SPEC-014]",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1793990498597924061",
+      "criterion": "AC-SPEC-015",
+      "test": "tests/contracts/spec-closure-glossary.test.ts::[AC-SPEC-015]",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    },
+    {
+      "plan_id": "IGT-1793990498597924061",
+      "criterion": "AC-SPEC-016",
+      "test": "tests/contracts/spec-closure-glossary.test.ts::[AC-SPEC-016]",
+      "layer": "unit",
+      "passed": true,
+      "cases": 1
+    }
+  ],
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "1317ad29ef3e07320b8a10496b450fa6938fd76c"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 67
+    },
+    {
+      "label": "template-doctor",
+      "command": ["corepack", "pnpm", "template:doctor"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 832
+    },
+    {
+      "label": "governance",
+      "command": ["corepack", "pnpm", "ignite", "validate"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 6773
+    },
+    {
+      "label": "docs",
+      "command": ["corepack", "pnpm", "docs:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 5670
+    },
+    {
+      "label": "typecheck",
+      "command": ["corepack", "pnpm", "typecheck"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 6777
+    },
+    {
+      "label": "tools-typecheck",
+      "command": ["corepack", "pnpm", "tools:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 3084
+    },
+    {
+      "label": "lint",
+      "command": ["corepack", "pnpm", "lint"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 7370
+    },
+    {
+      "label": "format",
+      "command": ["corepack", "pnpm", "format:check"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 5412
+    },
+    {
+      "label": "tests",
+      "command": ["corepack", "pnpm", "test"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 124329
+    }
+  ],
+  "log_sha256": "68b9d52e63e15b42d39f295a5bf64f6b9c56651ad05d31dd04cf4b051659972f",
+  "execution_source": "ignite-runner-local"
+}

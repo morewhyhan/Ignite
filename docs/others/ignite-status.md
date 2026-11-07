@@ -34,7 +34,7 @@
   - 缺少证据：无
   - 最终版本验收：missing
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `spec-closure-glossary-v1` · `invalid`
+- `spec-closure-glossary-v1` · `verifying`
   - Plan：`IGT-1793990498597924061`
   - 缺少证据：`IGT-1793990498597924061:check-docs`（missing：no run is bound to this evidence requirement）
   - 最终版本验收：missing
@@ -79,7 +79,6 @@
 
 ## 结构问题
 
-- docs/plans/20261107-spec-closure-glossary.md: draft review fingerprint is stale or does not match the current object
-- docs/plans/20261107-spec-closure-glossary.md: integrated_commit does not contain the current Plan contract
+- 无。
 
 > 本文件是确定性派生视图；修改 Plan 或 Release 机器源后重新生成。

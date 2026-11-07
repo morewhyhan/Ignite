@@ -22,7 +22,8 @@
       "stage": "P0",
       "plan": null,
       "disposition": "implement",
-      "result": "missing"
+      "result": "partial",
+      "reason": "未定稿内容不留在 docs/standards，草案放 docs/others，过期标准标 legacy_unverified（docs/standards/ai-agents.md，提交 67619cd）。 缺承载该批改动的计划编号，故记 partial。"
     },
     {
       "id": "GAP-03",
@@ -54,7 +55,8 @@
       "stage": "P0",
       "plan": null,
       "disposition": "implement",
-      "result": "missing"
+      "result": "partial",
+      "reason": "五步法与 Loop 的关系写入 AGENTS.md：五步法是单次交付内部顺序，Loop 跨交付，接口是 Plan（提交 67619cd）。 缺承载该批改动的计划编号，故记 partial。"
     },
     {
       "id": "GAP-06",
@@ -64,7 +66,8 @@
       "stage": "P0",
       "plan": null,
       "disposition": "implement",
-      "result": "missing"
+      "result": "partial",
+      "reason": "执行顺序收敛为 AGENTS.md 一处，其它文档只写差异（提交 67619cd）。 缺承载该批改动的计划编号，故记 partial。"
     },
     {
       "id": "GAP-07",
@@ -84,7 +87,8 @@
       "stage": "P0",
       "plan": null,
       "disposition": "implement",
-      "result": "missing"
+      "result": "partial",
+      "reason": "承认目录即方法入口，写入 AGENTS.md，并要求新增方法落在目录 + README（提交 67619cd）。 缺承载该批改动的计划编号，故记 partial。"
     },
     {
       "id": "GAP-09",

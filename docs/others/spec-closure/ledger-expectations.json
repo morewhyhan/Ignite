@@ -22,19 +22,19 @@
   ],
   "partial": [
     "GAP-01",
+    "GAP-02",
+    "GAP-05",
+    "GAP-06",
+    "GAP-08",
     "GAP-15",
     "GAP-19",
     "GAP-23",
     "GAP-46"
   ],
   "missing": [
-    "GAP-02",
     "GAP-03",
     "GAP-04",
-    "GAP-05",
-    "GAP-06",
     "GAP-07",
-    "GAP-08",
     "GAP-09",
     "GAP-11",
     "GAP-12",

@@ -87,6 +87,17 @@
       "subject_fingerprint": "431afbbed68fd9bf475c18d8a68d3a9d9000cdc2a9f437929a9a63f1c44d1cb3",
       "findings": [],
       "recorded_at": "2026-11-07T03:35:34.085Z"
+    },
+    {
+      "reviewer": "ignite-reviewer",
+      "executor": "ignite-executor",
+      "source": "docs/plans/README.md draft review checklist",
+      "stage": "draft",
+      "identity_assurance": "declared",
+      "verdict": "approved",
+      "subject_fingerprint": "ff5216811f04a92f606a6e00d5d63e975316c1860ded7e647edc2c4fd361cd0c",
+      "findings": [],
+      "recorded_at": "2026-11-07T03:39:02.836Z"
     }
   ],
   "verification_contract": 2,
@@ -105,7 +116,7 @@
   "deliverables": ["docs/others/glossary.md", "docs/others/spec-closure/p0-conclusions.md"],
   "remaining_work": [],
   "change_type": "存量改动",
-  "base_commit": "b1625aea33feba5e65c4c7954c8910d57a5ddc9c",
+  "base_commit": "8171d8e43efbd92f181dfe62ed03c240dbf89b6d",
   "requirements": ["REQ-SPEC-014", "REQ-SPEC-015", "REQ-SPEC-016"],
   "acceptance": [
     {

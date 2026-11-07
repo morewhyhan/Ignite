@@ -16,7 +16,8 @@
         "AC-SPEC-020",
         "AC-SPEC-021",
         "AC-SPEC-022",
-        "AC-SPEC-023"
+        "AC-SPEC-023",
+        "AC-SPEC-024"
       ],
       "plan_ids": ["IGT-1794057232553297948"],
       "disposition": "included",

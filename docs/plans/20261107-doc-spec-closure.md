@@ -50,7 +50,9 @@
     {
       "id": "GOAL-001",
       "text": "读完这轮文档后，新来的人能在文件里找到每条要求的出处，并由检查器验证",
-      "requirements": ["REQ-SPEC-018"]
+      "requirements": [
+        "REQ-SPEC-018"
+      ]
     }
   ],
   "constraints": [],
@@ -59,16 +61,24 @@
     "source": "用户要求把文档要求全部实现并收口"
   },
   "deliverables": [],
-  "remaining_work": ["原始目标尚未细化，无法确认完整验收场景"],
+  "remaining_work": [
+    "原始目标尚未细化，无法确认完整验收场景"
+  ],
   "change_type": "存量改动",
   "base_commit": "d69b6295c3c34cbfbb54d06bdd2ce57d5a0bbca4",
-  "requirements": ["REQ-SPEC-018"],
+  "requirements": [
+    "REQ-SPEC-018"
+  ],
   "acceptance": [
     {
       "id": "AC-SPEC-018",
       "title": "feature template orders reality before terms",
-      "required_layers": ["unit"],
-      "tests": ["tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-018]"],
+      "required_layers": [
+        "unit"
+      ],
+      "tests": [
+        "tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-018]"
+      ],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-018]",
@@ -80,8 +90,12 @@
     {
       "id": "AC-SPEC-019",
       "title": "write-back failure reflow ADR and handoff have one owner",
-      "required_layers": ["unit"],
-      "tests": ["tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-019]"],
+      "required_layers": [
+        "unit"
+      ],
+      "tests": [
+        "tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-019]"
+      ],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-019]",
@@ -93,8 +107,12 @@
     {
       "id": "AC-SPEC-020",
       "title": "four module readmes answer the ten questions",
-      "required_layers": ["unit"],
-      "tests": ["tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-020]"],
+      "required_layers": [
+        "unit"
+      ],
+      "tests": [
+        "tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-020]"
+      ],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-020]",
@@ -106,8 +124,12 @@
     {
       "id": "AC-SPEC-021",
       "title": "draft state numbering and design carrying rule agree",
-      "required_layers": ["unit"],
-      "tests": ["tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-021]"],
+      "required_layers": [
+        "unit"
+      ],
+      "tests": [
+        "tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-021]"
+      ],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-021]",
@@ -119,8 +141,12 @@
     {
       "id": "AC-SPEC-022",
       "title": "design documents record events and commands",
-      "required_layers": ["unit"],
-      "tests": ["tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-022]"],
+      "required_layers": [
+        "unit"
+      ],
+      "tests": [
+        "tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-022]"
+      ],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-022]",
@@ -132,8 +158,12 @@
     {
       "id": "AC-SPEC-023",
       "title": "acceptance criteria carry a module path",
-      "required_layers": ["unit"],
-      "tests": ["tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-023]"],
+      "required_layers": [
+        "unit"
+      ],
+      "tests": [
+        "tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-023]"
+      ],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-023]",
@@ -141,9 +171,28 @@
         }
       ],
       "module": "docs/plans"
+    },
+    {
+      "id": "AC-SPEC-024",
+      "title": "release accepts doc evidence",
+      "module": "scripts/ignite",
+      "required_layers": [
+        "unit"
+      ],
+      "tests": [
+        "tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-024]"
+      ],
+      "checks": [
+        {
+          "test": "tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-024]",
+          "layer": "unit"
+        }
+      ]
     }
   ],
-  "verification_requirements": ["unit"],
+  "verification_requirements": [
+    "unit"
+  ],
   "tasks": [
     {
       "id": "T1",
@@ -177,7 +226,8 @@
         "AC-SPEC-020",
         "AC-SPEC-021",
         "AC-SPEC-022",
-        "AC-SPEC-023"
+        "AC-SPEC-023",
+        "AC-SPEC-024"
       ],
       "status": "doing",
       "result": "原生 red 运行确认已提交测试的目标断言失败，并记录真实红灯。",
@@ -194,7 +244,9 @@
         "tests/contracts/spec-closure-docbatch.test.ts",
         "docs/others/evidence/"
       ],
-      "depends_on": ["T1"],
+      "depends_on": [
+        "T1"
+      ],
       "owner": "morewhyhan"
     },
     {
@@ -207,7 +259,8 @@
         "AC-SPEC-020",
         "AC-SPEC-021",
         "AC-SPEC-022",
-        "AC-SPEC-023"
+        "AC-SPEC-023",
+        "AC-SPEC-024"
       ],
       "status": "todo",
       "result": "已声明的验收行为通过，改动保持在本轮写入范围内。",
@@ -224,7 +277,9 @@
         "tests/contracts/spec-closure-docbatch.test.ts",
         "docs/others/evidence/"
       ],
-      "depends_on": ["T2"],
+      "depends_on": [
+        "T2"
+      ],
       "owner": "morewhyhan"
     },
     {
@@ -246,7 +301,9 @@
         "tests/contracts/spec-closure-docbatch.test.ts",
         "docs/others/evidence/"
       ],
-      "depends_on": ["T3"],
+      "depends_on": [
+        "T3"
+      ],
       "owner": "morewhyhan"
     }
   ],
@@ -290,7 +347,9 @@
       "run_id": "tdd-20261107131651-181c0f"
     }
   ],
-  "required_evidence": ["check-integration"],
+  "required_evidence": [
+    "check-integration"
+  ],
   "evidence": [],
   "blocker": null,
   "open_questions": [],

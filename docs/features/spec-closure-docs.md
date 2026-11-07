@@ -19,6 +19,7 @@
 - AC-SPEC-021（REQ-SPEC-018）：Given 标准正文 When 阅读 Then 定稿状态、模块编号与设计承载规则三者表述一致。
 - AC-SPEC-022（REQ-SPEC-018）：Given 设计文档 When 阅读 Then 含"事件与命令"章节，按 §9.3 的六步顺序记录。
 - AC-SPEC-023（REQ-SPEC-018）：Given 计划模板 When 阅读 Then 验收标准带 module 字段，且新计划缺该字段时检查报错。
+- AC-SPEC-024（REQ-SPEC-018）：Given 一个只包含文档计划的发布 When 运行 release verify Then 接受 check-docs 级运行记录，不再要求 check-release。
 
 ## 模块边界
 

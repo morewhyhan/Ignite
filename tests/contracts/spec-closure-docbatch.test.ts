@@ -56,3 +56,10 @@ it('[AC-SPEC-023]', () => {
     '[AC-SPEC-023] target acceptance carries module path',
   ).toBe(true)
 })
+it('[AC-SPEC-024]', () => {
+  const source = read('scripts/ignite/state.mjs')
+  expect(
+    source.includes('allowsDocOnlyReleaseEvidence'),
+    '[AC-SPEC-024] target releases accept doc evidence',
+  ).toBe(true)
+})

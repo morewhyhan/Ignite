@@ -32,6 +32,39 @@
       "subject_fingerprint": "42b6ef66b479dc83dca655d6a7eac4cfb85c734c5b36e8232377a7b43436dc2e",
       "findings": [],
       "recorded_at": "2026-11-06T19:19:22.509Z"
+    },
+    {
+      "reviewer": "ignite-reviewer",
+      "executor": "ignite-executor",
+      "source": "docs/plans/README.md draft review checklist",
+      "stage": "draft",
+      "identity_assurance": "declared",
+      "verdict": "approved",
+      "subject_fingerprint": "e10d7cebe338774da87b66e9d0d9ca04dfd26fd466e28c4816d341f43a51cc9a",
+      "findings": [],
+      "recorded_at": "2026-11-07T03:05:56.824Z"
+    },
+    {
+      "reviewer": "ignite-reviewer",
+      "executor": "ignite-executor",
+      "source": "docs/plans/README.md draft review checklist",
+      "stage": "draft",
+      "identity_assurance": "declared",
+      "verdict": "approved",
+      "subject_fingerprint": "e7b6936b8a62c799b1dfee737f51298da3bdcdb48133a8ba958cf9c22b2b3d30",
+      "findings": [],
+      "recorded_at": "2026-11-07T03:10:25.840Z"
+    },
+    {
+      "reviewer": "ignite-reviewer",
+      "executor": "ignite-executor",
+      "source": "docs/plans/README.md draft review checklist",
+      "stage": "draft",
+      "identity_assurance": "declared",
+      "verdict": "approved",
+      "subject_fingerprint": "1ef739ecdbbb2ed882432ddd06d6d63f8814bc83e263f4146b59ad9a881ee75e",
+      "findings": [],
+      "recorded_at": "2026-11-07T03:15:45.673Z"
     }
   ],
   "verification_contract": 2,
@@ -50,7 +83,7 @@
   "deliverables": ["docs/others/glossary.md", "docs/others/spec-closure/p0-conclusions.md"],
   "remaining_work": [],
   "change_type": "存量改动",
-  "base_commit": "dd98484b2a93c17e01eecefa7f6d4bcc865f3dac",
+  "base_commit": "84da537ffd60c6a299a1ab30b994b763398d2423",
   "requirements": ["REQ-SPEC-014", "REQ-SPEC-015", "REQ-SPEC-016"],
   "acceptance": [
     {
@@ -103,7 +136,9 @@
         "docs/plans/releases/spec-closure-glossary-v1.json",
         "docs/features/spec-closure-glossary.md",
         "docs/others/glossary.md",
-        "docs/others/spec-closure/p0-conclusions.md"
+        "docs/others/spec-closure/p0-conclusions.md",
+        "docs/others/spec-closure/ledger.json",
+        "docs/others/spec-closure/ledger-expectations.json"
       ],
       "depends_on": [],
       "owner": "ignite-executor"
@@ -120,7 +155,9 @@
         "docs/plans/releases/spec-closure-glossary-v1.json",
         "docs/features/spec-closure-glossary.md",
         "docs/others/glossary.md",
-        "docs/others/spec-closure/p0-conclusions.md"
+        "docs/others/spec-closure/p0-conclusions.md",
+        "docs/others/spec-closure/ledger.json",
+        "docs/others/spec-closure/ledger-expectations.json"
       ],
       "depends_on": ["T1"],
       "owner": "ignite-executor"
@@ -137,7 +174,9 @@
         "docs/plans/releases/spec-closure-glossary-v1.json",
         "docs/features/spec-closure-glossary.md",
         "docs/others/glossary.md",
-        "docs/others/spec-closure/p0-conclusions.md"
+        "docs/others/spec-closure/p0-conclusions.md",
+        "docs/others/spec-closure/ledger.json",
+        "docs/others/spec-closure/ledger-expectations.json"
       ],
       "depends_on": ["T2"],
       "owner": "ignite-executor"
@@ -153,7 +192,9 @@
         "docs/plans/releases/spec-closure-glossary-v1.json",
         "docs/features/spec-closure-glossary.md",
         "docs/others/glossary.md",
-        "docs/others/spec-closure/p0-conclusions.md"
+        "docs/others/spec-closure/p0-conclusions.md",
+        "docs/others/spec-closure/ledger.json",
+        "docs/others/spec-closure/ledger-expectations.json"
       ],
       "depends_on": ["T3"],
       "owner": "ignite-executor"
@@ -182,7 +223,9 @@
     "docs/plans/releases/spec-closure-glossary-v1.json",
     "docs/features/spec-closure-glossary.md",
     "docs/others/glossary.md",
-    "docs/others/spec-closure/p0-conclusions.md"
+    "docs/others/spec-closure/p0-conclusions.md",
+    "docs/others/spec-closure/ledger.json",
+    "docs/others/spec-closure/ledger-expectations.json"
   ],
   "tdd_evidence": [],
   "required_evidence": ["check-docs"],

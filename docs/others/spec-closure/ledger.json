@@ -31,9 +31,9 @@
       "doc_heading": "## 8. 文档治理领域的 DDD 模块",
       "stage": "P0",
       "plan": null,
-      "disposition": "implement",
-      "result": "partial",
-      "reason": "P0 结论将其定为显式非目标：与现有 Plan 编号与目录定位重复；非目标本身是一种处置结论，因此记 partial 而非 missing。"
+      "disposition": "reject",
+      "result": "missing",
+      "reason": "P0 结论定为显式非目标：与现有 Plan 编号和目录定位重复，不引入第二套编号。"
     },
     {
       "id": "GAP-04",
@@ -528,5 +528,12 @@
       "result": "kept"
     }
   ],
-  "identifier_mapping": "条目编号沿用 GAP-01..52；来源文件编号使用 STD/DES/ADR 前缀，编号到条目的映射在绑定阶段补充。"
+  "identifier_mapping": "条目编号沿用 GAP-01..52；来源文件编号使用 STD/DES/ADR 前缀，编号到条目的映射在绑定阶段补充。",
+  "criteria": {
+    "met": "仓库里有可运行的实现或检查，能用一条具体命令或测试复现；plan 指向真实计划。",
+    "kept": "模板基线本来就满足，无需新增实现；记录为\"基线已满足\"，不新建计划。",
+    "partial": "已落地一部分（实现或文档），但未覆盖要求的全部；必须在 reason 写明缺哪一部分。",
+    "missing": "没有实现。若已决定不做或延期，用 disposition 记录决定与条件，result 仍是 missing。",
+    "note": "非目标、延期、排除都不是 partial；它们表示\"不打算做\"，与\"做了一半\"是不同的事。"
+  }
 }

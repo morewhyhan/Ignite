@@ -1,20 +1,20 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`c59fa9a4b895`
+输入指纹：`8eb67b96f4da`
 当前 Plan：3；结构化历史：9；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-1794057232553297948` · `active` · `doc-spec-closure-v1`
+- `IGT-1794057232553297948` · `verifying` · `doc-spec-closure-v1`
 - `IGT-1794029824186174768` · `active` · `spec-closure-docs-v1`
 - `IGT-1793990498597924061` · `verifying` · `spec-closure-glossary-v1`
 
 ## 发布范围
 
-- `doc-spec-closure-v1` · `active`
+- `doc-spec-closure-v1` · `verifying`
   - Plan：`IGT-1794057232553297948`
-  - 缺少证据：`IGT-1794057232553297948:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1794057232553297948
   - 未完成原始目标：GOAL-001 把规格闭环标准里的每条要求落到文档与检查器，并给出可复核证据

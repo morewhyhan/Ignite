@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1794057232553297948",
   "release": "doc-spec-closure-v1",
-  "status": "active",
+  "status": "verifying",
   "outcome": "完成 doc-spec-closure 的一项可独立验收的存量改动",
   "contract_version": 2,
   "execution_contract": 1,
@@ -328,10 +328,15 @@
     }
   ],
   "required_evidence": ["check-integration"],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "check-integration",
+      "run_id": "run-20261107133741-33f5ec"
+    }
+  ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": null,
+  "integrated_commit": "6393bda5dda09f79d2ff0273391dd14503c3c233",
   "updated_at": "2026-11-07",
   "design_writeback": {
     "changed": [],
@@ -487,7 +492,7 @@ prepare T1 编写真实行为测试后，先独立审查 draft，并提交规格
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`verifying`（由元数据生成）
 
 - [x] T1 · 确认本轮目标、编写真实测试并提交准备基线 · done
 - [ ] T2 · 运行真实断言并记录目标行为红灯 · doing
@@ -495,7 +500,7 @@ prepare T1 编写真实行为测试后，先独立审查 draft，并提交规格
 - [ ] T4 · 验证兼容性并回写当前设计 · todo
 
 验收缺口：原始目标尚未细化，无法确认完整验收场景
-证据：尚无
+证据：check-integration / run-20261107133741-33f5ec
 <!-- /ignite-progress -->
 
 ## 准出条件

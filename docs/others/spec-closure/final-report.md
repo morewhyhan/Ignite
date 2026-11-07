@@ -97,3 +97,20 @@ pnpm test                             # 全量单元与契约测试
 结论：P5 作为纯文档计划的通道验证已完成（红灯要求不再出现、范围与格式问题已消除），
 但"一次跑完的绿色检查"在本机 drvfs 环境下难以取得。计划状态记为 `verifying`，
 不记为 `done`；换到本地盘或更宽松时限的 CI 上重跑一次即可闭合。
+
+## 附：纯文档计划的真实成本（实测）
+
+新建一个纯文档计划并让它通过 `check --plan`，实际要补 8 处，缺一处就换一条报错：
+
+| #   | 报错                                                       | 需要的修改                            |
+| --- | ---------------------------------------------------------- | ------------------------------------- |
+| 1   | acceptance must map at least one AC to tests               | 计划 acceptance 指向一条测试          |
+| 2   | release scope references unknown requirement               | 发布 scope 的 requirements 写真实 REQ |
+| 3   | REQ has no matching acceptance                             | 发布 scope 的 acceptance 补 AC        |
+| 4   | T4 owner must name the responsible person                  | 每个任务补 owner                      |
+| 5   | ready Plans cannot retain placeholder authorization.source | 写真实授权来源                        |
+| 6   | implement task requires acceptance IDs                     | red/implement 任务映射 AC             |
+| 7   | draft review fingerprint is stale                          | 元数据改完后重记审查（且必须先提交）  |
+| 8   | Plan scope violation / committed execution inputs          | 写入范围覆盖被改文件，且工作树干净    |
+
+这不是缺陷清单，而是**新建计划的真实准入成本**。如果希望降低，应让 `create-change` 生成时就带 owner、AC 映射与 release scope 骨架，而不是让使用者逐个试错。

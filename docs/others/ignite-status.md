@@ -14,7 +14,7 @@
 
 - `doc-fill-v1` · `active`
   - Plan：`IGT-1794061076111244240`
-  - 缺少证据：`IGT-1794061076111244240:check-integration`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1794061076111244240
   - 未完成原始目标：GOAL-001 补齐设计文档事件、目录职责与来源标记，并加严结构检查
@@ -36,7 +36,7 @@
   - 最终版本验收：stale
   - 下一步：pnpm ignite release verify spec-closure-content-v1 --plan IGT-202611060005
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `spec-closure-docs-v1` · `invalid`
+- `spec-closure-docs-v1` · `active`
   - Plan：`IGT-1794029824186174768`
   - 缺少证据：`IGT-1794029824186174768:check-docs`（missing：no run is bound to this evidence requirement）
   - 最终版本验收：missing
@@ -92,6 +92,6 @@
 
 ## 结构问题
 
-- docs/plans/20261107-spec-closure-docs.md: draft review fingerprint is stale or does not match the current object
+- 无。
 
 > 本文件是确定性派生视图；修改 Plan 或 Release 机器源后重新生成。

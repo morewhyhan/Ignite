@@ -65,6 +65,17 @@
       "subject_fingerprint": "7651688d29a6d842d90085bdbaddb0a5828fc3163fed4858cd8ef8c1681a0c8f",
       "findings": [],
       "recorded_at": "2026-11-07T13:33:43.845Z"
+    },
+    {
+      "reviewer": "ignite-reviewer",
+      "executor": "morewhyhan",
+      "source": "docs/plans/README.md delivery review checklist",
+      "stage": "delivery",
+      "identity_assurance": "declared",
+      "verdict": "approved",
+      "subject_fingerprint": "964d9ece2bd7dfd1362f498640868304dec261886978d415bf92559f058e9eac",
+      "findings": [],
+      "recorded_at": "2026-11-07T13:39:11.601Z"
     }
   ],
   "verification_contract": 2,

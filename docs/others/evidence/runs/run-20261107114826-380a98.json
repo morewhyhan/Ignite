@@ -1,0 +1,44 @@
+{
+  "schema": 2,
+  "run_id": "run-20261107114826-380a98",
+  "check_policy_version": 7,
+  "plan_id": "IGT-1793990498597924061",
+  "evidence_id": "check-dev",
+  "level": "dev",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-11-07T11:48:26.150Z",
+  "ended_at": "2026-11-07T11:48:26.261Z",
+  "commit": "962151873fa8af309837b5659d1625f10d2791da",
+  "input_fingerprint": "fa90c77138c9dcb5478340990510487ae56445412fc60fedb225666114e558d7",
+  "environment_fingerprint": "e73ab4a40c6b7141120afff35ca73e610ff1a7311abcaabed94c952c6caed87a",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "e2e_server_mode": "development",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "f3c06f0a62cf2170269e21da09e61794ec76af168ee861693f0d10b234f8c6cd",
+  "acceptance_results": [],
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "0118cc6c6b642a6d0183f28407c0b6f57f798a57"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 79
+    }
+  ],
+  "log_sha256": "ba7fd0ced47cf4551457d5ad71d0e4765c644dfb36eb781c3c89551b5f26fe8f",
+  "execution_source": "ignite-runner-local"
+}

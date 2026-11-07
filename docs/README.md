@@ -24,7 +24,7 @@ Ignite 是可采用的全栈模板，不是固定业务产品。当前基线包�
 | 判断工作是否真正完成         | [Plan 完成](./plans/README.md#完成与证据)、[Release 完成](./plans/releases/README.md#完成与证据)、[测试规范](./standards/testing.md)、[验证证据](./others/evidence/) |
 | 接入或调整 AI 工具           | [AI 工作台](../.ai/README.md)、[AI 协作规范](./standards/ai-agents.md)                                                                                               |
 
-普通业务开发只读本轮相关资料。只有修改执行器、验收或适配边界时，才需要阅读[执行工具规格](./features/execution.md)和[执行系统设计](./designs/execution.md)，无需每轮加载全部工具文档。
+普通业务开发只读本轮相关资料。只有修改执行器、验收或适配边界时，才需要阅读[执行工具规格](./features/execution.md)、[执行可信性规格](./features/ai-execution-trust.md)和[执行系统设计](./designs/execution.md)，无需每轮加载全部工具文档。
 
 需求来源较短时，将原话留在 Plan 的原始目标核对中。多份文件或较长材料需要保留原文时，放在[原始输入资料](./others/inputs/README.md)并从 Feature 或 Plan 引用；材料用于追溯，不替代确认后的 Feature 规格。
 

@@ -41,6 +41,7 @@ for (const path of [
   'AGENTS.md',
   'docs/README.md',
   'docs/standards/adoption.md',
+  'docs/standards/specification-to-implementation-ddd.md',
   'docs/plans/README.md',
   'docs/features/product.md',
   'docs/features/_template.md',
@@ -72,6 +73,7 @@ const structureRequirements = [
   ['docs/plans/README.md', ['模块目标', '交接']],
   ['docs/designs/README.md', ['模块目标', '交接', '来源标记']],
   ['docs/others/README.md', ['模块目标', '交接']],
+  ['docs/standards/specification-to-implementation-ddd.md', ['定稿状态', '事件']],
 ]
 for (const entry of structureRequirements) {
   const path = String(entry[0])

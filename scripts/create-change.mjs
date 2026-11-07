@@ -10,16 +10,21 @@ import { writeFileSetAtomically } from './ignite/scaffold-writer.mjs'
 const args = process.argv.slice(2)
 const dryRun = args.includes('--dry-run')
 const releaseIndex = args.indexOf('--release')
+const authorizationIndex = args.indexOf('--authorization')
+const valueIndexes = [releaseIndex, authorizationIndex]
+  .filter((index) => index >= 0)
+  .map((index) => index + 1)
 const positionalArguments = args.filter(
-  (argument, index) =>
-    !argument.startsWith('--') && (releaseIndex < 0 || index !== releaseIndex + 1),
+  (argument, index) => !argument.startsWith('--') && !valueIndexes.includes(index),
 )
 const [slug] = positionalArguments
 const releaseId = releaseIndex >= 0 ? args[releaseIndex + 1] : `${slug}-v1`
 if (
   positionalArguments.length !== 1 ||
   args.some(
-    (argument) => argument.startsWith('--') && !['--dry-run', '--release'].includes(argument),
+    (argument) =>
+      argument.startsWith('--') &&
+      !['--dry-run', '--release', '--authorization'].includes(argument),
   ) ||
   args.filter((argument) => argument === '--release').length > 1 ||
   !/^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/.test(slug || '') ||
@@ -29,6 +34,16 @@ if (
 }
 
 const root = resolve(process.env.IGNITE_ROOT || process.cwd())
+const authorizationSource =
+  authorizationIndex >= 0
+    ? String(args[authorizationIndex + 1] || '').trim()
+    : '等待填写用户已确定的具体请求'
+const gitUser = spawnSync('git', ['config', 'user.name'], { cwd: root, encoding: 'utf8' })
+const ownerFromGit = (gitUser.status === 0 ? gitUser.stdout.trim() : '')
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, '-')
+  .replace(/^-+|-+$/g, '')
+const planOwner = ownerFromGit || 'ignite-executor'
 const dirtyEntries = checkScaffoldWorktree(root, { dryRun })
 const git = spawnSync('git', ['rev-parse', 'HEAD'], {
   cwd: root,
@@ -89,7 +104,7 @@ const metadata = {
   goals: [],
   constraints: [],
   non_goals: [],
-  authorization: { source: '等待填写用户已确定的具体请求' },
+  authorization: { source: authorizationSource },
   deliverables: [],
   remaining_work: ['原始目标尚未细化，无法确认完整验收场景'],
   change_type: '存量改动',
@@ -112,7 +127,7 @@ const metadata = {
         '<test-path>',
       ],
       depends_on: [],
-      owner: 'assigned-worker',
+      owner: planOwner,
     },
     {
       id: 'T2',
@@ -123,7 +138,7 @@ const metadata = {
       result: '原生 red 运行确认已提交测试的目标断言失败，并记录真实红灯。',
       scope: ['<test-path>', 'docs/others/evidence/tdd/'],
       depends_on: ['T1'],
-      owner: 'assigned-worker',
+      owner: planOwner,
     },
     {
       id: 'T3',
@@ -134,7 +149,7 @@ const metadata = {
       result: '已声明的验收行为通过，改动保持在本轮写入范围内。',
       scope: ['<affected-path>'],
       depends_on: ['T2'],
-      owner: 'assigned-worker',
+      owner: planOwner,
     },
     {
       id: 'T4',
@@ -144,14 +159,14 @@ const metadata = {
       result: 'Plan integration 和独立 delivery 审查均通过，Design 已记录实际结果及缺口。',
       scope: ['<design-path>', 'docs/others/evidence/'],
       depends_on: ['T3'],
-      owner: 'assigned-worker',
+      owner: planOwner,
     },
   ],
   depends_on: [],
   dependency_contracts: [],
   shared_files: [],
   handoff: { interfaces: [], migrations: [], tests: [], remaining: [] },
-  owner: 'assigned-worker',
+  owner: planOwner,
   risk: 'feature',
   data_contract: {
     access_scope: 'not-decided',

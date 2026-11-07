@@ -12,7 +12,6 @@
 - [测试标准](./testing.md)
 - [模板采用规范](./adoption.md)
 - [AI 工作台与真源](./ai-agents.md)
-- [从规格到实现的 DDD 架构闭环](./specification-to-implementation-ddd.md)：模板级目标基线；已登记为需求来源，绑定规则由后续计划补充
 
 标准描述“应该如何做”，不记录某一轮任务的临时方案，也不复制源码事实。
 

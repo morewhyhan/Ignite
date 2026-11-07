@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1794057232553297948",
   "release": "doc-spec-closure-v1",
-  "status": "active",
+  "status": "verifying",
   "outcome": "完成 doc-spec-closure 的一项可独立验收的存量改动",
   "contract_version": 2,
   "execution_contract": 1,
@@ -76,6 +76,17 @@
       "subject_fingerprint": "964d9ece2bd7dfd1362f498640868304dec261886978d415bf92559f058e9eac",
       "findings": [],
       "recorded_at": "2026-11-07T13:39:11.601Z"
+    },
+    {
+      "reviewer": "ignite-reviewer",
+      "executor": "morewhyhan",
+      "source": "docs/plans/README.md delivery review checklist",
+      "stage": "delivery",
+      "identity_assurance": "declared",
+      "verdict": "approved",
+      "subject_fingerprint": "ab73efb24d707f6d2f8721b697f774228cebeda3ec84175541476dff4186942d",
+      "findings": [],
+      "recorded_at": "2026-11-07T13:41:59.051Z"
     }
   ],
   "verification_contract": 2,
@@ -503,7 +514,7 @@ prepare T1 编写真实行为测试后，先独立审查 draft，并提交规格
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`verifying`（由元数据生成）
 
 - [x] T1 · 确认本轮目标、编写真实测试并提交准备基线 · done
 - [x] T2 · 运行真实断言并记录目标行为红灯 · done

@@ -345,7 +345,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "6393bda5dda09f79d2ff0273391dd14503c3c233",
+  "integrated_commit": "373f71bee2c79c32b12c7f419b06af4e0a0f6b04",
   "updated_at": "2026-11-07",
   "design_writeback": {
     "changed": [],

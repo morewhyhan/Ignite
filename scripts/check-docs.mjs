@@ -66,6 +66,28 @@ failures.push(
 )
 
 const markdownFiles = walkFiles(docsRoot).filter((path) => extname(path) === '.md')
+
+// 结构检查：只查章节、字段、引用是否齐全，不查内容意思。
+const structureRequirements = [
+  ['docs/features/README.md', ['模块目标', '交接']],
+  ['docs/plans/README.md', ['模块目标', '交接']],
+  ['docs/designs/README.md', ['模块目标', '交接', '来源标记']],
+  ['docs/others/README.md', ['模块目标', '交接']],
+  ['docs/standards/specification-to-implementation-ddd.md', ['定稿状态', '事件']],
+]
+for (const [path, required] of structureRequirements) {
+  if (!existsSync(join(repositoryRoot, path))) continue
+  const text = read(path)
+  for (const marker of required) {
+    if (!text.includes(marker)) fail(`structure: ${path} is missing required section ${marker}`)
+  }
+}
+for (const path of walkFiles(join(docsRoot, 'designs'))) {
+  if (!path.endsWith('.md') || path.endsWith('README.md')) continue
+  const text = readFileSync(path, 'utf8')
+  const relativePath = relative(repositoryRoot, path).replaceAll('\\', '/')
+  if (!text.includes('事件与命令')) fail(`structure: ${relativePath} is missing the event section`)
+}
 const localLinkPattern = /!?\[[^\]]*]\(([^)]+)\)/g
 
 for (const markdownFile of markdownFiles) {

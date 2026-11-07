@@ -94,6 +94,7 @@ CI 是合并门槛，本次改动的 schema 2 Plan 必须达到终态；整个 R
 
 通过页面完成保存，再用 `database.<model>.findFirst(...)` 读取同一隔离数据库，刷新页面检查内容仍存在。将这条测试同时映射到适用 AC 的 database 和 browser 检查。失败提示可用真实字段校验或 `page.context().setOffline(true)` 观察，并在恢复联网后检查已填内容。持久化验收文件不能用 `page.route()` 替换业务 API。
 
+- TDD 验证对象是可观察行为，不是实现细节：断言描述用户或调用方能观察到的结果；重构、改名、换实现不构成红灯理由。
 - 新 Plan 先提交真实行为测试，再运行 `pnpm ignite tdd red --plan <ID> --ac <AC-ID>`。只有目标行为断言失败才记录红灯；模块加载失败、浏览器未启动、配置错误和脚手架的 `expect.fail` / `throw` 不能作为 TDD 证据。
 - 用 `expect(actual, '[AC-ID] target').matcher(...)` 标记本条 AC 的目标断言。准备步骤的断言不加该标记；即使准备步骤位于同一测试函数内，它的失败也不能生成红灯。原生入口要求失败位置落在已标记的目标断言上。
 - 红灯与绿灯之间保持目标测试、适用的初始化 hook 和所调用测试辅助函数不变；辅助函数默认放在测试目录的 `test-support/`、`test-helpers/`、`test-utils/`、`fixtures/` 或 `helpers/`。业务实现仍可正常修改。回执保存失败摘要和摘要哈希，完整输出留在本地诊断目录。

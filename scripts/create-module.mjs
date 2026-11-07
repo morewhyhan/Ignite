@@ -219,6 +219,7 @@ test('[${acceptanceId}] completes the specified user journey in a real browser',
       acceptance: [
         {
           id: acceptanceId,
+          module: `src/modules/${moduleName}`,
           tests: [`${testPath}::[${acceptanceId}]`, `${browserTestPath}::[${acceptanceId}]`],
           required_layers: ['unit', 'browser'],
           checks: [

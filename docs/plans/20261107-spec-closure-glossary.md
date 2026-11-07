@@ -94,7 +94,7 @@
   "deliverables": ["docs/others/glossary.md", "docs/others/spec-closure/p0-conclusions.md"],
   "remaining_work": [],
   "change_type": "存量改动",
-  "base_commit": "fcf9a526aea5113b6f9ced118d0a085a1040aa6a",
+  "base_commit": "b1625aea33feba5e65c4c7954c8910d57a5ddc9c",
   "requirements": ["REQ-SPEC-014", "REQ-SPEC-015", "REQ-SPEC-016"],
   "acceptance": [
     {

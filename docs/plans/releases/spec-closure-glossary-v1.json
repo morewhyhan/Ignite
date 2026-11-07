@@ -3,35 +3,21 @@
   "id": "spec-closure-glossary-v1",
   "coverage_version": 2,
   "verification_contract": 2,
-  "plan_ids": [
-    "IGT-1793990498597924061"
-  ],
+  "plan_ids": ["IGT-1793990498597924061"],
   "scope": [
     {
       "id": "GOAL-001",
       "text": "仓库内三组术语与三套状态词唯一定义，两条历史延期项各有处置",
       "source": "用户规格闭环收尾任务 T3 词表与迁移、T4 P0 六条结论",
-      "requirements": [
-        "REQ-SPEC-014",
-        "REQ-SPEC-015",
-        "REQ-SPEC-016"
-      ],
-      "acceptance": [
-        "AC-SPEC-014",
-        "AC-SPEC-015",
-        "AC-SPEC-016"
-      ],
-      "plan_ids": [
-        "IGT-1793990498597924061"
-      ],
+      "requirements": ["REQ-SPEC-014", "REQ-SPEC-015", "REQ-SPEC-016"],
+      "acceptance": ["AC-SPEC-014", "AC-SPEC-015", "AC-SPEC-016"],
+      "plan_ids": ["IGT-1793990498597924061"],
       "disposition": "included",
       "reason": "",
       "authorization": ""
     }
   ],
-  "must_pass": [
-    "check-release"
-  ],
+  "must_pass": ["check-release"],
   "evidence": [],
   "integrated_commit": null,
   "excluded": [],

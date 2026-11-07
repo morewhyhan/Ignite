@@ -118,7 +118,8 @@
       "stage": "P2",
       "plan": null,
       "disposition": "implement",
-      "result": "missing"
+      "result": "partial",
+      "reason": "计划模板新增阶段目标 / 代价 / 假设三项（docs/plans/_template.md）。 缺承载该批改动的计划编号，故记 partial。"
     },
     {
       "id": "GAP-12",
@@ -299,7 +300,8 @@
       "stage": "P3",
       "plan": null,
       "disposition": "implement",
-      "result": "missing"
+      "result": "partial",
+      "reason": "实现任务章节要求每个任务写明改变条件与失败判定。 缺承载该批改动的计划编号，故记 partial。"
     },
     {
       "id": "GAP-30",
@@ -339,7 +341,8 @@
       "stage": "P3",
       "plan": null,
       "disposition": "implement",
-      "result": "missing"
+      "result": "partial",
+      "reason": "主要矛盾章节要求写明三条：两个条件真实存在、方向相反、相互制约。 缺承载该批改动的计划编号，故记 partial。"
     },
     {
       "id": "GAP-34",

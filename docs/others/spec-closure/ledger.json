@@ -272,7 +272,7 @@
       "plan": null,
       "disposition": "implement",
       "result": "partial",
-      "reason": "模板要求准备任务与验证任务都要有验收指向，无验收指向的任务不算任务（plans/_template.md）。 缺承载计划编号，故记 partial。"
+      "reason": "准备任务与验证任务都要有验收指向（plans/_template.md）。 缺承载计划编号，故记 partial。"
     },
     {
       "id": "GAP-27",
@@ -315,7 +315,7 @@
       "plan": null,
       "disposition": "implement",
       "result": "partial",
-      "reason": "计划规则写入进入实现前的十条准入清单（plans/README.md）。 缺承载计划编号，故记 partial。"
+      "reason": "进入实现前的十条准入写入 plans/README.md。 缺承载计划编号，故记 partial。"
     },
     {
       "id": "GAP-31",
@@ -336,7 +336,7 @@
       "plan": null,
       "disposition": "implement",
       "result": "partial",
-      "reason": "计划模板写明\"Plan 不是任务清单\"，任务只是证明落点（plans/_template.md）。 缺承载计划编号，故记 partial。"
+      "reason": "计划不是任务清单写入 plans/_template.md。 缺承载计划编号，故记 partial。"
     },
     {
       "id": "GAP-33",

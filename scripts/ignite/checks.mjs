@@ -242,6 +242,10 @@ export function commandsForLevel(
     if (docsFormatTargets.length) {
       commands.push(pnpm(['exec', 'prettier', '--check', ...docsFormatTargets], 'format'))
     }
+    const docsSelected = [...targetedTests(files, fileExists)]
+    if (docsSelected.length) {
+      commands.push(pnpm(['exec', 'vitest', 'run', '--silent', ...docsSelected], 'behavior'))
+    }
     return commands
   }
   if (level === 'dev') {

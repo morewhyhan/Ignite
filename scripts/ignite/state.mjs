@@ -878,7 +878,7 @@ export function validatePlan(
       failures.push(`evidence ${item.id} commit does not contain the current Plan contract`)
       evidenceFailures.push('plan-contract')
     }
-    const validLevel = ['dev', 'integration', 'release'].includes(manifest.level)
+    const validLevel = ['docs', 'dev', 'integration', 'release'].includes(manifest.level)
     const policyVersion = manifest.check_policy_version ?? 1
     const validPolicy = SUPPORTED_CHECK_POLICIES.has(policyVersion)
     if (requireCurrentEvidence && policyVersion !== CHECK_POLICY_VERSION) {

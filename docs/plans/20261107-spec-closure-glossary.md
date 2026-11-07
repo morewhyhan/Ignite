@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1793990498597924061",
   "release": "spec-closure-glossary-v1",
-  "status": "verifying",
+  "status": "active",
   "outcome": "把术语、状态词与两条延期项处置写成可校验文档，消除同一概念多种叫法",
   "contract_version": 2,
   "execution_contract": 1,
@@ -214,7 +214,7 @@
       "title": "运行真实断言并记录目标行为红灯",
       "phase": "red",
       "acceptance": ["AC-SPEC-014", "AC-SPEC-015", "AC-SPEC-016"],
-      "status": "todo",
+      "status": "done",
       "result": "原生 red 运行确认已提交测试的目标断言失败，并记录真实红灯。",
       "scope": [
         "docs/plans/20261107-spec-closure-glossary.md",
@@ -233,7 +233,7 @@
       "title": "实现已定义的行为切片",
       "phase": "implement",
       "acceptance": ["AC-SPEC-014", "AC-SPEC-015", "AC-SPEC-016"],
-      "status": "todo",
+      "status": "done",
       "result": "已声明的验收行为通过，改动保持在本轮写入范围内。",
       "scope": [
         "docs/plans/20261107-spec-closure-glossary.md",
@@ -251,7 +251,7 @@
       "id": "T4",
       "title": "验证兼容性并回写当前设计",
       "phase": "verify",
-      "status": "todo",
+      "status": "done",
       "result": "Plan integration 和独立 delivery 审查均通过，Design 已记录实际结果及缺口。",
       "scope": [
         "docs/plans/20261107-spec-closure-glossary.md",
@@ -432,12 +432,12 @@ prepare T1 编写真实行为测试后，先独立审查 draft，并提交规格
 
 <!-- ignite-progress -->
 
-状态：`verifying`（由元数据生成）
+状态：`active`（由元数据生成）
 
 - [x] T1 · 确认本轮目标、编写真实测试并提交准备基线 · done
-- [ ] T2 · 运行真实断言并记录目标行为红灯 · todo
-- [ ] T3 · 实现已定义的行为切片 · todo
-- [ ] T4 · 验证兼容性并回写当前设计 · todo
+- [x] T2 · 运行真实断言并记录目标行为红灯 · done
+- [x] T3 · 实现已定义的行为切片 · done
+- [x] T4 · 验证兼容性并回写当前设计 · done
 
 验收缺口：未记录；完成仍须实际证据
 证据：check-integration / run-20261107114113-4767cb

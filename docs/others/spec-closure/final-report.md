@@ -155,3 +155,23 @@ pnpm exec vitest run --maxWorkers=1  → TEST=0
 因此这是 `/mnt/c`（drvfs）上并发争用 IO 造成的超时，不是断言失败，也不是本轮改动引入的回归。
 结论按事实记：**单并发全绿；默认并发下有 1 条 240 秒超时**。
 跑 CI 或本地验收时，建议在本地盘执行，或把该用例与其它 CLI 用例串行。
+
+## 十五、P5 的最终处理：停在 verifying，不宣布完成
+
+第四次 `check --plan IGT-1793990498597924061` 的结果：
+
+```
+CK=130   （进程被宿主中断，非断言失败）
+已通过：git-diff / template-doctor / governance / docs / typecheck / tools-typecheck / lint / format
+进行中：验收用例（已跑到 pstack-sync，全部 ✓）
+```
+
+三次失败各有不同原因，且都不是计划内容的问题：
+
+1. 基线漂移 → 范围越界（已修：base_commit 前移）
+2. 元数据互锁 → integrated 不含契约（已修：先提交 base，再指向该提交）
+3. format 未过（已修：prettier 重排后提交）
+
+第四次八道工程门禁全过，卡在验收用例长跑被 130 中断。这与历史记录一致：`/mnt/c` 上该用例集常在 8–12 分钟处被宿主掐断。
+
+结论按事实记录：**P5 内容与元数据都已就位，`check --plan` 未取得一次完整通过**。因此 Plan 保持 `verifying`，不置 `done`，`release verify` 也未执行。

@@ -8,7 +8,6 @@
 - [开发标准](./development.md)
 - [安全标准](./security.md)
 - [测试标准](./testing.md)
-- [失败分类与处置](./failure-taxonomy.md)
 - [模板采用规范](./adoption.md)
 - [AI 工作台与真源](./ai-agents.md)
 - [从规格到实现的 DDD 架构闭环](./specification-to-implementation-ddd.md)：模板级目标基线；已登记为需求来源，绑定规则由后续计划补充

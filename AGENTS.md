@@ -99,7 +99,7 @@ Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定�
 
 ## 推荐开发流程
 
-需求编写按 `docs/features/README.md`，立项、重点、接续与完成按 `docs/plans/README.md`，检查选择按 `docs/standards/testing.md`，检查未通过时先按 `docs/standards/failure-taxonomy.md` 分类再动手，运行恢复与证据维护按 `docs/others/evidence/README.md`，组合完成按 `docs/plans/releases/README.md`，规则维护按 `docs/standards/ai-agents.md`。Feature、Plan 和测试模板只提供填写位置。具体 Plan/Release 围绕原始结果协调各专业产出；普通任务直接读取相关规则。
+需求编写按 `docs/features/README.md`，立项、重点、接续与完成按 `docs/plans/README.md`，检查选择按 `docs/standards/testing.md`，运行恢复与证据维护按 `docs/others/evidence/README.md`，组合完成按 `docs/plans/releases/README.md`，规则维护按 `docs/standards/ai-agents.md`。Feature、Plan 和测试模板只提供填写位置。具体 Plan/Release 围绕原始结果协调各专业产出；普通任务直接读取相关规则。
 
 用户明确要求暂不测试时，先实现并保留待验证任务；不运行检查、不生成通过证据、不进入 `done`。测试资产可以编写，是否执行以当前用户指令为准。
 

@@ -75,7 +75,9 @@ const structureRequirements = [
   ['docs/others/README.md', ['模块目标', '交接']],
   ['docs/standards/specification-to-implementation-ddd.md', ['定稿状态', '事件']],
 ]
-for (const [path, required] of structureRequirements) {
+for (const entry of structureRequirements) {
+  const path = String(entry[0])
+  const required = entry[1]
   if (!existsSync(join(repositoryRoot, path))) continue
   const text = read(path)
   for (const marker of required) {

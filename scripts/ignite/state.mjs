@@ -2063,6 +2063,16 @@ export function setPlanStatus(planId, nextStatus, { blocker = null, commit = nul
     throw new Error(`invalid transition: ${plan.metadata.status} -> ${nextStatus}`)
   }
   if (nextStatus === 'done') {
+    const writeback = plan.metadata.design_writeback
+    const changedDesigns = Array.isArray(writeback?.changed)
+      ? writeback.changed.filter((item) => typeof item === 'string' && item.trim().length > 0)
+      : []
+    const writebackReason = typeof writeback?.reason === 'string' ? writeback.reason.trim() : ''
+    if (changedDesigns.length === 0 && writebackReason.length === 0) {
+      throw new Error(
+        'completing a Plan requires design write-back: set design_writeback.changed to the updated design documents, or give design_writeback.reason when none are affected',
+      )
+    }
     if (!executionWorkspaceIsClean()) {
       throw new Error('cannot complete a Plan while execution inputs are uncommitted')
     }

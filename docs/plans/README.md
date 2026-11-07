@@ -150,6 +150,23 @@ Plan done 只证明此交付，不表示整个 Release 完成；组合版本由 
 
 这类计划不要求 TDD 红灯：红灯的前提是"实现不存在"，而文档内容本身就是交付物。证据由 `pnpm docs:check`、链接与章节校验、以及一次独立审查构成。检查器据此跳过红灯要求；判据与实现见 [测试标准](../standards/testing.md#证据与红灯纪律) 第 3 条。
 
+## 新建计划后一次性补齐
+
+`create-change` 生成的骨架只含占位符。用一条命令补齐语义字段，避免在 `ready` 前逐个试错：
+
+```
+node scripts/fill-plan.mjs --plan docs/plans/<file>.md --req REQ-SPEC-0NN --ac AC-SPEC-0NN
+```
+
+它会写入：
+
+- 计划的 `requirements` 与 `acceptance`（含测试路径 `tests/contracts/<slug>.test.ts::[AC-…]`）；
+- 发布 `scope` 的 `requirements` 与 `acceptance`；
+- `red` 与 `implement` 任务的 `acceptance` 映射；
+- `open_questions` 置空。
+
+它**不修改 `write_scope`**：纯文档计划要求全部路径在 `docs/` 下，脚本自动加测试路径会破坏该判定，需要人工确认。
+
 ## 命令
 
 模板见 [_template.md](./_template.md)。需要新交付时用 create:module 或 create:change；脚手架要求工作区干净，dry-run 只读预览。免业务 Plan 仅限检查器认定的根 README、docs/README、docs/others/README 和 docs/assets 静态展示资产，仍须文档、格式和差异检查；执行规则、专业规格、设计、测试和代码不能使用该豁免。

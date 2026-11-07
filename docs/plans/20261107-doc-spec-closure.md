@@ -21,6 +21,17 @@
       "subject_fingerprint": "0969e15753fd57e4056f3319a3d40306cc9554552e7d365ddf8e04e0a6fc10f3",
       "findings": [],
       "recorded_at": "2026-11-07T13:15:29.973Z"
+    },
+    {
+      "reviewer": "ignite-reviewer",
+      "executor": "morewhyhan",
+      "source": "docs/plans/README.md draft review checklist",
+      "stage": "draft",
+      "identity_assurance": "declared",
+      "verdict": "approved",
+      "subject_fingerprint": "b4e06309ad7cf513304f4f0aa6389d060b352bea4bae87403f7096dbff09ecef",
+      "findings": [],
+      "recorded_at": "2026-11-07T13:21:52.464Z"
     }
   ],
   "verification_contract": 2,
@@ -52,7 +63,8 @@
           "test": "tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-018]",
           "layer": "unit"
         }
-      ]
+      ],
+      "module": "docs/features"
     },
     {
       "id": "AC-SPEC-019",
@@ -64,7 +76,8 @@
           "test": "tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-019]",
           "layer": "unit"
         }
-      ]
+      ],
+      "module": "docs/standards"
     },
     {
       "id": "AC-SPEC-020",
@@ -76,7 +89,8 @@
           "test": "tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-020]",
           "layer": "unit"
         }
-      ]
+      ],
+      "module": "docs"
     },
     {
       "id": "AC-SPEC-021",
@@ -88,7 +102,8 @@
           "test": "tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-021]",
           "layer": "unit"
         }
-      ]
+      ],
+      "module": "docs/standards"
     },
     {
       "id": "AC-SPEC-022",
@@ -100,7 +115,8 @@
           "test": "tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-022]",
           "layer": "unit"
         }
-      ]
+      ],
+      "module": "docs/designs"
     },
     {
       "id": "AC-SPEC-023",
@@ -112,7 +128,8 @@
           "test": "tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-023]",
           "layer": "unit"
         }
-      ]
+      ],
+      "module": "docs/plans"
     }
   ],
   "verification_requirements": ["unit"],

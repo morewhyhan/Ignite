@@ -135,6 +135,18 @@ export function readPlan(path) {
   }
 }
 
+const MODULE_POLICY_CUTOFF = 1794057232553297948n
+
+function requiresModulePolicy(metadata) {
+  const match = /^IGT-(\d+)$/.exec(String(metadata?.id || ''))
+  if (!match) return false
+  try {
+    return BigInt(match[1]) >= MODULE_POLICY_CUTOFF
+  } catch {
+    return false
+  }
+}
+
 export function isDocOnlyPlan(metadata) {
   return (
     Array.isArray(metadata?.required_evidence) &&
@@ -476,6 +488,9 @@ export function validatePlan(
         continue
       }
       if (acceptanceIds.has(item.id)) failures.push(`duplicate acceptance mapping: ${item.id}`)
+      if (requiresModulePolicy(value) && typeof item.module !== 'string') {
+        failures.push(`acceptance ${item.id} must declare the module path it belongs to`)
+      }
       acceptanceIds.add(item.id)
       const spec = registry.acceptance.get(item.id)
       if (!/^AC-[A-Z0-9-]+$/.test(item.id) || (!retired && !draft && !spec))

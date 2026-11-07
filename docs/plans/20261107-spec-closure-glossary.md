@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1793990498597924061",
   "release": "spec-closure-glossary-v1",
-  "status": "active",
+  "status": "verifying",
   "outcome": "把术语、状态词与两条延期项处置写成可校验文档，消除同一概念多种叫法",
   "contract_version": 2,
   "execution_contract": 1,
@@ -388,7 +388,7 @@
   ],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "7ba26fb1d9a9b9beb4b136b7325eb2394eff107a",
+  "integrated_commit": "20c20764061b44e393ce4521f1c1b08b03a455c2",
   "updated_at": "2026-11-07",
   "design_writeback": {
     "changed": ["docs/others/glossary.md", "docs/others/spec-closure/final-report.md"],
@@ -517,7 +517,7 @@ prepare T1 编写真实行为测试后，先独立审查 draft，并提交规格
 
 <!-- ignite-progress -->
 
-状态：`active`（由元数据生成）
+状态：`verifying`（由元数据生成）
 
 - [x] T1 · 确认本轮目标、编写真实测试并提交准备基线 · done
 - [x] T2 · 运行真实断言并记录目标行为红灯 · done

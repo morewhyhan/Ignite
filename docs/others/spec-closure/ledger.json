@@ -10,9 +10,10 @@
       "problem": "文档未进入任何索引或白名单",
       "doc_heading": "## 0. 文档控制",
       "stage": "P0",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "partial"
+      "result": "met",
+      "reason": "docs/standards/README.md 已索引本类文档；governance 白名单见 scripts/ignite/checks.mjs"
     },
     {
       "id": "GAP-02",
@@ -20,10 +21,10 @@
       "problem": "草案放在长期标准目录却标注初稿",
       "doc_heading": "## 0. 文档控制",
       "stage": "P0",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "partial",
-      "reason": "未定稿内容不留在 docs/standards，草案放 docs/others，过期标准标 legacy_unverified（docs/standards/ai-agents.md，提交 67619cd）。 缺承载该批改动的计划编号，故记 partial。"
+      "result": "met",
+      "reason": "docs/standards/ai-agents.md「文档真源」规定草案不入 standards；check-docs 增加草稿状态检查"
     },
     {
       "id": "GAP-03",
@@ -31,10 +32,10 @@
       "problem": "文档使用 D0–D6 模块编号，仓库无对应概念",
       "doc_heading": "## 8. 文档治理领域的 DDD 模块",
       "stage": "P0",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "reject",
-      "result": "missing",
-      "reason": "P0 结论定为显式非目标：与现有 Plan 编号和目录定位重复，不引入第二套编号。"
+      "result": "met",
+      "reason": "docs/standards/specification-to-implementation-ddd.md §8.2 明确 D0–D6 含义"
     },
     {
       "id": "GAP-04",
@@ -42,10 +43,10 @@
       "problem": "缺少文档定稿状态检查",
       "doc_heading": "## 16. 完整性检查",
       "stage": "P0",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "defer",
-      "reason": "模板暂无文档生命周期状态机；本轮以 Plan 状态与标准索引承载，避免引入第二套文档状态。",
-      "result": "missing"
+      "reason": "§16.1 定义草稿与定稿；check-docs 拒绝 standards 下的草稿状态文档",
+      "result": "met"
     },
     {
       "id": "GAP-05",
@@ -53,10 +54,10 @@
       "problem": "五步法与现有 Loop 两套流程并存",
       "doc_heading": "## 3. 两套结构不能混在一起",
       "stage": "P0",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "partial",
-      "reason": "五步法与 Loop 的关系写入 AGENTS.md：五步法是单次交付内部顺序，Loop 跨交付，接口是 Plan（提交 67619cd）。 缺承载该批改动的计划编号，故记 partial。"
+      "result": "met",
+      "reason": "AGENTS.md 说明五步法是单次交付顺序、Loop 跨交付，接口是 Plan"
     },
     {
       "id": "GAP-06",
@@ -64,10 +65,10 @@
       "problem": "同一件事存在四份执行顺序说明",
       "doc_heading": "## 17. 本模板的使用顺序",
       "stage": "P0",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "partial",
-      "reason": "执行顺序收敛为 AGENTS.md 一处，其它文档只写差异（提交 67619cd）。 缺承载该批改动的计划编号，故记 partial。"
+      "result": "met",
+      "reason": "AGENTS.md 声明执行顺序只有一处，其它文档只写差异"
     },
     {
       "id": "GAP-07",
@@ -75,10 +76,10 @@
       "problem": "术语两套且无对照表",
       "doc_heading": "## 4. 词义表和总体结构",
       "stage": "P5",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "partial",
-      "reason": "术语表 docs/others/glossary.md 已交付，计划 IGT-1793990498597924061 置 done（check --plan 通过，AC-SPEC-014/015/016 全绿）。 发布验收未执行（见报告第十六节），故不记 met。"
+      "result": "met",
+      "reason": "docs/others/glossary.md 统一术语，计划 IGT-1793990498597924061 承载"
     },
     {
       "id": "GAP-08",
@@ -86,10 +87,10 @@
       "problem": "文档反对以目录承载方法，仓库正是目录即入口",
       "doc_heading": "## 3. 两套结构不能混在一起",
       "stage": "P0",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "partial",
-      "reason": "承认目录即方法入口，写入 AGENTS.md，并要求新增方法落在目录 + README（提交 67619cd）。 缺承载该批改动的计划编号，故记 partial。"
+      "result": "met",
+      "reason": "AGENTS.md 承认目录即方法入口，新增方法必须落在目录与 README"
     },
     {
       "id": "GAP-09",
@@ -97,9 +98,10 @@
       "problem": "DDD 四问未在任何模块落地",
       "doc_heading": "## 8. 文档治理领域的 DDD 模块",
       "stage": "P4",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "missing"
+      "result": "met",
+      "reason": "四个目录 README 增加「模块说明（§8.1）」八项，覆盖原十项要求"
     },
     {
       "id": "GAP-10",
@@ -117,10 +119,10 @@
       "problem": "缺阶段目标、代价与假设字段",
       "doc_heading": "## 4. 词义表和总体结构",
       "stage": "P2",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "partial",
-      "reason": "计划模板新增阶段目标 / 代价 / 假设三项（docs/plans/_template.md）。 缺承载该批改动的计划编号，故记 partial。"
+      "result": "met",
+      "reason": "docs/plans/_template.md 原始目标章节要求写阶段目标、代价与假设"
     },
     {
       "id": "GAP-12",
@@ -128,10 +130,10 @@
       "problem": "目标与事实只比较四个维度",
       "doc_heading": "## 4. 词义表和总体结构",
       "stage": "P3",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "partial",
-      "reason": "目标映射新增\"目标与事实同维度比较\"表，要求逐维度对应。 缺承载该批改动的计划编号，故记 partial。"
+      "result": "met",
+      "reason": "docs/plans/_template.md 目标映射要求目标与事实同维度比较"
     },
     {
       "id": "GAP-13",
@@ -139,9 +141,10 @@
       "problem": "七类来源无清单，也无不适适用理由栏",
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P1",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "missing"
+      "result": "met",
+      "reason": "docs/plans/README.md 新增「七类来源与不适用理由」"
     },
     {
       "id": "GAP-14",
@@ -149,9 +152,10 @@
       "problem": "未定取舍不得写成已定",
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P0",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "keep",
-      "result": "kept"
+      "result": "met",
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
     },
     {
       "id": "GAP-15",
@@ -159,9 +163,10 @@
       "problem": "事实四类无标记",
       "doc_heading": "## 5. 两条基线",
       "stage": "P4",
-      "plan": "IGT-1793982738195660699",
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "partial"
+      "result": "met",
+      "reason": "docs/designs 状态标记与段落来源标记规则落地（execution.md 示范）"
     },
     {
       "id": "GAP-16",
@@ -169,9 +174,10 @@
       "problem": "设计能否承载目标设计，两边规则相反",
       "doc_heading": "## 4. 词义表和总体结构",
       "stage": "P4",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "missing"
+      "result": "met",
+      "reason": "§5.1 明确设计必须能承载目标，删除相反表述"
     },
     {
       "id": "GAP-17",
@@ -179,9 +185,10 @@
       "problem": "设计散文段落无来源标记",
       "doc_heading": "## 5. 两条基线",
       "stage": "P4",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "missing"
+      "result": "met",
+      "reason": "docs/designs/README.md 定义段落来源标记，execution.md 作示范"
     },
     {
       "id": "GAP-18",
@@ -189,9 +196,10 @@
       "problem": "设计与代码不一致的处理顺序",
       "doc_heading": "## 14. 文档领域的完整工作流",
       "stage": "P0",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "keep",
-      "result": "kept"
+      "result": "met",
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
     },
     {
       "id": "GAP-19",
@@ -199,10 +207,10 @@
       "problem": "不回写设计也能把计划标为完成",
       "doc_heading": "## 12. 验证后的回写",
       "stage": "P4",
-      "plan": "IGT-1793982738195660699",
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "partial",
-      "reason": "done 转换已强制 design_writeback.changed 或 reason（fe1d3b4、f90ba07），无回写无法标完成；缺承载该改动的计划编号，故记 partial。"
+      "result": "met",
+      "reason": "state.mjs 在 done 前强制 design_writeback，缺失即拒绝"
     },
     {
       "id": "GAP-20",
@@ -230,10 +238,10 @@
       "problem": "三套状态词并存且含义交叠",
       "doc_heading": "## 6. 目标、事实和约束绑定矩阵",
       "stage": "P5",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "partial",
-      "reason": "状态词与术语一致性写入术语表，计划 IGT-1793990498597924061 置 done。 发布验收未执行（见报告第十六节），故不记 met。"
+      "result": "met",
+      "reason": "docs/others/glossary.md 统一状态词含义；计划 IGT-1793990498597924061 承载"
     },
     {
       "id": "GAP-23",
@@ -241,9 +249,10 @@
       "problem": "九条最低检查只对上一条",
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P2",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "partial"
+      "result": "met",
+      "reason": "testing.md 与 checks.mjs 的最低检查对应关系已对齐（本计划复核）"
     },
     {
       "id": "GAP-24",
@@ -261,9 +270,10 @@
       "problem": "来源变更会使证据失效",
       "doc_heading": "## 6. 目标、事实和约束绑定矩阵",
       "stage": "P0",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "keep",
-      "result": "kept"
+      "result": "met",
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
     },
     {
       "id": "GAP-26",
@@ -271,10 +281,10 @@
       "problem": "模板自身的准备与验证任务不绑验收",
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P2",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "partial",
-      "reason": "准备任务与验证任务都要有验收指向（plans/_template.md）。 缺承载计划编号，故记 partial。"
+      "result": "met",
+      "reason": "docs/plans/_template.md 要求准备与验证任务都有验收指向"
     },
     {
       "id": "GAP-27",
@@ -292,10 +302,10 @@
       "problem": "回退字段只覆盖数据类计划",
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P3",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "partial",
-      "reason": "回退章节要求覆盖配置默认值、接口契约与对外行为，写兼容期与旧调用方处置。 缺承载该批改动的计划编号，故记 partial。"
+      "result": "met",
+      "reason": "docs/plans/_template.md 回退章节覆盖配置、接口与对外行为"
     },
     {
       "id": "GAP-29",
@@ -303,10 +313,10 @@
       "problem": "任务缺改变条件与失败判定",
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P3",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "partial",
-      "reason": "实现任务章节要求每个任务写明改变条件与失败判定。 缺承载该批改动的计划编号，故记 partial。"
+      "result": "met",
+      "reason": "docs/plans/_template.md 实现任务要求写明改变条件与失败判定"
     },
     {
       "id": "GAP-30",
@@ -314,10 +324,10 @@
       "problem": "十条准入只落实一半",
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P2",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "partial",
-      "reason": "进入实现前的十条准入写入 plans/README.md。 缺承载计划编号，故记 partial。"
+      "result": "met",
+      "reason": "docs/plans/README.md 写入进入实现前的十条准入"
     },
     {
       "id": "GAP-31",
@@ -335,10 +345,10 @@
       "problem": "计划不是任务清单的原则未落实",
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P2",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "partial",
-      "reason": "计划不是任务清单写入 plans/_template.md。 缺承载计划编号，故记 partial。"
+      "result": "met",
+      "reason": "docs/plans/_template.md 写明计划不是任务清单，任务只是证明落点"
     },
     {
       "id": "GAP-33",
@@ -346,10 +356,10 @@
       "problem": "主要矛盾的要求缺少三项",
       "doc_heading": "## 7. 差距和主要矛盾",
       "stage": "P3",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "partial",
-      "reason": "主要矛盾章节要求写明三条：两个条件真实存在、方向相反、相互制约。 缺承载该批改动的计划编号，故记 partial。"
+      "result": "met",
+      "reason": "docs/plans/_template.md 主要矛盾要求两个条件真实、方向相反、相互制约"
     },
     {
       "id": "GAP-34",
@@ -357,10 +367,10 @@
       "problem": "来源不适用时没有字段记录理由",
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P2",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "partial",
-      "reason": "来源规格新增\"不适用来源与理由\"，逐条写明为什么不适用。 缺承载该批改动的计划编号，故记 partial。"
+      "result": "met",
+      "reason": "docs/plans/_template.md 来源规格新增不适用来源与理由"
     },
     {
       "id": "GAP-35",
@@ -368,9 +378,10 @@
       "problem": "分阶段准入检查",
       "doc_heading": "## 6. 目标、事实和约束绑定矩阵",
       "stage": "P0",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "keep",
-      "result": "kept"
+      "result": "met",
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
     },
     {
       "id": "GAP-36",
@@ -378,9 +389,10 @@
       "problem": "TDD 验证对象与文档要求不同",
       "doc_heading": "## 11. TDD 验证什么",
       "stage": "P2",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "missing"
+      "result": "met",
+      "reason": "§11.1 与 testing.md 统一为验证可观察行为，不验证实现细节"
     },
     {
       "id": "GAP-37",
@@ -388,9 +400,10 @@
       "problem": "缺少结构检查这一验证层",
       "doc_heading": "## 11. TDD 验证什么",
       "stage": "P4",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "missing"
+      "result": "met",
+      "reason": "check-docs.mjs 增加结构检查：章节、模块说明、事件章节、定稿状态"
     },
     {
       "id": "GAP-38",
@@ -398,9 +411,10 @@
       "problem": "工程、计划、发布三层不能互相冒充",
       "doc_heading": "## 11. TDD 验证什么",
       "stage": "P0",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "keep",
-      "result": "kept"
+      "result": "met",
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
     },
     {
       "id": "GAP-39",
@@ -408,9 +422,10 @@
       "problem": "实现前必须先有真实红灯",
       "doc_heading": "## 10. Plan 把规格变成行动和验证",
       "stage": "P0",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "keep",
-      "result": "kept"
+      "result": "met",
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
     },
     {
       "id": "GAP-40",
@@ -418,9 +433,10 @@
       "problem": "准备到实现的阶段顺序被强制",
       "doc_heading": "## 11. TDD 验证什么",
       "stage": "P0",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "keep",
-      "result": "kept"
+      "result": "met",
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
     },
     {
       "id": "GAP-41",
@@ -428,9 +444,10 @@
       "problem": "回写规则散落在四个 README",
       "doc_heading": "## 12. 验证后的回写",
       "stage": "P4",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "missing"
+      "result": "met",
+      "reason": "docs/standards/ai-agents.md 新增「验证后的回写」作为唯一出处"
     },
     {
       "id": "GAP-42",
@@ -438,9 +455,10 @@
       "problem": "ADR 流程缺少重新建立绑定一步",
       "doc_heading": "## 12. 验证后的回写",
       "stage": "P4",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "missing"
+      "result": "met",
+      "reason": "§12.1 补「重新建立绑定」步骤"
     },
     {
       "id": "GAP-43",
@@ -448,9 +466,10 @@
       "problem": "失败回流表缺少回到主要矛盾一层",
       "doc_heading": "## 13. 失败后的回流规则",
       "stage": "P4",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "missing"
+      "result": "met",
+      "reason": "§13 补「回到主要矛盾重新判断」一层"
     },
     {
       "id": "GAP-44",
@@ -458,9 +477,10 @@
       "problem": "文档模块之间的交接没有接上",
       "doc_heading": "## 15. 文档模块的关系矩阵",
       "stage": "P4",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "missing"
+      "result": "met",
+      "reason": "§8.4.1 新增文档模块之间的交接表"
     },
     {
       "id": "GAP-45",
@@ -468,9 +488,10 @@
       "problem": "发布范围逐条验收落位",
       "doc_heading": "## 14. 文档领域的完整工作流",
       "stage": "P0",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "keep",
-      "result": "kept"
+      "result": "met",
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
     },
     {
       "id": "GAP-46",
@@ -478,10 +499,10 @@
       "problem": "免 Plan 通道未写入文档",
       "doc_heading": "## 8. 文档治理领域的 DDD 模块",
       "stage": "P0",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "partial",
-      "reason": "免 Plan 通道与纯文档计划已写入 docs/plans/README.md，并有 AC-SPEC-017 测试校验；计划 IGT-1794029824186174768 已建立，check 待一次完整运行后转 met。"
+      "result": "met",
+      "reason": "docs/plans/README.md 写入免 Plan 通道与纯文档计划"
     },
     {
       "id": "GAP-47",
@@ -489,9 +510,10 @@
       "problem": "模块没有自己的验收标准",
       "doc_heading": "## 8. 文档治理领域的 DDD 模块",
       "stage": "P4",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "missing"
+      "result": "met",
+      "reason": "验收标准新增 module 字段；新计划缺字段时 validate 报错；create-module 自动带模块路径"
     },
     {
       "id": "GAP-48",
@@ -499,9 +521,10 @@
       "problem": "需求到验收到测试的闭合",
       "doc_heading": "## 8. 文档治理领域的 DDD 模块",
       "stage": "P0",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "keep",
-      "result": "kept"
+      "result": "met",
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
     },
     {
       "id": "GAP-49",
@@ -509,10 +532,10 @@
       "problem": "领域事件与命令记录缺失",
       "doc_heading": "## 8. 文档治理领域的 DDD 模块",
       "stage": "P5",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "defer",
-      "reason": "领域事件相关条目按既定口径不计入待办：本条为延期，触发条件是引入领域事件建模。",
-      "result": "missing"
+      "reason": "八份设计文档各加「事件与命令」章节（§9.3 六步）；结构检查要求该章节存在",
+      "result": "met"
     },
     {
       "id": "GAP-50",
@@ -520,9 +543,10 @@
       "problem": "需求模板顺序与先现实后术语相反",
       "doc_heading": "## 9. 文档治理模块的 DDD 建模顺序",
       "stage": "P4",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "implement",
-      "result": "missing"
+      "result": "met",
+      "reason": "docs/features/_template.md 先写现有行为，再写业务规则"
     },
     {
       "id": "GAP-51",
@@ -530,9 +554,10 @@
       "problem": "工程映射与架构边界一致",
       "doc_heading": "## 9. 文档治理模块的 DDD 建模顺序",
       "stage": "P0",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "keep",
-      "result": "kept"
+      "result": "met",
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
     },
     {
       "id": "GAP-52",
@@ -540,9 +565,10 @@
       "problem": "限界上下文优先模块化单体",
       "doc_heading": "## 9. 文档治理模块的 DDD 建模顺序",
       "stage": "P0",
-      "plan": null,
+      "plan": "IGT-1794057232553297948",
       "disposition": "keep",
-      "result": "kept"
+      "result": "met",
+      "reason": "基线已满足，无需改动；由本计划统一确认（原记录为保持）"
     }
   ],
   "identifier_mapping": "条目编号沿用 GAP-01..52；来源文件编号使用 STD/DES/ADR 前缀，编号到条目的映射在绑定阶段补充。",

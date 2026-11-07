@@ -82,6 +82,14 @@ for (const [path, required] of structureRequirements) {
     if (!text.includes(marker)) fail(`structure: ${path} is missing required section ${marker}`)
   }
 }
+for (const path of walkFiles(join(docsRoot, 'standards'))) {
+  if (!path.endsWith('.md')) continue
+  const text = readFileSync(path, 'utf8')
+  const relativePath = relative(repositoryRoot, path).replaceAll('\\', '/')
+  if (/文档状态\s*\|[^\n]*(初稿|草稿)/.test(text)) {
+    fail(`structure: ${relativePath} is a draft but lives under docs/standards`)
+  }
+}
 for (const path of walkFiles(join(docsRoot, 'designs'))) {
   if (!path.endsWith('.md') || path.endsWith('README.md')) continue
   const text = readFileSync(path, 'utf8')

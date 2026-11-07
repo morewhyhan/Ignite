@@ -6,13 +6,13 @@
 
 ## 当前工作
 
-- `IGT-1794061076111244240` · `active` · `doc-fill-v1`
+- `IGT-1794061076111244240` · `verifying` · `doc-fill-v1`
 - `IGT-1794029824186174768` · `active` · `spec-closure-docs-v1`
 - `IGT-1793990498597924061` · `verifying` · `spec-closure-glossary-v1`
 
 ## 发布范围
 
-- `doc-fill-v1` · `active`
+- `doc-fill-v1` · `verifying`
   - Plan：`IGT-1794061076111244240`
   - 缺少证据：无
   - 最终版本验收：missing

@@ -197,6 +197,17 @@
       "subject_fingerprint": "40c3d70b7351017df4fc57f0863c0204cd3d9f5d47359a851bf4be1288b604af",
       "findings": [],
       "recorded_at": "2026-11-07T11:50:54.336Z"
+    },
+    {
+      "reviewer": "ignite-reviewer",
+      "executor": "ignite-executor",
+      "source": "docs/plans/README.md delivery review checklist",
+      "stage": "delivery",
+      "identity_assurance": "declared",
+      "verdict": "approved",
+      "subject_fingerprint": "54349abaea22efcd00a695016f544ac4854c641261db6f87600b1659c228a583",
+      "findings": [],
+      "recorded_at": "2026-11-07T11:51:24.396Z"
     }
   ],
   "verification_contract": 2,
@@ -369,6 +380,10 @@
     {
       "id": "check-dev",
       "run_id": "run-20261107114826-380a98"
+    },
+    {
+      "id": "check-docs",
+      "run_id": "run-20261107115055-e93b5b"
     }
   ],
   "blocker": null,
@@ -510,7 +525,7 @@ prepare T1 编写真实行为测试后，先独立审查 draft，并提交规格
 - [x] T4 · 验证兼容性并回写当前设计 · done
 
 验收缺口：未记录；完成仍须实际证据
-证据：check-integration / run-20261107114113-4767cb；check-dev / run-20261107114826-380a98
+证据：check-integration / run-20261107114113-4767cb；check-dev / run-20261107114826-380a98；check-docs / run-20261107115055-e93b5b
 <!-- /ignite-progress -->
 
 ## 准出条件

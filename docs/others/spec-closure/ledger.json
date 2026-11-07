@@ -77,7 +77,8 @@
       "stage": "P5",
       "plan": null,
       "disposition": "implement",
-      "result": "missing"
+      "result": "partial",
+      "reason": "术语表 docs/others/glossary.md 已交付，计划 IGT-1793990498597924061 置 done（check --plan 通过，AC-SPEC-014/015/016 全绿）。 发布验收未执行（见报告第十六节），故不记 met。"
     },
     {
       "id": "GAP-08",
@@ -231,7 +232,8 @@
       "stage": "P5",
       "plan": null,
       "disposition": "implement",
-      "result": "missing"
+      "result": "partial",
+      "reason": "状态词与术语一致性写入术语表，计划 IGT-1793990498597924061 置 done。 发布验收未执行（见报告第十六节），故不记 met。"
     },
     {
       "id": "GAP-23",
@@ -509,7 +511,7 @@
       "stage": "P5",
       "plan": null,
       "disposition": "defer",
-      "reason": "模板当前只有认证与任务两个领域，尚无真实领域事件；先登记记录格式，不强制引入事件模型。",
+      "reason": "领域事件相关条目按既定口径不计入待办：本条为延期，触发条件是引入领域事件建模。",
       "result": "missing"
     },
     {

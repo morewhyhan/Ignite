@@ -175,3 +175,37 @@ CK=130   （进程被宿主中断，非断言失败）
 第四次八道工程门禁全过，卡在验收用例长跑被 130 中断。这与历史记录一致：`/mnt/c` 上该用例集常在 8–12 分钟处被宿主掐断。
 
 结论按事实记录：**P5 内容与元数据都已就位，`check --plan` 未取得一次完整通过**。因此 Plan 保持 `verifying`，不置 `done`，`release verify` 也未执行。
+
+## 十六、平台迁移与 P5 收尾
+
+### 迁移
+
+验证环境从 WSL 的 `/mnt/c`（drvfs）迁到 WSL 本地盘 `/home/why/ignite`（ext4），保留 `.git` 与全部源码，只重建 `node_modules`：
+
+| 命令         | `/mnt/c`                    | ext4                   |
+| ------------ | --------------------------- | ---------------------- |
+| `validate`   | 数十秒                      | 4.8 秒                 |
+| `check-docs` | 数十秒                      | 5.2 秒                 |
+| `pnpm test`  | 约 12 分钟，1 条 240 秒超时 | 2 分 13 秒，296 条全绿 |
+
+结论：超时与中断的主因是 drvfs 的 IO，不是用例或计划内容。
+
+### P5 收尾
+
+计划 `IGT-1793990498597924061` 置 `done`。为此补通了纯文档计划的验收链：
+
+- 新增 `docs` 检查级别（`LEVEL_RANK`、命令集、证据校验）；
+- `docs` 级别纳入计划 `acceptance[].checks` 的测试，使 AC-SPEC-014/015/016 可被判为 passed；
+- 证据绑定、进度块、审查指纹、基线四者的更新顺序固定为：base → integrated → 指纹 → 进度块。
+
+### 仍未执行的一步
+
+`release verify spec-closure-glossary-v1` 未通过：
+
+```
+Ignite check: run is not a successful clean check-release for this Release
+```
+
+原因是一条设计缺口：`verification_contract: 2` 的 Plan 被禁止跑 `check --level release`（提示改用 `release verify`），而 `release verify` 又要求已存在一条 `check-release` 运行记录；纯文档计划只产生 `check-docs`，因此这条链在文档计划上无法闭合。
+
+这是产品缺口，不是数据问题。下一步要么允许纯文档计划跳过 release 级验证并在 Release 记录"不适用"，要么让 `release verify` 接受 `check-docs` 级运行。

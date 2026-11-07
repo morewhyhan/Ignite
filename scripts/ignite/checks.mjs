@@ -2,8 +2,9 @@ import { extname } from 'node:path'
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { changedFilesForPlan, normalizePath, repositoryRoot, validateWriteScope } from './core.mjs'
+import { isDocOnlyPlan } from './state.mjs'
 
-const LEVEL_RANK = { dev: 1, integration: 2, release: 3 }
+const LEVEL_RANK = { docs: 1, dev: 2, integration: 3, release: 4 }
 export const CHECK_POLICY_VERSION = 7
 export const SUPPORTED_CHECK_POLICIES = new Set([1, 2, 3, 4, 5, 6, 7])
 const SAFE_DOC_PATTERNS = [
@@ -50,6 +51,10 @@ export function isGovernedPath(path) {
  */
 export function minimumLevel(files, risk = null) {
   const normalized = files.map(normalizePath)
+  const docsOnly =
+    normalized.length > 0 &&
+    normalized.every((path) => /^docs\//.test(path) || path === 'AGENTS.md')
+  if (risk === 'docs' && docsOnly) return 'docs'
   const fileLevel =
     normalized.length === 0
       ? 'dev'
@@ -231,6 +236,14 @@ export function commandsForLevel(
   const commands = [
     command('node', ['scripts/check-diff.mjs', '--base', plan.metadata.base_commit], 'git-diff'),
   ]
+  if (level === 'docs') {
+    commands.push(pnpm(['docs:check'], 'docs'))
+    const docsFormatTargets = files.filter((path) => ['.md', '.json'].includes(extname(path)))
+    if (docsFormatTargets.length) {
+      commands.push(pnpm(['exec', 'prettier', '--check', ...docsFormatTargets], 'format'))
+    }
+    return commands
+  }
   if (level === 'dev') {
     if (changedDocs(files)) commands.push(pnpm(['docs:check'], 'docs'))
     const formatTargets = files.filter((path) =>
@@ -379,6 +392,7 @@ export function planCheck({
       'Plan risk docs understates the actual changes; update risk and required_evidence',
     )
   }
-  const { level, minimum } = resolveLevel(requestedLevel, files, plan.metadata.risk)
+  const riskForLevel = isDocOnlyPlan(plan.metadata) ? 'docs' : plan.metadata.risk
+  const { level, minimum } = resolveLevel(requestedLevel, files, riskForLevel)
   return { level, minimum, changedFiles: files, commands: commandsForLevel(level, files, plan) }
 }

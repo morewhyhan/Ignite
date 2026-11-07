@@ -135,6 +135,16 @@ export function readPlan(path) {
   }
 }
 
+export function isDocOnlyPlan(metadata) {
+  return (
+    Array.isArray(metadata?.required_evidence) &&
+    metadata.required_evidence.includes('check-docs') &&
+    Array.isArray(metadata?.write_scope) &&
+    metadata.write_scope.length > 0 &&
+    metadata.write_scope.every((scope) => typeof scope === 'string' && /^docs\//.test(scope))
+  )
+}
+
 export function planContractAtCommit(plan, commit = 'HEAD') {
   const result = runGit(['show', `${commit}:${plan.relativePath}`], { allowFailure: true })
   if (result.exitCode !== 0) return false
@@ -519,12 +529,7 @@ export function validatePlan(
   }
   // 纯文档计划：evidence 只要求 check-docs，且写入范围全部在 docs/ 下。
   // 这类改动不会改变他人可观察的行为，不进入红灯通道（见 docs/standards/testing.md）。
-  const docOnlyPlan =
-    Array.isArray(value.required_evidence) &&
-    value.required_evidence.includes('check-docs') &&
-    Array.isArray(value.write_scope) &&
-    value.write_scope.length > 0 &&
-    value.write_scope.every((scope) => typeof scope === 'string' && /^docs\//.test(scope))
+  const docOnlyPlan = isDocOnlyPlan(value)
   if (value.verification_contract >= 2) {
     failures.push(...validateDataContract(plan))
     if (!Array.isArray(value.tdd_evidence)) {

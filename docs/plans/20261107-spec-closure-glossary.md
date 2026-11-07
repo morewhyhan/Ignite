@@ -138,7 +138,7 @@
   "deliverables": ["docs/others/glossary.md", "docs/others/spec-closure/p0-conclusions.md"],
   "remaining_work": [],
   "change_type": "存量改动",
-  "base_commit": "d4d912ba1810c6ec284e2246e509755aa234f315",
+  "base_commit": "1317ad29ef3e07320b8a10496b450fa6938fd76c",
   "requirements": ["REQ-SPEC-014", "REQ-SPEC-015", "REQ-SPEC-016"],
   "acceptance": [
     {
@@ -287,7 +287,7 @@
   "evidence": [],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "c54847af404d286fef8d49c102d0d85f4a703715",
+  "integrated_commit": "1317ad29ef3e07320b8a10496b450fa6938fd76c",
   "updated_at": "2026-11-07"
 }
 -->

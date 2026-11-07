@@ -1,7 +1,7 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`f1dd41f329f6`
+输入指纹：`2deae035ac1d`
 当前 Plan：2；结构化历史：9；未迁移历史：0
 
 ## 当前工作
@@ -80,5 +80,6 @@
 ## 结构问题
 
 - docs/plans/20261107-spec-closure-glossary.md: draft review fingerprint is stale or does not match the current object
+- docs/plans/20261107-spec-closure-glossary.md: integrated_commit does not contain the current Plan contract
 
 > 本文件是确定性派生视图；修改 Plan 或 Release 机器源后重新生成。

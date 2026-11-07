@@ -248,7 +248,7 @@ export function commandsForLevel(
       .filter((path) => /\.test\.tsx?$/.test(path))
     const docsSelected = [...new Set([...targetedTests(files, fileExists), ...docsMapped])]
     if (docsSelected.length) {
-      commands.push(pnpm(['exec', 'vitest', 'run', '--silent', ...docsSelected], 'behavior'))
+      commands.push(pnpm(['exec', 'vitest', 'run', ...docsSelected], 'behavior'))
     }
     return commands
   }

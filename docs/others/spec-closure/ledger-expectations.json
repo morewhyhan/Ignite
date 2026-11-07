@@ -1,5 +1,12 @@
 {
-  "met": ["GAP-10", "GAP-20", "GAP-21", "GAP-24", "GAP-27", "GAP-31"],
+  "met": [
+    "GAP-10",
+    "GAP-20",
+    "GAP-21",
+    "GAP-24",
+    "GAP-27",
+    "GAP-31"
+  ],
   "kept": [
     "GAP-14",
     "GAP-18",
@@ -13,7 +20,13 @@
     "GAP-51",
     "GAP-52"
   ],
-  "partial": ["GAP-01", "GAP-15", "GAP-19", "GAP-23", "GAP-46"],
+  "partial": [
+    "GAP-01",
+    "GAP-15",
+    "GAP-19",
+    "GAP-23",
+    "GAP-46"
+  ],
   "missing": [
     "GAP-02",
     "GAP-03",

@@ -194,7 +194,8 @@
       "stage": "P4",
       "plan": "IGT-1793982738195660699",
       "disposition": "implement",
-      "result": "partial"
+      "result": "partial",
+      "reason": "done 转换已强制 design_writeback.changed 或 reason（fe1d3b4、f90ba07），无回写无法标完成；缺承载该改动的计划编号，故记 partial。"
     },
     {
       "id": "GAP-20",

@@ -1,20 +1,28 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`7a093a5bf8f0`
-当前 Plan：2；结构化历史：10；未迁移历史：0
+输入指纹：`fe28e1b06df3`
+当前 Plan：3；结构化历史：10；未迁移历史：0
 
 ## 当前工作
 
+- `IGT-1794061076111244240` · `active` · `doc-fill-v1`
 - `IGT-1794029824186174768` · `active` · `spec-closure-docs-v1`
 - `IGT-1793990498597924061` · `verifying` · `spec-closure-glossary-v1`
 
 ## 发布范围
 
-- `doc-spec-closure-v1` · `done`
+- `doc-fill-v1` · `active`
+  - Plan：`IGT-1794061076111244240`
+  - 缺少证据：`IGT-1794061076111244240:check-integration`（missing：no run is bound to this evidence requirement）
+  - 最终版本验收：missing
+  - 下一步：pnpm ignite next --plan IGT-1794061076111244240
+  - 未完成原始目标：GOAL-001 补齐设计文档事件、目录职责与来源标记，并加严结构检查
+- `doc-spec-closure-v1` · `verifying`
   - Plan：`IGT-1794057232553297948`
   - 缺少证据：无
-  - 最终版本验收：passed（e6b9dadac021）
+  - 最终版本验收：stale
+  - 下一步：pnpm ignite release verify doc-spec-closure-v1 --plan IGT-1794057232553297948
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `spec-closure-connection-v1` · `verifying`
   - Plan：`IGT-1793982738195660699`
@@ -28,7 +36,7 @@
   - 最终版本验收：stale
   - 下一步：pnpm ignite release verify spec-closure-content-v1 --plan IGT-202611060005
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `spec-closure-docs-v1` · `active`
+- `spec-closure-docs-v1` · `invalid`
   - Plan：`IGT-1794029824186174768`
   - 缺少证据：`IGT-1794029824186174768:check-docs`（missing：no run is bound to this evidence requirement）
   - 最终版本验收：missing
@@ -84,6 +92,6 @@
 
 ## 结构问题
 
-- 无。
+- docs/plans/20261107-spec-closure-docs.md: draft review fingerprint is stale or does not match the current object
 
 > 本文件是确定性派生视图；修改 Plan 或 Release 机器源后重新生成。

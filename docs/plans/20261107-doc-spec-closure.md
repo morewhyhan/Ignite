@@ -32,6 +32,17 @@
       "subject_fingerprint": "b4e06309ad7cf513304f4f0aa6389d060b352bea4bae87403f7096dbff09ecef",
       "findings": [],
       "recorded_at": "2026-11-07T13:21:52.464Z"
+    },
+    {
+      "reviewer": "ignite-reviewer",
+      "executor": "morewhyhan",
+      "source": "docs/plans/README.md draft review checklist",
+      "stage": "draft",
+      "identity_assurance": "declared",
+      "verdict": "approved",
+      "subject_fingerprint": "e1a7485eda32861d6308fc07975342e055c5ac9735c2c89da0a1065a6eac1984",
+      "findings": [],
+      "recorded_at": "2026-11-07T13:30:09.377Z"
     }
   ],
   "verification_contract": 2,
@@ -268,7 +279,9 @@
     "docs/others/",
     "scripts/ignite/",
     "tests/contracts/spec-closure-docbatch.test.ts",
-    "docs/others/evidence/"
+    "docs/others/evidence/",
+    "scripts/check-docs.mjs",
+    "scripts/create-module.mjs"
   ],
   "tdd_evidence": [
     {

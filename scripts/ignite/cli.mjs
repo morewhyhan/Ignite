@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { adoptHistory } from './adoption.mjs'
 import { planCheck, feedbackCommands } from './checks.mjs'
-import { formatTriage } from './triage.mjs'
+import { formatTriage, formatPlanTriage } from './triage.mjs'
 import { runManagedCommand } from './managed-command.mjs'
 import { taskHandoff } from './agent-handoff.mjs'
 import {
@@ -624,7 +624,10 @@ async function commandCheck(options) {
     ...validatePlan(plan, { allowLegacy: false }),
     ...validatePlanDependencies(plan),
   ]
-  if (planErrors.length) throw new Error(`invalid Plan:\n- ${planErrors.join('\n- ')}`)
+  if (planErrors.length) {
+    console.error(formatPlanTriage(plan.metadata.id, planErrors))
+    throw new Error(`invalid Plan:\n- ${planErrors.join('\n- ')}`)
+  }
   const explicitFiles = options.files
     ? String(options.files)
         .split(',')

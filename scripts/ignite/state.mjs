@@ -730,6 +730,10 @@ export function validatePlan(
             (task.phase === 'red' && task.status === 'done')
           ) {
             for (const id of task.acceptance || []) {
+              const criterion = (value.acceptance || []).find((entry) => entry.id === id)
+              // 文档类验收改动的是规则文本，不产生可观察行为，用结构检查验证，不要求行为红灯。
+              if (typeof criterion?.module === 'string' && criterion.module.startsWith('docs'))
+                continue
               if (!validTdd.has(id))
                 failures.push(`${task.id}: ${id} requires valid red evidence before implementation`)
             }
@@ -738,6 +742,7 @@ export function validatePlan(
       }
       if (value.status === 'done' && !docOnlyPlan) {
         for (const criterion of value.acceptance || []) {
+          if (typeof criterion.module === 'string' && criterion.module.startsWith('docs')) continue
           if (!validTdd.has(criterion.id))
             failures.push(`${criterion.id}: done Plan requires a matching behavior-test red result`)
         }

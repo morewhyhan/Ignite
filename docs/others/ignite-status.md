@@ -1,7 +1,7 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`8eb67b96f4da`
+输入指纹：`e039d64c0423`
 当前 Plan：3；结构化历史：9；未迁移历史：0
 
 ## 当前工作
@@ -14,7 +14,7 @@
 
 - `doc-spec-closure-v1` · `verifying`
   - Plan：`IGT-1794057232553297948`
-  - 缺少证据：无
+  - 缺少证据：`IGT-1794057232553297948:check-integration`（stale：repository or Plan inputs changed after this run）
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1794057232553297948
   - 未完成原始目标：GOAL-001 把规格闭环标准里的每条要求落到文档与检查器，并给出可复核证据

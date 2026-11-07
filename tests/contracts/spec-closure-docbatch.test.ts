@@ -1,7 +1,7 @@
 import { readFileSync, readdirSync } from 'node:fs'
 import { expect, it } from 'vitest'
 
-const read = (path) => readFileSync(path, 'utf8')
+const read = (path: string) => readFileSync(path, 'utf8')
 const featureTemplate = read('docs/features/_template.md')
 const plansReadme = read('docs/plans/README.md')
 const ddd = read('docs/standards/specification-to-implementation-ddd.md')

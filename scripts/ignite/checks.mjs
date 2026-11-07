@@ -242,7 +242,11 @@ export function commandsForLevel(
     if (docsFormatTargets.length) {
       commands.push(pnpm(['exec', 'prettier', '--check', ...docsFormatTargets], 'format'))
     }
-    const docsSelected = [...targetedTests(files, fileExists)]
+    const docsMapped = (plan.metadata.acceptance || [])
+      .flatMap((item) => (item.checks || []).map((check) => check.test))
+      .map((path) => String(path).split('::', 1)[0])
+      .filter((path) => /\.test\.tsx?$/.test(path))
+    const docsSelected = [...new Set([...targetedTests(files, fileExists), ...docsMapped])]
     if (docsSelected.length) {
       commands.push(pnpm(['exec', 'vitest', 'run', '--silent', ...docsSelected], 'behavior'))
     }

@@ -43,6 +43,17 @@
       "subject_fingerprint": "6451225b8c1f532dbd777d0f446c858130a3a21cab0d3fce1e03425c59dfeaa8",
       "findings": [],
       "recorded_at": "2026-11-07T05:57:08.539Z"
+    },
+    {
+      "reviewer": "ignite-reviewer",
+      "executor": "ignite-executor",
+      "source": "docs/plans/README.md draft review checklist",
+      "stage": "draft",
+      "identity_assurance": "declared",
+      "verdict": "approved",
+      "subject_fingerprint": "7d964c8133254c33fc0541ac9539864b0d1f4869d62a5553b00e61693305d06f",
+      "findings": [],
+      "recorded_at": "2026-11-07T06:02:41.116Z"
     }
   ],
   "verification_contract": 2,
@@ -50,9 +61,7 @@
     {
       "id": "GOAL-001",
       "text": "把纯文档类缺口按判据落到文档并用 docs:check 复现",
-      "requirements": [
-        "REQ-SPEC-017"
-      ]
+      "requirements": ["REQ-SPEC-017"]
     }
   ],
   "constraints": [],
@@ -61,24 +70,16 @@
     "source": "用户在规格闭环收尾任务中要求把规则文档类缺口按判据落到文档并复核"
   },
   "deliverables": [],
-  "remaining_work": [
-    "原始目标尚未细化，无法确认完整验收场景"
-  ],
+  "remaining_work": ["原始目标尚未细化，无法确认完整验收场景"],
   "change_type": "存量改动",
   "base_commit": "5e2cb1ed85f81ed523855f101fdafcac3f246c56",
-  "requirements": [
-    "REQ-SPEC-017"
-  ],
+  "requirements": ["REQ-SPEC-017"],
   "acceptance": [
     {
       "id": "AC-SPEC-017",
       "title": "计划规则写明两条通道",
-      "required_layers": [
-        "unit"
-      ],
-      "tests": [
-        "tests/contracts/spec-closure-docs.test.ts::[AC-SPEC-017]"
-      ],
+      "required_layers": ["unit"],
+      "tests": ["tests/contracts/spec-closure-docs.test.ts::[AC-SPEC-017]"],
       "checks": [
         {
           "test": "tests/contracts/spec-closure-docs.test.ts::[AC-SPEC-017]",
@@ -87,9 +88,7 @@
       ]
     }
   ],
-  "verification_requirements": [
-    "unit"
-  ],
+  "verification_requirements": ["unit"],
   "tasks": [
     {
       "id": "T1",
@@ -112,9 +111,7 @@
       "id": "T2",
       "title": "运行真实断言并记录目标行为红灯",
       "phase": "red",
-      "acceptance": [
-        "AC-SPEC-017"
-      ],
+      "acceptance": ["AC-SPEC-017"],
       "status": "todo",
       "result": "纯文档计划不要求红灯；该任务保留为空转，原因是内容即交付物。",
       "scope": [
@@ -125,18 +122,14 @@
         "docs/plans/20261107-spec-closure-docs.md",
         "docs/features/spec-closure-docs.md"
       ],
-      "depends_on": [
-        "T1"
-      ],
+      "depends_on": ["T1"],
       "owner": "ignite-executor"
     },
     {
       "id": "T3",
       "title": "实现已定义的行为切片",
       "phase": "implement",
-      "acceptance": [
-        "AC-SPEC-017"
-      ],
+      "acceptance": ["AC-SPEC-017"],
       "status": "todo",
       "result": "已声明的验收行为通过，改动保持在本轮写入范围内。",
       "scope": [
@@ -147,9 +140,7 @@
         "docs/plans/20261107-spec-closure-docs.md",
         "docs/features/spec-closure-docs.md"
       ],
-      "depends_on": [
-        "T2"
-      ],
+      "depends_on": ["T2"],
       "owner": "ignite-executor"
     },
     {
@@ -166,9 +157,7 @@
         "docs/plans/20261107-spec-closure-docs.md",
         "docs/features/spec-closure-docs.md"
       ],
-      "depends_on": [
-        "T3"
-      ],
+      "depends_on": ["T3"],
       "owner": "ignite-executor"
     }
   ],
@@ -199,9 +188,7 @@
     "docs/features/spec-closure-docs.md"
   ],
   "tdd_evidence": [],
-  "required_evidence": [
-    "check-docs"
-  ],
+  "required_evidence": ["check-docs"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],

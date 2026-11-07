@@ -464,7 +464,8 @@
       "stage": "P0",
       "plan": null,
       "disposition": "implement",
-      "result": "missing"
+      "result": "partial",
+      "reason": "免 Plan 通道与纯文档计划已写入 docs/plans/README.md，并有 AC-SPEC-017 测试校验；计划 IGT-1794029824186174768 已建立，check 待一次完整运行后转 met。"
     },
     {
       "id": "GAP-47",

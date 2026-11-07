@@ -120,6 +120,17 @@
       "subject_fingerprint": "9f7d296cc8fe67240f203aa87793b7a1d72e98eb56d3475269c453168b158548",
       "findings": [],
       "recorded_at": "2026-11-07T10:41:50.522Z"
+    },
+    {
+      "reviewer": "ignite-reviewer",
+      "executor": "ignite-executor",
+      "source": "docs/plans/README.md draft review checklist",
+      "stage": "draft",
+      "identity_assurance": "declared",
+      "verdict": "approved",
+      "subject_fingerprint": "8749c8616ca551b8d7d52a52ab7c7e27a0f4e8e1c34e137e3250fcf054071183",
+      "findings": [],
+      "recorded_at": "2026-11-07T11:41:06.322Z"
     }
   ],
   "verification_contract": 2,
@@ -287,7 +298,7 @@
   "evidence": [],
   "blocker": null,
   "open_questions": [],
-  "integrated_commit": "1317ad29ef3e07320b8a10496b450fa6938fd76c",
+  "integrated_commit": "5b3c2a7c1b29b4fb0227275b853b8f0645ff53a3",
   "updated_at": "2026-11-07"
 }
 -->

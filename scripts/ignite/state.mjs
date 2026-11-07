@@ -768,7 +768,12 @@ export function validatePlan(
       failures.push('verification_contract 2 Plans must leave check-release to the Release')
   }
   if (!Array.isArray(value.evidence)) failures.push('evidence must be an array')
-  if (value.verification_contract >= 2 && !docOnlyPlan && !Array.isArray(value.tdd_evidence) && !draft)
+  if (
+    value.verification_contract >= 2 &&
+    !docOnlyPlan &&
+    !Array.isArray(value.tdd_evidence) &&
+    !draft
+  )
     failures.push('verification_contract 2 requires tdd_evidence before ready')
   if (!Array.isArray(value.open_questions)) failures.push('open_questions must be an array')
   if (!isValidDate(value.updated_at)) failures.push('updated_at must be a real YYYY-MM-DD date')

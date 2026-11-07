@@ -103,7 +103,9 @@ export function validateReviewRecord(record, context, { requireCurrent = true } 
     !/^[a-f0-9]{64}$/.test(record.subject_fingerprint || '') ||
     (requireCurrent && record.subject_fingerprint !== context.subject_fingerprint)
   )
-    errors.push(`${context.stage} review fingerprint is stale or does not match the current object`)
+    errors.push(
+      `${context.stage} review fingerprint is stale or does not match the current object；修复：运行 pnpm ignite review context <plan-id> ${context.stage}，再运行 pnpm ignite review record <plan-id> ${context.stage} --file <review.json>`,
+    )
   if (!['approved', 'needs-revision'].includes(record.verdict))
     errors.push('review verdict must be approved or needs-revision')
   if (!Array.isArray(record.findings)) errors.push('review findings must be an array')

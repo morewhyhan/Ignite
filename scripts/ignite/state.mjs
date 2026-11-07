@@ -174,7 +174,10 @@ export function planContractAtCommit(plan, commit = 'HEAD') {
 export function listPlanFiles() {
   return walkFiles(plansDirectory)
     .filter((path) => extname(path) === '.md')
-    .filter((path) => !['_template.md', 'README.md'].includes(path.split(/[\\/]/).at(-1)))
+    .filter(
+      (path) =>
+        !['_template.md', 'README.md', 'walkthrough.md'].includes(path.split(/[\\/]/).at(-1)),
+    )
     .filter((path) => !normalizePath(path).includes('/releases/'))
     .sort()
 }
@@ -489,7 +492,9 @@ export function validatePlan(
       }
       if (acceptanceIds.has(item.id)) failures.push(`duplicate acceptance mapping: ${item.id}`)
       if (requiresModulePolicy(value) && typeof item.module !== 'string') {
-        failures.push(`acceptance ${item.id} must declare the module path it belongs to`)
+        failures.push(
+          `acceptance ${item.id} must declare the module path it belongs to；修复：为该验收补 module 字段，写明所属目录`,
+        )
       }
       acceptanceIds.add(item.id)
       const spec = registry.acceptance.get(item.id)
@@ -719,7 +724,7 @@ export function validatePlan(
           const staged = stagedResult.exitCode === 0 ? stagedResult.stdout.trim() : null
           if (workingPathBlobIdentity(path) !== base || staged !== base)
             failures.push(
-              `${path}: implementation changed before the first valid red; restore it, complete preparation and record a real red first`,
+              `${path}: implementation changed before the first valid red；修复：先提交实现改动，让工作区只剩测试，再运行 pnpm ignite tdd red --plan <plan-id> --ac <AC>`,
             )
         }
       }
@@ -832,7 +837,9 @@ export function validatePlan(
       failures.push('integrated_commit must be an ancestor of HEAD')
     } else {
       if (!isAncestor(value.base_commit, value.integrated_commit)) {
-        failures.push('integrated_commit must descend from base_commit')
+        failures.push(
+          'integrated_commit must descend from base_commit；修复：把 integrated_commit 指向最近一次通过检查的提交',
+        )
       }
       if (!planContractAtCommit(plan, value.integrated_commit)) {
         failures.push('integrated_commit does not contain the current Plan contract')

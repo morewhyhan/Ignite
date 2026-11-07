@@ -312,7 +312,9 @@ export function validateExecutionContract(plan, readText) {
       content.match(/<!-- ignite-progress -->[\s\S]*?<!-- \/ignite-progress -->/)?.[0] !==
       renderPlanProgress(value)
     ) {
-      errors.push('Plan progress block is stale; run pnpm ignite plan refresh <ID>')
+      errors.push(
+        'Plan progress block is stale；修复：运行 pnpm ignite plan refresh <plan-id> 后提交',
+      )
     }
   }
   if (

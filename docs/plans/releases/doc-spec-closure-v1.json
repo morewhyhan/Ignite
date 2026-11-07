@@ -1,0 +1,32 @@
+{
+  "schema": 2,
+  "id": "doc-spec-closure-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1794057232553297948"],
+  "scope": [
+    {
+      "id": "GOAL-001",
+      "text": "把规格闭环标准里的每条要求落到文档与检查器，并给出可复核证据",
+      "source": "用户要求：按 specification-to-implementation-ddd.md 逐条实现，52 条账本全部收口",
+      "requirements": ["REQ-SPEC-018"],
+      "acceptance": [
+        "AC-SPEC-018",
+        "AC-SPEC-019",
+        "AC-SPEC-020",
+        "AC-SPEC-021",
+        "AC-SPEC-022",
+        "AC-SPEC-023"
+      ],
+      "plan_ids": ["IGT-1794057232553297948"],
+      "disposition": "included",
+      "reason": "",
+      "authorization": "用户明确要求全部实现并做到可提交"
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-11-07"
+}

@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { adoptHistory } from './adoption.mjs'
 import { planCheck, feedbackCommands } from './checks.mjs'
+import { formatTriage } from './triage.mjs'
 import { runManagedCommand } from './managed-command.mjs'
 import { taskHandoff } from './agent-handoff.mjs'
 import {
@@ -666,7 +667,12 @@ async function commandCheck(options) {
       2,
     ),
   )
-  if (result.exitCode !== 0) process.exitCode = result.exitCode
+  if (result.exitCode !== 0) {
+    if (result.record?.plan_id === plan.metadata.id) {
+      console.error(formatTriage(plan.metadata.id, result.record))
+    }
+    process.exitCode = result.exitCode
+  }
 }
 
 function commandRunStatus(positionals, options) {

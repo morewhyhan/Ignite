@@ -54,6 +54,17 @@
       "subject_fingerprint": "3f019652bdc4522564e8d75486a5add1bec76115f9498ca4056c4aee9f30dd55",
       "findings": [],
       "recorded_at": "2026-11-07T13:33:32.566Z"
+    },
+    {
+      "reviewer": "ignite-reviewer",
+      "executor": "morewhyhan",
+      "source": "docs/plans/README.md draft review checklist",
+      "stage": "draft",
+      "identity_assurance": "declared",
+      "verdict": "approved",
+      "subject_fingerprint": "7651688d29a6d842d90085bdbaddb0a5828fc3163fed4858cd8ef8c1681a0c8f",
+      "findings": [],
+      "recorded_at": "2026-11-07T13:33:43.845Z"
     }
   ],
   "verification_contract": 2,
@@ -72,7 +83,7 @@
   "deliverables": [],
   "remaining_work": ["原始目标尚未细化，无法确认完整验收场景"],
   "change_type": "存量改动",
-  "base_commit": "d69b6295c3c34cbfbb54d06bdd2ce57d5a0bbca4",
+  "base_commit": "675a0cf2b8c4e0488bc8bbefc165d791cf43fbdc",
   "requirements": ["REQ-SPEC-018"],
   "acceptance": [
     {

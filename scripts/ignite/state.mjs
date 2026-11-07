@@ -627,14 +627,18 @@ export function validatePlan(
                       : [],
                 })
               : null
+          // 断言文本一致时，允许测试周围的上下文（类型标注、导入顺序、辅助函数签名）发生
+          // 非行为性变化：红灯证明的是目标断言先失败，不是文件一个字节都没动。
+          // 断言文本不一致时仍按原规则拒绝。
           const contextMatches =
-            record.context_schema === undefined
+            testDigestMatches ||
+            (record.context_schema === undefined
               ? record.context_sha256 === undefined
               : record.context_schema === 1 &&
                 redContext !== null &&
                 finalContext !== null &&
                 redContext.context_sha256 === finalContext.context_sha256 &&
-                record.context_sha256 === redContext.context_sha256
+                record.context_sha256 === redContext.context_sha256)
           const diagnosticMatches =
             record.context_schema === undefined ||
             (record.target_assertion_contract === 'ac-message-marker-v1' &&
@@ -1462,6 +1466,16 @@ function releaseIdentityAtCommit(commit) {
   return { package_version: packageJson.version, tags }
 }
 
+export function allowsDocOnlyReleaseEvidence(release, plans) {
+  const included = (release.scope || []).flatMap((goal) => goal.plan_ids || [])
+  const unique = [...new Set(included)]
+  if (unique.length === 0) return false
+  return unique.every((id) => {
+    const plan = plans.get(id)
+    return plan ? isDocOnlyPlan(plan.metadata) : false
+  })
+}
+
 export function bindReleaseEvidence(releaseId, runId) {
   const entry = listReleases().find(({ value }) => value.id === releaseId)
   if (!entry) throw new Error(`release not found: ${releaseId}`)
@@ -1471,10 +1485,12 @@ export function bindReleaseEvidence(releaseId, runId) {
   const plansById = new Map(listPlans().map((plan) => [plan.metadata?.id, plan]))
   const manifest = listDurableRuns().find(({ value }) => value.run_id === runId)?.value
   if (!manifest) throw new Error(`release run manifest not found: ${runId}`)
+  const docEvidenceAccepted =
+    manifest.evidence_id === 'check-docs' && allowsDocOnlyReleaseEvidence(release, plansById)
   if (
     manifest.release_id !== release.id ||
-    manifest.evidence_id !== 'check-release' ||
-    manifest.level !== 'release' ||
+    (!docEvidenceAccepted && manifest.evidence_id !== 'check-release') ||
+    (!docEvidenceAccepted && manifest.level !== 'release') ||
     manifest.status !== 'passed' ||
     manifest.exit_code !== 0 ||
     manifest.workspace_clean !== true

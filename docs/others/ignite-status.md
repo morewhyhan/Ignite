@@ -2,22 +2,20 @@
 
 模板状态：`template-baseline`
 输入指纹：`e039d64c0423`
-当前 Plan：3；结构化历史：9；未迁移历史：0
+当前 Plan：2；结构化历史：10；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-1794057232553297948` · `verifying` · `doc-spec-closure-v1`
 - `IGT-1794029824186174768` · `active` · `spec-closure-docs-v1`
 - `IGT-1793990498597924061` · `verifying` · `spec-closure-glossary-v1`
 
 ## 发布范围
 
-- `doc-spec-closure-v1` · `verifying`
+- `doc-spec-closure-v1` · `done`
   - Plan：`IGT-1794057232553297948`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite next --plan IGT-1794057232553297948
-  - 未完成原始目标：GOAL-001 把规格闭环标准里的每条要求落到文档与检查器，并给出可复核证据
+  - 最终版本验收：passed（9891d29b0df7）
+  - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `spec-closure-connection-v1` · `verifying`
   - Plan：`IGT-1793982738195660699`
   - 缺少证据：无

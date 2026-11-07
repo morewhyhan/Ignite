@@ -1,7 +1,7 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`e039d64c0423`
+输入指纹：`7a093a5bf8f0`
 当前 Plan：2；结构化历史：10；未迁移历史：0
 
 ## 当前工作
@@ -14,7 +14,7 @@
 - `doc-spec-closure-v1` · `done`
   - Plan：`IGT-1794057232553297948`
   - 缺少证据：无
-  - 最终版本验收：passed（9891d29b0df7）
+  - 最终版本验收：passed（e6b9dadac021）
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `spec-closure-connection-v1` · `verifying`
   - Plan：`IGT-1793982738195660699`

@@ -2,7 +2,7 @@
   "schema": 2,
   "source_document": "docs/standards/specification-to-implementation-ddd.md",
   "generated_at": "2026-11-06",
-  "schema_note": "stage 指向负责阶段；plan 只在对应计划已存在时填写真实计划编号；result 记录实施结果：met 为已交付（必须有 plan）、kept 为基线已满足、partial 为部分实现、missing 为未实现。",
+  "schema_note": "stage 指向负责阶段；plan 只在对应计划已存在时填写真实计划编号；result 记录实施结果：met 为已交付（必须有 plan）、kept 为基线已满足、partial 为部分实现、missing 为未实现。disposition 说明处置方式：implement 实现、keep 保持、defer 延期、reject 明确不做（须写 reason）。",
   "items": [
     {
       "id": "GAP-01",

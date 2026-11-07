@@ -92,7 +92,7 @@ describe('specification closure bootstrap', () => {
       expect(doc).toContain(item.doc_heading)
       expect(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']).toContain(item.group)
       expect(['P0', 'P1', 'P2', 'P3', 'P4', 'P5']).toContain(item.stage)
-      expect(['implement', 'keep', 'defer']).toContain(item.disposition)
+      expect(['implement', 'keep', 'defer', 'reject']).toContain(item.disposition)
       expect(item.problem.trim().length).toBeGreaterThan(0)
       if (item.disposition === 'defer') expect(item.reason?.trim().length ?? 0).toBeGreaterThan(0)
       if (item.plan !== null) expect(plans.has(item.plan)).toBe(true)

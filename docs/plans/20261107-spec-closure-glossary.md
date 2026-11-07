@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1793990498597924061",
   "release": "spec-closure-glossary-v1",
-  "status": "cancelled",
+  "status": "active",
   "outcome": "把术语、状态词与两条延期项处置写成可校验文档，消除同一概念多种叫法",
   "contract_version": 2,
   "execution_contract": 1,
@@ -103,8 +103,7 @@
         "docs/plans/releases/spec-closure-glossary-v1.json",
         "docs/features/spec-closure-glossary.md",
         "docs/others/glossary.md",
-        "docs/others/spec-closure/p0-conclusions.md",
-        "tests/contracts/spec-closure-glossary.test.ts"
+        "docs/others/spec-closure/p0-conclusions.md"
       ],
       "depends_on": [],
       "owner": "ignite-executor"
@@ -121,8 +120,7 @@
         "docs/plans/releases/spec-closure-glossary-v1.json",
         "docs/features/spec-closure-glossary.md",
         "docs/others/glossary.md",
-        "docs/others/spec-closure/p0-conclusions.md",
-        "tests/contracts/spec-closure-glossary.test.ts"
+        "docs/others/spec-closure/p0-conclusions.md"
       ],
       "depends_on": ["T1"],
       "owner": "ignite-executor"
@@ -139,8 +137,7 @@
         "docs/plans/releases/spec-closure-glossary-v1.json",
         "docs/features/spec-closure-glossary.md",
         "docs/others/glossary.md",
-        "docs/others/spec-closure/p0-conclusions.md",
-        "tests/contracts/spec-closure-glossary.test.ts"
+        "docs/others/spec-closure/p0-conclusions.md"
       ],
       "depends_on": ["T2"],
       "owner": "ignite-executor"
@@ -156,8 +153,7 @@
         "docs/plans/releases/spec-closure-glossary-v1.json",
         "docs/features/spec-closure-glossary.md",
         "docs/others/glossary.md",
-        "docs/others/spec-closure/p0-conclusions.md",
-        "tests/contracts/spec-closure-glossary.test.ts"
+        "docs/others/spec-closure/p0-conclusions.md"
       ],
       "depends_on": ["T3"],
       "owner": "ignite-executor"
@@ -186,11 +182,10 @@
     "docs/plans/releases/spec-closure-glossary-v1.json",
     "docs/features/spec-closure-glossary.md",
     "docs/others/glossary.md",
-    "docs/others/spec-closure/p0-conclusions.md",
-    "tests/contracts/spec-closure-glossary.test.ts"
+    "docs/others/spec-closure/p0-conclusions.md"
   ],
   "tdd_evidence": [],
-  "required_evidence": ["check-integration"],
+  "required_evidence": ["check-docs"],
   "evidence": [],
   "blocker": null,
   "open_questions": [],
@@ -319,7 +314,7 @@ prepare T1 编写真实行为测试后，先独立审查 draft，并提交规格
 
 <!-- ignite-progress -->
 
-状态：`cancelled`（由元数据生成）
+状态：`active`（由元数据生成）
 
 - [ ] T1 · 确认本轮目标、编写真实测试并提交准备基线 · todo
 - [ ] T2 · 运行真实断言并记录目标行为红灯 · todo

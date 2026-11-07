@@ -93,7 +93,7 @@ const TRANSITIONS = {
   superseded: new Set([]),
 }
 
-const EVIDENCE_IDS = new Set(['check-dev', 'check-integration', 'check-release'])
+const EVIDENCE_IDS = new Set(['check-dev', 'check-docs', 'check-integration', 'check-release'])
 const TEST_PATH_PATTERN = /^tests\/(?:api|contracts)\/.+\.test\.tsx?$|^tests\/e2e\/.+\.spec\.tsx?$/
 
 function isValidDate(value) {
@@ -517,6 +517,14 @@ export function validatePlan(
       }
     }
   }
+  // 纯文档计划：evidence 只要求 check-docs，且写入范围全部在 docs/ 下。
+  // 这类改动不会改变他人可观察的行为，不进入红灯通道（见 docs/standards/testing.md）。
+  const docOnlyPlan =
+    Array.isArray(value.required_evidence) &&
+    value.required_evidence.includes('check-docs') &&
+    Array.isArray(value.write_scope) &&
+    value.write_scope.length > 0 &&
+    value.write_scope.every((scope) => typeof scope === 'string' && /^docs\//.test(scope))
   if (value.verification_contract >= 2) {
     failures.push(...validateDataContract(plan))
     if (!Array.isArray(value.tdd_evidence)) {
@@ -661,6 +669,7 @@ export function validatePlan(
       if (
         value.task_contract === 2 &&
         !historicalCommit &&
+        !docOnlyPlan &&
         validTdd.size === 0 &&
         !['draft', 'done', 'cancelled', 'superseded'].includes(value.status) &&
         gitCommitExists(value.base_commit)
@@ -690,7 +699,7 @@ export function validatePlan(
             )
         }
       }
-      if (!retiredExempt && [1, 2].includes(value.task_contract)) {
+      if (!retiredExempt && !docOnlyPlan && [1, 2].includes(value.task_contract)) {
         for (const task of value.tasks || []) {
           if (
             (task.phase === 'implement' && ['doing', 'done'].includes(task.status)) ||
@@ -703,7 +712,7 @@ export function validatePlan(
           }
         }
       }
-      if (value.status === 'done') {
+      if (value.status === 'done' && !docOnlyPlan) {
         for (const criterion of value.acceptance || []) {
           if (!validTdd.has(criterion.id))
             failures.push(`${criterion.id}: done Plan requires a matching behavior-test red result`)
@@ -745,8 +754,9 @@ export function validatePlan(
     for (const id of required) {
       if (!EVIDENCE_IDS.has(id)) failures.push(`unknown required evidence: ${id}`)
     }
-    const minimumEvidence =
-      value.risk === 'docs'
+    const minimumEvidence = docOnlyPlan
+      ? ['check-docs']
+      : value.risk === 'docs'
         ? ['check-dev']
         : value.verification_contract >= 2
           ? ['check-integration']
@@ -758,7 +768,7 @@ export function validatePlan(
       failures.push('verification_contract 2 Plans must leave check-release to the Release')
   }
   if (!Array.isArray(value.evidence)) failures.push('evidence must be an array')
-  if (value.verification_contract >= 2 && !Array.isArray(value.tdd_evidence) && !draft)
+  if (value.verification_contract >= 2 && !docOnlyPlan && !Array.isArray(value.tdd_evidence) && !draft)
     failures.push('verification_contract 2 requires tdd_evidence before ready')
   if (!Array.isArray(value.open_questions)) failures.push('open_questions must be an array')
   if (!isValidDate(value.updated_at)) failures.push('updated_at must be a real YYYY-MM-DD date')

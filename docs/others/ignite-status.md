@@ -1,7 +1,7 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`3589bbf9786f`
+输入指纹：`ed54c4ce921b`
 当前 Plan：2；结构化历史：9；未迁移历史：0
 
 ## 当前工作
@@ -36,7 +36,7 @@
   - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `spec-closure-glossary-v1` · `active`
   - Plan：`IGT-1793990498597924061`
-  - 缺少证据：`IGT-1793990498597924061:check-docs`（missing：no run is bound to this evidence requirement）
+  - 缺少证据：无
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1793990498597924061
   - 未完成原始目标：GOAL-001 仓库内三组术语与三套状态词唯一定义，两条历史延期项各有处置

@@ -1,5 +1,7 @@
 # API 标准
 
+> 文档状态：定稿
+
 - 业务 API 使用 Hono，并在 `src/server/api/index.ts` 注册。
 - 客户端只通过共享 Hono Typed RPC client 调用，不手写 endpoint 或直接 `fetch`。业务类型唯一来自 `src/server/api/index.ts` 的 `AppType`；`src/lib/api-client.ts` 暴露 Web 默认实例和可注入 origin/fetcher 的工厂，供未来平台 adapter 共享契约而不共享浏览器全局对象。
 - JSON body、query 和 path 参数必须在边界使用 Zod 校验。

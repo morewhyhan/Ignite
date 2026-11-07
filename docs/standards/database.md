@@ -1,5 +1,7 @@
 # 数据库标准
 
+> 文档状态：定稿
+
 - 当前数据模型真源是 `prisma/schema.prisma`。
 - 已发布 migration 不得修改、重命名或删除，只能追加新的具名 migration。
 - 新 schema 变化必须审查生成 SQL，并运行 `pnpm test:migrations`。

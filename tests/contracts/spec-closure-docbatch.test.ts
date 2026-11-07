@@ -63,3 +63,45 @@ it('[AC-SPEC-024]', () => {
     '[AC-SPEC-024] target releases accept doc evidence',
   ).toBe(true)
 })
+it('[AC-SPEC-025]', () => {
+  const files = readdirSync('docs/designs').filter(
+    (name) => name.endsWith('.md') && name !== 'README.md',
+  )
+  const placeholders = files.filter((name) => read('docs/designs/' + name).includes('待填写'))
+  expect(placeholders, '[AC-SPEC-025] target designs carry real events').toEqual([])
+})
+
+it('[AC-SPEC-026]', () => {
+  const paths = [
+    'docs/features/README.md',
+    'docs/plans/README.md',
+    'docs/designs/README.md',
+    'docs/others/README.md',
+  ]
+  const bodies = paths.map((path) => (read(path).split('## 模块说明（§8.1）')[1] || '').trim())
+  expect(
+    bodies.findIndex((body) => body.length < 200),
+    '[AC-SPEC-026] target modules state their own duty',
+  ).toBe(-1)
+  expect(new Set(bodies).size, '[AC-SPEC-026] target module sections differ').toBe(4)
+})
+
+it('[AC-SPEC-027]', () => {
+  const files = readdirSync('docs/designs').filter(
+    (name) => name.endsWith('.md') && name !== 'README.md',
+  )
+  const marked = files.filter((name) => read('docs/designs/' + name).includes('来源：'))
+  expect(marked.length, '[AC-SPEC-027] target designs carry source markers').toBeGreaterThanOrEqual(
+    5,
+  )
+})
+
+it('[AC-SPEC-028]', () => {
+  const source = read('scripts/check-docs.mjs')
+  expect(
+    source.includes('has no status row'),
+    '[AC-SPEC-028] target status check rejects missing status',
+  ).toBe(true)
+  expect(source.includes('still has placeholder rows')).toBe(true)
+  expect(source.includes('duplicates the module section')).toBe(true)
+})

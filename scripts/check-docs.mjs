@@ -88,15 +88,39 @@ for (const path of walkFiles(join(docsRoot, 'standards'))) {
   if (!path.endsWith('.md')) continue
   const text = readFileSync(path, 'utf8')
   const relativePath = relative(repositoryRoot, path).replaceAll('\\', '/')
-  if (/文档状态\s*\|[^\n]*(初稿|草稿)/.test(text)) {
-    fail(`structure: ${relativePath} is a draft but lives under docs/standards`)
+  const statusMatch = text.match(/文档状态\s*[|：:]\s*([^|\n]*)/)
+  if (!statusMatch) {
+    fail(`structure: ${relativePath} has no status row; treat it as draft`)
+    continue
+  }
+  if (!/定稿/.test(statusMatch[1])) {
+    fail(`structure: ${relativePath} is not final yet`)
   }
 }
 for (const path of walkFiles(join(docsRoot, 'designs'))) {
   if (!path.endsWith('.md') || path.endsWith('README.md')) continue
   const text = readFileSync(path, 'utf8')
   const relativePath = relative(repositoryRoot, path).replaceAll('\\', '/')
-  if (!text.includes('事件与命令')) fail(`structure: ${relativePath} is missing the event section`)
+  if (!text.includes('事件与命令')) {
+    fail(`structure: ${relativePath} is missing the event section`)
+    continue
+  }
+  if (/待填写/.test(text)) fail(`structure: ${relativePath} still has placeholder rows`)
+}
+const moduleSections = [
+  'docs/features/README.md',
+  'docs/plans/README.md',
+  'docs/designs/README.md',
+  'docs/others/README.md',
+].map((path) => ({ path, body: (read(path).split('## 模块说明（§8.1）')[1] || '').trim() }))
+const seenModules = new Map()
+for (const entry of moduleSections) {
+  if (entry.body.length < 200) fail(`structure: ${entry.path} module section is too thin`)
+  if (seenModules.has(entry.body)) {
+    fail(`structure: ${entry.path} duplicates the module section of ${seenModules.get(entry.body)}`)
+  } else {
+    seenModules.set(entry.body, entry.path)
+  }
 }
 const localLinkPattern = /!?\[[^\]]*]\(([^)]+)\)/g
 

@@ -1,5 +1,7 @@
 # 开发标准
 
+> 文档状态：定稿
+
 - 组件和 Hook 使用 PascalCase/camelCase；模块、API 资源和 URL 使用复数 kebab-case。
 - screen 使用 `<module>-screen.tsx`，Hook 使用 `use-<module>.ts`。
 - module 内部通过相对路径访问自己的实现；跨 module 只通过公开 `index.ts`。

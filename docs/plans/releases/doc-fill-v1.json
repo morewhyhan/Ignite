@@ -1,0 +1,25 @@
+{
+  "schema": 2,
+  "id": "doc-fill-v1",
+  "coverage_version": 2,
+  "verification_contract": 2,
+  "plan_ids": ["IGT-1794061076111244240"],
+  "scope": [
+    {
+      "id": "GOAL-001",
+      "text": "补齐设计文档事件、目录职责与来源标记，并加严结构检查",
+      "source": "用户要求：文档与规格闭环标准一致，不留占位",
+      "requirements": ["REQ-SPEC-018"],
+      "acceptance": ["AC-SPEC-025", "AC-SPEC-026", "AC-SPEC-027", "AC-SPEC-028"],
+      "plan_ids": ["IGT-1794061076111244240"],
+      "disposition": "included",
+      "reason": "",
+      "authorization": "用户明确要求做到与文档一致"
+    }
+  ],
+  "must_pass": ["check-release"],
+  "evidence": [],
+  "integrated_commit": null,
+  "excluded": [],
+  "updated_at": "2026-11-07"
+}

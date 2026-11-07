@@ -1,7 +1,7 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`12f50a3076d7`
+输入指纹：`c59fa9a4b895`
 当前 Plan：3；结构化历史：9；未迁移历史：0
 
 ## 当前工作
@@ -12,7 +12,7 @@
 
 ## 发布范围
 
-- `doc-spec-closure-v1` · `invalid`
+- `doc-spec-closure-v1` · `active`
   - Plan：`IGT-1794057232553297948`
   - 缺少证据：`IGT-1794057232553297948:check-integration`（missing：no run is bound to this evidence requirement）
   - 最终版本验收：missing
@@ -30,7 +30,7 @@
   - 最终版本验收：stale
   - 下一步：pnpm ignite release verify spec-closure-content-v1 --plan IGT-202611060005
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `spec-closure-docs-v1` · `invalid`
+- `spec-closure-docs-v1` · `active`
   - Plan：`IGT-1794029824186174768`
   - 缺少证据：`IGT-1794029824186174768:check-docs`（missing：no run is bound to this evidence requirement）
   - 最终版本验收：missing
@@ -86,7 +86,6 @@
 
 ## 结构问题
 
-- docs/plans/20261107-doc-spec-closure.md: AC-SPEC-018: TDD red proof is invalid or its test changed before green; for an intentional test correction use ignite tdd restart --plan IGT-1794057232553297948 --ac AC-SPEC-018 --reason "<correction reason>", then repeat real red before implementation
-- docs/plans/20261107-spec-closure-docs.md: draft review fingerprint is stale or does not match the current object
+- 无。
 
 > 本文件是确定性派生视图；修改 Plan 或 Release 机器源后重新生成。

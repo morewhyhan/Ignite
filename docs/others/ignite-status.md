@@ -1,11 +1,12 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`a70b93646044`
-当前 Plan：1；结构化历史：9；未迁移历史：0
+输入指纹：`e91be08f4282`
+当前 Plan：2；结构化历史：9；未迁移历史：0
 
 ## 当前工作
 
+- `IGT-1794029824186174768` · `draft` · `spec-closure-docs-v1`
 - `IGT-1793990498597924061` · `verifying` · `spec-closure-glossary-v1`
 
 ## 发布范围
@@ -22,6 +23,12 @@
   - 最终版本验收：stale
   - 下一步：pnpm ignite release verify spec-closure-content-v1 --plan IGT-202611060005
   - 未完成原始目标：无已登记缺口（仍需语义核对）
+- `spec-closure-docs-v1` · `draft`
+  - Plan：`IGT-1794029824186174768`
+  - 缺少证据：`IGT-1794029824186174768:check-docs`（missing：no run is bound to this evidence requirement）
+  - 最终版本验收：missing
+  - 下一步：pnpm ignite next --plan IGT-1794029824186174768
+  - 未完成原始目标：GOAL-001 把纯文档类缺口按判据落到文档，并用 docs:check 复现
 - `spec-closure-domain-v1` · `cancelled`
   - Plan：`IGT-202611060008`
   - 缺少证据：无

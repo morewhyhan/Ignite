@@ -14,7 +14,7 @@
 
 - `doc-spec-closure-v1` · `active`
   - Plan：`IGT-1794057232553297948`
-  - 缺少证据：`IGT-1794057232553297948:check-integration`（stale：repository or Plan inputs changed after this run）
+  - 缺少证据：无
   - 最终版本验收：missing
   - 下一步：pnpm ignite next --plan IGT-1794057232553297948
   - 未完成原始目标：GOAL-001 把规格闭环标准里的每条要求落到文档与检查器，并给出可复核证据

@@ -226,7 +226,7 @@
         "AC-SPEC-023",
         "AC-SPEC-024"
       ],
-      "status": "doing",
+      "status": "done",
       "result": "原生 red 运行确认已提交测试的目标断言失败，并记录真实红灯。",
       "scope": [
         "docs/plans/20261107-doc-spec-closure.md",
@@ -257,7 +257,7 @@
         "AC-SPEC-023",
         "AC-SPEC-024"
       ],
-      "status": "todo",
+      "status": "done",
       "result": "已声明的验收行为通过，改动保持在本轮写入范围内。",
       "scope": [
         "docs/plans/20261107-doc-spec-closure.md",
@@ -279,7 +279,7 @@
       "id": "T4",
       "title": "验证兼容性并回写当前设计",
       "phase": "verify",
-      "status": "todo",
+      "status": "done",
       "result": "Plan integration 和独立 delivery 审查均通过，Design 已记录实际结果及缺口。",
       "scope": [
         "docs/plans/20261107-doc-spec-closure.md",
@@ -342,7 +342,7 @@
   "evidence": [
     {
       "id": "check-integration",
-      "run_id": "run-20261107133741-33f5ec"
+      "run_id": "run-20261107134004-2c7a0d"
     }
   ],
   "blocker": null,
@@ -506,12 +506,12 @@ prepare T1 编写真实行为测试后，先独立审查 draft，并提交规格
 状态：`active`（由元数据生成）
 
 - [x] T1 · 确认本轮目标、编写真实测试并提交准备基线 · done
-- [ ] T2 · 运行真实断言并记录目标行为红灯 · doing
-- [ ] T3 · 实现已定义的行为切片 · todo
-- [ ] T4 · 验证兼容性并回写当前设计 · todo
+- [x] T2 · 运行真实断言并记录目标行为红灯 · done
+- [x] T3 · 实现已定义的行为切片 · done
+- [x] T4 · 验证兼容性并回写当前设计 · done
 
 验收缺口：原始目标尚未细化，无法确认完整验收场景
-证据：check-integration / run-20261107133741-33f5ec
+证据：check-integration / run-20261107134004-2c7a0d
 <!-- /ignite-progress -->
 
 ## 准出条件

@@ -7,9 +7,9 @@
   "scope": [
     {
       "id": "GOAL-001",
-      "text": "待填写原始目标",
-      "source": "待填写来源",
-      "requirements": [],
+      "text": "把纯文档类缺口按判据落到文档，并用 docs:check 复现",
+      "source": "规格闭环收尾：账本中提到规则文档的缺口",
+      "requirements": ["REQ-SPEC-017"],
       "acceptance": [],
       "plan_ids": ["IGT-1794029824186174768"],
       "disposition": "included",

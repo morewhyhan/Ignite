@@ -10,7 +10,19 @@
   "task_contract": 2,
   "planning_contract": 1,
   "review_contract": 1,
-  "reviews": [],
+  "reviews": [
+    {
+      "reviewer": "ignite-reviewer",
+      "executor": "ignite-executor",
+      "source": "docs/plans/README.md draft review checklist",
+      "stage": "draft",
+      "identity_assurance": "declared",
+      "verdict": "approved",
+      "subject_fingerprint": "abe5bbc14f9ead4f1bddd30ed3eb2d49d6a532d4bc2c2612b0ea9bfbef74fe0b",
+      "findings": [],
+      "recorded_at": "2026-11-07T05:41:16.176Z"
+    }
+  ],
   "verification_contract": 2,
   "goals": [
     {
@@ -35,7 +47,24 @@
   "requirements": [
     "REQ-SPEC-017"
   ],
-  "acceptance": [],
+  "acceptance": [
+    {
+      "id": "AC-SPEC-017",
+      "title": "计划规则写明两条通道",
+      "required_layers": [
+        "unit"
+      ],
+      "tests": [
+        "tests/contracts/spec-closure-docs.test.ts::[AC-SPEC-017]"
+      ],
+      "checks": [
+        {
+          "test": "tests/contracts/spec-closure-docs.test.ts::[AC-SPEC-017]",
+          "layer": "unit"
+        }
+      ]
+    }
+  ],
   "verification_requirements": [
     "unit"
   ],
@@ -51,7 +80,8 @@
         "docs/standards/testing.md",
         "docs/others/spec-closure/ledger.json",
         "docs/others/spec-closure/final-report.md",
-        "docs/plans/20261107-spec-closure-docs.md"
+        "docs/plans/20261107-spec-closure-docs.md",
+        "docs/features/spec-closure-docs.md"
       ],
       "depends_on": [],
       "owner": "assigned-worker"
@@ -68,7 +98,8 @@
         "docs/standards/testing.md",
         "docs/others/spec-closure/ledger.json",
         "docs/others/spec-closure/final-report.md",
-        "docs/plans/20261107-spec-closure-docs.md"
+        "docs/plans/20261107-spec-closure-docs.md",
+        "docs/features/spec-closure-docs.md"
       ],
       "depends_on": [
         "T1"
@@ -87,7 +118,8 @@
         "docs/standards/testing.md",
         "docs/others/spec-closure/ledger.json",
         "docs/others/spec-closure/final-report.md",
-        "docs/plans/20261107-spec-closure-docs.md"
+        "docs/plans/20261107-spec-closure-docs.md",
+        "docs/features/spec-closure-docs.md"
       ],
       "depends_on": [
         "T2"
@@ -105,7 +137,8 @@
         "docs/standards/testing.md",
         "docs/others/spec-closure/ledger.json",
         "docs/others/spec-closure/final-report.md",
-        "docs/plans/20261107-spec-closure-docs.md"
+        "docs/plans/20261107-spec-closure-docs.md",
+        "docs/features/spec-closure-docs.md"
       ],
       "depends_on": [
         "T3"
@@ -136,7 +169,8 @@
     "docs/standards/testing.md",
     "docs/others/spec-closure/ledger.json",
     "docs/others/spec-closure/final-report.md",
-    "docs/plans/20261107-spec-closure-docs.md"
+    "docs/plans/20261107-spec-closure-docs.md",
+    "docs/features/spec-closure-docs.md"
   ],
   "tdd_evidence": [],
   "required_evidence": [

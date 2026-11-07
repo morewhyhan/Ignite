@@ -11,7 +11,7 @@ import {
   sourceEntries,
   unknownReferences,
 } from './ignite/spec-id-registry.mjs'
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { dirname, extname, join, relative, resolve } from 'node:path'
 import { repositoryRoot, walkFiles } from './ignite/core.mjs'
 import {
@@ -118,6 +118,44 @@ for (const entry of moduleSections) {
     fail(`structure: ${entry.path} duplicates the module section of ${seenModules.get(entry.body)}`)
   } else {
     seenModules.set(entry.body, entry.path)
+  }
+}
+
+// 领域登记检查：src/modules 下每个模块必须登记；每个领域只允许一份主导文档。
+const domainRegistry = read('docs/designs/domain.md')
+const registeredModules = new Set(
+  [...domainRegistry.matchAll(/src\/modules\/([a-z0-9-]+)/g)].map((match) => match[1]),
+)
+const modulesOnDisk = readdirSync(join(repositoryRoot, 'src', 'modules')).filter((name) =>
+  existsSync(join(repositoryRoot, 'src', 'modules', name, 'index.ts')),
+)
+for (const name of modulesOnDisk) {
+  if (!registeredModules.has(name))
+    fail(`domain: src/modules/${name} is not registered in docs/designs/domain.md`)
+}
+for (const name of registeredModules) {
+  if (!modulesOnDisk.includes(name))
+    fail(`domain: docs/designs/domain.md registers missing module ${name}`)
+}
+const domainDocs = [
+  ...domainRegistry.matchAll(
+    /\|\s*([^|]+?)\s*\|\s*\[([^\]]+)\]\(([^)]+)\)\s*\|\s*(src\/modules\/[a-z0-9-]+)/g,
+  ),
+].map((match) => ({ domain: match[1].trim(), label: match[2], target: match[3], module: match[4] }))
+const seenDomainDocs = new Map()
+for (const entry of domainDocs) {
+  const resolved = resolve(
+    dirname(join(repositoryRoot, 'docs', 'designs', 'domain.md')),
+    entry.target,
+  )
+  if (!existsSync(resolved))
+    fail(`domain: ${entry.domain} points to missing document ${entry.target}`)
+  if (seenDomainDocs.has(entry.target)) {
+    fail(
+      `domain: ${entry.domain} and ${seenDomainDocs.get(entry.target)} share the document ${entry.target}`,
+    )
+  } else {
+    seenDomainDocs.set(entry.target, entry.domain)
   }
 }
 const localLinkPattern = /!?\[[^\]]*]\(([^)]+)\)/g

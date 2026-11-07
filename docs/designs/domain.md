@@ -8,6 +8,22 @@ Ignite 当前有认证域和 Tasks 参考业务域。认证域使用 Better Auth
 
 来源：docs/standards/specification-to-implementation-ddd.md §8 与 §9；实现见 src/modules。
 
+## 领域与主导文档
+
+| 领域           | 主导文档                                  | 模块入口          |
+| -------------- | ----------------------------------------- | ----------------- |
+| 认证           | [features/auth.md](../features/auth.md)   | src/modules/auth  |
+| Tasks 参考业务 | [features/tasks.md](../features/tasks.md) | src/modules/tasks |
+
+界面外壳不设领域文档：landing、dashboard、settings、theme 只在上表之外登记为界面模块。
+
+| 界面模块   | 模块入口              |
+| ---------- | --------------------- |
+| 首页外壳   | src/modules/landing   |
+| 工作台外壳 | src/modules/dashboard |
+| 设置外壳   | src/modules/settings  |
+| 主题选择   | src/modules/theme     |
+
 ## 模块入口
 
 | 当前能力       | 模块入口                                          | 页面入口                                                         |

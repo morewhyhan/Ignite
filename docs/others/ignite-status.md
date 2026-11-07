@@ -2,22 +2,20 @@
 
 模板状态：`template-baseline`
 输入指纹：`fe28e1b06df3`
-当前 Plan：3；结构化历史：10；未迁移历史：0
+当前 Plan：2；结构化历史：11；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-1794061076111244240` · `verifying` · `doc-fill-v1`
 - `IGT-1794029824186174768` · `active` · `spec-closure-docs-v1`
 - `IGT-1793990498597924061` · `verifying` · `spec-closure-glossary-v1`
 
 ## 发布范围
 
-- `doc-fill-v1` · `verifying`
+- `doc-fill-v1` · `done`
   - Plan：`IGT-1794061076111244240`
   - 缺少证据：无
-  - 最终版本验收：missing
-  - 下一步：pnpm ignite next --plan IGT-1794061076111244240
-  - 未完成原始目标：GOAL-001 补齐设计文档事件、目录职责与来源标记，并加严结构检查
+  - 最终版本验收：passed（5d8c60a6385c）
+  - 未完成原始目标：无已登记缺口（仍需语义核对）
 - `doc-spec-closure-v1` · `verifying`
   - Plan：`IGT-1794057232553297948`
   - 缺少证据：无

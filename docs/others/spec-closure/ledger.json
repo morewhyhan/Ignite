@@ -106,11 +106,11 @@
       "problem": "DDD 四问未在任何模块落地",
       "doc_heading": "## 8. 文档治理领域的 DDD 模块",
       "stage": "P4",
-      "plan": "IGT-1794057232553297948",
+      "plan": "IGT-1794061076111244240",
       "disposition": "implement",
       "result": "met",
-      "reason": "四个目录 README 增加「模块说明（§8.1）」八项，覆盖原十项要求",
-      "release": "doc-spec-closure-v1"
+      "reason": "四个目录 README 各写本目录职责（目标/输入/输出/责任/结构/规则/验收/交接），四份内容互不相同，另有检查拦截雷同",
+      "release": "doc-fill-v1"
     },
     {
       "id": "GAP-10",
@@ -201,11 +201,11 @@
       "problem": "设计散文段落无来源标记",
       "doc_heading": "## 5. 两条基线",
       "stage": "P4",
-      "plan": "IGT-1794057232553297948",
+      "plan": "IGT-1794061076111244240",
       "disposition": "implement",
       "result": "met",
-      "reason": "docs/designs/README.md 定义段落来源标记，execution.md 作示范",
-      "release": "doc-spec-closure-v1"
+      "reason": "五份设计文档的关键断言带来源标记（来源：AGENTS 或标准章节），另有规则要求无来源视为推断",
+      "release": "doc-fill-v1"
     },
     {
       "id": "GAP-18",
@@ -580,11 +580,11 @@
       "problem": "领域事件与命令记录缺失",
       "doc_heading": "## 8. 文档治理领域的 DDD 模块",
       "stage": "P5",
-      "plan": "IGT-1794057232553297948",
+      "plan": "IGT-1794061076111244240",
       "disposition": "defer",
-      "reason": "八份设计文档各加「事件与命令」章节（§9.3 六步）；结构检查要求该章节存在",
+      "reason": "七份设计文档各写 2–3 条真实业务事件（按 §9.3 六列），检查拒绝未填写的占位行",
       "result": "met",
-      "release": "doc-spec-closure-v1"
+      "release": "doc-fill-v1"
     },
     {
       "id": "GAP-50",

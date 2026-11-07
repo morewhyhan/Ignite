@@ -1,0 +1,64 @@
+{
+  "schema": 2,
+  "run_id": "run-20261107142241-8e450e",
+  "check_policy_version": 7,
+  "plan_id": "IGT-1794061076111244240",
+  "evidence_id": "check-release",
+  "level": "release",
+  "status": "passed",
+  "exit_code": 0,
+  "started_at": "2026-11-07T14:22:42.011Z",
+  "ended_at": "2026-11-07T14:23:29.466Z",
+  "commit": "5d8c60a6385caa33462b19f7afe92bebed38d894",
+  "input_fingerprint": "46de43929373835aa9af2f133dc8e4d444d6ac815f9baf64ef882cf68c7d7827",
+  "environment_fingerprint": "e73ab4a40c6b7141120afff35ca73e610ff1a7311abcaabed94c952c6caed87a",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node": "24.19.0",
+    "pnpm": "9.11.0",
+    "app_env": "test",
+    "e2e_server_mode": "development",
+    "database_provider": "sqlite",
+    "ci": false
+  },
+  "workspace_clean": true,
+  "repository_fingerprint": "9c86833a768c91cf8a3c921605ae54fec16853ba34c8e25581d20778a6781aef",
+  "acceptance_results": [],
+  "release_id": "doc-fill-v1",
+  "release_fingerprint": "a39b7f08e9a5e4f4bbaf065e39c256fd0be91b9fada1ba36877a112aef273eb8",
+  "release_identity": {
+    "package_version": "0.1.0",
+    "tags": []
+  },
+  "commands": [
+    {
+      "label": "git-diff",
+      "command": [
+        "node",
+        "scripts/check-diff.mjs",
+        "--base",
+        "2e60260b13bcf7f833a859dff7be05d0202c173e"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 78
+    },
+    {
+      "label": "build",
+      "command": ["corepack", "pnpm", "build"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 15320
+    },
+    {
+      "label": "e2e-production",
+      "command": ["corepack", "pnpm", "test:e2e:production"],
+      "status": "passed",
+      "exit_code": 0,
+      "duration_ms": 25062
+    }
+  ],
+  "log_sha256": "22cbb806060c299121d2bfc3c48fe1d7ae0d51a7cf7b91b0e0b9294d6c81309f",
+  "execution_source": "ignite-runner-local"
+}

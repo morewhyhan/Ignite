@@ -392,7 +392,9 @@ export function planCheck({
       'Plan risk docs understates the actual changes; update risk and required_evidence',
     )
   }
-  const riskForLevel = isDocOnlyPlan(plan.metadata) ? 'docs' : plan.metadata.risk
-  const { level, minimum } = resolveLevel(requestedLevel, files, riskForLevel)
+  const docOnly = isDocOnlyPlan(plan.metadata)
+  const { level, minimum } = docOnly
+    ? { level: 'docs', minimum: 'docs' }
+    : resolveLevel(requestedLevel, files, plan.metadata.risk)
   return { level, minimum, changedFiles: files, commands: commandsForLevel(level, files, plan) }
 }

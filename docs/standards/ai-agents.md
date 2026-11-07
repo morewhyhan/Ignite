@@ -26,6 +26,8 @@
 
 ## 文档真源
 
+未定稿的内容不留在 `docs/standards/`。草案放 `docs/others/`，定稿后再迁入；过期但需保留历史的标准标 `legacy_unverified` 并注明替代文档。长期标准目录只放当前有效的规则。
+
 - 需求与验收：`docs/features/`
 - 实施过程：`docs/plans/`
 - 当前事实设计：`docs/designs/`

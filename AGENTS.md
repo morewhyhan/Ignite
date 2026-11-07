@@ -103,6 +103,12 @@ Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定�
 
 用户明确要求暂不测试时，先实现并保留待验证任务；不运行检查、不生成通过证据、不进入 `done`。测试资产可以编写，是否执行以当前用户指令为准。
 
+**执行顺序只有这一份。** 本节的 1–5 步是唯一顺序来源；其它文档不重复步骤，只补充与本主题相关的差异说明。
+
+**五步法与 Loop 的关系。** 五步法（现实 → 术语 → 矛盾 → 方案 → 验证）是一次交付内部的顺序；Loop（Feature → Plan → Contract/Test → Implementation → Verify → Design）是跨交付的循环。接口是 Plan：一次 Loop 迭代产出一个 Plan，Plan 内部按五步法展开。
+
+**目录即方法入口。** 方法由目录承载：`docs/features/` 是需求方法、`docs/plans/` 是计划方法、`docs/standards/` 是工程标准、`docs/others/evidence/` 是证据方法，每个目录的 README 即该方法的入口。新增方法必须落在"目录 + README"，不新增散落的说明文件。
+
 跨 Plan 依赖、共享写入和并行交接按 `docs/plans/README.md` 的“跨 Plan 依赖与交接”维护，继续使用原有协作字段；最终组合由 Release 验收。
 
 有可独立实施且前置已满足的切片时，AI 按 Plan 规则主动委派并行任务。委派前用原生 `next --task --handoff` 提供准确上下文，执行记录用 `plan note` 回原 Plan；开发排查使用 testing 定义的反馈入口，不能替代正式验收。

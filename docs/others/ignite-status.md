@@ -1,12 +1,12 @@
 # Ignite 状态摘要
 
 模板状态：`template-baseline`
-输入指纹：`27b858800071`
+输入指纹：`a70b93646044`
 当前 Plan：1；结构化历史：9；未迁移历史：0
 
 ## 当前工作
 
-- `IGT-1793990498597924061` · `active` · `spec-closure-glossary-v1`
+- `IGT-1793990498597924061` · `verifying` · `spec-closure-glossary-v1`
 
 ## 发布范围
 
@@ -27,7 +27,7 @@
   - 缺少证据：无
   - 最终版本验收：missing
   - 未完成原始目标：无已登记缺口（仍需语义核对）
-- `spec-closure-glossary-v1` · `invalid`
+- `spec-closure-glossary-v1` · `verifying`
   - Plan：`IGT-1793990498597924061`
   - 缺少证据：`IGT-1793990498597924061:check-docs`（missing：no run is bound to this evidence requirement）
   - 最终版本验收：missing
@@ -72,6 +72,6 @@
 
 ## 结构问题
 
-- docs/plans/20261107-spec-closure-glossary.md: draft review fingerprint is stale or does not match the current object
+- 无。
 
 > 本文件是确定性派生视图；修改 Plan 或 Release 机器源后重新生成。

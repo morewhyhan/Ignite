@@ -9,7 +9,7 @@
       "id": "GOAL-001",
       "text": "补齐设计文档事件、目录职责与来源标记，并加严结构检查",
       "source": "用户要求：文档与规格闭环标准一致，不留占位",
-      "requirements": ["REQ-SPEC-018"],
+      "requirements": ["REQ-SPEC-019"],
       "acceptance": ["AC-SPEC-025", "AC-SPEC-026", "AC-SPEC-027", "AC-SPEC-028"],
       "plan_ids": ["IGT-1794061076111244240"],
       "disposition": "included",

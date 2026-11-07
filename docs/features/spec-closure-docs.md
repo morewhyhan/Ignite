@@ -20,6 +20,10 @@
 - AC-SPEC-022（REQ-SPEC-018）：Given 设计文档 When 阅读 Then 含"事件与命令"章节，按 §9.3 的六步顺序记录。
 - AC-SPEC-023（REQ-SPEC-018）：Given 计划模板 When 阅读 Then 验收标准带 module 字段，且新计划缺该字段时检查报错。
 - AC-SPEC-024（REQ-SPEC-018）：Given 一个只包含文档计划的发布 When 运行 release verify Then 接受 check-docs 级运行记录，不再要求 check-release。
+- AC-SPEC-025（REQ-SPEC-019）：Given 八份设计文档 When 阅读事件章节 Then 每份都有至少一条真实业务事件，且没有待填写。
+- AC-SPEC-026（REQ-SPEC-019）：Given 四个目录说明 When 阅读模块说明 Then 四份内容互不相同，且各自说明本目录职责。
+- AC-SPEC-027（REQ-SPEC-019）：Given 设计文档 When 阅读关键断言 Then 至少五份带来源标记。
+- AC-SPEC-028（REQ-SPEC-019）：Given 结构检查 When 文档缺状态、留占位或四份说明雷同 Then 检查报错。
 
 ## 模块边界
 

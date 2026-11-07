@@ -76,6 +76,17 @@
       "subject_fingerprint": "9eac3c9dbd73474dc65a948fd03cc9d24acdb05b12ba4999db45013d1f4841fa",
       "findings": [],
       "recorded_at": "2026-11-07T13:35:48.960Z"
+    },
+    {
+      "reviewer": "ignite-reviewer",
+      "executor": "ignite-executor",
+      "source": "docs/plans/README.md draft review checklist",
+      "stage": "draft",
+      "identity_assurance": "declared",
+      "verdict": "approved",
+      "subject_fingerprint": "ec849587ef8218ae95e4f17e07037a7d21ff1a04e18c639bbdecc31a13baae6f",
+      "findings": [],
+      "recorded_at": "2026-11-07T14:18:55.572Z"
     }
   ],
   "verification_contract": 2,

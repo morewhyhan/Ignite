@@ -46,3 +46,11 @@ module Hook → platform adapter → shared createApiClient(AppType) → Hono ro
 当前 Web adapter 在 `src/lib/api-client.ts` 导出默认 `client`，使用浏览器 origin 与 Cookie；同文件 `createApiClient` 接受 origin、fetcher 和 credentials 配置，以便其他端在保持相同 RPC 类型时注入平台传输实现。Hook 不依赖 `window`、Sonner 等 Web 展示能力；缓存属于 Hook，操作提示属于 screen。认证由 Better Auth Client 单独处理，不重复创建认证 RPC；服务端 session 守卫和第三方服务 adapter 也不属于业务 API 资源。
 
 - DES-API-101：当前接口边界与错误格式的事实以本编号引用。
+
+## 事件与命令
+
+按 §9.3 的顺序记录，不得用页面点击或数据库写入代替领域事件。
+
+| 已发生的变化 | 发起变化的请求 | 责任者 | 规则或策略 | 后续变化 | 分歧和热点 |
+| ------------ | -------------- | ------ | ---------- | -------- | ---------- |
+| 待填写       | 待填写         | 待填写 | 待填写     | 待填写   | 待填写     |

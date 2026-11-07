@@ -3,7 +3,7 @@
   "schema": 2,
   "id": "IGT-1794057232553297948",
   "release": "doc-spec-closure-v1",
-  "status": "draft",
+  "status": "active",
   "outcome": "完成 doc-spec-closure 的一项可独立验收的存量改动",
   "contract_version": 2,
   "execution_contract": 1,
@@ -121,7 +121,7 @@
       "id": "T1",
       "title": "确认本轮目标、编写真实测试并提交准备基线",
       "phase": "prepare",
-      "status": "todo",
+      "status": "done",
       "result": "原始目标、Feature、真实断言、测试路径和写入边界均已对应，规格与测试已提交，独立审查者已核对 draft。",
       "scope": [
         "docs/plans/20261107-doc-spec-closure.md",
@@ -151,7 +151,7 @@
         "AC-SPEC-022",
         "AC-SPEC-023"
       ],
-      "status": "todo",
+      "status": "doing",
       "result": "原生 red 运行确认已提交测试的目标断言失败，并记录真实红灯。",
       "scope": [
         "docs/plans/20261107-doc-spec-closure.md",
@@ -253,7 +253,13 @@
     "tests/contracts/spec-closure-docbatch.test.ts",
     "docs/others/evidence/"
   ],
-  "tdd_evidence": [],
+  "tdd_evidence": [
+    {
+      "acceptance_id": "AC-SPEC-018",
+      "test": "tests/contracts/spec-closure-docbatch.test.ts::[AC-SPEC-018]",
+      "run_id": "tdd-20261107131651-181c0f"
+    }
+  ],
   "required_evidence": ["check-integration"],
   "evidence": [],
   "blocker": null,
@@ -414,10 +420,10 @@ prepare T1 编写真实行为测试后，先独立审查 draft，并提交规格
 
 <!-- ignite-progress -->
 
-状态：`draft`（由元数据生成）
+状态：`active`（由元数据生成）
 
-- [ ] T1 · 确认本轮目标、编写真实测试并提交准备基线 · todo
-- [ ] T2 · 运行真实断言并记录目标行为红灯 · todo
+- [x] T1 · 确认本轮目标、编写真实测试并提交准备基线 · done
+- [ ] T2 · 运行真实断言并记录目标行为红灯 · doing
 - [ ] T3 · 实现已定义的行为切片 · todo
 - [ ] T4 · 验证兼容性并回写当前设计 · todo
 

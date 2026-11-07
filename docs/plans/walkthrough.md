@@ -7,7 +7,7 @@
 
 ```bash
 export PATH=$HOME/node24/bin:/usr/bin:/bin
-cd /home/why/ignite
+cd <仓库根目录>
 ```
 
 先确认底子是绿的：

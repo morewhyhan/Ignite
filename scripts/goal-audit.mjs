@@ -56,9 +56,9 @@ for (const domain of domains) {
   }
 }
 
-const reasonCount = (readFileSync(join(root, 'docs/GOAL.md'), 'utf8').match(/为什么拆：/g) ?? []).length
+const reasonCount = (readFileSync(join(root, 'docs/GOAL.md'), 'utf8').match(/为什么这样切：/g) ?? []).length
 const realDomains = domains.filter((item) => !item.name.includes('非领域')).length
-if (reasonCount < realDomains) problems.push('A8 每个领域都要写“为什么拆”（缺 ' + (realDomains - reasonCount) + ' 个）')
+if (reasonCount < realDomains) problems.push('A8 每个领域都要写“为什么这样切”（缺 ' + (realDomains - reasonCount) + ' 个）')
 
 const termRows = lines.filter((line) => /^\| TERM-/.test(line.trim()))
 if (termRows.length < 2) problems.push('A6 术语表不足 2 条')

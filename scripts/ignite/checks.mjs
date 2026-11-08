@@ -34,7 +34,7 @@ const GOVERNANCE_PATTERNS = [
   /^tests\//,
   /^docs\/features\//,
   /^docs\/designs\//,
-  /^docs\/standards\/(?:workflow|testing|development|security|api|database|architecture|ai-agents|adoption)\.md$/,
+  /^docs\/standards\/(?:workflow|testing|development|security|api|database|architecture|ai-agents|adoption|goal-tree)\.md$/,
 ]
 
 function matchesAny(path, patterns) {

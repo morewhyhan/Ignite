@@ -56,7 +56,15 @@ Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定�
 
 ## 规格驱动 Loop
 
-所有功能都按规格驱动 Loop 执行，并在 `docs/standards/adoption.md` 记录采用边界。完成判定必须引用具体 `REQ-*`、`AC-*`、运行记录和被测版本；缺证据、跳过测试或外部依赖未满足时保持未完成或阻塞。
+开工前只读一份：根目录 [GOAL.md](GOAL.md)。它是目标树入口：目标 → 领域 → REQ → AC → 测试，每层一句话，细节链接到 docs/ 的对应位置。
+
+顺序：读 GOAL.md 找到本次要动的 REQ → 读它链接的 Feature 与 Design → 改代码与测试 → 跑测试 → 回写变化（新字段、新页面、新决策）。
+
+写法与约束见 [目标树标准](docs/standards/goal-tree.md)。
+
+默认不建计划、不记审查回执、不跑红灯回执。只有跨多天、多人协作，或改动涉及数据迁移、权限模型、金额计算时，才建一份 Plan；Plan 是一次性施工单，交付后归档。
+
+完成判定：该 REQ 下所有 AC 有通过记录，并且真的打开页面点一遍。
 
 ## 架构边界
 
@@ -99,22 +107,11 @@ Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定�
 
 ## 推荐开发流程
 
-需求编写按 `docs/features/README.md`，立项、重点、接续与完成按 `docs/plans/README.md`，检查选择按 `docs/standards/testing.md`，运行恢复与证据维护按 `docs/others/evidence/README.md`，组合完成按 `docs/plans/releases/README.md`，规则维护按 `docs/standards/ai-agents.md`。Feature、Plan 和测试模板只提供填写位置。具体 Plan/Release 围绕原始结果协调各专业产出；普通任务直接读取相关规则。
-
-用户明确要求暂不测试时，先实现并保留待验证任务；不运行检查、不生成通过证据、不进入 `done`。测试资产可以编写，是否执行以当前用户指令为准。
-
-**执行顺序只有这一份。** 本节的 1–5 步是唯一顺序来源；其它文档不重复步骤，只补充与本主题相关的差异说明。
-
-**五步法与 Loop 的关系。** 五步法（现实 → 术语 → 矛盾 → 方案 → 验证）是一次交付内部的顺序；Loop（Feature → Plan → Contract/Test → Implementation → Verify → Design）是跨交付的循环。接口是 Plan：一次 Loop 迭代产出一个 Plan，Plan 内部按五步法展开。
-
-**目录即方法入口。** 方法由目录承载：`docs/features/` 是需求方法、`docs/plans/` 是计划方法、`docs/standards/` 是工程标准、`docs/others/evidence/` 是证据方法，每个目录的 README 即该方法的入口。新增方法必须落在"目录 + README"，不新增散落的说明文件。
-
-跨 Plan 依赖、共享写入和并行交接按 `docs/plans/README.md` 的“跨 Plan 依赖与交接”维护，继续使用原有协作字段；最终组合由 Release 验收。
-
-有可独立实施且前置已满足的切片时，AI 按 Plan 规则主动委派并行任务。委派前用原生 `next --task --handoff` 提供准确上下文，执行记录用 `plan note` 回原 Plan；开发排查使用 testing 定义的反馈入口，不能替代正式验收。
-
-1. 在安装依赖前执行 `node scripts/runtime-doctor.mjs --preflight`；按采用规范准备 `.env` 并安装依赖后，运行 `pnpm runtime:check` 和 `pnpm template:doctor`。若诊断提示新 Git 历史仍含继承记录，先运行 `pnpm ignite adopt-history` 预览，核对后再运行 `pnpm ignite adopt-history --apply` 并提交归档；之后运行 `pnpm ignite status`。不要逐条修复旧提交缺失造成的模板证据错误。确认采用历史完整后，再用精简状态摘要识别当前 Plan 与结构问题。只有需要程序化解析完整机器上下文时才运行 `pnpm ignite status --json`。
-2. 只读取本轮相关的 Feature、Plan、Standards、Design 和测试；用 `pnpm ignite next --plan <IGT-ID>` 接续匹配的现有 Plan。需要新 Plan 时，新模块用 `pnpm create:module <plural-kebab-name>`，存量改动用 `pnpm create:change <kebab-name>` 起草。
-3. 明确增量/存量、基线 commit、写入范围和验收标准；先读取所属固定方法，完成 Feature、Plan、Release 草稿和原生准备检查，关闭开放问题后再进入实现。
-4. 先写或更新契约测试，再实现最小代码；页面只消费 module screen，业务请求只走 Hook 与 RPC。
-5. 提交 Feature/Plan/行为测试后先按 AC 运行红灯并提交红灯记录；实现后运行 Plan integration。所有纳入的 Plan 完成后运行一次 Release 最终检查；回写 Design 并根据实际证据更新状态。报告交付前运行 `pnpm delivery:check --plan <IGT-ID>` 核对完整本地改动，不能只运行构建或普通工程检查。
+1. 读 GOAL.md。
+2. 找到要动的 REQ；没有就新增一条，并写清它服务于哪个领域。
+3. 读链接的 Feature 与 Design；没有就补最小一节。
+4. 改代码与测试；测试标题带 [AC-编号]。
+5. 跑 npm 脚本：test 与 check:docs。
+6. 回写：新字段进 Design，新决策进 ADR，AC 的链接补上。
+7. 真跑过就写一句“验证于 <提交>”；没跑就明说未验证。
+8. 只有需要程序化解析完整机器上下文时，才运行 `pnpm ignite status --json`。

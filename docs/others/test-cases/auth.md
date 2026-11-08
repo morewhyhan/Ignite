@@ -20,3 +20,55 @@
 ## 按需扩展
 
 本模板不接入真实邮箱；如果项目后续启用邮箱验证，再新增 provider、送达和链接点击用例。
+
+## 结论记录
+
+<a id="ac-auth-001"></a>
+
+### AC-AUTH-001 认证用例 AC-AUTH-001
+
+- 用例：真实浏览器注册，填写合法邮箱与密码
+- 期望：创建账户并进入工作台
+- 结果：通过（Playwright，6 passed，38.5s）
+- 证据：[截图](../../others/evidence/AC-AUTH-001/2026-11-08.png)
+- 未覆盖：非法邮箱、弱密码
+
+<a id="ac-auth-002"></a>
+
+### AC-AUTH-002 认证用例 AC-AUTH-002
+
+- 用例：真实浏览器登录，使用已注册凭证
+- 期望：进入自己的工作台
+- 结果：通过（Playwright）
+- 证据：[截图](../../others/evidence/AC-AUTH-002/2026-11-08.png)
+- 未覆盖：错误密码、账号锁定
+
+<a id="ac-auth-003"></a>
+
+### AC-AUTH-003 认证用例 AC-AUTH-003
+
+- 用例：登录后登出，再访问 /dashboard
+- 期望：回到首页
+- 结果：通过（Playwright）
+- 证据：[截图](../../others/evidence/AC-AUTH-003/2026-11-08.png)
+- 未覆盖：后退键场景
+
+<a id="ac-auth-004"></a>
+
+### AC-AUTH-004 认证用例 AC-AUTH-004
+
+- 用例：无会话访问受保护接口
+- 期望：401
+- 结果：通过（vitest，接口层）
+- 证据：[运行日志](../../others/evidence/goal-runs/2026-11-08-07-34.txt)
+- 未覆盖：过期会话
+
+<a id="ac-auth-005"></a>
+
+### AC-AUTH-005 认证用例 AC-AUTH-005
+
+- 用例：反复登录，观察限流
+- 期望：生产构建下可重复执行
+- 结果：通过（Playwright）
+- 证据：[截图](../../others/evidence/AC-AUTH-005/2026-11-08.png)
+- 未覆盖：限流阈值

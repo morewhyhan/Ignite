@@ -15,3 +15,55 @@
 | AC-TASKS-002 | 已登录用户    | 创建、查询、更新、删除 | 所有操作只影响本人数据 | API  | `tests/api/tasks.test.ts` |
 | AC-TASKS-005 | 多条本人任务  | 获取列表               | 按创建时间倒序         | API  | `tests/api/tasks.test.ts` |
 | AC-TASKS-001 | 未登录用户    | 访问 Tasks 页面        | 跳转首页               | E2E  | `tests/e2e/auth.spec.ts`  |
+
+## 结论记录
+
+<a id="ac-tasks-001"></a>
+
+### AC-TASKS-001 任务用例 AC-TASKS-001
+
+- 用例：未登录访问工作台
+- 期望：跳转首页
+- 结果：通过（Playwright）
+- 证据：[截图](../../others/evidence/AC-TASKS-001/2026-11-08.png)
+- 未覆盖：直接调接口
+
+<a id="ac-tasks-002"></a>
+
+### AC-TASKS-002 任务用例 AC-TASKS-002
+
+- 用例：登录后增删改查任务
+- 期望：列表即时反映结果
+- 结果：通过（Playwright）
+- 证据：[截图](../../others/evidence/AC-TASKS-002/2026-11-08.png)
+- 未覆盖：并发写入
+
+<a id="ac-tasks-003"></a>
+
+### AC-TASKS-003 任务用例 AC-TASKS-003
+
+- 用例：访问他人任务
+- 期望：任务不存在
+- 结果：通过（vitest，接口层）
+- 证据：[运行日志](../../others/evidence/goal-runs/2026-11-08-07-34.txt)
+- 未覆盖：无
+
+<a id="ac-tasks-004"></a>
+
+### AC-TASKS-004 任务用例 AC-TASKS-004
+
+- 用例：提交非法输入
+- 期望：拒绝并提示
+- 结果：通过（vitest，接口层）
+- 证据：[运行日志](../../others/evidence/goal-runs/2026-11-08-07-34.txt)
+- 未覆盖：无
+
+<a id="ac-tasks-005"></a>
+
+### AC-TASKS-005 任务用例 AC-TASKS-005
+
+- 用例：查看任务列表
+- 期望：最新在前
+- 结果：通过（vitest，接口层）
+- 证据：[运行日志](../../others/evidence/goal-runs/2026-11-08-07-34.txt)
+- 未覆盖：无

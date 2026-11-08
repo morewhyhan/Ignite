@@ -253,7 +253,7 @@ function requireSubcommand(program: Command): never {
 
 function createProgram(io: Io): Command {
   const program = new CommanderCommand("orch")
-    .description("Optional upstream plain-file bookkeeping. Not connected to Ignite Plan tasks, evidence or Release status; do not init it for native Ignite work. Use pnpm ignite next/status/check instead.")
+    .description("Optional upstream plain-file bookkeeping. Not connected to Ignite Plan tasks, evidence or Release status; do not init it for native Ignite work. Use pnpm goal:status and pnpm test instead.")
     .usage("[--store <dir>] [--json] [--force] <command>")
     .configureOutput({ writeOut: io.stdout, writeErr: io.stderr })
     .exitOverride()

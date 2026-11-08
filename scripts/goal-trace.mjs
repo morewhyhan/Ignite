@@ -35,7 +35,7 @@ for (const line of goal.split(/\r?\n/)) {
   const indent = line.length - line.trimStart().length
   const text = line.trim()
   const domainMatch = /^- \*\*(.+?)\*\*/.exec(text)
-  if (domainMatch && indent === 2) {
+  if (domainMatch && indent === 2 && domainMatch[1].includes('领域')) {
     currentDomain = domainMatch[1]
     domains.push(currentDomain)
     continue

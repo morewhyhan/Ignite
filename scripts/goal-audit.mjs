@@ -20,7 +20,7 @@ for (const line of lines) {
   const text = line.trim()
   const indent = line.length - line.trimStart().length
   const domainMatch = /^- \*\*(.+?)\*\*/.exec(text)
-  if (domainMatch && indent === 2) {
+  if (domainMatch && indent === 2 && domainMatch[1].includes('领域')) {
     domain = { name: domainMatch[1], reqs: [], acs: [] }
     domains.push(domain)
     req = null

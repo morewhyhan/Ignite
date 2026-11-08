@@ -3,7 +3,7 @@ import { join, resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
 
 const root = process.cwd()
-const goalPath = join(root, 'docs/goal/GOAL.md')
+const goalPath = join(root, 'docs/GOAL.md')
 const source = readFileSync(goalPath, 'utf8')
 const lines = source.split(/\r?\n/)
 
@@ -67,7 +67,7 @@ for (const entry of entries) {
   else if (!entry.evidence) entry.state = browser ? '缺截图' : '缺证据'
   else if (browser) entry.state = image ? '已验证' : '缺截图'
   else {
-    const target = resolve(root, 'docs', 'goal', entry.evidence)
+    const target = resolve(root, 'docs', entry.evidence)
     if (!existsSync(target)) entry.state = '缺证据'
     else {
       const body = readFileSync(target, 'utf8')

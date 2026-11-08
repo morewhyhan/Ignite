@@ -26,7 +26,7 @@ for (const name of features) {
   }
 }
 
-const goalRaw = read('docs/goal/GOAL.md')
+const goalRaw = read('docs/GOAL.md')
 const goalParts = goalRaw.split(/\r?\n/)
 const goalAt = goalParts.findIndex((line) => line.startsWith('## 四、文字金字塔'))
 const goal = (goalAt >= 0 ? goalParts.slice(goalAt) : goalParts).join('\n')

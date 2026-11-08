@@ -14,7 +14,7 @@ Teach the next agent how to launch, inspect, drive and clean up the real Ignite 
 
 Read the applicable runtime/adoption/testing rules, package scripts, Feature REQ/AC, docs/others/test-cases/ and existing Playwright tests. Observe the actual surface, startup command, required configuration, authentication, stable selectors, isolation and possible evidence. Ask only about necessary information that cannot be observed.
 
-Prefer the existing test harness and `pnpm ignite check --plan <IGT-ID> --level auto`. Do not install tools or change environments merely to generate a skill. If startup is unavailable, describe the concrete limitation and leave affected execution unverified; an environmental failure is not a behavior assertion.
+Prefer the existing test harness and `pnpm test`. Do not install tools or change environments merely to generate a skill. If startup is unavailable, describe the concrete limitation and leave affected execution unverified; an environmental failure is not a behavior assertion.
 
 ## 2. Generate one canonical skill
 

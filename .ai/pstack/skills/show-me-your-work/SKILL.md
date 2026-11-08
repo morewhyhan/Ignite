@@ -10,7 +10,7 @@ Keep a reviewable account of decisions: what changed, why, the evidence, and the
 ## Where the record belongs
 
 - Ordinary choices, scope changes, reversals and blockers go in the current docs/plans/ Plan's overall judgment and status record, under its existing directory rules.
-- Task state belongs only to the Plan's structured tasks. Update it through `pnpm ignite task set-status <ID> <task> <todo|doing|done>`; generated progress is not hand-maintained.
+- Task state belongs only to the Plan's structured tasks. Update it through `pnpm goal:status`; generated progress is not hand-maintained.
 - A lasting architecture tradeoff follows [ADR rules](../../../../docs/others/adr/README.md) when future maintainers need its rationale. Link it from the Plan. Do not require an ADR for routine implementation choices.
 - The implemented system's current facts belong in docs/designs/. Do not describe an unimplemented proposal there as current behavior.
 - Actual check results belong to existing execution evidence. Cite their run, tested version and REQ/AC from the Plan; do not write a second pass/fail table.

@@ -11,7 +11,7 @@ Make the intended behavior executable before changing the implementation. The te
 
 Use [test-case rules](../../../../docs/others/test-cases/README.md), [evidence rules](../../../../docs/others/evidence/README.md) and [testing standards](../../../../docs/standards/testing.md). Pair this method with [test-behavior-not-implementation](../principle-test-behavior-not-implementation/SKILL.md) and [prove-it-works](../principle-prove-it-works/SKILL.md) by default when maintaining tests or evidence.
 
-For a new Ignite Plan, record the required red with `pnpm ignite tdd red --plan <IGT-ID> --ac <AC-ID>` before implementation. Keep the concrete test path consistent from red to green. Expensive setup, unclear reproduction and integration requirements do not waive this contract. Environment errors, placeholder failures and assertions written after implementation are not behavioral red evidence.
+For a new Ignite Plan, record the required red with 写测试后运行 `pnpm test`，确认它先失败 before implementation. Keep the concrete test path consistent from red to green. Expensive setup, unclear reproduction and integration requirements do not waive this contract. Environment errors, placeholder failures and assertions written after implementation are not behavioral red evidence.
 
 If the user explicitly postpones testing, keep verification pending, do not run checks or claim red/green evidence, and do not mark the Plan done.
 

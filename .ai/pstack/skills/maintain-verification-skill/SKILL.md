@@ -24,7 +24,7 @@ Classify each discrepancy:
 
 ## Verify proportionately
 
-Use relevant existing Playwright/native checks and `pnpm ignite check --plan <IGT-ID> --level auto`, reusing current runs for unchanged inputs. If exploring manually, drive only an instance this run owns or has explicit permission to use. Doctor before use and after surprises; restore known state rather than proceeding through a wedged UI. Preserve evidence and clean owned processes/data even on failure.
+Use relevant existing Playwright/native checks and `pnpm test`, reusing current runs for unchanged inputs. If exploring manually, drive only an instance this run owns or has explicit permission to use. Doctor before use and after surprises; restore known state rather than proceeding through a wedged UI. Preserve evidence and clean owned processes/data even on failure.
 
 A missing account, external prerequisite or unavailable runtime means the path is unverified, with the attempted route and missing condition recorded. Do not label an unreachable path passed. Re-drive a changed execution recipe when possible; deferred execution remains a task and is not a completed validation.
 

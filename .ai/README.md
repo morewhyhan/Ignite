@@ -25,7 +25,7 @@ Feature、Plan 和测试文档分别保存需求、推进依据与验收意图�
 
 ## 工程方法入口
 
-从当前仓库运行 `node scripts/ignite.mjs skill read technical-writing` 可直接读取项目技能真源，其他技能替换名称即可；依赖已准备后也可使用 `pnpm ignite skill read`。Node 读取入口无需安装项目依赖。路径错误用同一名字恢复，缺失会明确失败；不能运行时沿所属规则的 canonical 链接读取。读取和恢复规则由 [AI 规则维护](../docs/standards/ai-agents.md#固定维护方法) 负责。
+从当前仓库运行 `node scripts/ignite.mjs skill read technical-writing` 可直接读取项目技能真源，其他技能替换名称即可；依赖已准备后也可使用 `pnpm goal:status`。Node 读取入口无需安装项目依赖。路径错误用同一名字恢复，缺失会明确失败；不能运行时沿所属规则的 canonical 链接读取。读取和恢复规则由 [AI 规则维护](../docs/standards/ai-agents.md#固定维护方法) 负责。
 
 项目扩展的 [review-plan](skills/review-plan/SKILL.md) 与 [review-delivery](skills/review-delivery/SKILL.md) 取自 AGE 审查方法，来源及许可随正文保存；它们不计入下述上游 pstack 技能数量。AI 按 Plan 规则主动安排独立审查，记录仍归原 Plan。入口链接和技能目录不等于已经派发独立角色，也不保证所有宿主自动发现或模型始终遵守。
 

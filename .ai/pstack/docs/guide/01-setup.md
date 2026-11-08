@@ -31,7 +31,7 @@ Describe a small real result and its constraints:
 /poteto-mode add JSON output to this command. keep text output unchanged. use the existing Feature and Plan to define and verify both forms.
 ```
 
-Reuse a matching unfinished Plan. Map workflow steps into its `tasks`; update with `pnpm ignite task set-status` and regenerate progress with `pnpm ignite plan refresh`. Chat todos are temporary navigation, not another project status record.
+Reuse a matching unfinished Plan. Map workflow steps into its `tasks`; update with `pnpm goal:status` and regenerate progress with `docs/plans/README.md`（计划可选）. Chat todos are temporary navigation, not another project status record.
 
 Persistent modes, keyboard shortcuts, and wake mechanisms depend on the host. Do not assume Cursor Custom Modes or `/loop` exist elsewhere.
 

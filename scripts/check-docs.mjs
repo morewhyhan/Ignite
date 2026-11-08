@@ -158,6 +158,25 @@ for (const entry of domainDocs) {
     seenDomainDocs.set(entry.target, entry.domain)
   }
 }
+
+// 目标树与需求层同步：GOAL.md 覆盖的领域，其 AC 必须与 Feature 完全一致。
+const goalText = read('GOAL.md')
+const goalAcs = new Set([...goalText.matchAll(/AC-([A-Z]+)-\d+/g)].map((match) => match[0]))
+const goalPrefixes = new Set([...goalAcs].map((id) => id.split('-')[1]))
+const featureAcs = new Set(
+  [...walkFiles(join(docsRoot, 'features'))]
+    .filter((path) => path.endsWith('.md') && !/README|_template/.test(path))
+    .flatMap((path) =>
+      [...readFileSync(path, 'utf8').matchAll(/^- (AC-[A-Z]+-\d+)/gm)].map((match) => match[1]),
+    ),
+)
+for (const id of goalAcs)
+  if (!featureAcs.has(id)) fail('GOAL.md lists ' + id + ' but no Feature defines it')
+for (const id of featureAcs) {
+  if (!goalPrefixes.has(id.split('-')[1])) continue
+  if (!goalAcs.has(id)) fail('Feature defines ' + id + ' but GOAL.md does not list it')
+}
+
 const localLinkPattern = /!?\[[^\]]*]\(([^)]+)\)/g
 
 for (const markdownFile of markdownFiles) {

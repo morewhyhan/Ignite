@@ -30,6 +30,10 @@ Better Auth schema 的 `verification` 表仍保留，用于保持官方 schema �
 
 来源：AGENTS.md 认证基线一节；实现见 src/server/auth。
 
+## 关联需求
+
+认证实现服务于 REQ-AUTH-001、REQ-AUTH-004、REQ-AUTH-005、REQ-AUTH-006。
+
 ## 事件与命令
 
 按 §9.3 的顺序记录。

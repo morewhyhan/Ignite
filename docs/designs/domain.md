@@ -8,6 +8,10 @@ Ignite 当前有认证域和 Tasks 参考业务域。认证域使用 Better Auth
 
 来源：docs/standards/specification-to-implementation-ddd.md §8 与 §9；实现见 src/modules。
 
+## 关联需求
+
+本文件描述认证与任务两个上下文的边界，对应 REQ-AUTH-001、REQ-AUTH-004、REQ-TASKS-001、REQ-TASKS-005。
+
 ## 领域与主导文档
 
 | 领域           | 主导文档                                  | 模块入口          |

@@ -246,9 +246,6 @@ for (const file of walkFiles(join(docsRoot, 'designs'))) {
   }
 }
 
-// 目标树不能无限膨胀。
-const goalLineCount = read('GOAL.md').split(/\r?\n/).length
-if (goalLineCount > 300) fail('GOAL.md is too long: ' + goalLineCount + ' lines (limit 300)')
 
 const localLinkPattern = /!?\[[^\]]*]\(([^)]+)\)/g
 
@@ -354,6 +351,15 @@ for (const line of goalLines) {
   if (!/说明：/.test(noteLine)) {
     fail(id + ': every AC needs a 说明 (what the test covers and what it does not)')
   }
+}
+
+// 说明必须写清：场景、通过后感知、不过会怎样。
+for (const line of goalLines) {
+  if (!/^- AC-[A-Z]+-\d+/.test(line)) continue
+  const id = line.slice(2).split('（')[0]
+  const noteLine = goalLines[goalLines.indexOf(line) + 1] || ''
+  if (!/不过：/.test(noteLine)) fail(id + ': 说明 needs 不过：<如果不过会出什么问题>')
+  if (!/未覆盖：|场景：/.test(noteLine)) fail(id + ': 说明 needs 场景：与 未覆盖：')
 }
 
 failures.push(

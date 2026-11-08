@@ -101,6 +101,7 @@ const metadata = {
   review_contract: 1,
   reviews: [],
   verification_contract: 2,
+  demo: '',
   goals: [],
   constraints: [],
   non_goals: [],

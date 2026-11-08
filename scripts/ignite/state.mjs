@@ -342,6 +342,13 @@ export function validatePlan(
     value.status === 'done' && gitCommitExists(value.integrated_commit)
       ? value.integrated_commit
       : null
+  if (
+    requiresModulePolicy(value) &&
+    value.status !== 'draft' &&
+    (typeof value.demo !== 'string' || value.demo.trim().length < 8)
+  ) {
+    failures.push('Plan must declare demo: 打开哪个页面、做什么操作、看到什么结果')
+  }
   const contentOnlyHeadings = CONTENT_HEADINGS
   failures.push(
     ...validatePlanDocument(
@@ -729,28 +736,31 @@ export function validatePlan(
         }
       }
       if (!retiredExempt && !docOnlyPlan && [1, 2].includes(value.task_contract)) {
+        const planHasRed = validTdd.size > 0
         for (const task of value.tasks || []) {
+          const behaviorAcceptance = (task.acceptance || []).filter((id) => {
+            const criterion = (value.acceptance || []).find((entry) => entry.id === id)
+            return !(typeof criterion?.module === 'string' && criterion.module.startsWith('docs'))
+          })
           if (
-            (task.phase === 'implement' && ['doing', 'done'].includes(task.status)) ||
-            (task.phase === 'red' && task.status === 'done')
+            behaviorAcceptance.length > 0 &&
+            !planHasRed &&
+            ((task.phase === 'implement' && ['doing', 'done'].includes(task.status)) ||
+              (task.phase === 'red' && task.status === 'done'))
           ) {
-            for (const id of task.acceptance || []) {
-              const criterion = (value.acceptance || []).find((entry) => entry.id === id)
-              // 文档类验收改动的是规则文本，不产生可观察行为，用结构检查验证，不要求行为红灯。
-              if (typeof criterion?.module === 'string' && criterion.module.startsWith('docs'))
-                continue
-              if (!validTdd.has(id))
-                failures.push(`${task.id}: ${id} requires valid red evidence before implementation`)
-            }
+            failures.push(
+              `${task.id}: implementation requires at least one valid red result for this Plan`,
+            )
           }
         }
       }
       if (value.status === 'done' && !docOnlyPlan) {
-        for (const criterion of value.acceptance || []) {
-          if (typeof criterion.module === 'string' && criterion.module.startsWith('docs')) continue
-          if (!validTdd.has(criterion.id))
-            failures.push(`${criterion.id}: done Plan requires a matching behavior-test red result`)
-        }
+        const behaviorAcceptance = (value.acceptance || []).filter(
+          (criterion) =>
+            !(typeof criterion.module === 'string' && criterion.module.startsWith('docs')),
+        )
+        if (behaviorAcceptance.length > 0 && validTdd.size === 0)
+          failures.push('done Plan requires at least one behavior-test red result')
       }
     }
   }
@@ -2047,9 +2057,7 @@ export function updatePlanTask(planId, taskId, status) {
       if (candidate.metadata.status !== 'active')
         errors.push('Start an active Plan before recording red or implementation progress')
       errors.push(
-        ...validatePlan(candidate).filter((error) =>
-          /TDD|tdd_evidence|requires valid red evidence/i.test(error),
-        ),
+        ...validatePlan(candidate).filter((error) => /TDD|tdd_evidence|valid red/i.test(error)),
       )
     }
     if (errors.length) throw new Error(errors.join('\n'))

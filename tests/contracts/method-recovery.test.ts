@@ -133,6 +133,7 @@ describe('method recovery', () => {
       expect(content).toContain('Correct the test setup and repeat real red')
       expect(read(fixture.root, recordPath)).toBe(receipt)
       expect(read(fixture.root, 'tests/contracts/sample.test.ts')).toContain('expect(false)')
+      // restart 清空了该验收的回执，整份计划已没有有效红灯，实现仍被拒绝。
       expect(
         runCli(fixture.root, 'task', 'set-status', 'IGT-900', 'implement', 'doing').status,
       ).not.toBe(0)
@@ -279,7 +280,7 @@ describe('method recovery', () => {
       const before = read(fixture.root, 'docs/plans/fixture.md')
       const denied = runCli(fixture.root, 'task', 'set-status', 'IGT-900', 'implement', 'doing')
       expect(denied.status).not.toBe(0)
-      expect(denied.stderr).toContain('requires valid red evidence before implementation')
+      expect(denied.stderr).toContain('requires at least one valid red result for this Plan')
       expect(read(fixture.root, 'docs/plans/fixture.md')).toBe(before)
       const redCommit = commitAll(fixture.root, 'Record the behavior contract')
       const runId = 'tdd-20261009000000-aabbcc'

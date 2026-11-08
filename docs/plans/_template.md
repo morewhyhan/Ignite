@@ -7,6 +7,7 @@
   "outcome": "完成后谁能多做哪件事",
   "contract_version": 2,
   "execution_contract": 1,
+  "demo": "打开 <页面>，做 <操作>，看到 <结果>",
   "task_contract": 2,
   "planning_contract": 1,
   "review_contract": 1,

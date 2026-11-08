@@ -26,7 +26,7 @@ const docsRoot = join(repositoryRoot, 'docs')
 const failures = []
 
 function fail(message) {
-  failures.push(message)
+failures.push(message)
 }
 
 function requirePath(path) {
@@ -303,6 +303,16 @@ for (const rule of [
   'docs/standards/adoption.md',
 ]) {
   if (!agentGuide.includes(rule)) fail(`AGENTS.md: missing required template rule "${rule}"`)
+}
+
+  // 每条 AC 必须有验证说明，人要在看板上看到测到什么程度。
+for (const line of goalLines) {
+  if (!/^- AC-[A-Z]+-\d+/.test(line)) continue
+  const id = line.slice(2).split('（')[0]
+  const noteLine = goalLines[goalLines.indexOf(line) + 1] || ''
+  if (!/说明：/.test(noteLine)) {
+    fail(id + ': every AC needs a 说明 (what the test covers and what it does not)')
+  }
 }
 
 failures.push(

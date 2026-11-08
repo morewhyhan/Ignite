@@ -36,7 +36,7 @@ const text = readFileSync(goalPath, 'utf8')
 const lines = text.split(/\r?\n/)
 const entries = []
 for (let i = 0; i < lines.length; i += 1) {
-  const match = /^- (AC-[A-Z]+-\d+)（(.*?)）：(.*)$/.exec(lines[i])
+  const match = /^\s*- (AC-[A-Z]+-\d+)（(.*?)）：(.*)$/.exec(lines[i])
   if (!match) continue
   const detail = lines[i + 1] || ''
   const link = /\(([^)]*tests\/[^)]+)\)/.exec(detail)

@@ -27,21 +27,33 @@ for (const name of features) {
 }
 
 const goal = read('docs/GOAL.md')
-const goalAcs = new Set([...goal.matchAll(/^- (AC-[A-Z]+-\d+)/gm)].map((match) => match[1]))
-const domains = [...goal.matchAll(/^### 领域：(.+)$/gm)].map((match) => match[1].trim())
+const goalAcs = new Set([...goal.matchAll(/^\s*- (AC-[A-Z]+-\d+)/gm)].map((match) => match[1]))
 const goalReqToDomain = new Map()
-for (const section of goal.split(/^### 领域：/m).slice(1)) {
-  const name = section.split(/\r?\n/)[0].trim()
-  for (const match of section.matchAll(/^\*\*(REQ-[A-Z]+-\d+)/gm))
-    goalReqToDomain.set(match[1], name)
-  for (const line of section.split(/\r?\n/)) {
-    if (!/^- AC-/.test(line)) continue
-    for (const req of line.matchAll(/REQ-[A-Z]+-\d+/g)) goalReqToDomain.set(req[0], name)
+const domains = []
+let currentDomain = null
+for (const line of goal.split(/\r?\n/)) {
+  const indent = line.length - line.trimStart().length
+  const text = line.trim()
+  const domainMatch = /^- \*\*(.+)\*\*$/.exec(text)
+  if (domainMatch && indent === 2) {
+    currentDomain = domainMatch[1]
+    domains.push(currentDomain)
+    continue
+  }
+  const reqMatch = /^- \*\*(REQ-[A-Z]+-\d+)/.exec(text)
+  if (reqMatch && currentDomain) {
+    goalReqToDomain.set(reqMatch[1], currentDomain)
+    continue
+  }
+  const acMatch = /^- (AC-[A-Z]+-\d+)（([^）]*)）/.exec(text)
+  if (acMatch && currentDomain) {
+    for (const r of acMatch[2].matchAll(/REQ-[A-Z]+-\d+/g)) {
+      if (!goalReqToDomain.has(r[0])) goalReqToDomain.set(r[0], currentDomain)
+    }
   }
 }
-
 const prefixToDomain = new Map()
-for (const [req, domain] of goalReqToDomain) prefixToDomain.set(req.split('-')[1], domain)
+for (const [req, name] of goalReqToDomain) prefixToDomain.set(req.split('-')[1], name)
 
 const problems = []
 const used = new Set()

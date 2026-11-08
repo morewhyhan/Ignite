@@ -14,6 +14,7 @@ for (let i = 0; i < lines.length; i += 1) {
   const id = match[1]
   const detail = lines[i + 1] || ''
   const link = /\((tests\/[^)]+)\)/.exec(detail)
+  const note = /说明：([^｜]*)/.exec(detail)
   let state = '缺测试'
   let file = '-'
   if (link) {
@@ -22,7 +23,7 @@ for (let i = 0; i < lines.length; i += 1) {
     if (existsSync(path) && readFileSync(path, 'utf8').includes('[' + id + ']')) state = '有测试'
     else if (existsSync(path)) state = '测试缺编号'
   }
-  rows.push({ id, requirement: match[2], file, state })
+  rows.push({ id, requirement: match[2], file, state, note: note ? note[1].trim() : '未写说明' })
 }
 let verifiedAt = ''
 if (run) {
@@ -31,24 +32,21 @@ if (run) {
     const result = spawnSync('pnpm', ['exec', 'vitest', 'run', ...files], { cwd: root, encoding: 'utf8' })
     const passed = result.status === 0
     verifiedAt = new Date().toISOString().slice(0, 16).replace('T', ' ')
-    for (const row of rows) {
-      if (row.state === '有测试') row.state = passed ? '已验证' : '失败'
-    }
+    for (const row of rows) if (row.state === '有测试') row.state = passed ? '已验证' : '失败'
   }
 }
 const counts = rows.reduce((acc, row) => { acc[row.state] = (acc[row.state] || 0) + 1; return acc }, {})
 const summary = Object.entries(counts).map(([key, value]) => key + ' ' + value).join('，')
 const block = [
   '<!-- goal-status -->',
-  '（本块由 pnpm goal:status 生成，勿手改；加 --run 会真的跑测试并标记已验证）',
+  '（本块由 pnpm goal:status 生成，勿手改；--run 会真的跑测试）',
   '',
-  '| AC | 需求 | 测试 | 状态 |',
-  '| --- | --- | --- | --- |',
-  ...rows.map((row) => '| ' + row.id + ' | ' + row.requirement + ' | ' + row.file + ' | ' + row.state + ' |'),
+  '| AC | 需求 | 测试 | 状态 | 验证说明 |',
+  '| --- | --- | --- | --- | --- |',
+  ...rows.map((row) => '| ' + row.id + ' | ' + row.requirement + ' | ' + row.file + ' | ' + row.state + ' | ' + row.note + ' |'),
   '',
   '合计 ' + rows.length + ' 条：' + summary + (verifiedAt ? '（验证于 ' + verifiedAt + '）' : ''),
   '<!-- /goal-status -->',
 ].join('\n')
-const next = text.replace(/<!-- goal-status -->[\s\S]*?<!-- \/goal-status -->/, block)
-writeFileSync(goalPath, next)
+writeFileSync(goalPath, text.replace(/<!-- goal-status -->[\s\S]*?<!-- \/goal-status -->/, block))
 console.log('goal status: ' + rows.length + ' ACs, ' + summary)

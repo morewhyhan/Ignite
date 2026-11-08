@@ -136,8 +136,8 @@ const block = [
   '<!-- goal-status -->',
   '（本块由 pnpm goal:status 生成，勿手改；--run 跑测试并写运行证据，--evidence 登记截图）',
   '',
-  '| AC | 需求 | 测试 | 状态 | 验证说明 |',
-  '| --- | --- | --- | --- | --- |',
+  '| AC | 需求 | 测试 | 状态 | 证据 | 验证说明 |',
+  '| --- | --- | --- | --- | --- | --- |',
   ...entries.map(
     (row) =>
       '| ' +
@@ -148,6 +148,8 @@ const block = [
       row.file +
       ' | ' +
       row.state +
+      ' | ' +
+      (row.evidence ? '[查看](' + row.evidence + ')' : '-') +
       ' | ' +
       row.note +
       ' |',
@@ -160,8 +162,9 @@ const block = [
     (verifiedAt ? '（验证于 ' + verifiedAt + '）' : ''),
   '<!-- /goal-status -->',
 ].join('\n')
-writeFileSync(
-  goalPath,
-  lines.join('\n').replace(/<!-- goal-status -->[\s\S]*?<!-- \/goal-status -->/, block),
-)
+const current = lines.join('\n')
+const next = /<!-- goal-status -->[\s\S]*?<!-- \/goal-status -->/.test(current)
+  ? current.replace(/<!-- goal-status -->[\s\S]*?<!-- \/goal-status -->/, block)
+  : current.replace(/^## 目标/m, block + '\n\n## 目标')
+writeFileSync(goalPath, next)
 console.log('goal status: ' + entries.length + ' ACs, ' + summary)

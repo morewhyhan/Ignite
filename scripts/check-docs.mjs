@@ -119,6 +119,10 @@ const audited = auditRecords.some((name) => {
 })
 if (!audited) record('docs/GOAL.md 没有对应的语义审计记录：运行 pnpm goal:audit，审计通过后执行 pnpm goal:audit --record "<结论>"')
 
+// GOAL 必须包含状态块，否则看板被删了没人发现。
+const goalBody = read('docs/GOAL.md')
+if (!/<!-- goal-status -->[\s\S]*?<!-- \/goal-status -->/.test(goalBody)) record('docs/GOAL.md 缺少 goal-status 块：运行 pnpm goal:status 重新生成')
+
 const sourceFiles = markdownFiles.length
 if (failures.length > 0) {
   console.error('Documentation checks failed:')

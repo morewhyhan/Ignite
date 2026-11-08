@@ -63,6 +63,25 @@ Agent 做长任务会偏移：开头记得目标，做到一半被细节带走�
 | 缺截图     | 浏览器类 AC 只有日志               |
 | 失败       | 最近一次运行失败                   |
 
+<!-- goal-status -->
+（本块由 pnpm goal:status 生成，勿手改；--run 跑测试并写运行证据，--evidence 登记截图）
+
+| AC | 需求 | 测试 | 状态 | 证据 | 验证说明 |
+| --- | --- | --- | --- | --- | --- |
+| AC-AUTH-001 | REQ-AUTH-001 | ../tests/e2e/auth.spec.ts | 已验证 | [查看](others/evidence/AC-AUTH-001/2026-11-08.png) | 场景：新用户首次注册；通过：能进入工作台开始用；不过：新用户无法使用产品；未覆盖：非法邮箱与弱密码 |
+| AC-AUTH-002 | REQ-AUTH-001 | ../tests/e2e/auth.spec.ts | 已验证 | [查看](others/evidence/AC-AUTH-002/2026-11-08.png) | 场景：老用户登录；通过：进入自己的工作台；不过：老用户回不到自己的数据；未覆盖：错误密码与账号锁定 |
+| AC-AUTH-004 | REQ-AUTH-004、REQ-AUTH-005 | ../tests/api/tasks.test.ts | 已验证 | [查看](others/evidence/goal-runs/2026-11-08-07-34.txt) | 场景：未登录直接打开受保护页；通过：被带回登录页；不过：未登录的人能看到业务数据；未覆盖：会话过期 |
+| AC-AUTH-003 | REQ-AUTH-005 | ../tests/e2e/auth.spec.ts | 已验证 | [查看](others/evidence/AC-AUTH-003/2026-11-08.png) | 场景：用户登出后按后退键；通过：仍停在首页；不过：登出后还能看到上个账号的页面 |
+| AC-AUTH-005 | REQ-AUTH-006 | ../tests/e2e/auth.spec.ts | 已验证 | [查看](others/evidence/AC-AUTH-005/2026-11-08.png) | 场景：生产环境反复登录；通过：认证流程正常且可重复；不过：生产限流配置错误导致登录被拒或形同虚设；未覆盖：限流阈值 |
+| AC-TASKS-001 | REQ-TASKS-001 | ../tests/e2e/auth.spec.ts | 已验证 | [查看](others/evidence/AC-TASKS-001/2026-11-08.png) | 场景：未登录访问工作台；通过：被带回首页；不过：未登录能看到任务页壳；未覆盖：直接调接口 |
+| AC-TASKS-002 | REQ-TASKS-001、REQ-TASKS-002 | ../tests/e2e/tasks.spec.ts | 已验证 | [查看](others/evidence/AC-TASKS-002/2026-11-08.png) | 场景：登录用户增删改查任务；通过：列表立即反映结果；不过：创建失败或看到别人的任务；未覆盖：并发写入 |
+| AC-TASKS-003 | REQ-TASKS-001、REQ-TASKS-005 | ../tests/api/tasks.test.ts | 已验证 | [查看](others/evidence/goal-runs/2026-11-08-07-34.txt) | 场景：用户打开别人的任务链接；通过：显示任务不存在；不过：能看到别人的任务内容 |
+| AC-TASKS-004 | REQ-TASKS-003、REQ-TASKS-004 | ../tests/api/tasks.test.ts | 已验证 | [查看](others/evidence/goal-runs/2026-11-08-07-34.txt) | 场景：用户提交空标题或超长标题；通过：表单提示错误且不保存；不过：脏数据进入列表 |
+| AC-TASKS-005 | REQ-TASKS-006 | ../tests/api/tasks.test.ts | 已验证 | [查看](others/evidence/goal-runs/2026-11-08-07-34.txt) | 场景：用户有多条任务；通过：最新任务排在最前；不过：新任务沉底，用户以为没创建成功 |
+
+合计 10 条：已验证 10
+<!-- /goal-status -->
+
 ## 目标
 
 > 让一个人从一个想法开始，直接用一套能跑、能验、能继续改的代码做出自己的应用。

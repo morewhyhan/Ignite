@@ -177,6 +177,18 @@ for (const id of featureAcs) {
   if (!goalAcs.has(id)) fail('Feature defines ' + id + ' but GOAL.md does not list it')
 }
 
+// 每条 AC 的下一行必须给出测试链接，否则验收没有落点。
+const goalLines = read('GOAL.md').split(/\r?\n/)
+for (let index = 0; index < goalLines.length; index += 1) {
+  const line = goalLines[index]
+  if (!/^- AC-[A-Z]+-\d+/.test(line)) continue
+  const detail = goalLines[index + 1] || ''
+  if (!/\(tests\//.test(detail)) {
+    const id = line.slice(2).split('（')[0]
+    fail(id + ': every AC needs a test link on the next line')
+  }
+}
+
 const localLinkPattern = /!?\[[^\]]*]\(([^)]+)\)/g
 
 for (const markdownFile of markdownFiles) {

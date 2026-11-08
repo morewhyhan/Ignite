@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 const root = process.cwd()
-const text = readFileSync(join(root, 'GOAL.md'), 'utf8')
+const text = readFileSync(join(root, 'docs/GOAL.md'), 'utf8')
 const lines = text.split(/\r?\n/)
 const problems = []
 
@@ -99,7 +99,7 @@ if (recordAt >= 0) {
   const { createHash } = await import('node:crypto')
   const { mkdirSync, writeFileSync } = await import('node:fs')
   const { spawnSync } = await import('node:child_process')
-  const goalSha = createHash('sha256').update(readFileSync(join(root, 'GOAL.md'), 'utf8')).digest('hex').slice(0, 16)
+  const goalSha = createHash('sha256').update(readFileSync(join(root, 'docs/GOAL.md'), 'utf8').replace(/<!-- goal-status -->[\s\S]*?<!-- \/goal-status -->/, '').replace(/<!-- goal-current -->[\s\S]*?<!-- \/goal-current -->/, '')).digest('hex').slice(0, 16)
   const commit = spawnSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: root, encoding: 'utf8' }).stdout.trim()
   const at = new Date().toISOString().slice(0, 16).replace('T', ' ')
   const dir = join(root, 'docs', 'others', 'evidence', 'goal-audit')

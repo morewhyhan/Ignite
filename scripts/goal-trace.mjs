@@ -26,7 +26,7 @@ for (const name of features) {
   }
 }
 
-const goal = read('GOAL.md')
+const goal = read('docs/GOAL.md')
 const goalAcs = new Set([...goal.matchAll(/^- (AC-[A-Z]+-\d+)/gm)].map((match) => match[1]))
 const domains = [...goal.matchAll(/^### 领域：(.+)$/gm)].map((match) => match[1].trim())
 const goalReqToDomain = new Map()

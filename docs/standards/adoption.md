@@ -32,7 +32,7 @@ prisma/schema.prisma 里的 Task 模型与迁移
 
 ## 第四步：写 GOAL
 
-在 `GOAL.md` 里写目标、领域、REQ、AC。写完先跑：
+在 `../GOAL.md` 里写目标、领域、REQ、AC。写完先跑：
 
 ```
 pnpm goal:audit

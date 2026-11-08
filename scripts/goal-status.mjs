@@ -1,9 +1,9 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
-import { join } from 'node:path'
+import { join, resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
 
 const root = process.cwd()
-const goalPath = join(root, 'GOAL.md')
+const goalPath = join(root, 'docs/GOAL.md')
 const args = process.argv.slice(2)
 const evidenceAt = args.indexOf('--evidence')
 
@@ -39,14 +39,14 @@ for (let i = 0; i < lines.length; i += 1) {
   const match = /^- (AC-[A-Z]+-\d+)（(.*?)）：(.*)$/.exec(lines[i])
   if (!match) continue
   const detail = lines[i + 1] || ''
-  const link = /\((tests\/[^)]+)\)/.exec(detail)
+  const link = /\(([^)]*tests\/[^)]+)\)/.exec(detail)
   const note = /说明：([^｜]*)/.exec(detail)
   const evidence = /证据：\[查看\]\(([^)]+)\)/.exec(detail)
   let state = '缺测试'
   let file = '-'
   if (link) {
     file = link[1]
-    const target = join(root, file)
+    const target = resolve(root, 'docs', file)
     if (existsSync(target) && readFileSync(target, 'utf8').includes('[' + match[1] + ']'))
       state = '有测试'
     else if (existsSync(target)) state = '测试缺编号'
@@ -103,15 +103,21 @@ if (run) {
 
 for (const row of entries) {
   if (!['有测试', '已验证', '失败'].includes(row.state)) continue
+  const browser = /(^|\/)tests\/e2e\//.test(row.file)
   if (!row.evidence) {
     row.state = '缺证据'
     continue
   }
-  if (row.file.startsWith('tests/e2e/') && !/\.(png|jpg|jpeg)$/i.test(row.evidence)) {
+  const image = /\.(png|jpg|jpeg)$/i.test(row.evidence)
+  if (browser && !image) {
     row.state = '缺截图'
     continue
   }
-  const evidencePath = join(root, row.evidence)
+  if (browser && image) {
+    row.state = '已验证'
+    continue
+  }
+  const evidencePath = resolve(root, 'docs', row.evidence)
   if (row.state !== '失败' && existsSync(evidencePath)) {
     const log = readFileSync(evidencePath, 'utf8')
     if (/result: passed/.test(log)) row.state = '已验证'

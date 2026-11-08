@@ -16,7 +16,7 @@
 
 ## 每条 AC 至少一条测试
 
-- 测试标题带 `[AC-编号]`，编号必须在 `GOAL.md` 与 Feature 里存在。
+- 测试标题带 `[AC-编号]`，编号必须在 `../GOAL.md` 与 Feature 里存在。
 - 一个测试只证明一条 AC；多个 AC 共用一条用例时，标题里把编号都写上。
 - 测试要调用用户会触发的入口（页面、接口），不测私有函数。
 
@@ -60,7 +60,7 @@ Then 页面显示不存在，或请求被拒
 pnpm goal:status --run
 ```
 
-跑完把运行日志写进 `docs/others/evidence/goal-runs/`，并把状态写回 `GOAL.md`。
+跑完把运行日志写进 `docs/others/evidence/goal-runs/`，并把状态写回 `../GOAL.md`。
 浏览器类 AC 还要存截图：`pnpm goal:status --evidence <AC> <png 路径>`。
 
 ## 不做的事

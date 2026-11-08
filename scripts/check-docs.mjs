@@ -78,7 +78,7 @@ for (const req of knownReqs) {
 }
 
 // 5. GOAL 与 Feature 同步
-const goal = read('GOAL.md')
+const goal = read('docs/GOAL.md')
 const goalAcs = new Map()
 for (const match of goal.matchAll(/^- (AC-[A-Z]+-\d+)（([^）]*)）：(.*)$/gm))
   goalAcs.set(match[1], { reqs: match[2], text: match[3] })
@@ -98,7 +98,7 @@ for (let index = 0; index < lines.length; index += 1) {
   const match = /^- (AC-[A-Z]+-\d+)（/.exec(lines[index])
   if (!match) continue
   const detail = lines[index + 1] || ''
-  if (!/\((tests\/[^)]+)\)/.test(detail)) record(match[1] + ': missing test link')
+  if (!/\(([^)]*tests\/[^)]+)\)/.test(detail)) record(match[1] + ': missing test link')
   if (!/说明：/.test(detail)) record(match[1] + ': missing 说明')
   if (!/不过：/.test(detail)) record(match[1] + ': 说明 needs 不过：')
   if (!/未覆盖：/.test(detail)) record(match[1] + ': 说明 needs 未覆盖：')
@@ -106,17 +106,17 @@ for (let index = 0; index < lines.length; index += 1) {
 
 // 7. AGENTS 必读入口仍在
 const agents = read('AGENTS.md')
-if (!/GOAL\.md/.test(agents)) record('AGENTS.md must point at GOAL.md')
+if (!/GOAL\.md/.test(agents)) record('AGENTS.md must point at docs/GOAL.md')
 if (!/PROMPT\.md/.test(agents)) record('AGENTS.md must point at PROMPT.md')
 
 // 需求必须有语义审计记录，且记录的是当前 GOAL。
 const auditDir = join(root, 'docs', 'others', 'evidence', 'goal-audit')
-const goalHash = createHash('sha256').update(read('GOAL.md')).digest('hex').slice(0, 16)
+const goalHash = createHash('sha256').update(read('docs/GOAL.md').replace(/<!-- goal-status -->[\s\S]*?<!-- \/goal-status -->/, '').replace(/<!-- goal-current -->[\s\S]*?<!-- \/goal-current -->/, '')).digest('hex').slice(0, 16)
 const auditRecords = existsSync(auditDir) ? readdirSync(auditDir).filter((name) => name.endsWith('.json')) : []
 const audited = auditRecords.some((name) => {
   try { return JSON.parse(readFileSync(join(auditDir, name), 'utf8')).goal_sha === goalHash } catch { return false }
 })
-if (!audited) record('GOAL.md 没有对应的语义审计记录：运行 pnpm goal:audit，审计通过后执行 pnpm goal:audit --record "<结论>"')
+if (!audited) record('docs/GOAL.md 没有对应的语义审计记录：运行 pnpm goal:audit，审计通过后执行 pnpm goal:audit --record "<结论>"')
 
 const sourceFiles = markdownFiles.length
 if (failures.length > 0) {

@@ -1,4 +1,5 @@
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs'
+import { createHash } from 'node:crypto'
 import { join, relative, dirname, resolve } from 'node:path'
 
 const root = process.cwd()
@@ -107,6 +108,15 @@ for (let index = 0; index < lines.length; index += 1) {
 const agents = read('AGENTS.md')
 if (!/GOAL\.md/.test(agents)) record('AGENTS.md must point at GOAL.md')
 if (!/PROMPT\.md/.test(agents)) record('AGENTS.md must point at PROMPT.md')
+
+// 需求必须有语义审计记录，且记录的是当前 GOAL。
+const auditDir = join(root, 'docs', 'others', 'evidence', 'goal-audit')
+const goalHash = createHash('sha256').update(read('GOAL.md')).digest('hex').slice(0, 16)
+const auditRecords = existsSync(auditDir) ? readdirSync(auditDir).filter((name) => name.endsWith('.json')) : []
+const audited = auditRecords.some((name) => {
+  try { return JSON.parse(readFileSync(join(auditDir, name), 'utf8')).goal_sha === goalHash } catch { return false }
+})
+if (!audited) record('GOAL.md 没有对应的语义审计记录：运行 pnpm goal:audit，审计通过后执行 pnpm goal:audit --record "<结论>"')
 
 const sourceFiles = markdownFiles.length
 if (failures.length > 0) {

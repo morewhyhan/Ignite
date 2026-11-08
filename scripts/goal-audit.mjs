@@ -87,3 +87,24 @@ if (problems.length > 0) {
       ' 条 AC',
   )
 }
+
+const recordAt = process.argv.indexOf('--record')
+if (recordAt >= 0) {
+  const verdict = process.argv[recordAt + 1]
+  if (!verdict) { console.error('usage: pnpm goal:audit --record "<语义审计结论>"'); process.exit(1) }
+  if (problems.length > 0) {
+    console.error('结构审计未通过，不能记录审计结论')
+    process.exit(1)
+  }
+  const { createHash } = await import('node:crypto')
+  const { mkdirSync, writeFileSync } = await import('node:fs')
+  const { spawnSync } = await import('node:child_process')
+  const goalSha = createHash('sha256').update(readFileSync(join(root, 'GOAL.md'), 'utf8')).digest('hex').slice(0, 16)
+  const commit = spawnSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: root, encoding: 'utf8' }).stdout.trim()
+  const at = new Date().toISOString().slice(0, 16).replace('T', ' ')
+  const dir = join(root, 'docs', 'others', 'evidence', 'goal-audit')
+  mkdirSync(dir, { recursive: true })
+  const name = at.replace(/[: ]/g, '-') + '.json'
+  writeFileSync(join(dir, name), JSON.stringify({ at, commit, goal_sha: goalSha, verdict, findings: [] }, null, 2) + String.fromCharCode(10))
+  console.log('语义审计已记录：' + name + '（goal ' + goalSha + '）')
+}

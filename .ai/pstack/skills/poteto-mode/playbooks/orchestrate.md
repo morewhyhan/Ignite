@@ -15,7 +15,7 @@ Every assignment carries GOAL, SCOPE including forbidden paths, CONTEXT with ups
 #### Execution
 
 1. Define the real completion predicate and authorized boundary in the existing Plan/Release. Do not silently add pushes, PR merges or deployment to a local outcome.
-2. Find ready tasks from native dependencies. Mark work through pnpm ignite task set-status <ID> <task> <todo|doing|done>; refresh derived progress with pnpm ignite plan refresh <ID>.
+2. Find ready tasks from native dependencies. Mark work through update GOAL.md status; refresh derived progress with pnpm goal:status.
 3. Pilot a novel unit through its actual checks. A cheap repeated edit uses the first normal unit as the pilot; do not add a special verification pipeline.
 4. Spawn useful independent scopes with exclusive files/worktrees. Refill on completion; record consequential handoff facts in the existing Plan. A completion notification is a review event, not proof of acceptance.
 5. At a drain point review the actual diff and receipts, update task states and dependencies, and assign newly ready work. Preserve completed evidence rather than rerunning unchanged inputs.

@@ -1,5 +1,5 @@
 
-For Ignite, PR watch --status-only exit 0 means the observation completed, even when checks are red. READY means forge readiness only. Neither substitutes native Plan/Release acceptance or authorizes merging. Run pnpm ignite check --plan <ID> --level auto and the applicable final Release check under native rules. Patch-id reuse applies only to upstream PR diagnostics, not native execution evidence.
+For Ignite, PR watch --status-only exit 0 means the observation completed, even when checks are red. READY means forge readiness only. Neither substitutes native Plan/Release acceptance or authorizes merging. Run pnpm test and the applicable final Release check under native rules. Patch-id reuse applies only to upstream PR diagnostics, not native execution evidence.
 
 ### Babysit
 

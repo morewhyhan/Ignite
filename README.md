@@ -32,14 +32,10 @@ AI 可以很快生成第一版；真正磨人的是需求不断变化后，原�
 
 <a id="开始使用"></a>
 
-## 两个分支，两种用法
+## 分支
 
-| 分支                   | 用途                       | 内容                                                   |
-| ---------------------- | -------------------------- | ------------------------------------------------------ |
-| `main`                 | 克隆下来直接开始自己的项目 | 只有规则、模板、示例；不含模板自己的建设记录           |
-| `template-maintenance` | 维护这套模板本身           | 额外包含建设期计划、账本、报告、验收证据与体系说明文档 |
-
-克隆后默认得到 `main`。只有当你打算修改这套模板的规则时，才切到 `template-maintenance`。
+用 `main`。它是唯一入口：只有规则、模板与示例，不带模板自己的建设记录。
+建设期记录留在 Git 历史与标签里，需要追溯时再查。
 
 ## 开始使用
 
@@ -59,13 +55,29 @@ pnpm db:setup
 pnpm dev
 ```
 
+跑完上面这些，再确认三件事：
+
+```bash
+pnpm test          # 8 条基础测试
+pnpm docs:check    # 文档与链接自洽
+pnpm goal:status   # 看板：10 条 AC 全部已验证
+```
+
+## 第一次上手：换成你的产品
+
+1. 打开 [`docs/GOAL.md`](./docs/GOAL.md)，把「目标 / 领域 / REQ / AC」换成你的产品；示例 AC 删掉。
+2. 跑 `pnpm goal:audit`；通过后执行 `pnpm goal:audit --record "你的结论"`。
+3. 写第一条 AC 的测试（标题带 `[AC-编号]`），再跑 `pnpm goal:status --run` 看状态回写。
+
+后续每轮：读 GOAL → 改代码与测试 → `pnpm test` → `pnpm goal:status --run`。
+
 打开 [localhost:3000](http://localhost:3000)，注册后可体验工作台和 Tasks。Tasks 是一条从页面到数据库的完整参考切片，可供参考、改造或删除。采用模板后，按[采用指南](./docs/standards/adoption.md)更换项目名称、标识和本地密钥，并针对自己的功能与部署环境重新验收。
 
 Windows 与 WSL 不应共享 `node_modules`；切换环境时，按对应平台重新安装依赖。
 
 WSL 启动被宿主拒绝时，按[采用规范的权限恢复步骤](docs/standards/adoption.md#第一步准备环境并验证基线)重试后再判断是否阻塞。
 
-状态由 [`docs/GOAL.md`](docs/docs/GOAL.md) 的看板维护：`pnpm goal:status` 读测试文件，`pnpm goal:status --run` 真的跑一遍并写回验证时间。
+状态由 [`docs/GOAL.md`](./docs/GOAL.md) 的看板维护：`pnpm goal:status` 读测试文件，`pnpm goal:status --run` 真的跑一遍并写回验证时间。
 
 ---
 
@@ -131,7 +143,7 @@ Ignite/
 
 - **第一次采用模板**：[采用指南](./docs/standards/adoption.md) · [已有功能](./docs/features/README.md)
 - **开始一轮开发**：[需求编写](./docs/features/README.md) · [计划与执行](./docs/plans/README.md)
-- **协调多项交付**：[Plan 依赖与交接](./docs/plans/README.md#跨-plan-依赖与交接) · [Release 范围与完成](./docs/plans/releases/README.md)
+- **协调多项交付**：[计划（可选）](./docs/plans/README.md)
 - **了解工程约定**：[架构与安全标准](./docs/standards/README.md) · [测试标准](./docs/standards/testing.md)
 - **查询当前系统**：[设计索引](./docs/designs/README.md) · [AI 工具配置](./.ai/README.md)
 - **追溯交付和变化**：[决策与验收](./docs/others/README.md) · [更新日志](./CHANGELOG.md)

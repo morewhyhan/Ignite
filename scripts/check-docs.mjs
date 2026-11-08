@@ -22,6 +22,7 @@ const walk = (dir) => {
 
 const docsRoot = join(root, 'docs')
 const markdownFiles = walk(docsRoot).filter((path) => path.endsWith('.md'))
+markdownFiles.push(join(root, 'README.md'))
 
 // 1. 本地链接必须能打开
 for (const file of markdownFiles) {

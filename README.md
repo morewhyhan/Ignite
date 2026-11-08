@@ -110,7 +110,7 @@ WSL 启动被宿主拒绝时，按[采用规范的权限恢复步骤](docs/stand
 <details>
 <summary>查看任务状态与命令</summary>
 
-用 `pnpm goal:status` 看每条 AC 的测试与验证状态；`pnpm goal:audit` 检查需求是否自洽；`pnpm goal:trace` 检查测试能否追到需求。细节见 [目标树标准](./docs/standards/goal-tree.md) 与[测试规范](./docs/standards/testing.md)。
+用 `pnpm goal:status` 看每条 AC 的测试与验证状态；`pnpm goal:audit` 检查需求是否自洽；`pnpm goal:trace` 检查测试能否追到需求。细节见 [目标树标准](./docs/standards/goal-spec.md) 与[测试规范](./docs/standards/testing.md)。
 
 </details>
 

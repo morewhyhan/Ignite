@@ -120,7 +120,7 @@ Agent  读 GOAL，展开成下面五层文档，开发、写测试
 | 我要做的事                       | 先读                                                          |
 | -------------------------------- | ------------------------------------------------------------- |
 | 知道现在做到哪                   | [GOAL.md](./GOAL.md) 顶部的状态表                             |
-| 加一条需求                       | [GOAL.md](./GOAL.md) + [目标树标准](./standards/goal-tree.md) |
+| 加一条需求                       | [GOAL.md](./GOAL.md) + [目标树标准](./standards/goal-spec.md) |
 | 写某个领域的需求细节             | [features](./features/README.md)                              |
 | 查某个字段、接口、页面现在是什么 | [designs](./designs/README.md)                                |
 | 查该用哪层测试、怎么写说明       | [测试标准](./standards/testing.md)                            |

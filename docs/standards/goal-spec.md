@@ -129,3 +129,27 @@ A8 每个领域写“为什么拆”
       - AC-AUTH-001：Given 新用户提交合法邮箱和密码 When 注册 Then 进入工作台
         - **测试用例**：真实浏览器注册 → 通过 ｜ 证据：截图
 ```
+
+## 八、证据怎么记
+
+| 验证层 | 证据形式             | 怎么写入                                           |
+| ------ | -------------------- | -------------------------------------------------- |
+| 浏览器 | 截图                 | 存 docs/others/evidence/<AC-ID>/<日期>.png，再登记 |
+| 接口   | 响应片段或 curl 输出 | 存同目录 <日期>.txt                                |
+| 数据库 | 查询结果或迁移输出   | 存同目录 <日期>.sql.txt                            |
+| 单元   | 测试输出与运行时间   | --run 自动记入状态表                               |
+
+登记命令：
+
+    pnpm goal:status --evidence AC-STUDENT-007 docs/others/evidence/AC-STUDENT-007/2026-11-08.png
+
+它把 证据：链接 追加到该 AC 的说明行，之后 --run 只负责标已验证与时间。截图与文本都进仓库，可追溯，不靠口头。
+
+### 截图怎么来
+
+    1. pnpm test:e2e 跑相关用例
+    2. 把浏览器截图存 docs/others/evidence/<AC-ID>/<日期>.png
+    3. pnpm goal:status --evidence <AC-ID> docs/others/evidence/<AC-ID>/<日期>.png
+
+浏览器类 AC（tests/e2e/）必须有图片证据，否则状态显示 缺截图；其它层的 --run 会自动写入运行日志并用它作证据。
+

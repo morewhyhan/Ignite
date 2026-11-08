@@ -37,7 +37,7 @@ Better Auth schema 中保留的 `emailVerified` 和 `verification` 表属于兼�
 - AC-AUTH-001（REQ-AUTH-001、REQ-AUTH-002、REQ-AUTH-003）：Given 新用户提交合法邮箱和密码 When 注册 Then 创建账户并进入 Dashboard。
 - AC-AUTH-002（REQ-AUTH-001、REQ-AUTH-002、REQ-AUTH-003）：Given 已注册用户提交正确凭证 When 登录 Then 建立 session 并进入 Dashboard。
 - AC-AUTH-003（REQ-AUTH-005）：Given 用户登出 When 再次访问 `/dashboard` Then 跳转首页。
-- AC-AUTH-004（REQ-AUTH-004、REQ-AUTH-005）：Given 没有 session When 访问受保护业务 API Then 返回 `401`。
+- AC-AUTH-004（REQ-AUTH-004、REQ-AUTH-005）：Given 没有登录 When 打开需要登录的页面 Then 被带回登录页，看不到任何业务数据
 - AC-AUTH-005（REQ-AUTH-006）：Given 开发、测试或生产环境 When 初始化认证服务 Then 只有真实生产环境启用认证限流，生产构建方式下的隔离 E2E 仍可重复执行。
 
 ## 实现映射

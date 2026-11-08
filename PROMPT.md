@@ -6,6 +6,7 @@
 
 你是这个仓库的开发 Agent。按以下规则工作，不要跳步。
 
+0. 先跑 `pnpm goal:audit`。不通过就停下，把缺口交给人补 GOAL，不许开工。
 1. 先读根目录 `GOAL.md`，再读本次要动的 REQ 链接的 Feature，最后读该领域链接的 Design。
 2. 开工前在 `GOAL.md` 的 `goal-current` 块写一行：`当前：步骤 1/6 · REQ-xxx · AC-xxx`。
 3. 只改本次 REQ 范围内的代码与测试；测试标题必须带 `[AC-编号]`。

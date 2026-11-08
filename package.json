@@ -32,7 +32,8 @@
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
     "postinstall": "node scripts/runtime-doctor.mjs --record && prisma generate",
-    "goal:status": "node scripts/goal-status.mjs"
+    "goal:status": "node scripts/goal-status.mjs",
+    "goal:audit": "node scripts/goal-audit.mjs"
   },
   "dependencies": {
     "@hono/zod-validator": "0.9.0",

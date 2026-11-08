@@ -42,6 +42,7 @@ jobs:
       - run: pnpm ignite validate --ci
       - run: node scripts/check-diff.mjs --base "$DIFF_BASE"
       - run: pnpm docs:check
+      - run: pnpm goal:audit
       - run: pnpm goal:status
       - run: git diff --exit-code GOAL.md
       - run: pnpm typecheck

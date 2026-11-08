@@ -209,6 +209,24 @@ for (const id of coveredReqs) {
   if (!allReqs.has(id)) fail(id + ': AC references a REQ that no Feature defines')
 }
 
+// AC 文字必须与 Feature 一致，避免两处各写一套。
+const featureAcText = new Map()
+for (const file of walkFiles(join(docsRoot, 'features'))) {
+  if (!file.endsWith('.md') || /README|_template/.test(file)) continue
+  for (const line of readFileSync(file, 'utf8').split(/\r?\n/)) {
+    const match = /^- (AC-[A-Z]+-\d+)（[^）]*）：(.*)$/.exec(line)
+    if (match) featureAcText.set(match[1], match[2].trim())
+  }
+}
+for (const line of read('GOAL.md').split(/\r?\n/)) {
+  const match = /^- (AC-[A-Z]+-\d+)（[^）]*）：(.*)$/.exec(line)
+  if (!match) continue
+  const expected = featureAcText.get(match[1])
+  if (expected && expected !== match[2].trim()) {
+    fail(match[1] + ': GOAL.md AC text differs from the Feature AC text')
+  }
+}
+
 const localLinkPattern = /!?\[[^\]]*]\(([^)]+)\)/g
 
 for (const markdownFile of markdownFiles) {

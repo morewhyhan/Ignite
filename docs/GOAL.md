@@ -59,13 +59,10 @@
 
 ```mermaid
 flowchart TD
-  classDef goal fill:#111827,stroke:#111827,color:#fff,font-weight:bold
-  classDef domain fill:#eef2ff,stroke:#818cf8,color:#1e1b4b,font-weight:bold
-  classDef req fill:#ffffff,stroke:#c7d2fe,color:#312e81
-  classDef ac fill:#f8fafc,stroke:#e2e8f0,color:#334155
-  classDef note fill:#fefce8,stroke:#fde68a,color:#713f12
-
-  G(("目标<br/>做出能跑、能验、能继续改的应用"))
+  G["目标：做出能跑、能验、能继续改的应用"]
+  G --> A
+  G --> B
+  G --> S["外壳（非领域）"]
   subgraph A["认证领域"]
     direction TB
     R1["REQ-AUTH-001 注册与登录"] --> A1["AC-AUTH-001"]
@@ -82,15 +79,6 @@ flowchart TD
     T3["REQ-TASKS-003 标题校验"] --> AT4["AC-TASKS-004"]
     T6["REQ-TASKS-006 列表倒序"] --> AT5["AC-TASKS-005"]
   end
-  S["外壳（非领域）<br/>路由与布局"]
-  G --> A
-  G --> B
-  G -.-> S
-  class G goal
-  class A,B domain
-  class R1,R4,R5,R6,T1,T5,T3,T6 req
-  class A1,A2,A3,A4,A5,AT1,AT2,AT3,AT4,AT5 ac
-  class S note
 ```
 
 ## 三、金字塔（文字）

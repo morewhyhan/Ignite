@@ -22,7 +22,7 @@ for (let i = 0; i < lines.length; i += 1) {
   }
   if (current && /^\s*- \*\*测试用例\*\*：/.test(lines[i]) && i === current.lineIndex + 1) {
     const body = lines[i]
-    const verify = /\((\.\.\/tests\/[^)]+)\)/.exec(body)
+    const verify = /\(([^)]*tests\/[^)]+)\)/.exec(body)
     if (verify) current.file = verify[1]
     const evidence = /(?:证据：\[查看\]|\[证据\]|\[查看\])\(([^)]+)\)/.exec(body)
     if (evidence) current.evidence = evidence[1]
@@ -67,7 +67,7 @@ for (const entry of entries) {
   else if (!entry.evidence) entry.state = browser ? '缺截图' : '缺证据'
   else if (browser) entry.state = image ? '已验证' : '缺截图'
   else {
-    const target = resolve(root, 'docs', entry.evidence)
+    const target = resolve(root, 'docs', 'goal', entry.evidence)
     if (!existsSync(target)) entry.state = '缺证据'
     else {
       const body = readFileSync(target, 'utf8')

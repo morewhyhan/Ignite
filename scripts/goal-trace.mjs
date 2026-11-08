@@ -34,7 +34,7 @@ let currentDomain = null
 for (const line of goal.split(/\r?\n/)) {
   const indent = line.length - line.trimStart().length
   const text = line.trim()
-  const domainMatch = /^- \*\*(.+)\*\*$/.exec(text)
+  const domainMatch = /^- \*\*(.+?)\*\*/.exec(text)
   if (domainMatch && indent === 2) {
     currentDomain = domainMatch[1]
     domains.push(currentDomain)

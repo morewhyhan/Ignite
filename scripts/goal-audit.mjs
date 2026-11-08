@@ -17,7 +17,7 @@ for (const line of lines) {
   const text = line.trim()
   const indent = indentOf(line)
   if (indent === 2 && /^- \*\*.+\*\*$/.test(text)) {
-    domain = { name: /^- \*\*(.+)\*\*$/.exec(text)[1], reqs: [], acs: [] }
+    domain = { name: /^- \*\*(.+?)\*\*/.exec(text)[1], reqs: [], acs: [] }
     domains.push(domain)
     req = null
     continue

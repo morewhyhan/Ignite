@@ -78,7 +78,7 @@ if (run) {
     }).stdout.trim()
     const dir = join(root, 'docs', 'others', 'evidence', 'goal-runs')
     mkdirSync(dir, { recursive: true })
-    const logName = verifiedAt.replace(/[: ]/g, '-') + '.log'
+    const logName = verifiedAt.replace(/[: ]/g, '-') + '.txt'
     writeFileSync(
       join(dir, logName),
       'commit: ' +

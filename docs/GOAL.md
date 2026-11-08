@@ -89,7 +89,7 @@ Agent 做长任务会偏移：开头记得目标，做到一半被细节带走�
 **REQ-AUTH-004 业务 API 只从 session 获取身份**
 
 - AC-AUTH-004（REQ-AUTH-004、REQ-AUTH-005）：Given 没有登录 When 打开需要登录的页面 Then 被带回登录页，看不到任何业务数据
-  - 细节：[需求](features/) ｜ 验证：[tests/api/tasks.test.ts](../tests/api/tasks.test.ts) ｜ 说明：场景：未登录直接打开受保护页；通过：被带回登录页；不过：未登录的人能看到业务数据；未覆盖：会话过期 ｜ 证据：[查看](others/evidence/goal-runs/2026-11-08-07-34.log)
+  - 细节：[需求](features/) ｜ 验证：[tests/api/tasks.test.ts](../tests/api/tasks.test.ts) ｜ 说明：场景：未登录直接打开受保护页；通过：被带回登录页；不过：未登录的人能看到业务数据；未覆盖：会话过期 ｜ 证据：[查看](others/evidence/goal-runs/2026-11-08-07-34.txt)
 
 **REQ-AUTH-005 登出后不能继续访问受保护页面**
 
@@ -113,17 +113,17 @@ Agent 做长任务会偏移：开头记得目标，做到一半被细节带走�
 **REQ-TASKS-005 更新或删除非本人任务返回 404**
 
 - AC-TASKS-003（REQ-TASKS-001、REQ-TASKS-005）：Given 用户打开别人的任务链接 When 页面加载 Then 显示“任务不存在”而不是任务内容
-  - 细节：[需求](features/) ｜ 验证：[tests/api/tasks.test.ts](../tests/api/tasks.test.ts) ｜ 说明：场景：用户打开别人的任务链接；通过：显示任务不存在；不过：能看到别人的任务内容 ｜ 证据：[查看](others/evidence/goal-runs/2026-11-08-07-34.log)；未覆盖：无
+  - 细节：[需求](features/) ｜ 验证：[tests/api/tasks.test.ts](../tests/api/tasks.test.ts) ｜ 说明：场景：用户打开别人的任务链接；通过：显示任务不存在；不过：能看到别人的任务内容 ｜ 证据：[查看](others/evidence/goal-runs/2026-11-08-07-34.txt)；未覆盖：无
 
 **REQ-TASKS-003 标题非空且不超过 200 字符**
 
 - AC-TASKS-004（REQ-TASKS-003、REQ-TASKS-004）：Given 用户提交空标题或超长标题 When 保存 Then 表单提示错误，任务不保存
-  - 细节：[需求](features/) ｜ 验证：[tests/api/tasks.test.ts](../tests/api/tasks.test.ts) ｜ 说明：场景：用户提交空标题或超长标题；通过：表单提示错误且不保存；不过：脏数据进入列表 ｜ 证据：[查看](others/evidence/goal-runs/2026-11-08-07-34.log)；未覆盖：无
+  - 细节：[需求](features/) ｜ 验证：[tests/api/tasks.test.ts](../tests/api/tasks.test.ts) ｜ 说明：场景：用户提交空标题或超长标题；通过：表单提示错误且不保存；不过：脏数据进入列表 ｜ 证据：[查看](others/evidence/goal-runs/2026-11-08-07-34.txt)；未覆盖：无
 
 **REQ-TASKS-006 列表按 createdAt 倒序**
 
 - AC-TASKS-005（REQ-TASKS-006）：Given 当前用户有多条任务 When 获取列表 Then 任务按 `createdAt` 倒序返回。
-  - 细节：[需求](features/) ｜ 验证：[tests/api/tasks.test.ts](../tests/api/tasks.test.ts) ｜ 说明：场景：用户有多条任务；通过：最新任务排在最前；不过：新任务沉底，用户以为没创建成功 ｜ 证据：[查看](others/evidence/goal-runs/2026-11-08-07-34.log)；未覆盖：无
+  - 细节：[需求](features/) ｜ 验证：[tests/api/tasks.test.ts](../tests/api/tasks.test.ts) ｜ 说明：场景：用户有多条任务；通过：最新任务排在最前；不过：新任务沉底，用户以为没创建成功 ｜ 证据：[查看](others/evidence/goal-runs/2026-11-08-07-34.txt)；未覆盖：无
 
 ### 领域：外壳（非领域）
 

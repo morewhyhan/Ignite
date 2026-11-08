@@ -1,5 +1,7 @@
 # Standards
 
+> 本目录放长期工程规则。需求见 [目标树](../GOAL.md)，规则只回答“怎么做”，不重复需求。
+
 > 文档状态：定稿
 
 这里存放长期稳定、要求 AI 和开发者遵守的工程专业标准。Feature、Plan、Release、Design、验收用例与证据的编写、维护和验收规则各归所属目录 README；沟通归根 AGENTS，具体 Plan/Release 负责交付协调。

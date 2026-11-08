@@ -60,25 +60,37 @@
 ```mermaid
 flowchart TD
   G["目标：做出能跑、能验、能继续改的应用"]
-  G --> A
-  G --> B
-  G --> S["外壳（非领域）"]
-  subgraph A["认证领域"]
-    direction TB
-    R1["REQ-AUTH-001 注册与登录"] --> A1["AC-AUTH-001"]
-    R1 --> A2["AC-AUTH-002"]
-    R4["REQ-AUTH-004 身份只来自 session"] --> A4["AC-AUTH-004"]
-    R5["REQ-AUTH-005 登出后受限"] --> A3["AC-AUTH-003"]
-    R6["REQ-AUTH-006 生产限流"] --> A5["AC-AUTH-005"]
-  end
-  subgraph B["任务领域"]
-    direction TB
-    T1["REQ-TASKS-001 只看自己的任务"] --> AT1["AC-TASKS-001"]
-    T1 --> AT2["AC-TASKS-002"]
-    T5["REQ-TASKS-005 他人任务 404"] --> AT3["AC-TASKS-003"]
-    T3["REQ-TASKS-003 标题校验"] --> AT4["AC-TASKS-004"]
-    T6["REQ-TASKS-006 列表倒序"] --> AT5["AC-TASKS-005"]
-  end
+  G --> D1["认证领域"]
+  G --> D2["任务领域"]
+  G --> D3["外壳（非领域）"]
+  D1 --> R1["REQ-AUTH-001"]
+  D1 --> R4["REQ-AUTH-004"]
+  D1 --> R5["REQ-AUTH-005"]
+  D1 --> R6["REQ-AUTH-006"]
+  D2 --> T1["REQ-TASKS-001"]
+  D2 --> T3["REQ-TASKS-003"]
+  D2 --> T5["REQ-TASKS-005"]
+  D2 --> T6["REQ-TASKS-006"]
+  R1 --> A1["AC-AUTH-001"]
+  R1 --> A2["AC-AUTH-002"]
+  R4 --> A4["AC-AUTH-004"]
+  R5 --> A3["AC-AUTH-003"]
+  R6 --> A5["AC-AUTH-005"]
+  T1 --> AT1["AC-TASKS-001"]
+  T1 --> AT2["AC-TASKS-002"]
+  T3 --> AT4["AC-TASKS-004"]
+  T5 --> AT3["AC-TASKS-003"]
+  T6 --> AT5["AC-TASKS-005"]
+  A1 --> U1["用例：注册"]
+  A2 --> U2["用例：登录"]
+  A3 --> U3["用例：登出"]
+  A4 --> U4["用例：未登录"]
+  A5 --> U5["用例：限流"]
+  AT1 --> V1["用例：未登录访问"]
+  AT2 --> V2["用例：增删改查"]
+  AT3 --> V3["用例：他人任务"]
+  AT4 --> V4["用例：非法输入"]
+  AT5 --> V5["用例：排序"]
 ```
 
 ## 三、金字塔（文字）

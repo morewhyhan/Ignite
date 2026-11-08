@@ -12,6 +12,8 @@ GOAL 不交给 AI 生成。AI 可以和人对齐、提问、检查、把话整�
 
 AI 的职责只有两件：读它，把测试结果和证据写回对应 AC。
 
+不知道怎么写的时候，人可以参考备份：[GOAL 规格](others/backup/GOAL-spec.md)、[牛奶案例](others/backup/GOAL-milk.md)、[牛奶研究](others/backup/GOAL-milk-research.md)、[本项目研究](others/backup/GOAL-research.md)。这些只是参考，不是需求，也不要求 AI 去执行。
+
 ## 一、这份文档是什么
 
 整套文档的唯一入口，也是人和 Agent 之间的接口。

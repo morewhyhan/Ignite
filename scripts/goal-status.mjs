@@ -3,8 +3,26 @@ import { join } from 'node:path'
 import { spawnSync } from 'node:child_process'
 
 const root = process.cwd()
-const run = process.argv.includes('--run')
 const goalPath = join(root, 'GOAL.md')
+const args = process.argv.slice(2)
+const evidenceAt = args.indexOf('--evidence')
+
+if (evidenceAt >= 0) {
+  const id = args[evidenceAt + 1]
+  const path = args[evidenceAt + 2]
+  if (!id || !path) { console.error('usage: goal:status --evidence <AC-ID> <path>'); process.exit(1) }
+  const fileLines = readFileSync(goalPath, 'utf8').split(/\r?\n/)
+  const at = fileLines.findIndex((line) => line.startsWith('- ' + id + '（'))
+  if (at < 0) { console.error('unknown AC ' + id); process.exit(1) }
+  const detail = at + 1
+  if (!/说明：/.test(fileLines[detail] || '')) { console.error('AC has no 说明 line'); process.exit(1) }
+  if (!/证据：/.test(fileLines[detail])) fileLines[detail] += ' ｜ 证据：[查看](' + path + ')'
+  writeFileSync(goalPath, fileLines.join('\n'))
+  console.log('evidence recorded for ' + id + ': ' + path)
+  process.exit(0)
+}
+
+const run = args.includes('--run')
 const text = readFileSync(goalPath, 'utf8')
 const lines = text.split(/\r?\n/)
 const rows = []
@@ -19,9 +37,9 @@ for (let i = 0; i < lines.length; i += 1) {
   let file = '-'
   if (link) {
     file = link[1]
-    const path = join(root, file)
-    if (existsSync(path) && readFileSync(path, 'utf8').includes('[' + id + ']')) state = '有测试'
-    else if (existsSync(path)) state = '测试缺编号'
+    const target = join(root, file)
+    if (existsSync(target) && readFileSync(target, 'utf8').includes('[' + id + ']')) state = '有测试'
+    else if (existsSync(target)) state = '测试缺编号'
   }
   rows.push({ id, requirement: match[2], file, state, note: note ? note[1].trim() : '未写说明' })
 }
@@ -39,7 +57,7 @@ const counts = rows.reduce((acc, row) => { acc[row.state] = (acc[row.state] || 0
 const summary = Object.entries(counts).map(([key, value]) => key + ' ' + value).join('，')
 const block = [
   '<!-- goal-status -->',
-  '（本块由 pnpm goal:status 生成，勿手改；--run 会真的跑测试）',
+  '（本块由 pnpm goal:status 生成，勿手改；--run 真的跑测试，--evidence 登记证据）',
   '',
   '| AC | 需求 | 测试 | 状态 | 验证说明 |',
   '| --- | --- | --- | --- | --- |',

@@ -5,7 +5,7 @@
 > 写法与链接规则见 [目标树标准](docs/standards/goal-tree.md)。
 
 <!-- goal-status -->
-（本块由 pnpm goal:status 生成，勿手改；--run 会真的跑测试）
+（本块由 pnpm goal:status 生成，勿手改；--run 真的跑测试，--evidence 登记证据）
 
 | AC | 需求 | 测试 | 状态 | 验证说明 |
 | --- | --- | --- | --- | --- |

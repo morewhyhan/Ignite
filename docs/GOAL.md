@@ -103,6 +103,10 @@ flowchart LR
 - **目标**：让一个人从一个想法开始，直接用一套能跑、能验、能继续改的代码做出自己的应用。
 
   - **认证领域**
+    - 为什么拆：注册、登录、会话、登出是同一条事件链
+    - 边界：管身份与会话；不管权限分级与团队成员
+    - 砍掉：邮箱验证、第三方登录、找回密码
+    - 推演：[认证](others/notes/domain-reasoning.md#认证领域)
     - **REQ-AUTH-001 注册和登录使用邮箱与密码**
       - AC-AUTH-001（REQ-AUTH-001）：Given 新用户提交合法邮箱和密码 When 注册 Then 创建账户并进入 Dashboard。
         - **测试用例**：新用户首次注册 → 能进入工作台开始用 ｜ **状态**：已验证 ｜ [用例](others/test-cases/auth.md#ac-auth-001) · [tests/e2e/auth.spec.ts](../tests/e2e/auth.spec.ts) · [查看](others/evidence/AC-AUTH-001/2026-11-08.png)
@@ -118,6 +122,10 @@ flowchart LR
       - AC-AUTH-005（REQ-AUTH-006）：Given 开发、测试或生产环境 When 初始化认证服务 Then 只有真实生产环境启用认证限流，生产构建方式下的隔离 E2E 仍可重复执行。
         - **测试用例**：生产环境反复登录 → 认证流程正常且可重复 ｜ **状态**：已验证 ｜ [用例](others/test-cases/auth.md#ac-auth-005) · [tests/e2e/auth.spec.ts](../tests/e2e/auth.spec.ts) · [查看](others/evidence/AC-AUTH-005/2026-11-08.png)
   - **任务领域**
+    - 为什么拆：任务有自己的实体与生命周期，和身份是两套规则
+    - 边界：管归属、校验、排序；不管标签、提醒与统计
+    - 砍掉：标签、子任务、提醒、看板视图
+    - 推演：[任务](others/notes/domain-reasoning.md#任务领域)
     - **REQ-TASKS-001 用户只能读取自己的任务**
       - AC-TASKS-001（REQ-TASKS-001）：Given 未登录用户 When 访问任务页面 Then 应跳转到首页。
         - **测试用例**：未登录访问工作台 → 被带回首页 ｜ **状态**：已验证 ｜ [用例](others/test-cases/tasks.md#ac-tasks-001) · [tests/e2e/auth.spec.ts](../tests/e2e/auth.spec.ts) · [查看](others/evidence/AC-TASKS-001/2026-11-08.png)

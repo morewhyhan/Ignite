@@ -50,6 +50,7 @@ jobs:
       - run: pnpm lint
       - run: pnpm format:check
       - run: node scripts/check-clean.mjs
+      - run: pnpm check:commits
 
   migration:
     runs-on: ubuntu-latest

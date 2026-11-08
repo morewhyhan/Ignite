@@ -4,6 +4,10 @@
 
 来源：AGENTS.md 环境与安全一节；检查脚本见 scripts/runtime-doctor.mjs。
 
+## 关联需求
+
+本文件服务于 REQ-EXECUTION-043。
+
 ## 规范化运行环境
 
 | 真源                                 | 职责                                  |

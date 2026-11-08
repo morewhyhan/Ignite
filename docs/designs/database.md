@@ -18,6 +18,10 @@ user 1 ─── n task
 
 来源：AGENTS.md 数据库与迁移一节；schema 见 prisma/schema.prisma。
 
+## 关联需求
+
+本文件服务于 REQ-TASKS-001。
+
 ## 表与索引
 
 | 模型           | 关键字段                                          | 约束/索引                                       |

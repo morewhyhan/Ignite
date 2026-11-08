@@ -49,6 +49,10 @@ module Hook → platform adapter → shared createApiClient(AppType) → Hono ro
 
 来源：AGENTS.md 架构边界一节；接口实现见 src/server/api 与 src/lib/api-client.ts。
 
+## 关联需求
+
+本文件服务于 REQ-AUTH-004、REQ-TASKS-002。
+
 ## 事件与命令
 
 按 §9.3 的顺序记录。

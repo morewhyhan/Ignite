@@ -227,6 +227,29 @@ for (const line of read('GOAL.md').split(/\r?\n/)) {
   }
 }
 
+// 设计文档必须回链需求，且引用的 REQ 必须存在。
+const knownReqs = new Set()
+for (const file of walkFiles(join(docsRoot, 'features'))) {
+  if (!file.endsWith('.md') || /README|_template/.test(file)) continue
+  for (const match of readFileSync(file, 'utf8').matchAll(/REQ-[A-Z]+-\d+/g)) knownReqs.add(match[0])
+}
+for (const file of walkFiles(join(docsRoot, 'designs'))) {
+  if (!file.endsWith('.md') || file.endsWith('README.md')) continue
+  const body = readFileSync(file, 'utf8')
+  if (!/关联需求/.test(body)) {
+    fail(relative(repositoryRoot, file) + ': design must declare 关联需求')
+    continue
+  }
+  for (const match of body.matchAll(/REQ-[A-Z]+-\d+/g)) {
+    if (!knownReqs.has(match[0]))
+      fail(relative(repositoryRoot, file) + ': references unknown ' + match[0])
+  }
+}
+
+// 目标树不能无限膨胀。
+const goalLineCount = read('GOAL.md').split(/\r?\n/).length
+if (goalLineCount > 300) fail('GOAL.md is too long: ' + goalLineCount + ' lines (limit 300)')
+
 const localLinkPattern = /!?\[[^\]]*]\(([^)]+)\)/g
 
 for (const markdownFile of markdownFiles) {

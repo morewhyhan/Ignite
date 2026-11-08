@@ -33,7 +33,8 @@
     "db:studio": "prisma studio",
     "postinstall": "node scripts/runtime-doctor.mjs --record && prisma generate",
     "goal:status": "node scripts/goal-status.mjs",
-    "goal:audit": "node scripts/goal-audit.mjs"
+    "goal:audit": "node scripts/goal-audit.mjs",
+    "check:commits": "node scripts/check-commit-ac.mjs"
   },
   "dependencies": {
     "@hono/zod-validator": "0.9.0",

@@ -4,6 +4,10 @@
 
 本文件描述执行器当前如何工作（来源：AGENTS.md 验证与交付一节，运行记录见 .ignite/runs）。日常接续与跨任务交接见 [Plan 规则](../plans/README.md)，组合验收见 [Release 规则](../plans/releases/README.md)，首次复制见 [采用规范](../standards/adoption.md)。
 
+## 关联需求
+
+本文件服务于 REQ-EXECUTION-042。
+
 ## 实现分工
 
 | 实现入口                              | 职责                                   |

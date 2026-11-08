@@ -11,16 +11,16 @@
 | --- | --- | --- | --- | --- |
 | AC-AUTH-001 | REQ-AUTH-001 | tests/e2e/auth.spec.ts | 缺截图 | 真实浏览器注册并进入工作台；未覆盖非法邮箱与弱密码 |
 | AC-AUTH-002 | REQ-AUTH-001 | tests/e2e/auth.spec.ts | 缺截图 | 真实浏览器登录并建立会话；未覆盖错误密码与锁定 |
-| AC-AUTH-004 | REQ-AUTH-004、REQ-AUTH-005 | tests/api/tasks.test.ts | 有测试 | 接口层：无会话访问业务接口返回 401；未覆盖过期会话 |
+| AC-AUTH-004 | REQ-AUTH-004、REQ-AUTH-005 | tests/api/tasks.test.ts | 已验证 | 接口层：无会话访问业务接口返回 401；未覆盖过期会话 |
 | AC-AUTH-003 | REQ-AUTH-005 | tests/e2e/auth.spec.ts | 缺截图 | 登出后重访受保护页跳转首页 |
 | AC-AUTH-005 | REQ-AUTH-006 | tests/e2e/auth.spec.ts | 缺截图 | 生产构建下认证流程可重复执行；限流阈值未逐一验证 |
 | AC-TASKS-001 | REQ-TASKS-001 | tests/e2e/auth.spec.ts | 缺截图 | 浏览器未登录访问工作台被重定向到首页 |
 | AC-TASKS-002 | REQ-TASKS-001、REQ-TASKS-002 | tests/e2e/tasks.spec.ts | 缺截图 | 浏览器完成任务的增删改查；未覆盖并发写入 |
-| AC-TASKS-003 | REQ-TASKS-001、REQ-TASKS-005 | tests/api/tasks.test.ts | 有测试 | 接口层：访问他人任务返回 404 |
-| AC-TASKS-004 | REQ-TASKS-003、REQ-TASKS-004 | tests/api/tasks.test.ts | 有测试 | 接口层：非法输入与未知字段返回 422 |
-| AC-TASKS-005 | REQ-TASKS-006 | tests/api/tasks.test.ts | 有测试 | 接口层：列表按 createdAt 倒序断言 |
+| AC-TASKS-003 | REQ-TASKS-001、REQ-TASKS-005 | tests/api/tasks.test.ts | 已验证 | 接口层：访问他人任务返回 404 |
+| AC-TASKS-004 | REQ-TASKS-003、REQ-TASKS-004 | tests/api/tasks.test.ts | 已验证 | 接口层：非法输入与未知字段返回 422 |
+| AC-TASKS-005 | REQ-TASKS-006 | tests/api/tasks.test.ts | 已验证 | 接口层：列表按 createdAt 倒序断言 |
 
-合计 10 条：缺截图 6，有测试 4
+合计 10 条：缺截图 6，已验证 4
 <!-- /goal-status -->
 <!-- goal-current -->
 

@@ -9,16 +9,16 @@ const evidenceAt = args.indexOf('--evidence')
 
 if (evidenceAt >= 0) {
   const id = args[evidenceAt + 1]
-  const path = args[evidenceAt + 2]
-  if (!id || !path) { console.error('usage: goal:status --evidence <AC-ID> <path>'); process.exit(1) }
-  const lines = readFileSync(goalPath, 'utf8').split(/\r?\n/)
-  const at = lines.findIndex((line) => line.startsWith('- ' + id + '（'))
+  const target = args[evidenceAt + 2]
+  if (!id || !target) { console.error('usage: goal:status --evidence <AC-ID> <path>'); process.exit(1) }
+  const fileLines = readFileSync(goalPath, 'utf8').split(/\r?\n/)
+  const at = fileLines.findIndex((line) => line.startsWith('- ' + id + '（'))
   if (at < 0) { console.error('unknown AC ' + id); process.exit(1) }
   const detail = at + 1
-  if (!/说明：/.test(lines[detail] || '')) { console.error('AC has no 说明 line'); process.exit(1) }
-  if (!/证据：/.test(lines[detail])) lines[detail] += ' ｜ 证据：[查看](' + path + ')'
-  writeFileSync(goalPath, lines.join('\n'))
-  console.log('evidence recorded for ' + id + ': ' + path)
+  if (!/说明：/.test(fileLines[detail] || '')) { console.error('AC has no 说明 line'); process.exit(1) }
+  if (!/证据：/.test(fileLines[detail])) fileLines[detail] += ' ｜ 证据：[查看](' + target + ')'
+  writeFileSync(goalPath, fileLines.join('\n'))
+  console.log('evidence recorded for ' + id + ': ' + target)
   process.exit(0)
 }
 
@@ -29,8 +29,7 @@ const entries = []
 for (let i = 0; i < lines.length; i += 1) {
   const match = /^- (AC-[A-Z]+-\d+)（(.*?)）：(.*)$/.exec(lines[i])
   if (!match) continue
-  const detailIndex = i + 1
-  const detail = lines[detailIndex] || ''
+  const detail = lines[i + 1] || ''
   const link = /\((tests\/[^)]+)\)/.exec(detail)
   const note = /说明：([^｜]*)/.exec(detail)
   const evidence = /证据：\[查看\]\(([^)]+)\)/.exec(detail)
@@ -42,7 +41,7 @@ for (let i = 0; i < lines.length; i += 1) {
     if (existsSync(target) && readFileSync(target, 'utf8').includes('[' + match[1] + ']')) state = '有测试'
     else if (existsSync(target)) state = '测试缺编号'
   }
-  entries.push({ id: match[1], requirement: match[2], file, state, note: note ? note[1].trim() : '未写说明', detailIndex, evidence: evidence ? evidence[1] : null })
+  entries.push({ id: match[1], requirement: match[2], file, state, note: note ? note[1].trim() : '未写说明', detailIndex: i + 1, evidence: evidence ? evidence[1] : null })
 }
 
 let verifiedAt = ''
@@ -52,14 +51,15 @@ if (run) {
     const result = spawnSync('pnpm', ['exec', 'vitest', 'run', ...files], { cwd: root, encoding: 'utf8' })
     const passed = result.status === 0
     verifiedAt = new Date().toISOString().slice(0, 16).replace('T', ' ')
+    const head = spawnSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: root, encoding: 'utf8' }).stdout.trim()
     const dir = join(root, 'docs', 'others', 'evidence', 'goal-runs')
     mkdirSync(dir, { recursive: true })
     const logName = verifiedAt.replace(/[: ]/g, '-') + '.log'
-    writeFileSync(join(dir, logName), 'command: pnpm exec vitest run ' + files.join(' ') + '\nresult: ' + (passed ? 'passed' : 'failed') + '\n\n' + (result.stdout || '').slice(-4000))
+    writeFileSync(join(dir, logName), 'commit: ' + head + '\ncommand: pnpm exec vitest run ' + files.join(' ') + '\nresult: ' + (passed ? 'passed' : 'failed') + '\n\n' + (result.stdout || '').slice(-4000))
     for (const row of entries) {
       if (row.state !== '有测试') continue
       row.state = passed ? '已验证' : '失败'
-      if (!row.evidence && passed) {
+      if (passed && !row.evidence) {
         lines[row.detailIndex] += ' ｜ 证据：[查看](docs/others/evidence/goal-runs/' + logName + ')'
         row.evidence = 'docs/others/evidence/goal-runs/' + logName
       }
@@ -68,10 +68,15 @@ if (run) {
 }
 
 for (const row of entries) {
-  if (!['有测试', '已验证'].includes(row.state)) continue
-  const isBrowser = row.file.startsWith('tests/e2e/')
-  if (!row.evidence) row.state = '缺证据'
-  else if (isBrowser && !/\.(png|jpg|jpeg)$/i.test(row.evidence)) row.state = '缺截图'
+  if (!['有测试', '已验证', '失败'].includes(row.state)) continue
+  if (!row.evidence) { row.state = '缺证据'; continue }
+  if (row.file.startsWith('tests/e2e/') && !/\.(png|jpg|jpeg)$/i.test(row.evidence)) { row.state = '缺截图'; continue }
+  const evidencePath = join(root, row.evidence)
+  if (row.state !== '失败' && existsSync(evidencePath)) {
+    const log = readFileSync(evidencePath, 'utf8')
+    if (/result: passed/.test(log)) row.state = '已验证'
+    if (/result: failed/.test(log)) row.state = '失败'
+  }
 }
 
 const counts = entries.reduce((acc, row) => { acc[row.state] = (acc[row.state] || 0) + 1; return acc }, {})

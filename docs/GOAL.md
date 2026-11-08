@@ -58,7 +58,7 @@
 ## 二、金字塔（图）
 
 ```mermaid
-flowchart TD
+flowchart LR
   G["目标：做出能跑、能验、能继续改的应用"]
   G --> D1["认证领域"]
   G --> D2["任务领域"]

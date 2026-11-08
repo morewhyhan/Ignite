@@ -29,8 +29,6 @@ UI 先明确用户路径与原型依据；没有外部原型时引用当前设�
 - [`auth.md`](./auth.md)：认证、会话和路由守卫
 - [`tasks.md`](./tasks.md)：任务 API 和用户流程
 - [`product.md`](./product.md)：模板采用、AI 执行、证据和发布状态
-- [`execution.md`](./execution.md)：脚手架、命令入口、历史清理和失败恢复
-- [`execution-focus.md`](./execution-focus.md)：主要问题、尺度、纠偏、沟通与规则维护的行为评估
 
 ## 自动化映射
 

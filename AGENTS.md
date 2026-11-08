@@ -1,119 +1,72 @@
 # Ignite AI 开发规则
 
-收到项目修改要求，先按[需求方法](docs/features/README.md#固定维护方法)和[Plan 方法](docs/plans/README.md#固定维护方法)完成正文读取与开工准备，再写业务实现。已有 Plan 接续原目标；没有 Plan 时先起草对应文档。用户只需说明需求，不负责点名技能或替 AI 补开发步骤。
+收到修改要求，先读 [GOAL.md](GOAL.md) 与 [开工提示词](PROMPT.md)，再动代码。
 
-报告交付前按[完成规则](docs/plans/README.md#完成与证据)核对原始目标、原生证据和本地交付覆盖。构建通过、工作者自报完成或检查文件存在均不能替代这个结果；失败或未执行时保留未完成项。仓库规则和 CLI 不拦截宿主的任意写入，不宣称所有模型都自动遵守。
+## 开发入口
 
-## 模板定位
+```
+GOAL.md    目标、领域、REQ、AC、状态看板（需求真源）
+PROMPT.md  每轮开工提示词（读什么、怎么报、失败了回哪）
+docs/      五层文档：需求细节、设计事实、工程标准、决策、证据
+```
 
-Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定产品。功能与工程规则改动都要判断是 `[新增模块]` 还是 `[存量改动]`，并在对应 Plan 中同步受影响的 Feature、Design 和测试证据。默认优先做小步、可回滚的增量修改。
+## 每轮固定顺序
 
-模板基线验收只证明 Ignite 当前配置可用；换品牌、删改 Tasks、切换数据库或部署到某个平台，属于具体项目采用后的独立验收。未给定项目目标时，保留可替换入口与检查规则，不猜测产品决定，也不把模板的绿色结果当作衍生项目已通过。
+```
+1. pnpm goal:audit      需求自洽吗，不自洽就停
+2. 读 GOAL 的 REQ 与 AC，再读链接的 Feature 与 Design
+3. 改代码与测试，测试标题带 [AC-编号]
+4. pnpm test && pnpm docs:check && pnpm goal:trace
+5. pnpm goal:status --run，把状态写回 GOAL
+```
 
-模板发布快照不携带建设期 Plan、Release、运行清单或审计报告；维护记录提交后由 Git 历史保存。零 Plan 是新项目的正常起点。已采用项目继续保留自己的任务与证据，不能套用模板清理规则。
+报告开头写“步骤 n/5 · REQ · AC”，结尾写改了哪些文件、跑了什么、结果如何。
 
-## 增量与存量
+## 跑不通时
 
-- 一个 Plan 对应一个可独立验收、集成和回滚的交付结果。API、页面、测试、格式修复和状态回写是同一 Plan 的子任务，不为“收口”另建 Plan。
-- 先接续覆盖本轮目标的未完成 Plan；只有新的独立交付结果才创建 Plan。本轮检查失败后的修复、同目标的完善和验证都留在原 Plan。已交付结果的后续改动保留原记录，并建立新的存量改动 Plan。仅安全说明文字或静态展示资产可免业务 Plan，具体范围以 `docs/plans/README.md` 和检查器为准。
-- 新 Plan 使用 `docs/plans/_template.md` 的结构化元数据，设 `execution_contract: 1`、`verification_contract: 2`；状态只能使用 `draft`、`ready`、`active`、`verifying`、`done`、`blocked`、`cancelled`、`superseded`。历史未迁移 Plan 保留为 `legacy_unverified`，不能自动视为完成。
-- 当前发布只由 `docs/plans/releases/*.json` 定义；状态表由 `pnpm ignite status --write` 生成，不手工维护派生副本。
-- `pnpm ignite next --plan <IGT-ID>` 与 `pnpm ignite release status` 默认给精简摘要；需要完整机器上下文时显式添加 `--verbose`。`next_action` 是建议入口，不能代替原始目标和验收证据。
-- 新 Plan 使用 `execution_contract: 1`；`tasks` 是唯一任务状态，正文进度由 `pnpm ignite plan refresh <ID>` 生成，使用 `pnpm ignite task set-status <ID> <task> <todo|doing|done>` 更新任务。
-- 新 Release 用 `coverage_version: 2` 和 `verification_contract: 2`；`scope` 逐条保存原始目标、来源、REQ、AC、负责 Plan 和处理方式。每个已列入的 REQ 下所有 Feature AC 都须纳入、延期或经授权排除。缺账号、未实现或等待外部条件都属于延期，不能自动改成排除。
-- 每次检查由 `pnpm ignite check --plan <IGT-ID> --level auto` 选择范围并记录运行证据。相同输入的活动或已通过运行必须复用，不重复启动。
+```
+AC 的期望存在、实现不符  → bug，回 docs/features、docs/designs、tests 修
+AC 缺失 / 两条冲突        → 需求问题，停下给缺口清单，由人补 GOAL
+```
 
-## 规范真源
-
-- 工程专业标准：`docs/standards/`；各类文档的编写、维护与验收规则：所属目录的 `README.md`；沟通规则：本文件
-- 功能规格：`docs/features/`
-- 本轮计划：`docs/plans/`
-- 当前事实设计：`docs/designs/`
-- 验收和 ADR：`docs/others/`
-- 本文件是 AI 执行规则；发生冲突时，先更新文档再改代码。
-- 规格驱动 Loop：Feature → Plan → Contract/Test → Implementation → Verify → Design。
-- Plan 进入 ready 前，逐条对照用户已确定的原始目标和约束，把对应关系写入 Plan；Feature、AC、测试和 Release scope 不能有占位符；`open_questions=[]` 不能替代完整性审查。语义完整性不能只凭标签或测试数自动证明。
-- 每条 AC 声明 `required_layers` 和带层级的 `checks`：unit、database、browser、external。模拟数据库的 API 测试只证明 unit 层；新增业务页面、持久化及外部集成必须有对应真实行为验收。
-- 新 Plan 必须以 `pnpm ignite tdd red --plan <IGT-ID> --ac <AC-ID>` 记录真实行为断言红灯；环境错误、占位失败和事后补写均不算证据。具体测试文件在红灯与实现后保持一致。
-- 触及 Prisma、认证或业务 API 的 Plan 必须填 `data_contract`，明确数据归属、访问依据、迁移影响和回退；破坏性数据变更需用户授权，不强制为简单 CRUD 建 ADR。
-- 脚手架产物是待完善的草稿。进入 ready 前补齐实际用户行为、测试路径和验收层级；占位失败测试、页面外壳或结构校验通过均不能视为功能完成。
-
-## AI 工作台
-
-- `AGENTS.md` 是所有 AI 工具共用的唯一项目规则真源。
-- `CLAUDE.md`、`.cursor/rules/`、`.opencode/` 和 `.github/copilot-instructions.md` 只负责入口桥接，不复制长期规则。
-- `.ai/` 登记项目专属 Skills、MCP 和真源关系；新增资产必须写清用途、权限边界和验证方式。
-- 项目携带完整 [pstack 方法库](.ai/pstack/CATALOG.md)。涉及项目修改或文档维护时，默认执行所属文档规则中的固定方法，不以用户启用 [poteto-mode](.ai/pstack/skills/poteto-mode/SKILL.md)为前提。先读所属规则及其必需技能、原则，再按规定步骤处理；不能把核心步骤全部交给 AI 自选。需求、计划、事实、规则、测试、证据、决策和组合交付分别遵守对应目录 README 或专业标准中的“固定维护方法”。只有明确列出的条件分支才选择额外技能；未触及的文档不用逐项处理。
-- 用户明确要求简单任务直接执行时，压缩调查、讨论和输出，仍保留本次修改必要的记录与验收。方法服务于稳定维护、正确取舍和真实完成，不以提速或调用次数作为使用前提；不要求每次调用全部技能或多个智能体。项目位置和宿主用法直接维护在对应技能与流程中，不另设适配文件。技能不扩大授权，不替代工程验收。
-- `.agents/skills/` 与 `.claude/skills/`仅保存必要技能发现元数据和真源链接，不复制方法正文；Cursor/OpenCode复用兼容目录，不额外生成`.cursor/skills/`或`.opencode/skills/`副本。原项目入口在不支持自动发现的工具中仍负责引导按需读取。
-- 当前系统事实以 `docs/designs/` 为准；需求、计划、标准和验收资料分别位于 `docs/features/`、`docs/plans/`、`docs/standards/` 和 `docs/others/`。
-
-所有文档写作都遵守[共用写作方法](docs/standards/ai-agents.md#固定维护方法)，读取 technical-writing 和 unslop；文档类别的专业步骤仍由所属规则负责。
-
-读取所属规则后，先完成其“固定维护方法”的必需正文读取，再调查背景和起草产物；共用写作方法也须读齐。已有依赖时使用 `pnpm ignite skill read --for <所属规则路径>` 一次取得该类必需正文；没有依赖时按实际链接分批读取，不为读技能安装环境。输出被截断时补读缺失部分。宿主技能目录属于其他仓库时，使用当前仓库的正文链接。
-
-必需技能读取失败时按上述规则恢复，不静默跳过；项目技能从当前仓库读取，宿主路径代号不代表实际目录。新 Plan 使用 `task_contract: 2`、`planning_contract: 1`、`review_contract: 1`，按所属 Plan 规则声明任务结果、局部范围、依赖与真实负责人，并由 AI 主动发起独立计划和交付审查。开始实施前通过原生任务命令核对依赖和红灯前置条件；任务、审查及准入详情只由 [Plan 规则](docs/plans/README.md) 维护。
-
-## 规格驱动 Loop
-
-开工前必读 [GOAL.md](GOAL.md) 与 [开工提示词](PROMPT.md)：它声明目标、领域、规则与验收，是开发的根源，不解释系统全貌。项目现状从 [文档入口](docs/README.md) 与 [设计事实](docs/designs/) 进入。目标树按 目标 → 领域 → REQ → AC → 测试 组织，细节链接到 docs/ 的对应位置。
-
-顺序：读 GOAL.md 找到本次要动的 REQ → 读它链接的 Feature 与 Design → 改代码与测试 → 跑测试 → 回写变化（新字段、新页面、新决策）。每一步在报告中写明步骤 n/6 与对应的 REQ/AC，并更新 GOAL.md 顶部的 goal-current 块，让人随时知道执行到哪。收尾时运行 pnpm goal:status --run 刷新进度表。
-
-跑不通时先分流：AC 的期望存在且自洽、实现不符 → 回五层文档修；AC 缺失或互相矛盾 → 停下给缺口清单，由人类补 GOAL，不得自行改需求。
-
-写法与约束见 [目标树标准](docs/standards/goal-tree.md)。
-
-默认不建计划、不记审查回执、不跑红灯回执。只有跨多天、多人协作，或改动涉及数据迁移、权限模型、金额计算时，才建一份 Plan；Plan 是一次性施工单，交付后归档。
-
-完成判定：该 REQ 下所有 AC 有通过记录，并且真的打开页面点一遍。
+缺口清单写四行：缺在哪、现象、影响、建议。
 
 ## 架构边界
 
-- `src/app/` 只负责路由壳和页面编排；业务 UI 放到 `src/modules/<module>/`。
-- 客户端业务数据统一走 `module Hook → Hono Typed RPC → Hono route → Prisma`。
-- 业务类型以 `AppType` 唯一为真源；`src/lib/api-client.ts` 提供 Web client 与可注入 origin/fetcher 的 `createApiClient` 适配工厂。浏览器端不得直接创建 `hc()` 或 fetch 业务 API。
-- 可复用的业务 Hook 不依赖 `window` 或 Web 通知组件；通知放在 screen/平台外壳，认证是 Better Auth 的独立边界。
-- Hono route 必须使用统一 `zValidator`、session guard 和统一错误格式。
-- 服务端 secret、数据库、Better Auth 配置只允许留在 `src/server/`。
-- 认证使用 Better Auth 客户端/服务端配置，是业务 RPC 的明确例外。
+- `src/app/` 只放路由壳与页面编排；业务 UI 放 `src/modules/<module>/`。
+- 客户端业务数据只走 `module Hook → Hono Typed RPC → route → Prisma`。
+- 业务类型以 `AppType` 为唯一真源；浏览器端不直接 `fetch` 业务 API。
+- Hono route 必须用 `zValidator`、session guard 和统一错误格式。
+- 服务端 secret、数据库、认证配置只放 `src/server/`。
 
-## 认证基线
+## 认证与权限
 
-模板只提供自包含的邮箱密码注册、登录、登出和 session。默认不发送真实邮件、验证码，也不依赖 Resend 或其他外部邮件 provider。Better Auth schema 中的 `verification` 表是兼容性预留；如果项目要启用邮箱所有权验证，必须作为独立增量模块补充规格、环境变量、provider、契约测试和 E2E。
+- 只用自带的邮箱密码注册、登录、登出、session；不发真实邮件。
+- API 从 session 取用户，绝不信任客户端传的 `userId`。
+- 未登录访问受保护 API 返回 401；无权访问私有资源返回 404。
+- 权限在应用层与查询条件里拦，前端隐藏按钮不算权限。
 
-## 环境与安全
+## 环境与数据库
 
-- 运行时以 `.node-version`、`packageManager` 和 `.ai/runtime.json` 为准；默认使用 WSL/Linux。Windows 与 WSL 不得共享 `node_modules`，先运行 `pnpm runtime:check`。从 PowerShell 调用时按 [采用规范的 WSL/NVM 接法](docs/standards/adoption.md#第一步准备环境并验证基线) 在同一次 Bash 调用中切换项目固定 Node，不直接使用 Windows 或 WSL 默认 Node。 WSL 返回 `E_ACCESSDENIED` 时先按同一采用规范使用宿主授权入口重试相同命令；明确拒绝或重试失败才报告阻塞。
-- `.env.example` 只放变量名和安全本地示例；不得提交 `.env`、生产 secret 或真实邮箱配置。
-- `APP_ENV` 必须显式设置为 `development`、`test` 或 `production`。
-- 生产必须使用 HTTPS 纯 origin、高熵 `BETTER_AUTH_SECRET` 和持久化数据；不得使用 localhost 或开发 secret。SQLite 默认拒绝；仅低流量单机展示部署经明确选择后可设置 `ALLOW_PRODUCTION_SQLITE=true`，并使用版本目录外的持久化绝对路径、安排备份。该例外不能用于多实例、高可用或通用生产部署。
-- API 从 session 获取当前用户，绝不信任客户端传入的 `userId`。
-- 用户无权访问私有资源时返回 `404`；未登录访问受保护 API 返回 `401`。
+- 运行时以 `.node-version`、`packageManager` 为准；先跑 `pnpm runtime:check`。
+- 不提交 `.env`；`APP_ENV` 显式设为 development / test / production。
+- 改 Prisma schema 必须生成具名 migration，并跑 `pnpm test:migrations`。
+- 已应用的 migration 不得重写、改名或删除。
 
-## 数据库与迁移
+## 文档规则
 
-修改 Prisma schema 必须生成具名 migration，并运行 `pnpm test:migrations`。已应用 migration 不得重写、重命名或删除。升级 Better Auth 先运行 `pnpm auth:schema`，再审查 schema diff。
-
-## 验证与交付
-
-新 Plan 的改动通过 `pnpm ignite check --plan <IGT-ID> --level auto` 执行工程门禁与本 Plan 的行为验收；Plan 全部完成后，由 `pnpm ignite release verify <release-id> --plan <done-plan-id>` 对同一最终版本运行生产构建与全局生产态 E2E。旧 `verification_contract: 1` Plan 继续使用旧的 `check --level release`。状态输出区分工程、Plan、Release 三层，任一检查绿灯都不能冒充其它层完成。最终只报告实际执行并通过的检查。
+- 需求只写在 GOAL.md 与 `docs/features/`，同一份 AC 两处文字必须一致。
+- 现状写在 `docs/designs/`，每份设计开头写“关联需求：REQ-…”。
+- 规则写在 `docs/standards/`，术语一义一词。
+- 贵且不可逆的选择写进 `docs/others/adr/`。
+- 证据：`pnpm goal:status --run` 生成运行日志；浏览器类 AC 必须有截图。
 
 ## 沟通
 
-- 收到新的要求先用简短的话复述理解的目标、结果和边界；沿用已有决定与授权。发现理解冲突时指出具体差异，不靠重新询问已知事项推进。
-- 先说结论，再说支撑它的事实和未确定部分。围绕读者需要的结果组织内容，同类合并、去除重复；术语必要时用具体行为解释。事实、推测和未执行的建议分开表述。
-- 进展说明发现了什么、还有什么缺口、下一步怎样帮助达成目标或区分原因。最终报告独立可读，说明实际结果、依据和未完成影响；验收引用 REQ/AC、真实运行和被测版本，不用命令日志替代解释。
-- 需要人决定产品或边界时，给出具体选项、各自结果与取舍；普通实现选择按已授权目标推进，不重复索要确认。
-- 表达是否清楚，以读者能复述结果、依据及待定事项判断。作者自查不等于独立读者已理解；评估规则时可采用 [复述测试](https://digital.gov/guides/plain-language/test/paraphrase-testing)，不要求每条消息都新增人工流程。
+- 先复述理解的目标、结果和边界，再动手。
+- 先说结论，再说依据与未定部分；事实、推测、建议分开写。
+- 需要人决定时给选项、结果与代价，不替人拍板。
 
-## 推荐开发流程
+## 计划（可选）
 
-1. 读 GOAL.md。
-2. 找到要动的 REQ；没有就新增一条，并写清它服务于哪个领域。
-3. 读链接的 Feature 与 Design；没有就补最小一节。
-4. 改代码与测试；测试标题带 [AC-编号]。
-5. 跑 npm 脚本：test 与 check:docs。
-6. 回写：新字段进 Design，新决策进 ADR，AC 的链接补上。
-7. 真跑过就写一句“验证于 <提交>”；没跑就明说未验证。
-8. 只有需要程序化解析完整机器上下文时，才运行 `pnpm ignite status --json`。
+默认不建计划。跨多天、多人协作、数据迁移、权限模型、金额计算时才建一份，交付后归档。

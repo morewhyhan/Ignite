@@ -38,8 +38,6 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm runtime:check
-      - run: pnpm template:doctor
-      - run: pnpm ignite validate --ci
       - run: node scripts/check-diff.mjs --base "$DIFF_BASE"
       - run: pnpm docs:check
       - run: pnpm goal:audit

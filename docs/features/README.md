@@ -43,7 +43,7 @@
 
 业务规则使用稳定 `REQ-*`，AC 使用稳定 `AC-*` 并列出覆盖的 REQ。AC 的 Given/When/Then 应能独立判断行为是否成立；保存与刷新共同构成一个结果时可以是一条旅程，权限等独立边界另行断言。边界和失败按真实风险选择，不按函数数或测试数判断充分性。
 
-从原始承诺定义正确结果，再建立测试；不能只从实现后的代码反推要验收什么。行为层级与断言质量由 [测试标准](../standards/testing.md) 定义；测试关联只证明已列目标，遗漏审查在 [Plan 原始目标核对](../plans/README.md#输入与原始目标核对) 中记录，组合范围由 [Release](../plans/releases/README.md) 维护。
+从原始承诺定义正确结果，再建立测试；不能只从实现后的代码反推要验收什么。行为层级与断言质量由 [测试标准](../standards/testing.md) 定义；测试关联只证明已列目标，遗漏审查在 [Plan 原始目标核对](../plans/README.md#输入与原始目标核对) 中记录，组合范围由 [Release](../plans/README.md) 维护。
 
 ## 修改与维护
 
@@ -56,10 +56,6 @@
 需求尺度参考 [NASA 需求编写指南](https://www.nasa.gov/reference/appendix-c-how-to-write-a-good-requirement/)。这是本项目采用的工程方法，不能据此证明任何模型已准确理解需求。
 
 ## 入口
-
-业务起点：[产品定位](./product.md)、[认证](./auth.md)、[Tasks](./tasks.md)。模板见 [_template.md](./_template.md)。
-
-[执行工具](./execution.md) 是已有工具的回归契约，普通业务任务不必全文读取。
 
 ## 模块说明（§8.1）
 

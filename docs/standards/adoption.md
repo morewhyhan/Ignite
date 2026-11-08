@@ -2,204 +2,54 @@
 
 > 文档状态：定稿
 
-本文件是把 Ignite 复制成一个具体项目时的唯一采用清单。先验证模板基线，再进行产品化改动，可以区分模板原有问题和采用过程中引入的问题。
+## 第一步：准备环境
 
-## 通用模板与具体项目的验收边界
-
-维护 Ignite 时只验收当前模板的运行、认证、Tasks 参考切片、工程规则和检查器。以下决定在复制为具体项目后才有真实答案，不能为了让模板“全绿”预设服务或删除示例：
-
-| 采用时的决定               | 未决定时的模板行为               | 决定后的验收                                     |
-| -------------------------- | -------------------------------- | ------------------------------------------------ |
-| 产品名称、首页、导航和视觉 | 保留可运行的基线外壳             | 同步 Feature、页面、设计事实和桌面/移动 E2E      |
-| Tasks 保留、改造或删除     | 保留完整参考纵向切片             | 同步 Schema、迁移、RPC、Hook、路由和权限回归     |
-| 数据库与外部服务           | 只承诺已验证的 SQLite 本地能力   | 按所选 provider 重建隔离测试、环境指纹和迁移证据 |
-| GitHub 仓库与部署平台      | 不宣称模板提交已交付给衍生项目   | 核对项目推送目标、远端提交、CI 和可访问入口      |
-| AI 工具和运行平台          | 共用 AGENTS 真源，默认 WSL/Linux | 在实际宿主工具和平台上做入口、依赖与浏览器冒烟   |
-
-这些场景在采用 Plan 中形成目标、REQ/AC 和 `remaining_work`，由采用者的实际选择触发；不属于尚未创建的产品也“已经验收”。
-
-## 模板资产分级
-
-模板携带技能正文和固定入口，当前项目的技能读取命令可恢复错误发现路径。新 Plan 的任务契约检查红灯与实施的顺序及证据，沿原生任务命令推进时生效。它不能拦截宿主直接写文件，也不证明所有模型都会自发读取或正确应用技能；复制后的实际宿主仍需观察默认调用、读取失败恢复和任务安排。旧 Plan 未声明 task_contract 时继续按旧规则验收，不把兼容性当作新增约束已生效。
-
-具体项目按原生 Plan 完成后，使用 `pnpm delivery:check --plan <IGT-ID>` 核对本地改动覆盖。干净模板没有业务 Plan，可显式用首次复制的提交作 `--base` 检查声明范围。这个检查复用 CI 的完成记录，不猜测基线，不把模板通过当作衍生项目已经验收。
-
-| 资产         | 当前内容                                                             | 默认动作                                               |
-| ------------ | -------------------------------------------------------------------- | ------------------------------------------------------ |
-| 核心基础设施 | Better Auth、Hono RPC、Prisma、React Query、环境校验、测试和文档体系 | 保留；替换属于 `[存量改动]`，风险标为 `infrastructure` |
-| 产品外壳     | 品牌、Landing、Dashboard、Settings、Theme、导航                      | 按新产品替换；属于 `[存量改动]`                        |
-| 参考纵向切片 | Tasks 数据模型、API、Hook、页面和测试                                | 明确选择保留、改造或删除                               |
-
-`auth`、`theme`、`landing`、`dashboard` 属于基础能力或产品外壳，可以使用单数目录；资源型业务模块使用复数 kebab-case，例如 `projects`、`notifications`。
-
-采用决定应同时落在产品规格、实现与回归检查中；可变外壳与必须保留的安全行为分别核对：
-
-| 决定       | 实现入口                                              | 同步检查                          |
-| ---------- | ----------------------------------------------------- | --------------------------------- |
-| 名称与介绍 | `src/config/site.ts`、`package.json`、README、Landing | 页面标题、模板残留、Cookie slug   |
-| 首页与路由 | `src/app/`、`src/config/navigation.ts`、登录跳转      | 导航入口、重定向、E2E 用户路径    |
-| 视觉与主题 | `src/app/globals.css`、`src/modules/theme/`、共享 UI  | 设计事实、桌面与移动视口          |
-| Tasks 去留 | Schema、API、Hook、页面、导航                         | 独立认证/权限测试以及对应业务测试 |
-
-当前页面名称、粉色主题和 `/dashboard` 是模板基线，不是衍生产品的永久要求。用户已给出目标时，AI 按目标更新对应测试；权限、秘密信息和持久化约束仍需验收。
-
-## 第零步：确认没有建设期归档
-
-本模板分支不携带建设期记录。如果你拿到的是维护分支，根目录会有 archive/，那是模板自己的建设记录，采用前删掉：
-
-```bash
-rm -rf archive
 ```
-
-删除不影响任何检查；保留只是方便维护模板的人查历史。
-
-## 第一步：准备环境并验证基线
-
-采用后的 AI 按 [Plan 规则](../plans/README.md) 读取固定方法，细化任务并主动发起开工和交付审查；用户无需逐个点名技能。脚手架里的负责人和受影响路径仍是草稿，AI 必须按实际目标填好才可开工。模板的测试只证明这些规则和入口可用，不能证明任意宿主模型始终遵守，也不替代新项目的真实业务验收。
-
-从 Windows PowerShell 调用 WSL 时，先将下面的示例路径替换成当前副本的 WSL 路径。Bash 命令使用外层单引号，避免 PowerShell 提前展开变量；在同一次调用中加载 NVM、读取 `.node-version` 并切换版本。不要先在 Windows 运行 Node，也不要靠 WSL 默认 Node 猜版本。
-
-```powershell
-wsl.exe -e bash -lc 'cd /mnt/c/your/project && source ~/.nvm/nvm.sh && nvm use $(cat .node-version) && node scripts/runtime-doctor.mjs --preflight'
-```
-
-受限宿主返回 E_ACCESSDENIED 时，包含 Wsl/Service 或 Bash/Service 前缀，都只说明本次调用被拒绝。先使用宿主的授权入口重试相同命令。Codex 的 `exec_command` 可设置 `sandbox_permissions: "require_escalated"`；这是宿主参数，不传给项目脚本。沿用本地开发授权，不绕过明确拒绝；授权被拒绝或重试仍失败才报告环境阻塞。已结束的命令会话不能再次读取，接续时先查已保存输出或原生运行记录，再按实际失败重试，不把 Unknown process id 当成 WSL 损坏。
-
-后续原生 CLI 也在相同 WSL 项目目录和 NVM 环境执行。技能读取 `node scripts/ignite.mjs skill read --for <所属规则.md> --list` 不需要安装项目依赖；其余诊断、准备检查与历史命令仍按下面的依赖步骤处理。
-
-每个项目安装自己的 node_modules，Windows 与 WSL 保持隔离；同一运行环境可复用 pnpm 下载缓存，优先采用已有配置。项目准备不运行 pnpm config set 改用户或全局配置；确需独立缓存时仅对本次安装传 --store-dir，不把相对路径写入全局设置。
-
-首次采用前，先在新副本提交初始源码，再准备可运行本地命令的环境。Ignite 的诊断与历史归档 CLI 依赖项目包（包括 TypeScript）；在依赖安装前运行 `template:doctor` 或 `adopt-history` 会因缺少包而失败。
-
-```bash
-node scripts/runtime-doctor.mjs --preflight
-cp .env.example .env
-corepack pnpm install --frozen-lockfile --prefer-offline
+node -v           # 必须匹配 .node-version
+pnpm install
 pnpm runtime:check
 ```
 
-依赖安装后，运行 `pnpm template:doctor`，再用 `pnpm ignite status` 查看当前任务。干净发布快照没有模板建设期 Plan、Release 或运行清单，零任务是正常结果，无需先归档历史。
+Windows 与 WSL 不共享 `node_modules`；换平台先删掉重装。
 
-仅使用带旧记录的版本时，按诊断处理 Git 历史：
+## 第二步：换掉模板身份
 
-- 完整 Git 克隆已有对应提交，不执行历史归档。
-- 浅克隆缺少 Plan 引用的提交时，先运行 `git fetch --unshallow`。
-- GitHub “Use this template” 或重新 `git init` 的旧版本副本若仍带有模板执行记录，先提交初始源码；诊断提示后，运行 `pnpm ignite adopt-history` 预览，核对清单，再运行 `pnpm ignite adopt-history --apply` 并提交。记录归档到 `docs/others/template-history/`，不会自动删除。最新干净快照不需要此步骤。
+- `.ai/project.json` 的 `mode` 改为 `adopted`。
+- `README.md`、`src/config/` 换成你的产品名。
+- `.env` 按 `.env.example` 准备，不提交真实 secret。
 
-完成历史处理后再初始化数据库并验证基线；完整克隆也需要数据库与项目依赖已准备好：
+## 第三步：决定 Tasks 示例的去留
 
-```bash
-pnpm db:setup
-pnpm verify
-pnpm test:e2e:production
+Tasks 是参考模块，可以保留、改造或删除。删除时同步清掉：
+
+```
+src/modules/tasks
+src/app/dashboard/tasks
+src/server/api/routes/tasks
+prisma/schema.prisma 里的 Task 模型与迁移
+相关测试
 ```
 
-浏览器用户路径由 `pnpm test:e2e:production` 重放。第一次安装若缺少 Chromium，先执行 `pnpm exec playwright install --with-deps chromium` 再运行该检查；失败时保留报告，不以人工点击作为验收替代。
+## 第四步：写 GOAL
 
-## 第二步：建立项目身份
+在 `GOAL.md` 里写目标、领域、REQ、AC。写完先跑：
 
-必须更新：
-
-- `package.json` 的 `name`；
-- `src/config/site.ts` 的 `name`、`slug`、`tagline` 和 `description`；
-- `.ai/project.json` 的 `mode`、源仓库和项目目标仓库；`docs/features/product.md` 的目标用户、范围和示例业务决定；
-- README 的产品名称和说明；
-- `.env` 中的独立 `BETTER_AUTH_SECRET`。
-- Git `origin` 的 push URL。完整克隆后必须指向新项目仓库；若暂时只在本地开发，可以先不设置远端，但不得保留指向 Ignite 模板的推送地址。
-
-生成本地 secret：
-
-```powershell
-node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"
+```
+pnpm goal:audit
+pnpm goal:trace
+pnpm docs:check
 ```
 
-`siteConfig.slug` 同时用于认证 Cookie 前缀。浏览器 Cookie 不按端口隔离，所以同时运行多个衍生项目时必须使用不同 slug 和 secret，避免会话互相覆盖。
+三条都过，才开始写业务代码。
 
-完成后运行 `pnpm template:doctor`。`.ai/project.json` 是机器可读的项目身份真源：将 `mode` 改为 `adopted`，把 `source_repository` 保留为模板来源，已确定项目仓库时填入 `project_repository`；尚未确定时保持 `null`，本地开发可以继续，但不要宣称已推送。若仍使用 Ignite 名称、slug、默认 secret，或本地既没有 `.env` 也没有等价环境变量，诊断会报告。
+## 第五步：每轮开发
 
-诊断会检查 origin 的全部推送目标，避免第二个 push URL 仍指向模板。Site 身份支持字符串字面量、本文件内的 `const` 引用、字符串拼接与 TypeScript 类型包装；函数、外部导入或运行时计算会明确报告“无法静态核实”，不会执行应用代码，也不会把无法识别当作通过。需要这类配置时，应同步扩展诊断适配，而不是绕过采用检查。
-
-## 第三步：决定 Tasks 的去留
-
-### 保留
-
-把它当作产品功能，更新文案、需求规格和设计，不继续称为示例。
-
-### 改造
-
-以 `[存量改动]` 建立 Plan，逐项检查数据模型、API、Hook、页面、导航、测试和设计规格。
-
-### 删除
-
-删除不是只移除 `src/modules/tasks/`。必须在一个可审查的 Plan 中处理：
-
-删除前执行 `pnpm ignite example removal-plan tasks`，取得本项目实际仍存在的文件、注册点、文档和业务测试清单。该命令只读，不删除文件；历史 migration 只列为应保留的记录。参考切片仅在 UI（模块、页面、导航）、API（路由、注册）和当前 Schema（模型、用户关系）全部移除后才判定已删除。只移除其中一处不会跳过 Tasks 所有权回归检查，而会暴露未完成的迁移。
-
-| 区域         | 检查位置                                                                            |
-| ------------ | ----------------------------------------------------------------------------------- |
-| 数据         | `prisma/schema.prisma` 的 `task` 和 `user.tasks`，并新增 migration                  |
-| API          | `src/server/api/routes/tasks/` 和 `src/server/api/index.ts`                         |
-| Client       | `src/modules/tasks/`                                                                |
-| Route        | `src/app/dashboard/tasks/`                                                          |
-| Navigation   | `src/config/navigation.ts`                                                          |
-| Tests        | Tasks API/E2E 和专属契约；独立 `tests/e2e/auth.spec.ts`、认证与路由守卫测试必须保留 |
-| Requirements | `docs/features/tasks.md`                                                            |
-| Designs      | domain、database、API、sequence 和测试用例规格                                      |
-| README/Agent | Tasks 参考切片说明                                                                  |
-
-已经在共享环境应用的 migration 不得删除或改写。模板尚未发布且没有共享数据时，重建基线也必须作为明确的基础设施任务处理。
-
-当 Tasks 被移除时，在覆盖本轮采用目标的 Plan 中给业务数据与访问路径安排迁移，再调整专属测试和设计文档；没有匹配 Plan 时再新建。不能通过删除测试来获得绿色结果；原有认证、跨用户资源隔离和未授权访问的安全断言需要由独立于 Tasks 的测试继续覆盖。
-
-## 第四步：开发第一个真实模块
-
-可以先执行 `pnpm create:module <plural-kebab-name> --dry-run` 查看将创建的文件，确认后去掉 `--dry-run`。脚手架会创建 Feature、测试路径文档、`verification_contract: 2` Plan 和失败的测试草稿，并把它加入 Release。Screen、公开入口、数据模型和 API 在真实红灯之后实现。实际写入前会要求 Git 工作区干净，避免把已有工作混入新 Plan；`--dry-run` 不写任何文件。
-
-1. 从脚手架或 `docs/features/_template.md` 创建需求规格。
-2. 标明是增量模块还是存量修改，补齐字段、原型映射和正交业务规则。
-3. 完善脚手架已生成的 Plan；手工创建模块时才使用 `docs/plans/_template.md`，不要重复创建同一个结果的 Plan。
-4. 把占位 Feature、测试路径和失败测试改为真实用户行为；明确每条 AC 的测试层级。触及 Prisma、认证或业务 API 时，填写 Plan `data_contract` 中的数据归属、访问依据、迁移影响和回退方式；只有破坏性变更需要授权。
-5. 关闭开放问题并检查 Release 对原始目标/REQ/AC 的映射，再把 Plan 转为 `ready`、`active`。提交 Feature、Plan 和真实测试后，对每条 AC 执行 `pnpm ignite tdd red --plan <IGT-ID> --ac <AC-ID>`，提交红灯记录后再实现。占位 `expect.fail` / `throw` 不算红灯。
-6. 用 `pnpm ignite check --plan <IGT-ID> --level integration` 完成工程门禁及本 Plan 的各层验收；所有纳入 Plan 完成后，再运行 `pnpm ignite release verify <release-id> --plan <done-plan-id>` 对最终组合运行生产构建与全量 E2E。回写 `docs/designs/`。桌面与移动基线页面在 1440px、768px、390px 和 360px 宽度都应保持可用；失败时保留 screenshot/trace。
-
-新增业务应建立独立纵向切片，不塞入 Dashboard、Settings 或 Tasks 等无关模块。
-
-本轮模块开发中的缺陷修复、补测试和设计回写留在这份 Plan。已交付后出现的新改动使用下一份 Plan；Feature 和 Design 只更新受本次改动影响的内容。
-
-需求按 [Feature 规则](../features/README.md)，推进、纠偏、依赖与交接按 [Plan 规则](../plans/README.md)，检查按 [测试标准](./testing.md)，组合完成按 [Release 规则](../plans/releases/README.md)，沟通按 [AGENTS](../../AGENTS.md#沟通)，规则维护按 [AI 工作台标准](./ai-agents.md)。采用项目要补自己的行为与边界；模板的工具测试和基线验收不证明新产品已达标，也不证明任何模型已能稳定按规范执行。
-
-## 模板维护记录与发布快照
-
-Ignite 的模板发布只携带可复用 Feature、Design、标准、ADR、测试和空白模板。建设期 Plan、Release、运行清单与审计报告先完成并提交，由 Git 历史保存，再清理工作目录；零 Plan 是采用新项目的正常起点。具体项目保留自己的记录，不能套用模板清理规则。
-
-仅在项目身份为 `template-baseline` 时，CI 可从本次提交区间最近删除前的快照读取已完成 Plan 与真实证据，继续执行原有校验，并逐文件比较当前改动与被测版本。未完成计划、缺证据或未测变化不能借清理绕过验收；已采用项目不启用此分支。首次采用和缺历史记录仍按本文件第一步诊断处理。
-
-## 第五步：交付前验证
-
-```text
-pnpm ignite plan validate <IGT-ID>
-pnpm ignite check --plan <IGT-ID> --level integration
-pnpm ignite plan set-status <IGT-ID> verifying --commit HEAD
-pnpm ignite plan set-status <IGT-ID> done
-pnpm ignite release verify <release-id> --plan <done-plan-id>
+```
+读 GOAL → 改代码与测试 → pnpm test → pnpm goal:status --run
 ```
 
-新契约中，`done` 完成单个 Plan；最后一条命令完成整个 Release。它会记录被测 commit、package version 和指向该 commit 的 Git tag 名称（如果已有），但不会替采用者创建 Git tag、推送或部署。旧 `verification_contract: 1` Plan 仍使用原 `check --level release` 命令。
+## 数据与部署
 
-`pnpm build` 只证明当前配置可以完成生产编译。真实生产部署必须把 `APP_ENV` 设为 `production`，并满足 HTTPS、持久数据存储和独立 secret。SQLite 默认拒绝；只有低流量单机展示场景经明确选择后，才可设置 `ALLOW_PRODUCTION_SQLITE=true`，并使用版本目录外的持久化绝对文件路径、安排备份。这不是通用生产或多实例部署方案。邮箱所有权验证如有需要，另行作为增量模块接入。
-
-## 项目方法库采用边界
-
-模板携带pstack方法、来源许可及各工具发现桥接；普通克隆保留这些可复用资产。采用者按实际宿主加载项目技能，必要时刷新会话；全局安装不是默认步骤。Cursor模型配置、外部插件/MCP和云服务不因克隆而启用，需要具体项目按实际授权配置。方法使用不自动授予外部写入，不以技能跑分或提速证明为前置条件；项目代码和业务行为仍按原生工程规则验收。
-
-宿主读取项目 AGENTS 后，文档维护默认遵守各类文档的固定方法，不需要采用者逐次点名技能或先启用 poteto-mode。首次确认宿主能读取项目规则和正文入口；资产随克隆携带、发现目录已生成与真实会话正确执行是不同事实，不能仅凭文件存在宣称所有平台自动调用已经验收。未支持自动发现的宿主仍由项目规则按需读取正文。
-
-方法产生的决定、计划、协作和验收使用原生文档真源；新增项目技能正文与发现桥接分开维护。可选 Bun 工具需显式准备自己的依赖，不能因阅读或帮助命令安装。工作区审计只提供候选，管理工作区采用宿主快照归档；未跟踪文件不能自动当作可丢弃资料。辅助工具观察结果不等于 Plan/Release 通过。
-
-模板用 next.config.mjs 固定当前项目根目录。嵌套副本有自己的锁文件和依赖；如果旧配置已生成错误开发缓存，先停掉本项目开发服务，移开本项目 .next/dev 后复跑，不修改父项目锁文件或借用它的 node_modules。
-
-开发态浏览器验收由 `scripts/run-e2e.mjs` 管理，使用本副本的 `.next/e2e` 缓存、隔离数据库和缓存所有者记录。退出时仅清理自有缓存，并恢复本次生成且未被其它进程改动的 `next-env.d.ts`；正常开发和生产构建继续使用原目录。首页与工作台的启动准备不替代真实注册、保存及刷新验收。受管进程组的主要采用环境为 WSL/Linux，Windows 的进程清理边界需独立验收。
-
-Agent 可从当前 Plan 获取任务交接内容；技能资产、交接命令可用与实际模型正确执行仍需分别确认。开发反馈只用于定位失败，隔离 TDD 恢复只导入已提交的原生红灯，二者均不替代 Plan/Release 验收。本轮执行恢复改动按用户要求先实施，未运行验证。
-
-- STD-ADOPT-101：采用流程必须完成历史归档与环境基线校验；新增规则另起编号。
+- 默认 SQLite，适合单机；换库改 `prisma/schema.prisma` 与 `.env`。
+- 生产必须 HTTPS、强 secret、持久化目录；不要在本地 secret 上部署。
+- 升级依赖后跑一遍 `pnpm test` 与 `pnpm test:migrations`。

@@ -14,7 +14,8 @@ for (const sha of commits) {
   const touchesSource = files.some((file) => /^src\//.test(file))
   if (!touchesSource) continue
   const message = git(['log', '-1', '--format=%B', sha]).stdout
-  if (!/^AC: AC-[A-Z]+-\d+$/m.test(message)) problems.push(sha.slice(0, 8) + ' 改了 src/ 但没有 AC: 行')
+  if (!/^AC: AC-[A-Z]+-\d+$/m.test(message))
+    problems.push(sha.slice(0, 8) + ' 改了 src/ 但没有 AC: 行')
 }
 if (problems.length > 0) {
   console.error('提交缺少需求编号：')

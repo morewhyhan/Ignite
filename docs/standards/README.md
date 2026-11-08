@@ -18,5 +18,3 @@
 - [目标树标准](./goal-tree.md)：AI 每轮开工前读的入口，六层目录与链接规则
 
 ## 编号约定
-
-标准条目使用 `STD-<领域>-<三位序号>`，设计事实使用 `DES-<领域>-<三位序号>`，架构决策使用 `ADR-<四位序号>`。编号在全仓唯一，由 `scripts/ignite/spec-id-registry.mjs` 扫描，`scripts/check-docs.mjs` 拒绝缺号、重号与计划中的未知引用。

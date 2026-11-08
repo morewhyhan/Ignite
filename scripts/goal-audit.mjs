@@ -8,12 +8,16 @@ const problems = []
 
 const goalLine = lines.find((line) => /^> 让|^> /.test(line)) || ''
 if (!goalLine) problems.push('A1 目标缺失：需要一个一句话目标')
-if (/页面|接口|数据库|算法|框架/.test(goalLine)) problems.push('A1 目标里出现方案词：' + goalLine.slice(0, 40))
+if (/页面|接口|数据库|算法|框架/.test(goalLine))
+  problems.push('A1 目标里出现方案词：' + goalLine.slice(0, 40))
 
 const domainRows = lines.filter((line) => /^\| (认证|任务|外壳)/.test(line))
 if (domainRows.length === 0) problems.push('A2 领域表为空')
 for (const row of domainRows) {
-  const cells = row.split('|').map((cell) => cell.trim()).filter(Boolean)
+  const cells = row
+    .split('|')
+    .map((cell) => cell.trim())
+    .filter(Boolean)
   if (cells.length < 5) problems.push('A2 领域行缺少“管什么/不管什么”：' + row.slice(0, 40))
 }
 
@@ -21,7 +25,11 @@ const reqs = []
 let current = null
 for (const line of lines) {
   const req = /^\*\*(REQ-[A-Z]+-\d+)\b(.*)$/.exec(line)
-  if (req) { current = { id: req[1], text: req[2], acs: [] }; reqs.push(current); continue }
+  if (req) {
+    current = { id: req[1], text: req[2], acs: [] }
+    reqs.push(current)
+    continue
+  }
   const ac = /^- (AC-[A-Z]+-\d+)（[^）]*）：(.*)$/.exec(line)
   if (ac && current) current.acs.push({ id: ac[1], text: ac[2] })
 }
@@ -60,7 +68,9 @@ for (const section of sections) {
   const startAt = lines.indexOf(section)
   const nextAt = lines.findIndex((line, i) => i > startAt && /^### /.test(line))
   const body = lines.slice(startAt, nextAt === -1 ? undefined : nextAt)
-  const edges = body.filter((line) => /^- AC-/.test(line) && /未|失败|拒绝|为空|并发|重复|超过|越权|不合法/.test(line))
+  const edges = body.filter(
+    (line) => /^- AC-/.test(line) && /未|失败|拒绝|为空|并发|重复|超过|越权|不合法/.test(line),
+  )
   if (edges.length === 0) problems.push('A5 领域“' + name + '”没有异常或边界场景')
 }
 
@@ -69,5 +79,11 @@ if (problems.length > 0) {
   for (const problem of [...new Set(problems)]) console.error('- ' + problem)
   process.exitCode = 1
 } else {
-  console.log('需求审计通过：' + reqs.length + ' 条 REQ，' + reqs.reduce((sum, req) => sum + req.acs.length, 0) + ' 条 AC')
+  console.log(
+    '需求审计通过：' +
+      reqs.length +
+      ' 条 REQ，' +
+      reqs.reduce((sum, req) => sum + req.acs.length, 0) +
+      ' 条 AC',
+  )
 }

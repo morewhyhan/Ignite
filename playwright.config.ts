@@ -20,21 +20,10 @@ export default defineConfig({
   workers: 1,
   globalSetup: './tests/e2e/global-setup.ts',
   reporter: tddReportPath
-    ? [
-        ['json', { outputFile: tddReportPath }],
-        ['./scripts/testing/playwright-acceptance-reporter.mjs'],
-      ]
+    ? [['json', { outputFile: tddReportPath }]]
     : isCI
-      ? [
-          ['line'],
-          ['html', { open: 'never' }],
-          ['./scripts/testing/playwright-acceptance-reporter.mjs'],
-        ]
-      : [
-          ['list'],
-          ['html', { open: 'never' }],
-          ['./scripts/testing/playwright-acceptance-reporter.mjs'],
-        ],
+      ? [['line'], ['html', { open: 'never' }]]
+      : [['list'], ['html', { open: 'never' }]],
   use: {
     baseURL,
     launchOptions: executablePath ? { executablePath } : undefined,

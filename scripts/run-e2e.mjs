@@ -12,7 +12,7 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { databaseTestAdapter } from './testing/database-adapter.mjs'
 import { createE2eRuntime, restoreE2eNextEnv } from './testing/e2e-runtime.mjs'
-import { runManagedCommand } from './ignite/managed-command.mjs'
+import { spawn } from 'node:child_process'
 
 const repositoryRoot = process.cwd()
 const schemaPath = resolve(repositoryRoot, 'prisma', 'schema.prisma')
@@ -66,6 +66,49 @@ function findAvailablePort() {
 function streamOutput(stream, text) {
   const output = stream === 'stderr' ? process.stderr : process.stdout
   output.write(text)
+}
+
+function runManagedCommand({ command, args, cwd, env, timeoutMs, signal, onOutput }) {
+  return new Promise((resolve) => {
+    const child = spawn(command, args, { cwd, env, stdio: ['ignore', 'pipe', 'pipe'] })
+    let stdout = ''
+    let stderr = ''
+    let timedOut = false
+    let cancelled = false
+    let error = null
+    let settled = false
+    const finish = (exitCode, signalName) => {
+      if (settled) return
+      settled = true
+      clearTimeout(timer)
+      resolve({ exitCode, signal: signalName, timedOut, cancelled, error, stdout, stderr })
+    }
+    child.stdout.on('data', (chunk) => {
+      const text = chunk.toString()
+      stdout += text
+      onOutput && onOutput('stdout', text)
+    })
+    child.stderr.on('data', (chunk) => {
+      const text = chunk.toString()
+      stderr += text
+      onOutput && onOutput('stderr', text)
+    })
+    const timer = setTimeout(() => {
+      timedOut = true
+      child.kill('SIGKILL')
+    }, timeoutMs)
+    if (signal) {
+      signal.addEventListener('abort', () => {
+        cancelled = true
+        child.kill('SIGKILL')
+      })
+    }
+    child.on('error', (err) => {
+      error = err
+      finish(null, null)
+    })
+    child.on('close', (code, signalName) => finish(code, signalName))
+  })
 }
 
 async function runStep(label, args, env, timeoutMs) {

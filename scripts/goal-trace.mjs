@@ -13,7 +13,9 @@ const walk = (dir) => {
   return out
 }
 
-const features = readdirSync(join(root, 'docs', 'features')).filter((name) => name.endsWith('.md') && !/README|_template/.test(name))
+const features = readdirSync(join(root, 'docs', 'features')).filter(
+  (name) => name.endsWith('.md') && !/README|_template/.test(name),
+)
 const acToReqs = new Map()
 for (const name of features) {
   for (const line of read(join('docs', 'features', name)).split(/\r?\n/)) {
@@ -30,7 +32,8 @@ const domains = [...goal.matchAll(/^### 领域：(.+)$/gm)].map((match) => match
 const goalReqToDomain = new Map()
 for (const section of goal.split(/^### 领域：/m).slice(1)) {
   const name = section.split(/\r?\n/)[0].trim()
-  for (const match of section.matchAll(/^\*\*(REQ-[A-Z]+-\d+)/gm)) goalReqToDomain.set(match[1], name)
+  for (const match of section.matchAll(/^\*\*(REQ-[A-Z]+-\d+)/gm))
+    goalReqToDomain.set(match[1], name)
   for (const line of section.split(/\r?\n/)) {
     if (!/^- AC-/.test(line)) continue
     for (const req of line.matchAll(/REQ-[A-Z]+-\d+/g)) goalReqToDomain.set(req[0], name)
@@ -57,11 +60,15 @@ for (const id of used) {
     continue
   }
   const reqs = acToReqs.get(id)
-  if (reqs.length === 0) { problems.push(id + ': AC 没有对应的 REQ'); continue }
+  if (reqs.length === 0) {
+    problems.push(id + ': AC 没有对应的 REQ')
+    continue
+  }
   if (!goalAcs.has(id)) continue
   goalCovered += 1
   for (const req of reqs) {
-    if (!goalReqToDomain.has(req) && !prefixToDomain.has(req.split('-')[1])) problems.push(req + ': REQ 没有登记在 GOAL 的任何领域下（' + id + '）')
+    if (!goalReqToDomain.has(req) && !prefixToDomain.has(req.split('-')[1]))
+      problems.push(req + ': REQ 没有登记在 GOAL 的任何领域下（' + id + '）')
   }
 }
 for (const id of goalAcs) {
@@ -73,5 +80,13 @@ if (problems.length > 0) {
   for (const problem of [...new Set(problems)]) console.error('- ' + problem)
   process.exitCode = 1
 } else {
-  console.log('验收追溯通过：' + used.size + ' 个 AC 被测试引用，其中 ' + goalCovered + ' 个追溯到 GOAL，' + domains.length + ' 个领域')
+  console.log(
+    '验收追溯通过：' +
+      used.size +
+      ' 个 AC 被测试引用，其中 ' +
+      goalCovered +
+      ' 个追溯到 GOAL，' +
+      domains.length +
+      ' 个领域',
+  )
 }

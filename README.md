@@ -63,6 +63,8 @@ pnpm docs:check    # 文档与链接自洽
 pnpm goal:status   # 看板：10 条 AC 全部已验证
 ```
 
+要跑浏览器验收，先装一次浏览器：`pnpm exec playwright install chromium`，再 `pnpm test:e2e`。
+
 ## 第一次上手：换成你的产品
 
 1. 打开 [`docs/GOAL.md`](./docs/GOAL.md)，把「目标 / 领域 / REQ / AC」换成你的产品；示例 AC 删掉。

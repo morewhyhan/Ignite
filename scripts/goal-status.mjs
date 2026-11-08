@@ -20,11 +20,11 @@ for (let i = 0; i < lines.length; i += 1) {
     entries.push(current)
     continue
   }
-  if (current && /^\s*- 测试用例：/.test(lines[i]) && i === current.lineIndex + 1) {
+  if (current && /^\s*- \*\*测试用例\*\*：/.test(lines[i]) && i === current.lineIndex + 1) {
     const body = lines[i]
-    const verify = /验证：\[[^\]]*\]\(([^)]+)\)/.exec(body)
+    const verify = /\((\.\.\/tests\/[^)]+)\)/.exec(body)
     if (verify) current.file = verify[1]
-    const evidence = /证据：\[查看\]\(([^)]+)\)/.exec(body)
+    const evidence = /(?:证据：\[查看\]|\[证据\]|\[查看\])\(([^)]+)\)/.exec(body)
     if (evidence) current.evidence = evidence[1]
     current.note = /说明：([^｜]+)/.exec(body)?.[1]?.trim() ?? ''
   }

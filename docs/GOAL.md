@@ -22,20 +22,30 @@ Agent 做长任务会偏移：开头记得目标，做到一半被细节带走�
 
 ## 金字塔（图）
 
-```text
-                        目标
-          让一个人从一个想法开始，做出能跑、能验、能继续改的应用
-        ┌─────────────────┼─────────────────┐
-      认证               任务               外壳
-   ├─ REQ-AUTH-001   ├─ REQ-TASKS-001   （不是领域）
-   │   ├─ AC-AUTH-001 │   ├─ AC-TASKS-001
-   │   └─ AC-AUTH-002 │   └─ AC-TASKS-005
-   ├─ REQ-AUTH-004   ├─ REQ-TASKS-005
-   │   └─ AC-AUTH-004 │   └─ AC-TASKS-003
-   ├─ REQ-AUTH-005   ├─ REQ-TASKS-003
-   │   └─ AC-AUTH-003 │   └─ AC-TASKS-004
-   └─ REQ-AUTH-006   └─ REQ-TASKS-006
-       └─ AC-AUTH-005     └─ AC-TASKS-005
+```mermaid
+flowchart TD
+  G["目标<br/>让人从一个想法开始，做出能跑、能验、能继续改的应用"]
+  G --> D1["认证（通用）"]
+  G --> D2["任务（支撑）"]
+  G --> D3["外壳（非领域）"]
+  D1 --> R1["REQ-AUTH-001<br/>注册与登录"]
+  D1 --> R4["REQ-AUTH-004<br/>身份只来自 session"]
+  D1 --> R5["REQ-AUTH-005<br/>登出后受限"]
+  D1 --> R6["REQ-AUTH-006<br/>生产限流"]
+  R1 --> A1["AC-AUTH-001<br/>注册进入工作台"]
+  R1 --> A2["AC-AUTH-002<br/>登录建立会话"]
+  R4 --> A4["AC-AUTH-004<br/>无会话被带回登录页"]
+  R5 --> A3["AC-AUTH-003<br/>登出后回首页"]
+  R6 --> A5["AC-AUTH-005<br/>生产可重复执行"]
+  D2 --> T1["REQ-TASKS-001<br/>只看自己的任务"]
+  D2 --> T5["REQ-TASKS-005<br/>他人任务 404"]
+  D2 --> T3["REQ-TASKS-003<br/>标题校验"]
+  D2 --> T6["REQ-TASKS-006<br/>列表倒序"]
+  T1 --> AT1["AC-TASKS-001<br/>未登录跳转"]
+  T1 --> AT2["AC-TASKS-002<br/>任务增删改查"]
+  T5 --> AT3["AC-TASKS-003<br/>他人任务不可见"]
+  T3 --> AT4["AC-TASKS-004<br/>非法输入被拒"]
+  T6 --> AT5["AC-TASKS-005<br/>最新在前"]
 ```
 
 越往下越细：一个目标 → 两个领域 → 八条规则 → 十条验收。每条验收的结论和证据，在下面的文字版里点得开。

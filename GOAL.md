@@ -5,20 +5,21 @@
 > 写法与链接规则见 [目标树标准](docs/standards/goal-tree.md)。
 
 <!-- goal-status -->
+
 （本块由 pnpm goal:status 生成，勿手改；--run 真的跑测试，--evidence 登记证据）
 
-| AC | 需求 | 测试 | 状态 | 验证说明 |
-| --- | --- | --- | --- | --- |
-| AC-AUTH-001 | REQ-AUTH-001 | tests/e2e/auth.spec.ts | 有测试 | 真实浏览器注册并进入工作台；未覆盖非法邮箱与弱密码 |
-| AC-AUTH-002 | REQ-AUTH-001 | tests/e2e/auth.spec.ts | 有测试 | 真实浏览器登录并建立会话；未覆盖错误密码与锁定 |
-| AC-AUTH-004 | REQ-AUTH-004、REQ-AUTH-005 | tests/api/tasks.test.ts | 有测试 | 接口层：无会话访问业务接口返回 401；未覆盖过期会话 |
-| AC-AUTH-003 | REQ-AUTH-005 | tests/e2e/auth.spec.ts | 有测试 | 登出后重访受保护页跳转首页 |
-| AC-AUTH-005 | REQ-AUTH-006 | tests/e2e/auth.spec.ts | 有测试 | 生产构建下认证流程可重复执行；限流阈值未逐一验证 |
-| AC-TASKS-001 | REQ-TASKS-001 | tests/e2e/auth.spec.ts | 有测试 | 浏览器未登录访问工作台被重定向到首页 |
-| AC-TASKS-002 | REQ-TASKS-001、REQ-TASKS-002 | tests/e2e/tasks.spec.ts | 有测试 | 浏览器完成任务的增删改查；未覆盖并发写入 |
-| AC-TASKS-003 | REQ-TASKS-001、REQ-TASKS-005 | tests/api/tasks.test.ts | 有测试 | 接口层：访问他人任务返回 404 |
-| AC-TASKS-004 | REQ-TASKS-003、REQ-TASKS-004 | tests/api/tasks.test.ts | 有测试 | 接口层：非法输入与未知字段返回 422 |
-| AC-TASKS-005 | REQ-TASKS-006 | tests/api/tasks.test.ts | 有测试 | 接口层：列表按 createdAt 倒序断言 |
+| AC           | 需求                         | 测试                    | 状态   | 验证说明                                           |
+| ------------ | ---------------------------- | ----------------------- | ------ | -------------------------------------------------- |
+| AC-AUTH-001  | REQ-AUTH-001                 | tests/e2e/auth.spec.ts  | 有测试 | 真实浏览器注册并进入工作台；未覆盖非法邮箱与弱密码 |
+| AC-AUTH-002  | REQ-AUTH-001                 | tests/e2e/auth.spec.ts  | 有测试 | 真实浏览器登录并建立会话；未覆盖错误密码与锁定     |
+| AC-AUTH-004  | REQ-AUTH-004、REQ-AUTH-005   | tests/api/tasks.test.ts | 有测试 | 接口层：无会话访问业务接口返回 401；未覆盖过期会话 |
+| AC-AUTH-003  | REQ-AUTH-005                 | tests/e2e/auth.spec.ts  | 有测试 | 登出后重访受保护页跳转首页                         |
+| AC-AUTH-005  | REQ-AUTH-006                 | tests/e2e/auth.spec.ts  | 有测试 | 生产构建下认证流程可重复执行；限流阈值未逐一验证   |
+| AC-TASKS-001 | REQ-TASKS-001                | tests/e2e/auth.spec.ts  | 有测试 | 浏览器未登录访问工作台被重定向到首页               |
+| AC-TASKS-002 | REQ-TASKS-001、REQ-TASKS-002 | tests/e2e/tasks.spec.ts | 有测试 | 浏览器完成任务的增删改查；未覆盖并发写入           |
+| AC-TASKS-003 | REQ-TASKS-001、REQ-TASKS-005 | tests/api/tasks.test.ts | 有测试 | 接口层：访问他人任务返回 404                       |
+| AC-TASKS-004 | REQ-TASKS-003、REQ-TASKS-004 | tests/api/tasks.test.ts | 有测试 | 接口层：非法输入与未知字段返回 422                 |
+| AC-TASKS-005 | REQ-TASKS-006                | tests/api/tasks.test.ts | 有测试 | 接口层：列表按 createdAt 倒序断言                  |
 
 合计 10 条：有测试 10
 <!-- /goal-status -->
@@ -26,6 +27,12 @@
 
 当前：未开始（执行者每轮更新：步骤 n/6 · REQ · AC）
 <!-- /goal-current -->
+
+## 怎么看这份文档
+
+- 状态表：每条 AC 有没有测试、测到什么程度、验证时间
+- goal-current：现在做到第几步、哪条 REQ、哪条 AC
+- 其余章节：目标、领域、规则、验收——这是需求的全部
 
 ## 目标
 
@@ -108,7 +115,4 @@
 
 ## 完成判定
 
-```
-某条 REQ 完成 = 它下面所有 AC 有通过记录 + 演示动作能跑一遍
-整体完成     = 三个领域的必要条件满足（不宣称绝对做完）
-```
+验收标准见 [测试标准](docs/standards/testing.md)；金字塔只声明要什么，不规定怎么验。

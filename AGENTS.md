@@ -56,7 +56,7 @@ Ignite 是一个可复制、可增量演进的个人全栈模板，不是固定�
 
 ## 规格驱动 Loop
 
-开工前必读 [GOAL.md](GOAL.md)：它声明目标、领域、规则与验收，是开发的根源，不解释系统全貌。项目现状从 [文档入口](docs/README.md) 与 [设计事实](docs/designs/) 进入。目标树按 目标 → 领域 → REQ → AC → 测试 组织，细节链接到 docs/ 的对应位置。
+开工前必读 [GOAL.md](GOAL.md) 与 [开工提示词](PROMPT.md)：它声明目标、领域、规则与验收，是开发的根源，不解释系统全貌。项目现状从 [文档入口](docs/README.md) 与 [设计事实](docs/designs/) 进入。目标树按 目标 → 领域 → REQ → AC → 测试 组织，细节链接到 docs/ 的对应位置。
 
 顺序：读 GOAL.md 找到本次要动的 REQ → 读它链接的 Feature 与 Design → 改代码与测试 → 跑测试 → 回写变化（新字段、新页面、新决策）。每一步在报告中写明步骤 n/6 与对应的 REQ/AC，并更新 GOAL.md 顶部的 goal-current 块，让人随时知道执行到哪。收尾时运行 pnpm goal:status --run 刷新进度表。
 

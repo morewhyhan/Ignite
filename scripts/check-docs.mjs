@@ -189,6 +189,26 @@ for (let index = 0; index < goalLines.length; index += 1) {
   }
 }
 
+// REQ 覆盖：每个 REQ 至少一条 AC，每条 AC 引用的 REQ 必须存在。
+const featureTexts = [...walkFiles(join(docsRoot, 'features'))]
+  .filter((path) => path.endsWith('.md') && !/README|_template/.test(path))
+  .map((path) => readFileSync(path, 'utf8'))
+const allReqs = new Set()
+const coveredReqs = new Set()
+for (const text of featureTexts) {
+  for (const match of text.matchAll(/（(REQ-[A-Z]+-\d+)）/g)) allReqs.add(match[1])
+  for (const line of text.split(/\r?\n/)) {
+    if (!/^- AC-/.test(line)) continue
+    for (const match of line.matchAll(/REQ-[A-Z]+-\d+/g)) coveredReqs.add(match[0])
+  }
+}
+for (const id of allReqs) {
+  if (!coveredReqs.has(id)) fail(id + ': every REQ needs at least one AC')
+}
+for (const id of coveredReqs) {
+  if (!allReqs.has(id)) fail(id + ': AC references a REQ that no Feature defines')
+}
+
 const localLinkPattern = /!?\[[^\]]*]\(([^)]+)\)/g
 
 for (const markdownFile of markdownFiles) {

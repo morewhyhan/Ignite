@@ -84,6 +84,10 @@ for (const entry of entries) {
 }
 
 const summary = '合计 ' + entries.length + ' 条：' + Object.entries(counts).map(([key, value]) => key + ' ' + value).join('，') + (verifiedAt ? '（验证于 ' + verifiedAt + '）' : '')
-const next = lines.join('\n').replace(/<!-- goal-summary -->[\s\S]*?<!-- \/goal-summary -->/, '<!-- goal-summary -->\n' + summary + '\n<!-- /goal-summary -->')
+const joined = lines.join('\n')
+const summaryBlock = '<!-- goal-summary -->\n' + summary + '\n<!-- /goal-summary -->'
+const next = /<!-- goal-summary -->[\s\S]*?<!-- \/goal-summary -->/.test(joined)
+  ? joined.replace(/<!-- goal-summary -->[\s\S]*?<!-- \/goal-summary -->/, summaryBlock)
+  : joined.replace(/^- \*\*目标\*\*/m, summaryBlock + '\n\n- **目标**')
 writeFileSync(goalPath, next)
 console.log('goal status: ' + entries.length + ' ACs, ' + Object.entries(counts).map(([key, value]) => key + ' ' + value).join('，'))

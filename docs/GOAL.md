@@ -152,7 +152,7 @@ flowchart LR
 图示（横着看）：
 
 ```mermaid
-flowchart LR
+flowchart TD
   G["目标：甜牛奶"]
   subgraph C1["必要条件 1：有牛奶"]
     direction TB

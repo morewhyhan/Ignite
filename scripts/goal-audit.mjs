@@ -69,7 +69,7 @@ if (recordAt >= 0) {
   const { spawnSync } = await import('node:child_process')
   const raw = readFileSync(join(root, 'docs/GOAL.md'), 'utf8')
   const goalSha = createHash('sha256')
-    .update(raw.replace(/<!-- goal-status -->[\s\S]*?<!-- \/goal-status -->/, '').replace(/<!-- goal-current -->[\s\S]*?<!-- \/goal-current -->/, ''))
+    .update(raw.replace(/<!-- goal-status -->[\s\S]*?<!-- \/goal-status -->/, '').replace(/<!-- goal-current -->[\s\S]*?<!-- \/goal-current -->/, '').replace(/<!-- goal-summary -->[\s\S]*?<!-- \/goal-summary -->/, ''))
     .digest('hex')
     .slice(0, 16)
   const commit = spawnSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: root, encoding: 'utf8' }).stdout.trim()

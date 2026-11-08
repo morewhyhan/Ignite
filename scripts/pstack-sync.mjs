@@ -94,7 +94,7 @@ export async function synchronize(root, write = false) {
   )
   schedule(
     join(methods, 'CATALOG.md'),
-    '# pstack 技能目录\n\n按任务读取，正文只维护在真源。涉及项目修改或文档维护时，默认执行所属文档规则的固定方法，无需用户启用 [poteto-mode](skills/poteto-mode/SKILL.md)。从当前仓库运行 `pnpm ignite skill read <name>` 读取正文；发现地址错误时按技能名恢复，不把路径代号当文件夹。必需技能缺失时明确报告，不静默跳过。额外方法按原规则的条件使用。\n\n| 技能 | 用途 / 调用条件 |\n| --- | --- |\n' +
+    '# pstack 技能目录\n\n按任务读取，正文只维护在真源。涉及项目修改或文档维护时，默认执行所属文档规则的固定方法，无需用户启用 [poteto-mode](skills/poteto-mode/SKILL.md)。按技能名直接读取 .ai/pstack 下对应目录的正文。必需技能缺失时明确报告，不静默跳过。额外方法按原规则的条件使用。\n\n| 技能 | 用途 / 调用条件 |\n| --- | --- |\n' +
       rows.join('\n') +
       '\n',
   )

@@ -54,8 +54,7 @@ node scripts/runtime-doctor.mjs --preflight
 cp .env.example .env
 pnpm install --frozen-lockfile
 pnpm runtime:check
-pnpm template:doctor
-pnpm ignite status --write
+pnpm goal:audit
 pnpm db:setup
 pnpm dev
 ```
@@ -66,7 +65,7 @@ Windows 与 WSL 不应共享 `node_modules`；切换环境时，按对应平台�
 
 WSL 启动被宿主拒绝时，按[采用规范的权限恢复步骤](docs/standards/adoption.md#第一步准备环境并验证基线)重试后再判断是否阻塞。
 
-状态摘要由上面的命令按当前仓库生成，初始为零 Plan、零 Release。若复制源码后重新建立 Git 历史，也需生成自己的摘要。创建第一个模块前，提交需要保留的初始化变更，保持 Git 工作区干净。
+状态由 [`GOAL.md`](./GOAL.md) 的看板维护：`pnpm goal:status` 读测试文件，`pnpm goal:status --run` 真的跑一遍并写回验证时间。
 
 ---
 
@@ -80,14 +79,14 @@ WSL 启动被宿主拒绝时，按[采用规范的权限恢复步骤](docs/stand
   <img src="./docs/assets/ignite-ai-loop.svg" width="760" alt="Ignite AI 开发 Loop">
 </p>
 
-具体来说，Feature 说明用户需要什么，Plan 锁定本轮目标和验收范围；实现前，目标行为测试应按预期失败，实现后再运行测试和检查。失败就修复重跑；通过后回写 Design。缺少账号、外部服务或用户决策时，任务明确保持阻塞，不把未验证的工作报成完成。规则见 [`AGENTS.md`](./AGENTS.md)。
+具体来说：`GOAL.md` 写清目标、领域、REQ 与 AC；AI 读它，写测试与实现，跑 `pnpm test`、`pnpm docs:check`、`pnpm goal:trace`，再用 `pnpm goal:status --run` 把验证结果写回看板。失败就修，需求不清就停下来补 GOAL。规则见 [`AGENTS.md`](./AGENTS.md) 与 [`PROMPT.md`](./PROMPT.md)。
 
 人负责产品方向、范围和关键取舍；AI 负责调查、拆解、实现、验证和整理结果。状态可接续，完成条件有证据。
 
 <details>
 <summary>查看任务状态与命令</summary>
 
-用 `pnpm ignite status` 查看当前任务；用 `pnpm ignite --help` 查看命令。需要读取完整机器状态时，使用 `pnpm ignite status --json`。具体操作见[计划与执行](./docs/plans/README.md)，验证方式见[测试规范](./docs/standards/testing.md)；跨 Plan 依赖、共享写入与交接也在 [Plan 规则](./docs/plans/README.md#跨-plan-依赖与交接) 维护。
+用 `pnpm goal:status` 看每条 AC 的测试与验证状态；`pnpm goal:audit` 检查需求是否自洽；`pnpm goal:trace` 检查测试能否追到需求。细节见 [目标树标准](./docs/standards/goal-tree.md) 与[测试规范](./docs/standards/testing.md)。
 
 </details>
 

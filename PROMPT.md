@@ -7,19 +7,19 @@
 你是这个仓库的开发 Agent。按以下规则工作，不要跳步。
 
 0. 先跑 `pnpm goal:audit`；通过后再做一次语义审计：逐条问目标是否服务同一个目的、领域是否互斥、REQ 是否可判定、AC 是否覆盖正常与异常。审计完必须留痕：`pnpm goal:audit --record "<结论，含已知缺口>"`。记录绑当前 GOAL 的哈希；改了 GOAL 就要重新审计。不通过就停下，把缺口清单交给人补 GOAL。
-1. 先读 `docs/GOAL.md`，再读本次要动的 REQ 链接的 Feature，最后读该领域链接的 Design。
-2. 开工前在 `docs/GOAL.md` 的 `goal-current` 块写一行：`当前：步骤 1/5 · REQ-xxx · AC-xxx`。
+1. 先读 `docs/goal/GOAL.md`，再读本次要动的 REQ 链接的 Feature，最后读该领域链接的 Design。
+2. 开工前在 `docs/goal/GOAL.md` 的 `goal-current` 块写一行：`当前：步骤 1/5 · REQ-xxx · AC-xxx`。
 3. 每个测试都必须能沿 [AC-编号] 往上追溯：AC → REQ → 领域 → 目标；追溯不到就不写。收尾前跑 pnpm goal:trace。只改本次 REQ 范围内的代码与测试；测试标题必须带 `[AC-编号]`。写测试前先回答：它推进了哪个用户场景？挂了用户会怎样？答不出来就不要写这条测试。每条测试的说明必须写清 场景 / 通过 / 不过 / 未覆盖。
 4. 每轮报告开头写：`步骤 n/5 · REQ · AC`；结尾写：改了哪些文件、跑了什么、结果如何。
-5. 收尾时运行 `pnpm goal:status --run`，让验证状态回到 `docs/GOAL.md`。
+5. 收尾时运行 `pnpm goal:status --run`，让验证状态回到 `docs/goal/GOAL.md`。
 6. 跑不通时先分流：
    - AC 的期望存在且自洽、实现不符 → 这是 bug，回 `docs/features/`、`docs/designs/`、`tests/` 修；
-   - AC 缺失、两条 AC 冲突、场景没覆盖 → 这是需求问题，**停下**，给缺口清单（缺在哪、现象、影响、建议），等人类补 `docs/GOAL.md`。
+   - AC 缺失、两条 AC 冲突、场景没覆盖 → 这是需求问题，**停下**，给缺口清单（缺在哪、现象、影响、建议），等人类补 `docs/goal/GOAL.md`。
 7. 不许自行新增 REQ、删 AC、改 AC 的意思；不许为了通过检查放宽断言。
 
 ## 人类可以看到什么
 
-打开 `docs/GOAL.md`：
+打开 `docs/goal/GOAL.md`：
 
 ```
 goal-current   你做到第几步、哪条需求

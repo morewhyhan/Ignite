@@ -3,7 +3,7 @@ import { join, resolve } from 'node:path'
 import { spawnSync } from 'node:child_process'
 
 const root = process.cwd()
-const goalPath = join(root, 'docs/GOAL.md')
+const goalPath = join(root, 'docs/goal/GOAL.md')
 const source = readFileSync(goalPath, 'utf8')
 const lines = source.split(/\r?\n/)
 

@@ -79,7 +79,7 @@ for (const req of knownReqs) {
 }
 
 // 5. GOAL 与 Feature 同步
-const goal = read('docs/GOAL.md')
+const goal = read('docs/goal/GOAL.md')
 const goalAcs = new Map()
 for (const match of goal.matchAll(/^- (AC-[A-Z]+-\d+)（([^）]*)）：(.*)$/gm))
   goalAcs.set(match[1], { reqs: match[2], text: match[3] })
@@ -107,21 +107,21 @@ for (let index = 0; index < lines.length; index += 1) {
 
 // 7. AGENTS 必读入口仍在
 const agents = read('AGENTS.md')
-if (!/GOAL\.md/.test(agents)) record('AGENTS.md must point at docs/GOAL.md')
+if (!/GOAL\.md/.test(agents)) record('AGENTS.md must point at docs/goal/GOAL.md')
 if (!/PROMPT\.md/.test(agents)) record('AGENTS.md must point at PROMPT.md')
 
 // 需求必须有语义审计记录，且记录的是当前 GOAL。
 const auditDir = join(root, 'docs', 'others', 'evidence', 'goal-audit')
-const goalHash = createHash('sha256').update(read('docs/GOAL.md').replace(/<!-- goal-status -->[\s\S]*?<!-- \/goal-status -->/, '').replace(/<!-- goal-current -->[\s\S]*?<!-- \/goal-current -->/, '').replace(/<!-- goal-summary -->[\s\S]*?<!-- \/goal-summary -->/, '')).digest('hex').slice(0, 16)
+const goalHash = createHash('sha256').update(read('docs/goal/GOAL.md').replace(/<!-- goal-status -->[\s\S]*?<!-- \/goal-status -->/, '').replace(/<!-- goal-current -->[\s\S]*?<!-- \/goal-current -->/, '').replace(/<!-- goal-summary -->[\s\S]*?<!-- \/goal-summary -->/, '')).digest('hex').slice(0, 16)
 const auditRecords = existsSync(auditDir) ? readdirSync(auditDir).filter((name) => name.endsWith('.json')) : []
 const audited = auditRecords.some((name) => {
   try { return JSON.parse(readFileSync(join(auditDir, name), 'utf8')).goal_sha === goalHash } catch { return false }
 })
-if (!audited) record('docs/GOAL.md 没有对应的语义审计记录：运行 pnpm goal:audit，审计通过后执行 pnpm goal:audit --record "<结论>"')
+if (!audited) record('docs/goal/GOAL.md 没有对应的语义审计记录：运行 pnpm goal:audit，审计通过后执行 pnpm goal:audit --record "<结论>"')
 
 // 看板写在 goal-summary 里，且每条 AC 的用例行要带状态。
-const goalBody = read('docs/GOAL.md')
-if (!/<!-- goal-summary -->[\s\S]*?<!-- \/goal-summary -->/.test(goalBody)) record('docs/GOAL.md 缺少 goal-summary 块：运行 pnpm goal:status 重新生成')
+const goalBody = read('docs/goal/GOAL.md')
+if (!/<!-- goal-summary -->[\s\S]*?<!-- \/goal-summary -->/.test(goalBody)) record('docs/goal/GOAL.md 缺少 goal-summary 块：运行 pnpm goal:status 重新生成')
 for (const line of goalBody.split(/\r?\n/)) {
   if (/^\s*- 测试用例：/.test(line) && !/状态：(缺测试|测试缺编号|有测试|已验证|缺证据|缺截图|失败)/.test(line)) {
     record('用例行缺少状态：' + line.trim().slice(0, 40))

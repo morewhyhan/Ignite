@@ -1,8 +1,8 @@
 # 文档体系
 
-## 入口：`docs/GOAL.md`（目标树）
+## 入口：`docs/goal/GOAL.md`（目标树）
 
-整套文档只有一个入口：[GOAL.md](./GOAL.md)。它是需求真源，也是一张实时看板。
+整套文档只有一个入口：[GOAL.md](./goal/GOAL.md)。它是需求真源，也是一张实时看板。
 
 ```
 目标      这套软件最终让人完成什么
@@ -98,7 +98,7 @@ Agent  读 GOAL，展开成下面五层文档，开发、写测试
 
 | 层   | 位置                                                    | 回答的问题           | 和 GOAL 的关系                                    |
 | ---- | ------------------------------------------------------- | -------------------- | ------------------------------------------------- |
-| 需求 | [GOAL.md](./GOAL.md) + [features](./features/README.md) | 要什么、怎样算做到   | GOAL 放目录与 AC，Feature 放细节；AC 文本两处一致 |
+| 需求 | [GOAL.md](./goal/GOAL.md) + [features](./features/README.md) | 要什么、怎样算做到   | GOAL 放目录与 AC，Feature 放细节；AC 文本两处一致 |
 | 事实 | [designs](./designs/README.md)                          | 系统现在实际怎样工作 | 每份设计开头写“关联需求：REQ-…”                   |
 | 规则 | [standards](./standards/README.md)                      | 长期遵守的工程约定   | 不重复需求，只写怎么做                            |
 | 决策 | [others/adr](./others/adr/README.md)                    | 为什么这样选         | 写清影响了哪些 REQ                                |
@@ -119,8 +119,8 @@ Agent  读 GOAL，展开成下面五层文档，开发、写测试
 
 | 我要做的事                       | 先读                                                          |
 | -------------------------------- | ------------------------------------------------------------- |
-| 知道现在做到哪                   | [GOAL.md](./GOAL.md) 顶部的状态表                             |
-| 加一条需求                       | [GOAL.md](./GOAL.md) + [目标树标准](./standards/goal-tree.md) |
+| 知道现在做到哪                   | [GOAL.md](./goal/GOAL.md) 顶部的状态表                             |
+| 加一条需求                       | [GOAL.md](./goal/GOAL.md) + [目标树标准](./standards/goal-tree.md) |
 | 写某个领域的需求细节             | [features](./features/README.md)                              |
 | 查某个字段、接口、页面现在是什么 | [designs](./designs/README.md)                                |
 | 查该用哪层测试、怎么写说明       | [测试标准](./standards/testing.md)                            |
@@ -141,4 +141,4 @@ Agent  读 GOAL，展开成下面五层文档，开发、写测试
 
 ---
 
-[返回项目介绍](../README.md) · [目标树](./GOAL.md) · [工程标准](./standards/README.md) · [当前设计](./designs/README.md) · [版本更新](../CHANGELOG.md)
+[返回项目介绍](../README.md) · [目标树](./goal/GOAL.md) · [工程标准](./standards/README.md) · [当前设计](./designs/README.md) · [版本更新](../CHANGELOG.md)

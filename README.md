@@ -67,7 +67,7 @@ pnpm goal:status   # 看板：10 条 AC 全部已验证
 
 ## 第一次上手：换成你的产品
 
-1. 打开 [`docs/GOAL.md`](./docs/GOAL.md)，把「目标 / 领域 / REQ / AC」换成你的产品；示例 AC 删掉。
+1. 打开 [`docs/goal/GOAL.md`](./docs/goal/GOAL.md)，把「目标 / 领域 / REQ / AC」换成你的产品；示例 AC 删掉。
 2. 跑 `pnpm goal:audit`；通过后执行 `pnpm goal:audit --record "你的结论"`。
 3. 写第一条 AC 的测试（标题带 `[AC-编号]`），再跑 `pnpm goal:status --run` 看状态回写。
 
@@ -79,7 +79,7 @@ Windows 与 WSL 不应共享 `node_modules`；切换环境时，按对应平台�
 
 WSL 启动被宿主拒绝时，按[采用规范的权限恢复步骤](docs/standards/adoption.md#第一步准备环境并验证基线)重试后再判断是否阻塞。
 
-状态由 [`docs/GOAL.md`](./docs/GOAL.md) 的看板维护：`pnpm goal:status` 读测试文件，`pnpm goal:status --run` 真的跑一遍并写回验证时间。
+状态由 [`docs/goal/GOAL.md`](./docs/goal/GOAL.md) 的看板维护：`pnpm goal:status` 读测试文件，`pnpm goal:status --run` 真的跑一遍并写回验证时间。
 
 ---
 
@@ -87,7 +87,7 @@ WSL 启动被宿主拒绝时，按[采用规范的权限恢复步骤](docs/stand
 
 ## 需求写在哪
 
-整套文档只有一个需求入口：[`docs/GOAL.md`](./docs/GOAL.md)。
+整套文档只有一个需求入口：[`docs/goal/GOAL.md`](./docs/goal/GOAL.md)。
 
 ```
 目标 → 领域 → REQ → AC → 测试
@@ -103,7 +103,7 @@ WSL 启动被宿主拒绝时，按[采用规范的权限恢复步骤](docs/stand
   <img src="./docs/assets/ignite-ai-loop.svg" width="760" alt="Ignite AI 开发 Loop">
 </p>
 
-具体来说：`docs/GOAL.md` 写清目标、领域、REQ 与 AC；AI 读它，写测试与实现，跑 `pnpm test`、`pnpm docs:check`、`pnpm goal:trace`，再用 `pnpm goal:status --run` 把验证结果写回看板。失败就修，需求不清就停下来补 GOAL。规则见 [`AGENTS.md`](./AGENTS.md) 与 [`PROMPT.md`](./PROMPT.md)。
+具体来说：`docs/goal/GOAL.md` 写清目标、领域、REQ 与 AC；AI 读它，写测试与实现，跑 `pnpm test`、`pnpm docs:check`、`pnpm goal:trace`，再用 `pnpm goal:status --run` 把验证结果写回看板。失败就修，需求不清就停下来补 GOAL。规则见 [`AGENTS.md`](./AGENTS.md) 与 [`PROMPT.md`](./PROMPT.md)。
 
 人负责产品方向、范围和关键取舍；AI 负责调查、拆解、实现、验证和整理结果。状态可接续，完成条件有证据。
 

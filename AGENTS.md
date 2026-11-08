@@ -1,11 +1,11 @@
 # Ignite AI 开发规则
 
-收到修改要求，先读 [docs/GOAL.md](docs/GOAL.md) 与 [开工提示词](PROMPT.md)，再动代码。
+收到修改要求，先读 [docs/goal/GOAL.md](docs/goal/GOAL.md) 与 [开工提示词](PROMPT.md)，再动代码。
 
 ## 开发入口
 
 ```
-docs/GOAL.md    目标、领域、REQ、AC、状态看板（需求真源）
+docs/goal/GOAL.md    目标、领域、REQ、AC、状态看板（需求真源）
 PROMPT.md  每轮开工提示词（读什么、怎么报、失败了回哪）
 docs/      五层文档：需求细节、设计事实、工程标准、决策、证据
 ```
@@ -55,7 +55,7 @@ AC 缺失 / 两条冲突        → 需求问题，停下给缺口清单，由�
 
 ## 文档规则
 
-- 需求只写在 docs/GOAL.md 与 `docs/features/`，同一份 AC 两处文字必须一致。
+- 需求只写在 docs/goal/GOAL.md 与 `docs/features/`，同一份 AC 两处文字必须一致。
 - 现状写在 `docs/designs/`，每份设计开头写“关联需求：REQ-…”。
 - 规则写在 `docs/standards/`，术语一义一词。
 - 贵且不可逆的选择写进 `docs/others/adr/`。

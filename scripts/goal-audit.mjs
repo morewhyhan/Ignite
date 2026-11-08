@@ -4,7 +4,7 @@ import { join } from 'node:path'
 import { spawnSync } from 'node:child_process'
 
 const root = process.cwd()
-const goalPath = join(root, 'docs/GOAL.md')
+const goalPath = join(root, 'docs/goal/GOAL.md')
 const raw = readFileSync(goalPath, 'utf8')
 const allLines = raw.split(/\r?\n/)
 const treeAt = allLines.findIndex((line) => line.startsWith('## 四、文字金字塔'))

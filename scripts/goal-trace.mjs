@@ -26,7 +26,10 @@ for (const name of features) {
   }
 }
 
-const goal = read('docs/GOAL.md')
+const goalRaw = read('docs/GOAL.md')
+const goalParts = goalRaw.split(/\r?\n/)
+const goalAt = goalParts.findIndex((line) => line.startsWith('## 四、文字金字塔'))
+const goal = (goalAt >= 0 ? goalParts.slice(goalAt) : goalParts).join('\n')
 const goalAcs = new Set([...goal.matchAll(/^\s*- (AC-[A-Z]+-\d+)/gm)].map((match) => match[1]))
 const goalReqToDomain = new Map()
 const domains = []

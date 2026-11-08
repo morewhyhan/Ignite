@@ -6,7 +6,9 @@ import { spawnSync } from 'node:child_process'
 const root = process.cwd()
 const goalPath = join(root, 'docs/GOAL.md')
 const raw = readFileSync(goalPath, 'utf8')
-const lines = raw.split(/\r?\n/)
+const allLines = raw.split(/\r?\n/)
+const treeAt = allLines.findIndex((line) => line.startsWith('## 四、文字金字塔'))
+const lines = treeAt >= 0 ? allLines.slice(treeAt) : allLines
 const problems = []
 
 const goalLine = lines.find((line) => line.trimStart().startsWith('- **目标**'))
